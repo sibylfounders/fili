@@ -140,7 +140,7 @@ export function Atelier() {
         entry.blocks.map((b, i) => (
           <div key={i} className={i > 0 ? "mt-xl" : undefined}>
             <p className="blk-title">{b.title}</p>
-            <ResizablePreview>
+            <ResizablePreview fill={b.fill}>
               <div className={"contents" + (reduced ? " atelier-reduced" : "")}>{b.render(s, set)}</div>
             </ResizablePreview>
             <CodeBlock code={b.code(s, framework)} framework={framework} />
@@ -148,7 +148,7 @@ export function Atelier() {
         ))
       ) : (
         <>
-          <ResizablePreview>
+          <ResizablePreview fill={entry.fill}>
             <div ref={previewRef} key={`${entry.key}-${replayKey}`} className={"contents" + (reduced ? " atelier-reduced" : "")}>
               {entry.render(s, set)}
             </div>

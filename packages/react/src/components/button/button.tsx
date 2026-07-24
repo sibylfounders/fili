@@ -55,6 +55,8 @@ const buttonVariants = cva(
         md: "min-h-10 gap-2 rounded-md px-md py-xs text-base",
         lg: "min-h-12 gap-2 rounded-md px-lg py-sm text-base",
       },
+      // icon-only : bouton carré (padding égal en x/y, largeur = hauteur de la taille)
+      iconOnly: { true: "", false: "" },
     },
     compoundVariants: [
       // ── FILLED — fond plein + texte "on"
@@ -73,8 +75,12 @@ const buttonVariants = cva(
       { style: "ghost", tone: "primary", class: "text-primary hover:bg-secondary hover:text-on-secondary" },
       { style: "ghost", tone: "neutral", class: "text-text-secondary hover:bg-surface" },
       { style: "ghost", tone: "destructive", class: "text-danger hover:bg-danger-subtle" },
+      // icon-only carré par taille (min-h = largeur), padding horizontal supprimé
+      { iconOnly: true, size: "sm", class: "w-8 px-0" },
+      { iconOnly: true, size: "md", class: "w-10 px-0" },
+      { iconOnly: true, size: "lg", class: "w-12 px-0" },
     ],
-    defaultVariants: { style: "filled", tone: "primary", size: "md" },
+    defaultVariants: { style: "filled", tone: "primary", size: "md", iconOnly: false },
   },
 );
 
@@ -86,7 +92,7 @@ export interface ButtonProps
 }
 
 const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, style, tone, size, asChild = false, type, ...props }, ref) => {
+  ({ className, style, tone, size, iconOnly, asChild = false, type, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
@@ -94,7 +100,7 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={asChild ? undefined : (type ?? "button")}
         data-style={style ?? "filled"}
         data-tone={tone ?? "primary"}
-        className={cn(buttonVariants({ style, tone, size }), className)}
+        className={cn(buttonVariants({ style, tone, size, iconOnly }), className)}
         {...props}
       />
     );

@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, DeleteButton, SubmitButton, ThemeToggle,
-  Input, Alert, Toast, Card, CompactButton, useToast,
+  Input, Alert, Toast, Card, CompactButton, useToast, AppLayout,
   type SelectOption,
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
@@ -73,6 +73,7 @@ type Set = (k: string, v: any) => void;
 
 export interface Block {
   title: string;
+  fill?: boolean;
   render: (s: S, set: Set) => React.ReactNode;
   code: (s: S, fw?: string) => string;
 }
@@ -84,6 +85,7 @@ export interface Entry {
   render: (s: S, set: Set) => React.ReactNode;
   code: (s: S, fw?: string) => string;
   replay?: boolean;
+  fill?: boolean;
   blocks?: Block[];
 }
 export interface Group { label: string; items: Entry[]; }
@@ -125,6 +127,92 @@ const ToastDemo: React.FC<{ s: Record<string, any> }> = ({ s }) => (
   </Toast.Provider>
 );
 
+/* ---------- démo AppLayout (shell à options) ---------- */
+const svg = (d: React.ReactNode) => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{d}</svg>
+);
+const ICO = {
+  home: svg(<><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="M9 22V12h6v10" /></>),
+  chart: svg(<><path d="M3 3v18h18" /><path d="m7 14 4-4 3 3 5-6" /></>),
+  users: svg(<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></>),
+  file: svg(<><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M14 2v5h5" /></>),
+  cog: svg(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" /></>),
+  bell: svg(<><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></>),
+  search: svg(<><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></>),
+};
+const shellBrand = (label: string) => (
+  <span className="flex items-center gap-2 font-semibold text-text-primary">
+    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-sm font-bold text-on-primary">S</span>
+    <span className="truncate">{label}</span>
+  </span>
+);
+const shellIconBtn = "flex h-9 w-9 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-hover hover:text-text-primary";
+
+const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) => {
+  if (variant === "docs") {
+    return (
+      <AppLayout
+        variant="docs"
+        brand={shellBrand("Sibyl Docs")}
+        nav={[
+          { label: "Démarrer", items: [{ label: "Introduction", active: true }, { label: "Installation" }, { label: "Structure du projet" }] },
+          { label: "Fondations", items: [{ label: "Couleur" }, { label: "Typographie" }, { label: "Espacement" }] },
+          { label: "Composants", items: [{ label: "Button" }, { label: "Input" }, { label: "Select", items: [{ label: "Options" }, { label: "Tailles" }] }] },
+        ]}
+        topbar={{ search: true, actions: <button className={shellIconBtn} aria-label="Dépôt">{ICO.file}</button> }}
+        aside={
+          <div className="p-lg">
+            <p className="mb-2 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">Sur cette page</p>
+            <ul className="m-0 flex list-none flex-col gap-2 p-0 text-sm text-text-secondary">
+              <li className="font-medium text-primary">Introduction</li><li>Fonctionnalités</li><li>Installation</li><li>Prochaines étapes</li>
+            </ul>
+          </div>
+        }
+      >
+        <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-muted">Démarrer</span>
+        <h1 className="m-0 mt-1 text-3xl font-semibold text-text-primary">Introduction</h1>
+        <p className="mt-3 text-text-secondary">Sibyl est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
+        <h2 className="mb-2 mt-lg text-lg font-semibold text-text-primary">Fonctionnalités</h2>
+        <ul className="flex list-disc flex-col gap-1 pl-5 text-text-secondary"><li>Accessibles par défaut</li><li>Tokens de design</li><li>Mode sombre</li><li>Server Components</li></ul>
+      </AppLayout>
+    );
+  }
+  return (
+    <AppLayout
+      variant="default"
+      brand={shellBrand("Sibyl")}
+      nav={[
+        { label: "Tableau de bord", icon: ICO.home, active: true },
+        { label: "Analyses", icon: ICO.chart },
+        { label: "Clients", icon: ICO.users },
+        { label: "Factures", icon: ICO.file },
+        { label: "Réglages", icon: ICO.cog },
+      ]}
+      topbar={{
+        breadcrumb: <><span className="flex h-4 w-4 items-center justify-center text-text-muted">{ICO.home}</span><span className="text-text-primary">Tableau de bord</span></>,
+        actions: (
+          <>
+            <button className={shellIconBtn} aria-label="Rechercher">{ICO.search}</button>
+            <button className={shellIconBtn} aria-label="Notifications">{ICO.bell}</button>
+            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-on-secondary">JG</span>
+          </>
+        ),
+      }}
+    >
+      <h1 className="m-0 text-2xl font-semibold text-text-primary">Tableau de bord</h1>
+      <p className="mt-1 text-text-secondary">La sidebar occupe toute la hauteur ; topbar et contenu vivent dans la colonne de droite. Le bouton en haut à gauche replie la sidebar en rail d'icônes (off-canvas sous desktop).</p>
+      <div className="mt-lg grid grid-cols-1 gap-md tablet:grid-cols-3">
+        {["Revenu net", "Commandes", "Conversion"].map((t, i) => (
+          <div key={i} className="rounded-lg border border-border bg-surface p-md">
+            <p className="m-0 text-sm text-text-muted">{t}</p>
+            <p className="m-0 mt-1 text-xl font-bold text-text-primary">{["48 210 €", "1 284", "3,7 %"][i]}</p>
+          </div>
+        ))}
+      </div>
+    </AppLayout>
+  );
+};
+
 /* ---------- registre ---------- */
 export const GROUPS: Group[] = [
   {
@@ -157,6 +245,56 @@ export const GROUPS: Group[] = [
           <div className="w-64"><p className="m-0 text-sm text-text-primary">Au-dessus</p><Divider /><p className="m-0 text-sm text-text-primary">En dessous</p></div>
         ),
         code: () => `<Divider />`,
+      },
+      {
+        key: "applayout", name: "AppLayout",
+        blocks: [
+          {
+            title: "Variante default — topbar + sidebar repliable (rail d'icônes / off-canvas)",
+            fill: true,
+            render: () => <AppLayoutDemo variant="default" />,
+            code: () => `<AppLayout
+  variant="default"
+  brand={<Brand />}
+  nav={[
+    { label: "Tableau de bord", icon: <Home />, active: true },
+    { label: "Analyses", icon: <Chart /> },
+    { label: "Clients", icon: <Users /> },
+  ]}
+  topbar={{
+    breadcrumb: <><Home /> Tableau de bord</>,
+    actions: <><SearchBtn /><BellBtn /><Avatar /></>,
+  }}
+>
+  {/* contenu principal */}
+</AppLayout>`,
+          },
+          {
+            title: "Variante docs — nav groupée + recherche centrée + « sur cette page »",
+            fill: true,
+            render: () => <AppLayoutDemo variant="docs" />,
+            code: () => `<AppLayout
+  variant="docs"
+  brand={<Brand />}
+  nav={[
+    { label: "Démarrer", items: [
+      { label: "Introduction", active: true },
+      { label: "Installation" },
+    ] },
+    { label: "Composants", items: [
+      { label: "Button" },
+      { label: "Select", items: [{ label: "Options" }] },
+    ] },
+  ]}
+  topbar={{ search: true, actions: <GitHubBtn /> }}
+  aside={<OnThisPage />}
+>
+  {/* documentation */}
+</AppLayout>`,
+          },
+        ],
+        render: () => <AppLayoutDemo variant="default" />,
+        code: () => `<AppLayout variant="default" brand={<Brand />} nav={items} topbar={{ breadcrumb, actions }}>{/* contenu */}</AppLayout>`,
       },
     ],
   },
@@ -263,7 +401,7 @@ export const GROUPS: Group[] = [
           const lead = s.icon === "leading" || s.icon === "both" || only;
           const trail = s.icon === "trailing" || s.icon === "both";
           return (
-            <Button.Root style={s.style} tone={s.tone} size={s.size} disabled={s.disabled} aria-label={only ? s.label || "Action" : undefined}>
+            <Button.Root style={s.style} tone={s.tone} size={s.size} iconOnly={only} disabled={s.disabled} aria-label={only ? s.label || "Action" : undefined}>
               {lead ? ic : null}
               {!only ? s.label || "Bouton" : null}
               {trail ? ic : null}

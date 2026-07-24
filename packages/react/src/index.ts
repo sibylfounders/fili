@@ -7,6 +7,7 @@ export * from "./components/toast";
 export * from "./components/card";
 export * from "./components/link";
 export * from "./components/app-shell";
+export * from "./components/app-layout";
 export * from "./components/drawer";
 export * from "./components/select";
 export * from "./components/accordion";
