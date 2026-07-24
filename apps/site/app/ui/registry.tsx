@@ -140,9 +140,10 @@ const ICO = {
   bell: svg(<><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></>),
   search: svg(<><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></>),
 };
+const shellMark = <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary text-sm font-bold text-on-primary">S</span>;
 const shellBrand = (label: string) => (
   <span className="flex items-center gap-2 font-semibold text-text-primary">
-    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-sm font-bold text-on-primary">S</span>
+    {shellMark}
     <span className="truncate">{label}</span>
   </span>
 );
@@ -154,6 +155,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
       <AppLayout
         variant="docs"
         brand={shellBrand("Sibyl Docs")}
+        brandMark={shellMark}
         nav={[
           { label: "Démarrer", items: [{ label: "Introduction", active: true }, { label: "Installation" }, { label: "Structure du projet" }] },
           { label: "Fondations", items: [{ label: "Couleur" }, { label: "Typographie" }, { label: "Espacement" }] },
@@ -181,6 +183,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     <AppLayout
       variant="default"
       brand={shellBrand("Sibyl")}
+      brandMark={shellMark}
       nav={[
         { label: "Tableau de bord", icon: ICO.home, active: true },
         { label: "Analyses", icon: ICO.chart },

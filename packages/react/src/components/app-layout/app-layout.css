@@ -1,0 +1,12 @@
+/* AppLayout — bascules responsives pilotées par la LARGEUR DU SHELL (container query),
+   pas par le viewport : le shell s'adapte à son conteneur (testable au resize).
+   Seuils alignés sur les tokens breakpoint (tablet 1024 / desktop 1280). */
+.sw-shell { container-type: inline-size; container-name: sw-shell; position: relative; }
+
+/* colonne de navigation : masquée sous tablet (→ off-canvas via Drawer) */
+.sw-shell-sidebar { display: none; }
+@container sw-shell (min-width: 1024px) { .sw-shell-sidebar { display: flex; } }
+
+/* rail droit (aside) : visible seulement à partir de desktop */
+.sw-shell-aside { display: none; }
+@container sw-shell (min-width: 1280px) { .sw-shell-aside { display: block; } }

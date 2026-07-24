@@ -1,17 +1,17 @@
 "use client";
 import * as React from "react";
 import { cn } from "../../lib/cn";
-import { Drawer } from "../drawer";
+import "./app-layout.css";
 
 /**
  * AppLayout — FAÇADE à options du shell applicatif (DS-MD « Shell applicatif »).
- * Contrairement à une API compositionnelle (cf. la primitive AppShell, réutilisable
- * en dessous pour les cas hors presets), tout se pilote par options :
- *   variant ("default" | "docs"), brand, nav, topbar, aside, sidebar repliable.
+ * Tout se pilote par options : variant ("default" | "docs"), brand, nav, topbar,
+ * aside, sidebar repliable. La primitive AppShell reste disponible (bas niveau).
  *
- * SIDEBAR REPLIABLE :
- *   desktop (≥ breakpoint.desktop) : toggle = rail d'icônes ↔ étendu (variant "docs" : masqué) ;
- *   sous desktop : toggle = ouverture off-canvas via la fondation overlay (Drawer).
+ * RESPONSIVE : piloté par la LARGEUR DU SHELL (container query), pas le viewport —
+ *   ≥ 1280 : sidebar + aside ;  1024–1280 : sidebar seule ;  < 1024 : off-canvas (Drawer).
+ * REPLI : toggle = rail d'icônes ↔ étendu quand le shell est large (variant "docs" : masqué) ;
+ *   quand le shell est étroit, le toggle ouvre l'off-canvas (fondation overlay).
  */
 
 export type ShellVariant = "default" | "docs";
@@ -23,30 +23,30 @@ export interface AppNavItem {
   badge?: React.ReactNode;
   active?: boolean;
   onSelect?: () => void;
-  items?: AppNavItem[]; // sous-niveaux (nav docs)
+  items?: AppNavItem[];
 }
 export interface AppNavGroup {
   label?: string;
   items: AppNavItem[];
 }
-
 export interface AppTopbar {
-  breadcrumb?: React.ReactNode;        // zone début (après le toggle)
-  search?: React.ReactNode | boolean;  // zone centre ; true => champ par défaut
-  actions?: React.ReactNode;           // zone fin (recherche/cloche/avatar)
+  breadcrumb?: React.ReactNode;
+  search?: React.ReactNode | boolean;
+  actions?: React.ReactNode;
 }
-
 export interface AppLayoutProps {
   variant?: ShellVariant;
   brand?: React.ReactNode;
+  brandMark?: React.ReactNode; // logo seul, affiché quand la sidebar est repliée (rail)
+  sidebar?: React.ReactNode;   // contenu de sidebar sur-mesure (remplace brand+nav) — échappatoire
   nav?: AppNavGroup[] | AppNavItem[];
   topbar?: AppTopbar;
   aside?: React.ReactNode;
   asideLabel?: string;
-  collapsible?: boolean;         // défaut true
+  collapsible?: boolean;
   defaultCollapsed?: boolean;
   sidebarFooter?: React.ReactNode;
-  boundedContent?: boolean;      // borne la largeur de lecture (défaut : true en "docs")
+  boundedContent?: boolean;
   className?: string;
   children: React.ReactNode;
 }
@@ -67,17 +67,19 @@ function toGroups(nav?: AppNavGroup[] | AppNavItem[]): AppNavGroup[] {
   return "items" in (nav[0] as AppNavGroup) ? (nav as AppNavGroup[]) : [{ items: nav as AppNavItem[] }];
 }
 
-function useMinWidth(px: number) {
-  const [ok, setOk] = React.useState(true);
-  React.useEffect(() => {
-    if (typeof matchMedia === "undefined") return;
-    const mq = matchMedia(`(min-width: ${px}px)`);
-    const on = () => setOk(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, [px]);
-  return ok;
+/** Largeur du shell (px) via ResizeObserver — pilote la logique JS du toggle. */
+function useWidth() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [w, setW] = React.useState(0);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver((e) => setW(Math.round(e[0]?.contentRect.width ?? el.clientWidth)));
+    ro.observe(el);
+    setW(Math.round(el.clientWidth));
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w] as const;
 }
 
 function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; collapsed: boolean; depth?: number; onNavigate?: () => void }) {
@@ -115,12 +117,14 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
   );
 }
 
-function SidebarBody({ brand, groups, collapsed, footer, onNavigate }: {
-  brand?: React.ReactNode; groups: AppNavGroup[]; collapsed: boolean; footer?: React.ReactNode; onNavigate?: () => void;
+function SidebarBody({ brand, brandMark, groups, collapsed, footer, onNavigate }: {
+  brand?: React.ReactNode; brandMark?: React.ReactNode; groups: AppNavGroup[]; collapsed: boolean; footer?: React.ReactNode; onNavigate?: () => void;
 }) {
   return (
     <div className="flex h-full flex-col gap-lg overflow-y-auto p-md">
-      {brand ? <div className={cn("flex h-10 items-center", collapsed ? "justify-center" : "px-sm")}>{brand}</div> : null}
+      {brand || brandMark ? (
+        <div className={cn("flex h-10 items-center", collapsed ? "justify-center" : "px-sm")}>{collapsed ? (brandMark ?? brand) : brand}</div>
+      ) : null}
       <nav aria-label="Navigation principale" className="flex flex-1 flex-col gap-lg">
         {groups.map((g, gi) => (
           <div key={gi} className="flex flex-col gap-0.5">
@@ -139,6 +143,8 @@ function SidebarBody({ brand, groups, collapsed, footer, onNavigate }: {
 export function AppLayout({
   variant = "default",
   brand,
+  brandMark,
+  sidebar,
   nav,
   topbar,
   aside,
@@ -153,17 +159,29 @@ export function AppLayout({
   const groups = React.useMemo(() => toGroups(nav), [nav]);
   const [collapsed, setCollapsed] = React.useState(!!defaultCollapsed);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const isDesktop = useMinWidth(1280);
+  const [rootRef, width] = useWidth();
+  const isWide = width === 0 ? true : width >= 1024; // seuil sidebar (container)
   const docs = variant === "docs";
   const bounded = boundedContent ?? docs;
 
-  const onToggle = () => (isDesktop ? setCollapsed((c) => !c) : setMobileOpen(true));
-
-  // rail d'icônes (variant default) ; masqué (variant docs) quand replié
-  const railCollapsed = collapsed && !docs;
-  const sidebarWidth = collapsed
-    ? docs ? "desktop:hidden" : "desktop:w-16"
-    : "desktop:w-rail-nav";
+  const hasCustomSidebar = sidebar != null;
+  const canToggle = collapsible && !(docs && isWide);            // docs large : pas de toggle (sidebar fixe)
+  const railCollapsed = collapsed && !docs && !hasCustomSidebar; // rail d'icônes : variant default + nav structurée
+  const hideSidebar = collapsed && !docs && hasCustomSidebar;    // default + sidebar custom repliée : masquée
+  const sidebarW = railCollapsed ? "w-16" : "w-rail-nav";
+  const onToggle = () => {
+    if (!isWide) setMobileOpen(true);          // étroit : off-canvas (les deux variantes)
+    else if (!docs) setCollapsed((c) => !c);   // large + default : rail
+  };
+  React.useEffect(() => { if (isWide) setMobileOpen(false); }, [isWide]);
+  React.useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+  const sidebarNode = (rail: boolean) =>
+    sidebar ?? <SidebarBody brand={brand} brandMark={brandMark} groups={groups} collapsed={rail} footer={sidebarFooter} />;
 
   const searchNode =
     topbar?.search === true ? (
@@ -177,33 +195,46 @@ export function AppLayout({
     ) : null;
 
   return (
-    <div className={cn("flex min-h-full w-full bg-background text-text-primary", className)}>
-      {/* Sidebar desktop */}
-      <aside
-        aria-label="Navigation"
-        className={cn(
-          "hidden shrink-0 border-r border-border bg-surface transition-[width] duration-base ease-out",
-          "desktop:sticky desktop:top-0 desktop:flex desktop:h-full desktop:max-h-screen desktop:flex-col",
-          sidebarWidth,
-        )}
-      >
-        <SidebarBody brand={brand} groups={groups} collapsed={railCollapsed} footer={sidebarFooter} />
-      </aside>
+    <div ref={rootRef} className={cn("sw-shell flex min-h-full w-full bg-background text-text-primary", className)}>
+      {/* Colonne de navigation (container query : masquée sous 1024) */}
+      {!hideSidebar ? (
+        <aside
+          aria-label="Navigation"
+          className={cn(
+            "sw-shell-sidebar sticky top-0 h-full max-h-screen shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-base ease-out",
+            sidebarW,
+          )}
+        >
+          {sidebarNode(railCollapsed)}
+        </aside>
+      ) : null}
 
-      {/* Off-canvas mobile (fondation overlay) */}
-      <Drawer open={mobileOpen} onClose={() => setMobileOpen(false)} side="start" aria-label="Navigation">
-        <SidebarBody brand={brand} groups={groups} collapsed={false} footer={sidebarFooter} onNavigate={() => setMobileOpen(false)} />
-      </Drawer>
+      {/* Off-canvas SCOPÉ AU SHELL (position absolute dans .sw-shell), pas au viewport :
+          il reste dans les limites du shell — donc dans la box d'aperçu quand intégré. */}
+      {mobileOpen ? <div className="absolute inset-0 z-30 bg-scrim" aria-hidden="true" onClick={() => setMobileOpen(false)} /> : null}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation"
+        aria-hidden={!mobileOpen}
+        className={cn(
+          "absolute inset-y-0 left-0 z-40 w-rail-nav max-w-[85%] overflow-y-auto border-r border-border bg-surface shadow-overlay transition-transform duration-base ease-out",
+          mobileOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+        onClick={(e) => { if ((e.target as HTMLElement).closest("a,button")) setMobileOpen(false); }}
+      >
+        {sidebarNode(false)}
+      </aside>
 
       {/* Colonne de droite : topbar + contenu (+ aside) */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-sm border-b border-border bg-background px-md">
-          {collapsible ? (
+          {canToggle ? (
             <button
               type="button"
               onClick={onToggle}
               aria-label="Basculer le menu"
-              aria-expanded={isDesktop ? !collapsed : mobileOpen}
+              aria-expanded={isWide ? !collapsed : mobileOpen}
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-hover hover:text-text-primary"
             >
               {IconPanel}
@@ -223,7 +254,7 @@ export function AppLayout({
             <div className={cn("px-xl py-xl", bounded && "mx-auto w-full max-w-[880px]")}>{children}</div>
           </main>
           {aside ? (
-            <aside aria-label={asideLabel} className="hidden w-rail-tools shrink-0 overflow-y-auto border-l border-border bg-surface desktop:block">
+            <aside aria-label={asideLabel} className="sw-shell-aside w-rail-tools shrink-0 overflow-y-auto border-l border-border bg-surface">
               {aside}
             </aside>
           ) : null}
