@@ -40,7 +40,7 @@ export function ResizablePreview({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div ref={wrapRef} className="relative max-w-[900px]">
+    <div ref={wrapRef} className="relative w-full">
       <div
         style={{ width: w ? `${w}px` : "100%", maxWidth: "100%", ...CHECKER }}
         className="relative overflow-hidden rounded-xl border border-border"

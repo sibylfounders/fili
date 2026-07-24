@@ -54,13 +54,13 @@ export function Atelier() {
     ) : null;
 
   return (
-    <div className="px-xl py-xl">
+    <div className="mx-auto max-w-[900px] px-xl py-xl">
       <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Composant</span>
       <h1 className="mb-lg mt-1 text-3xl font-medium text-text-primary">{entry.name}</h1>
 
       <ResizablePreview>{entry.render(s, set)}</ResizablePreview>
 
-      <div className="mt-md max-w-[900px] overflow-hidden rounded-md border border-border">
+      <div className="mt-md overflow-hidden rounded-md border border-border">
         <div className="border-b border-border bg-surface px-md py-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">jsx</div>
         <pre className="m-0 overflow-x-auto bg-surface p-md font-mono text-sm text-text-primary">{entry.code(s)}</pre>
       </div>

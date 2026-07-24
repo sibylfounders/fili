@@ -9,8 +9,8 @@ import { cn } from "../../lib/cn";
  *
  * ORDRE DE DÉGRADATION (piloté par les screens tablet=1024 / desktop=1280) :
  *   ≥ desktop        : les trois régions coexistent ;
- *   tablet..desktop  : le rail d'OUTILS cède le premier (masqué ici) ;
- *   < tablet         : le rail de NAV cède à son tour (masqué ici).
+ *   tablet..desktop  : le rail de NAV cède le premier (off-canvas via burger) ;
+ *   < tablet         : le rail d'OUTILS cède à son tour (masqué ici).
  *
  * OFF-CANVAS : sous leur seuil, Nav et Tools sont retirés du flux (masqués). Pour les rendre
  * invocables, composez le MÊME contenu dans un <Drawer> (fondation overlay : scrim, focus piégé,
@@ -31,8 +31,8 @@ const AppShellNav = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLEleme
     <nav
       ref={ref}
       className={cn(
-        "hidden tablet:flex tablet:flex-col w-rail-nav shrink-0 border-r border-border bg-surface",
-        "tablet:sticky tablet:top-0 tablet:h-screen tablet:overflow-y-auto",
+        "hidden desktop:flex desktop:flex-col w-rail-nav shrink-0 border-r border-border bg-surface",
+        "desktop:sticky desktop:top-0 desktop:h-screen desktop:overflow-y-auto",
         className,
       )}
       {...props}
@@ -55,8 +55,8 @@ const AppShellTools = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLEle
     <aside
       ref={ref}
       className={cn(
-        "hidden desktop:flex desktop:flex-col w-rail-tools shrink-0 border-l border-border bg-surface",
-        "desktop:sticky desktop:top-0 desktop:h-screen desktop:overflow-y-auto",
+        "hidden tablet:flex tablet:flex-col w-rail-tools shrink-0 border-l border-border bg-surface",
+        "tablet:sticky tablet:top-0 tablet:h-screen tablet:overflow-y-auto",
         className,
       )}
       {...props}
