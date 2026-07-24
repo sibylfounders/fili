@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, DeleteButton, SubmitButton, ThemeToggle,
+  Input, Alert, Toast, Card, CompactButton, useToast,
   type SelectOption,
 } from "@sibyl/react";
 
@@ -47,6 +48,20 @@ const SITE_OPTS: SelectOption[] = [
   { value: "ui", label: "Design System UI" },
   { value: "audit", label: "Design System Audit", disabled: true },
 ];
+
+const ToastTrigger: React.FC = () => {
+  const { toast } = useToast();
+  return (
+    <Button.Root onClick={() => toast({ tone: "success", title: "Enregistré", description: "Vos changements sont sauvegardés." })}>
+      Afficher un toast
+    </Button.Root>
+  );
+};
+const ToastDemo: React.FC = () => (
+  <Toast.Provider>
+    <ToastTrigger />
+  </Toast.Provider>
+);
 
 /* ---------- registre ---------- */
 export const GROUPS: Group[] = [
@@ -232,6 +247,77 @@ export const GROUPS: Group[] = [
           </label>
         ),
         code: (s) => `<ThemeToggle checked={${s.checked}} onCheckedChange={setDark} aria-label="Thème sombre" />`,
+      },
+    ],
+  },
+  {
+    label: "Champs & actions",
+    items: [
+      {
+        key: "input", name: "Input",
+        controls: [{ k: "tone", type: "seg", opts: ["neutral", "error", "success", "warning"] }],
+        initial: { tone: "neutral" },
+        render: (s) => (
+          <div className="w-72">
+            <Input.Root tone={s.tone}>
+              <Input.Wrapper>
+                <Input.Input placeholder="nom@domaine.fr" aria-label="Email" />
+              </Input.Wrapper>
+            </Input.Root>
+          </div>
+        ),
+        code: (s) => `<Input.Root tone="${s.tone}"><Input.Wrapper><Input.Input placeholder="\u2026" /></Input.Wrapper></Input.Root>`,
+      },
+      {
+        key: "compact", name: "CompactButton",
+        controls: [
+          { k: "style", type: "seg", opts: ["filled", "stroke", "lighter", "ghost"] },
+          { k: "tone", type: "seg", opts: ["primary", "neutral", "destructive"] },
+        ],
+        initial: { style: "filled", tone: "primary" },
+        render: (s) => (
+          <CompactButton style={s.style} tone={s.tone} aria-label="Fermer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+          </CompactButton>
+        ),
+        code: (s) => `<CompactButton style="${s.style}" tone="${s.tone}" aria-label="Fermer"><CloseIcon /></CompactButton>`,
+      },
+    ],
+  },
+  {
+    label: "Contenu & feedback",
+    items: [
+      {
+        key: "card", name: "Card",
+        render: () => (
+          <Card.Root className="w-72">
+            <Card.Body>
+              <Card.Title>Titre de la carte</Card.Title>
+              <Card.Description>La Card réagit à SA largeur (container query) — redimensionne l'aperçu pour voir.</Card.Description>
+            </Card.Body>
+          </Card.Root>
+        ),
+        code: () => `<Card.Root>\n  <Card.Body>\n    <Card.Title>\u2026</Card.Title>\n    <Card.Description>\u2026</Card.Description>\n  </Card.Body>\n</Card.Root>`,
+      },
+      {
+        key: "alert", name: "Alert",
+        controls: [{ k: "tone", type: "seg", opts: ["info", "success", "warning", "danger"] }],
+        initial: { tone: "info" },
+        render: (s) => (
+          <Alert.Root tone={s.tone} className="max-w-md">
+            <Alert.Icon />
+            <Alert.Content>
+              <Alert.Title>Notification</Alert.Title>
+              <Alert.Description>Un message contextuel, tonalité {s.tone}.</Alert.Description>
+            </Alert.Content>
+          </Alert.Root>
+        ),
+        code: (s) => `<Alert.Root tone="${s.tone}">\n  <Alert.Icon />\n  <Alert.Content><Alert.Title>\u2026</Alert.Title><Alert.Description>\u2026</Alert.Description></Alert.Content>\n</Alert.Root>`,
+      },
+      {
+        key: "toast", name: "Toast",
+        render: () => <ToastDemo />,
+        code: () => `const { toast } = useToast();\ntoast({ tone: "success", title: "\u2026", description: "\u2026" });`,
       },
     ],
   },
