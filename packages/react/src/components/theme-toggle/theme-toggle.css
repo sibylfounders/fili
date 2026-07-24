@@ -1,0 +1,35 @@
+/**
+ * ThemeToggle — interrupteur clair/sombre (soleil ↔ lune). Port 1:1 de `.sw-theme`
+ * de l'atelier : le pouce glisse (translateX) et se comprime au survol/press
+ * (scaleX + bascule du transform-origin) — langage fluide. Var() de @ds-ui/tokens
+ * (mêmes noms), passe tel quel dans le pipeline PostCSS. Cf. atelier.html (origine).
+ */
+.ds-theme-toggle { position: relative; display: inline-flex; align-items: center; }
+.ds-theme-toggle input {
+  width: 46px; height: 24px; appearance: none; -webkit-appearance: none;
+  background: var(--border); border-radius: 9999px; cursor: pointer; margin: 0;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.ds-theme-toggle input:checked { background: var(--primary); }
+.ds-theme-toggle .tr {
+  position: absolute; top: 6px; width: 12px; height: 12px;
+  color: var(--text-secondary); pointer-events: none; z-index: 1;
+}
+.ds-theme-toggle .tr-sun { left: 6px; }
+.ds-theme-toggle .tr-moon { right: 6px; }
+.ds-theme-toggle input:checked ~ .tr { color: var(--on-primary); }
+.ds-theme-toggle .knob {
+  position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+  border-radius: 9999px; background: #fff; box-shadow: 0 1px 2px rgba(3, 7, 18, .25);
+  pointer-events: none; z-index: 2; transform-origin: left center;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+.ds-theme-toggle input:checked ~ .knob { transform: translateX(22px); transform-origin: right center; }
+.ds-theme-toggle input:hover ~ .knob { transform: scaleX(1.1); }
+.ds-theme-toggle input:active ~ .knob { transform: scaleX(1.2); }
+.ds-theme-toggle input:checked:hover ~ .knob { transform: translateX(22px) scaleX(1.1); }
+.ds-theme-toggle input:checked:active ~ .knob { transform: translateX(22px) scaleX(1.2); }
+.ds-theme-toggle input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-theme-toggle input, .ds-theme-toggle .knob { transition: none; }
+}

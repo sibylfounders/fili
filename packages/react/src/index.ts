@@ -1,0 +1,24 @@
+// @ds-ui/react — bibliothèque de composants (React + Radix + Tailwind, tokens @ds-ui/tokens)
+export * from "./components/button";
+export * from "./components/compact-button";
+export * from "./components/input";
+export * from "./components/alert";
+export * from "./components/toast";
+export * from "./components/card";
+export * from "./components/link";
+export * from "./components/app-shell";
+export * from "./components/drawer";
+export * from "./components/select";
+export * from "./components/accordion";
+export * from "./components/nav";
+export * from "./components/toc";
+export * from "./components/skip-link";
+export * from "./components/switch";
+export * from "./components/theme-toggle";
+export * from "./components/container";
+export * from "./components/brand";
+export * from "./components/divider";
+export * from "./components/submit-button";
+export * from "./components/delete-button";
+export * from "./icons";
+export { cn } from "./lib/cn";

@@ -1,0 +1,68 @@
+/**
+ * Card — Container Queries (principe Adaptive, ADAPTIVE-UI.md) + relief au hover
+ * (langage Interaction, INTERACTION-UI.md). Pas de plugin Tailwind requis : les Container
+ * Queries sont du CSS natif, ce fichier passe tel quel dans le pipeline PostCSS.
+ * Cf. `foundations/relief-adaptive.md` pour le contexte de ces deux autorités.
+ */
+
+/* ── Adaptive : la Card est son propre conteneur de requête ─────────────────────────────
+   Elle réagit à SA largeur réelle, jamais au viewport (ADAPTIVE-UX.md : « la fenêtre
+   définit la page ; le conteneur définit le composant »). */
+.ds-card {
+  container-type: inline-size;
+  container-name: ds-card;
+  isolation: isolate;
+}
+
+/* état "regular" : assez de largeur pour passer le media à côté du contenu plutôt qu'au-
+   dessus. Le plus petit état viable (empilé, "compact") reste le CSS de base — cf.
+   ADAPTIVE-UI.md "le CSS de base rend l'état compact viable". Seuil dérivé du contenu réel
+   de CE composant (media + titre + description qui cessent de tenir côte à côte en dessous
+   de ~24rem), pas d'un breakpoint.mobile partagé. */
+@container ds-card (min-width: 24rem) {
+  .ds-card[data-regular-capable] > .ds-card-surface {
+    flex-direction: row;
+  }
+  .ds-card[data-regular-capable] > .ds-card-surface > .ds-card-media {
+    width: 40%;
+    aspect-ratio: 1 / 1;
+  }
+  .ds-card[data-regular-capable] > .ds-card-surface > .ds-card-body {
+    flex: 1 1 0%;
+  }
+}
+
+/* ── Relief = signal, jamais décor (INTERACTION-UX.md, loi n°4 "la profondeur explique une
+   couche") ── Le SEUL composant du système qui gagne un relief, et seulement au hover/focus
+   d'une carte clickable — jamais au repos, jamais sur static/selectable/expandable.
+   Technique DS-MD (note motion de CARD-UI.md) : une ombre PRÉ-RENDUE sur un pseudo-élément,
+   animée en OPACITÉ — jamais un box-shadow interpolé (coûteux, saccadé). */
+.ds-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-raised);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+.ds-card[data-mode="clickable"]:hover::before,
+.ds-card[data-mode="clickable"]:focus-within::before {
+  opacity: 1;
+}
+
+/* Le lien de titre reste un vrai Link. Sa cible s'étend à la surface entière ; les actions
+   internes portent z-index:1 dans le composant React et restent donc indépendantes. */
+.ds-card-title-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-card::before {
+    transition-duration: 0s;
+  }
+}
