@@ -25,6 +25,7 @@ export function Controls({
                 value={state[c.k]}
                 onValueChange={(v) => set(c.k, v)}
                 aria-label={label}
+                size="sm"
               />
             </div>
           );
@@ -32,7 +33,7 @@ export function Controls({
           return (
             <div key={c.k} className="flex items-center justify-between gap-md">
               <span className="text-sm text-text-secondary">{label}</span>
-              <Switch checked={!!state[c.k]} onCheckedChange={(v) => set(c.k, v)} aria-label={label} />
+              <Switch checked={!!state[c.k]} onCheckedChange={(v) => set(c.k, v)} aria-label={label} size="sm" />
             </div>
           );
         if (c.type === "text")
