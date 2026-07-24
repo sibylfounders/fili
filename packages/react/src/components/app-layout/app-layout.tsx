@@ -47,6 +47,7 @@ export interface AppLayoutProps {
   defaultCollapsed?: boolean;
   sidebarFooter?: React.ReactNode;
   boundedContent?: boolean;
+  contentPadding?: boolean;   // padding interne du contenu (défaut true) — false si le contenu gère le sien
   className?: string;
   children: React.ReactNode;
 }
@@ -153,6 +154,7 @@ export function AppLayout({
   defaultCollapsed = false,
   sidebarFooter,
   boundedContent,
+  contentPadding = true,
   className,
   children,
 }: AppLayoutProps) {
@@ -230,7 +232,7 @@ export function AppLayout({
 
         <div className="flex min-h-0 min-w-0 flex-1">
           <main className="min-w-0 flex-1 overflow-y-auto">
-            <div className={cn("px-xl py-xl", bounded && "mx-auto w-full max-w-[880px]")}>{children}</div>
+            <div className={cn(contentPadding && "px-xl py-xl", bounded && "mx-auto w-full max-w-[880px]")}>{children}</div>
           </main>
           {aside ? (
             <aside aria-label={asideLabel} className="sw-shell-aside w-rail-tools shrink-0 overflow-y-auto border-l border-border bg-surface">

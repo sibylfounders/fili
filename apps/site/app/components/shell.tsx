@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppShell, Brand, ThemeToggle, Divider, Select, Switch } from "@sibyl/react";
+import { AppLayout, Brand, ThemeToggle, Divider, Select, Switch } from "@sibyl/react";
 import { ThemingContext } from "../theming-context";
 
 const SECTIONS = [
@@ -10,6 +10,7 @@ const SECTIONS = [
   { value: "ui", label: "Composants" },
   { value: "audit", label: "Audit" },
 ];
+const SECTION_TITLE: Record<string, string> = { md: "Doctrine", ui: "Composants", audit: "Audit" };
 const RADIUS_OPTS = [
   { value: "carre", label: "Carré" },
   { value: "defaut", label: "Défaut" },
@@ -47,7 +48,6 @@ export function Shell({
 }) {
   const router = useRouter();
   const [dark, setDark] = React.useState(false);
-  const [navOpen, setNavOpen] = React.useState(false);
   const [radius, setRadius] = React.useState("defaut");
   const [relief, setRelief] = React.useState(true);
   const [fw, setFw] = React.useState("react");
@@ -55,11 +55,6 @@ export function Shell({
   React.useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   }, [dark]);
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setNavOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
   React.useEffect(() => {
     const r = RADIUS_PRESETS[radius] ?? {};
     const root = document.documentElement;
@@ -73,60 +68,46 @@ export function Shell({
     document.documentElement.toggleAttribute("data-relief", relief);
   }, [relief]);
 
+  // Colonne de gauche : marque + sélecteur de section + nav de l'atelier (portail) + theming.
+  const sidebar = (
+    <div className="flex h-full flex-col gap-lg p-lg">
+      <Link href="/" className="no-underline">
+        <Brand.Root><Brand.Text>Sibyl DS</Brand.Text></Brand.Root>
+      </Link>
+      <Select options={SECTIONS} value={section} onValueChange={(v) => router.push(`/${v}`)} aria-label="Section" />
+      <div id="section-nav" className="min-h-0 flex-1 overflow-y-auto" />
+      <div className="flex flex-col gap-md border-t border-border pt-md">
+        <div className="flex items-baseline justify-between">
+          <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Theming</span>
+          <span className="font-mono text-[11px] text-text-muted">tokens live</span>
+        </div>
+        <Row label="Thème"><ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" /></Row>
+        <Row label="Framework"><Select options={FW_OPTS} value={fw} onValueChange={setFw} aria-label="Framework" size="sm" variant="ghost" /></Row>
+        <Row label="Rayon"><Select options={RADIUS_OPTS} value={radius} onValueChange={setRadius} aria-label="Rayon" size="sm" variant="ghost" /></Row>
+        <Row label="Relief"><Switch checked={relief} onCheckedChange={setRelief} aria-label="Relief" size="sm" /></Row>
+        <Divider />
+        <Row label="Icônes"><span className="text-sm text-text-secondary">◈ Lucide</span></Row>
+        <Row label="Primitives"><span className="text-sm text-text-secondary">Radix</span></Row>
+      </div>
+    </div>
+  );
+
   return (
     <ThemingContext.Provider value={{ framework: fw }}>
-    <AppShell.Root>
-      <button
-        type="button"
-        onClick={() => setNavOpen(true)}
-        aria-label="Ouvrir le menu"
-        aria-expanded={navOpen}
-        className="fixed left-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background text-text-primary shadow-sm desktop:hidden"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-      </button>
-
-      {navOpen ? <div className="fixed inset-0 z-40 bg-black/40 desktop:hidden" onClick={() => setNavOpen(false)} /> : null}
-
-      <nav
-        aria-label="Navigation"
-        onClick={(e) => { if ((e.target as HTMLElement).closest("a,button")) setNavOpen(false); }}
-        className={
-          "w-rail-nav shrink-0 overflow-y-auto border-r border-border bg-surface " +
-          "max-desktop:fixed max-desktop:inset-y-0 max-desktop:left-0 max-desktop:z-50 max-desktop:transition-transform " +
-          (navOpen ? "max-desktop:translate-x-0 " : "max-desktop:-translate-x-full ") +
-          "desktop:sticky desktop:top-0 desktop:h-screen"
+      <AppLayout
+        variant={section === "audit" ? "default" : "docs"}
+        boundedContent={false}
+        contentPadding={false}
+        sidebar={sidebar}
+        topbar={
+          section === "audit"
+            ? { breadcrumb: <span className="font-medium text-text-primary">{SECTION_TITLE[section]}</span> }
+            : { search: true }
         }
+        aside={<div id="section-tools" className="p-lg" />}
       >
-        <div className="flex flex-col gap-lg p-lg">
-          <Link href="/" className="no-underline"><Brand.Root><Brand.Text>Sibyl DS</Brand.Text></Brand.Root></Link>
-          <Select options={SECTIONS} value={section} onValueChange={(v) => router.push(`/${v}`)} aria-label="Section" />
-          <div id="section-nav" />
-        </div>
-      </nav>
-
-      <AppShell.Main>
-        <div className="flex-1 overflow-y-auto">{children}</div>
-      </AppShell.Main>
-
-      <AppShell.Tools>
-        <div className="flex flex-col gap-md p-lg">
-          <div className="flex items-baseline justify-between">
-            <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Theming</span>
-            <span className="font-mono text-[11px] text-text-muted">tokens live</span>
-          </div>
-          <Row label="Thème"><ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" /></Row>
-          <Row label="Framework"><Select options={FW_OPTS} value={fw} onValueChange={setFw} aria-label="Framework" size="sm" variant="ghost" /></Row>
-          <Row label="Rayon"><Select options={RADIUS_OPTS} value={radius} onValueChange={setRadius} aria-label="Rayon" size="sm" variant="ghost" /></Row>
-          <Row label="Relief"><Switch checked={relief} onCheckedChange={setRelief} aria-label="Relief" size="sm" /></Row>
-          <Divider />
-          <Row label="Icônes"><span className="text-sm text-text-secondary">◈ Lucide</span></Row>
-          <Row label="Primitives"><span className="text-sm text-text-secondary">Radix</span></Row>
-          <Divider />
-          <div id="section-tools" />
-        </div>
-      </AppShell.Tools>
-    </AppShell.Root>
+        {children}
+      </AppLayout>
     </ThemingContext.Provider>
   );
 }
