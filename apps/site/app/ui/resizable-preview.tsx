@@ -58,7 +58,7 @@ export function ResizablePreview({ children, fill = false }: { children: React.R
   };
 
   const innerCls = fill
-    ? "[container-name:atelier-preview] [container-type:inline-size] " + (full ? "h-full" : "min-h-[520px]")
+    ? "[container-name:atelier-preview] [container-type:inline-size] " + (full ? "h-full" : "h-[520px]")
     : "flex min-h-[220px] items-center justify-center p-xl [container-name:atelier-preview] [container-type:inline-size]";
 
   const frame = (
