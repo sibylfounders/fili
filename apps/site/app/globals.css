@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 body { margin: 0; }
+
+/* Simulation reduced-motion dans l'aperçu de l'atelier */
+.atelier-reduced *, .atelier-reduced *::before, .atelier-reduced *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.001s !important;
+}

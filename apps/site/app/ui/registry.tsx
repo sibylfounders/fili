@@ -21,6 +21,7 @@ export interface Entry {
   initial?: S;
   render: (s: S, set: Set) => React.ReactNode;
   code: (s: S) => string;
+  replay?: boolean;
 }
 export interface Group { label: string; items: Entry[]; }
 
@@ -192,7 +193,7 @@ export const GROUPS: Group[] = [
     label: "Actions animées",
     items: [
       {
-        key: "delete", name: "DeleteButton",
+        key: "delete", name: "DeleteButton", replay: true,
         controls: [{ k: "size", type: "seg", opts: ["sm", "md", "lg"] }],
         initial: { size: "lg" },
         render: (s) => (
@@ -201,7 +202,7 @@ export const GROUPS: Group[] = [
         code: (s) => `<DeleteButton size="${s.size}" onDelete={fn}>Supprimer</DeleteButton>`,
       },
       {
-        key: "submit", name: "SubmitButton",
+        key: "submit", name: "SubmitButton", replay: true,
         controls: [{ k: "size", type: "seg", opts: ["sm", "md", "lg"] }],
         initial: { size: "lg" },
         render: (s) => (
