@@ -56,3 +56,8 @@
 /* ChartCard (conteneur de widget graphe) */
 .sw-chartcard { container-type: inline-size; width: 100%; container-name: sw-card; background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-md); font-family: var(--font-sans); }
 .sw-chartcard-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+/* compact : le delta passe SOUS le titre (au lieu de rester à droite) */
+@container sw-card (max-width: 20rem) {
+  .sw-chartcard-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .sw-chartcard-head .sw-delta { margin-top: 0; }
+}
