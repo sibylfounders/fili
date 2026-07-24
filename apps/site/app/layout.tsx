@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Atelier — Sibyl UI",
-  description: "Atelier des composants @sibyl/react, dogfoodé sur la stack Sibyl.",
+  title: "Sibyl DS",
+  description: "Design System Sibyl — doctrine, composants, audit. Une stack, un shell.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

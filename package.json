@@ -8,11 +8,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace @sibyl/audit",
-    "dev:audit": "npm run dev --workspace @sibyl/audit",
+    "dev": "npm run dev --workspace @sibyl/site",
     "build": "npm run build --workspaces --if-present",
-    "tokens:build": "npm run build --workspace @sibyl/tokens",
-    "dev:ui": "npm run dev --workspace @sibyl/ds-ui"
+    "tokens:build": "npm run build --workspace @sibyl/tokens"
   },
   "engines": {
     "node": ">=18.18"

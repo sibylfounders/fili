@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",            // site statique -> GitHub Pages (comme aujourd'hui)
+  output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
+  transpilePackages: ["@sibyl/react"],
 };
 export default nextConfig;
