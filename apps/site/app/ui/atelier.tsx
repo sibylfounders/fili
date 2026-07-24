@@ -4,11 +4,13 @@ import { createPortal } from "react-dom";
 import { GROUPS } from "./registry";
 import { Controls } from "./controls";
 import { ResizablePreview } from "./resizable-preview";
+import { Tabs } from "./tabs";
 
 const ALL = GROUPS.flatMap((g) => g.items);
 
 export function Atelier() {
   const [key, setKey] = React.useState(ALL[0]?.key ?? "");
+  const [tab, setTab] = React.useState<"apercu" | "code">("apercu");
   const [states, setStates] = React.useState<Record<string, Record<string, any>>>(() =>
     Object.fromEntries(ALL.map((e) => [e.key, { ...(e.initial ?? {}) }]))
   );
@@ -58,12 +60,22 @@ export function Atelier() {
       <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Composant</span>
       <h1 className="mb-lg mt-1 text-3xl font-medium text-text-primary">{entry.name}</h1>
 
-      <ResizablePreview>{entry.render(s, set)}</ResizablePreview>
-
-      <div className="mt-md overflow-hidden rounded-md border border-border">
-        <div className="border-b border-border bg-surface px-md py-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">jsx</div>
-        <pre className="m-0 overflow-x-auto bg-surface p-md font-mono text-sm text-text-primary">{entry.code(s)}</pre>
+      <div className="mb-md flex items-center justify-between">
+        <Tabs
+          tabs={[{ value: "apercu", label: "Aperçu" }, { value: "code", label: "Code" }]}
+          value={tab}
+          onChange={(v) => setTab(v as "apercu" | "code")}
+        />
       </div>
+
+      {tab === "apercu" ? (
+        <ResizablePreview>{entry.render(s, set)}</ResizablePreview>
+      ) : (
+        <div className="overflow-hidden rounded-md border border-border">
+          <div className="border-b border-border bg-surface px-md py-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">jsx</div>
+          <pre className="m-0 overflow-x-auto bg-surface p-md font-mono text-sm text-text-primary">{entry.code(s)}</pre>
+        </div>
+      )}
 
       {navSlot ? createPortal(list, navSlot) : null}
       {toolsSlot && tools ? createPortal(tools, toolsSlot) : null}
