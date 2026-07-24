@@ -2,13 +2,40 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppShell, Brand, ThemeToggle, Divider, Select } from "@sibyl/react";
+import { AppShell, Brand, ThemeToggle, Divider, Select, Switch } from "@sibyl/react";
 
 const SECTIONS = [
   { value: "md", label: "Doctrine" },
   { value: "ui", label: "Composants" },
   { value: "audit", label: "Audit" },
 ];
+const RADIUS_OPTS = [
+  { value: "carre", label: "Carré" },
+  { value: "defaut", label: "Défaut" },
+  { value: "arrondi", label: "Arrondi" },
+  { value: "pilule", label: "Pilule" },
+];
+const RADIUS_PRESETS: Record<string, Record<"sm" | "md" | "lg", string | null>> = {
+  carre: { sm: "0px", md: "0px", lg: "0px" },
+  defaut: { sm: null, md: null, lg: null },
+  arrondi: { sm: "8px", md: "14px", lg: "20px" },
+  pilule: { sm: "9999px", md: "9999px", lg: "9999px" },
+};
+const FW_OPTS = [
+  { value: "react", label: "React" },
+  { value: "angular", label: "Angular" },
+  { value: "tailwind", label: "Tailwind" },
+  { value: "html", label: "HTML" },
+];
+
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-md">
+      <span className="text-sm text-text-secondary">{label}</span>
+      {children}
+    </div>
+  );
+}
 
 export function Shell({
   section,
@@ -20,6 +47,9 @@ export function Shell({
   const router = useRouter();
   const [dark, setDark] = React.useState(false);
   const [navOpen, setNavOpen] = React.useState(false);
+  const [radius, setRadius] = React.useState("defaut");
+  const [relief, setRelief] = React.useState(false);
+  const [fw, setFw] = React.useState("react");
 
   React.useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
@@ -29,10 +59,21 @@ export function Shell({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+  React.useEffect(() => {
+    const r = RADIUS_PRESETS[radius] ?? {};
+    const root = document.documentElement;
+    (["sm", "md", "lg"] as const).forEach((sz) => {
+      const v = r[sz];
+      if (v) root.style.setProperty(`--radius-${sz}`, v);
+      else root.style.removeProperty(`--radius-${sz}`);
+    });
+  }, [radius]);
+  React.useEffect(() => {
+    document.documentElement.toggleAttribute("data-relief", relief);
+  }, [relief]);
 
   return (
     <AppShell.Root>
-      {/* Burger — visible seulement quand le menu est off-canvas (sous desktop) */}
       <button
         type="button"
         onClick={() => setNavOpen(true)}
@@ -43,10 +84,8 @@ export function Shell({
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
       </button>
 
-      {/* Scrim (sous desktop, menu ouvert) */}
       {navOpen ? <div className="fixed inset-0 z-40 bg-black/40 desktop:hidden" onClick={() => setNavOpen(false)} /> : null}
 
-      {/* Rail de menu — off-canvas sous desktop (glisse derrière le burger), rail sticky au-dessus */}
       <nav
         aria-label="Navigation"
         onClick={(e) => { if ((e.target as HTMLElement).closest("a,button")) setNavOpen(false); }}
@@ -70,11 +109,17 @@ export function Shell({
 
       <AppShell.Tools>
         <div className="flex flex-col gap-md p-lg">
-          <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Outils</span>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-text-primary">Thème sombre</span>
-            <ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" />
+          <div className="flex items-baseline justify-between">
+            <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Theming</span>
+            <span className="font-mono text-[11px] text-text-muted">tokens live</span>
           </div>
+          <Row label="Thème"><ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" /></Row>
+          <Row label="Rayon"><Select options={RADIUS_OPTS} value={radius} onValueChange={setRadius} aria-label="Rayon" /></Row>
+          <Row label="Relief"><Switch checked={relief} onCheckedChange={setRelief} aria-label="Relief" /></Row>
+          <Row label="Framework"><Select options={FW_OPTS} value={fw} onValueChange={setFw} aria-label="Framework" /></Row>
+          <Divider />
+          <Row label="Icônes"><span className="text-sm text-text-secondary">◈ Lucide</span></Row>
+          <Row label="Primitives"><span className="text-sm text-text-secondary">Radix</span></Row>
           <Divider />
           <div id="section-tools" />
         </div>
