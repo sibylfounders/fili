@@ -5,6 +5,7 @@ import { GROUPS } from "./registry";
 import { Controls } from "./controls";
 import { ResizablePreview } from "./resizable-preview";
 import { Tabs } from "./tabs";
+import { useTheming } from "../theming-context";
 
 const ALL = GROUPS.flatMap((g) => g.items);
 
@@ -19,6 +20,7 @@ export function Atelier() {
   const [replayKey, setReplayKey] = React.useState(0);
   const [reduced, setReduced] = React.useState(false);
   const previewRef = React.useRef<HTMLDivElement>(null);
+  const { framework } = useTheming();
 
   React.useEffect(() => {
     setNavSlot(document.getElementById("section-nav"));
@@ -107,7 +109,7 @@ export function Atelier() {
       ) : (
         <div className="overflow-hidden rounded-md border border-border">
           <div className="border-b border-border bg-surface px-md py-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">jsx</div>
-          <pre className="m-0 overflow-x-auto bg-surface p-md font-mono text-sm text-text-primary">{entry.code(s)}</pre>
+          <pre className="m-0 overflow-x-auto bg-surface p-md font-mono text-sm text-text-primary">{entry.code(s, framework)}</pre>
         </div>
       )}
 

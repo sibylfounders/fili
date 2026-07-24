@@ -3,6 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AppShell, Brand, ThemeToggle, Divider, Select, Switch } from "@sibyl/react";
+import { ThemingContext } from "../theming-context";
 
 const SECTIONS = [
   { value: "md", label: "Doctrine" },
@@ -73,6 +74,7 @@ export function Shell({
   }, [relief]);
 
   return (
+    <ThemingContext.Provider value={{ framework: fw }}>
     <AppShell.Root>
       <button
         type="button"
@@ -125,5 +127,6 @@ export function Shell({
         </div>
       </AppShell.Tools>
     </AppShell.Root>
+    </ThemingContext.Provider>
   );
 }

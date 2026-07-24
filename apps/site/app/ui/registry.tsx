@@ -20,7 +20,7 @@ export interface Entry {
   controls?: Control[];
   initial?: S;
   render: (s: S, set: Set) => React.ReactNode;
-  code: (s: S) => string;
+  code: (s: S, fw?: string) => string;
   replay?: boolean;
 }
 export interface Group { label: string; items: Entry[]; }
@@ -175,7 +175,13 @@ export const GROUPS: Group[] = [
         render: (s) => (
           <Button.Root style={s.style} tone={s.tone} size={s.size}>{s.label || "Bouton"}</Button.Root>
         ),
-        code: (s) => `<Button.Root style="${s.style}" tone="${s.tone}" size="${s.size}">${s.label || "Bouton"}</Button.Root>`,
+        code: (s, fw) => {
+          const t = s.label || "Bouton";
+          if (fw === "html") return `<button class="btn btn--${s.style} btn--${s.tone} btn--${s.size}">${t}</button>`;
+          if (fw === "angular") return `<button dsButton style="${s.style}" tone="${s.tone}" size="${s.size}">${t}</button>`;
+          if (fw === "tailwind") return `<button class="inline-flex items-center gap-2 rounded-md px-md py-xs bg-primary text-on-primary">${t}</button>`;
+          return `<Button.Root style="${s.style}" tone="${s.tone}" size="${s.size}">${t}</Button.Root>`;
+        },
       },
       {
         key: "link", name: "Link",

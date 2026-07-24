@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "./relief.css";
 
 /**
  * Button — construit sur les RÈGLES de Design System MD (autorité UX),
@@ -91,6 +92,8 @@ const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         type={asChild ? undefined : (type ?? "button")}
+        data-style={style ?? "filled"}
+        data-tone={tone ?? "primary"}
         className={cn(buttonVariants({ style, tone, size }), className)}
         {...props}
       />
