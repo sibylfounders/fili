@@ -1,16 +1,67 @@
-/* Relief — effet embossé sur les boutons pleins quand [data-relief] est posé sur
-   la racine (opt-in global, piloté par le panneau Theming). Aucun impact hors
-   [data-relief]. Reprend l'esprit du relief de l'ancien atelier. */
-[data-relief] [data-style="filled"] {
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in srgb, #fff 26%, transparent),
-    0 1px 2px 0 rgba(3, 7, 18, 0.35);
+/* Relief — grammaire « objet » (posé / creusé / plat), portée par [data-relief] sur la racine
+   (relief actif par défaut ; débrayable via le panneau Theming). Portée fidèlement de l'atelier
+   (nœuds Figma 128:136 boutons · 86:129 input) et adaptée aux sélecteurs React (data-style/data-tone).
+   POSÉ (bouton filled/lighter/stroke) = bordure externe + liseré haut clair→transparent + elevation-raised.
+   CREUSÉ (input)  = ombre interne + double filet — l'objet attend qu'on y verse.
+   Pressé : le posé s'ENFONCE (ombre interne + 0.5px de course). */
+[data-relief] { --rl-press: inset 0 4px 4px rgba(12, 12, 13, 0.05); }
+
+[data-relief] :is([data-style="filled"], [data-style="lighter"]) { position: relative; }
+[data-relief] :is([data-style="filled"], [data-style="lighter"])::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(to bottom, var(--rl-ring, transparent), transparent 85%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
 }
-[data-relief] [data-style="filled"]:hover {
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in srgb, #fff 30%, transparent),
-    0 2px 6px 0 rgba(3, 7, 18, 0.42);
-}
-[data-relief] [data-style="filled"]:active {
-  box-shadow: inset 0 3px 6px 0 rgba(3, 7, 18, 0.3);
-}
+
+/* FILLED */
+[data-relief] [data-style="filled"][data-tone="primary"] { border-color: color-mix(in srgb, var(--primary), #030712 38%); --rl-ring: color-mix(in srgb, var(--primary), #fff 42%); --rl-ring-h: color-mix(in srgb, var(--primary), #fff 55%); --rl-ring-a: color-mix(in srgb, var(--primary), #030712 38%); }
+[data-relief] [data-style="filled"][data-tone="primary"]:hover { background: color-mix(in srgb, var(--primary), #fff 12%); border-color: color-mix(in srgb, var(--primary), #fff 12%); }
+[data-relief] [data-style="filled"][data-tone="primary"]:active { background: var(--primary-hover); border-color: var(--primary-hover); }
+[data-relief] [data-style="filled"][data-tone="neutral"] { border-color: #030712; --rl-ring: color-mix(in srgb, var(--surface-inverse), #fff 30%); --rl-ring-h: color-mix(in srgb, var(--surface-inverse), #fff 42%); --rl-ring-a: #030712; }
+[data-relief] [data-style="filled"][data-tone="neutral"]:hover { background: color-mix(in srgb, var(--surface-inverse), #fff 12%); border-color: color-mix(in srgb, var(--surface-inverse), #fff 12%); opacity: 1; }
+[data-relief] [data-style="filled"][data-tone="neutral"]:active { background: #030712; border-color: #030712; }
+[data-relief] [data-style="filled"][data-tone="destructive"] { border-color: color-mix(in srgb, var(--danger), #030712 38%); --rl-ring: color-mix(in srgb, var(--danger), #fff 38%); --rl-ring-h: color-mix(in srgb, var(--danger), #fff 50%); --rl-ring-a: color-mix(in srgb, var(--danger), #030712 38%); }
+[data-relief] [data-style="filled"][data-tone="destructive"]:hover { background: color-mix(in srgb, var(--danger), #fff 12%); border-color: color-mix(in srgb, var(--danger), #fff 12%); }
+[data-relief] [data-style="filled"][data-tone="destructive"]:active { background: var(--danger-hover); border-color: var(--danger-hover); }
+[data-relief] [data-style="filled"] { box-shadow: var(--elevation-raised); }
+[data-relief] [data-style="filled"]:hover { box-shadow: var(--elevation-overlay); --rl-ring: var(--rl-ring-h); }
+[data-relief] [data-style="filled"]:active { box-shadow: var(--rl-press); --rl-ring: var(--rl-ring-a); }
+
+/* LIGHTER */
+[data-relief] [data-style="lighter"][data-tone="primary"] { background: color-mix(in srgb, var(--secondary), var(--background) 50%); border-color: var(--secondary-hover); color: var(--primary); }
+[data-relief] [data-style="lighter"][data-tone="primary"]:hover { background: var(--background); border-color: var(--secondary); color: var(--primary); }
+[data-relief] [data-style="lighter"][data-tone="primary"]:active { background: var(--secondary); border-color: var(--secondary-hover); --rl-ring: var(--secondary-hover); color: var(--primary-hover); }
+[data-relief] [data-style="lighter"][data-tone="neutral"] { background: color-mix(in srgb, var(--surface), var(--background) 50%); border-color: var(--border); }
+[data-relief] [data-style="lighter"][data-tone="neutral"]:hover { background: var(--background); border-color: var(--surface); }
+[data-relief] [data-style="lighter"][data-tone="neutral"]:active { background: var(--surface); border-color: var(--border); --rl-ring: var(--secondary-hover); }
+[data-relief] [data-style="lighter"][data-tone="destructive"] { background: color-mix(in srgb, var(--danger-subtle), var(--background) 50%); border-color: var(--danger-subtle-hover); }
+[data-relief] [data-style="lighter"][data-tone="destructive"]:hover { background: var(--background); border-color: var(--danger-subtle); }
+[data-relief] [data-style="lighter"][data-tone="destructive"]:active { background: var(--danger-subtle); border-color: var(--danger-subtle-hover); --rl-ring: var(--danger-subtle-hover); }
+[data-relief] [data-style="lighter"] { --rl-ring: rgba(255, 255, 255, 0.95); box-shadow: var(--elevation-raised); }
+[data-relief] [data-style="lighter"]:hover { --rl-ring: transparent; box-shadow: var(--elevation-overlay); }
+[data-relief] [data-style="lighter"]:active { box-shadow: var(--rl-press); }
+
+/* STROKE */
+[data-relief] [data-style="stroke"] { box-shadow: var(--elevation-raised); }
+[data-relief] [data-style="stroke"]:hover { box-shadow: var(--elevation-overlay); }
+[data-relief] [data-style="stroke"]:active { box-shadow: var(--rl-press); }
+
+[data-relief] :is([data-style="filled"], [data-style="lighter"], [data-style="stroke"]):active { transform: translateY(0.5px); }
+
+/* CREUSÉ — input */
+[data-relief] [data-slot="input"]:not([data-tone="error"]):not([data-tone="success"]):not([data-tone="warning"]) { border-color: var(--border); box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
+[data-relief] [data-slot="input"][data-tone="error"], [data-relief] [data-slot="input"][data-tone="success"], [data-relief] [data-slot="input"][data-tone="warning"] { box-shadow: inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
+
+/* THÈME SOMBRE */
+[data-theme="dark"][data-relief] { --rl-press: inset 0 4px 4px rgba(0, 0, 0, 0.45); }
+[data-theme="dark"][data-relief] [data-style="filled"][data-tone="primary"]:active { background: color-mix(in srgb, var(--primary), #030712 22%); border-color: color-mix(in srgb, var(--primary), #030712 22%); }
+[data-theme="dark"][data-relief] [data-style="filled"][data-tone="destructive"]:active { background: color-mix(in srgb, var(--danger), #030712 22%); border-color: color-mix(in srgb, var(--danger), #030712 22%); }
+[data-theme="dark"][data-relief] [data-style="filled"][data-tone="neutral"] { border-color: color-mix(in srgb, var(--surface-inverse), #030712 45%); --rl-ring-a: color-mix(in srgb, var(--surface-inverse), #030712 45%); }
+[data-theme="dark"][data-relief] [data-style="filled"][data-tone="neutral"]:active { background: color-mix(in srgb, var(--surface-inverse), #030712 15%); border-color: color-mix(in srgb, var(--surface-inverse), #030712 30%); }
+[data-theme="dark"][data-relief] [data-style="lighter"][data-tone="primary"] { --rl-ring: color-mix(in srgb, var(--secondary), #fff 40%); }
+[data-theme="dark"][data-relief] [data-style="lighter"][data-tone="neutral"] { --rl-ring: color-mix(in srgb, var(--surface), #fff 35%); }
+[data-theme="dark"][data-relief] [data-style="lighter"][data-tone="destructive"] { --rl-ring: color-mix(in srgb, var(--danger-subtle), #fff 35%); }
+[data-theme="dark"][data-relief] [data-slot="input"]:not([data-tone="error"]):not([data-tone="success"]):not([data-tone="warning"]) { box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(0, 0, 0, 0.4); }

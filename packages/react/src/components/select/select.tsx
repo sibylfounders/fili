@@ -28,10 +28,10 @@ const triggerVariants = cva(
   ].join(" "),
   {
     variants: {
-      size: { sm: "h-8 px-sm text-sm min-w-40", md: "h-10 px-md min-w-48" },
+      size: { sm: "h-8 px-sm text-sm min-w-40", md: "h-10 px-md min-w-48", lg: "h-12 px-lg min-w-48" },
       // `ghost` : sans fond ni bordure (esprit panneau de propriétés Figma), largeur au contenu.
       variant: {
-        default: "w-full justify-between border border-border-strong bg-background",
+        default: "w-full justify-between border border-transparent bg-surface text-text-primary hover:bg-surface-hover",
         ghost: "w-auto min-w-0 justify-end border border-transparent bg-transparent hover:bg-surface",
       },
     },
@@ -171,6 +171,8 @@ export function Select({
         disabled={disabled}
         onClick={() => (open ? close() : openList())}
         onKeyDown={onKeyDown}
+        data-style={variant === "ghost" ? undefined : "lighter"}
+        data-tone={variant === "ghost" ? undefined : "neutral"}
         className={triggerVariants({ size, variant })}
         {...aria}
       >

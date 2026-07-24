@@ -28,7 +28,7 @@ import "./relief.css";
  */
 const buttonVariants = cva(
   [
-    "inline-flex max-w-full items-center justify-center text-center select-none",
+    "inline-flex max-w-full items-center justify-center text-center select-none border border-transparent",
     "font-medium leading-tight [overflow-wrap:anywhere] transition-colors",
     "focus-visible:outline-none focus-visible:ring-2",
     "focus-visible:ring-offset-2 focus-visible:ring-offset-background",

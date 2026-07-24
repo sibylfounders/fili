@@ -2,6 +2,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "./input.css";
 
 /**
  * Input — construit sur les RÈGLES de Design System MD (autorité UX),
@@ -39,7 +40,7 @@ const rootVariants = cva(
     "group relative flex w-full items-stretch overflow-hidden border bg-background text-text-primary",
     "divide-x divide-border transition-colors",
     // Focus : le ring apparaît instantanément (hors liste de transition) et s'ajoute à la bordure d'état.
-    "has-[input:focus]:outline has-[input:focus]:outline-2 has-[input:focus]:outline-offset-2 has-[input:focus]:outline-primary",
+    // Focus : anneau en CSS (input.css) — 2px, teinte plus claire que primary, adaptée au tone.
     // Disabled : la cause n'est jamais silencieuse (à exposer en usage via helper/aria).
     "has-[input:disabled]:border-border has-[input:disabled]:bg-surface",
   ].join(" "),
@@ -94,6 +95,7 @@ const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
       <InputContext.Provider value={{ size: size ?? "md", tone: tone ?? "neutral" }}>
         <Comp
           ref={ref}
+          data-slot="input"
           data-tone={tone ?? "neutral"}
           className={cn(rootVariants({ size, tone }), className)}
           {...props}

@@ -1,0 +1,6 @@
+/* Focus — anneau 2px, teinte PLUS CLAIRE que primary, ADAPTÉE À L'ÉTAT (tone) :
+   neutral → primary éclairci · error → danger · success → success · warning → warning. */
+[data-slot="input"]:has(input:focus) { outline: 2px solid color-mix(in srgb, var(--primary), #fff 28%); outline-offset: 2px; }
+[data-slot="input"][data-tone="error"]:has(input:focus) { outline-color: color-mix(in srgb, var(--danger), #fff 20%); }
+[data-slot="input"][data-tone="success"]:has(input:focus) { outline-color: color-mix(in srgb, var(--success), #fff 20%); }
+[data-slot="input"][data-tone="warning"]:has(input:focus) { outline-color: color-mix(in srgb, var(--warning), #fff 20%); }

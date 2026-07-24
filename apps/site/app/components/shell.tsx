@@ -49,7 +49,7 @@ export function Shell({
   const [dark, setDark] = React.useState(false);
   const [navOpen, setNavOpen] = React.useState(false);
   const [radius, setRadius] = React.useState("defaut");
-  const [relief, setRelief] = React.useState(false);
+  const [relief, setRelief] = React.useState(true);
   const [fw, setFw] = React.useState("react");
 
   React.useEffect(() => {

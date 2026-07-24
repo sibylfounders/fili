@@ -15,7 +15,7 @@ import { cn } from "../../lib/cn";
  */
 const trackVariants = cva(
   [
-    "relative inline-flex shrink-0 items-center rounded-pill border align-middle",
+    "relative inline-flex shrink-0 items-center rounded-pill align-middle",
     "transition-colors duration-base ease-in-out motion-reduce:transition-none",
     "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
     "disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
@@ -44,7 +44,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
       onClick={() => onCheckedChange?.(!checked)}
       className={cn(
         trackVariants({ size }),
-        checked ? "bg-primary border-transparent" : "bg-surface border-border-strong",
+        checked ? "bg-primary" : "bg-neutral-200",
         className,
       )}
       {...props}

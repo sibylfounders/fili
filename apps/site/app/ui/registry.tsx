@@ -252,11 +252,13 @@ export const GROUPS: Group[] = [
           if (s.skeleton) return <Sk w={128} h={16} />;
           const lead = s.icon === "leading";
           const trail = s.icon === "trailing";
+          const isz = s.context === "inline" ? "sm" : "md";
+          const iconCls = s.context === "inline" ? "self-center" : undefined;
           const inner = (
-            <Link href="#" context={s.context} current={s.current}>
-              {lead ? <Link.Icon>{IC_ARROW}</Link.Icon> : null}
+            <Link href="#" context={s.context} current={s.current} className={s.context === "inline" ? "items-baseline" : undefined}>
+              {lead ? <Link.Icon size={isz} className={iconCls}>{IC_ARROW}</Link.Icon> : null}
               {s.label || "Lien"}
-              {trail ? <Link.Icon>{IC_ARROW}</Link.Icon> : null}
+              {trail ? <Link.Icon size={isz} className={iconCls}>{IC_ARROW}</Link.Icon> : null}
             </Link>
           );
           return s.context === "inline" ? <p className="m-0 text-sm text-text-primary">Un {inner} dans une phrase.</p> : inner;

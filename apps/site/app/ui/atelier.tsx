@@ -44,6 +44,7 @@ export function Atelier() {
     if (!entry.controls?.length) return;
     const next: Record<string, any> = { ...s };
     for (const c of entry.controls) {
+      if (c.k === "disabled" || c.k === "skeleton") continue; // jamais tirés au shuffle
       if (c.type === "seg") next[c.k] = c.opts[Math.floor(Math.random() * c.opts.length)];
       else if (c.type === "bool") next[c.k] = Math.random() < 0.5;
       else if (c.type === "range") {
