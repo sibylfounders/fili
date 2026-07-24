@@ -6,6 +6,7 @@
 export { AreaChart, type AreaChartProps } from "./charts/area-chart";
 export { BarChart, type BarChartProps } from "./charts/bar-chart";
 export { ComposedChart, type ComposedChartProps, type ComposedPoint } from "./charts/composed-chart";
+export { LineChart, type LineSeries, type LineChartProps } from "./charts/line-chart";
 export { DonutChart, type DonutChartProps, type DonutDatum } from "./charts/donut-chart";
 export { Sparkline, type SparklineProps } from "./charts/sparkline";
 export { ChartFrame, TipRow, type ChartFrameProps, type FrameCtx } from "./charts/chart-frame";

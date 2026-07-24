@@ -7,10 +7,10 @@ import {
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
-  StatCard, ChartCard, KpiGroup, UsageSummary,
-  AreaChart, BarChart, ComposedChart, DonutChart,
-  fmtEur, fmtInt,
-  type ComposedPoint, type DonutDatum, type KpiItem, type UsageRow,
+  StatCard, ChartCard, KpiGroup,
+  AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
+  fmtEur, fmtInt, fmtCompact,
+  type ComposedPoint, type DonutDatum, type KpiItem, type LineSeries,
 } from "@sibyl/charts";
 
 /* ── données atelier « adacard » : dogfooding de @sibyl/charts ── */
@@ -36,14 +36,14 @@ const ADA_DETAILS: [string, string][] = [
   ["Taux de retour", "2,1 %"],
 ];
 const ADA_KPIS: KpiItem[] = [
-  { label: "Revenu net", value: "48 210 €", delta: { value: "+6,4 %", tone: "up" }, spark: ADA_SPARK, color: "var(--primary)" },
+  { label: "Revenu net", value: "48 210 €", countTo: 48210, format: fmtEur, delta: { value: "+6,4 %", tone: "up" }, spark: ADA_SPARK, color: "var(--primary)" },
   { label: "Commandes", value: "1 284", delta: { value: "+8,1 %", tone: "up" }, spark: [30, 44, 58, 50, 66, 72, 88, 84, 96], color: "var(--info)" },
   { label: "Conversion", value: "3,7 %", delta: { value: "-1,2 %", tone: "down" }, spark: [71, 66, 68, 60, 58, 62, 55, 53, 50], color: "var(--success)" },
 ];
-const ADA_USAGE: UsageRow[] = [
-  { label: "Contrats actifs", used: 12480, total: 15000, color: "var(--primary)" },
-  { label: "Sinistres traités", used: 842, total: 1200, color: "var(--success)" },
-  { label: "Quota API", used: 68200, total: 100000, unit: "req", color: "var(--warning)" },
+const ADA_TRAFFIC_MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+const ADA_TRAFFIC: LineSeries[] = [
+  { label: "Organique", data: [4200, 4600, 4100, 5200, 5000, 5800, 6100, 5900, 6600, 7000, 7400, 8100], color: "var(--primary)" },
+  { label: "Payant", data: [2600, 3100, 2900, 3300, 3000, 3600, 3400, 3900, 3700, 4200, 4000, 4600], color: "var(--info)" },
 ];
 const kEur = (n: number) => fmtInt(n) + " k€";
 
@@ -492,14 +492,14 @@ export const GROUPS: Group[] = [
             title: "StatCard — KPI adaptative (compact / regular / expanded)",
             render: () => (
               <StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur}
-                delta={{ value: "+6,4 % vs période précédente", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
+                delta={{ value: "+6,4 %", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
             ),
             code: () => `<StatCard
   title="Revenu net"
   period="30 derniers jours"
   value={48210}
   format={fmtEur}
-  delta={{ value: "+6,4 % vs période précédente", tone: "up" }}
+  delta={{ value: "+6,4 %", tone: "up" }}
   spark={revenus}
   details={[
     ["Nouveaux clients", "312"],
@@ -510,25 +510,19 @@ export const GROUPS: Group[] = [
 />`,
           },
           {
-            title: "KpiGroup — bande de KPI avec sparklines",
-            render: () => <KpiGroup items={ADA_KPIS} />,
+            title: "KpiGroup — en-tête + KPI animés (façon HeroUI « With KPIs »)",
+            render: () => (
+              <KpiGroup title="Métriques clés" period="30 derniers jours" items={ADA_KPIS} />
+            ),
             code: () => `<KpiGroup
+  title="Métriques clés"
+  period="30 derniers jours"
   items={[
-    { label: "Revenu net", value: "48 210 €", delta: { value: "+6,4 %", tone: "up" }, spark: revenus, color: "var(--primary)" },
+    // 1re colonne : valeur animée (count-up) via countTo + format
+    { label: "Revenu net", value: "48 210 €", countTo: 48210, format: fmtEur,
+      delta: { value: "+6,4 %", tone: "up" }, spark: revenus, color: "var(--primary)" },
     { label: "Commandes", value: "1 284", delta: { value: "+8,1 %", tone: "up" }, spark: commandes, color: "var(--info)" },
     { label: "Conversion", value: "3,7 %", delta: { value: "-1,2 %", tone: "down" }, spark: conv, color: "var(--success)" },
-  ]}
-/>`,
-          },
-          {
-            title: "UsageSummary — jauges de consommation",
-            render: () => <UsageSummary title="Consommation du mois" rows={ADA_USAGE} />,
-            code: () => `<UsageSummary
-  title="Consommation du mois"
-  rows={[
-    { label: "Contrats actifs", used: 12480, total: 15000, color: "var(--primary)" },
-    { label: "Sinistres traités", used: 842, total: 1200, color: "var(--success)" },
-    { label: "Quota API", used: 68200, total: 100000, unit: "req", color: "var(--warning)" },
   ]}
 />`,
           },
@@ -566,6 +560,25 @@ export const GROUPS: Group[] = [
 </ChartCard>`,
           },
           {
+            title: "LineChart — multi-séries (façon HeroUI « With Line Chart »)",
+            render: () => (
+              <ChartCard title="Trafic" sub="12 derniers mois" delta={{ value: "+18,6 %", tone: "up" }}>
+                <LineChart series={ADA_TRAFFIC} labels={ADA_TRAFFIC_MONTHS} format={fmtCompact} height={160} />
+              </ChartCard>
+            ),
+            code: () => `<ChartCard title="Trafic" sub="12 derniers mois" delta={{ value: "+18,6 %", tone: "up" }}>
+  <LineChart
+    series={[
+      { label: "Organique", data: organique, color: "var(--primary)" },
+      { label: "Payant", data: payant, color: "var(--info)" },
+    ]}
+    labels={mois}
+    format={fmtCompact}
+    height={160}
+  />
+</ChartCard>`,
+          },
+          {
             title: "DonutChart — anneau responsive",
             render: () => (
               <ChartCard title="Répartition des contrats" sub="Par catégorie · 2024">
@@ -590,7 +603,7 @@ export const GROUPS: Group[] = [
         ],
         render: () => (
           <StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur}
-            delta={{ value: "+6,4 % vs période précédente", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
+            delta={{ value: "+6,4 %", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
         ),
         code: () =>
           `<StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur} delta={{ value: "+6,4 %", tone: "up" }} spark={revenus} details={details} showState />`,
