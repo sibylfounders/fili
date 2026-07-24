@@ -76,20 +76,25 @@ export function Atelier() {
   );
 
   const iconBtn = "rounded-sm p-1 text-text-secondary transition-colors hover:text-text-primary";
+  const changed = !!entry.initial && JSON.stringify(s) !== JSON.stringify(entry.initial);
   const tools =
     entry.controls && entry.controls.length ? (
       <div>
         <div className="mb-md flex items-center justify-between">
-          <p className="m-0 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Contrôles · {entry.name}</p>
-          <div className="flex items-center gap-1">
+          <span className="font-label text-sm font-semibold text-text-primary">Playground</span>
+          <div className="flex items-center gap-1.5">
+            {/* reload : n'apparaît qu'une fois une option changée ; à GAUCHE du shuffle */}
+            {changed ? (
+              <button type="button" onClick={reset} title="Réinitialiser" aria-label="Réinitialiser" className={iconBtn}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
+              </button>
+            ) : null}
             <button type="button" onClick={shuffle} title="Aléatoire" aria-label="Aléatoire" className={iconBtn}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 3h5v5" /><path d="M4 20 21 3" /><path d="M21 16v5h-5" /><path d="m15 15 6 6" /><path d="M4 4l5 5" /></svg>
-            </button>
-            <button type="button" onClick={reset} title="Réinitialiser" aria-label="Réinitialiser" className={iconBtn}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22" /><path d="m18 2 4 4-4 4" /><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2" /><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8" /><path d="m18 14 4 4-4 4" /></svg>
             </button>
           </div>
         </div>
+        <p className="mb-2 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">{entry.name}</p>
         <Controls controls={entry.controls} state={s} set={set} />
       </div>
     ) : null;
