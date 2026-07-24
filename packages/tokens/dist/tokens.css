@@ -1,0 +1,298 @@
+/* GÉNÉRÉ depuis tokens.source.mjs — NE PAS ÉDITER. @ds-ui/tokens */
+:root {
+  /* primitives */
+  --neutral-0: #FFFFFF;
+  --neutral-50: #F9FAFB;
+  --neutral-100: #F3F4F6;
+  --neutral-200: #E5E7EB;
+  --neutral-300: #D1D5DB;
+  --neutral-400: #9CA3AF;
+  --neutral-500: #6B7280;
+  --neutral-600: #4B5563;
+  --neutral-700: #374151;
+  --neutral-800: #1F2937;
+  --neutral-900: #111827;
+  --neutral-950: #030712;
+  --indigo-50: #EEF2FF;
+  --indigo-100: #E0E7FF;
+  --indigo-200: #C7D2FE;
+  --indigo-300: #A5B4FC;
+  --indigo-400: #818CF8;
+  --indigo-500: #6366F1;
+  --indigo-600: #4F46E5;
+  --indigo-700: #4338CA;
+  --indigo-800: #3730A3;
+  --indigo-900: #312E81;
+  --indigo-950: #1E1B4B;
+  --red-50: #FEF2F2;
+  --red-100: #FEE2E2;
+  --red-200: #FECACA;
+  --red-300: #FCA5A5;
+  --red-400: #F87171;
+  --red-500: #EF4444;
+  --red-600: #DC2626;
+  --red-700: #B91C1C;
+  --red-800: #991B1B;
+  --red-900: #7F1D1D;
+  --red-950: #450A0A;
+  --green-50: #F0FDF4;
+  --green-100: #DCFCE7;
+  --green-200: #BBF7D0;
+  --green-300: #86EFAC;
+  --green-400: #4ADE80;
+  --green-500: #22C55E;
+  --green-600: #16A34A;
+  --green-700: #15803D;
+  --green-800: #166534;
+  --green-900: #14532D;
+  --green-950: #052E16;
+  --amber-50: #FFFBEB;
+  --amber-100: #FEF3C7;
+  --amber-200: #FDE68A;
+  --amber-300: #FCD34D;
+  --amber-400: #FBBF24;
+  --amber-500: #F59E0B;
+  --amber-600: #D97706;
+  --amber-700: #B45309;
+  --amber-800: #92400E;
+  --amber-900: #78350F;
+  --amber-950: #451A03;
+  --blue-50: #EFF6FF;
+  --blue-100: #DBEAFE;
+  --blue-200: #BFDBFE;
+  --blue-300: #93C5FD;
+  --blue-400: #60A5FA;
+  --blue-500: #3B82F6;
+  --blue-600: #2563EB;
+  --blue-700: #1D4ED8;
+  --blue-800: #1E40AF;
+  --blue-900: #1E3A8A;
+  --blue-950: #172554;
+  --cyan-50: #ECFEFF;
+  --cyan-100: #CFFAFE;
+  --cyan-200: #A5F3FC;
+  --cyan-300: #67E8F9;
+  --cyan-400: #22D3EE;
+  --cyan-500: #06B6D4;
+  --cyan-600: #0891B2;
+  --cyan-700: #0E7490;
+  --cyan-800: #155E75;
+  --cyan-900: #164E63;
+  --cyan-950: #083344;
+  --static-black: #000000;
+  --static-white: #FFFFFF;
+  --neutral-alpha-10: rgba(3, 7, 18, 0.10);
+  --neutral-alpha-16: rgba(3, 7, 18, 0.16);
+  --neutral-alpha-24: rgba(3, 7, 18, 0.24);
+
+  /* rôles sémantiques — MODE CLAIR */
+  --background: #FFFFFF;
+  --surface: #F3F4F6;
+  --surface-hover: #E5E7EB;
+  --surface-inverse: #111827;
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #9CA3AF;
+  --text-disabled: #D1D5DB;
+  --text-inverse: #FFFFFF;
+  --border: #E5E7EB;
+  --border-strong: #6B7280;
+  --border-inverse: #FFFFFF;
+  --static-base: #FFFFFF;
+  --static-dark: #E5E7EB;
+  --static-darker: #9CA3AF;
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --on-primary: #FFFFFF;
+  --secondary: #E0E7FF;
+  --secondary-hover: #C7D2FE;
+  --on-secondary: #3730A3;
+  --accent: #0891B2;
+  --danger: #B91C1C;
+  --danger-hover: #991B1B;
+  --danger-subtle: #FEE2E2;
+  --danger-subtle-hover: #FECACA;
+  --on-danger: #FFFFFF;
+  --success: #15803D;
+  --success-hover: #166534;
+  --success-subtle: #DCFCE7;
+  --success-subtle-hover: #BBF7D0;
+  --on-success: #FFFFFF;
+  --info: #1D4ED8;
+  --info-hover: #1E40AF;
+  --info-subtle: #DBEAFE;
+  --info-subtle-hover: #BFDBFE;
+  --on-info: #FFFFFF;
+  --warning: #92400E;
+  --warning-hover: #78350F;
+  --warning-subtle: #FEF3C7;
+  --warning-subtle-hover: #FDE68A;
+  --on-warning: #FFFFFF;
+
+  /* typographie */
+  --font-sans: Geist, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  --font-label: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-h1: clamp(2rem, 1.67rem + 1.67vw, 3rem);
+  --text-h2: clamp(1.5rem, 1.33rem + 0.83vw, 2rem);
+  --text-h3: clamp(1.25rem, 1.17rem + 0.42vw, 1.5rem);
+  --text-h4: clamp(1.125rem, 1.08rem + 0.21vw, 1.25rem);
+  --text-h5: clamp(1rem, 0.96rem + 0.21vw, 1.125rem);
+  --text-h6: clamp(0.875rem, 0.83rem + 0.21vw, 1rem);
+
+  /* espacement */
+  --space-0: 0px;
+  --space-base: 4px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-section: 80px;
+
+  /* rayon */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-2xl: 20px;
+  --radius-pill: 9999px;
+
+  /* élévation */
+  --elevation-none: none;
+  --elevation-raised: 0 1px 3px rgba(3, 7, 18, 0.10);
+  --elevation-overlay: 0 4px 12px rgba(3, 7, 18, 0.14);
+  --elevation-scene: 0 24px 64px -16px rgba(3, 7, 18, 0.13), 0 4px 16px rgba(3, 7, 18, 0.05);
+
+  /* motion — durées + courbes */
+  --duration-fast: 100ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-expressive: 700ms;
+  --duration-celebration: 1200ms;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* grille — largeurs de conteneur */
+  --container-narrow: 480px;
+  --container-default: 1024px;
+  --container-wide: 1440px;
+  --rail-nav: 280px;
+  --rail-tools: 320px;
+
+  /* z-index — ordre des couches (DS-MD overlay 1.30.0) */
+  --z-sticky: 100;
+  --z-overlay: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+  --z-tooltip: 1300;
+
+  /* overlay — voile modal */
+  --scrim: rgba(17, 24, 39, 0.5);
+
+  /* breakpoints (référence CSS — les bascules réelles passent par les screens Tailwind) */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1280px;
+
+  /* bordure / focus ring */
+  --focus-width: 2px;
+  --focus-offset: 2px;
+}
+
+/* rôles sémantiques — MODE SOMBRE (data-theme + prefers) */
+[data-theme="dark"] {
+  --background: #030712;
+  --surface: #1F2937;
+  --surface-hover: #374151;
+  --surface-inverse: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-disabled: #4B5563;
+  --text-inverse: #111827;
+  --border: #1F2937;
+  --border-strong: #9CA3AF;
+  --border-inverse: #030712;
+  --static-base: #FFFFFF;
+  --static-dark: #E5E7EB;
+  --static-darker: #9CA3AF;
+  --primary: #818CF8;
+  --primary-hover: #A5B4FC;
+  --on-primary: #030712;
+  --secondary: #312E81;
+  --secondary-hover: #3730A3;
+  --on-secondary: #C7D2FE;
+  --accent: #22D3EE;
+  --danger: #F87171;
+  --danger-hover: #FCA5A5;
+  --danger-subtle: #450A0A;
+  --danger-subtle-hover: #7F1D1D;
+  --on-danger: #030712;
+  --success: #4ADE80;
+  --success-hover: #86EFAC;
+  --success-subtle: #052E16;
+  --success-subtle-hover: #14532D;
+  --on-success: #030712;
+  --info: #60A5FA;
+  --info-hover: #93C5FD;
+  --info-subtle: #172554;
+  --info-subtle-hover: #1E3A8A;
+  --on-info: #030712;
+  --warning: #FBBF24;
+  --warning-hover: #FCD34D;
+  --warning-subtle: #451A03;
+  --warning-subtle-hover: #78350F;
+  --on-warning: #030712;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #030712;
+    --surface: #1F2937;
+    --surface-hover: #374151;
+    --surface-inverse: #FFFFFF;
+    --text-primary: #FFFFFF;
+    --text-secondary: #9CA3AF;
+    --text-muted: #6B7280;
+    --text-disabled: #4B5563;
+    --text-inverse: #111827;
+    --border: #1F2937;
+    --border-strong: #9CA3AF;
+    --border-inverse: #030712;
+    --static-base: #FFFFFF;
+    --static-dark: #E5E7EB;
+    --static-darker: #9CA3AF;
+    --primary: #818CF8;
+    --primary-hover: #A5B4FC;
+    --on-primary: #030712;
+    --secondary: #312E81;
+    --secondary-hover: #3730A3;
+    --on-secondary: #C7D2FE;
+    --accent: #22D3EE;
+    --danger: #F87171;
+    --danger-hover: #FCA5A5;
+    --danger-subtle: #450A0A;
+    --danger-subtle-hover: #7F1D1D;
+    --on-danger: #030712;
+    --success: #4ADE80;
+    --success-hover: #86EFAC;
+    --success-subtle: #052E16;
+    --success-subtle-hover: #14532D;
+    --on-success: #030712;
+    --info: #60A5FA;
+    --info-hover: #93C5FD;
+    --info-subtle: #172554;
+    --info-subtle-hover: #1E3A8A;
+    --on-info: #030712;
+    --warning: #FBBF24;
+    --warning-hover: #FCD34D;
+    --warning-subtle: #451A03;
+    --warning-subtle-hover: #78350F;
+    --on-warning: #030712;
+  }
+}

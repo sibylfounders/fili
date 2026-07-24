@@ -1,0 +1,14 @@
+{
+  "name": "sibyl-ds",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Monorepo Sibyl Design System — tokens + composants partagés, trois sites (MD, UI, Audit) sur la même stack Next.js.",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "dev": "npm run dev --workspace @sibyl/audit",
+    "dev:audit": "npm run dev --workspace @sibyl/audit",
+    "build": "npm run build --workspaces --if-present",
+    "tokens:build": "npm run build --workspace @sibyl/tokens"
+  },
+  "engines": { "node": ">=18.18" }
+}
