@@ -6,7 +6,46 @@ import {
   type SelectOption,
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
-import { KpiCard, AreaCard, ComposedCard, PieCard, codeStatKpi, codeArea, codeComposed, codePie } from "./stat-cards";
+import {
+  StatCard, ChartCard, KpiGroup, UsageSummary,
+  AreaChart, BarChart, ComposedChart, DonutChart,
+  fmtEur, fmtInt,
+  type ComposedPoint, type DonutDatum, type KpiItem, type UsageRow,
+} from "@sibyl/charts";
+
+/* ── données atelier « adacard » : dogfooding de @sibyl/charts ── */
+const ADA_SPARK = [1420, 1560, 1490, 1720, 1640, 1580, 1810, 1750, 1930, 1880, 2050, 1990, 2180, 2310];
+const ADA_MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+const ADA_CA = [32, 40, 36, 52, 47, 61, 55, 68, 63, 79, 73, 88];
+const ADA_WEEKS = ["S1", "S2", "S3", "S4", "S5", "S6", "S7"];
+const ADA_BARS = [38, 52, 44, 65, 58, 77, 70];
+const ADA_COMPOSED: ComposedPoint[] = [
+  { bar: 38, line: 52 }, { bar: 52, line: 48 }, { bar: 44, line: 61 },
+  { bar: 65, line: 57 }, { bar: 58, line: 71 }, { bar: 77, line: 66 }, { bar: 70, line: 83 },
+];
+const ADA_PIE: DonutDatum[] = [
+  { label: "Vie", value: 34, color: "var(--primary)" },
+  { label: "Santé", value: 23, color: "var(--info)" },
+  { label: "Retraite", value: 18, color: "var(--success)" },
+  { label: "Habitation", value: 14, color: "var(--warning)" },
+  { label: "Auto", value: 11, color: "var(--danger)" },
+];
+const ADA_DETAILS: [string, string][] = [
+  ["Nouveaux clients", "312"],
+  ["Panier moyen", "154 €"],
+  ["Taux de retour", "2,1 %"],
+];
+const ADA_KPIS: KpiItem[] = [
+  { label: "Revenu net", value: "48 210 €", delta: { value: "+6,4 %", tone: "up" }, spark: ADA_SPARK, color: "var(--primary)" },
+  { label: "Commandes", value: "1 284", delta: { value: "+8,1 %", tone: "up" }, spark: [30, 44, 58, 50, 66, 72, 88, 84, 96], color: "var(--info)" },
+  { label: "Conversion", value: "3,7 %", delta: { value: "-1,2 %", tone: "down" }, spark: [71, 66, 68, 60, 58, 62, 55, 53, 50], color: "var(--success)" },
+];
+const ADA_USAGE: UsageRow[] = [
+  { label: "Contrats actifs", used: 12480, total: 15000, color: "var(--primary)" },
+  { label: "Sinistres traités", used: 842, total: 1200, color: "var(--success)" },
+  { label: "Quota API", used: 68200, total: 100000, unit: "req", color: "var(--warning)" },
+];
+const kEur = (n: number) => fmtInt(n) + " k€";
 
 /* icônes + skeleton + opérations async — partagés par les entrées composants */
 const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
@@ -449,14 +488,113 @@ export const GROUPS: Group[] = [
       {
         key: "adacard", name: "StatCard",
         blocks: [
-          { title: "Carte KPI \u2014 adaptative (compact / regular / expanded)", render: () => <KpiCard />, code: () => codeStatKpi() },
-          { title: "Aire \u2014 responsive & anim\u00e9e (fa\u00e7on Recharts AreaChart)", render: () => <AreaCard />, code: () => codeArea() },
-          { title: "Compos\u00e9 \u2014 barres + ligne (fa\u00e7on Recharts ComposedChart)", render: () => <ComposedCard />, code: () => codeComposed() },
-          { title: "Anneau \u2014 responsive & anim\u00e9 (fa\u00e7on Recharts PieChart)", render: () => <PieCard />, code: () => codePie() },
+          {
+            title: "StatCard — KPI adaptative (compact / regular / expanded)",
+            render: () => (
+              <StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur}
+                delta={{ value: "+6,4 % vs période précédente", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
+            ),
+            code: () => `<StatCard
+  title="Revenu net"
+  period="30 derniers jours"
+  value={48210}
+  format={fmtEur}
+  delta={{ value: "+6,4 % vs période précédente", tone: "up" }}
+  spark={revenus}
+  details={[
+    ["Nouveaux clients", "312"],
+    ["Panier moyen", "154 €"],
+    ["Taux de retour", "2,1 %"],
+  ]}
+  showState
+/>`,
+          },
+          {
+            title: "KpiGroup — bande de KPI avec sparklines",
+            render: () => <KpiGroup items={ADA_KPIS} />,
+            code: () => `<KpiGroup
+  items={[
+    { label: "Revenu net", value: "48 210 €", delta: { value: "+6,4 %", tone: "up" }, spark: revenus, color: "var(--primary)" },
+    { label: "Commandes", value: "1 284", delta: { value: "+8,1 %", tone: "up" }, spark: commandes, color: "var(--info)" },
+    { label: "Conversion", value: "3,7 %", delta: { value: "-1,2 %", tone: "down" }, spark: conv, color: "var(--success)" },
+  ]}
+/>`,
+          },
+          {
+            title: "UsageSummary — jauges de consommation",
+            render: () => <UsageSummary title="Consommation du mois" rows={ADA_USAGE} />,
+            code: () => `<UsageSummary
+  title="Consommation du mois"
+  rows={[
+    { label: "Contrats actifs", used: 12480, total: 15000, color: "var(--primary)" },
+    { label: "Sinistres traités", used: 842, total: 1200, color: "var(--success)" },
+    { label: "Quota API", used: 68200, total: 100000, unit: "req", color: "var(--warning)" },
+  ]}
+/>`,
+          },
+          {
+            title: "AreaChart — aire responsive & animée",
+            render: () => (
+              <ChartCard title="Chiffre d'affaires" sub="12 derniers mois" delta={{ value: "+14,2 %", tone: "up" }}>
+                <AreaChart data={ADA_CA} labels={ADA_MONTHS} label="CA" format={kEur} height={150} />
+              </ChartCard>
+            ),
+            code: () => `<ChartCard title="Chiffre d'affaires" sub="12 derniers mois" delta={{ value: "+14,2 %", tone: "up" }}>
+  <AreaChart data={ca} labels={mois} label="CA" format={(n) => fmtInt(n) + " k€"} height={150} />
+</ChartCard>`,
+          },
+          {
+            title: "BarChart — barres responsives",
+            render: () => (
+              <ChartCard title="Souscriptions" sub="7 dernières semaines" delta={{ value: "+9,3 %", tone: "up" }}>
+                <BarChart data={ADA_BARS} labels={ADA_WEEKS} label="Souscriptions" height={150} />
+              </ChartCard>
+            ),
+            code: () => `<ChartCard title="Souscriptions" sub="7 dernières semaines" delta={{ value: "+9,3 %", tone: "up" }}>
+  <BarChart data={[38, 52, 44, 65, 58, 77, 70]} labels={semaines} label="Souscriptions" height={150} />
+</ChartCard>`,
+          },
+          {
+            title: "ComposedChart — barres + ligne",
+            render: () => (
+              <ChartCard title="Souscriptions vs objectif" sub="7 dernières semaines" delta={{ value: "+9,3 %", tone: "up" }}>
+                <ComposedChart data={ADA_COMPOSED} labels={ADA_WEEKS} barLabel="Souscriptions" lineLabel="Objectif" height={150} />
+              </ChartCard>
+            ),
+            code: () => `<ChartCard title="Souscriptions vs objectif" sub="7 dernières semaines" delta={{ value: "+9,3 %", tone: "up" }}>
+  <ComposedChart data={data} labels={semaines} barLabel="Souscriptions" lineLabel="Objectif" height={150} />
+</ChartCard>`,
+          },
+          {
+            title: "DonutChart — anneau responsive",
+            render: () => (
+              <ChartCard title="Répartition des contrats" sub="Par catégorie · 2024">
+                <DonutChart data={ADA_PIE} total="12,4k" totalLabel="assurés" ariaLabel="Répartition des contrats par catégorie" />
+              </ChartCard>
+            ),
+            code: () => `<ChartCard title="Répartition des contrats" sub="Par catégorie · 2024">
+  <DonutChart
+    data={[
+      { label: "Vie", value: 34, color: "var(--primary)" },
+      { label: "Santé", value: 23, color: "var(--info)" },
+      { label: "Retraite", value: 18, color: "var(--success)" },
+      { label: "Habitation", value: 14, color: "var(--warning)" },
+      { label: "Auto", value: 11, color: "var(--danger)" },
+    ]}
+    total="12,4k"
+    totalLabel="assurés"
+    ariaLabel="Répartition des contrats par catégorie"
+  />
+</ChartCard>`,
+          },
         ],
-        render: () => <KpiCard />,
-        code: () => codeStatKpi(),
-      },
+        render: () => (
+          <StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur}
+            delta={{ value: "+6,4 % vs période précédente", tone: "up" }} spark={ADA_SPARK} details={ADA_DETAILS} showState />
+        ),
+        code: () =>
+          `<StatCard title="Revenu net" period="30 derniers jours" value={48210} format={fmtEur} delta={{ value: "+6,4 %", tone: "up" }} spark={revenus} details={details} showState />`,
+      }
     ],
   },
 ];
