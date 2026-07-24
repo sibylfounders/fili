@@ -6,6 +6,7 @@ import {
   type SelectOption,
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
+import { KpiCard, AreaCard, ComposedCard, PieCard, codeStatKpi, codeArea, codeComposed, codePie } from "./stat-cards";
 
 /* icônes + skeleton + opérations async — partagés par les entrées composants */
 const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
@@ -444,6 +445,17 @@ export const GROUPS: Group[] = [
             <ToastDemo s={s} />
           ),
         code: (s) => `const { toast } = useToast();\ntoast({ tone: "${s.tone}", title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "défaut" ? `, closing: "${s.closing}"` : ""} });`,
+      },
+      {
+        key: "adacard", name: "StatCard",
+        blocks: [
+          { title: "Carte KPI \u2014 adaptative (compact / regular / expanded)", render: () => <KpiCard />, code: () => codeStatKpi() },
+          { title: "Aire \u2014 responsive & anim\u00e9e (fa\u00e7on Recharts AreaChart)", render: () => <AreaCard />, code: () => codeArea() },
+          { title: "Compos\u00e9 \u2014 barres + ligne (fa\u00e7on Recharts ComposedChart)", render: () => <ComposedCard />, code: () => codeComposed() },
+          { title: "Anneau \u2014 responsive & anim\u00e9 (fa\u00e7on Recharts PieChart)", render: () => <PieCard />, code: () => codePie() },
+        ],
+        render: () => <KpiCard />,
+        code: () => codeStatKpi(),
       },
     ],
   },
