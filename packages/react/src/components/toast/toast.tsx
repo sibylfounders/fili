@@ -50,7 +50,7 @@ import "./toast.css";
  * après avoir tranché).
  */
 
-export type ToastTone = "info" | "success" | "warning" | "danger";
+export type ToastTone = "info" | "success" | "warning" | "danger" | "reverse";
 
 export interface ToastAction {
   /** Verbe court, décrit ce que fait l'action (« Annuler »), jamais la gravité du toast. */
@@ -66,6 +66,8 @@ export interface ToastOptions {
   description?: React.ReactNode;
   /** Une action tolérée, jamais deux (TOAST-UX.md § Actions — pattern undo). */
   action?: ToastAction;
+  /** Fermeture visible : `défaut` (auto), `croix` (bouton), `timer` (barre de décompte). */
+  closing?: "défaut" | "croix" | "timer";
 }
 
 interface ToastItem extends ToastOptions {
@@ -181,6 +183,7 @@ const toastCardVariants = cva(
         success: "border-success bg-success-subtle text-success",
         warning: "border-warning bg-warning-subtle text-warning",
         danger: "border-danger bg-danger-subtle text-danger",
+        reverse: "border-surface-inverse bg-surface-inverse text-text-inverse",
       },
     },
     defaultVariants: { tone: "info" },
@@ -192,6 +195,8 @@ type TransitionPhase = "entering" | "visible" | "exiting";
 
 function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string) => void }) {
   const { id, tone, title, description, action, duration, illustrated } = item;
+  const closing = item.closing ?? "défaut";
+  const [barRunning, setBarRunning] = React.useState(false);
   const [phase, setPhase] = React.useState<TransitionPhase>("entering");
   const reducedRef = React.useRef<boolean | null>(null);
   if (reducedRef.current === null) reducedRef.current = prefersReducedMotion(); // évalué une fois, à la 1ʳᵉ ligne de vie de la carte
@@ -233,9 +238,17 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Barre de décompte (mode timer) : play-state calé sur la vie du toast (pause au survol).
+  React.useEffect(() => {
+    // La barre suit le minuteur (démarré au montage), pas la phase d'entrée : robuste même
+    // si l'animation d'entrée (rAF) est différée. Seule la sortie l'arrête.
+    setBarRunning(phase !== "exiting");
+  }, [phase]);
+
   // Suspension intégrale au survol/focus (WCAG 2.2.1) — jamais un redémarrage à zéro : le
   // temps déjà écoulé est retranché de la durée restante, pas remis au plancher.
   const pause = React.useCallback(() => {
+    setBarRunning(false);
     if (timeoutRef.current === null) return;
     clearTimer();
     const elapsed = Date.now() - startedAtRef.current;
@@ -245,6 +258,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
   const resume = React.useCallback(() => {
     if (phase === "exiting") return;
     startTimer(remainingRef.current);
+    setBarRunning(true);
   }, [phase, startTimer]);
 
   const handleBlurCapture = (e: React.FocusEvent<HTMLDivElement>) => {
@@ -298,7 +312,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
       data-phase={phase}
       className={cn(
         toastCardVariants({ tone }),
-        "transition-[opacity,transform]",
+        "overflow-hidden transition-[opacity,transform]",
         opacityClass,
         translateClass,
         speedClass,
@@ -333,6 +347,28 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
           </div>
         ) : null}
       </div>
+      {closing === "croix" ? (
+        <button
+          type="button"
+          aria-label="Fermer"
+          onClick={requestExit}
+          className="-mr-1 -mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-60 transition-opacity hover:opacity-100 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className="size-4">
+            <path d="m5.5 5.5 9 9M14.5 5.5l-9 9" />
+          </svg>
+        </button>
+      ) : null}
+      {closing === "timer" ? (
+        <>
+          <style>{`@keyframes dsui-toast-timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}`}</style>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-current opacity-25"
+            style={{ animation: `dsui-toast-timer ${duration}ms linear forwards`, animationPlayState: barRunning ? "running" : "paused" }}
+          />
+        </>
+      ) : null}
     </div>
   );
 }
@@ -418,6 +454,7 @@ function ToastProvider({ children }: ToastProviderProps) {
         // Vérifiée UNE FOIS, à l'injection (§ Instrument E-motion) : ce toast sera-t-il seul
         // après ce push ? Ne dépend jamais de la taille de la pile par la suite.
         illustrated: tone === "success" && itemsRef.current.length === 0,
+        closing: options.closing ?? "défaut",
       },
     });
     return id;

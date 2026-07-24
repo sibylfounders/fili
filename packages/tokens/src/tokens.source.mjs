@@ -155,6 +155,7 @@ export const typography = {
   // grille jumelle label(500)/paragraphe(400) sur corps partagés
   size: { xl: "24px", lg: "18px", md: "16px", sm: "14px", xs: "12px" },
   weight: { regular: 400, medium: 500, semibold: 600 },
+  icon: { sm: "16px", md: "20px", lg: "24px" },
   display: { fontSize: "48px", fontWeight: 500, lineHeight: "1.1" },
 };
 

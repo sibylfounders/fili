@@ -5,8 +5,23 @@ import {
   Input, Alert, Toast, Card, CompactButton, useToast,
   type SelectOption,
 } from "@sibyl/react";
+import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 
-type Base = { k: string; label?: string; sec?: string };
+/* icônes + skeleton + opérations async — partagés par les entrées composants */
+const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
+const IC_CLOSE = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>);
+const IC_ARROW = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>);
+const Sk = ({ w, h, r = "var(--radius-sm)" }: { w: string | number; h: string | number; r?: string }) => (
+  <span className="sk" style={{ display: "inline-block", width: w, height: h, borderRadius: r }} />
+);
+const asyncOp = (mode: string) =>
+  mode === "instant"
+    ? () => Promise.resolve()
+    : mode === "échec"
+    ? () => new Promise((_, rej) => setTimeout(() => rej(new Error("échec")), 900))
+    : () => new Promise((r) => setTimeout(r, 900));
+
+type Base = { k: string; label?: string; sec?: string; disabled?: (s: Record<string, any>) => boolean };
 export type Control =
   | (Base & { type: "seg"; opts: string[] })
   | (Base & { type: "bool" })
@@ -16,6 +31,11 @@ export type Control =
 type S = Record<string, any>;
 type Set = (k: string, v: any) => void;
 
+export interface Block {
+  title: string;
+  render: (s: S, set: Set) => React.ReactNode;
+  code: (s: S, fw?: string) => string;
+}
 export interface Entry {
   key: string;
   name: string;
@@ -24,6 +44,7 @@ export interface Entry {
   render: (s: S, set: Set) => React.ReactNode;
   code: (s: S, fw?: string) => string;
   replay?: boolean;
+  blocks?: Block[];
 }
 export interface Group { label: string; items: Entry[]; }
 
@@ -50,17 +71,17 @@ const SITE_OPTS: SelectOption[] = [
   { value: "audit", label: "Design System Audit", disabled: true },
 ];
 
-const ToastTrigger: React.FC = () => {
+const ToastTrigger: React.FC<{ s: Record<string, any> }> = ({ s }) => {
   const { toast } = useToast();
   return (
-    <Button.Root onClick={() => toast({ tone: "success", title: "Enregistré", description: "Vos changements sont sauvegardés." })}>
+    <Button.Root onClick={() => toast({ tone: s.tone, title: s.title || "Enregistré", description: s.description || undefined, closing: s.closing })}>
       Afficher un toast
     </Button.Root>
   );
 };
-const ToastDemo: React.FC = () => (
+const ToastDemo: React.FC<{ s: Record<string, any> }> = ({ s }) => (
   <Toast.Provider>
-    <ToastTrigger />
+    <ToastTrigger s={s} />
   </Toast.Provider>
 );
 
@@ -219,13 +240,28 @@ export const GROUPS: Group[] = [
       },
       {
         key: "link", name: "Link",
-        render: () => (
-          <div className="flex flex-col gap-sm text-sm text-text-primary">
-            <Link href="#">Lien autonome</Link>
-            <p className="m-0">Un <Link href="#" context="inline">lien inline</Link> dans une phrase.</p>
-          </div>
-        ),
-        code: () => `<Link href="#" context="standalone">En savoir plus</Link>`,
+        controls: [
+          { k: "context", type: "seg", opts: ["inline", "standalone", "navigation"] },
+          { k: "icon", type: "seg", label: "Icône", opts: ["none", "leading", "trailing"] },
+          { k: "label", type: "text", label: "Label" },
+          { k: "current", type: "bool", label: "Courant (navigation)" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { context: "standalone", icon: "none", label: "En savoir plus", current: false, skeleton: false },
+        render: (s) => {
+          if (s.skeleton) return <Sk w={128} h={16} />;
+          const lead = s.icon === "leading";
+          const trail = s.icon === "trailing";
+          const inner = (
+            <Link href="#" context={s.context} current={s.current}>
+              {lead ? <Link.Icon>{IC_ARROW}</Link.Icon> : null}
+              {s.label || "Lien"}
+              {trail ? <Link.Icon>{IC_ARROW}</Link.Icon> : null}
+            </Link>
+          );
+          return s.context === "inline" ? <p className="m-0 text-sm text-text-primary">Un {inner} dans une phrase.</p> : inner;
+        },
+        code: (s) => `<Link href="#" context="${s.context}"${s.current ? " current" : ""}>${s.label || "Lien"}</Link>`,
       },
     ],
   },
@@ -234,21 +270,33 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "delete", name: "DeleteButton", replay: true,
-        controls: [{ k: "size", type: "seg", opts: ["sm", "md", "lg"] }],
-        initial: { size: "lg" },
-        render: (s) => (
-          <DeleteButton size={s.size} onDelete={() => new Promise((r) => setTimeout(r, 900))}>Supprimer</DeleteButton>
-        ),
-        code: (s) => `<DeleteButton size="${s.size}" onDelete={fn}>Supprimer</DeleteButton>`,
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "text", type: "text", label: "Label" },
+          { k: "async", type: "seg", label: "Opération", opts: ["instant", "lent", "échec"] },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { size: "lg", text: "Supprimer", async: "lent", skeleton: false },
+        render: (s) =>
+          s.skeleton ? <Sk w={128} h={s.size === "sm" ? 32 : s.size === "md" ? 40 : 48} r="var(--radius-md)" /> : (
+            <DeleteButton size={s.size} onDelete={asyncOp(s.async)}>{s.text || "Supprimer"}</DeleteButton>
+          ),
+        code: (s) => `<DeleteButton size="${s.size}" onDelete={fn}>${s.text || "Supprimer"}</DeleteButton>`,
       },
       {
         key: "submit", name: "SubmitButton", replay: true,
-        controls: [{ k: "size", type: "seg", opts: ["sm", "md", "lg"] }],
-        initial: { size: "lg" },
-        render: (s) => (
-          <SubmitButton size={s.size} onSubmit={() => new Promise((r) => setTimeout(r, 900))}>Envoyer</SubmitButton>
-        ),
-        code: (s) => `<SubmitButton size="${s.size}" onSubmit={fn}>Envoyer</SubmitButton>`,
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "text", type: "text", label: "Label" },
+          { k: "async", type: "seg", label: "Opération", opts: ["instant", "lent", "échec"] },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { size: "lg", text: "Envoyer", async: "lent", skeleton: false },
+        render: (s) =>
+          s.skeleton ? <Sk w={128} h={s.size === "sm" ? 32 : s.size === "md" ? 40 : 48} r="var(--radius-md)" /> : (
+            <SubmitButton size={s.size} onSubmit={asyncOp(s.async)}>{s.text || "Envoyer"}</SubmitButton>
+          ),
+        code: (s) => `<SubmitButton size="${s.size}" onSubmit={fn}>${s.text || "Envoyer"}</SubmitButton>`,
       },
     ],
   },
@@ -274,32 +322,51 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "input", name: "Input",
-        controls: [{ k: "tone", type: "seg", opts: ["neutral", "error", "success", "warning"] }],
-        initial: { tone: "neutral" },
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "tone", type: "seg", opts: ["neutral", "error", "success", "warning"] },
+          { k: "icon", type: "bool", label: "Icône (leading)" },
+          { k: "placeholder", type: "text", label: "Placeholder" },
+          { k: "disabled", type: "bool", label: "Disabled" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { size: "md", tone: "neutral", icon: false, placeholder: "nom@domaine.fr", disabled: false, skeleton: false },
         render: (s) => (
           <div className="w-72">
-            <Input.Root tone={s.tone}>
-              <Input.Wrapper>
-                <Input.Input placeholder="nom@domaine.fr" aria-label="Email" />
-              </Input.Wrapper>
-            </Input.Root>
+            {s.skeleton ? (
+              <Sk w="100%" h={s.size === "sm" ? 32 : s.size === "lg" ? 48 : 40} r="var(--radius-md)" />
+            ) : (
+              <Input.Root size={s.size} tone={s.tone}>
+                <Input.Wrapper>
+                  {s.icon ? <Input.Icon>{IC_MAIL}</Input.Icon> : null}
+                  <Input.Input placeholder={s.placeholder} disabled={s.disabled} aria-label="Champ" />
+                </Input.Wrapper>
+              </Input.Root>
+            )}
           </div>
         ),
-        code: (s) => `<Input.Root tone="${s.tone}"><Input.Wrapper><Input.Input placeholder="\u2026" /></Input.Wrapper></Input.Root>`,
+        code: (s) => `<Input.Root size="${s.size}" tone="${s.tone}"><Input.Wrapper>${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input placeholder="${s.placeholder}"${s.disabled ? " disabled" : ""} /></Input.Wrapper></Input.Root>`,
       },
       {
         key: "compact", name: "CompactButton",
         controls: [
           { k: "style", type: "seg", opts: ["filled", "stroke", "lighter", "ghost"] },
           { k: "tone", type: "seg", opts: ["primary", "neutral", "destructive"] },
+          { k: "size", type: "seg", opts: ["sm", "md"] },
+          { k: "fullRadius", type: "bool", label: "Full radius" },
+          { k: "disabled", type: "bool", label: "Disabled" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { style: "filled", tone: "primary" },
-        render: (s) => (
-          <CompactButton style={s.style} tone={s.tone} aria-label="Fermer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
-          </CompactButton>
-        ),
-        code: (s) => `<CompactButton style="${s.style}" tone="${s.tone}" aria-label="Fermer"><CloseIcon /></CompactButton>`,
+        initial: { style: "filled", tone: "primary", size: "md", fullRadius: false, disabled: false, skeleton: false },
+        render: (s) =>
+          s.skeleton ? (
+            <Sk w={s.size === "sm" ? 20 : 24} h={s.size === "sm" ? 20 : 24} r={s.fullRadius ? "9999px" : "var(--radius-md)"} />
+          ) : (
+            <CompactButton style={s.style} tone={s.tone} size={s.size} fullRadius={s.fullRadius} disabled={s.disabled} aria-label="Fermer">
+              {IC_CLOSE}
+            </CompactButton>
+          ),
+        code: (s) => `<CompactButton style="${s.style}" tone="${s.tone}" size="${s.size}"${s.fullRadius ? " fullRadius" : ""} aria-label="Fermer"><CloseIcon /></CompactButton>`,
       },
     ],
   },
@@ -308,35 +375,73 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "card", name: "Card",
-        render: () => (
-          <Card.Root className="w-72">
-            <Card.Body>
-              <Card.Title>Titre de la carte</Card.Title>
-              <Card.Description>La Card réagit à SA largeur (container query) — redimensionne l'aperçu pour voir.</Card.Description>
-            </Card.Body>
-          </Card.Root>
-        ),
-        code: () => `<Card.Root>\n  <Card.Body>\n    <Card.Title>\u2026</Card.Title>\n    <Card.Description>\u2026</Card.Description>\n  </Card.Body>\n</Card.Root>`,
+        controls: [
+          { sec: "Card", k: "media", type: "seg", label: "Media", opts: ["icône", "image", "aucun"] },
+          { sec: "Card", k: "description", type: "bool", label: "Description" },
+          { sec: "Card", k: "buttons", type: "bool", label: "Boutons" },
+          { sec: "Card", k: "density", type: "seg", label: "Densité", opts: ["spacious", "comfortable", "compact"] },
+          { sec: "Groupe", k: "orientation", type: "seg", label: "Orientation", opts: ["défaut", "inline"] },
+          { sec: "Groupe", k: "cols", type: "seg", label: "Colonnes", opts: ["1", "2", "3"], disabled: (s) => s.orientation === "inline" },
+          { sec: "Groupe", k: "separated", type: "bool", label: "Séparées" },
+          { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: ["static", "clickable", "selectable"] },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { media: "icône", description: true, buttons: false, density: "comfortable", orientation: "défaut", cols: "2", separated: true, mode: "selectable", skeleton: false },
+        blocks: [
+          { title: "Card", render: (s) => <CardGroup solo s={s as any} />, code: (s) => codeCardSolo(s as any) },
+          { title: "Card group", render: (s) => <CardGroup s={s as any} />, code: (s) => codeCardGrp(s as any) },
+        ],
+        render: (s) => <CardGroup s={s as any} />,
+        code: (s) => codeCardGrp(s as any),
       },
       {
         key: "alert", name: "Alert",
-        controls: [{ k: "tone", type: "seg", opts: ["info", "success", "warning", "danger"] }],
-        initial: { tone: "info" },
-        render: (s) => (
-          <Alert.Root tone={s.tone} className="max-w-md">
-            <Alert.Icon />
-            <Alert.Content>
-              <Alert.Title>Notification</Alert.Title>
-              <Alert.Description>Un message contextuel, tonalité {s.tone}.</Alert.Description>
-            </Alert.Content>
-          </Alert.Root>
-        ),
-        code: (s) => `<Alert.Root tone="${s.tone}">\n  <Alert.Icon />\n  <Alert.Content><Alert.Title>\u2026</Alert.Title><Alert.Description>\u2026</Alert.Description></Alert.Content>\n</Alert.Root>`,
+        controls: [
+          { k: "tone", type: "seg", opts: ["info", "success", "warning", "danger"] },
+          { k: "title", type: "text", label: "Titre" },
+          { k: "description", type: "text", label: "Description" },
+          { k: "dismissible", type: "bool", label: "Dismissible" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { tone: "info", title: "Notification", description: "Un message contextuel qui s'installe dans la page.", dismissible: false, skeleton: false },
+        render: (s) =>
+          s.skeleton ? (
+            <div className="flex max-w-md items-start gap-md rounded-md border border-border p-md">
+              <Sk w={20} h={20} r="9999px" />
+              <div className="flex flex-1 flex-col gap-2 pt-0.5"><Sk w="45%" h={12} /><Sk w="85%" h={10} /></div>
+            </div>
+          ) : (
+            <Alert.Root tone={s.tone} className="max-w-md">
+              <Alert.Icon />
+              <Alert.Content>
+                <Alert.Title>{s.title || "Notification"}</Alert.Title>
+                <Alert.Description>{s.description}</Alert.Description>
+              </Alert.Content>
+              {s.dismissible ? <Alert.Close /> : null}
+            </Alert.Root>
+          ),
+        code: (s) => `<Alert.Root tone="${s.tone}">\n  <Alert.Icon />\n  <Alert.Content><Alert.Title>${s.title || "Notification"}</Alert.Title><Alert.Description>\u2026</Alert.Description></Alert.Content>${s.dismissible ? "\n  <Alert.Close />" : ""}\n</Alert.Root>`,
       },
       {
         key: "toast", name: "Toast",
-        render: () => <ToastDemo />,
-        code: () => `const { toast } = useToast();\ntoast({ tone: "success", title: "\u2026", description: "\u2026" });`,
+        controls: [
+          { k: "tone", type: "seg", opts: ["reverse", "info", "success", "warning", "danger"] },
+          { k: "title", type: "text", label: "Titre" },
+          { k: "description", type: "text", label: "Description" },
+          { k: "closing", type: "seg", label: "Fermeture", opts: ["défaut", "croix", "timer"] },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { tone: "success", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "défaut", skeleton: false },
+        render: (s) =>
+          s.skeleton ? (
+            <div className="flex w-80 items-start gap-md rounded-lg border border-border p-md">
+              <Sk w={20} h={20} r="9999px" />
+              <div className="flex flex-1 flex-col gap-2 pt-0.5"><Sk w="50%" h={12} /><Sk w="80%" h={10} /></div>
+            </div>
+          ) : (
+            <ToastDemo s={s} />
+          ),
+        code: (s) => `const { toast } = useToast();\ntoast({ tone: "${s.tone}", title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "défaut" ? `, closing: "${s.closing}"` : ""} });`,
       },
     ],
   },

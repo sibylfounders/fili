@@ -45,7 +45,7 @@ export function ResizablePreview({ children }: { children: React.ReactNode }) {
         style={{ width: w ? `${w}px` : "100%", maxWidth: "100%", ...CHECKER }}
         className="relative overflow-hidden rounded-xl border border-border"
       >
-        <div className="flex min-h-[220px] items-center justify-center p-xl [container-type:inline-size]">
+        <div className="flex min-h-[220px] items-center justify-center p-xl [container-name:atelier-preview] [container-type:inline-size]">
           {children}
         </div>
         {w ? (

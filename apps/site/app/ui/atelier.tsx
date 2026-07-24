@@ -5,12 +5,13 @@ import { GROUPS } from "./registry";
 import { Controls } from "./controls";
 import { ResizablePreview } from "./resizable-preview";
 import { CodeBlock } from "./code-block";
+import { Foundations, FOUNDATIONS } from "./foundations";
 import { useTheming } from "../theming-context";
 
 const ALL = GROUPS.flatMap((g) => g.items);
 
 export function Atelier() {
-  const [key, setKey] = React.useState(ALL[0]?.key ?? "");
+  const [key, setKey] = React.useState(FOUNDATIONS[0]?.key ?? ALL[0]?.key ?? "");
   const [states, setStates] = React.useState<Record<string, Record<string, any>>>(() =>
     Object.fromEntries(ALL.map((e) => [e.key, { ...(e.initial ?? {}) }]))
   );
@@ -26,6 +27,7 @@ export function Atelier() {
     setToolsSlot(document.getElementById("section-tools"));
   }, []);
 
+  const isFoundation = key.startsWith("f-");
   const entry = ALL.find((e) => e.key === key) ?? ALL[0];
   const s = states[entry.key] ?? {};
   const set = (k: string, v: any) =>
@@ -54,21 +56,29 @@ export function Atelier() {
   };
   const reset = () => setStates((prev) => ({ ...prev, [entry.key]: { ...(entry.initial ?? {}) } }));
 
+  const navBtn = (k: string, name: string, active: boolean) => (
+    <button
+      key={k}
+      onClick={() => setKey(k)}
+      className={"rounded-sm px-md py-1.5 text-left text-sm " + (active ? "bg-surface font-semibold text-primary" : "text-text-secondary")}
+    >
+      {name}
+    </button>
+  );
+
   const list = (
     <div className="flex flex-col gap-lg">
+      <div>
+        <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Fondations</p>
+        <div className="flex flex-col gap-1">
+          {FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key))}
+        </div>
+      </div>
       {GROUPS.map((g) => (
         <div key={g.label}>
           <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">{g.label}</p>
           <div className="flex flex-col gap-1">
-            {g.items.map((it) => (
-              <button
-                key={it.key}
-                onClick={() => setKey(it.key)}
-                className={"rounded-sm px-md py-1.5 text-left text-sm " + (it.key === entry.key ? "bg-surface font-semibold text-primary" : "text-text-secondary")}
-              >
-                {it.name}
-              </button>
-            ))}
+            {g.items.map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))}
           </div>
         </div>
       ))}
@@ -78,12 +88,11 @@ export function Atelier() {
   const iconBtn = "rounded-sm p-1 text-text-secondary transition-colors hover:text-text-primary";
   const changed = !!entry.initial && JSON.stringify(s) !== JSON.stringify(entry.initial);
   const tools =
-    entry.controls && entry.controls.length ? (
+    !isFoundation && entry.controls && entry.controls.length ? (
       <div>
         <div className="mb-md flex items-center justify-between">
           <span className="font-label text-sm font-semibold text-text-primary">Playground</span>
           <div className="flex items-center gap-1.5">
-            {/* reload : n'apparaît qu'une fois une option changée ; à GAUCHE du shuffle */}
             {changed ? (
               <button type="button" onClick={reset} title="Réinitialiser" aria-label="Réinitialiser" className={iconBtn}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
@@ -94,12 +103,16 @@ export function Atelier() {
             </button>
           </div>
         </div>
-        <p className="mb-2 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">{entry.name}</p>
+        {entry.controls[0]?.sec ? null : (
+          <p className="mb-2 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">{entry.name}</p>
+        )}
         <Controls controls={entry.controls} state={s} set={set} />
       </div>
     ) : null;
 
-  return (
+  const main = isFoundation ? (
+    <Foundations which={key} />
+  ) : (
     <div className="mx-auto max-w-[900px] px-xl py-xl">
       <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Composant</span>
       <div className="mb-lg mt-1 flex items-center justify-between gap-md">
@@ -122,16 +135,34 @@ export function Atelier() {
         ) : null}
       </div>
 
-      <ResizablePreview>
-        <div ref={previewRef} key={`${entry.key}-${replayKey}`} className={reduced ? "atelier-reduced" : undefined}>
-          {entry.render(s, set)}
-        </div>
-      </ResizablePreview>
+      {entry.blocks ? (
+        entry.blocks.map((b, i) => (
+          <div key={i} className={i > 0 ? "mt-xl" : undefined}>
+            <p className="blk-title">{b.title}</p>
+            <ResizablePreview>
+              <div className={"contents" + (reduced ? " atelier-reduced" : "")}>{b.render(s, set)}</div>
+            </ResizablePreview>
+            <CodeBlock code={b.code(s, framework)} framework={framework} />
+          </div>
+        ))
+      ) : (
+        <>
+          <ResizablePreview>
+            <div ref={previewRef} key={`${entry.key}-${replayKey}`} className={"contents" + (reduced ? " atelier-reduced" : "")}>
+              {entry.render(s, set)}
+            </div>
+          </ResizablePreview>
+          <CodeBlock code={entry.code(s, framework)} framework={framework} />
+        </>
+      )}
+    </div>
+  );
 
-      <CodeBlock code={entry.code(s, framework)} framework={framework} />
-
+  return (
+    <>
+      {main}
       {navSlot ? createPortal(list, navSlot) : null}
       {toolsSlot && tools ? createPortal(tools, toolsSlot) : null}
-    </div>
+    </>
   );
 }

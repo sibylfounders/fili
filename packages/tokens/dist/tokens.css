@@ -139,6 +139,17 @@
   --text-h4: clamp(1.125rem, 1.08rem + 0.21vw, 1.25rem);
   --text-h5: clamp(1rem, 0.96rem + 0.21vw, 1.125rem);
   --text-h6: clamp(0.875rem, 0.83rem + 0.21vw, 1rem);
+  --size-xl: 24px;
+  --size-lg: 18px;
+  --size-md: 16px;
+  --size-sm: 14px;
+  --size-xs: 12px;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
 
   /* espacement */
   --space-0: 0px;

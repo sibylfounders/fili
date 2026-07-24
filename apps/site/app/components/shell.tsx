@@ -116,9 +116,9 @@ export function Shell({
             <span className="font-mono text-[11px] text-text-muted">tokens live</span>
           </div>
           <Row label="Thème"><ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" /></Row>
+          <Row label="Framework"><Select options={FW_OPTS} value={fw} onValueChange={setFw} aria-label="Framework" size="sm" variant="ghost" /></Row>
           <Row label="Rayon"><Select options={RADIUS_OPTS} value={radius} onValueChange={setRadius} aria-label="Rayon" size="sm" variant="ghost" /></Row>
           <Row label="Relief"><Switch checked={relief} onCheckedChange={setRelief} aria-label="Relief" size="sm" /></Row>
-          <Row label="Framework"><Select options={FW_OPTS} value={fw} onValueChange={setFw} aria-label="Framework" size="sm" variant="ghost" /></Row>
           <Divider />
           <Row label="Icônes"><span className="text-sm text-text-secondary">◈ Lucide</span></Row>
           <Row label="Primitives"><span className="text-sm text-text-secondary">Radix</span></Row>

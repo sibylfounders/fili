@@ -22,7 +22,7 @@ export interface SelectOption {
 
 const triggerVariants = cva(
   [
-    "inline-flex items-center justify-between gap-sm rounded-md text-text-primary transition-colors duration-fast ease-out",
+    "inline-flex items-center gap-sm rounded-md text-text-primary transition-colors duration-fast ease-out",
     "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
     "disabled:opacity-50 disabled:cursor-not-allowed",
   ].join(" "),
@@ -31,8 +31,8 @@ const triggerVariants = cva(
       size: { sm: "h-8 px-sm text-sm min-w-40", md: "h-10 px-md min-w-48" },
       // `ghost` : sans fond ni bordure (esprit panneau de propriétés Figma), largeur au contenu.
       variant: {
-        default: "w-full border border-border-strong bg-background",
-        ghost: "w-auto min-w-0 border border-transparent bg-transparent hover:bg-surface",
+        default: "w-full justify-between border border-border-strong bg-background",
+        ghost: "w-auto min-w-0 justify-end border border-transparent bg-transparent hover:bg-surface",
       },
     },
     defaultVariants: { size: "md", variant: "default" },
