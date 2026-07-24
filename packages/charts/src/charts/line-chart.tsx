@@ -4,7 +4,7 @@ import { ChartFrame, TipRow } from "./chart-frame";
 import { points, smoothPath, polyPath, extent, gridFractions } from "../lib/geometry";
 import { fmtInt } from "../lib/format";
 
-const LINE_PALETTE = ["var(--primary)", "var(--info)", "var(--success)", "var(--warning)", "var(--danger)"];
+const LINE_PALETTE = ["var(--ch-cat-1)", "var(--ch-cat-4)", "var(--ch-cat-3)", "var(--ch-cat-5)", "var(--ch-cat-2)"];
 
 export interface LineSeries {
   label: string;

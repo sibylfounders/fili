@@ -24,11 +24,11 @@ const ADA_COMPOSED: ComposedPoint[] = [
   { bar: 65, line: 57 }, { bar: 58, line: 71 }, { bar: 77, line: 66 }, { bar: 70, line: 83 },
 ];
 const ADA_PIE: DonutDatum[] = [
-  { label: "Vie", value: 34, color: "var(--primary)" },
-  { label: "Santé", value: 23, color: "var(--info)" },
-  { label: "Retraite", value: 18, color: "var(--success)" },
-  { label: "Habitation", value: 14, color: "var(--warning)" },
-  { label: "Auto", value: 11, color: "var(--danger)" },
+  { label: "Vie", value: 34, color: "var(--ch-cat-1)" },
+  { label: "Santé", value: 23, color: "var(--ch-cat-2)" },
+  { label: "Retraite", value: 18, color: "var(--ch-cat-3)" },
+  { label: "Habitation", value: 14, color: "var(--ch-cat-4)" },
+  { label: "Auto", value: 11, color: "var(--ch-cat-5)" },
 ];
 const ADA_DETAILS: [string, string][] = [
   ["Nouveaux clients", "312"],
@@ -42,8 +42,8 @@ const ADA_KPIS: KpiItem[] = [
 ];
 const ADA_TRAFFIC_MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
 const ADA_TRAFFIC: LineSeries[] = [
-  { label: "Organique", data: [4200, 4600, 4100, 5200, 5000, 5800, 6100, 5900, 6600, 7000, 7400, 8100], color: "var(--primary)" },
-  { label: "Payant", data: [2600, 3100, 2900, 3300, 3000, 3600, 3400, 3900, 3700, 4200, 4000, 4600], color: "var(--info)" },
+  { label: "Organique", data: [4200, 4600, 4100, 5200, 5000, 5800, 6100, 5900, 6600, 7000, 7400, 8100], color: "var(--ch-cat-1)" },
+  { label: "Payant", data: [2600, 3100, 2900, 3300, 3000, 3600, 3400, 3900, 3700, 4200, 4000, 4600], color: "var(--ch-cat-4)" },
 ];
 const kEur = (n: number) => fmtInt(n) + " k€";
 
@@ -569,8 +569,8 @@ export const GROUPS: Group[] = [
             code: () => `<ChartCard title="Trafic" sub="12 derniers mois" delta={{ value: "+18,6 %", tone: "up" }}>
   <LineChart
     series={[
-      { label: "Organique", data: organique, color: "var(--primary)" },
-      { label: "Payant", data: payant, color: "var(--info)" },
+      { label: "Organique", data: organique, color: "var(--ch-cat-1)" },
+      { label: "Payant", data: payant, color: "var(--ch-cat-4)" },
     ]}
     labels={mois}
     format={fmtCompact}
@@ -588,11 +588,11 @@ export const GROUPS: Group[] = [
             code: () => `<ChartCard title="Répartition des contrats" sub="Par catégorie · 2024">
   <DonutChart
     data={[
-      { label: "Vie", value: 34, color: "var(--primary)" },
-      { label: "Santé", value: 23, color: "var(--info)" },
-      { label: "Retraite", value: 18, color: "var(--success)" },
-      { label: "Habitation", value: 14, color: "var(--warning)" },
-      { label: "Auto", value: 11, color: "var(--danger)" },
+      { label: "Vie", value: 34, color: "var(--ch-cat-1)" },
+      { label: "Santé", value: 23, color: "var(--ch-cat-2)" },
+      { label: "Retraite", value: 18, color: "var(--ch-cat-3)" },
+      { label: "Habitation", value: 14, color: "var(--ch-cat-4)" },
+      { label: "Auto", value: 11, color: "var(--ch-cat-5)" },
     ]}
     total="12,4k"
     totalLabel="assurés"

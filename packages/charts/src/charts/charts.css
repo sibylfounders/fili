@@ -4,6 +4,16 @@
    Les graphes sont dessines en pixels reels (mesure ResizeObserver) : pas de
    distorsion, trait a epaisseur constante.
    ══════════════════════════════════════════════════════════════════════════ */
+/* Palette catégorielle des graphes (segments de pie / séries de lignes) — DÉROGATION
+   assumée au theming : on épingle les teintes VIVES de la palette sombre dans les deux
+   thèmes, pour un rendu identique et lisible en clair comme en sombre. */
+:root {
+  --ch-cat-1: #818cf8;  /* primary (sombre) */
+  --ch-cat-2: #60a5fa;  /* info    (sombre) */
+  --ch-cat-3: #4ade80;  /* success (sombre) */
+  --ch-cat-4: #fbbf24;  /* warning (sombre) */
+  --ch-cat-5: #f87171;  /* danger  (sombre) */
+}
 .ch-frame { width: 100%; font-family: var(--font-sans); }
 .ch-plot { position: relative; width: 100%; }
 .ch-svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -89,6 +99,11 @@
 .ch-card-scope { container-type: inline-size; container-name: ch-card; }
 .ch-spark { position: relative; width: 100%; }
 .ch-spark svg { display: block; width: 100%; height: 100%; }
+.ch-spark--live { pointer-events: auto; }
+.ch-spark-hit { position: absolute; inset: 0; z-index: 2; cursor: crosshair; touch-action: pan-y; }
+.ch-spark-dot { position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; border: 1.5px solid var(--background); box-shadow: 0 0 0 1px rgb(0 0 0 / .14); pointer-events: none; z-index: 3; }
+.ch-spark-chip { position: absolute; top: 1px; transform: translateX(-50%); z-index: 4; pointer-events: none; white-space: nowrap; font-size: 10.5px; font-weight: var(--weight-semibold, 600); color: var(--text-primary); background: var(--surface, var(--background)); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-variant-numeric: tabular-nums; box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+.ch-spark-chip i { font-style: normal; color: var(--text-muted); margin-right: 5px; }
 
 /* legende de series (multi-lignes) */
 .ch-legend-top { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 14px; margin-bottom: 10px; font-size: 12.5px; color: var(--text-secondary); }

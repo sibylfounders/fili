@@ -40,7 +40,7 @@ export function StatCard({
           <span className={cn("sw-delta", down && "is-neg")}>{down ? "▼" : "▲"} {delta.value}</span>
         ) : null}
         {spark ? (
-          <div className="sw-spark"><Sparkline data={spark} color={sparkColor} fitParent /></div>
+          <div className="sw-spark"><Sparkline data={spark} color={sparkColor} fitParent interactive format={format} /></div>
         ) : null}
         {details ? (
           <div className="sw-detail">
