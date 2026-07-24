@@ -3,10 +3,29 @@
    Seuils alignés sur les tokens breakpoint (tablet 1024 / desktop 1280). */
 .sw-shell { container-type: inline-size; container-name: sw-shell; position: relative; }
 
-/* colonne de navigation : masquée sous tablet (→ off-canvas via Drawer) */
-.sw-shell-sidebar { display: none; }
-@container sw-shell (min-width: 1024px) { .sw-shell-sidebar { display: flex; } }
+/* Sidebar : UN seul élément — off-canvas (shell étroit) ↔ fixe en flux dès tablet.
+   Scopée au shell (absolute), donc contenue dans son cadre (aperçu, box…), pas au viewport. */
+.sw-shell-sidebar {
+  position: absolute; inset-block: 0; left: 0; z-index: 40;
+  max-width: 85%;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform var(--duration-base, .25s) var(--ease-out, ease-out),
+              width var(--duration-base, .25s) var(--ease-out, ease-out);
+}
+.sw-shell-sidebar[data-open="true"] {
+  transform: translateX(0);
+  box-shadow: var(--elevation-overlay, 0 8px 24px rgb(0 0 0 / .12));
+}
+@container sw-shell (min-width: 1024px) {
+  .sw-shell-sidebar {
+    position: sticky; top: 0; height: 100%; max-height: 100vh;
+    z-index: auto; max-width: none; transform: none; box-shadow: none;
+  }
+  .sw-shell-scrim { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sw-shell-sidebar { transition: none; } }
 
-/* rail droit (aside) : visible seulement à partir de desktop */
+/* Rail droit (aside) : visible seulement à partir de desktop. */
 .sw-shell-aside { display: none; }
 @container sw-shell (min-width: 1280px) { .sw-shell-aside { display: block; } }

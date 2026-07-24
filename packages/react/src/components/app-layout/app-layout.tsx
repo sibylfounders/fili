@@ -165,14 +165,11 @@ export function AppLayout({
   const bounded = boundedContent ?? docs;
 
   const hasCustomSidebar = sidebar != null;
-  const canToggle = collapsible && !(docs && isWide);            // docs large : pas de toggle (sidebar fixe)
-  const railCollapsed = collapsed && !docs && !hasCustomSidebar; // rail d'icônes : variant default + nav structurée
-  const hideSidebar = collapsed && !docs && hasCustomSidebar;    // default + sidebar custom repliée : masquée
-  const sidebarW = railCollapsed ? "w-16" : "w-rail-nav";
-  const onToggle = () => {
-    if (!isWide) setMobileOpen(true);          // étroit : off-canvas (les deux variantes)
-    else if (!docs) setCollapsed((c) => !c);   // large + default : rail
-  };
+  // toggle : large → seulement default à nav structurée (rail) ; docs/sidebar custom = fixe.
+  // étroit → hamburger off-canvas dans tous les cas.
+  const canToggle = collapsible && (isWide ? (!docs && !hasCustomSidebar) : true);
+  const railCollapsed = collapsed && isWide && !docs && !hasCustomSidebar;
+  const onToggle = () => { if (!isWide) setMobileOpen(true); else setCollapsed((c) => !c); };
   React.useEffect(() => { if (isWide) setMobileOpen(false); }, [isWide]);
   React.useEffect(() => {
     if (!mobileOpen) return;
@@ -196,34 +193,16 @@ export function AppLayout({
 
   return (
     <div ref={rootRef} className={cn("sw-shell flex min-h-full w-full bg-background text-text-primary", className)}>
-      {/* Colonne de navigation (container query : masquée sous 1024) */}
-      {!hideSidebar ? (
-        <aside
-          aria-label="Navigation"
-          className={cn(
-            "sw-shell-sidebar sticky top-0 h-full max-h-screen shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-base ease-out",
-            sidebarW,
-          )}
-        >
-          {sidebarNode(railCollapsed)}
-        </aside>
-      ) : null}
-
-      {/* Off-canvas SCOPÉ AU SHELL (position absolute dans .sw-shell), pas au viewport :
-          il reste dans les limites du shell — donc dans la box d'aperçu quand intégré. */}
-      {mobileOpen ? <div className="absolute inset-0 z-30 bg-scrim" aria-hidden="true" onClick={() => setMobileOpen(false)} /> : null}
+      {/* Scrim off-canvas (shell étroit uniquement) */}
+      {mobileOpen ? <div className="sw-shell-scrim absolute inset-0 z-30 bg-scrim" aria-hidden="true" onClick={() => setMobileOpen(false)} /> : null}
+      {/* Sidebar UNIQUE : off-canvas (étroit) ↔ fixe en flux (large), piloté en CSS (container). */}
       <aside
-        role="dialog"
-        aria-modal="true"
+        data-open={mobileOpen ? "true" : "false"}
         aria-label="Navigation"
-        aria-hidden={!mobileOpen}
-        className={cn(
-          "absolute inset-y-0 left-0 z-40 w-rail-nav max-w-[85%] overflow-y-auto border-r border-border bg-surface shadow-overlay transition-transform duration-base ease-out",
-          mobileOpen ? "translate-x-0" : "-translate-x-full",
-        )}
+        className={cn("sw-shell-sidebar shrink-0 border-r border-border bg-surface", railCollapsed ? "w-16" : "w-rail-nav")}
         onClick={(e) => { if ((e.target as HTMLElement).closest("a,button")) setMobileOpen(false); }}
       >
-        {sidebarNode(false)}
+        {sidebarNode(railCollapsed)}
       </aside>
 
       {/* Colonne de droite : topbar + contenu (+ aside) */}
