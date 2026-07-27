@@ -4,8 +4,8 @@ nature: principles
 resume: "Ce fichier pose les **obligations universelles de charge cognitive** : ce que tout écran, composant, pattern et flow doit respecter pour que l'interface n'impose jamais plus de travail mental que…"
 selon-contexte: [laws]
 source: COGNITIVE-LOAD-UX.md v1.0.0
-empreinte: sha256:f92e9cd29ff54544
-regles: {loi: 0, preference: 0, non_qualifie: 17}
+empreinte: sha256:a37e3e0b06bc6441
+regles: {loi: 7, preference: 8, non_qualifie: 0}
 ---
 # RULES — cognitive-load (compilé, mode audit)
 
@@ -19,20 +19,38 @@ regles: {loi: 0, preference: 0, non_qualifie: 17}
 
 ## Règles de design
 
-- **[non qualifié]** la charge cognitive est un **principe transversal** — ni variantes (composant), ni assemblage (pattern), ni token ; le modèle à axes ne s'applique pas. Comme `accessibility` : `companion: none` **sans** `audience: humans` — compilé vers `dist/RULES-cognitive-load.md` et **chargé d'office par le routeur pour toute intention** (socle universel, arbitré le 2026-07-21 ; le coût en tokens du socle est mesuré à chaque build dans RAPPORT-ROUTEUR).
-- **[non qualifié]** **frontière avec `laws`** — les lois éclairent, ce principe contraint. `LAWS-UX.md` reste le seul endroit où une loi est énoncée, sourcée et bornée ; chaque règle ici **cite** sa loi sans la réécrire. Si une règle opérationnelle de ce fichier semble contredire la portée d'une loi du catalogue, le catalogue a raison sur la loi, ce fichier a raison sur l'obligation — et l'écart se remonte.
-- **[non qualifié]** ce principe **ne fait pas autorité sur un comportement précis** — il pose l'obligation, le propriétaire pose la mécanique (`FORM` pour le multi-step, `BUTTON` pour le destructive, `INPUT` pour les défauts de saisie…). En cas de divergence, le propriétaire a raison. Même clause qu'`accessibility` : pas une source normative de substitution.
-- **[non qualifié]** ce principe **ne quantifie aucun plafond**. Aucune règle ne dira « maximum N choix » — le plafond numérique est le mythe que `LAWS-UX.md` réfute (Miller « 7 items », règle des 3 clics). La contrainte porte sur la **structure** (hiérarchie, divulgation, défauts), jamais sur un nombre magique.
-- **[non qualifié]** tout écran ou toute vue déclare **une décision principale**, et une seule. Tout le reste — choix secondaires, réglages, chemins alternatifs — lui est subordonné visuellement et structurellement. Le système l'applique déjà localement (primary unique de `BUTTON`, une décision par étape du `FORM` multi-step) ; l'obligation devient ici celle de **l'écran assemblé**, pas seulement du composant.
-- **[non qualifié]** le nombre de choix simultanés se justifie par le besoin de la décision présente, jamais par l'espace disponible. Un conteneur large peut révéler du contenu secondaire (cf. `adaptive`, divulgation par l'espace) — il n'autorise pas des décisions nouvelles.
-- **[non qualifié]** par défaut, une interface montre ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail se révèlent **sur demande explicite**. La cause est ici la complexité — distincte de la divulgation par l'espace, qui appartient à `adaptive` et répond à la largeur du conteneur.
-- **[non qualifié]** réduire n'est pas enfouir — une fonction essentielle reste découvrable sans connaissance préalable. La tension Hick ↔ découvrabilité (cf. LAWS) ne se tranche pas par principe : au doute, remonter.
-- **[non qualifié]** tout choix qui admet une réponse majoritaire sensée porte un **défaut** ; l'utilisateur corrige un défaut plutôt qu'il ne construit une réponse à vide. C'est la forme la plus directe d'absorption de complexité par le système (Tesler, cf. LAWS § 2) — et la plus puissante : la plupart des utilisateurs ne changent jamais un défaut (NN/g), ce qui en fait une responsabilité autant qu'un levier.
-- **[non qualifié]** un défaut se distingue toujours d'une valeur saisie — l'utilisateur sait ce qu'il a choisi et ce qui a été choisi pour lui. La mécanique (placeholder ≠ valeur, pré-remplissage annoncé) appartient à `INPUT`.
-- **[non qualifié]** une action **réversible** s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La **confirmation bloquante** est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible).
-- **[non qualifié]** l'irréversible **se déclare avant** l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à `BUTTON` ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici.
-- **[non qualifié]** **quitter n'est pas perdre** — une saisie en cours survit à la navigation, à l'interruption et à l'expiration quand c'est techniquement possible (propriétaires : `FORM` autosave ; `accessibility` pour les limites de temps).
-- **[non qualifié]** ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est **re-présenté là où la décision se prend**. Mécaniques propriétaires déjà en place : ask-once et récapitulation (`FORM` multi-step), helper persistant plutôt qu'aide qui disparaît (`INPUT`).
-- **[non qualifié]** l'interface **montre l'état** plutôt qu'elle ne le fait mémoriser — où j'en suis, ce qui est fait, ce qui reste (progression du `FORM` multi-step, statut d'autosave).
-- **[non qualifié]** une information critique (erreur, coût, sécurité, obligation légale) ne prend **jamais** la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier **promeut en RÈGLE** le trou que `LAWS-UX.md` signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (`ALERT` pour les tones, `VOICE` pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici.
-- **[non qualifié]** il ne possède **aucune mécanique** (table de renvois ci-dessous), ne fixe **aucun nombre**, et ne tranche **aucune tension** — il les rend visibles et l'arbitrage remonte, à la vitesse calibrée par les lignes CONFIANCE.
+- **[préférence]** Tout écran ou toute vue déclare une décision principale et une seule ; les choix secondaires, réglages et chemins alternatifs lui sont subordonnés visuellement et structurellement. `COGNITIVE-LOAD-R05`
+  - vérifiable : une seule décision principale déclarée par écran ou vue ; une seule action de rang primaire rendue
+- **[préférence]** Le nombre de choix simultanés se justifie par le besoin de la décision présente et jamais par la place disponible : un conteneur plus large peut révéler du contenu secondaire, il n'autorise aucune décision nouvelle. `COGNITIVE-LOAD-R06`
+  - vérifiable : aucune décision nouvelle introduite par un palier de largeur ; les paliers ne font varier que la révélation de contenu
+- **[loi]** Une interface montre par défaut ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail ne se révèlent que sur demande explicite de l'utilisateur. `COGNITIVE-LOAD-R07`
+  - vérifiable : aucun contenu classé avancé ou rare n'est rendu à l'état initial de la vue
+  - source : https://www.nngroup.com/articles/progressive-disclosure/
+- **[préférence]** La divulgation progressive ne masque jamais une information nécessaire pour décider : un coût, un engagement, une obligation ou un risque est visible avant l'action qui engage. `COGNITIVE-LOAD-R08`
+  - vérifiable : toute information de coût, d'engagement, d'obligation ou de risque est rendue dans la même vue que l'action qui engage, sans interaction de révélation préalable
+- **[préférence]** Une fonction essentielle reste découvrable sans connaissance préalable : réduire le nombre de choix visibles ne justifie jamais d'enfouir une fonction, et le doute se remonte au lieu de se trancher par principe. `COGNITIVE-LOAD-R09`
+- **[préférence]** Tout choix qui admet une réponse majoritaire sensée porte une valeur par défaut, afin que l'utilisateur corrige une proposition plutôt qu'il ne construise une réponse à vide. `COGNITIVE-LOAD-R10`
+  - vérifiable : tout champ ou réglage dont une réponse majoritaire est identifiée expose une valeur par défaut
+- **[loi]** Aucune valeur par défaut n'engage l'utilisateur à son insu : consentement, achat, abonnement et partage ne sont jamais pré-cochés, le consentement résultant toujours d'un acte positif de l'utilisateur. `COGNITIVE-LOAD-R11`
+  - vérifiable : aucune case de consentement, d'achat, d'abonnement ou de partage n'est cochée à l'état initial
+- **[loi]** Une valeur par défaut se distingue toujours d'une valeur saisie par l'utilisateur : le pré-remplissage est annoncé et un texte indicatif ne tient jamais lieu de valeur. `COGNITIVE-LOAD-R12`
+  - vérifiable : tout champ pré-rempli porte une indication de pré-remplissage ; aucune valeur portée par le seul texte indicatif
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html
+- **[préférence]** Une action réversible s'exécute immédiatement et offre un chemin d'annulation visible pendant un délai raisonnable ; la confirmation bloquante est réservée à l'action irréversible ou coûteuse à défaire. `COGNITIVE-LOAD-R13`
+  - vérifiable : aucune confirmation bloquante sur une action réversible ; toute action réversible expose une commande d'annulation visible
+- **[loi]** Une action irréversible déclare avant son exécution ce qu'elle détruit, sa portée et l'absence de retour ; à défaut d'être réversible, elle est vérifiée et confirmée avant d'être finalisée. `COGNITIVE-LOAD-R14`
+  - vérifiable : toute action qui engage juridiquement, engage financièrement ou détruit des données est réversible, vérifiée, ou confirmée avant finalisation
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html
+- **[loi]** Une saisie en cours survit à la navigation, à l'interruption et à l'expiration : quand la conservation n'est pas garantie, l'utilisateur est averti de la durée d'inactivité qui entraînerait la perte, et toute limite de temps reste ajustable. `COGNITIVE-LOAD-R15`
+  - vérifiable : données conservées au-delà de 20 heures d'inactivité, ou avertissement explicite de la durée entraînant la perte ; toute limite de temps désactivable, ajustable ou prolongeable
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
+- **[préférence]** Une commande d'annulation n'est affichée que si l'annulation est techniquement garantie ; à défaut, le système demande une confirmation honnête plutôt que de proposer une annulation fictive. `COGNITIVE-LOAD-R16`
+  - vérifiable : toute commande d'annulation exposée est adossée à une opération d'annulation effective
+- **[loi]** Aucune information nécessaire à une décision n'est à retenir d'un écran à l'autre : le contexte requis est re-présenté là où la décision se prend. `COGNITIVE-LOAD-R17`
+  - vérifiable : toute donnée nécessaire à une étape est affichée dans cette étape, sans dépendance à la mémorisation d'un écran précédent
+  - source : https://www.nngroup.com/articles/ten-usability-heuristics/
+- **[loi]** L'interface montre l'état plutôt qu'elle ne le fait mémoriser : où l'utilisateur en est, ce qui est fait et ce qui reste sont visibles à tout moment. `COGNITIVE-LOAD-R18`
+  - vérifiable : tout parcours à plusieurs étapes affiche l'étape courante, les étapes faites et les étapes restantes
+  - source : https://www.nngroup.com/articles/ten-usability-heuristics/
+- **[préférence]** Une information critique — erreur, coût, sécurité, obligation légale — ne prend jamais la forme d'un élément décoratif ou promotionnel, sous peine d'être filtrée avant lecture. `COGNITIVE-LOAD-R19`
+  - vérifiable : aucun message critique rendu avec les styles, placements ou composants réservés au contenu promotionnel ou décoratif

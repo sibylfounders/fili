@@ -37,9 +37,21 @@ def traite(chemin, prefixe, lettre_ref, simulation=False):
         if l.startswith("## "):
             dans_biblio = l.lower().startswith("## sources")
         # 1. numérotation des règles
-        if l.startswith("RÈGLE ") and not re.match(r"^RÈGLE \[", l):
+        if l.startswith("RÈGLE") and not re.match(r"^RÈGLE \[", l):
             n_regle += 1
-            l = re.sub(r"^RÈGLE\s*:", f"RÈGLE [{prefixe}{n_regle:02d}] :", l, count=1)
+            # variantes rencontrées dans le corpus : « RÈGLE : », « RÈGLE — … : »,
+            # « RÈGLE (**modal**) : », « RÈGLE INTERNE RENFORCÉE (frontière dure) : ».
+            # Le qualificatif est conservé entre parenthèses après l'identifiant.
+            m = re.match(r"^RÈGLE\b[ \t]*(?P<qual>[^:]{0,120}?)[ \t]*:[ \t]*", l)
+            if m:
+                qual = m.group("qual").lstrip("—-– ").strip()
+                tete = f"RÈGLE [{prefixe}{n_regle:02d}] : "
+                if qual:
+                    tete += f"({qual}) "
+                l = tete + l[m.end():]
+            else:
+                print(f"    ! ligne RÈGLE sans deux-points, identifiant {prefixe}{n_regle:02d} réservé mais non posé :")
+                print(f"      {l[:90]}")
         elif re.match(r"^RÈGLE \[", l):
             n_regle += 1
         # 2. référencement de la bibliographie

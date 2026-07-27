@@ -4,8 +4,8 @@ nature: languages
 resume: "Ce langage définit ce qu'un **geste** a le droit de faire."
 selon-contexte: [motion, touch]
 source: GESTURE-UX.md v1.0.0 + GESTURE-UI.md v1.0.0
-empreinte: sha256:be5398d9f4e67a2d
-regles: {loi: 0, preference: 0, non_qualifie: 26}
+empreinte: sha256:42a6248dd566feea
+regles: {loi: 14, preference: 11, non_qualifie: 0}
 ---
 # RULES — gesture (compilé, mode audit)
 
@@ -19,19 +19,42 @@ regles: {loi: 0, preference: 0, non_qualifie: 26}
 
 ## Règles de design
 
-- **[non qualifié]** un geste n'a **ni forme ni état**. Là où un bouton montre qu'il est cliquable, un balayage
-- **[non qualifié]** **le geste est un raccourci, pas un substitut.** Il accélère pour qui le connaît ; il
-- **[non qualifié]** **tout geste à trajectoire (path-based) ou multipoint a une alternative à pointeur unique.**
-- **[non qualifié]** **tout glissement (drag) a une alternative sans glisser.** Réordonner, déplacer vers une
-- **[non qualifié]** **une fonction déclenchée par le mouvement de l'appareil** (secouer pour annuler, incliner)
-- **[non qualifié]** la **seule exception** est le geste **essentiel** — quand le tracé *est* la donnée
-- **[non qualifié]** un geste utile s'**annonce** — une poignée, un « peek » (un bord de contenu qui dépasse),
-- **[non qualifié]** on respecte le **geste standard de la plateforme** (balayer-pour-revenir iOS, tirer-pour-
-- **[non qualifié]** l'**aide au premier usage** (coach-mark, animation d'amorce) est **ponctuelle** et non
-- **[non qualifié]** un geste ne se déclenche qu'au-delà d'un **seuil franc** (distance ou durée) — sous le seuil,
-- **[non qualifié]** un geste est **annulable avant sa validation** : ramener puis relâcher hors de la zone
-- **[non qualifié]** le **retour d'accompagnement** pendant le geste (le contenu qui suit le doigt, un aperçu)
-- **[non qualifié]** toute fonction gestuelle est atteignable **au clavier** — le geste n'est jamais l'unique
-- **[non qualifié]** les **technologies d'assistance** capturent leurs propres gestes (lecteur d'écran) ; l'action
-- **[non qualifié]** l'alternative à pointeur unique **est** l'accès pour la **motricité réduite** — qui ne peut
-- **[non qualifié]** tout nouveau geste passe ces quatre questions :
+- **[loi]** Un geste ne possède ni forme ni état au repos : il n'est perceptible qu'une fois connu, ce qui impose qu'il soit à la fois annoncé par un indice perceptible et doublé par une alternative simple menant à la même fonction. `GESTURE-R01`
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html
+- **[préférence]** Un geste est un raccourci qui accélère une fonction déjà accessible par un autre chemin, et jamais le moyen exclusif de l'atteindre. `GESTURE-R02`
+  - vérifiable : aucune fonction du système n'est atteignable exclusivement par un geste
+- **[loi]** Toute fonction opérée par un geste multipoint ou à trajectoire est également opérable par un pointeur unique sans trajectoire, sauf lorsque le geste multipoint ou à trajectoire est essentiel. `GESTURE-R03`
+  - vérifiable : toute fonction accessible par un geste multipoint ou tracé l'est aussi par une action à pointeur unique sans tracé, hors cas essentiel déclaré
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html
+- **[loi]** Toute fonction opérée par un glissement est également réalisable par un pointeur unique sans glisser, sauf lorsque le glissement est essentiel ou que la fonction est fournie par l'agent utilisateur sans modification par l'auteur. `GESTURE-R04`
+  - vérifiable : toute fonction accessible par glissement l'est aussi par une action à pointeur unique sans glisser, hors cas essentiel déclaré
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
+- **[loi]** Toute fonction déclenchée par le mouvement de l'appareil ou de l'utilisateur dispose d'un contrôle d'interface équivalent et d'un moyen de désactiver la réponse au mouvement, sauf lorsque le mouvement passe par une interface prise en charge par l'accessibilité ou qu'il est essentiel à la fonction. `GESTURE-R05`
+  - vérifiable : toute fonction déclenchée par le mouvement expose un contrôle équivalent à l'écran et un réglage de désactivation
+  - source : https://www.w3.org/WAI/WCAG21/Understanding/motion-actuation.html
+- **[préférence]** La seule dispense d'alternative est le caractère essentiel du geste, quand le tracé constitue lui-même la donnée ; ce caractère se déclare explicitement au cas par cas et ne se présume jamais. `GESTURE-R06`
+  - vérifiable : toute fonction gestuelle livrée sans alternative porte une déclaration écrite de son caractère essentiel
+- **[loi]** Un geste est annoncé par un indice perceptible au repos — poignée, bord de contenu visible, chevron — ou par une instruction explicite : un geste sans indice ni instruction n'est pas découvrable et sa fonction reste ignorée. `GESTURE-R07`
+  - vérifiable : tout geste non standard porte un indice visuel persistant à l'état de repos ou une instruction textuelle accessible
+  - source : https://developer.apple.com/design/human-interface-guidelines/gestures
+- **[loi]** Les gestes réservés par la plateforme d'accueil sont respectés et jamais redéfinis : aucun geste applicatif ne se place dans une zone ou une direction dont le système d'exploitation ou l'agent utilisateur conserve la maîtrise. `GESTURE-R08`
+  - vérifiable : aucun geste applicatif défini dans une zone d'exclusion ou une direction réservée déclarée par la plateforme
+  - source : https://developer.apple.com/design/human-interface-guidelines/gestures
+- **[préférence]** L'aide au premier usage d'un geste est ponctuelle et non bloquante : elle ne se répète pas à chaque venue et ne s'interpose jamais entre la personne et la fonction. `GESTURE-R09`
+  - vérifiable : l'aide au premier usage s'affiche au plus une fois par utilisateur et se ferme sans conditionner l'accès à la fonction
+- **[loi]** Un geste ne s'engage qu'au-delà d'un seuil franc de distance ou de durée ; en deçà de ce seuil rien ne se produit et le défilement conserve la priorité. `GESTURE-R10`
+  - vérifiable : sous le seuil, aucun effet n'est déclenché et l'événement est rendu au défilement de l'agent utilisateur
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
+- **[loi]** L'effet d'un geste n'est acté qu'au franchissement du seuil suivi d'un relâchement dans la zone d'effet ; ramener le pointeur hors de cette zone avant de relâcher annule le geste sans conséquence. `GESTURE-R11`
+  - vérifiable : aucun effet exécuté sur l'événement de contact ; sortie de la zone d'effet avant relâchement = annulation sans effet
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/pointer-cancellation.html
+- **[préférence]** Le retour d'accompagnement pendant le geste est porté par des propriétés composables uniquement et se réduit lorsque l'utilisateur demande moins de mouvement, sans que la fonction du geste en soit jamais retirée. `GESTURE-R12`
+  - vérifiable : sous prefers-reduced-motion: reduce, le suivi animé est supprimé ou remplacé et la fonction du geste reste atteignable
+- **[loi]** Toute fonction exposée par un geste est également opérable au clavier, sauf lorsque la fonction sous-jacente exige une entrée dépendant du tracé du mouvement et pas seulement de ses extrémités. `GESTURE-R13`
+  - vérifiable : toute fonction gestuelle est déclenchable au clavier seul, hors cas de tracé essentiel déclaré
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
+- **[loi]** Les technologies d'assistance capturent les gestes tactiles pour leur propre navigation : toute fonction gestuelle reste donc exposée par un contrôle dont le nom et le rôle sont programmatiquement déterminables, et non par le seul geste brut. `GESTURE-R14`
+  - vérifiable : toute fonction gestuelle est atteignable par un contrôle exposant un nom et un rôle accessibles
+  - source : https://www.w3.org/TR/mobile-accessibility-mapping/
+- **[loi]** L'alternative à pointeur unique et l'alternative sans glisser constituent l'accès principal des personnes à motricité réduite, qui ne peuvent ni tracer un chemin précis ni maintenir un appui : ce ne sont pas des compléments de confort. `GESTURE-R15`
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html

@@ -4,8 +4,8 @@ nature: languages
 resume: "Ce fichier contient le raisonnement : quelle est la voix du produit, comment le ton s'adapte à l'utilisateur, pourquoi le mot est le canal d'information le plus fiable du système."
 selon-contexte: [alert, button, card, color, emotion, form, iconography, input, laws, motion, typography]
 source: VOICE-UX.md v1.3.1 + VOICE-UI.md v1.2.0
-empreinte: sha256:3f3758fc913d13bb
-regles: {loi: 0, preference: 0, non_qualifie: 43}
+empreinte: sha256:b030de4474fdcbc5
+regles: {loi: 25, preference: 10, non_qualifie: 0}
 ---
 # RULES — voice (compilé, mode audit)
 
@@ -19,25 +19,41 @@ regles: {loi: 0, preference: 0, non_qualifie: 43}
 
 ## Règles de design
 
-- **[non qualifié]** la voix est un **langage de contenu** — pas de variantes visuelles, pas d'assemblage, pas de token de valeur : une grammaire transversale sur tout ce que le produit *dit*. Elle se scinde en deux couches : le **principe de voix** (stable, ce fichier — ce qu'est le produit quand il parle) et le **lexique + les mécaniques** (changeants avec la marque ou le produit, `VOICE-UI.md` — les mots exacts, la casse, les formats). Une voix qui référence des principes survit à un changement de marque ; un texte qui code en dur ses tournures meurt avec lui.
-- **[non qualifié]** la voix porte **un quasi-axe** propre aux langages — le **ton varie selon l'état émotionnel de l'utilisateur** (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique **voix vs ton** : la voix est *constante* (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes.
-- **[non qualifié]** **le registre de ce produit est productif, pas expressif** — reprise littérale de MOTION-UX. Clarté, précision, sobriété ; pas d'humour d'apparat, pas de superlatif marketing, pas de sur-célébration. Le produit parle comme un collègue compétent et calme, pas comme une marque qui vend. Toute exception (surface marketing) se journalise et se cadre à part.
-- **[non qualifié]** **distinguer la contrainte du parti pris (1.1.0)** — comme MOTION. Les contraintes (ne jamais blâmer, texte de lien signifiant WCAG 2.4.4, jamais l'information par le style seul, plain language accessible) ne se négocient pas ; le registre « productif, pas expressif » est un **parti pris d'identité paramétrable** — une surface marketing assumée peut relever le registre sans toucher aux contraintes d'accessibilité et d'anti-blâme. **Lecture d'audit (pivot 2026-07-21)** : face à une interface tierce, ce parti pris se lit comme un **paramètre relevable, jamais comme un défaut** — un « Parfait ! » chez un hôte au registre expressif assumé est une *divergence de registre* à signaler à part, pas une non-conformité ; seules les contraintes fondent un constat.
-- **[non qualifié]** **`EMOTION-UX.md` est l'unique exception cadrée au registre productif, et ce langage l'autorise explicitement.** Jusqu'ici l'autorisation n'existait que du côté d'E-motion (« Autorité : RULES-voice.md ») sans être réciproquée ici — un agent qui charge Voice sans E-motion n'avait aucun moyen de le savoir. Sur les moments mérités du catalogue d'E-motion (réussite d'un envoi, première fois, cap franchi, sortie d'erreur, vide avec personnalité) — et seulement ceux-là — le microcopy de résolution peut se réchauffer d'un cran : un émoji ponctuel et une formulation plus chaleureuse deviennent possibles (« C'est parti ✈️ » plutôt que « Envoyé »). Voice ne redéfinit pas cette exception, il la borne : E-motion reste gouverné par son propre catalogue fermé et son budget de rareté.
-- **[non qualifié]** **l'exception ne s'étend jamais** à une erreur (utilisateur ou système), à une action destructive, ni à une action fréquente ou réflexe — ces cas restent strictement dans le registre productif (bannis : « Oups », emoji, « ! »). Une exception positive et rare n'est pas une porte vers l'expressif généralisé ; hors du catalogue d'E-motion, le § « Le ton suit l'utilisateur » ci-dessous fait seul autorité.
-- **[non qualifié]** **la règle cardinale de ce langage** — le texte est le **seul canal d'information qui survit à tout** : à la couleur coupée (daltonisme, forced-colors), au mouvement coupé (reduced-motion), à l'icône non comprise, au lecteur d'écran. Quand COLOR-UX dit « jamais la couleur seule », MOTION-UX « le mouvement n'informe jamais seul », ICONOGRAPHY-UX « jamais le dessin seul » — **le canal redondant qu'ils invoquent tous, c'est le mot.** Ce langage est donc le socle de la redondance de tout le système.
-- **[non qualifié]** **le texte de lien et de bouton se suffit hors contexte.** « Cliquez ici », « En savoir plus », « OK » échouent : un lecteur d'écran qui liste les liens de la page, ou un utilisateur qui scanne, ne voit pas le contexte autour. Le libellé dit *où il mène* ou *ce qu'il fait* (WCAG 2.4.4 ; renvoi BUTTON-UX § Wording : « un verbe qui décrit la conséquence bat un label générique »).
-- **[non qualifié]** **dire la chose la plus simple qui soit vraie.** Phrases courtes, voix active, un sujet par phrase, le mot courant plutôt que le mot savant. On écrit pour être compris du premier coup, pas pour paraître sérieux.
-- **[non qualifié]** **pas de jargon exposé à l'utilisateur.** Les termes techniques, codes d'erreur et sigles internes restent dans les logs et le support ; l'utilisateur lit une phrase humaine. Un acronyme inévitable se développe à sa première occurrence.
-- **[non qualifié]** **concision, mais pas au prix de la clarté.** On coupe les mots vides (« veuillez noter que », « afin de pouvoir »), pas l'information nécessaire. La concision sert la lisibilité (LAWS : Cognitive Load) ; elle ne justifie jamais de retirer le *pourquoi* ou le *comment corriger* d'un message.
-- **[non qualifié]** **la voix ne change pas, le ton s'ajuste à l'état émotionnel.** Table de correspondance — c'est la structure d'axes de ce langage :
-- **[non qualifié]** **ne jamais blâmer l'utilisateur — règle cardinale du ton.** L'erreur est une information, pas un reproche. On décrit l'écart et la correction (« Le format attendu est JJ/MM/AAAA »), on ne qualifie pas l'utilisateur (« saisie invalide », « vous n'avez pas rempli… »). Quand la faute est côté système, le produit la prend à son compte.
-- **[non qualifié]** **la voix est constante d'un écran à l'autre.** Pas de familiarité soudaine, pas de formalisme qui va et vient. Un utilisateur reconnaît le produit à sa manière de parler comme à ses couleurs (Gestalt/similarité, LAWS).
-- **[non qualifié]** **un concept = un mot, partout.** « Supprimer » ne devient pas « Effacer » puis « Retirer » selon l'écran. Le lexique contrôlé vit dans `VOICE-UI.md` ; le principe est ici — c'est la version écriture des registres étanches de COLOR (une couleur = un sens ; un mot = un sens).
-- **[non qualifié]** **le niveau de lecture reste bas par choix.** Plain language sert d'abord l'accessibilité cognitive (WCAG 3.1.5, AAA, vise un niveau collège) et les non-natifs. Aucun niveau chiffré n'est encore fixé pour ce produit — position explicite, pas oubli (cf. À approfondir).
-- **[non qualifié]** **écrire pour être traduisible, même monolingue.** Ne jamais **concaténer** des fragments de phrase par du code (l'ordre des mots change d'une langue à l'autre) ; ne pas coder la longueur en dur (certaines langues s'allongent ~30 %) — c'est un renvoi vers `measure` et vers la mécanique de troncature de VOICE-UI. Éviter les idiomes, l'humour et les jeux de mots qui ne franchissent pas les langues.
-- **[non qualifié]** **le mot descriptif porte l'accessibilité non visuelle** — texte alternatif utile (pas « image »), `aria-label` qui dit l'action, texte de lien signifiant. C'est la même exigence que la redondance de COLOR, côté lecteur d'écran.
-- **[non qualifié]** **le mot est le seul canal qui ne tombe jamais — il porte donc l'information, calmement, sans blâmer, dans un vocabulaire constant.** Voix stable, ton ajusté à l'utilisateur, clarté avant élégance.
+- **[loi]** La voix du produit reste constante d'une surface à l'autre tandis que le ton s'ajuste à l'état de la personne qui lit (routine, erreur, panne, succès, attente, destruction). `VOICE-R02`
+  - source : https://styleguide.mailchimp.com/voice-and-tone/
+- **[préférence]** Le registre du produit est productif et non expressif : clarté, précision et sobriété, sans humour d'apparat, superlatif marketing ni sur-célébration. `VOICE-R03`
+- **[préférence]** Le relèvement de registre ne s'étend jamais à une erreur, à une action destructive ni à une action fréquente ou réflexe : ces cas restent strictement productifs. `VOICE-R06`
+- **[loi]** Le texte est le canal d'information de dernier recours du système : toute information portée par la couleur, le mouvement ou la forme reste disponible en mots, car le mot survit à la couleur coupée, au mouvement coupé, à l'icône incomprise et au lecteur d'écran. `VOICE-R07`
+  - vérifiable : toute information portée par la couleur, le mouvement ou l'icône dispose d'un équivalent textuel
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
+- **[loi]** Le libellé d'un lien ou d'un bouton se comprend hors de son contexte : il nomme la destination ou la conséquence de l'action, jamais une formule générique. `VOICE-R08`
+  - vérifiable : aucun libellé de lien ou de bouton réduit à une formule générique (« cliquez ici », « en savoir plus », « OK »)
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html
+- **[loi]** L'écriture d'interface dit la chose la plus simple qui soit vraie : phrases courtes, voix active, un sujet par phrase, le mot courant plutôt que le mot savant. `VOICE-R09`
+  - source : https://www.nngroup.com/articles/plain-language-experts/
+- **[loi]** Aucun jargon technique, code d'erreur ni sigle interne n'est exposé à l'utilisateur, et un acronyme inévitable est développé à sa première occurrence. `VOICE-R10`
+  - source : https://www.nngroup.com/articles/error-message-guidelines/
+- **[loi]** La concision retire les mots vides et jamais l'information nécessaire : elle ne justifie pas de supprimer la cause d'un problème ni le moyen de le corriger. `VOICE-R11`
+  - source : https://www.nngroup.com/articles/plain-language-experts/
+- **[préférence]** Le système tient une table de correspondance entre l'état de la personne et le ton employé, qui fixe notamment un succès routinier bref et factuel, sans félicitation ni célébration. `VOICE-R12`
+- **[loi]** Un message d'erreur ne qualifie jamais la personne : il décrit en texte l'écart constaté et la correction attendue, et le produit prend à son compte les défaillances système. `VOICE-R13`
+  - vérifiable : toute erreur détectée est décrite en texte ; aucun message n'emploie de terme qualifiant la personne ou sa saisie (invalide, incorrect, illégal)
+  - source : https://www.nngroup.com/articles/error-message-guidelines/
+- **[loi]** La voix ne change pas d'un écran à l'autre : ni familiarité soudaine, ni formalisme intermittent. `VOICE-R14`
+  - source : https://styleguide.mailchimp.com/voice-and-tone/
+- **[loi]** Un concept est désigné par un seul mot dans toute l'interface, et ce mot ne désigne pas un autre concept ailleurs. `VOICE-R15`
+  - vérifiable : chaque concept du lexique n'apparaît que sous le mot retenu, à l'exclusion de ses synonymes écartés
+  - source : https://www.gov.uk/guidance/content-design/writing-for-gov-uk
+- **[loi]** Le niveau de lecture visé reste bas, au service de l'accessibilité cognitive et des personnes non natives ; aucun seuil chiffré n'est fixé à ce jour, et cette absence est une position assumée. `VOICE-R16`
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/reading-level.html
+- **[loi]** Le texte d'interface s'écrit traduisible : aucune phrase construite par concaténation de fragments à l'exécution, aucune longueur codée en dur, et pas d'idiome ni de jeu de mots qui ne franchisse pas les langues. `VOICE-R17`
+  - vérifiable : aucune chaîne d'interface assemblée par concaténation ; les variables passent par des paramètres nommés dans une chaîne complète
+  - source : https://www.w3.org/International/articles/article-text-size
+- **[loi]** Le mot descriptif porte l'accessibilité non visuelle — texte alternatif utile, nom accessible qui dit l'action, texte de lien signifiant — et le nom accessible d'un contrôle contient le texte visible de son libellé. `VOICE-R18`
+  - vérifiable : le nom accessible contient le texte visible du libellé
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
+- **[loi]** Le mot porte l'information quand les autres canaux tombent : il l'énonce sans blâmer, dans un vocabulaire constant, la clarté primant sur l'élégance. `VOICE-R20`
+  - source : https://www.nngroup.com/articles/error-message-guidelines/
 
 ## Non couvert — poser la question, ne rien trancher
 

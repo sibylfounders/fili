@@ -221,7 +221,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "par défaut, une interface montre ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail se révèlent <strong>sur demande explicite</strong>. La cause est ici la complexité — distincte de la divulgation par l'espace, qui appartient à <code>adaptive</code> et répond à la largeur du conteneur."
+       "html": "par défaut, une interface montre ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail se révèlent <strong>sur demande explicite</strong>. La cause est ici la complexité — distincte de la divulgation par l'espace, qui appartient à <code>adaptive</code> et répond à la largeur du conteneur.",
+       "id": "COGNITIVE-LOAD-R07"
       }
      ]
     },
@@ -251,11 +252,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "une action <strong>réversible</strong> s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La <strong>confirmation bloquante</strong> est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible)."
+       "html": "une action <strong>réversible</strong> s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La <strong>confirmation bloquante</strong> est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible).",
+       "id": "COGNITIVE-LOAD-R13"
       },
       {
        "tag": "Règle",
-       "html": "une information critique (erreur, coût, sécurité, obligation légale) ne prend <strong>jamais</strong> la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier <strong>promeut en RÈGLE</strong> le trou que <code>LAWS-UX.md</code> signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (<code>ALERT</code> pour les tones, <code>VOICE</code> pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici."
+       "html": "une information critique (erreur, coût, sécurité, obligation légale) ne prend <strong>jamais</strong> la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier <strong>promeut en RÈGLE</strong> le trou que <code>LAWS-UX.md</code> signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (<code>ALERT</code> pour les tones, <code>VOICE</code> pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici.",
+       "id": "COGNITIVE-LOAD-R19"
       }
      ]
     },
@@ -285,7 +288,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "réduire n'est pas enfouir — une fonction essentielle reste découvrable sans connaissance préalable. La tension Hick ↔ découvrabilité (cf. LAWS) ne se tranche pas par principe : au doute, remonter."
+       "html": "réduire n'est pas enfouir — une fonction essentielle reste découvrable sans connaissance préalable. La tension Hick ↔ découvrabilité (cf. LAWS) ne se tranche pas par principe : au doute, remonter.",
+       "id": "COGNITIVE-LOAD-R09"
       }
      ]
     },
@@ -315,7 +319,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>)."
+       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>).",
+       "id": "COGNITIVE-LOAD-R17"
       }
      ]
     }
@@ -352,7 +357,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "tout choix qui admet une réponse majoritaire sensée porte un <strong>défaut</strong> ; l'utilisateur corrige un défaut plutôt qu'il ne construit une réponse à vide. C'est la forme la plus directe d'absorption de complexité par le système (Tesler, cf. LAWS § 2) — et la plus puissante : la plupart des utilisateurs ne changent jamais un défaut (NN/g), ce qui en fait une responsabilité autant qu'un levier."
+       "html": "tout choix qui admet une réponse majoritaire sensée porte un <strong>défaut</strong> ; l'utilisateur corrige un défaut plutôt qu'il ne construit une réponse à vide. C'est la forme la plus directe d'absorption de complexité par le système (Tesler, cf. LAWS § 2) — et la plus puissante : la plupart des utilisateurs ne changent jamais un défaut (NN/g), ce qui en fait une responsabilité autant qu'un levier.",
+       "id": "COGNITIVE-LOAD-R10"
       }
      ]
     },
@@ -407,7 +413,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "un défaut se distingue toujours d'une valeur saisie — l'utilisateur sait ce qu'il a choisi et ce qui a été choisi pour lui. La mécanique (placeholder ≠ valeur, pré-remplissage annoncé) appartient à <code>INPUT</code>."
+       "html": "un défaut se distingue toujours d'une valeur saisie — l'utilisateur sait ce qu'il a choisi et ce qui a été choisi pour lui. La mécanique (placeholder ≠ valeur, pré-remplissage annoncé) appartient à <code>INPUT</code>.",
+       "id": "COGNITIVE-LOAD-R12"
       }
      ]
     },
@@ -469,7 +476,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "l'irréversible <strong>se déclare avant</strong> l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à <code>BUTTON</code> ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici."
+       "html": "l'irréversible <strong>se déclare avant</strong> l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à <code>BUTTON</code> ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici.",
+       "id": "COGNITIVE-LOAD-R14"
       }
      ]
     },
@@ -499,7 +507,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "l'irréversible <strong>se déclare avant</strong> l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à <code>BUTTON</code> ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici."
+       "html": "l'irréversible <strong>se déclare avant</strong> l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à <code>BUTTON</code> ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici.",
+       "id": "COGNITIVE-LOAD-R14"
       }
      ]
     },
@@ -529,7 +538,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "une action <strong>réversible</strong> s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La <strong>confirmation bloquante</strong> est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible)."
+       "html": "une action <strong>réversible</strong> s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La <strong>confirmation bloquante</strong> est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible).",
+       "id": "COGNITIVE-LOAD-R13"
       }
      ]
     },
@@ -559,7 +569,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>quitter n'est pas perdre</strong> — une saisie en cours survit à la navigation, à l'interruption et à l'expiration quand c'est techniquement possible (propriétaires : <code>FORM</code> autosave ; <code>accessibility</code> pour les limites de temps)."
+       "html": "<strong>quitter n'est pas perdre</strong> — une saisie en cours survit à la navigation, à l'interruption et à l'expiration quand c'est techniquement possible (propriétaires : <code>FORM</code> autosave ; <code>accessibility</code> pour les limites de temps).",
+       "id": "COGNITIVE-LOAD-R15"
       }
      ]
     },
@@ -621,7 +632,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>)."
+       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>).",
+       "id": "COGNITIVE-LOAD-R17"
       }
      ]
     },
@@ -676,7 +688,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>)."
+       "html": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est <strong>re-présenté là où la décision se prend</strong>. Mécaniques propriétaires déjà en place : ask-once et récapitulation (<code>FORM</code> multi-step), helper persistant plutôt qu'aide qui disparaît (<code>INPUT</code>).",
+       "id": "COGNITIVE-LOAD-R17"
       }
      ]
     },
@@ -763,7 +776,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "une information critique (erreur, coût, sécurité, obligation légale) ne prend <strong>jamais</strong> la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier <strong>promeut en RÈGLE</strong> le trou que <code>LAWS-UX.md</code> signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (<code>ALERT</code> pour les tones, <code>VOICE</code> pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici."
+       "html": "une information critique (erreur, coût, sécurité, obligation légale) ne prend <strong>jamais</strong> la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier <strong>promeut en RÈGLE</strong> le trou que <code>LAWS-UX.md</code> signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (<code>ALERT</code> pour les tones, <code>VOICE</code> pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici.",
+       "id": "COGNITIVE-LOAD-R19"
       }
      ]
     },
@@ -833,5 +847,868 @@
   "specimens": [],
   "tokens": []
  },
- "evolution": []
+ "evolution": [],
+ "decisions": [
+  {
+   "id": "COGNITIVE-LOAD-R01",
+   "couche": "ux",
+   "solution": "la charge cognitive est un **principe transversal** — ni variantes (composant), ni assemblage (pattern), ni token ; le modèle à axes ne s'applique pas. Comme `accessibility` : `companion: none` **sans** `audience: humans` — compilé vers `dist/RULES-cognitive-load.md` et **chargé d'office par le routeur pour toute intention** (socle universel, arbitré le 2026-07-21 ; le coût en tokens du socle est mesuré à chaque build dans RAPPORT-ROUTEUR).",
+   "enonce": "La charge cognitive est un principe transversal : elle n'a ni variantes de composant, ni assemblage de pattern, ni token propre, et elle est compilée en règles chargées d'office par le routeur pour toute intention, au titre de socle universel.",
+   "mesure": "un fichier de règles compilé existe pour le sujet et le routeur le charge pour 100 % des intentions",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R02",
+   "couche": "ux",
+   "solution": "**frontière avec `laws`** — les lois éclairent, ce principe contraint. `LAWS-UX.md` reste le seul endroit où une loi est énoncée, sourcée et bornée ; chaque règle ici **cite** sa loi sans la réécrire. Si une règle opérationnelle de ce fichier semble contredire la portée d'une loi du catalogue, le catalogue a raison sur la loi, ce fichier a raison sur l'obligation — et l'écart se remonte.",
+   "enonce": "Une loi UX n'est énoncée, sourcée et bornée que dans le catalogue des lois ; ce principe cite la loi sans la réécrire, le catalogue fait autorité sur la loi, le principe fait autorité sur l'obligation, et tout écart se remonte.",
+   "mesure": "aucune mention de loi dans ce fichier n'en redonne l'énoncé ; chacune renvoie au catalogue",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R03",
+   "couche": "ux",
+   "solution": "ce principe **ne fait pas autorité sur un comportement précis** — il pose l'obligation, le propriétaire pose la mécanique (`FORM` pour le multi-step, `BUTTON` pour le destructive, `INPUT` pour les défauts de saisie…). En cas de divergence, le propriétaire a raison. Même clause qu'`accessibility` : pas une source normative de substitution.",
+   "enonce": "Ce principe pose l'obligation et jamais la mécanique : en cas de divergence avec le composant, la fondation ou le flow propriétaire, le propriétaire fait autorité.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R04",
+   "couche": "ux",
+   "solution": "ce principe **ne quantifie aucun plafond**. Aucune règle ne dira « maximum N choix » — le plafond numérique est le mythe que `LAWS-UX.md` réfute (Miller « 7 items », règle des 3 clics). La contrainte porte sur la **structure** (hiérarchie, divulgation, défauts), jamais sur un nombre magique.",
+   "enonce": "Aucune règle de charge cognitive ne fixe de plafond numérique d'options, d'étapes ou de clics : la contrainte porte sur la structure — hiérarchie, divulgation, défauts — et jamais sur un nombre.",
+   "mesure": "aucune règle du sujet ne comporte de seuil numérique d'options, d'étapes ou de clics",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S9",
+     "affirmation": "La capacité pure de la mémoire à court terme est d'environ QUATRE chunks (fourchette 3 à 5), et non sept ; le « nombre magique sept » de Miller relevait selon Cowan d'un procédé rhétorique et d'estimations composites gonflées par la mémoire à long terme, la répétition et le chunking.",
+     "liens": [
+      {
+       "label": "Cowan, *The magical number 4 in short-term memory: A reconsideration of mental storage capacity*, Behavioral and Brain Sciences, 24, 2001, p. 87-185",
+       "url": "https://memory.psych.missouri.edu/assets/doc/articles/2001/cowan-bbs-2001.pdf"
+      }
+     ],
+     "confiance": "Établi — article cible de BBS, publication primaire vérifiée. AJOUT : aucune référence de mémoire de travail n'était sourcée ni dans ce fichier ni dans `LAWS-UX.md`."
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Le « 7 ± 2 » ne s'applique pas au nombre d'éléments d'une interface : un menu repose sur la reconnaissance et non sur la mémorisation, donc il n'est pas à limiter à sept entrées.",
+     "liens": [
+      {
+       "label": "NN/g — Short-Term Memory and Web Usability (Nielsen, 2009)",
+       "url": "https://www.nngroup.com/articles/short-term-memory-and-web-usability"
+      }
+     ],
+     "confiance": "Établi pour la réfutation de l'usage UI. ATTENTION : cet article continue lui-même d'avancer « environ 7 chunks » pour la mémoire à court terme et ne cite pas Cowan — il réfute l'application au menu, pas le chiffre. Le chiffre corrigé est en S9. Par ailleurs le lien Miller primaire retenu par `LAWS-UX.md` (psychclassics.yorku.ca/Miller/) est INACCESSIBLE (boucle de redirections) au 2026-07-27 : à remplacer."
+    }
+   ],
+   "principale": {
+    "ref": "S9",
+    "affirmation": "La capacité pure de la mémoire à court terme est d'environ QUATRE chunks (fourchette 3 à 5), et non sept ; le « nombre magique sept » de Miller relevait selon Cowan d'un procédé rhétorique et d'estimations composites gonflées par la mémoire à long terme, la répétition et le chunking.",
+    "liens": [
+     {
+      "label": "Cowan, *The magical number 4 in short-term memory: A reconsideration of mental storage capacity*, Behavioral and Brain Sciences, 24, 2001, p. 87-185",
+      "url": "https://memory.psych.missouri.edu/assets/doc/articles/2001/cowan-bbs-2001.pdf"
+     }
+    ],
+    "confiance": "Établi — article cible de BBS, publication primaire vérifiée. AJOUT : aucune référence de mémoire de travail n'était sourcée ni dans ce fichier ni dans `LAWS-UX.md`."
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R05",
+   "couche": "ux",
+   "solution": "tout écran ou toute vue déclare **une décision principale**, et une seule. Tout le reste — choix secondaires, réglages, chemins alternatifs — lui est subordonné visuellement et structurellement. Le système l'applique déjà localement (primary unique de `BUTTON`, une décision par étape du `FORM` multi-step) ; l'obligation devient ici celle de **l'écran assemblé**, pas seulement du composant.",
+   "enonce": "Tout écran ou toute vue déclare une décision principale et une seule ; les choix secondaires, réglages et chemins alternatifs lui sont subordonnés visuellement et structurellement.",
+   "mesure": "une seule décision principale déclarée par écran ou vue ; une seule action de rang primaire rendue",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "Une décision principale par page/moment — et regrouper quand la recherche le justifie",
+     "liens": [
+      {
+       "label": "GOV.UK Service Manual — Structuring forms",
+       "url": "https://www.gov.uk/service-manual/design/form-structure"
+      }
+     ],
+     "confiance": "Convergence — pattern documenté d'un système majeur, nuance d'origine incluse"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Loi de Hick : le temps de réaction de choix croît avec l'incertitude informationnelle des alternatives (gain d'information à débit approximativement constant).",
+     "liens": [
+      {
+       "label": "Hick, *On the Rate of Gain of Information*, Quarterly Journal of Experimental Psychology, 4(1), 1952, p. 11-26",
+       "url": "https://journals.sagepub.com/doi/10.1080/17470215208416600"
+      }
+     ],
+     "confiance": "Établi — publication primaire vérifiée. AJOUT : le fichier invoque Hick (R06, R09) sans référence propre, en déléguant à `LAWS-UX.md`, qui ne fournit pour Hick qu'un lien de vulgarisation (lawsofux.com). Portée réelle : temps de réaction en tâche de choix simple — l'extrapolation au nombre de décisions d'un écran n'est pas dans la source."
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "Une décision principale par page/moment — et regrouper quand la recherche le justifie",
+    "liens": [
+     {
+      "label": "GOV.UK Service Manual — Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure"
+     }
+    ],
+    "confiance": "Convergence — pattern documenté d'un système majeur, nuance d'origine incluse"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R06",
+   "couche": "ux",
+   "solution": "le nombre de choix simultanés se justifie par le besoin de la décision présente, jamais par l'espace disponible. Un conteneur large peut révéler du contenu secondaire (cf. `adaptive`, divulgation par l'espace) — il n'autorise pas des décisions nouvelles.",
+   "enonce": "Le nombre de choix simultanés se justifie par le besoin de la décision présente et jamais par la place disponible : un conteneur plus large peut révéler du contenu secondaire, il n'autorise aucune décision nouvelle.",
+   "mesure": "aucune décision nouvelle introduite par un palier de largeur ; les paliers ne font varier que la révélation de contenu",
+   "contre": "",
+   "probleme": "Hick — le temps de décision croît avec le nombre *et* la complexité des options (cf. LAWS § 2) ; « one thing per page » du GOV.UK Service Manual — « commencer par découper le formulaire en pages ne contenant qu'une seule chose », avec sa nuance d'origine : c'est la recherche utilisateur qui dit quand regrouper (usage interne intensif, allers-retours rapides entre tâches).",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "Une décision principale par page/moment — et regrouper quand la recherche le justifie",
+     "liens": [
+      {
+       "label": "GOV.UK Service Manual — Structuring forms",
+       "url": "https://www.gov.uk/service-manual/design/form-structure"
+      }
+     ],
+     "confiance": "Convergence — pattern documenté d'un système majeur, nuance d'origine incluse"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Loi de Hick : le temps de réaction de choix croît avec l'incertitude informationnelle des alternatives (gain d'information à débit approximativement constant).",
+     "liens": [
+      {
+       "label": "Hick, *On the Rate of Gain of Information*, Quarterly Journal of Experimental Psychology, 4(1), 1952, p. 11-26",
+       "url": "https://journals.sagepub.com/doi/10.1080/17470215208416600"
+      }
+     ],
+     "confiance": "Établi — publication primaire vérifiée. AJOUT : le fichier invoque Hick (R06, R09) sans référence propre, en déléguant à `LAWS-UX.md`, qui ne fournit pour Hick qu'un lien de vulgarisation (lawsofux.com). Portée réelle : temps de réaction en tâche de choix simple — l'extrapolation au nombre de décisions d'un écran n'est pas dans la source."
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "Une décision principale par page/moment — et regrouper quand la recherche le justifie",
+    "liens": [
+     {
+      "label": "GOV.UK Service Manual — Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure"
+     }
+    ],
+    "confiance": "Convergence — pattern documenté d'un système majeur, nuance d'origine incluse"
+   },
+   "confiance": "convergence — « one thing per page » est documenté par un système majeur et largement observé ; le découpage exact d'un parcours en « moments » reste un arbitrage par cas (voir Tensions : un émiettement mécanique déplace la complexité au lieu de la réduire — GOV.UK lui-même regroupe quand la recherche le justifie).",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R07",
+   "couche": "ux",
+   "solution": "par défaut, une interface montre ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail se révèlent **sur demande explicite**. La cause est ici la complexité — distincte de la divulgation par l'espace, qui appartient à `adaptive` et répond à la largeur du conteneur.",
+   "enonce": "Une interface montre par défaut ce qui est nécessaire à la décision présente ; l'avancé, le rare et le détail ne se révèlent que sur demande explicite de l'utilisateur.",
+   "mesure": "aucun contenu classé avancé ou rare n'est rendu à l'état initial de la vue",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Divulgation progressive : l'essentiel d'abord, le détail sur demande",
+     "liens": [
+      {
+       "label": "NN/g — Progressive Disclosure",
+       "url": "https://www.nngroup.com/articles/progressive-disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Divulgation progressive : l'essentiel d'abord, le détail sur demande",
+    "liens": [
+     {
+      "label": "NN/g — Progressive Disclosure",
+      "url": "https://www.nngroup.com/articles/progressive-disclosure/"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Détail avancé sur demande",
+     "famille": "Divulgation progressive"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R08",
+   "couche": "ux",
+   "solution": "(frontière dure) la divulgation **ne cache jamais** l'information nécessaire pour décider — un coût, un engagement, une obligation, un risque **se voient avant** l'action qui engage. C'est l'extension transversale du « ne révèle pas tardivement une information nécessaire » d'`adaptive`, et la ligne qui sépare la divulgation progressive de la dissimulation.",
+   "enonce": "La divulgation progressive ne masque jamais une information nécessaire pour décider : un coût, un engagement, une obligation ou un risque est visible avant l'action qui engage.",
+   "mesure": "toute information de coût, d'engagement, d'obligation ou de risque est rendue dans la même vue que l'action qui engage, sans interaction de révélation préalable",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S7",
+     "affirmation": "Frontières éthiques (dissimulation, pré-cochage, pression)",
+     "liens": [
+      {
+       "label": "Deceptive Patterns — Brignull",
+       "url": "https://www.deceptive.design/"
+      }
+     ],
+     "confiance": "Établi comme catalogue de référence"
+    },
+    {
+     "ref": "S2",
+     "affirmation": "Divulgation progressive : l'essentiel d'abord, le détail sur demande",
+     "liens": [
+      {
+       "label": "NN/g — Progressive Disclosure",
+       "url": "https://www.nngroup.com/articles/progressive-disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S7",
+    "affirmation": "Frontières éthiques (dissimulation, pré-cochage, pression)",
+    "liens": [
+     {
+      "label": "Deceptive Patterns — Brignull",
+      "url": "https://www.deceptive.design/"
+     }
+    ],
+    "confiance": "Établi comme catalogue de référence"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R09",
+   "couche": "ux",
+   "solution": "réduire n'est pas enfouir — une fonction essentielle reste découvrable sans connaissance préalable. La tension Hick ↔ découvrabilité (cf. LAWS) ne se tranche pas par principe : au doute, remonter.",
+   "enonce": "Une fonction essentielle reste découvrable sans connaissance préalable : réduire le nombre de choix visibles ne justifie jamais d'enfouir une fonction, et le doute se remonte au lieu de se trancher par principe.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+     "liens": [
+      {
+       "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+       "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      }
+     ],
+     "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Loi de Hick : le temps de réaction de choix croît avec l'incertitude informationnelle des alternatives (gain d'information à débit approximativement constant).",
+     "liens": [
+      {
+       "label": "Hick, *On the Rate of Gain of Information*, Quarterly Journal of Experimental Psychology, 4(1), 1952, p. 11-26",
+       "url": "https://journals.sagepub.com/doi/10.1080/17470215208416600"
+      }
+     ],
+     "confiance": "Établi — publication primaire vérifiée. AJOUT : le fichier invoque Hick (R06, R09) sans référence propre, en déléguant à `LAWS-UX.md`, qui ne fournit pour Hick qu'un lien de vulgarisation (lawsofux.com). Portée réelle : temps de réaction en tâche de choix simple — l'extrapolation au nombre de décisions d'un écran n'est pas dans la source."
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+    "liens": [
+     {
+      "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+     }
+    ],
+    "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+   },
+   "confiance": "établi — progressive disclosure documentée (NN/g). La frontière « jamais un coût caché » est une **règle interne renforcée** à portée éthique, convergente avec le corpus deceptive patterns (Brignull).",
+   "cas": [
+    {
+     "id": "cas-1-2",
+     "titre": "Fonction essentielle découvrable",
+     "famille": "Divulgation progressive"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R10",
+   "couche": "ux",
+   "solution": "tout choix qui admet une réponse majoritaire sensée porte un **défaut** ; l'utilisateur corrige un défaut plutôt qu'il ne construit une réponse à vide. C'est la forme la plus directe d'absorption de complexité par le système (Tesler, cf. LAWS § 2) — et la plus puissante : la plupart des utilisateurs ne changent jamais un défaut (NN/g), ce qui en fait une responsabilité autant qu'un levier.",
+   "enonce": "Tout choix qui admet une réponse majoritaire sensée porte une valeur par défaut, afin que l'utilisateur corrige une proposition plutôt qu'il ne construise une réponse à vide.",
+   "mesure": "tout champ ou réglage dont une réponse majoritaire est identifiée expose une valeur par défaut",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Les utilisateurs changent rarement les valeurs par défaut",
+     "liens": [
+      {
+       "label": "NN/g — The Power of Defaults",
+       "url": "https://www.nngroup.com/articles/the-power-of-defaults/"
+      }
+     ],
+     "confiance": "Établi (observation robuste)"
+    },
+    {
+     "ref": "S1",
+     "affirmation": "Charge extrinsèque = gaspillage ; le système absorbe la complexité",
+     "liens": [
+      {
+       "label": "Sweller (cognitive load theory) ; Tesler — via `LAWS-UX.md` (le catalogue fait autorité sur les lois)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi (théorie) ; transposition UI par convergence"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Les utilisateurs changent rarement les valeurs par défaut",
+    "liens": [
+     {
+      "label": "NN/g — The Power of Defaults",
+      "url": "https://www.nngroup.com/articles/the-power-of-defaults/"
+     }
+    ],
+    "confiance": "Établi (observation robuste)"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Choix avec réponse majoritaire",
+     "famille": "Défauts intelligents"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R11",
+   "couche": "ux",
+   "solution": "(frontière dure) un défaut **n'engage jamais à l'insu** — jamais de consentement, d'achat, d'abonnement ou de partage pré-coché. Le consentement est **actif** ; sa mécanique appartient à `FORM-sensitive-data` et au flow `creation-compte-consentement`, qui font autorité.",
+   "enonce": "Aucune valeur par défaut n'engage l'utilisateur à son insu : consentement, achat, abonnement et partage ne sont jamais pré-cochés, le consentement résultant toujours d'un acte positif de l'utilisateur.",
+   "mesure": "aucune case de consentement, d'achat, d'abonnement ou de partage n'est cochée à l'état initial",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "La case pré-cochée n'est pas un consentement",
+     "liens": [
+      {
+       "label": "RGPD art. 4(11) et 7 ; CJUE C-673/17 (Planet49, 2019)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — normatif"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "La case pré-cochée n'est pas un consentement",
+    "liens": [
+     {
+      "label": "RGPD art. 4(11) et 7 ; CJUE C-673/17 (Planet49, 2019)",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — normatif"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R12",
+   "couche": "ux",
+   "solution": "un défaut se distingue toujours d'une valeur saisie — l'utilisateur sait ce qu'il a choisi et ce qui a été choisi pour lui. La mécanique (placeholder ≠ valeur, pré-remplissage annoncé) appartient à `INPUT`.",
+   "enonce": "Une valeur par défaut se distingue toujours d'une valeur saisie par l'utilisateur : le pré-remplissage est annoncé et un texte indicatif ne tient jamais lieu de valeur.",
+   "mesure": "tout champ pré-rempli porte une indication de pré-remplissage ; aucune valeur portée par le seul texte indicatif",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S14",
+     "affirmation": "Des étiquettes ou des instructions sont fournies lorsque le contenu requiert une saisie de l'utilisateur.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.3.2 Labels or Instructions",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau A). AJOUT — ancrage normatif de R12 : une valeur pré-remplie non annoncée prive l'utilisateur de l'instruction requise. Ancrage INDIRECT : le critère ne nomme pas le pré-remplissage."
+    },
+    {
+     "ref": "S5",
+     "affirmation": "Les utilisateurs changent rarement les valeurs par défaut",
+     "liens": [
+      {
+       "label": "NN/g — The Power of Defaults",
+       "url": "https://www.nngroup.com/articles/the-power-of-defaults/"
+      }
+     ],
+     "confiance": "Établi (observation robuste)"
+    }
+   ],
+   "principale": {
+    "ref": "S14",
+    "affirmation": "Des étiquettes ou des instructions sont fournies lorsque le contenu requiert une saisie de l'utilisateur.",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 3.3.2 Labels or Instructions",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html"
+     }
+    ],
+    "confiance": "Établi, standard d'accessibilité (niveau A). AJOUT — ancrage normatif de R12 : une valeur pré-remplie non annoncée prive l'utilisateur de l'instruction requise. Ancrage INDIRECT : le critère ne nomme pas le pré-remplissage."
+   },
+   "confiance": "établi pour l'effet des défauts (NN/g, « The Power of Defaults » : les utilisateurs gardent massivement les valeurs proposées) ; établi **normativement** pour la frontière du consentement (RGPD ; CJUE C-673/17 « Planet49 » : la case pré-cochée n'est pas un consentement).",
+   "cas": [
+    {
+     "id": "cas-2-2",
+     "titre": "Défaut distinct d'une valeur saisie",
+     "famille": "Défauts intelligents"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R13",
+   "couche": "ux",
+   "solution": "une action **réversible** s'exécute immédiatement, avec un chemin d'annulation visible et un délai raisonnable. La **confirmation bloquante** est réservée à l'irréversible et au coûteux-à-défaire — la banaliser en détruit la valeur (fatigue de confirmation : cliquer « oui » devient un réflexe, et le garde-fou ne protège plus l'irréversible).",
+   "enonce": "Une action réversible s'exécute immédiatement et offre un chemin d'annulation visible pendant un délai raisonnable ; la confirmation bloquante est réservée à l'action irréversible ou coûteuse à défaire.",
+   "mesure": "aucune confirmation bloquante sur une action réversible ; toute action réversible expose une commande d'annulation visible",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+     "liens": [
+      {
+       "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+       "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      }
+     ],
+     "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+    },
+    {
+     "ref": "S18",
+     "affirmation": "Pour toute page entraînant un engagement juridique, une transaction financière, la modification ou la suppression de données contrôlées par l'utilisateur, la soumission est réversible, OU vérifiée avec possibilité de correction, OU confirmée par un mécanisme de revue avant finalisation.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.3.4 Error Prevention (Legal, Financial, Data)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau AA). AJOUT MAJEUR — c'est l'ancrage normatif direct de la doctrine réversibilité/confirmation (R13, R14), que le fichier ne fondait que sur une heuristique NN/g. Le critère valide la structure « réversible OU confirmé », pas la préférence pour l'undo, qui reste un parti pris."
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+    "liens": [
+     {
+      "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+     }
+    ],
+    "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Coût visible avant l'engagement",
+     "famille": "Divulgation progressive"
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Confirmation réservée à l'irréversible",
+     "famille": "Réversibilité"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R14",
+   "couche": "ux",
+   "solution": "l'irréversible **se déclare avant** l'exécution : ce que l'action détruit, sa portée, l'absence de retour. La mécanique destructive (styles, garde-fous, friction proportionnelle) appartient à `BUTTON` ; le cas DeleteButton reste OUVERT au journal et n'est pas tranché ici.",
+   "enonce": "Une action irréversible déclare avant son exécution ce qu'elle détruit, sa portée et l'absence de retour ; à défaut d'être réversible, elle est vérifiée et confirmée avant d'être finalisée.",
+   "mesure": "toute action qui engage juridiquement, engage financièrement ou détruit des données est réversible, vérifiée, ou confirmée avant finalisation",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S18",
+     "affirmation": "Pour toute page entraînant un engagement juridique, une transaction financière, la modification ou la suppression de données contrôlées par l'utilisateur, la soumission est réversible, OU vérifiée avec possibilité de correction, OU confirmée par un mécanisme de revue avant finalisation.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.3.4 Error Prevention (Legal, Financial, Data)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau AA). AJOUT MAJEUR — c'est l'ancrage normatif direct de la doctrine réversibilité/confirmation (R13, R14), que le fichier ne fondait que sur une heuristique NN/g. Le critère valide la structure « réversible OU confirmé », pas la préférence pour l'undo, qui reste un parti pris."
+    },
+    {
+     "ref": "S4",
+     "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+     "liens": [
+      {
+       "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+       "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      }
+     ],
+     "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+    }
+   ],
+   "principale": {
+    "ref": "S18",
+    "affirmation": "Pour toute page entraînant un engagement juridique, une transaction financière, la modification ou la suppression de données contrôlées par l'utilisateur, la soumission est réversible, OU vérifiée avec possibilité de correction, OU confirmée par un mécanisme de revue avant finalisation.",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 3.3.4 Error Prevention (Legal, Financial, Data)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html"
+     }
+    ],
+    "confiance": "Établi, standard d'accessibilité (niveau AA). AJOUT MAJEUR — c'est l'ancrage normatif direct de la doctrine réversibilité/confirmation (R13, R14), que le fichier ne fondait que sur une heuristique NN/g. Le critère valide la structure « réversible OU confirmé », pas la préférence pour l'undo, qui reste un parti pris."
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Action destructive déclarée avant",
+     "famille": "Réversibilité"
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Action réversible exécutée sans friction",
+     "famille": "Réversibilité"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R15",
+   "couche": "ux",
+   "solution": "**quitter n'est pas perdre** — une saisie en cours survit à la navigation, à l'interruption et à l'expiration quand c'est techniquement possible (propriétaires : `FORM` autosave ; `accessibility` pour les limites de temps).",
+   "enonce": "Une saisie en cours survit à la navigation, à l'interruption et à l'expiration : quand la conservation n'est pas garantie, l'utilisateur est averti de la durée d'inactivité qui entraînerait la perte, et toute limite de temps reste ajustable.",
+   "mesure": "données conservées au-delà de 20 heures d'inactivité, ou avertissement explicite de la durée entraînant la perte ; toute limite de temps désactivable, ajustable ou prolongeable",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S15",
+     "affirmation": "Toute limite de temps fixée par le contenu est désactivable, ajustable (jusqu'à dix fois la durée par défaut) ou prolongeable (avertissement puis au moins 20 secondes pour prolonger, au moins dix fois), hors exceptions temps réel, essentielle et au-delà de 20 heures.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.2.1 Timing Adjustable",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau A). AJOUT — ancre R15, que le fichier renvoyait à `accessibility` sans citer le critère."
+    },
+    {
+     "ref": "S19",
+     "affirmation": "Les utilisateurs sont avertis de la durée d'inactivité pouvant entraîner une perte de données, sauf si les données sont conservées plus de 20 heures en l'absence d'action.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.2.6 Timeouts",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/timeouts.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau AAA). AJOUT — donne à R15 (« quitter n'est pas perdre ») un seuil mesurable (20 heures) que le fichier n'avait pas."
+    }
+   ],
+   "principale": {
+    "ref": "S15",
+    "affirmation": "Toute limite de temps fixée par le contenu est désactivable, ajustable (jusqu'à dix fois la durée par défaut) ou prolongeable (avertissement puis au moins 20 secondes pour prolonger, au moins dix fois), hors exceptions temps réel, essentielle et au-delà de 20 heures.",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.2.1 Timing Adjustable",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html"
+     }
+    ],
+    "confiance": "Établi, standard d'accessibilité (niveau A). AJOUT — ancre R15, que le fichier renvoyait à `accessibility` sans citer le critère."
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-3",
+     "titre": "Saisie qui survit à l'interruption",
+     "famille": "Réversibilité"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R16",
+   "couche": "ux",
+   "solution": "(frontière dure) un « Annuler » affiché est une **promesse tenue** — si l'annulation n'est pas techniquement garantie, ne pas l'afficher ; une confirmation honnête vaut mieux qu'un undo fictif.",
+   "enonce": "Une commande d'annulation n'est affichée que si l'annulation est techniquement garantie ; à défaut, le système demande une confirmation honnête plutôt que de proposer une annulation fictive.",
+   "mesure": "toute commande d'annulation exposée est adossée à une opération d'annulation effective",
+   "contre": "",
+   "probleme": "« User control and freedom » (Nielsen, heuristique n°3) — l'utilisateur a besoin d'une sortie de secours clairement signalée ; l'undo encourage l'exploration là où la confirmation punit l'essai.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "établi pour l'heuristique et le pattern (undo largement observé en production : messageries, corbeilles) ; la répartition undo / confirmation par cas d'usage reste à éprouver composant par composant — premier terrain concret : le `TOAST` porteur d'une action d'annulation.",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R17",
+   "couche": "ux",
+   "solution": "ne jamais exiger de retenir une information d'un écran à l'autre — le contexte nécessaire est **re-présenté là où la décision se prend**. Mécaniques propriétaires déjà en place : ask-once et récapitulation (`FORM` multi-step), helper persistant plutôt qu'aide qui disparaît (`INPUT`).",
+   "enonce": "Aucune information nécessaire à une décision n'est à retenir d'un écran à l'autre : le contexte requis est re-présenté là où la décision se prend.",
+   "mesure": "toute donnée nécessaire à une étape est affichée dans cette étape, sans dépendance à la mémorisation d'un écran précédent",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+     "liens": [
+      {
+       "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+       "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      }
+     ],
+     "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "La capacité pure de la mémoire à court terme est d'environ QUATRE chunks (fourchette 3 à 5), et non sept ; le « nombre magique sept » de Miller relevait selon Cowan d'un procédé rhétorique et d'estimations composites gonflées par la mémoire à long terme, la répétition et le chunking.",
+     "liens": [
+      {
+       "label": "Cowan, *The magical number 4 in short-term memory: A reconsideration of mental storage capacity*, Behavioral and Brain Sciences, 24, 2001, p. 87-185",
+       "url": "https://memory.psych.missouri.edu/assets/doc/articles/2001/cowan-bbs-2001.pdf"
+      }
+     ],
+     "confiance": "Établi — article cible de BBS, publication primaire vérifiée. AJOUT : aucune référence de mémoire de travail n'était sourcée ni dans ce fichier ni dans `LAWS-UX.md`."
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+    "liens": [
+     {
+      "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+     }
+    ],
+    "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-3",
+     "titre": "Information nécessaire jamais retardée",
+     "famille": "Divulgation progressive"
+    },
+    {
+     "id": "cas-4-0",
+     "titre": "Ne jamais redemander (ask-once)",
+     "famille": "Reconnaissance plutôt que rappel — l'écran intermédiaire"
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Aide persistante plutôt qu'éphémère",
+     "famille": "Reconnaissance plutôt que rappel — l'écran intermédiaire"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R18",
+   "couche": "ux",
+   "solution": "l'interface **montre l'état** plutôt qu'elle ne le fait mémoriser — où j'en suis, ce qui est fait, ce qui reste (progression du `FORM` multi-step, statut d'autosave).",
+   "enonce": "L'interface montre l'état plutôt qu'elle ne le fait mémoriser : où l'utilisateur en est, ce qui est fait et ce qui reste sont visibles à tout moment.",
+   "mesure": "tout parcours à plusieurs étapes affiche l'étape courante, les étapes faites et les étapes restantes",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+     "liens": [
+      {
+       "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+       "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+      }
+     ],
+     "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "User control and freedom (sortie de secours, undo) ; error prevention ; recognition rather than recall",
+    "liens": [
+     {
+      "label": "NN/g — 10 Usability Heuristics (n°3, 5, 6)",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/"
+     }
+    ],
+    "confiance": "Établi comme heuristiques de référence — pas des lois quantifiées"
+   },
+   "confiance": "établi — « Recognition rather than recall » (Nielsen, heuristique n°6) ; Working Memory (cf. LAWS § 1). Cette section n'ajoute aucune mécanique : elle élève en obligation universelle ce que `FORM` et `INPUT` possèdent déjà.",
+   "cas": []
+  },
+  {
+   "id": "COGNITIVE-LOAD-R19",
+   "couche": "ux",
+   "solution": "une information critique (erreur, coût, sécurité, obligation légale) ne prend **jamais** la forme d'un élément décoratif ou promotionnel — ce qui ressemble à de la publicité est filtré avant lecture (banner blindness, cf. LAWS § Selective Attention). Ce fichier **promeut en RÈGLE** le trou que `LAWS-UX.md` signalait comme « candidate » dans son À approfondir. La forme du message reste chez ses propriétaires (`ALERT` pour les tones, `VOICE` pour le mot) ; l'interdit du déguisement est l'obligation transversale posée ici.",
+   "enonce": "Une information critique — erreur, coût, sécurité, obligation légale — ne prend jamais la forme d'un élément décoratif ou promotionnel, sous peine d'être filtrée avant lecture.",
+   "mesure": "aucun message critique rendu avec les styles, placements ou composants réservés au contenu promotionnel ou décoratif",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "Banner blindness / attention sélective",
+     "liens": [
+      {
+       "label": "NN/g — Banner Blindness",
+       "url": "https://www.nngroup.com/articles/banner-blindness-old-and-new-findings/"
+      }
+     ],
+     "confiance": "Établi (observation robuste)"
+    },
+    {
+     "ref": "S13",
+     "affirmation": "Des composants ayant la même fonctionnalité dans un ensemble de pages sont identifiés de manière cohérente.",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.2.4 Consistent Identification",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau AA). AJOUT — fonde normativement l'anti-camouflage (R19) : un même rôle garde une même identification."
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "Banner blindness / attention sélective",
+    "liens": [
+     {
+      "label": "NN/g — Banner Blindness",
+      "url": "https://www.nngroup.com/articles/banner-blindness-old-and-new-findings/"
+     }
+    ],
+    "confiance": "Établi (observation robuste)"
+   },
+   "confiance": "convergence — la banner blindness est documentée (NN/g) ; la formulation opérationnelle est une formalisation interne, première rédaction.",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Coût visible avant l'engagement",
+     "famille": "Divulgation progressive"
+    },
+    {
+     "id": "cas-5-0",
+     "titre": "Information critique jamais déguisée",
+     "famille": "Anti-camouflage"
+    }
+   ]
+  },
+  {
+   "id": "COGNITIVE-LOAD-R20",
+   "couche": "ux",
+   "solution": "il ne possède **aucune mécanique** (table de renvois ci-dessous), ne fixe **aucun nombre**, et ne tranche **aucune tension** — il les rend visibles et l'arbitrage remonte, à la vitesse calibrée par les lignes CONFIANCE.",
+   "enonce": "Ce principe ne possède aucune mécanique, ne fixe aucun nombre et ne tranche aucune tension : il rend les tensions visibles et fait remonter l'arbitrage à la vitesse calibrée par ses lignes de confiance.",
+   "mesure": "aucun token ni valeur définis dans le fichier ; chaque obligation renvoie à un propriétaire nommé",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "les fondements de chaque section sont établis ou convergents et cités depuis leur propriétaire théorique (`LAWS-UX.md`) ou leur source primaire ; aucune règle de ce fichier n'introduit de mécanique nouvelle. Les **règles internes renforcées** (coût jamais caché, jamais d'engagement pré-coché, undo = promesse tenue, anti-camouflage) sont identifiées comme telles. Toute obligation qui semble entrer en conflit avec une règle propriétaire : le propriétaire tranche — STOP, remonter si l'ambiguïté persiste.",
+   "cas": []
+  }
+ ]
 }

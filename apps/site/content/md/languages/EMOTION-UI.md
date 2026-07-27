@@ -66,8 +66,8 @@ La somme des trois actes ne dépasse jamais `motion.celebration`.
 - Référence d'application : le SubmitButton (voir sa doc composant) — complet sur les navigateurs récents, traînées via couleur de repli sans `color-mix`, focus via `:focus` sans `:focus-visible`, statique fonctionnel sans variables CSS.
 
 ## Sources et niveau de confiance (couche UI)
-| Affirmation | Source | Confiance |
-|---|---|---|
-| transform/opacity uniquement ; interruptible ; reduced-motion par couches | MOTION-UI.md (héritage direct) | Établi — hérité |
-| Courbe à overshoot pour le caractère expressif | Convention d'animation (« back »/spring easing), Material expressive, GSAP | Établi par convergence ; valeur exacte propre à ce système |
-| Anatomie en trois actes (anticipation / acte / résolution) | Principes d'animation (anticipation, follow-through) ; cadre interne | Émergent — gabarit interne, à éprouver par l'usage |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | transform/opacity uniquement ; interruptible ; reduced-motion par couches | MOTION-UI.md (héritage direct) | Établi — hérité |
+| T2 | Courbe à overshoot pour le caractère expressif | Convention d'animation (« back »/spring easing), Material expressive, GSAP | Établi par convergence ; valeur exacte propre à ce système |
+| T3 | Anatomie en trois actes (anticipation / acte / résolution) | Principes d'animation (anticipation, follow-through) ; cadre interne | Émergent — gabarit interne, à éprouver par l'usage |

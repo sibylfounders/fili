@@ -42,19 +42,39 @@ confidence: mixed
 
 ## Contrat des états
 
-RÈGLE : la présence au repos précède le feedback. Un hover ne sert pas à révéler une cible qui semblait
+RÈGLE [INTERACTION-U01] : la présence au repos précède le feedback. Un hover ne sert pas à révéler une cible qui semblait
+STATUT : propriété universelle
+SOURCE : T5, T9
+ÉNONCÉ : La présence au repos précède le retour visuel : le survol confirme une cible déjà reconnaissable et ne sert jamais à révéler une cible qui paraissait statique.
+MESURE : sous (hover: none), toute cible reste reconnaissable ; aucun style de survol n'est le seul signal d'existence d'une cible
 statique ; il confirme une cible déjà reconnaissable.
 
-RÈGLE : les transitions d'état utilisent `motion.fast` et `motion.ease-out`. Elles portent sur des
+RÈGLE [INTERACTION-U02] : les transitions d'état utilisent `motion.fast` et `motion.ease-out`. Elles portent sur des
+STATUT : implémentation de référence
+SOURCE : T4, T6
+ÉNONCÉ : Les transitions d'état utilisent la durée rapide et la courbe de sortie du système, portent sur des propriétés sobres, et deviennent instantanées sous préférence de mouvement réduit sans que le changement cesse d'être visible.
+MESURE : les transitions d'état n'emploient que motion.fast et motion.ease-out ; sous prefers-reduced-motion: reduce, la durée est nulle et le changement d'état reste visible
 propriétés sobres ; sous `prefers-reduced-motion`, le changement reste visible mais devient instantané.
 
-RÈGLE : l'état `active` peut réduire un décalage ou une ombre **déjà justifiée** pour donner une
+RÈGLE [INTERACTION-U03] : l'état `active` peut réduire un décalage ou une ombre **déjà justifiée** pour donner une
+STATUT : implémentation de référence
+SOURCE : T4
+ÉNONCÉ : L'état d'activation peut réduire un décalage ou une ombre déjà justifiée pour donner une sensation de pression ; il ne crée pas d'ombre de repos nouvelle et ne déplace jamais la mise en page.
+MESURE : l'état active ne déclare aucune propriété déclenchant un recalcul de layout et n'introduit aucune ombre absente à l'état de repos
 sensation de pression. Il ne crée pas une nouvelle ombre de repos et ne déplace jamais le layout.
 
-RÈGLE : le focus utilise la géométrie `border.focus-width` + `border.focus-offset`. Sa couleur est
+RÈGLE [INTERACTION-U04] : le focus utilise la géométrie `border.focus-width` + `border.focus-offset`. Sa couleur est
+STATUT : implémentation de référence
+SOURCE : T1, T7
+ÉNONCÉ : L'indicateur de focus est construit sur la géométrie de largeur et de décalage définie par la fondation de bordure, sa couleur appartient au composant propriétaire, et aucun effet tactile ne le remplace.
+MESURE : l'indicateur de focus est un outline dérivé de border.focus-width et border.focus-offset ; aucun composant ne supprime l'indicateur sans le remplacer
 définie par le composant propriétaire ; aucun effet tactile ne le remplace.
 
-RÈGLE : `disabled` conserve la forme et le rôle perceptibles. La baisse de contraste ne doit pas
+RÈGLE [INTERACTION-U05] : `disabled` conserve la forme et le rôle perceptibles. La baisse de contraste ne doit pas
+STATUT : parti pris d'identité
+SOURCE : T9, T4
+ÉNONCÉ : Un contrôle indisponible conserve une forme et un rôle perceptibles : la baisse de contraste ne va jamais jusqu'à faire disparaître la limite qui le distingue du contenu.
+MESURE : aucun état disabled ne supprime la bordure ou le fond qui délimite le contrôle
 faire disparaître la limite au point de confondre le contrôle avec le contenu.
 
 ## Composition autorisée
@@ -68,13 +88,25 @@ faire disparaître la limite au point de confondre le contrôle avec le contenu.
 
 ## Robustesse
 
-RÈGLE : sous `forced-colors`, les bordures, le focus et la sémantique native survivent même si les
+RÈGLE [INTERACTION-U06] : sous `forced-colors`, les bordures, le focus et la sémantique native survivent même si les
+STATUT : propriété universelle
+SOURCE : T8
+ÉNONCÉ : En mode de couleurs forcées, les bordures, l'indicateur de focus et la sémantique native survivent même lorsque les fonds, les ombres et les reflets sont neutralisés par le système.
+MESURE : sous forced-colors: active, chaque contrôle reste délimité par une bordure ou un outline recoloré par le système ; aucune identification ne repose sur box-shadow ni sur background-image
 fonds, ombres ou reflets sont neutralisés.
 
-RÈGLE : sous `(hover: none)`, aucune information ni action n'est masquée. Le style `:hover` est un
+RÈGLE [INTERACTION-U07] : sous `(hover: none)`, aucune information ni action n'est masquée. Le style `:hover` est un
+STATUT : propriété universelle
+SOURCE : T5, T10
+ÉNONCÉ : Sous un pointeur incapable de survoler, aucune information ni aucune action n'est masquée : le style de survol n'est qu'un renforcement facultatif.
+MESURE : sous (hover: none), aucune information ni action n'est inaccessible ; aucun contenu n'est déclenché uniquement par :hover
 renforcement facultatif.
 
-RÈGLE : une implémentation tactile n'intercepte pas les événements natifs du contrôle et respecte
+RÈGLE [INTERACTION-U08] : une implémentation tactile n'intercepte pas les événements natifs du contrôle et respecte
+STATUT : propriété universelle
+SOURCE : T11
+ÉNONCÉ : Une implémentation tactile n'intercepte pas les événements natifs du contrôle et respecte l'annulation du pointeur : l'action se déclenche au relâchement sur la cible, et sortir de la cible avant de relâcher l'annule.
+MESURE : aucun gestionnaire d'action sur pointerdown, mousedown ou touchstart ; l'action se déclenche au relâchement sur la cible
 l'annulation du pointeur documentée dans BUTTON-UX.
 
 ## Vérification par composant
@@ -86,9 +118,16 @@ l'annulation du pointeur documentée dans BUTTON-UX.
 
 ## Sources et niveau de confiance
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Focus visible et non masqué | [WCAG 2.2 — 2.4.7 Focus Visible](https://www.w3.org/TR/WCAG22/#focus-visible), [2.4.11 Focus Not Obscured](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum) | Établi |
-| Ne pas dépendre de la couleur seule | [WCAG 2.2 — 1.4.1 Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color) | Établi |
-| Utiliser les éléments natifs pour leur rôle | [WAI-ARIA Authoring Practices — No ARIA is better than bad ARIA](https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/) | Établi |
-| Matrice visuelle action/réceptacle/surface | Décision interne issue d'INTERACTION-UX.md | À éprouver |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Focus visible et non masqué | [WCAG 2.2 — 2.4.7 Focus Visible](https://www.w3.org/TR/WCAG22/#focus-visible), [2.4.11 Focus Not Obscured](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum) | Établi |
+| T2 | Ne pas dépendre de la couleur seule | [WCAG 2.2 — 1.4.1 Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color) | Établi |
+| T3 | Utiliser les éléments natifs pour leur rôle | [WAI-ARIA Authoring Practices — No ARIA is better than bad ARIA](https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/) | Établi |
+| T4 | Matrice visuelle action/réceptacle/surface | Décision interne issue d'INTERACTION-UX.md | À éprouver |
+| T5 | La caractéristique de média hover distingue un pointeur principal capable de survoler d'un pointeur qui en est incapable, ou pour lequel le survol est malcommode ; les styles de survol ne s'appliquent conditionnellement que dans le premier cas | [MDN — @media/hover](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover) | Établi, comportement plateforme documenté — fonde U01 et U07 |
+| T6 | La préférence de mouvement réduit demande la suppression, la réduction ou le remplacement des animations non essentielles, sans supprimer le changement d'état lui-même | [MDN — prefers-reduced-motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) | Établi, préférence utilisateur normalisée — fonde le second volet de U02 |
+| T7 | La pseudo-classe :focus-visible ne s'applique que lorsque l'agent utilisateur juge l'indicateur de focus nécessaire, ce qui la sépare de :focus et de :hover ; supprimer l'indicateur rend la navigation clavier inaccessible aux personnes voyantes, et l'indicateur doit atteindre 3:1 avec les couleurs voisines | [MDN — :focus-visible](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible) | Établi, spécification CSS documentée par MDN — fonde la géométrie et l'indépendance du focus dans U04 |
+| T8 | En mode de couleurs forcées, box-shadow et text-shadow sont forcés à néant et background-image non-url également, tandis que border-color et outline-color sont recolorés par le système : la bordure et l'anneau de focus survivent, l'ombre non | [MDN — @media (forced-colors)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors) | Établi, comportement plateforme normalisé — **source décisive de U06, qui l'affirmait sans la citer** |
+| T9 | L'information visuelle nécessaire pour identifier un composant d'interface et ses états atteint 3:1 avec les couleurs adjacentes ; les composants inactifs sont explicitement exemptés de cette exigence | [WCAG 2.2 — 1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) | Établi, standard (AA) — fonde U01 ; **l'exemption des composants inactifs montre que U05 est plus exigeant que la norme, donc un parti pris et non une obligation** |
+| T10 | Tout contenu additionnel déclenché au survol ou au focus doit pouvoir être écarté sans déplacer le pointeur ni le focus, rester survolable et persister jusqu'à ce que le déclencheur disparaisse ou que l'utilisateur l'écarte | [WCAG 2.2 — 1.4.13 Content on Hover or Focus](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html) | Établi, standard d'accessibilité (niveau AA) — complète U07 |
+| T11 | Pour toute fonctionnalité opérable par un pointeur unique, l'événement d'appui ne doit exécuter aucune partie de la fonction, ou bien l'exécution se fait au relâchement avec un moyen d'annuler avant achèvement ou d'annuler après, sauf lorsque l'exécution à l'appui est essentielle | [WCAG 2.2 — 2.5.2 Pointer Cancellation](https://www.w3.org/WAI/WCAG22/Understanding/pointer-cancellation.html) | Établi, standard d'accessibilité (niveau A) — **U08 déléguait cette obligation à BUTTON-UX ; c'est un critère normatif, pas une convention de composant** |
