@@ -1,10 +1,10 @@
 ---
 sujet: consentement
-nature: patterns
-resume: "Ce fichier n'est pas un composant."
+nature: flows
+resume: "Ce fichier n'est ni un composant ni un pattern d'écran."
 selon-contexte: [alert, border, button, color, creation-compte, form, grid, modal, navigation, overlay, performance, radius, spacing]
-source: CONSENTEMENT-UX.md v1.0.0 + CONSENTEMENT-UI.md v1.0.0
-empreinte: sha256:98efb81d42b7cf2d
+source: CONSENTEMENT-UX.md v1.1.0 + CONSENTEMENT-UI.md v1.1.0
+empreinte: sha256:d2aa2aa1b3ff3be1
 regles: {loi: 11, preference: 8, non_qualifie: 0}
 ---
 # RULES — consentement (compilé, mode audit)

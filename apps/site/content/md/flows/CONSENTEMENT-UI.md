@@ -1,8 +1,8 @@
 ---
 component: consentement
 layer: ui
-type: pattern
-version: 1.0.0 # 1.0.0 : première rédaction (2026-07-27), en même temps que CONSENTEMENT-UX.md. Aucun token neuf : le pattern consomme ALERT-UI, BUTTON-UI, COLOR-UI, SPACING-UI et GRID-UI. Cf. DECISIONS.md 2026-07-27.
+type: flow
+version: 1.1.0 # 1.1.0 : suit CONSENTEMENT-UX dans flows/ (2026-07-27). 1.0.0 : 1.0.0 : première rédaction (2026-07-27), en même temps que CONSENTEMENT-UX.md. Aucun token neuf : le pattern consomme ALERT-UI, BUTTON-UI, COLOR-UI, SPACING-UI et GRID-UI. Cf. DECISIONS.md 2026-07-27.
 last_updated: 2026-07-27
 companion: CONSENTEMENT-UX.md
 confidence: mixed

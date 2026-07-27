@@ -1,23 +1,23 @@
 ---
 component: consentement
 layer: ux
-type: pattern # une composition — le bandeau n'est qu'un porteur, la décision d'interrompre est le sujet
-version: 1.0.0 # 1.0.0 : naissance du sujet (2026-07-27). Déclencheur : l'audit externe Passion Courtage a rencontré un bandeau de consentement dont le texte déclarait lui-même n'utiliser que des traceurs techniques — donc exemptés — et dont le bouton « Refuser » ne refusait rien. La règle du poids visuel des deux actions vivait jusqu'ici dans BUTTON-UX (BUTTON-R76), mal rangée : elle est rapatriée ici. Cf. DECISIONS.md 2026-07-27.
+type: flow # une séquence dans le temps — constater, interrompre ou non, mémoriser, permettre le retour
+version: 1.1.0 # 1.1.0 : le sujet quitte patterns pour flows (2026-07-27). Il ne décrit pas une composition d'écran comme FORM ou NAVIGATION, mais une séquence qui se joue dans le temps et se mémorise six mois — la définition d'un flow, à côté de creation-compte. Emprunter des composants ne fait pas une composition. 1.0.0 : naissance du sujet (2026-07-27). Déclencheur : l'audit externe Passion Courtage a rencontré un bandeau de consentement dont le texte déclarait lui-même n'utiliser que des traceurs techniques — donc exemptés — et dont le bouton « Refuser » ne refusait rien. La règle du poids visuel des deux actions vivait jusqu'ici dans BUTTON-UX (BUTTON-R76), mal rangée : elle est rapatriée ici. Cf. DECISIONS.md 2026-07-27.
 last_updated: 2026-07-27
 companion: CONSENTEMENT-UI.md
 confidence: mixed
 ---
 
-# Consentement — Couche UX (pattern de composition)
+# Consentement — Couche UX (flow de parcours)
 
-> Ce fichier n'est pas un composant. Le bandeau de consentement n'a pas de matière propre :
+> Ce fichier n'est ni un composant ni un pattern d'écran. Le bandeau n'a pas de matière propre :
 > c'est un conteneur d'alerte (ALERT), parfois un superposé (OVERLAY), avec deux boutons
 > (BUTTON). Ce qui appartient à ce sujet, et à lui seul, c'est **la décision d'interrompre**
 > et **la symétrie du choix proposé**. Le reste est emprunté.
 
 ## Note de transposition (à lire en premier)
 
-RÈGLE [CONSENTEMENT-R01] : ce sujet ne définit aucun objet visuel nouveau. Il définit une séquence : constater un besoin, interrompre ou non, proposer deux issues équivalentes, mémoriser, permettre le retour.
+RÈGLE [CONSENTEMENT-R01] : ce sujet ne définit aucun objet visuel nouveau. Il définit un parcours : constater un besoin, interrompre ou non, proposer deux issues équivalentes, mémoriser, permettre le retour.
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : Ce document décrit une séquence de décision, non un composant ; les tokens et les états visuels appartiennent aux sujets empruntés (ALERT, BUTTON, OVERLAY).

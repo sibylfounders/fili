@@ -636,7 +636,7 @@ SOURCE : interne
 
 ### Dans une bannière (cookies/consentement ou promotionnelle)
 
-RÈGLE [BUTTON-R76] : consentement — **autorité cédée à `CONSENTEMENT-UX` le 2026-07-27**. La symétrie de poids visuel entre l'acceptation et le refus n'est pas une règle du bouton : c'est une contrainte du pattern de consentement, qui s'impose au bouton. Elle est désormais portée par `CONSENTEMENT-R08` (UX) et `CONSENTEMENT-UI-R02` (tokens).
+RÈGLE [BUTTON-R76] : consentement — **autorité cédée à `CONSENTEMENT-UX` le 2026-07-27**. La symétrie de poids visuel entre l'acceptation et le refus n'est pas une règle du bouton : c'est une contrainte du flow de consentement, qui s'impose au bouton. Elle est désormais portée par `CONSENTEMENT-R08` (UX) et `CONSENTEMENT-UI-R02` (tokens).
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : La règle de poids visuel équivalent des deux options d'un bandeau de consentement appartient à CONSENTEMENT-UX (R08) ; ce document n'en est plus le propriétaire.

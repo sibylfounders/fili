@@ -2,8 +2,8 @@
  "slug": "consentement",
  "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2.5\" y=\"14\" width=\"19\" height=\"6.5\" rx=\"1.5\"/><path d=\"M6 17.25h4M14 17.25h4\"/><path d=\"M12 3v7.5M12 10.5l-2.5-2.5M12 10.5l2.5-2.5\"/></svg>",
  "nom": "consentement",
- "nature": "Pattern",
- "meta": "UX v1.0.0 · UI v1.0.0 · mis à jour 2026-07-27 · confiance globale : mixte",
+ "nature": "Flow",
+ "meta": "UX v1.1.0 · UI v1.1.0 · mis à jour 2026-07-27 · confiance globale : mixte",
  "confiance": "mixte",
  "onglets": [
   {
@@ -646,6 +646,11 @@
  "evolution": [
   {
    "date": "2026-07-27",
+   "titre": "CONSENTEMENT quitte les patterns pour les flows",
+   "html": "<ul><li><strong>Pourquoi</strong> : un pattern est une composition d'écran — plusieurs éléments assemblés au même moment, comme FORM ou NAVIGATION. Le consentement n'est pas ça. C'est une séquence qui se joue dans le temps : constater ce que le site dépose, interrompre ou non, proposer deux issues, mémoriser six mois, permettre le retour sur le choix. La définition d'un flow, à côté de <code>creation-compte</code>.</li><li><strong>L'erreur d'origine</strong> : le sujet a été rangé en pattern parce qu'il emprunte alert, button et overlay. Mais emprunter des composants ne fait pas une composition — sinon tout sujet en serait une.</li><li><strong>Fichiers</strong> : <code>content/md/flows/CONSENTEMENT-UX.md</code> et <code>-UI.md</code> (1.1.0). Aucune règle modifiée, aucun identifiant changé : les constats d'audit déjà émis restent valides.</li></ul>"
+  },
+  {
+   "date": "2026-07-27",
    "titre": "CONSENTEMENT naît d'un audit externe : un bandeau qui déclarait lui-même n'avoir pas lieu d'être",
    "html": "<ul><li><strong>Fichiers</strong> : <code>CONSENTEMENT-UX.md</code> + <code>CONSENTEMENT-UI.md</code> (1.0.0, nouveaux) ; <code>inventaire-cas-usage-consentement.md</code> (34 cas) ; <code>doctrine/consentement.json</code> ; <code>BUTTON-UX.md</code> (R76 rapatriée).</li><li><strong>Déclencheur</strong> : l'audit externe d'un site de courtage a rencontré un bandeau dont le texte affirmait en gras « ce site utilise uniquement des cookies techniques, strictement nécessaires » — et qui demandait quand même l'autorisation de les poser. Vérification faite, le site ne posait aucun cookie : deux entrées de stockage local, la préférence de thème et la mémorisation de la réponse au bandeau lui-même. Toutes deux dans les catégories exemptées. « Refuser » ne refusait rien.</li><li><strong>Ce que le sujet corrige</strong> : la règle du poids visuel des deux actions vivait dans <code>BUTTON-UX</code> (R76), où personne ne va la chercher, et où la question qui la précède — <em>faut-il un bandeau ?</em> — n'avait pas de place. Une règle rangée au mauvais endroit est une règle qu'on n'applique pas.</li><li><strong>Frontière posée</strong> : le référentiel constate l'inventaire des stockages, il ne qualifie pas juridiquement. Un constat de ce type se remonte en « à trancher », jamais en « à corriger » — d'autant que la proposition européenne « Digital Omnibus » de novembre 2025 réécrit ces exemptions.</li><li><strong>Benchmark</strong> : 2 design systems sur 9 documentent ce pattern (GOV.UK et DSFR), tous deux publics. Les six systèmes de produit l'ignorent. Pas de convergence de marché à invoquer : nos règles s'appuient sur deux précédents et sur des textes de régulateurs.</li></ul>"
   }
@@ -654,7 +659,7 @@
   {
    "id": "CONSENTEMENT-R01",
    "couche": "ux",
-   "solution": "ce sujet ne définit aucun objet visuel nouveau. Il définit une séquence : constater un besoin, interrompre ou non, proposer deux issues équivalentes, mémoriser, permettre le retour.",
+   "solution": "ce sujet ne définit aucun objet visuel nouveau. Il définit un parcours : constater un besoin, interrompre ou non, proposer deux issues équivalentes, mémoriser, permettre le retour.",
    "enonce": "Ce document décrit une séquence de décision, non un composant ; les tokens et les états visuels appartiennent aux sujets empruntés (ALERT, BUTTON, OVERLAY).",
    "mesure": "",
    "contre": "",
