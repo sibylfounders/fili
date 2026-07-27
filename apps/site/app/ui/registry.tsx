@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
-  Nav, TableOfContents, SkipLink, Drawer, DeleteButton, SubmitButton, ThemeToggle,
+  Nav, TableOfContents, SkipLink, Drawer, Modal, Tabs, DeleteButton, SubmitButton, ThemeToggle,
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout,
   type SelectOption,
 } from "@sibyl/react";
@@ -106,6 +106,41 @@ const DrawerDemo: React.FC = () => {
     </>
   );
 };
+
+const ModalDemo: React.FC<{ size: "narrow" | "default"; scrim: boolean }> = ({ size, scrim }) => {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Button.Root onClick={() => setOpen(true)}>Ouvrir la modale</Button.Root>
+      <Modal open={open} onClose={() => setOpen(false)} size={size} dismissOnScrim={scrim}>
+        <Modal.Header kicker="01 · Rôle de bordure">Bordure délimitante</Modal.Header>
+        <Modal.Body>
+          <p className="m-0"><b className="text-text-primary">Quand ?</b> Un composant interactif n'a que sa bordure au repos.</p>
+          <p className="mt-sm"><b className="text-text-primary">Que faire ?</b> border-strong, 3:1 obligatoire (WCAG 1.4.11).</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button.Root style="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
+          <Button.Root onClick={() => setOpen(false)}>Compris</Button.Root>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+const TabsDemo: React.FC<{ variant: "line" | "pill"; activation: "auto" | "manual" }> = ({ variant, activation }) => (
+  <Tabs.Root defaultValue="essentiel" variant={variant} activation={activation} className="w-full gap-md">
+    <Tabs.List label="Volets de la fiche">
+      <Tabs.Tab value="essentiel">L'essentiel</Tabs.Tab>
+      <Tabs.Tab value="cas">Cas d'usage</Tabs.Tab>
+      <Tabs.Tab value="specs">Spécifications</Tabs.Tab>
+      <Tabs.Tab value="evolution">Évolution</Tabs.Tab>
+    </Tabs.List>
+    <Tabs.Panel value="essentiel"><p className="m-0 text-sm text-text-secondary">La décision de fond et les règles structurantes.</p></Tabs.Panel>
+    <Tabs.Panel value="cas"><p className="m-0 text-sm text-text-secondary">Les situations concrètes qui éprouvent la couverture.</p></Tabs.Panel>
+    <Tabs.Panel value="specs"><p className="m-0 text-sm text-text-secondary">États, tokens, spécimens.</p></Tabs.Panel>
+    <Tabs.Panel value="evolution"><p className="m-0 text-sm text-text-secondary">Les arbitrages datés.</p></Tabs.Panel>
+  </Tabs.Root>
+);
 
 const SITE_OPTS: SelectOption[] = [
   { value: "md", label: "Design System MD" },
@@ -332,6 +367,16 @@ export const GROUPS: Group[] = [
         code: () => `<Accordion type="multiple">\n  <Accordion.Item value="f"><Accordion.Header>…</Accordion.Header><Accordion.Panel>…</Accordion.Panel></Accordion.Item>\n</Accordion>`,
       },
       {
+        key: "tabs", name: "Tabs",
+        controls: [
+          { k: "variant", type: "seg", label: "Facture", opts: ["line", "pill"] },
+          { k: "activation", type: "seg", label: "Activation", opts: ["auto", "manual"] },
+        ],
+        initial: { variant: "line", activation: "auto" },
+        render: (s) => <TabsDemo variant={s.variant} activation={s.activation} />,
+        code: (s) => `<Tabs.Root defaultValue="essentiel"${s.variant === "pill" ? ' variant="pill"' : ""}${s.activation === "manual" ? ' activation="manual"' : ""}>\n  <Tabs.List label="…"><Tabs.Tab value="essentiel">L'essentiel</Tabs.Tab>…</Tabs.List>\n  <Tabs.Panel value="essentiel">…</Tabs.Panel>\n</Tabs.Root>`,
+      },
+      {
         key: "toc", name: "TableOfContents",
         render: () => (
           <TableOfContents items={[{ id: "s1", label: "Modal vs non-modal" }, { id: "s2", label: "Ordre d'empilement" }, { id: "s3", label: "Voile (scrim)" }]} />
@@ -351,6 +396,16 @@ export const GROUPS: Group[] = [
     label: "Overlays",
     items: [
       { key: "drawer", name: "Drawer", render: () => <DrawerDemo />, code: () => `<Drawer open={open} onClose={() => setOpen(false)} side="start" aria-label="…">…</Drawer>` },
+      {
+        key: "modal", name: "Modal",
+        controls: [
+          { k: "size", type: "seg", label: "Largeur", opts: ["narrow", "default"] },
+          { k: "scrim", type: "bool", label: "Clic sur le voile ferme" },
+        ],
+        initial: { size: "narrow", scrim: true },
+        render: (s) => <ModalDemo size={s.size} scrim={s.scrim} />,
+        code: (s) => `<Modal open={open} onClose={close} size="${s.size}"${s.scrim ? "" : " dismissOnScrim={false}"}>\n  <Modal.Header kicker="…">Titre</Modal.Header>\n  <Modal.Body>…</Modal.Body>\n  <Modal.Footer>…</Modal.Footer>\n</Modal>`,
+      },
     ],
   },
   {

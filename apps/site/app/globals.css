@@ -1,3 +1,4 @@
+@import "./doctrine-demo.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -71,70 +72,7 @@ body { margin: 0; }
    exact de la carte active en fond (z0). Voir apps/site/app/ui/card-group.tsx
    ══════════════════════════════════════════════════════════════════════════ */
 .blk-title{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--text-primary);margin:0 0 10px;}
-.cardgrp.solo{max-width:340px;}
-.cardgrp.solo.inline{max-width:none;width:100%;}
-.cardgrp{position:relative;display:grid;grid-template-columns:repeat(var(--grp-cols,2),minmax(0,1fr));width:100%;}
-.cardgrp.joined{gap:0;background:var(--background);border-radius:var(--radius-lg);overflow:hidden;}
-.cardgrp.sep{gap:8px;}
-.cardgrp.outlined.joined{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
-.cardgrp.outlined.sep>.cg-card{border:1px solid var(--border);}
-.cardgrp.sep>.cg-card{border-radius:var(--radius-lg);}
-@container atelier-preview (max-width:34rem){ .cardgrp{grid-template-columns:1fr;} }
-@container atelier-preview (max-width:46rem){ .cardgrp[style*="--grp-cols:3"]{grid-template-columns:repeat(2,minmax(0,1fr));} }
-@container atelier-preview (max-width:34rem){ .cardgrp[style*="--grp-cols:3"]{grid-template-columns:1fr;} }
-.cg-card{position:relative;min-width:0;display:flex;flex-direction:column;padding-bottom:16px;}
-.cg-card::before{content:"";position:absolute;inset:0;z-index:0;background:var(--background);border-radius:inherit;transition:background-color var(--duration-fast) var(--ease-out);}
-.cg-card--click,.cg-card--select{cursor:pointer;}
-.cg-card--click .cg-title a{color:inherit;text-decoration:none;}
-.cg-card--click .cg-title a::after{content:"";position:absolute;inset:0;}
-.cg-card--click .cg-actions{z-index:3;}
-.cardgrp.inline>.cg-card{container-type:inline-size;padding-bottom:0;}
-.cardgrp.inline>.cg-card>.cg-inner{display:flex;flex-direction:row;align-items:center;gap:12px;min-height:64px;padding-left:16px;width:100%;}
-.cardgrp.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
-.cg-hb{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);opacity:.7;pointer-events:none;z-index:1;transition:opacity var(--duration-fast) var(--ease-out);}
-.cg-hr{position:absolute;top:0;bottom:1px;right:0;width:1px;background:var(--border);opacity:.7;pointer-events:none;z-index:1;transition:opacity var(--duration-fast) var(--ease-out);}
-.cardgrp.sep .cg-hb,.cardgrp.sep .cg-hr,.cg-card.no-b .cg-hb,.cg-card.no-r .cg-hr{display:none;}
-.cg-card.hl-off-b .cg-hb,.cg-card.hl-off-r .cg-hr{opacity:0;}
-.cg-hl{position:absolute;left:0;top:0;width:0;height:0;background:var(--surface);opacity:0;pointer-events:none;z-index:1;border-radius:0;transition:transform var(--duration-fast) var(--ease-out),width var(--duration-fast) var(--ease-out),height var(--duration-fast) var(--ease-out),opacity var(--duration-fast) var(--ease-in);}
-.cardgrp.sep .cg-hl{border-radius:var(--radius-lg);}
-.cg-hl.on{opacity:1;transition:transform var(--duration-fast) var(--ease-out),width var(--duration-fast) var(--ease-out),height var(--duration-fast) var(--ease-out),opacity var(--duration-fast) var(--ease-out);}
-.cg-hl.teleport{transition:opacity var(--duration-fast) var(--ease-out);}
-@media(prefers-reduced-motion:reduce){.cg-hl,.cg-hl.on{transition:opacity var(--duration-fast) linear;}}
-.cg-head{padding:16px 16px 0;display:flex;flex-direction:column;align-items:flex-start;}
-.cg-head,.cg-text,.cg-chip,.cg-media--top,.cg-media--side{position:relative;z-index:2;}
-.cg-chip{display:flex;align-items:center;justify-content:flex-start;width:32px;height:32px;background:transparent;margin-bottom:8px;flex:none;}
-.cg-chip svg{width:22px;height:22px;}
-.cardgrp.inline>.cg-card>.cg-inner>.cg-chip{margin-bottom:0;align-self:center;}
-.cg-title{position:static;margin:0;font-size:14px;font-weight:var(--weight-medium);color:var(--text-primary);line-height:1.35;}
-.cg-desc{font-size:13px;color:var(--text-secondary);line-height:1.5;margin-top:3px;}
-.cg-text{display:flex;flex-direction:column;min-width:0;flex:1;padding:12px 0;}
-.cg-actions{position:relative;z-index:2;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:12px 16px 0;}
-.cardgrp.inline>.cg-card>.cg-inner>.cg-actions{margin-left:auto;padding:0 16px 0 0;flex-wrap:nowrap;flex:none;align-self:center;}
-.cg-media--top{display:block;position:relative;overflow:hidden;width:calc(100% - 32px);margin:16px 16px 0;height:0;padding-top:calc(56.25% - 18px);box-sizing:content-box;border-radius:6px;background:linear-gradient(135deg,var(--secondary),var(--info-subtle) 55%,var(--surface));}
-.cg-media--top img,.cg-media--side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.cg-media--side{position:relative;overflow:hidden;width:96px;min-height:64px;align-self:stretch;flex:none;border-radius:6px;background:linear-gradient(135deg,var(--secondary),var(--info-subtle) 55%,var(--surface));margin:8px 0 8px 8px;}
-.cardgrp.compact .cg-card{padding-bottom:12px;}
-.cardgrp.compact .cg-head{padding:12px 12px 0;}
-.cardgrp.compact .cg-actions{padding:8px 12px 0;gap:4px;}
-.cardgrp.compact .cg-media--top{width:calc(100% - 24px);margin:12px 12px 0;padding-top:calc(56.25% - 13.5px);}
-.cardgrp.compact .cg-chip{margin-bottom:6px;}
-.cardgrp.compact .cg-text{padding:8px 0;}
-.cardgrp.compact.inline>.cg-card>.cg-inner{min-height:56px;padding-left:12px;}
-.cardgrp.compact.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
-.cg-card.selected::after{content:"";position:absolute;inset:0;z-index:1;background:var(--secondary);box-shadow:inset 0 0 0 1px var(--primary);border-radius:inherit;pointer-events:none;}
-.cg-card.selected .cg-check{color:var(--primary);}
-.cardgrp.joined>.cg-card.c-tl{border-top-left-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-tr{border-top-right-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-bl{border-bottom-left-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-br{border-bottom-right-radius:calc(var(--radius-lg) - 1px);}
-.cg-lift{position:absolute;inset:0;z-index:0;border-radius:inherit;box-shadow:var(--elevation-raised);opacity:0;pointer-events:none;transition:opacity var(--duration-fast) var(--ease-out);}
-.cg-card--click:hover .cg-lift,.cg-card--select:hover .cg-lift{opacity:1;}
-.cardgrp.solo .cg-lift{display:none;}
-.cardgrp.solo .cg-card--click:hover::before,.cardgrp.solo .cg-card--select:hover::before{background:var(--surface);}
-@media(prefers-reduced-motion:reduce){.cg-lift{transition:none;}}
-.cg-card.selected .cg-title{font-weight:var(--weight-semibold);color:var(--primary);}
-.cg-check{display:none;position:absolute;top:10px;right:12px;z-index:2;width:16px;height:16px;color:var(--text-secondary);}
-.cg-card.selected .cg-check{display:block;}
+/* Le groupe de cartes vit désormais dans @sibyl/react (components/card-group). */
 /* skeleton — structure réelle, pulsation en opacité */
 .sk{display:inline-block;background:var(--surface-hover);border-radius:var(--radius-sm);animation:sk-pulse 1.4s var(--ease-in-out) infinite;flex:none;}
 @keyframes sk-pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
@@ -142,23 +80,99 @@ body { margin: 0; }
 .sk-col{display:flex;flex-direction:column;gap:8px;}
 .sk-row{display:flex;align-items:center;gap:10px;}
 
-/* Inline adaptatif : une rangée trop étroite se replie en empilé (selon SA largeur). */
-@container (max-width:22rem){
-  /* reflow inline → empilé : contenu ET média alignés sur le même retrait (comme une carte empilée) */
-  .cardgrp.inline>.cg-card>.cg-inner{flex-direction:column;align-items:stretch;gap:6px;padding:12px 16px;min-height:0;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-chip{align-self:flex-start;margin-bottom:0;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-actions{align-self:flex-start;margin-left:0;padding:8px 0 0;flex-wrap:wrap;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-media--side{width:100%;min-height:120px;margin:0 0 8px;}
-  .cardgrp.inline>.cg-card.has-img>.cg-inner{padding-left:16px;}
+/* ══════════════════════════════════════════════════════════════════════════
+   DOC-PROSE — typographie de la documentation rendue depuis le markdown
+   (Doctrine + Audit). Sobre, pilotée par les tokens ; aucune valeur en dur
+   hors rythme vertical. Tailwind preflight remet les titres à plat : ce bloc
+   redonne la hiérarchie du système.
+   ══════════════════════════════════════════════════════════════════════════ */
+.doc-prose { color: var(--text-primary); font-size: 15px; line-height: 1.65; max-width: 74ch; }
+.doc-prose > :first-child { margin-top: 0; }
+.doc-prose h1, .doc-prose h2, .doc-prose h3, .doc-prose h4, .doc-prose h5, .doc-prose h6 {
+  color: var(--text-primary); font-weight: var(--weight-semibold); line-height: 1.25; letter-spacing: -.01em;
+  scroll-margin-top: 72px;
+}
+.doc-prose h1 { font-size: 28px; margin: 40px 0 12px; }
+.doc-prose h2 { font-size: 21px; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.doc-prose h3 { font-size: 17px; margin: 28px 0 8px; }
+.doc-prose h4 { font-size: 15px; margin: 22px 0 6px; }
+.doc-prose h5, .doc-prose h6 { font-size: 14px; margin: 18px 0 6px; color: var(--text-secondary); }
+.doc-prose p { margin: 0 0 14px; }
+.doc-prose ul, .doc-prose ol { margin: 0 0 14px; padding-left: 22px; }
+.doc-prose li { margin: 4px 0; }
+.doc-prose li > ul, .doc-prose li > ol { margin: 4px 0; }
+.doc-prose a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+.doc-prose a:hover { color: var(--primary-hover); }
+.doc-prose strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
+.doc-prose code {
+  font-family: var(--font-mono); font-size: .875em; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .1em .35em;
+}
+.doc-prose pre {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 14px 16px; overflow-x: auto; margin: 0 0 16px;
+}
+.doc-prose pre code { background: none; border: 0; padding: 0; font-size: 13px; line-height: 1.6; }
+.doc-prose blockquote {
+  margin: 0 0 16px; padding: 2px 0 2px 16px; border-left: 3px solid var(--border);
+  color: var(--text-secondary);
+}
+.doc-prose blockquote p:last-child { margin-bottom: 0; }
+.doc-prose hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+.doc-prose table {
+  width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14px; display: block; overflow-x: auto;
+}
+.doc-prose th, .doc-prose td {
+  border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top;
+}
+.doc-prose th { background: var(--surface); font-weight: var(--weight-semibold); }
+.doc-prose img { max-width: 100%; height: auto; border-radius: var(--radius-md); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DOCTRINE — manifeste de fiche (bandeau « la question UX »), repris du site
+   DS-MD avec son animation (orbites + pilules qui flottent, emblème qui respire).
+   Re-câblé sur les tokens : bande `surface-inverse`, dégradé primary→accent.
+   Ajout maison : l'animation s'éteint sous prefers-reduced-motion (MOTION-UX).
+   ══════════════════════════════════════════════════════════════════════════ */
+.doctrine-manifeste {
+  position: relative; overflow: hidden; display: flex; align-items: center;
+  min-height: 280px; padding: var(--space-xl); border-radius: var(--radius-lg);
+  background: var(--surface-inverse); color: var(--text-inverse);
+}
+.dm-texte { position: relative; z-index: 2; width: min(64%, 680px); }
+.dm-kicker { margin: 0; font-family: var(--font-label); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.dm-question { margin: var(--space-sm) 0 0; font-size: var(--text-h3, 1.5rem); font-weight: 600; line-height: 1.25; letter-spacing: -.01em; }
+.dm-detail { margin: var(--space-sm) 0 0; font-size: 15px; line-height: 1.6; opacity: .78; }
+.dm-anim { position: absolute; z-index: 1; right: -35px; top: 50%; width: 430px; height: 430px; transform: translateY(-50%); opacity: .9; }
+.dm-orbite { position: absolute; inset: 45px; border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent); border-radius: 50%; }
+.dm-orbite-b { inset: 105px; border-color: color-mix(in srgb, var(--primary) 34%, transparent); }
+.dm-pilule {
+  position: absolute; width: 72px; height: 24px; border-radius: var(--radius-pill, 9999px);
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--primary) 42%, transparent);
+  animation: dmFlotte 7s var(--ease-in-out) infinite;
+}
+.dm-pilule-a { left: 45px; top: 176px; }
+.dm-pilule-b { right: 58px; top: 92px; animation-delay: -2.3s; transform: rotate(55deg) scale(.72); }
+.dm-pilule-c { right: 38px; bottom: 84px; animation-delay: -4.6s; transform: rotate(-32deg) scale(.52); opacity: .65; }
+.dm-icone {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: grid; place-items: center; width: 126px; height: 126px; border-radius: 36px;
+  background: color-mix(in srgb, var(--background) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--background) 14%, transparent);
+  animation: dmRespire 5s var(--ease-in-out) infinite;
+}
+.dm-icone svg { width: 76px; height: 76px; }
+@keyframes dmFlotte { 0%, 100% { translate: 0 0; } 35% { translate: 18px -24px; } 70% { translate: -12px 18px; } }
+@keyframes dmRespire { 0%, 100% { scale: 1; rotate: -2deg; } 50% { scale: 1.06; rotate: 2deg; } }
+@media (prefers-reduced-motion: reduce) { .dm-pilule, .dm-icone { animation: none; } }
+@container (max-width: 60rem) {
+  .doctrine-manifeste { padding: var(--space-lg); min-height: 0; }
+  .dm-texte { width: 100%; }
+  .dm-anim { opacity: .28; right: -180px; }
 }
 
-/* densité « spacious » (aéré) — plus d'espace blanc que comfortable */
-.cardgrp.spacious.stacked>.cg-card{padding-bottom:24px;}
-.cardgrp.spacious .cg-head{padding:24px 24px 0;}
-.cardgrp.spacious .cg-actions{padding:20px 24px 0;gap:10px;}
-.cardgrp.spacious .cg-chip{margin-bottom:14px;}
-.cardgrp.spacious .cg-text{padding:20px 0;}
-.cardgrp.spacious .cg-desc{margin-top:5px;}
-.cardgrp.spacious .cg-media--top{width:calc(100% - 48px);margin:24px 24px 0;}
-.cardgrp.spacious.inline>.cg-card>.cg-inner{min-height:76px;padding-left:24px;gap:16px;}
-.cardgrp.spacious.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
+/* Cible visée depuis une autre vue (une situation qui renvoie à sa règle) : un halo bref,
+   non chromatique au sens sémantique — c'est un repère de position, pas un état. */
+.cible-visee { box-shadow: 0 0 0 2px var(--accent); transition: box-shadow var(--duration-slow) var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .cible-visee { transition: none; } }

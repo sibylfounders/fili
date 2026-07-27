@@ -1,12 +1,12 @@
 "use client";
 import * as React from "react";
-import { Button, CompactButton } from "@sibyl/react";
+import { Button, CardGroup as Kit, CompactButton } from "@sibyl/react";
 import { CARD_IMGS } from "./card-imgs";
 
-/* ══ Card / Card group — transcription fidèle d'atelier.html (cgParts + wireOneGroup).
-   Cartes transparentes (z1) au-dessus d'un highlight de proximité (z0, rect exact),
-   filets internes par carte (mode joint), coins hérités du conteneur, sélection/clic,
-   densité, orientation, colonnes, skeleton. Les actions dogfoodent Button/CompactButton. ══ */
+/* ══ Démo « Card group » de l'atelier — pilote le VRAI composant du package
+   (`CardGroup` de @sibyl/react, promu le 2026-07-26). Ce fichier ne porte plus que
+   les données de démonstration, la traduction des réglages du playground et le
+   squelette de chargement. Les actions dogfoodent Button/CompactButton. ══ */
 
 export interface CardState {
   media: "icône" | "image" | "aucun" | string;
@@ -35,103 +35,9 @@ const DEMOS = [
   { t: "Thème vivant", d: "Clair/sombre et crans de rayon pilotés par les tokens.", ic: "couleur" },
 ];
 
-const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 const MORE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>';
 
 const H = (html: string) => ({ __html: html });
-
-/* ── comportements imperatifs (miroir de wireOneGroup) ── */
-export function useCardGroup(ref: React.RefObject<HTMLDivElement | null>, s: CardState, solo?: boolean) {
-  const dep = JSON.stringify(s) + (solo ? "|solo" : "");
-  React.useLayoutEffect(() => {
-    const grp = ref.current;
-    if (!grp) return;
-    const cards = Array.from(grp.querySelectorAll<HTMLElement>(".cg-card"));
-    if (!cards.length) return;
-    const cleanups: Array<() => void> = [];
-    const effCols = () => getComputedStyle(grp).gridTemplateColumns.split(" ").length;
-
-    const trim = () => {
-      const n = effCols();
-      const len = cards.length;
-      const lastRowStart = (Math.ceil(len / n) - 1) * n;
-      cards.forEach((c, i) => {
-        c.classList.toggle("no-r", (i + 1) % n === 0);
-        c.classList.toggle("no-b", i >= lastRowStart);
-        c.classList.toggle("c-tl", i === 0);
-        c.classList.toggle("c-tr", i === Math.min(n, len) - 1);
-        c.classList.toggle("c-bl", i === lastRowStart);
-        c.classList.toggle("c-br", i === len - 1 && (len % n === 0 || n === 1));
-      });
-    };
-    trim();
-    const ro = new ResizeObserver(trim);
-    ro.observe(grp);
-    cleanups.push(() => ro.disconnect());
-
-    if (s.mode === "clickable")
-      cards.forEach((c) => {
-        const a = c.querySelector<HTMLElement>(".cg-title a");
-        if (!a) return;
-        const h = (e: Event) => { if (!(e.target as HTMLElement).closest("a")) a.click(); };
-        c.addEventListener("click", h);
-        cleanups.push(() => c.removeEventListener("click", h));
-      });
-
-    if (s.mode === "selectable")
-      cards.forEach((c) => {
-        const toggle = () => {
-          const on = !c.classList.contains("selected");
-          c.classList.toggle("selected", on);
-          c.setAttribute("aria-pressed", on ? "true" : "false");
-        };
-        const onClick = (e: Event) => { if (!(e.target as HTMLElement).closest(".cg-actions")) toggle(); };
-        const onKey = (e: KeyboardEvent) => { if ((e.key === " " || e.key === "Enter") && e.target === c) { e.preventDefault(); toggle(); } };
-        c.addEventListener("click", onClick);
-        c.addEventListener("keydown", onKey as EventListener);
-        cleanups.push(() => { c.removeEventListener("click", onClick); c.removeEventListener("keydown", onKey as EventListener); });
-      });
-
-    if (grp.dataset.prox === "1") {
-      const hl = grp.querySelector<HTMLElement>(".cg-hl");
-      if (hl) {
-        let visible = false;
-        const clearAdj = () => cards.forEach((c) => c.classList.remove("hl-off-b", "hl-off-r"));
-        const place = (it: HTMLElement) => {
-          hl.classList.toggle("teleport", !visible);
-          hl.style.transform = `translate(${it.offsetLeft}px,${it.offsetTop}px)`;
-          hl.style.width = it.offsetWidth + "px";
-          hl.style.height = it.offsetHeight + "px";
-          if (!visible) { void hl.offsetWidth; hl.classList.add("on"); visible = true; }
-          const n = effCols();
-          const i = Number(it.dataset.i);
-          clearAdj();
-          it.classList.add("hl-off-b", "hl-off-r");
-          if (i % n > 0) cards[i - 1]?.classList.add("hl-off-r");
-          if (i - n >= 0) cards[i - n]?.classList.add("hl-off-b");
-        };
-        const nearest = (e: MouseEvent) => {
-          let best: HTMLElement | null = null, bd = Infinity;
-          for (const it of cards) {
-            if (bd === -1) break;
-            const r = it.getBoundingClientRect();
-            if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { best = it; bd = -1; break; }
-            const d = Math.hypot(e.clientX - (r.left + r.right) / 2, e.clientY - (r.top + r.bottom) / 2);
-            if (d < bd) { bd = d; best = it; }
-          }
-          return best;
-        };
-        const onMove = (e: MouseEvent) => { const it = nearest(e); if (it) place(it); };
-        const onLeave = () => { hl.classList.remove("on"); visible = false; clearAdj(); };
-        grp.addEventListener("mousemove", onMove);
-        grp.addEventListener("mouseleave", onLeave);
-        cleanups.push(() => { grp.removeEventListener("mousemove", onMove); grp.removeEventListener("mouseleave", onLeave); });
-      }
-    }
-    return () => cleanups.forEach((fn) => fn());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dep]);
-}
 
 /* ── skeleton (miroir de skCardItem) ── */
 const Sk = ({ w, h, r, style }: { w: string; h: string; r?: string; style?: React.CSSProperties }) => (
@@ -171,69 +77,55 @@ function SkItem({ s, inline }: { s: CardState; inline: boolean }) {
 }
 
 export function CardGroup({ s, solo }: { s: CardState; solo?: boolean }) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  useCardGroup(ref, s, solo);
   const inline = s.orientation === "inline";
-  const target = s.mode === "clickable" || s.mode === "selectable";
-  const cols = solo ? 1 : inline ? 1 : Number(s.cols);
+  const cols = (solo ? 1 : inline ? 1 : Number(s.cols)) as 1 | 2 | 3;
   const demos = solo ? [DEMOS[0]] : DEMOS;
+  const [choisies, setChoisies] = React.useState<Record<number, boolean>>({});
 
   if (s.skeleton) {
-    const grpCls = solo
-      ? `cardgrp sep outlined solo ${inline ? "inline" : "stacked"}`
-      : `cardgrp ${s.separated ? "sep" : "joined"} outlined ${inline ? "inline" : "stacked"}`;
+    const grpCls =
+      `cardgrp ${solo || s.separated ? "sep" : "joined"} outlined ${solo ? "solo " : ""}` +
+      `${s.density} ${inline ? "inline" : "stacked"}`;
     return (
-      <div ref={ref} className={grpCls} style={{ ["--grp-cols" as any]: cols }} data-prox="0" aria-busy="true">
+      <div className={grpCls} style={{ ["--grp-cols" as string]: cols } as React.CSSProperties} aria-busy="true">
         {demos.map((_, i) => <SkItem key={i} s={s} inline={inline} />)}
       </div>
     );
   }
 
-  const grpCls = solo
-    ? `cardgrp sep outlined solo ${s.density} ${inline ? "inline" : "stacked"}`
-    : `cardgrp ${s.separated ? "sep" : "joined"} outlined ${s.density} ${inline ? "inline" : "stacked"}`;
-
-  const Item = ({ c, i }: { c: (typeof DEMOS)[number]; i: number }) => {
-    const chip = s.media === "icône" ? <span className="cg-chip" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={H(NAV_ICONS[c.ic])} /></span> : null;
-    const imgTop = s.media === "image" && !inline ? <span className="cg-media--top" aria-hidden="true"><img src={CARD_IMGS[i % CARD_IMGS.length]} alt="" loading="lazy" /></span> : null;
-    const imgSide = s.media === "image" && inline ? <span className="cg-media--side" aria-hidden="true"><img src={CARD_IMGS[i % CARD_IMGS.length]} alt="" loading="lazy" /></span> : null;
-    const desc = s.description ? <p className="cg-desc">{c.d}</p> : null;
-    const title = s.mode === "clickable" ? <h4 className="cg-title"><a href="#" onClick={(e) => e.preventDefault()}>{c.t}</a></h4> : <h4 className="cg-title">{c.t}</h4>;
-    const check = s.mode === "selectable" ? <span className="cg-check" aria-hidden="true" dangerouslySetInnerHTML={H(CHECK)} /> : null;
-    const lift = target ? <span className="cg-lift" aria-hidden="true" /> : null;
-    const btns = s.buttons && s.mode !== "clickable" ? (
-      <div className="cg-actions">
-        <Button.Root style="stroke" tone="neutral" size="sm">Commencer</Button.Root>
-        <CompactButton style="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions"><span dangerouslySetInnerHTML={H(MORE)} /></CompactButton>
-      </div>
-    ) : null;
-    const modeCls = s.mode === "clickable" ? " cg-card--click" : s.mode === "selectable" ? " cg-card--select" : "";
-    const selAttrs = s.mode === "selectable"
-      ? ({ role: "button", tabIndex: 0, "aria-pressed": false } as const)
-      : ({ role: "listitem" } as const);
-    const body = inline ? (
-      <div className="cg-inner">{imgSide}{chip}<div className="cg-text">{title}{desc}</div>{btns}</div>
-    ) : (
-      <>{imgTop}<div className="cg-head">{chip}{title}{desc}</div>{btns}</>
-    );
-    return (
-      <div className={"cg-card" + modeCls + (s.media === "image" && inline ? " has-img" : "")} data-i={i} {...selAttrs}>
-        <span className="cg-hb" aria-hidden="true" /><span className="cg-hr" aria-hidden="true" />{lift}{check}{body}
-      </div>
-    );
-  };
-
   return (
-    <div
-      ref={ref}
-      className={grpCls}
-      style={{ ["--grp-cols" as any]: cols }}
-      data-prox={!solo && target ? "1" : "0"}
-      role={s.mode === "selectable" ? undefined : "list"}
+    <Kit
+      cols={cols}
+      solo={solo}
+      separated={s.separated}
+      density={s.density as "spacious" | "comfortable" | "compact"}
+      orientation={inline ? "inline" : "stacked"}
+      mode={s.mode as "static" | "clickable" | "selectable"}
+      label="Cartes de démonstration"
     >
-      {!solo ? <div className="cg-hl" aria-hidden="true" /> : null}
-      {demos.map((c, i) => <Item key={i} c={c} i={i} />)}
-    </div>
+      {demos.map((c, i) => (
+        <Kit.Card
+          key={i}
+          title={c.t}
+          description={s.description ? c.d : undefined}
+          href={s.mode === "clickable" ? "#" : undefined}
+          selected={!!choisies[i]}
+          onSelectedChange={(v) => setChoisies((p) => ({ ...p, [i]: v }))}
+          icon={s.media === "icône" ? <svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={H(NAV_ICONS[c.ic])} /> : undefined}
+          media={s.media === "image" ? <img src={CARD_IMGS[i % CARD_IMGS.length]} alt="" loading="lazy" /> : undefined}
+          actions={
+            s.buttons && s.mode !== "clickable" ? (
+              <>
+                <Button.Root style="stroke" tone="neutral" size="sm">Commencer</Button.Root>
+                <CompactButton style="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions">
+                  <span dangerouslySetInnerHTML={H(MORE)} />
+                </CompactButton>
+              </>
+            ) : undefined
+          }
+        />
+      ))}
+    </Kit>
   );
 }
 

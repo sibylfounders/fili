@@ -80,6 +80,7 @@ export function Shell({
   );
 
   // Colonne de droite : theming (au-dessus) puis playground de l'atelier (#section-tools).
+  // Doctrine n'en a pas besoin — c'est de la lecture, pas de l'essai : la section md n'a pas d'aside.
   const aside = (
     <div className="flex flex-col gap-md p-lg">
       <div className="flex items-baseline justify-between">
@@ -109,9 +110,15 @@ export function Shell({
         topbar={
           section === "audit"
             ? { breadcrumb: <span className="font-medium text-text-primary">{SECTION_TITLE[section]}</span> }
-            : { search: true }
+            : section === "md"
+              ? {
+                  // Doctrine n'a pas d'aside : le seul réglage utile à la lecture remonte dans la topbar.
+                  search: true,
+                  actions: <ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" />,
+                }
+              : { search: true }
         }
-        aside={aside}
+        aside={section === "md" ? undefined : aside}
       >
         {children}
       </AppLayout>
