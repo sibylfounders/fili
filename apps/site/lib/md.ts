@@ -212,6 +212,9 @@ export function navTree(): NavGroupe[] {
         ...methodeIndex().map((d) => ({ slug: d.slug, label: d.titre, href: `/md/methode/${d.slug}/` })),
         // Le socle est UNE page à volets (DESIGN / DECISIONS / MÉTHODE), rangée sous Méthode.
         { slug: "socle", label: "Socle", href: "/md/socle/" },
+        // Sources : page propre (app/md/methode/sources/), pas un document markdown —
+        // elle est donc déclarée ici à la main, comme le socle.
+        { slug: "sources", label: "Sources", href: "/md/methode/sources/" },
       ],
     },
   ];
