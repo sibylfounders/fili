@@ -70,3 +70,4 @@ confidence: mixed
 | T2 | Transitions CSS interruptibles nativement | Comportement spécifié (CSS Transitions) | Établi |
 | T3 | Linéaire réservé au spinner | [Polaris — Motion tokens](https://polaris-react.shopify.com/tokens/motion) | Établi chez Polaris, adopté |
 | T4 | Skeleton conservé mais statique sous reduced-motion | [web.dev — prefers-reduced-motion](https://web.dev/articles/prefers-reduced-motion) (indicateurs à conserver), choix interne plus strict | Convergence + décision interne |
+| T5 | Les propriétés colorimétriques (background-color, border-color) sautent l'étape layout mais déclenchent un repaint : elles ne sont pas « composite » | [MDN — Animation performance and frame rate](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Animation_performance_and_frame_rate) | Établi — corrige l'annotation du tableau de mapping |

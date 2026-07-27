@@ -4,8 +4,8 @@ nature: foundations
 resume: "Ce fichier contient le raisonnement : hiérarchie, lisibilité, risques."
 selon-contexte: [alert, button, card, form, input]
 source: TYPOGRAPHY-UX.md v1.1.2 + TYPOGRAPHY-UI.md v1.1.0
-empreinte: sha256:b5b2e02e80346234
-regles: {loi: 0, preference: 0, non_qualifie: 33}
+empreinte: sha256:2e942a28f9673f32
+regles: {loi: 15, preference: 16, non_qualifie: 0}
 ---
 # RULES — typography (compilé, mode audit)
 
@@ -19,39 +19,64 @@ regles: {loi: 0, preference: 0, non_qualifie: 33}
 
 ## Règles de design
 
-- **[non qualifié]** la typographie n'est **ni un composant, ni un pattern — c'est une fondation**, et la structure du dossier le rend visible (`atelier/foundations/`, parallèle à `atelier/components/` et `atelier/patterns/`).
-- **[non qualifié]** **le modèle à axes ne s'applique pas.** La typographie n'a ni instances ni assemblage : elle est une **contrainte transversale** que tous les composants consomment — le bouton compose son label avec, l'input son message d'erreur, l'alert son titre.
-- **[non qualifié]** elle porte deux fonctions distinctes qui ne doivent jamais être confondues — c'est la vraie structure de ce fichier :
-- **[non qualifié]** la règle cardinale de cette fondation est que ces deux fonctions sont **indépendantes** — le reste du fichier en découle.
-- **[non qualifié]** les niveaux h1-h6 décrivent la **structure du contenu** — c'est l'arbre que le lecteur d'écran navigue, que les moteurs indexent, que la table des matières reflète. Ils ne décrivent jamais le style.
-- **[non qualifié]** **un seul h1 par page** — c'est le titre du document, pas le plus gros texte de la page.
-- **[non qualifié]** **jamais de saut de niveau** — un h2 n'est jamais suivi directement d'un h4.
-- **[non qualifié]** **le niveau et la taille sont deux décisions indépendantes.** Le niveau suit la structure du contenu ; la taille suit le design. Un h2 peut légitimement être stylé plus petit qu'un h3 si le contexte l'exige.
-- **[non qualifié]** un texte qui doit *avoir l'air* d'un titre sans en être un (chiffre de dashboard, citation mise en avant) prend le style visuel voulu sur un élément non-heading — jamais un heading pour le style.
-- **[non qualifié]** faire glisser la taille du texte entre une borne minimale et une borne maximale selon la largeur du viewport, au lieu de sauter par paliers de media queries.
-- **[non qualifié]** **les unités viewport seules sont interdites** — un texte dimensionné uniquement en `vw` échoue WCAG 1.4.4 (*Resize Text*).
-- **[non qualifié]** la correction standard — combiner `rem` et `vw` dans `clamp()`, avec du `rem` dans le minimum, le maximum **et la partie fixe de la valeur préférée** (`clamp(2rem, 1.67rem + 1.67vw, 3rem)` — jamais `clamp(2rem, 4vw, 3rem)`). La composante `rem` répond au zoom, la composante `vw` porte la fluidité.
-- **[non qualifié]** limite connue — même cette version corrigée peut ne pas atteindre les 200 % d'agrandissement exigés par WCAG 1.4.4 à des niveaux de zoom extrêmes (jusqu'à 500 %), sur certaines plages de viewport — démontré mathématiquement par l'analyse de novembre 2023 (cf. sources). Tester réellement au zoom plutôt que de faire confiance à la formule.
-- **[non qualifié]** garde-fou communément admis — ne jamais dépasser un **ratio de 2.5× entre la taille minimale et la taille maximale d'un même échelon**. L'échelle de ce système (TYPOGRAPHY-UI.md) reste très en dessous (ratio ≤ 1.5 partout).
-- **[non qualifié]** borner la longueur de ligne du texte courant — la lisibilité d'un paragraphe dépend plus de sa mesure que de sa taille.
-- **[non qualifié]** viser la fourchette classique d'environ **45 à 75 caractères par ligne** pour le texte courant. La mesure s'exprime en `ch` (elle suit la police et la taille effective), via le token `measure.reading-max` — jamais en pixels, qui ne suivraient ni le zoom ni la police.
-- **[non qualifié]** le pendant de la fluidité — un texte fluide qui s'étire sans `max-width` casse sa mesure sur grand écran. Fluidité de la taille et bornage de la mesure vont ensemble : l'un sans l'autre dégrade la lecture qu'ils devaient améliorer.
-- **[non qualifié]** inversement proportionnel au corps — le texte courant respire : 120 à 145 % du corps selon la fourchette classique (Butterick), et WCAG 1.4.8 (AAA) demande un interligne d'au moins 1.5 dans les paragraphes ; `typography.body` est à 1.6, conforme aux deux. Les grands corps serrent — un titre n'a pas besoin de l'air d'un paragraphe (`typography.display` à 1.1).
-- **[non qualifié]** l'interligne n'est pas une constante du système, c'est une fonction du corps et de l'usage.
-- **[non qualifié]** la graisse est un canal de hiérarchie parmi d'autres — jamais le seul.
-- **[non qualifié]** la hiérarchie se construit par **combinaison** de corps, graisse et position (Polaris) — une graisse légère peut dominer une grasse si son corps est nettement supérieur (Carbon). C'est le pendant visuel de "niveau ≠ taille".
-- **[non qualifié]** le semibold porte les titres, **jamais le texte long** (Carbon) — et aucune graisse light sous le corps standard : la finesse en petit corps dégrade le contraste effectif du trait.
-- **[non qualifié]** le gras s'utilise avec parcimonie — pour "l'information critique que l'utilisateur rate" (GOV.UK) ; gras et italique le moins possible, et jamais ensemble (Butterick).
-- **[non qualifié]** titres en **sentence case** (GOV.UK) — décision prise une fois pour tout le produit, pas titre par titre.
-- **[non qualifié]** **TOUT EN CAPITALES : réservé aux étiquettes brèves** (le rôle exact de `label-mono` dans ce système), jamais au texte courant — et toujours accompagné de 5 à 12 % d'interlettrage (Butterick). La valeur déjà utilisée en local (0.08em = 8 %) entre dans la fourchette — règle désormais sourcée, candidate à un token.
-- **[non qualifié]** les capitales s'appliquent en CSS (`text-transform`), jamais tapées dans le contenu — le texte source reste en casse normale pour les lecteurs d'écran et le copier-coller.
-- **[non qualifié]** **fer à gauche par défaut** — le retour à la ligne régulier est le repère de lecture.
-- **[non qualifié]** **jamais de texte justifié en interface**.
-- **[non qualifié]** le centré est réservé aux titres courts et aux moments éditoriaux — jamais un paragraphe (le début de ligne devient introuvable).
-- **[non qualifié]** corps de texte web — 15 à 25 px d'équivalent (Butterick) ; `typography.body` (16px) est dans la fourchette, volontairement bas de fourchette pour un produit dense. **Jamais sous l'équivalent 16px pour le texte courant.**
-- **[non qualifié]** cas particulier des champs de saisie — sous 16px, iOS Safari **zoome automatiquement** la page au focus du champ : la taille du texte d'un input n'est pas une décision esthétique, c'est un comportement de plateforme (frontière avec INPUT-UI.md, qui hérite du corps standard et n'est donc pas concerné).
-- **[non qualifié]** six niveaux existent, quatre suffisent presque toujours — GOV.UK ne style que quatre échelons de titres. Des h5/h6 récurrents signalent une structure trop profonde à réorganiser, pas un besoin de styles supplémentaires. L'échelle complète h1-h6 de DESIGN.md existe pour les cas légitimes (documentation longue, spécifications), pas comme une invitation.
-- **[non qualifié]** **la structure appartient au contenu, l'apparence appartient au design — et aucun des deux ne se déduit de l'autre.**
+- **[loi]** La typographie porte deux décisions séparées — la structure sémantique du contenu et les conditions physiques de lisibilité — et aucune des deux ne se prend à la place de l'autre. `TYPOGRAPHY-R03`
+- **[loi]** Le niveau sémantique d'un texte et son traitement visuel se décident indépendamment l'un de l'autre. `TYPOGRAPHY-R04`
+- **[loi]** Les niveaux de titre h1 à h6 décrivent la structure du contenu et ne sont jamais employés pour obtenir un effet de style. `TYPOGRAPHY-R05`
+- **[loi]** Une page comporte un seul titre de niveau 1, qui est le titre du document. `TYPOGRAPHY-R06`
+  - vérifiable : un seul élément h1 par page
+  - source : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+- **[loi]** Les niveaux de titre se suivent sans saut : un niveau n n'est jamais suivi directement d'un niveau n+2. `TYPOGRAPHY-R07`
+  - vérifiable : aucun saut de niveau de titre (h2 → h4)
+  - source : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+- **[loi]** Le niveau d'un titre suit la structure du contenu et sa taille suit le design : un titre de niveau inférieur peut légitimement être rendu plus petit qu'un titre de niveau supérieur. `TYPOGRAPHY-R08`
+  - source : https://design-system.service.gov.uk/styles/typography/
+- **[loi]** Un texte qui doit avoir l'apparence d'un titre sans en être un prend son style sur un élément non-titre. `TYPOGRAPHY-R09`
+  - vérifiable : les éléments h1 à h6 ne portent que des titres de section
+  - source : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
+- **[préférence]** Les tailles de texte varient continûment entre une borne minimale et une borne maximale en fonction de la largeur du viewport, plutôt que par paliers. `TYPOGRAPHY-R10`
+- **[loi]** Une taille de texte ne s'exprime jamais en unités viewport seules, qui ne répondent pas au zoom du navigateur et font échouer le critère de redimensionnement du texte. `TYPOGRAPHY-R11`
+  - vérifiable : aucune taille de police exprimée en unités viewport seules
+  - source : https://adrianroselli.com/2019/12/responsive-type-and-zoom.html
+- **[préférence]** Toute taille fluide combine rem et vw dans clamp(), avec une composante rem dans le minimum, dans le maximum et dans la partie fixe de la valeur préférée. `TYPOGRAPHY-R12`
+  - vérifiable : chaque clamp() de taille contient une composante rem dans le minimum, le maximum et la partie fixe
+- **[préférence]** La conformité au redimensionnement du texte se vérifie par un test de zoom navigateur réel, et non par la seule forme de la formule ni par un redimensionnement de fenêtre. `TYPOGRAPHY-R13`
+  - vérifiable : à 200 % de zoom navigateur, la taille rendue a doublé sans perte de contenu ni défilement à deux dimensions
+- **[préférence]** Le rapport entre la taille maximale et la taille minimale d'un même échelon typographique ne dépasse pas 2,5. `TYPOGRAPHY-R14`
+  - vérifiable : ratio taille maximale / taille minimale ≤ 2,5 par échelon
+- **[loi]** La longueur de ligne du texte courant est bornée, la lisibilité d'un paragraphe dépendant davantage de sa mesure que de sa taille. `TYPOGRAPHY-R15`
+  - source : https://practicaltypography.com/summary-of-key-rules.html
+- **[préférence]** Le texte courant vise une longueur de ligne d'environ 45 à 75 caractères, bornée par une largeur maximale exprimée en unités ch et jamais en pixels. `TYPOGRAPHY-R16`
+  - vérifiable : longueur de ligne du texte courant entre 45 et 75 caractères, bornée par une max-width en ch
+- **[préférence]** Une taille de texte fluide s'accompagne toujours d'une largeur maximale sur le bloc de texte, faute de quoi la mesure se dégrade sur grand écran. `TYPOGRAPHY-R17`
+  - vérifiable : tout bloc de texte courant porte une max-width
+- **[loi]** Le texte courant est composé avec un interlignage d'au moins 1,5 fois le corps, et les grands corps peuvent recevoir un interlignage plus serré. `TYPOGRAPHY-R18`
+  - vérifiable : interlignage ≥ 1,5 pour le texte courant
+- **[préférence]** L'interlignage n'est pas une constante du système : il se détermine en fonction du corps et de l'usage du texte. `TYPOGRAPHY-R19`
+- **[loi]** La graisse n'est jamais le seul canal par lequel une hiérarchie de texte est exprimée. `TYPOGRAPHY-R20`
+- **[loi]** La hiérarchie typographique se construit par combinaison du corps, de la graisse et de la position, un corps nettement supérieur pouvant dominer une graisse plus forte. `TYPOGRAPHY-R21`
+  - source : https://carbondesignsystem.com/elements/typography/overview/
+- **[préférence]** Les graisses semi-grasses portent les titres et jamais le texte long, et aucune graisse plus fine que la graisse standard n'est employée sous le corps de texte courant. `TYPOGRAPHY-R22`
+  - vérifiable : aucune graisse inférieure à la graisse standard sous l'équivalent 16 px
+- **[préférence]** Le gras est réservé à l'information critique que le lecteur risque de manquer ; le gras et l'italique restent rares et ne se cumulent pas. `TYPOGRAPHY-R23`
+- **[préférence]** Les titres sont rédigés en sentence case, décision prise une fois pour l'ensemble du produit. `TYPOGRAPHY-R24`
+  - vérifiable : titres en sentence case
+- **[préférence]** Les capitales sont réservées aux étiquettes brèves, jamais au texte courant, et s'accompagnent d'un interlettrage de 5 à 12 % du corps. `TYPOGRAPHY-R25`
+  - vérifiable : text-transform: uppercase uniquement sur des étiquettes courtes, avec un interlettrage entre 0,05em et 0,12em
+- **[loi]** La casse haute s'applique par la feuille de style et jamais en saisissant le contenu en capitales, afin que le texte source reste dans sa casse d'origine. `TYPOGRAPHY-R26`
+  - vérifiable : aucune chaîne de contenu saisie tout en capitales ; la casse haute vient de text-transform
+- **[préférence]** Le texte est aligné sur le bord de début de ligne par défaut, le retour à la ligne régulier servant de repère de lecture. `TYPOGRAPHY-R27`
+  - vérifiable : text-align des blocs de texte = start par défaut
+- **[loi]** Le texte d'interface n'est jamais justifié. `TYPOGRAPHY-R28`
+  - vérifiable : aucun bloc de texte en text-align: justify
+- **[préférence]** Le centrage est réservé aux titres courts et aux moments éditoriaux, jamais appliqué à un paragraphe. `TYPOGRAPHY-R29`
+  - vérifiable : aucun paragraphe en text-align: center
+- **[préférence]** Le texte courant n'est jamais composé sous l'équivalent de 16 px, et sa taille s'exprime en unités relatives au corps racine. `TYPOGRAPHY-R30`
+  - vérifiable : taille du texte courant ≥ 16 px d'équivalent, exprimée en rem
+- **[préférence]** Les champs de saisie ne descendent jamais sous l'équivalent de 16 px, faute de quoi Safari iOS zoome automatiquement la page à la prise de focus. `TYPOGRAPHY-R31`
+  - vérifiable : font-size des champs de saisie ≥ 16 px d'équivalent
+- **[préférence]** Quatre échelons de titres stylés suffisent en usage courant, la récurrence de niveaux 5 et 6 signalant une structure de contenu à réorganiser. `TYPOGRAPHY-R32`
+  - vérifiable : au plus quatre échelons de titres stylés distincts en usage courant
+- **[loi]** La structure appartient au contenu et l'apparence appartient au design : aucune des deux ne se déduit de l'autre. `TYPOGRAPHY-R34`
 
 ## Non couvert — poser la question, ne rien trancher
 

@@ -4,8 +4,8 @@ nature: patterns
 resume: "**Orchestration** d'une navigation, pas un composant neuf : elle **assemble** des destinations (`link` en"
 selon-contexte: [link]
 source: NAVIGATION-UX.md v1.0.0 + NAVIGATION-UI.md v1.0.0
-empreinte: sha256:ca4894e00ca54963
-regles: {loi: 0, preference: 0, non_qualifie: 12}
+empreinte: sha256:aef249d7a6749cec
+regles: {loi: 5, preference: 6, non_qualifie: 0}
 ---
 # RULES — navigation (compilé, mode audit)
 
@@ -19,14 +19,24 @@ regles: {loi: 0, preference: 0, non_qualifie: 12}
 
 ## Règles de design
 
-- **[non qualifié]** toute navigation vit dans un `nav` **étiqueté** (`aria-label`) ; quand plusieurs coexistent, chacune
-- **[non qualifié]** les destinations sont des **liens** (`link`, contexte navigation) ; leur regroupement est un
-- **[non qualifié]** sous les seuils du shell, la nav latérale passe **off-canvas** — comportement porté par `overlay`
-- **[non qualifié]** le TOC liste les **sections de la page courante** ; l'entrée **active suit la lecture** (la section
-- **[non qualifié]** cliquer une entrée **défile** vers la section (ancre) ; le scrollspy **reflète** la lecture, il ne la
-- **[non qualifié]** le **premier élément focalisable** de la page est un lien « **Aller au contenu** » — **masqué
-- **[non qualifié]** Tab traverse la navigation dans un **ordre qui suit le sens** ; **aucun piège de focus** ; les
-- **[non qualifié]** l'**item** est un `link` ; le **regroupement** un `accordion` ; l'**off-canvas** relève d'`overlay` ;
+- **[loi]** Chaque bloc majeur de liens de navigation est exposé dans un élément nav porteur d'une étiquette accessible distincte, et le contenu principal dans un unique main. `NAVIGATION-R01`
+  - vérifiable : chaque nav de la page porte un aria-label ou aria-labelledby, tous distincts entre eux, et la page contient un seul main
+  - source : https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
+- **[loi]** Dans un bloc de navigation, la destination correspondant à la page affichée est la seule à porter aria-current, et son état courant est signalé par au moins un indice non chromatique en plus de la couleur. `NAVIGATION-R02`
+  - vérifiable : un seul élément par bloc de navigation porte aria-current, et l'état courant reste distinguable en niveaux de gris
+  - source : https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
+- **[préférence]** Sous le seuil de compacité du shell, la navigation latérale devient un panneau hors-écran dont le scrim, le confinement du focus et la fermeture sont fournis par le composant overlay et non redéfinis par la navigation. `NAVIGATION-R03`
+- **[préférence]** Le sommaire « sur cette page » liste les sections du document affiché, marque l'entrée correspondant à la section lue par aria-current et par un indice non chromatique, et complète la navigation principale sans s'y substituer. `NAVIGATION-R04`
+  - vérifiable : une seule entrée du sommaire porte aria-current à un instant donné, et l'entrée active reste distinguable en niveaux de gris
+- **[loi]** L'activation d'une entrée de sommaire mène à sa section par une ancre, et le défilement associé est instantané dès que l'utilisateur a demandé une réduction des animations ; l'indicateur actif reflète la position de lecture sans la piloter. `NAVIGATION-R05`
+  - vérifiable : sous prefers-reduced-motion: reduce, aucun défilement animé n'est appliqué (scroll-behavior différent de smooth)
+  - source : https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+- **[loi]** Le premier élément focalisable du document est un lien qui mène directement au contenu principal ; il peut n'être visible qu'au focus, mais il doit alors le devenir. `NAVIGATION-R06`
+  - vérifiable : le premier élément focalisable du document est un lien dont la cible est le main
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html
+- **[loi]** L'ordre de tabulation à travers la navigation préserve le sens et l'opérabilité du contenu, et aucun élément de la navigation ne retient le focus au clavier. `NAVIGATION-R07`
+  - vérifiable : chaque élément interactif de la navigation peut être atteint puis quitté au clavier seul, sans tabindex positif
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html
 
 ## Non couvert — poser la question, ne rien trancher
 
