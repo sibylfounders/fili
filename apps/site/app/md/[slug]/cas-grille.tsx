@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { CardGroup, Modal } from "@sibyl/react";
-import { allerAuVolet } from "../doc-tabs";
+import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Cas } from "@/lib/doctrine";
 
 const Html = ({ html, className }: { html: string; className?: string }) => (
@@ -15,12 +15,36 @@ const Html = ({ html, className }: { html: string; className?: string }) => (
  */
 export function CasGrille({ famille, cas }: { famille: string; cas: Cas[] }) {
   const [ouvert, setOuvert] = React.useState<Cas | null>(null);
+
+  /* Symétrique du volet Règles : une règle qui renvoie « ce cas → » ouvre directement le cas. */
+  React.useEffect(() => {
+    const a = ancreDemandee("cas");
+    if (!a) return;
+    const c = cas.find((x) => x.id === a);
+    if (!c) return;
+    ancreConsommee();
+    setOuvert(c);
+  }, [cas]);
+
+  React.useEffect(() => {
+    const onDemande = (e: Event) => {
+      const { volet, ancre } = (e as CustomEvent<{ volet: string; ancre?: string }>).detail ?? {};
+      if (volet !== "cas" || !ancre) return;
+      const c = cas.find((x) => x.id === ancre);
+      if (c) setOuvert(c);
+    };
+    window.addEventListener(EVENEMENT_VOLET, onDemande);
+    return () => window.removeEventListener(EVENEMENT_VOLET, onDemande);
+  }, [cas]);
+
   return (
     <>
       <CardGroup mode="clickable" separated label={`Cas d'usage — ${famille}`}>
         {cas.map((c) => (
           <CardGroup.Card
             key={c.id}
+            id={c.id}
+            className="scroll-mt-[72px]"
             titleAs="h4"
             title={c.titre}
             onActivate={() => setOuvert(c)}
@@ -58,6 +82,9 @@ export function CasGrille({ famille, cas }: { famille: string; cas: Cas[] }) {
                 </div>
               ))}
               {ouvert.regles.length ? (
+                /* kit-ok: encart interne a une modale, pas une collection — le kit
+                   n'expose pas de composant « encart », et Alert porte une gravite
+                   que ce bloc n'a pas. */
                 <div className="mt-lg rounded-md border border-border bg-surface p-md">
                   <p className="m-0 mb-sm font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">
                     Règle qui tranche ce cas

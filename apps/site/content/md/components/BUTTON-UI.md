@@ -1,7 +1,7 @@
 ---
 component: button
 layer: ui
-version: 1.6.1 # 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
+version: 1.6.2 # 1.6.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
 last_updated: 2026-07-21
 companion: BUTTON-UX.md
 tokens:
@@ -16,7 +16,7 @@ tokens:
     text_only: padding_x standard (cf. sizing)
     icon_only: padding égal horizontal/vertical, proche d'un carré — pas le padding_x standard
     icon_and_text: spacing.xs à spacing.sm entre icône et texte, inférieur au padding externe du bouton
-  label_typography: # ajouté en 1.2.1 — le style du label était déduit silencieusement (cf. atelier/foundations/typography/TYPOGRAPHY-UI.md)
+  label_typography: # ajouté en 1.2.1 — le style du label était déduit silencieusement (cf. content/md/foundations/TYPOGRAPHY-UI.md)
     family: typography.body.fontFamily
     fallback: typography.fallback.sans
     size: typography.body.fontSize

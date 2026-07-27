@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GrilleSujets } from "./grille-sujets";
 import { methodeIndex, socleIndex, sujets, sujetsParNature } from "@/lib/md";
 import { fiche, nbCas } from "@/lib/doctrine";
 
@@ -55,29 +56,20 @@ export default function DoctrineHome() {
           <Titre>
             {g.nature.pluriel} ({g.items.length})
           </Titre>
-          <div className="mt-md grid gap-md tablet:grid-cols-2 desktop:grid-cols-3">
-            {g.items.map((s) => {
+          <GrilleSujets
+            label={g.nature.pluriel}
+            items={g.items.map((s) => {
               const f = fiche(s.slug);
-              return (
-                <Link
-                  key={s.slug}
-                  href={`/md/${s.slug}/`}
-                  className="flex items-start gap-md rounded-md border border-border p-md text-text-primary no-underline transition-colors hover:border-primary"
-                >
-                  {f?.embleme ? (
-                    <span aria-hidden="true" className="shrink-0 [&_svg]:h-6 [&_svg]:w-6" dangerouslySetInnerHTML={{ __html: f.embleme }} />
-                  ) : null}
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-medium">{s.title}</span>
-                    <span className="mt-0.5 block font-mono text-[11px] text-text-muted">
-                      {f && nbCas(f) ? `${nbCas(f)} cas` : "—"}
-                      {s.meta.version ? ` · v${s.meta.version}` : ""}
-                    </span>
-                  </span>
-                </Link>
-              );
+              return {
+                slug: s.slug,
+                titre: s.title,
+                embleme: f?.embleme,
+                meta:
+                  (f && nbCas(f) ? `${nbCas(f)} cas` : "—") +
+                  (s.meta.version ? ` · v${s.meta.version}` : ""),
+              };
             })}
-          </div>
+          />
         </section>
       ))}
     </main>

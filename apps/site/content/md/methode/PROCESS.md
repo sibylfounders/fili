@@ -114,7 +114,7 @@ Le périmètre se trace aussi en négatif : ce que le composant **n'est pas** (l
 
 #### L'inventaire des cas d'usage
 
-Avant la rédaction, construire `atelier/inventaires/inventaire-cas-usage-x` (fichier .md) : la carte de tous les contextes où le composant apparaît. C'est un **outil de vérification** (checklist de couverture pour l'étape 6), pas du contenu à lire.
+Avant la rédaction, construire `content/md/inventaires/inventaire-cas-usage-x` (fichier .md) : la carte de tous les contextes où le composant apparaît. C'est un **outil de vérification** (checklist de couverture pour l'étape 6), pas du contenu à lire.
 
 Le détail de cette étape
 
@@ -182,15 +182,20 @@ Tester avant livraison, pas après.
 
 #### La vérification outillée
 
-Deux scripts Node sans dépendance — lancés depuis la racine, isolément pour le diagnostic ou enchaînés par le build complet (`node tools/build.js`, chemin recommandé, qui ajoute en fin de course un contrôle des liens et ancres du site généré) :
-
 Le détail de cette étape
 
-- **`tools/valide-dossier.js`** — la structure : tokens référencés existants dans `DESIGN.md`, renvois croisés valides, pas de valeur brute non justifiée, paires UX/UI complètes, versions incrémentées. → `RAPPORT-VALIDATION.md`.
+Quatre contrôles, tous lançables depuis la racine, tous sans autre dépendance que Node et Python. Ils ne se **remplacent** pas : chacun garde une frontière différente.
 
-- **`tools/test-rendu.js`** — le rendu : résolution des tokens, combinaisons d'axes indiscernables, contrastes WCAG (3:1 état visible, 4.5:1 texte courant). → `RAPPORT-TEST.md`.
+- **`npm run tokens:build`** — la **fidélité des valeurs et le contraste**. Enchaîne trois étapes : la génération (`tokens.css`, thème Tailwind, variables Figma), la **garde de fidélité** (`verify-ds-md.mjs`, qui confronte chaque token DS-UI à la valeur d'autorité de `DESIGN.md` : une divergence non déclarée dans `ds-md.map.mjs` **casse le build**), puis les **paires de contraste** (`validate-contrast.mjs`, seuils 4.5:1 pour le texte, 3:1 pour une bordure identifiante, en clair et en sombre). Le contrat de valeurs se rafraîchit par `npm run sync:ds-md`, jamais à la main.
+- **`npx tsc --noEmit -p apps/site/tsconfig.json`** — le **typage** du site et des packages qu'il consomme.
+- **`python3 tools/compile-regles.py --tous`** — la **compilation** vers `dist/build/` et `dist/audit/`, avec le compte loi / préférence / **non qualifié** et l'empreinte SHA-256 de chaque sujet. Le nombre de non qualifiées est le reste-à-faire réel de l'étape 4 ; une empreinte qui ne correspond plus signale une paire modifiée sans recompilation.
+- **`node tools/plugin/build-plugin.js`** — le **graphe du routeur**. Un renvoi vers un sujet inconnu, une extension déclarée dans une intention, un `selon-contexte` qui ne boucle pas : erreur bloquante. Un sujet joignable par aucune intention : avertissement, listé dans `tools/plugin/reports/RAPPORT-ROUTEUR.md`.
 
-Les seuils du système ne sont pas déclaratifs, ils sont **testés** : tout recalibrage de couleur se re-vérifie par `test-rendu.js`. À relancer après toute modification de `DESIGN.md`, d'un `*-UI.md`, ou tout ajout/déplacement de fichier.
+À l'échelle d'un sujet, **`python3 tools/extrait-decisions.py <sujet>`** projette les annotations vers la fiche et signale au passage les règles sans source, les règles sans cas d'usage, et les « lois fragiles » — déclarées universelles sans norme ni convergence de deux systèmes.
+
+Les seuils du système ne sont pas déclaratifs, ils sont **testés** : tout recalibrage de couleur se re-vérifie par `npm run tokens:build`, à relancer après toute modification de `DESIGN.md` ou d'un `*-UI.md`.
+
+> **Ce que cette étape ne couvre plus.** Deux contrôles de l'ancien dépôt n'ont pas été portés dans le monorepo : `valide-dossier.js` (structure du dossier — paires UX/UI complètes, renvois croisés valides, versions incrémentées, aucune valeur brute non justifiée) et `test-rendu.js` (combinaisons d'axes visuellement indiscernables). Ce sont des trous ouverts, pas des contrôles déplacés : rien ne vérifie aujourd'hui qu'une paire est complète ni qu'un renvoi pointe quelque part. Le dire est plus utile que de laisser croire à une garantie qui n'existe plus.
 
 **Étape 8 / 10**
 
@@ -232,9 +237,9 @@ Signal de méthode permanent, à l'origine de deux réorganisations :
 
 Le détail de cette étape
 
-- **Règle dupliquée entre deux composants → pattern.** La coordination bouton/champs trouvée en double entre `BUTTON-UX.md` et `INPUT-UX.md` a fait naître `atelier/patterns/form/`.
+- **Règle dupliquée entre deux composants → pattern.** La coordination bouton/champs trouvée en double entre `BUTTON-UX.md` et `INPUT-UX.md` a fait naître `content/md/patterns/FORM-UX.md`.
 
-- **Recouvrement entre un pattern et un composant → le composant fait autorité.** Le résumé d'erreurs est un alert danger permanent : le conteneur vit dans `atelier/components/alert/`, `FORM-UX.md` garde l'orchestration propre au formulaire.
+- **Recouvrement entre un pattern et un composant → le composant fait autorité.** Le résumé d'erreurs est un alert danger permanent : le conteneur vit dans `content/md/components/ALERT-UX.md`, `FORM-UX.md` garde l'orchestration propre au formulaire.
 
 Chaque composant documenté renvoie ainsi de la connaissance vers les précédents — le système converge au lieu de s'empiler.
 

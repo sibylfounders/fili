@@ -1,7 +1,7 @@
 ---
 component: input
 layer: ux
-version: 1.7.0 # 1.7.0 : rattachement nommé Motion/Voice, contrat reduced-motion de la bordure d'état, absence E-motion raisonnée (2026-07-21). 1.6.0 : rattachement au Langage d'interaction (zone réceptive, distincte d'une action) et à l'Architecture adaptative (aide et erreurs essentielles conservées dans tous les états). 1.5.1 : vocabulaire aligné sur le modèle style × tone du bouton.
+version: 1.7.1 # 1.7.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.7.0 : rattachement nommé Motion/Voice, contrat reduced-motion de la bordure d'état, absence E-motion raisonnée (2026-07-21). 1.6.0 : rattachement au Langage d'interaction (zone réceptive, distincte d'une action) et à l'Architecture adaptative (aide et erreurs essentielles conservées dans tous les états). 1.5.1 : vocabulaire aligné sur le modèle style × tone du bouton.
 last_updated: 2026-07-21
 companion: INPUT-UI.md
 confidence: mixed
@@ -157,7 +157,7 @@ SOURCE : S1,S2
 ÉNONCÉ : Nous déclenchons la validation inline au blur, sauf sur les champs à fort risque de format où elle se joue ~500ms après la frappe, jamais avant la première saisie complète.
 MESURE : la validation inline se déclenche au blur, ou après environ 500ms sans frappe sur les champs à risque (email, mot de passe) ; jamais avant la fin de la première saisie.
 
-RÈGLE [INPUT-R19] : la **stratégie** — ce formulaire valide-t-il au submit uniquement, ou au blur sur les champs à risque ? — est une décision du formulaire assemblé, pas du champ : voir `atelier/patterns/form/FORM-UX.md`, qui fait autorité (le benchmark diverge réellement : GOV.UK submit-only ↔ Carbon blur — divergence documentée là-bas). Ce fichier reste le défaut d'un champ isolé hors formulaire (recherche, édition inline). (Transfert d'autorité : cf. DECISIONS.md 2026-07-11.)
+RÈGLE [INPUT-R19] : la **stratégie** — ce formulaire valide-t-il au submit uniquement, ou au blur sur les champs à risque ? — est une décision du formulaire assemblé, pas du champ : voir `content/md/patterns/FORM-UX.md`, qui fait autorité (le benchmark diverge réellement : GOV.UK submit-only ↔ Carbon blur — divergence documentée là-bas). Ce fichier reste le défaut d'un champ isolé hors formulaire (recherche, édition inline). (Transfert d'autorité : cf. DECISIONS.md 2026-07-11.)
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : Cadrage : la stratégie de validation (submit seul vs blur) relève du formulaire assemblé (FORM-UX.md) ; ce document fixe seulement le défaut d'un champ isolé.
@@ -329,7 +329,7 @@ SOURCE : interne
 ÉNONCÉ : Nous groupons visuellement les champs appartenant à un même ensemble logique, comme un bloc adresse.
 MESURE : les champs d'un même ensemble logique sont rapprochés visuellement (espacement réduit, bordure ou fond commun).
 
-RÈGLE [INPUT-R40] : indicateur de champ requis — la convention (marquer le requis vs marquer l'optionnel) est une décision de formulaire, pas de champ isolé : voir `atelier/patterns/form/FORM-UX.md`, qui fait autorité sur ce point.
+RÈGLE [INPUT-R40] : indicateur de champ requis — la convention (marquer le requis vs marquer l'optionnel) est une décision de formulaire, pas de champ isolé : voir `content/md/patterns/FORM-UX.md`, qui fait autorité sur ce point.
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : Cadrage : le choix de marquer le champ requis ou le champ optionnel relève du formulaire assemblé (FORM-UX.md), pas de ce document.

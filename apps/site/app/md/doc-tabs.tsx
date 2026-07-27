@@ -4,8 +4,27 @@ import { Tabs } from "@sibyl/react";
 
 /** Demande d'ouvrir un volet et d'aller à une ancre (une règle citée depuis une situation). */
 export const EVENEMENT_VOLET = "doctrine:volet";
+
+/**
+ * Ancre en attente — l'événement seul ne suffit pas : le volet visé n'est pas encore monté
+ * au moment où il part, donc sa grille ne peut pas l'entendre. On dépose l'intention ici ;
+ * la grille la ramasse à son montage et la consomme si elle possède la cible.
+ */
+let ancreEnAttente: { volet: string; ancre: string } | null = null;
+
 export function allerAuVolet(volet: string, ancre?: string) {
+  ancreEnAttente = ancre ? { volet, ancre } : null;
   window.dispatchEvent(new CustomEvent(EVENEMENT_VOLET, { detail: { volet, ancre } }));
+}
+
+/** Lit l'ancre demandée pour ce volet, sans la consommer. */
+export function ancreDemandee(volet: string): string | null {
+  return ancreEnAttente?.volet === volet ? ancreEnAttente.ancre : null;
+}
+
+/** À appeler par la grille qui possède réellement la cible — les autres la laissent passer. */
+export function ancreConsommee() {
+  ancreEnAttente = null;
 }
 
 /** Volets d'une fiche — Tabs du DS ; les panneaux sont rendus côté serveur et passés en props. */

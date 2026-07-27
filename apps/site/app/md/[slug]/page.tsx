@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReglesCles } from "./regles-cles";
 import { notFound } from "next/navigation";
 import { fiche, nbCas, slugsDoctrine, type Fiche } from "@/lib/doctrine";
 import { sujet } from "@/lib/md";
@@ -7,7 +8,7 @@ import { DocTabs } from "../doc-tabs";
 import { CasGrille } from "./cas-grille";
 import { Repliable } from "./repliable";
 import { VoletDecisions } from "./volet-decisions";
-import { DecisionCarte } from "./decision-carte";
+import { DecisionsGrille } from "./decisions-grille";
 
 export function generateStaticParams() {
   return slugsDoctrine().map((slug) => ({ slug }));
@@ -51,14 +52,7 @@ function Essentiel({ f, ux }: { f: Fiche; ux?: string }) {
       {e.regles.length ? (
         <section>
           <h2 className="m-0 text-h4 font-semibold text-text-primary">{e.titreRegles || "Règles fondamentales"}</h2>
-          <div className="mt-md grid gap-md tablet:grid-cols-3">
-            {e.regles.map((r, i) => (
-              <article key={i} className="rounded-md border border-border p-md">
-                <p className="m-0 font-label text-[11px] font-semibold uppercase tracking-wider text-primary">{r.num}</p>
-                <p className="m-0 mt-sm text-sm font-medium leading-snug text-text-primary">{r.texte}</p>
-              </article>
-            ))}
-          </div>
+          <ReglesCles regles={e.regles} label={e.titreRegles || "Règles fondamentales"} />
         </section>
       ) : null}
 
@@ -133,6 +127,33 @@ function VoletCas({ f, inventaires }: { f: Fiche; inventaires?: string[] }) {
 /* ── 03 · Spécifications ──────────────────────────────────────────────── */
 function VoletSpecs({ f, ui }: { f: Fiche; ui?: string }) {
   const techniques = (f.decisions ?? []).filter((d) => d.couche === "ui");
+  /* Cinq sujets n'ont rien à mettre ici — accessibility, cognitive-load, performance, laws,
+     creation-compte. Le volet s'ouvrait alors sur du vide, ce qui se lit comme un oubli alors
+     que c'est une décision : un principe transversal ou un flow n'a pas de couche UI, il
+     coordonne des sujets qui, eux, en ont une. On le dit plutôt que de laisser deviner. */
+  const rien =
+    !f.specs.titre && !f.specs.lead && !f.specs.css &&
+    f.specs.specimens.length === 0 && f.specs.tokens.length === 0 && techniques.length === 0;
+  if (rien) {
+    const parNature = f.nature === "Principe" || f.nature === "Flow";
+    return (
+      <div className="max-w-[70ch]">
+        <h2 className="m-0 text-h3 font-semibold text-text-primary">Pas de couche UI</h2>
+        <p className="mt-sm text-text-secondary">
+          Ce sujet ne porte ni token, ni spécimen, ni consigne d&rsquo;implémentation
+          {parNature ? (
+            <>
+              {" "}— et c&rsquo;est sa nature, pas un oubli : il déclare <code className="font-mono text-[13px]">companion: none</code>,
+              il coordonne des sujets qui, eux, portent l&rsquo;implémentation. Ses valeurs concrètes
+              sont celles de ces sujets, à lire chez eux.
+            </>
+          ) : (
+            <> pour l&rsquo;instant. Si ce sujet en attend une, c&rsquo;est un trou de couverture à signaler.</>
+          )}
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-xl">
       <Chapeau kicker="" titre={f.specs.titre} lead={f.specs.lead} />
@@ -145,15 +166,17 @@ function VoletSpecs({ f, ui }: { f: Fiche; ui?: string }) {
           <p className="mb-md mt-1 max-w-[70ch] text-sm text-text-secondary">
             Ce que le code doit faire. Chacune est citable par son identifiant en revue.
           </p>
-          <ol className="m-0 flex list-none flex-col gap-md p-0">
-            {techniques.map((d) => (
-              <DecisionCarte
-                key={d.id}
-                d={d}
-                regle={<Markdown className="doc-prose text-sm [&>*:last-child]:mb-0">{d.solution}</Markdown>}
-              />
-            ))}
-          </ol>
+          {/* Même objet, même lecture que le volet Règles : cartes cliquables, détail en superposé. */}
+          <DecisionsGrille
+            groupe="Consignes d'implémentation"
+            decisions={techniques}
+            regles={Object.fromEntries(
+              techniques.map((d) => [
+                d.id,
+                <Markdown key={d.id} className="doc-prose text-sm [&>*:last-child]:mb-0">{d.solution}</Markdown>,
+              ]),
+            )}
+          />
         </section>
       ) : null}
       {f.specs.css ? <style dangerouslySetInnerHTML={{ __html: f.specs.css }} /> : null}

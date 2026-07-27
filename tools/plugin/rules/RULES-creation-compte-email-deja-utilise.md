@@ -5,13 +5,13 @@ extension-de: "creation-compte"
 resume: "E-mail déjà utilisé : bifurcation vers connexion ou récupération, avec une posture d'énumération de comptes explicitement arbitrée et tenue sur tout le produit."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.2"
-source-sha256: "7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b"
-source-file: "atelier/flows/creation-compte/CREATION-COMPTE-UX.md"
+source-version: "1.3.3"
+source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / E-mail déjà utilisé (extension compilée)
 
-> Extrait mécaniquement de `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
+> Extrait mécaniquement de `content/md/flows/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
 
 RÈGLE : ce cas n'est pas une erreur de saisie — c'est une **bifurcation**. La personne a probablement déjà un compte. Le parcours lui ouvre le chemin adapté (se connecter, ou récupérer son mot de passe), sans la renvoyer au début ni lui faire recommencer sa saisie (WCAG 3.3.7).
 

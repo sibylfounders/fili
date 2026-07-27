@@ -55,7 +55,9 @@ const INTENTIONS = [
   {
     intention: 'Formulaire',
     declencheurs: 'login / connexion, contact, checkout, réglages — toute page dont le cœur est une saisie isolée',
-    sujets: ['form'],
+    // select et switch sont des contrôles de saisie au même titre que input : un formulaire porte
+    // des choix et des bascules aussi souvent que des champs texte (ajoutés le 2026-07-27).
+    sujets: ['form', 'select', 'switch'],
     fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
     langages: ['emotion', 'motion', 'voice'],
     principes: [],
@@ -73,7 +75,8 @@ const INTENTIONS = [
   {
     intention: 'Page de contenu',
     declencheurs: 'article, landing, page marketing, documentation, à-propos',
-    sujets: [],
+    // tabs : une page documentaire découpe régulièrement un même objet en vues exclusives.
+    sujets: ['tabs'],
     fondations: ['typography', 'color', 'spacing', 'grid'],
     langages: ['voice'],
     principes: [],
@@ -96,6 +99,32 @@ const INTENTIONS = [
     langages: ['motion', 'voice'],
     principes: [],
     note: '+ extensions creation-compte-* selon le contexte (vérification e-mail, SSO/social, force du mot de passe, e-mail déjà utilisé, consentement) ; form/input/button/alert tirés via requires',
+  },
+  {
+    // Le bandeau de consentement est un flow à part entière (CONSENTEMENT 1.1.0) : il n'invente
+    // aucun objet visuel, il décide s'il faut interrompre et impose la symétrie des deux issues.
+    // Il ne se confond pas avec l'extension creation-compte-consentement, qui traite l'acceptation
+    // des CGU à l'inscription — autre moment, autre propriétaire (ajouté le 2026-07-27).
+    intention: 'Consentement',
+    declencheurs: "bandeau cookies, gestion des traceurs, préférences de confidentialité, « gérer mes choix », page cookies",
+    sujets: ['consentement'],
+    fondations: ['color', 'spacing', 'typography', 'border', 'radius', 'grid', 'touch'],
+    langages: ['voice', 'motion'],
+    principes: ['accessibility'],
+    note: "alert, button et voice tirés via les requires ; navigation pour le lien permanent en pied de page ; overlay/modal UNIQUEMENT si le bandeau devient modal, ce qui n'est pas le défaut",
+  },
+  {
+    // Le shell applicatif est déjà une réalité de la doctrine — GRID 1.2.0 a tokenisé ses rails
+    // et son point de bascule (grid.rail-nav, grid.rail-tools, breakpoint.tablet). Il lui manquait
+    // seulement sa porte d'entrée dans le routeur : navigation n'était joignable par aucune
+    // intention (ajouté le 2026-07-27).
+    intention: 'Cadre applicatif',
+    declencheurs: "shell d'application, rail ou barre de navigation, menu latéral, en-tête de site, découpage d'un écran en vues",
+    sujets: ['navigation', 'tabs'],
+    fondations: ['color', 'spacing', 'typography', 'grid', 'elevation', 'touch'],
+    langages: ['motion', 'voice'],
+    principes: ['adaptive'],
+    note: 'link et accordion tirés via les requires de navigation ; overlay dès que le rail passe en off-canvas sous breakpoint.tablet',
   },
   {
     intention: 'Superposé modal',

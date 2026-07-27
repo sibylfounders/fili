@@ -5,19 +5,19 @@ extension-de: "creation-compte"
 resume: "Inscription : distinguer contrat, information de confidentialité et consentement facultatif ; aucun consentement pré-coché ou groupé, une finalité par choix."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.2"
-source-sha256: "7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b"
-source-file: "atelier/flows/creation-compte/CREATION-COMPTE-UX.md"
+source-version: "1.3.3"
+source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / Consentement à l'inscription (extension compilée)
 
-> Extrait mécaniquement de `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
+> Extrait mécaniquement de `content/md/flows/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
 
 RÈGLE : distinguer trois actes qui n'ont pas la même base : **accepter les CGU** peut matérialiser le contrat ; **prendre connaissance de la politique de confidentialité** est une information, pas un consentement global au traitement ; **consentir** ne concerne que les finalités réellement facultatives (marketing, traitements optionnels). L'accès au produit ne dépend jamais d'un consentement marketing — sinon il n'est pas libre (RGPD art. 7).
 
 RÈGLE : **aucune case pré-cochée** pour un consentement (RGPD, EDPB — le consentement suppose un acte positif clair) ; **une finalité = une case** (dégroupage), jamais un « j'accepte tout » qui mélange CGU, cookies et marketing.
 
-RÈGLE : appliquer la convention de marquage du formulaire à l'envers de l'habitude — ici l'**optionnel** (marketing) est explicitement présenté comme tel, et rien dans la mise en forme ne pousse à cocher (poids visuel égal, pas de case marketing plus grosse ou colorée que le reste — pas de dark pattern, cf. `atelier/principles/laws`).
+RÈGLE : appliquer la convention de marquage du formulaire à l'envers de l'habitude — ici l'**optionnel** (marketing) est explicitement présenté comme tel, et rien dans la mise en forme ne pousse à cocher (poids visuel égal, pas de case marketing plus grosse ou colorée que le reste — pas de dark pattern, cf. `content/md/principles/LAWS-UX.md`).
 
 RÈGLE : donner accès aux CGU et à l'information de confidentialité **avant** le point de décision — pas seulement en pied de page. Le mécanisme de la case et du lien appartient à FORM/INPUT ; la base légale et le texte appartiennent au produit/juridique.
 

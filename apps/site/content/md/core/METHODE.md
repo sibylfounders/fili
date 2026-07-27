@@ -1,8 +1,8 @@
 ---
 name: "Méthode — pipeline de documentation d'un sujet"
-version: "1.13.0" # 1.13.0 : format « décisions sourcées » — identifiant stable, statut de frontière, sources citées par la règle, problème facultatif ; projection mécanique vers la fiche (tools/extrait-decisions.py). Pilote sur border, cf. DECISIONS.md 2026-07-26. 1.12.0 : 1.12.0 : re-synchronisation (2026-07-23) — exceptions UX-only formulées par nature (principes companion:none + flow, sans nombre en dur) ; hors-périmètre : Toast retiré (désormais documenté), exemples non couverts = modale/table/navigation/datepicker ; re-thématisation vs rebranding complet explicité (un fichier UX peut évoluer sous un rebranding complet). 1.11.0 : le routeur porte deux modes — build et audit (bundle sans tokens, statut de frontière, constats non couverts remontés) ; P2 du pivot 2026-07-21. 1.10.0 : statut de frontière (pivot 2026-07-21) — propriété universelle / parti pris d'identité / implémentation de référence entre dans la méthode, avec sa lecture d'audit. 1.9.0 : la méthode reconnaît les trois familles Core — Foundations, Languages, Principles — et leur test de classement. 1.8.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.8.0 : la nature Flow et ses exceptions UX-only entrent dans la méthode. Historique antérieur : cf. DECISIONS.md.
-description: "Le fonctionnement du produit, étape par étape : comment une demande (« documente le sujet X ») devient une source UX/UI ou UX-only sourcée, éprouvée, journalisée, puis compilée en règles consommables par une IA. Compagnon visuel : public/pages/process.html (volet Pipeline)."
-companion: "public/pages/process.html"
+version: "1.14.0" # 1.14.0 : étape 7 réécrite sur la chaîne réellement disponible dans le monorepo (tokens:build, tsc, compile-regles, build-plugin, extrait-decisions) ; les deux contrôles non portés — valide-dossier.js et test-rendu.js — sont désormais nommés comme des trous ouverts au lieu d'être promis. Aucune autre étape modifiée. 1.13.1 : 1.13.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.13.0 : format « décisions sourcées » — identifiant stable, statut de frontière, sources citées par la règle, problème facultatif ; projection mécanique vers la fiche (tools/extrait-decisions.py). Pilote sur border, cf. DECISIONS.md 2026-07-26. 1.12.0 : 1.12.0 : re-synchronisation (2026-07-23) — exceptions UX-only formulées par nature (principes companion:none + flow, sans nombre en dur) ; hors-périmètre : Toast retiré (désormais documenté), exemples non couverts = modale/table/navigation/datepicker ; re-thématisation vs rebranding complet explicité (un fichier UX peut évoluer sous un rebranding complet). 1.11.0 : le routeur porte deux modes — build et audit (bundle sans tokens, statut de frontière, constats non couverts remontés) ; P2 du pivot 2026-07-21. 1.10.0 : statut de frontière (pivot 2026-07-21) — propriété universelle / parti pris d'identité / implémentation de référence entre dans la méthode, avec sa lecture d'audit. 1.9.0 : la méthode reconnaît les trois familles Core — Foundations, Languages, Principles — et leur test de classement. 1.8.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.8.0 : la nature Flow et ses exceptions UX-only entrent dans la méthode. Historique antérieur : cf. DECISIONS.md.
+description: "Le fonctionnement du produit, étape par étape : comment une demande (« documente le sujet X ») devient une source UX/UI ou UX-only sourcée, éprouvée, journalisée, puis compilée en règles consommables par une IA. Compagnon visuel : la page Pipeline du site, /md/methode/process/ (source : content/md/methode/PROCESS.md)."
+companion: "content/md/methode/PROCESS.md" # rendu par le site sur /md/methode/process/
 ---
 # Méthode — le pipeline de documentation
 
@@ -13,7 +13,7 @@ Ce fichier nomme et explique le fonctionnement du produit, de la demande initial
 
 Le produit repose sur une séparation stricte entre deux couches :
 
-- **L'atelier** (la source) : `atelier/core/`, `atelier/foundations/`, `atelier/languages/`, `atelier/principles/`, `atelier/components/`, `atelier/patterns/`, `atelier/flows/` et `atelier/inventaires/`. C'est là que le raisonnement vit et que les décisions se journalisent. Riche et daté, il est trop lourd pour servir de contexte à une IA en train de coder.
+- **L'atelier** (la source) : `content/md/core/`, `content/md/foundations/`, `content/md/languages/`, `content/md/principles/`, `content/md/components/`, `content/md/patterns/`, `content/md/flows/` et `content/md/inventaires/`. C'est là que le raisonnement vit et que les décisions se journalisent. Riche et daté, il est trop lourd pour servir de contexte à une IA en train de coder.
 - **La distribution** (`dist/`) : le paquet consommé par l'IA — un `RULES-<sujet>.md` par sujet, les tokens, et un **routeur généré** (`CLAUDE.md` + son jumeau `AGENTS.md`) qui fixe le protocole et route chaque intention vers son bundle minimal. Elle n'est jamais éditée comme source. Le routeur, les tokens et les six RULES du Flow sont aujourd'hui régénérés mécaniquement ; les RULES historiques restent des condensations éditoriales contrôlées par le graphe, mais pas encore toutes dérivées automatiquement. C'est une dette explicite, pas une compilation prétendue.
 
 Une troisième nature de fichier traverse les deux couches : `DESIGN.md`, seule source des valeurs réelles (hex, px). Une **re-thématisation** de ces valeurs (couleurs, radius, police) se fait dans ce seul fichier, sans toucher aux règles UX ; un **changement d'identité plus large** peut en revanche demander des décisions d'iconographie, de voix, de composition ou de forme qui dépassent les tokens.
@@ -29,7 +29,7 @@ Tout part d'une demande : *« documente le sujet X »*. Deux décisions avant d'
 Le périmètre se trace aussi en négatif : ce que le composant **n'est pas** (le toast exclu de l'alert par la frontière « dans le flux vs au-dessus du flux »).
 
 ### 2. L'inventaire des cas d'usage
-Avant la rédaction, construire `atelier/inventaires/inventaire-cas-usage-x` (fichier .md) : la carte de tous les contextes où le composant apparaît. C'est un **outil de vérification** (checklist de couverture pour l'étape 6), pas du contenu à lire.
+Avant la rédaction, construire `content/md/inventaires/inventaire-cas-usage-x` (fichier .md) : la carte de tous les contextes où le composant apparaît. C'est un **outil de vérification** (checklist de couverture pour l'étape 6), pas du contenu à lire.
 
 Règle apprise — biais confirmé 4 fois, désormais un prédicteur : **l'état transitoire** (loading, validation asynchrone, skeleton, disparition/résolution) est systématiquement le trou de la première rédaction. La section « sortie de scène / état d'attente » s'écrit donc d'office, avant le test de couverture.
 
@@ -64,12 +64,18 @@ Confronter la fiche à la littérature, aux standards et aux systèmes de design
 Vérifier la fiche **contre l'inventaire** de l'étape 2 : chaque cas d'usage est-il couvert par une règle ? Identifier les trous, combler les prioritaires (l'ordre de grandeur constaté : ~3 trous prioritaires par composant). Tester avant livraison, pas après.
 
 ### 7. La vérification outillée
-Deux scripts Node sans dépendance — lancés depuis la racine, isolément pour le diagnostic ou enchaînés par le build complet (`node tools/build.js`, chemin recommandé, qui ajoute en fin de course un contrôle des liens et ancres du site généré) :
+Quatre contrôles, tous lançables depuis la racine, tous sans autre dépendance que Node et Python. Ils ne se **remplacent** pas : chacun garde une frontière différente.
 
-- **`tools/valide-dossier.js`** — la structure : tokens référencés existants dans `DESIGN.md`, renvois croisés valides, pas de valeur brute non justifiée, paires UX/UI complètes, versions incrémentées. → `RAPPORT-VALIDATION.md`.
-- **`tools/test-rendu.js`** — le rendu : résolution des tokens, combinaisons d'axes indiscernables, contrastes WCAG (3:1 état visible, 4.5:1 texte courant). → `RAPPORT-TEST.md`.
+- **`npm run tokens:build`** — la **fidélité des valeurs et le contraste**. Enchaîne trois étapes : la génération (`tokens.css`, thème Tailwind, variables Figma), la **garde de fidélité** (`verify-ds-md.mjs`, qui confronte chaque token DS-UI à la valeur d'autorité de `DESIGN.md` : une divergence non déclarée dans `ds-md.map.mjs` **casse le build**), puis les **paires de contraste** (`validate-contrast.mjs`, seuils 4.5:1 pour le texte, 3:1 pour une bordure identifiante, en clair et en sombre). Le contrat de valeurs se rafraîchit par `npm run sync:ds-md`, jamais à la main.
+- **`npx tsc --noEmit -p apps/site/tsconfig.json`** — le **typage** du site et des packages qu'il consomme.
+- **`python3 tools/compile-regles.py --tous`** — la **compilation** vers `dist/build/` et `dist/audit/`, avec le compte loi / préférence / **non qualifié** et l'empreinte SHA-256 de chaque sujet. Le nombre de non qualifiées est le reste-à-faire réel de l'étape 4 ; une empreinte qui ne correspond plus signale une paire modifiée sans recompilation.
+- **`node tools/plugin/build-plugin.js`** — le **graphe du routeur**. Un renvoi vers un sujet inconnu, une extension déclarée dans une intention, un `selon-contexte` qui ne boucle pas : erreur bloquante. Un sujet joignable par aucune intention : avertissement, listé dans `tools/plugin/reports/RAPPORT-ROUTEUR.md`.
 
-Les seuils du système ne sont pas déclaratifs, ils sont **testés** : tout recalibrage de couleur se re-vérifie par `test-rendu.js`. À relancer après toute modification de `DESIGN.md`, d'un `*-UI.md`, ou tout ajout/déplacement de fichier.
+À l'échelle d'un sujet, **`python3 tools/extrait-decisions.py <sujet>`** projette les annotations vers la fiche et signale au passage les règles sans source, les règles sans cas d'usage, et les « lois fragiles » — déclarées universelles sans norme ni convergence de deux systèmes.
+
+Les seuils du système ne sont pas déclaratifs, ils sont **testés** : tout recalibrage de couleur se re-vérifie par `npm run tokens:build`, à relancer après toute modification de `DESIGN.md` ou d'un `*-UI.md`.
+
+> **Ce que cette étape ne couvre plus.** Deux contrôles de l'ancien dépôt n'ont pas été portés dans le monorepo : `valide-dossier.js` (structure du dossier — paires UX/UI complètes, renvois croisés valides, versions incrémentées, aucune valeur brute non justifiée) et `test-rendu.js` (combinaisons d'axes visuellement indiscernables). Ce sont des trous ouverts, pas des contrôles déplacés : rien ne vérifie aujourd'hui qu'une paire est complète ni qu'un renvoi pointe quelque part. Le dire est plus utile que de laisser croire à une garantie qui n'existe plus.
 
 ### 8. La journalisation des décisions
 Tout changement de règle s'inscrit dans `DECISIONS.md`, daté : *ancienne règle → nouvelle règle → pourquoi*. Les fichiers `*-UX.md`/`*-UI.md` ne contiennent que les règles **actuelles** et renvoient au journal quand le contexte historique vaut le détour. Non normatif : en cas de divergence, le fichier de composant a raison.
@@ -89,8 +95,8 @@ Le script valide le graphe (toute mention « RULES-x » d'un corps doit être d�
 ### 10. La boucle de dédoublonnage
 Signal de méthode permanent, à l'origine de deux réorganisations :
 
-- **Règle dupliquée entre deux composants → pattern.** La coordination bouton/champs trouvée en double entre `BUTTON-UX.md` et `INPUT-UX.md` a fait naître `atelier/patterns/form/`.
-- **Recouvrement entre un pattern et un composant → le composant fait autorité.** Le résumé d'erreurs est un alert danger permanent : le conteneur vit dans `atelier/components/alert/`, `FORM-UX.md` garde l'orchestration propre au formulaire.
+- **Règle dupliquée entre deux composants → pattern.** La coordination bouton/champs trouvée en double entre `BUTTON-UX.md` et `INPUT-UX.md` a fait naître `content/md/patterns/FORM-UX.md`.
+- **Recouvrement entre un pattern et un composant → le composant fait autorité.** Le résumé d'erreurs est un alert danger permanent : le conteneur vit dans `content/md/components/ALERT-UX.md`, `FORM-UX.md` garde l'orchestration propre au formulaire.
 
 Chaque composant documenté renvoie ainsi de la connaissance vers les précédents — le système converge au lieu de s'empiler.
 

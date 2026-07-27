@@ -2,7 +2,7 @@
 component: performance
 layer: ux
 type: principle
-version: 1.0.0 # 1.0.0 : première rédaction — le contrat des attentes, pendant temporel de cognitive-load. Inventaire transversal et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : socle universel (5e RULES), seuils en prose (aucun token), anti-scintillement non chiffré jusqu'au premier consommateur outillé, nom « performance ».
+version: 1.0.1 # 1.0.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.0.0 : première rédaction — le contrat des attentes, pendant temporel de cognitive-load. Inventaire transversal et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : socle universel (5e RULES), seuils en prose (aucun token), anti-scintillement non chiffré jusqu'au premier consommateur outillé, nom « performance ».
 last_updated: 2026-07-21
 companion: none # principe UX-only pressenti, sur le modèle d'accessibility/cognitive-load : aucune valeur visuelle ni token propre — les mécaniques d'attente vivent chez leurs propriétaires (FORM, BUTTON, INPUT, CARD, COLLECTION, MOTION)
 confidence: mixed # les seuils de réponse (0,1 s / 1 s / 10 s, NN/g) et la borne ~400 ms (Doherty, via le catalogue laws) sont établis ; l'interdit de l'attente artificielle va CONTRE une littérature documentée (labor illusion) — position interne assumée, marquée comme telle ; le délai anti-scintillement est une convergence non chiffrée
@@ -10,7 +10,7 @@ confidence: mixed # les seuils de réponse (0,1 s / 1 s / 10 s, NN/g) et la born
 
 # Performance perçue — Couche UX (principe transversal)
 
-> Ce fichier pose le **contrat des attentes** : ce que l'interface montre, dit et promet pendant que le système travaille. La vitesse *réelle* est une affaire d'ingénierie (poids, réseau, calcul) — hors périmètre ; la vitesse *perçue* est une affaire de design, et c'est elle que l'utilisateur vit. Le système possède déjà les morceaux (bornes d'animation chez `MOTION`, cycle de soumission chez `FORM`, squelette chez `CARD`, attente par champ chez `INPUT`) ; personne ne possédait le contrat transversal — quel feedback à quel délai, quand l'optimisme est permis, ce que l'honnêteté interdit. Comme `cognitive-load` face au catalogue des lois : ce principe contraint, cite, renvoie — il ne réécrit aucune mécanique. Source du besoin : `atelier/inventaires/inventaire-cas-usage-performance.md` (audit transversal du 2026-07-21).
+> Ce fichier pose le **contrat des attentes** : ce que l'interface montre, dit et promet pendant que le système travaille. La vitesse *réelle* est une affaire d'ingénierie (poids, réseau, calcul) — hors périmètre ; la vitesse *perçue* est une affaire de design, et c'est elle que l'utilisateur vit. Le système possède déjà les morceaux (bornes d'animation chez `MOTION`, cycle de soumission chez `FORM`, squelette chez `CARD`, attente par champ chez `INPUT`) ; personne ne possédait le contrat transversal — quel feedback à quel délai, quand l'optimisme est permis, ce que l'honnêteté interdit. Comme `cognitive-load` face au catalogue des lois : ce principe contraint, cite, renvoie — il ne réécrit aucune mécanique. Source du besoin : `content/md/inventaires/inventaire-cas-usage-performance.md` (audit transversal du 2026-07-21).
 
 ## Note de transposition (à lire en premier)
 

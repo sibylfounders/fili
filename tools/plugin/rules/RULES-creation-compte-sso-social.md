@@ -5,13 +5,13 @@ extension-de: "creation-compte"
 resume: "SSO et connexion sociale : fournisseurs comparables, scopes minimaux, échec géré et rapprochement uniquement après preuve de contrôle — jamais sur la seule égalité d'un e-mail."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.2"
-source-sha256: "7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b"
-source-file: "atelier/flows/creation-compte/CREATION-COMPTE-UX.md"
+source-version: "1.3.3"
+source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / SSO et connexion sociale (extension compilée)
 
-> Extrait mécaniquement de `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
+> Extrait mécaniquement de `content/md/flows/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
 
 RÈGLE : les fournisseurs tiers s'affichent à **poids visuel égal** entre eux et comparable à l'e-mail — le mécanisme (style/tone) est de BUTTON-UX ; l'exigence d'absence de piège est du flow.
 

@@ -2,7 +2,7 @@
 component: collection
 layer: ux
 type: pattern # composition de plusieurs composants sur un écran, comme form
-version: 1.0.0 # 1.0.0 : première rédaction — le pattern lève la clause de naissance de la grille de colonnes (GRID-UX 1.1.0 : « la grille de colonnes naîtra avec le pattern collection/grille » — c'est fait). Inventaire et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : grille intrinsèque via grid.item-min (256px), composé par le contenu (pas de 12 canonique), charger-plus > pagination > scroll-infini-jamais-seul, transfert du gap depuis CARD-UI.
+version: 1.0.1 # 1.0.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.0.0 : première rédaction — le pattern lève la clause de naissance de la grille de colonnes (GRID-UX 1.1.0 : « la grille de colonnes naîtra avec le pattern collection/grille » — c'est fait). Inventaire et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : grille intrinsèque via grid.item-min (256px), composé par le contenu (pas de 12 canonique), charger-plus > pagination > scroll-infini-jamais-seul, transfert du gap depuis CARD-UI.
 last_updated: 2026-07-21
 companion: COLLECTION-UI.md
 confidence: mixed # la grille intrinsèque (colonnes émergentes de la largeur d'item) est établie techniquement et convergente avec le principe adaptatif ; le refus d'un 12-colonnes canonique est une décision interne assumée ; la position charger-plus/pagination/scroll infini s'appuie sur NN/g mais reste un arbitrage produit
@@ -10,7 +10,7 @@ confidence: mixed # la grille intrinsèque (colonnes émergentes de la largeur d
 
 # Collection — Couche UX (pattern de composition)
 
-> Ce pattern orchestre **une grille d'items et ses outils** : la zone de collection, la mécanique des colonnes, la croissance (charger plus, pagination), le tri et les filtres, les états de chargement et de changement. Il fait naître la **grille de colonnes** que `GRID-UX.md` et `SPACING-UX.md` avaient différée jusqu'à son premier consommateur — c'est lui. Il ne réécrit rien de ce que `CARD` possède (modes, densité, ratio, troncature, empty states, squelettes) : la carte reste l'atome, la collection est la phrase. Source du besoin : `atelier/inventaires/inventaire-cas-usage-collection.md` + l'intention « Collection » du routeur, jusqu'ici sans pattern propriétaire.
+> Ce pattern orchestre **une grille d'items et ses outils** : la zone de collection, la mécanique des colonnes, la croissance (charger plus, pagination), le tri et les filtres, les états de chargement et de changement. Il fait naître la **grille de colonnes** que `GRID-UX.md` et `SPACING-UX.md` avaient différée jusqu'à son premier consommateur — c'est lui. Il ne réécrit rien de ce que `CARD` possède (modes, densité, ratio, troncature, empty states, squelettes) : la carte reste l'atome, la collection est la phrase. Source du besoin : `content/md/inventaires/inventaire-cas-usage-collection.md` + l'intention « Collection » du routeur, jusqu'ici sans pattern propriétaire.
 
 ## Note de transposition
 

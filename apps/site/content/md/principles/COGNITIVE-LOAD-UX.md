@@ -2,7 +2,7 @@
 component: cognitive-load
 layer: ux
 type: principle
-version: 1.0.0 # 1.0.0 : première rédaction — pendant OPÉRATIONNEL du catalogue laws (qui garde la théorie, audience: humans) ; inventaire transversal et benchmark faits AVANT livraison ; statut de socle universel arbitré le 2026-07-21 (cf. DECISIONS.md) ; UX-only par nature (aucun token)
+version: 1.0.1 # 1.0.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.0.0 : première rédaction — pendant OPÉRATIONNEL du catalogue laws (qui garde la théorie, audience: humans) ; inventaire transversal et benchmark faits AVANT livraison ; statut de socle universel arbitré le 2026-07-21 (cf. DECISIONS.md) ; UX-only par nature (aucun token)
 last_updated: 2026-07-21
 companion: none # principe UX-only, sur le modèle d'accessibility : aucune valeur visuelle ni token propre — chaque mécanique vit chez son propriétaire, ce fichier ne porte que l'obligation et le renvoi
 confidence: mixed # les fondements (divulgation progressive NN/g, « one thing per page » GOV.UK, heuristiques de Nielsen 3/5/6, défauts NN/g, consentement actif RGPD/CJUE) sont établis ou convergents ; les règles internes renforcées (coût jamais caché, undo = promesse tenue, anti-camouflage) sont des positions du système, identifiées comme telles
@@ -10,7 +10,7 @@ confidence: mixed # les fondements (divulgation progressive NN/g, « one thing p
 
 # Charge cognitive — Couche UX (principe transversal)
 
-> Ce fichier pose les **obligations universelles de charge cognitive** : ce que tout écran, composant, pattern et flow doit respecter pour que l'interface n'impose jamais plus de travail mental que la tâche elle-même. Il est le **pendant opérationnel** de `LAWS-UX.md` : les lois (Sweller, Hick, Tesler, Zeigarnik…) y restent la référence théorique, `audience: humans`, jamais chargée au build — ce principe, lui, est **compilé et consommé** au moment de générer de l'UI. Il ne réécrit aucune loi et aucune mécanique : il contraint, cite, et renvoie. Source du besoin : `atelier/inventaires/inventaire-cas-usage-charge-cognitive.md` (audit transversal du 2026-07-21).
+> Ce fichier pose les **obligations universelles de charge cognitive** : ce que tout écran, composant, pattern et flow doit respecter pour que l'interface n'impose jamais plus de travail mental que la tâche elle-même. Il est le **pendant opérationnel** de `LAWS-UX.md` : les lois (Sweller, Hick, Tesler, Zeigarnik…) y restent la référence théorique, `audience: humans`, jamais chargée au build — ce principe, lui, est **compilé et consommé** au moment de générer de l'UI. Il ne réécrit aucune loi et aucune mécanique : il contraint, cite, et renvoie. Source du besoin : `content/md/inventaires/inventaire-cas-usage-charge-cognitive.md` (audit transversal du 2026-07-21).
 
 ## Note de transposition (à lire en premier)
 

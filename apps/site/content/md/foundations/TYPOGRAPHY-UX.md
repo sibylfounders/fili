@@ -2,7 +2,7 @@
 component: typography
 layer: ux
 type: foundation # distinct de "component" (un atome avec variantes) et de "pattern" (une composition) — une contrainte transversale
-version: 1.1.2 # 1.1.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.1 : balisage RÈGLE/CONFIANCE, aucune règle modifiée. 1.1.0 : benchmark (GOV.UK, Carbon, Polaris + littérature typographique : Butterick, Bringhurst, WCAG 1.4.8) et test de couverture — 6 trous comblés (interlignage, graisse, casse, alignement, taille minimale, profondeur). 1.0.0 : première rédaction, sans benchmark ni inventaire — écart de méthode corrigé, cf. DECISIONS.md
+version: 1.1.3 # 1.1.3 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.1 : balisage RÈGLE/CONFIANCE, aucune règle modifiée. 1.1.0 : benchmark (GOV.UK, Carbon, Polaris + littérature typographique : Butterick, Bringhurst, WCAG 1.4.8) et test de couverture — 6 trous comblés (interlignage, graisse, casse, alignement, taille minimale, profondeur). 1.0.0 : première rédaction, sans benchmark ni inventaire — écart de méthode corrigé, cf. DECISIONS.md
 last_updated: 2026-07-05
 companion: TYPOGRAPHY-UI.md
 confidence: mixed # la hiérarchie sémantique et la mesure sont établies ; la typographie fluide contient un point activement débattu, marqué comme tel
@@ -14,7 +14,7 @@ confidence: mixed # la hiérarchie sémantique et la mesure sont établies ; la 
 
 ## Note de transposition (à lire en premier)
 
-RÈGLE [TYPOGRAPHY-R01] : la typographie n'est **ni un composant, ni un pattern — c'est une fondation**, et la structure du dossier le rend visible (`atelier/foundations/`, parallèle à `atelier/components/` et `atelier/patterns/`).
+RÈGLE [TYPOGRAPHY-R01] : la typographie n'est **ni un composant, ni un pattern — c'est une fondation**, et la structure du dossier le rend visible (`content/md/foundations/`, parallèle à `content/md/components/` et `content/md/patterns/`).
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : La typographie est documentée comme une fondation transversale, rangée avec les autres fondations et non avec les composants ni les patterns.
@@ -38,7 +38,7 @@ STATUT : propriété universelle
 SOURCE : S6, S7, S15
 ÉNONCÉ : Le niveau sémantique d'un texte et son traitement visuel se décident indépendamment l'un de l'autre.
 
-**Méthode — position corrigée en 1.1.0** : la première version affirmait qu'une fondation n'a pas d'inventaire ("pas de situations, seulement des consommateurs"). Le test de couverture l'a démenti : les *usages* de la typographie s'inventorient très bien (par rôle de texte, par contexte, par état — cf. `atelier/inventaires/inventaire-cas-usage-typographie.md`), et l'inventaire a trouvé le même ordre de grandeur de trous que sur les composants. Benchmark et inventaire s'appliquent donc aux fondations comme au reste — correction documentée dans DECISIONS.md.
+**Méthode — position corrigée en 1.1.0** : la première version affirmait qu'une fondation n'a pas d'inventaire ("pas de situations, seulement des consommateurs"). Le test de couverture l'a démenti : les *usages* de la typographie s'inventorient très bien (par rôle de texte, par contexte, par état — cf. `content/md/inventaires/inventaire-cas-usage-typographie.md`), et l'inventaire a trouvé le même ordre de grandeur de trous que sur les composants. Benchmark et inventaire s'appliquent donc aux fondations comme au reste — correction documentée dans DECISIONS.md.
 
 ## Hiérarchie sémantique vs hiérarchie visuelle
 

@@ -4,13 +4,13 @@ type: "flow"
 resume: "Parcours de création de compte : demander le minimum, choisir et sécuriser la méthode, gérer les états inter-écrans, puis conduire à une première valeur sans inventer de règles de composant."
 requires: ["form", "input", "button", "alert", "voice"]
 selon-contexte: ["creation-compte-verification-email", "creation-compte-sso-social", "creation-compte-force-mot-de-passe", "creation-compte-email-deja-utilise", "creation-compte-consentement"]
-source-version: "1.3.2"
-source-sha256: "7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b"
-source-file: "atelier/flows/creation-compte/CREATION-COMPTE-UX.md"
+source-version: "1.3.3"
+source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte (flow, compilé)
 
-> Généré mécaniquement depuis `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Ne pas éditer : la source fait autorité.
+> Généré mécaniquement depuis `content/md/flows/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Ne pas éditer : la source fait autorité.
 
 ## Note de transposition
 
@@ -82,7 +82,7 @@ RÈGLE : quand plusieurs méthodes d'inscription coexistent (e-mail, SSO/social,
 
 RÈGLE : ne jamais enfermer la personne dans la méthode choisie, mais ne **jamais rapprocher deux comptes sur le seul fait que leurs chaînes d'e-mail se ressemblent**. Le rapprochement (account linking) exige une preuve de contrôle : réauthentification du compte existant, ou identité explicitement vérifiée par un fournisseur de confiance selon une politique documentée. En l'absence de preuve, ouvrir un chemin de récupération ou d'assistance sans créer de doublon silencieux. La mécanique reste côté produit ; le flow impose la preuve et le chemin de sortie. (cf. extension `creation-compte-sso-social`.)
 
-RÈGLE : présenter les fournisseurs tiers réellement pertinents pour l'audience, pas une collection exhaustive de logos. Trois portes claires valent mieux que huit qui noient le choix (charge de sélection — la même logique que Hick, cf. `atelier/principles/laws`).
+RÈGLE : présenter les fournisseurs tiers réellement pertinents pour l'audience, pas une collection exhaustive de logos. Trois portes claires valent mieux que huit qui noient le choix (charge de sélection — la même logique que Hick, cf. `content/md/principles/LAWS-UX.md`).
 
 ## Identité et moyen d'authentification
 

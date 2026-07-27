@@ -1,7 +1,7 @@
 ---
 component: button
 layer: ux
-version: 1.8.0 # 1.8.0 : BUTTON-R76 cède son autorité à CONSENTEMENT-UX (R08) — la symétrie de poids visuel des deux options d'un bandeau de consentement est une contrainte du pattern, pas une règle du bouton ; l'ID est conservé et pointe vers son nouveau propriétaire (2026-07-27, 4e cession d'autorité journalisée, cf. DECISIONS.md). 1.7.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.6.1 : le libellé visible reste intégralement lisible quand l'espace manque — repli avant troncature, libellé court uniquement s'il est validé. 1.6.0 : rattachement au Langage d'interaction et à l'Architecture adaptative.
+version: 1.8.1 # 1.8.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.8.0 : BUTTON-R76 cède son autorité à CONSENTEMENT-UX (R08) — la symétrie de poids visuel des deux options d'un bandeau de consentement est une contrainte du pattern, pas une règle du bouton ; l'ID est conservé et pointe vers son nouveau propriétaire (2026-07-27, 4e cession d'autorité journalisée, cf. DECISIONS.md). 1.7.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.6.1 : le libellé visible reste intégralement lisible quand l'espace manque — repli avant troncature, libellé court uniquement s'il est validé. 1.6.0 : rattachement au Langage d'interaction et à l'Architecture adaptative.
 last_updated: 2026-07-21
 companion: BUTTON-UI.md
 confidence: mixed # voir détail par section — certaines règles sont établies, d'autres sont un cas isolé documenté
@@ -560,7 +560,7 @@ STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Chez nous, le libellé du bouton final d'un formulaire reflète la conclusion réelle de l'action plutôt que de rester générique sur la dernière étape.
 
-RÈGLE [BUTTON-R65] : coordination avec la validation des champs — le bouton de soumission reste actif en permanence : validation au clic, affichage des erreurs. La règle complète et ses sources vivent dans `atelier/patterns/form/FORM-UX.md`, qui fait autorité sur ce point. (Révision : cf. DECISIONS.md.)
+RÈGLE [BUTTON-R65] : coordination avec la validation des champs — le bouton de soumission reste actif en permanence : validation au clic, affichage des erreurs. La règle complète et ses sources vivent dans `content/md/patterns/FORM-UX.md`, qui fait autorité sur ce point. (Révision : cf. DECISIONS.md.)
 STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Chez nous, le bouton de soumission d'un formulaire reste cliquable en permanence ; la validation se fait au clic plutôt que de désactiver le bouton par avance.
@@ -596,7 +596,7 @@ MESURE : dans une modale de confirmation destructive, le bouton par défaut acti
 
 ### Dans une carte (card)
 
-RÈGLE [BUTTON-R70] : cardinalité et position des actions — régies par `atelier/components/card/CARD-UX.md` (section "Zone d'actions"), qui fait autorité. Ce fichier garde autorité sur le *choix* de chaque bouton (style, tone, taille) une fois son emplacement décidé par la carte. (Partage d'autorité : cf. DECISIONS.md.)
+RÈGLE [BUTTON-R70] : cardinalité et position des actions — régies par `content/md/components/CARD-UX.md` (section "Zone d'actions"), qui fait autorité. Ce fichier garde autorité sur le *choix* de chaque bouton (style, tone, taille) une fois son emplacement décidé par la carte. (Partage d'autorité : cf. DECISIONS.md.)
 STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : Ce document précise que le nombre et la position des actions dans une carte relèvent d'un autre document, mais que le style de chaque bouton reste défini ici.

@@ -5,13 +5,13 @@ extension-de: "creation-compte"
 resume: "Vérification de l'e-mail selon le rôle de l'adresse et le risque : preuve avant activation, ou accès provisoire explicitement borné ; renvoi, correction, expiration et reprise du parcours."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.2"
-source-sha256: "7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b"
-source-file: "atelier/flows/creation-compte/CREATION-COMPTE-UX.md"
+source-version: "1.3.3"
+source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / Vérification de l'e-mail (extension compilée)
 
-> Extrait mécaniquement de `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
+> Extrait mécaniquement de `content/md/flows/CREATION-COMPTE-UX.md` (v1.3.2, SHA-256 `7aa1fb9eb9dc9f84951bc7fc5f33611c664a92be1d96134d90399161fa2db54b`). Charger avec `creation-compte` seulement si le contexte l'exige. Ne pas éditer.
 
 RÈGLE : choisir la porte selon le rôle réel de l'e-mail. S'il établit l'identité ou la récupération, vérifier avant d'activer le compte. Un accès provisoire avant vérification n'est possible que dans un périmètre faible risque explicitement borné ; il n'est jamais le défaut silencieux d'un produit « grand public ».
 

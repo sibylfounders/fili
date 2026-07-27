@@ -2,7 +2,7 @@
 component: accessibility
 layer: ux
 type: principle
-version: 1.1.0 # 1.1.0 : Accessibility devient un principe de premier niveau ; son contrat universel, sa compilation et son chargement automatique restent inchangés. 1.0.1 : attributions WCAG précisées (2.5.6 AAA, ordre de focus, portée de 1.4.2, mécanismes/exceptions de 2.2.1) + 2.5.8 AA ajouté ; première rédaction : fondation transversale UX-only (companion: none) compilée vers dist/ et chargée d'office par le routeur, née des trous P1 de l'inventaire transversal du 2026-07-14
+version: 1.1.1 # 1.1.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.0 : Accessibility devient un principe de premier niveau ; son contrat universel, sa compilation et son chargement automatique restent inchangés. 1.0.1 : attributions WCAG précisées (2.5.6 AAA, ordre de focus, portée de 1.4.2, mécanismes/exceptions de 2.2.1) + 2.5.8 AA ajouté ; première rédaction : fondation transversale UX-only (companion: none) compilée vers dist/ et chargée d'office par le routeur, née des trous P1 de l'inventaire transversal du 2026-07-14
 last_updated: 2026-07-20
 companion: none # principe UX-only : aucune couche visuelle (ni token, ni lexique) — le « concret » vit chez les propriétaires nommés. Distinct de laws : celui-ci EST compilé (l'IA de build le charge à chaque intention), cf. note de transposition
 confidence: mixed # les critères WCAG 2.2 cités sont établis (principalement A/AA ; 2.5.6 est AAA) ; le choix d'un socle universel compact plutôt qu'une duplication par composant est une décision d'architecture interne datée 2026-07-14
@@ -10,7 +10,7 @@ confidence: mixed # les critères WCAG 2.2 cités sont établis (principalement 
 
 # Accessibilité — Couche UX (principe transversal)
 
-> Ce fichier pose les **obligations universelles** d'accessibilité que tout composant, pattern, fondation et langage doit respecter — le contrat minimal, pas le détail. Il **ne porte aucune valeur visuelle ni token** et ne duplique pas le raisonnement de ses propriétaires : les contrastes vivent dans `COLOR`, le focus ring dans `BORDER`, le mouvement dans `MOTION`, la redondance icône dans `ICONOGRAPHY`, le mot dans `VOICE`, et chaque règle propre à un composant dans ce composant. Il **renvoie** vers eux, il ne les remplace pas. Source du besoin : `atelier/inventaires/inventaire-cas-usage-accessibilite.md` (audit transversal du 2026-07-14).
+> Ce fichier pose les **obligations universelles** d'accessibilité que tout composant, pattern, fondation et langage doit respecter — le contrat minimal, pas le détail. Il **ne porte aucune valeur visuelle ni token** et ne duplique pas le raisonnement de ses propriétaires : les contrastes vivent dans `COLOR`, le focus ring dans `BORDER`, le mouvement dans `MOTION`, la redondance icône dans `ICONOGRAPHY`, le mot dans `VOICE`, et chaque règle propre à un composant dans ce composant. Il **renvoie** vers eux, il ne les remplace pas. Source du besoin : `content/md/inventaires/inventaire-cas-usage-accessibilite.md` (audit transversal du 2026-07-14).
 
 ## Note de transposition (à lire en premier)
 

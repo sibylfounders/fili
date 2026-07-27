@@ -2,7 +2,7 @@
 component: creation-compte
 layer: ux
 type: flow
-version: 1.3.2 # 1.3.2 : la fusion implicite devient une RÈGLE autonome avec exemples ❌/✅ — le re-test à froid a montré qu'une clause enfouie en fin de paragraphe n'est pas appliquée par un agent (2e manqué F08). 1.3.1 : consentement — le piège de la fusion IMPLICITE nommé (« en créant un compte, vous acceptez CGU et politique de confidentialité ») ; angle mort F08 révélé par le test à froid n°2 du mode audit (2026-07-21). 1.3.0 : application nommée des 4 Languages au parcours ; moment E-motion « atterrissage » sobre ; transitions inter-écrans productives (2026-07-21). 1.2.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.2.1 : posture « e-mail déjà utilisé » — défaut sûr (neutre) + remontée obligatoire tant que le produit n'a pas arbitré (retour de pilote 2026-07-16). 1.2.0 : référentiels sécurité 2026 recalibrés — NIST SP 800-63B-4 (15 caractères en facteur unique, 8 seulement avec MFA), aucun rapprochement de comptes sur le seul e-mail, activation/vérification décidée par le risque, focus et annonces de transition séparés, consentement distinct du contrat et de l'information. Première compilation mécanique Flow → RULES avec empreinte de source. 1.1.0 : inventaire recalibré en statuts francs + 6 sections flow. Historique : cf. DECISIONS.md.
+version: 1.3.3 # 1.3.3 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.3.2 : la fusion implicite devient une RÈGLE autonome avec exemples ❌/✅ — le re-test à froid a montré qu'une clause enfouie en fin de paragraphe n'est pas appliquée par un agent (2e manqué F08). 1.3.1 : consentement — le piège de la fusion IMPLICITE nommé (« en créant un compte, vous acceptez CGU et politique de confidentialité ») ; angle mort F08 révélé par le test à froid n°2 du mode audit (2026-07-21). 1.3.0 : application nommée des 4 Languages au parcours ; moment E-motion « atterrissage » sobre ; transitions inter-écrans productives (2026-07-21). 1.2.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.2.1 : posture « e-mail déjà utilisé » — défaut sûr (neutre) + remontée obligatoire tant que le produit n'a pas arbitré (retour de pilote 2026-07-16). 1.2.0 : référentiels sécurité 2026 recalibrés — NIST SP 800-63B-4 (15 caractères en facteur unique, 8 seulement avec MFA), aucun rapprochement de comptes sur le seul e-mail, activation/vérification décidée par le risque, focus et annonces de transition séparés, consentement distinct du contrat et de l'information. Première compilation mécanique Flow → RULES avec empreinte de source. 1.1.0 : inventaire recalibré en statuts francs + 6 sections flow. Historique : cf. DECISIONS.md.
 last_updated: 2026-07-21
 companion: none
 confidence: mixed
@@ -10,7 +10,7 @@ confidence: mixed
 
 # Création de compte — Couche UX (flow de parcours)
 
-> Ce fichier n'est ni un composant (BUTTON-UX, INPUT-UX) ni un pattern (FORM-UX) — c'est un **flow**, un parcours nommé de bout en bout. Il n'introduit **aucune règle visuelle ni aucun token** : il orchestre des écrans, chacun assemblé par le pattern `form` à partir des composants `input`/`button`/`alert`, sur le ton de `voice`. Vit dans `atelier/flows/`, pas `atelier/patterns/`, pour que la distinction — *un écran* vs *une séquence d'écrans vers un but* — reste visible dans la structure elle-même. `companion: none` : le flow n'a pas de couche UI.
+> Ce fichier n'est ni un composant (BUTTON-UX, INPUT-UX) ni un pattern (FORM-UX) — c'est un **flow**, un parcours nommé de bout en bout. Il n'introduit **aucune règle visuelle ni aucun token** : il orchestre des écrans, chacun assemblé par le pattern `form` à partir des composants `input`/`button`/`alert`, sur le ton de `voice`. Vit dans `content/md/flows/`, pas `content/md/patterns/`, pour que la distinction — *un écran* vs *une séquence d'écrans vers un but* — reste visible dans la structure elle-même. `companion: none` : le flow n'a pas de couche UI.
 
 ## Note de transposition
 
@@ -125,7 +125,7 @@ SOURCE : S12
 ÉNONCÉ : Deux comptes ne doivent jamais être rapprochés sur la seule ressemblance de leurs adresses e-mail ; une preuve de contrôle est requise.
 MESURE : le rapprochement de deux comptes n'a lieu qu'après réauthentification ou preuve d'identité vérifiée, jamais sur la seule ressemblance des adresses e-mail
 
-RÈGLE [CREATION-COMPTE-R13] : présenter les fournisseurs tiers réellement pertinents pour l'audience, pas une collection exhaustive de logos. Trois portes claires valent mieux que huit qui noient le choix (charge de sélection — la même logique que Hick, cf. `atelier/principles/laws`).
+RÈGLE [CREATION-COMPTE-R13] : présenter les fournisseurs tiers réellement pertinents pour l'audience, pas une collection exhaustive de logos. Trois portes claires valent mieux que huit qui noient le choix (charge de sélection — la même logique que Hick, cf. `content/md/principles/LAWS-UX.md`).
 STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Nous limitons les fournisseurs tiers proposés aux options réellement pertinentes pour l'audience, plutôt qu'une liste exhaustive de logos.
@@ -532,7 +532,7 @@ SOURCE : S10
 ÉNONCÉ : Aucune case de consentement ne doit être pré-cochée, et chaque finalité doit avoir sa propre case, jamais un « tout accepter » qui les regroupe.
 MESURE : aucune case de consentement n'est pré-cochée par défaut ; chaque finalité dispose de sa propre case, sans case globale regroupant CGU et marketing
 
-RÈGLE [CREATION-COMPTE-R59] : appliquer la convention de marquage du formulaire à l'envers de l'habitude — ici l'**optionnel** (marketing) est explicitement présenté comme tel, et rien dans la mise en forme ne pousse à cocher (poids visuel égal, pas de case marketing plus grosse ou colorée que le reste — pas de dark pattern, cf. `atelier/principles/laws`).
+RÈGLE [CREATION-COMPTE-R59] : appliquer la convention de marquage du formulaire à l'envers de l'habitude — ici l'**optionnel** (marketing) est explicitement présenté comme tel, et rien dans la mise en forme ne pousse à cocher (poids visuel égal, pas de case marketing plus grosse ou colorée que le reste — pas de dark pattern, cf. `content/md/principles/LAWS-UX.md`).
 STATUT : propriété universelle
 SOURCE : S10
 ÉNONCÉ : Une case de consentement facultative (marketing) ne doit pas être mise en avant visuellement par rapport aux autres éléments du formulaire.

@@ -1,6 +1,6 @@
 # Inventaire des cas d'usage — Création de compte (flow de parcours)
 
-> Checklist de couverture pour `atelier/flows/creation-compte/CREATION-COMPTE-UX.md` v1.2.0. Premier inventaire de la nature Flow : les cas ne sont pas des variantes visuelles mais des **moments** et des **arbitrages** du parcours. La colonne « statut » rend les trous visibles ; chaque cas renvoie à la règle qui le tranche (ou à son propriétaire) via la table d'autorité.
+> Checklist de couverture pour `content/md/flows/CREATION-COMPTE-UX.md` v1.2.0. Premier inventaire de la nature Flow : les cas ne sont pas des variantes visuelles mais des **moments** et des **arbitrages** du parcours. La colonne « statut » rend les trous visibles ; chaque cas renvoie à la règle qui le tranche (ou à son propriétaire) via la table d'autorité.
 
 **Statuts** : `Couvert` (une règle du flow ou d'un propriétaire tranche le cas) · `Partiel` (posé mais incomplet, ou partagé avec un propriétaire hors design system) · `Absent` (identifié, pas encore traité) · `En attente` (relève d'une décision produit / juridique / sécurité serveur — le design system rend la frontière visible sans trancher à la place du métier).
 
