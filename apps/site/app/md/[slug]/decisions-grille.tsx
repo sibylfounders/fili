@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Button, CardGroup, Modal } from "@sibyl/react";
+import { CardGroup, Modal } from "@sibyl/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Decision } from "@/lib/doctrine";
 
@@ -113,11 +113,11 @@ export function DecisionsGrille({
   const d = ouvert;
   return (
     <>
-      {/* Mode STATIC : les cartes n'ont pas toutes un détail à montrer, et « un seul mode
-          par collection » (CARD-UX) interdit d'en rendre une partie cliquable. L'ouverture
-          est donc une action explicite, présente uniquement quand la modale ajoute vraiment
-          quelque chose — voir aDuDetail(). */}
-      <CardGroup mode="static" separated label={`Règles — ${groupe}`}>
+      {/* Un seul mode pour la collection (CARD-UX). Les règles dont la modale n'ajouterait
+          rien se déclarent `inactive` : elles gardent leur place et leur forme, mais perdent
+          toute affordance — pas de curseur main, pas de relief, et le highlight de proximité
+          les ignore. Le survol ne promet que ce qui existe. */}
+      <CardGroup mode="clickable" separated label={`Règles — ${groupe}`}>
         {decisions.map((x) => (
           <CardGroup.Card
             key={x.id}
@@ -125,19 +125,8 @@ export function DecisionsGrille({
             className="scroll-mt-[72px]"
             titleAs="h4"
             title={titre(x)}
-            actions={
-              aDuDetail(x) ? (
-                <Button.Root
-                  style="ghost"
-                  tone="neutral"
-                  size="sm"
-                  onClick={() => setOuvert(x)}
-                  aria-label={`Détail de la règle ${x.id}`}
-                >
-                  Voir le détail
-                </Button.Root>
-              ) : undefined
-            }
+            inactive={!aDuDetail(x)}
+            onActivate={() => setOuvert(x)}
             description={
               x.mesure ? (
                 <>

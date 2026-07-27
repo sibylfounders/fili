@@ -106,7 +106,9 @@ export function CardGroupRoot({
     const grp = ref.current;
     if (!grp || !prox) return;
     const hl = grp.querySelector<HTMLElement>(".cg-hl");
-    const cards = Array.from(grp.querySelectorAll<HTMLElement>(".cg-card"));
+    // Les cartes déclarées sans cible n'attirent pas le highlight : le survol ne promet
+    // que ce qui existe (cf. la prop `inactive` de CardGroup.Card).
+    const cards = Array.from(grp.querySelectorAll<HTMLElement>(".cg-card:not(.cg-card--inactive)"));
     if (!hl || !cards.length) return;
     let visible = false;
     const colonnes = () => getComputedStyle(grp).gridTemplateColumns.split(" ").length;
@@ -172,8 +174,9 @@ export function CardGroupRoot({
         style={effCols ? ({ ["--grp-cols" as string]: effCols } as React.CSSProperties) : undefined}
         className={cn(
           "cardgrp",
-          // Grille intrinsèque : minmax(min(100%, grid.item-min), 1fr) — la valeur vient du token.
-          fluide && "grid-cols-[repeat(auto-fill,minmax(min(100%,theme(maxWidth.item-min)),1fr))]",
+          // Grille intrinsèque : minmax(min(100%, grid.item-min), 1fr) — la valeur vient du token,
+          // la règle vit dans card-group.css (cf. le commentaire de `.cardgrp.fluide`).
+          fluide && "fluide",
           separated || solo ? "sep" : "joined",
           outlined && "outlined",
           solo && "solo",
@@ -217,6 +220,18 @@ export interface CardGroupCardProps extends Omit<React.HTMLAttributes<HTMLDivEle
   onSelectedChange?: (v: boolean) => void;
   /** Niveau de titre réel dans la page qui accueille la collection. */
   titleAs?: "h2" | "h3" | "h4" | "h5";
+  /**
+   * Carte SANS CIBLE dans une collection interactive.
+   *
+   * Ce n'est pas un second mode : la collection en garde un seul (CARD-UX). C'est la
+   * déclaration qu'un élément particulier n'a rien à ouvrir — une règle sans détail
+   * supplémentaire, une entrée sans destination. Elle perd alors toute affordance : pas de
+   * curseur main, pas de relief au survol, et le highlight de proximité l'ignore.
+   *
+   * Sans cette prop, il n'y avait que deux issues, toutes deux mauvaises : promettre un
+   * détail inexistant au survol, ou alourdir chaque carte d'un bouton explicite.
+   */
+  inactive?: boolean;
 }
 
 export function CardGroupCard({
@@ -231,12 +246,13 @@ export function CardGroupCard({
   selected,
   onSelectedChange,
   titleAs: H = "h4",
+  inactive = false,
   className,
   ...props
 }: CardGroupCardProps) {
   const { mode, inline } = React.useContext(GroupCtx);
-  const clickable = mode === "clickable";
-  const selectable = mode === "selectable";
+  const clickable = mode === "clickable" && !inactive;
+  const selectable = mode === "selectable" && !inactive;
 
   const cible = clickable ? (
     href ? (
@@ -305,6 +321,7 @@ export function CardGroupCard({
     <div
       className={cn(
         "cg-card",
+        inactive && "cg-card--inactive",
         clickable && "cg-card--click",
         selectable && "cg-card--select",
         selected && "selected",

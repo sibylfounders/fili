@@ -9,6 +9,12 @@
 .cardgrp.solo{max-width:340px;}
 .cardgrp.solo.inline{max-width:none;width:100%;}
 .cardgrp{position:relative;display:grid;grid-template-columns:repeat(var(--grp-cols,2),minmax(0,1fr));width:100%;}
+/* Colonnes INTRINSÈQUES (cols="auto", COLLECTION-UI) : elles émergent de la largeur reçue et du
+   token grid.item-min, jamais d'un nombre par appareil. Portée ICI et non par un utilitaire
+   Tailwind : `.cardgrp` et `.grid-cols-[…]` ont la même spécificité, et c'est l'ordre des
+   feuilles qui tranchait — la règle du composant gagnait, le mode fluide n'a jamais fonctionné
+   (constat 2026-07-27). Une classe du composant, plus spécifique, ne dépend plus de cet ordre. */
+.cardgrp.fluide{grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--item-min)),1fr));}
 .cardgrp.joined{gap:0;background:var(--background);border-radius:var(--radius-lg);overflow:hidden;}
 .cardgrp.sep{gap:8px;}
 .cardgrp.outlined.joined{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
@@ -94,3 +100,11 @@
    même technique, sémantique honnête — une commande n'est pas une destination. */
 .cg-title button{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;}
 .cg-title :is(a,button):focus-visible{outline:var(--border-focus-width,2px) solid var(--accent);outline-offset:var(--border-focus-offset,2px);border-radius:var(--radius-sm);}
+
+/* Carte sans cible dans une collection interactive : aucune affordance.
+   Le mode reste unique pour la collection ; c'est l'ÉLÉMENT qui déclare n'avoir rien
+   à ouvrir. Pas de curseur main, pas de relief au survol — le highlight de proximité
+   l'écarte côté JS. */
+.cg-card--inactive{cursor:default;}
+.cg-card--inactive .cg-lift{display:none;}
+.cg-card--inactive .cg-title{color:var(--text-primary);}
