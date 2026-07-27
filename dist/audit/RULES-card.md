@@ -4,8 +4,8 @@ nature: components
 resume: "Ce fichier contient le raisonnement : modes d'interaction, composition, empty state, risques."
 selon-contexte: [adaptive, border, button, collection, emotion, input, interaction, link, motion, toast, typography, voice]
 source: CARD-UX.md v1.4.1 + CARD-UI.md v1.5.1
-empreinte: sha256:b968c924308a1c39
-regles: {loi: 0, preference: 0, non_qualifie: 75}
+empreinte: sha256:e8b6b0e0dae9125a
+regles: {loi: 8, preference: 42, non_qualifie: 0}
 ---
 # RULES — card (compilé, mode audit)
 
@@ -19,81 +19,93 @@ regles: {loi: 0, preference: 0, non_qualifie: 75}
 
 ## Règles de design
 
-- **[non qualifié]** les axes de la carte sont **interaction_mode / density** — pas les 3 axes du bouton.
-- **[non qualifié]** **l'axe `style` n'existe pas ici.** Le style de conteneur (outlined / elevated — cf. Material Design) pourrait y ressembler, mais c'est une décision d'identité visuelle prise une fois pour tout le produit, pas un choix par instance : il vit dans CARD-UI.md comme token, pas ici comme axe.
-- **[non qualifié]** **tone n'existe pas** : le conteneur n'a pas de sémantique propre — la charge sémantique appartient au *contenu* de la carte (un badge de statut, un texte), jamais à la carte elle-même. Une carte "d'erreur" ou "d'alerte" n'est pas une variante de carte : c'est un autre composant (alert).
-- **[non qualifié]** seule exception apparente — l'état "sélectionné" d'une carte sélectionnable : un état d'interaction, pas un tone.
-- **[non qualifié]** **size se réduit à la densité** (comfortable / compact) : la hauteur d'une carte est dictée par son contenu et sa largeur par la grille — pas de sm/md/lg. La densité module le padding interne et répond à la même question que size ("quelle est la densité du contexte ?") sans fixer de dimensions.
-- **[non qualifié]** les axes réels (issus du benchmark, notamment des 4 variantes de tile chez IBM Carbon) :
-- **[non qualifié]** la présence d'une image, le nombre d'actions, la présence d'un titre ne sont **pas** des axes : ce sont des *slots* de composition (media / header / corps / zone d'actions), optionnels et combinables — l'équivalent de "Forme et contenu" chez le bouton.
-- **[non qualifié]** **la règle de cardinalité** ("un seul bouton d'action principal par carte, actions secondaires en icônes") vit ici (section "Zone d'actions") — ce fichier fait autorité sur le nombre et la position des actions dans une carte.
-- **[non qualifié]** **la contrainte de zone tactile en grille dense** reste dans BUTTON-UX.md : c'est une propriété du bouton (son padding, son seuil de 44px), pas de la carte — la carte n'a pas à connaître les tokens du bouton.
-- **[non qualifié]** une Card statique exprime l'intention **consulter** : containment calme, aucune réaction de
-- **[non qualifié]** le mode d'interaction est reconnaissable au repos. Le hover confirme la cible ; il ne révèle
-- **[non qualifié]** l'adaptation au conteneur peut changer disposition, densité et divulgation d'informations
-- **[non qualifié]** rattachement nommé — cette section applique `INTERACTION-UX.md`. La Card statique incarne l'intention **consulter** de son § « Les six intentions » (« lire une information organisée » — expression canonique explicitement listée : Texte, Card statique, Panel) : elle organise sans se donner pour une cible.
-- **[non qualifié]** les deux lois d'affordance qui gouvernent la Card sont nommées — loi 3 « une surface organise sans promettre un clic » (une Card statique reste calme, ne copie jamais l'apparence d'un contrôle) et loi 4 « la profondeur explique une couche » (l'élévation au survol indique un changement d'état, elle ne décore pas — d'où l'`elevation.raised` réservé au hover cliquable, jamais au repos généralisé).
-- **[non qualifié]** utiliser pour parcourir du contenu hétérogène où chaque item se suffit à lui-même : dashboard, flux de contenus variés, catalogue où l'image porte l'essentiel de la décision.
-- **[non qualifié]** ne pas utiliser pour comparer ou rechercher parmi des items homogènes — une liste ou une table est alors supérieure.
-- **[non qualifié]** cas limite fréquent — une liste de résultats de recherche produits : le critère qui tranche est le mode de lecture dominant : *découverte* (browse) → carte, *évaluation comparative* → liste/table, quitte à proposer les deux modes.
-- **[non qualifié]** présenter un groupe d'informations, sans que la carte elle-même soit une cible. Les éléments interactifs (boutons, liens) vivent *à l'intérieur* et sont les seules cibles.
-- **[non qualifié]** c'est le seul mode qui accepte librement plusieurs éléments interactifs internes.
-- **[non qualifié]** toute la surface de la carte est une seule et même cible — typiquement une navigation vers le détail du sujet.
-- **[non qualifié]** règle absolue — une carte cliquable ne contient **aucun élément interactif imbriqué**.
-- **[non qualifié]** règle d'implémentation — la cliquabilité vient d'un vrai lien (ou bouton) sémantique étendu à la surface de la carte — jamais d'un `div` avec un gestionnaire de clic, invisible au clavier et au lecteur d'écran (technique exacte dans CARD-UI.md).
-- **[non qualifié]** si carte entièrement cliquable *et* boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des *siblings* dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir "Zone d'actions").
-- **[non qualifié]** la carte représente une option dans un choix (plan tarifaire, configuration, sélection multiple d'items). Le clic ne navigue pas — il sélectionne.
-- **[non qualifié]** l'état sélectionné doit être signalé par plus que la couleur seule (bordure renforcée + coche, par exemple) — même exigence daltonisme que le message d'erreur de l'input.
-- **[non qualifié]** règle de cohérence — dans un groupe de cartes sélectionnables, toutes partagent le même mode (single ou multi) et la même structure interne — un groupe mixte est illisible.
-- **[non qualifié]** masquer puis révéler un contenu secondaire volumineux sans quitter le contexte.
-- **[non qualifié]** si la carte contient des éléments interactifs, seul un contrôle dédié (chevron) déclenche l'expansion — pas toute la surface. Si elle n'en contient pas, toute la surface peut déclencher (convention Carbon).
-- **[non qualifié]** ne jamais mélanger les modes d'interaction dans une même collection.
-- **[non qualifié]** **comfortable** — le défaut : dashboards, pages de contenu, catalogues.
-- **[non qualifié]** **compact** — contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets.
-- **[non qualifié]** la densité module le padding interne et les écarts entre slots (valeurs dans CARD-UI.md), jamais la structure : une carte compact a les mêmes slots dans le même ordre qu'une carte comfortable.
-- **[non qualifié]** même règle de groupe que partout — une collection partage une seule densité.
-- **[non qualifié]** ordre canonique : **media → header → corps → zone d'actions**. Chaque slot est optionnel ; l'ordre, lui, ne se réinvente pas carte par carte.
-- **[non qualifié]** porter l'identification visuelle du sujet — pas décorer. Une image qui n'aide pas à identifier ou décider est du bruit qui agrandit la carte sans bénéfice.
-- **[non qualifié]** règle de ratio — un ratio d'image unique et fixe pour toute la collection (token dans CARD-UI.md).
-- **[non qualifié]** media manquant — prévoir un remplacement délibéré (couleur de fond + icône ou initiales) plutôt que de laisser la carte s'effondrer ou afficher une image cassée : le trou de media est un cas normal, pas une erreur.
-- **[non qualifié]** l'alternative textuelle est obligatoire, sauf si l'image est purement décorative (auquel cas elle doit être explicitement marquée comme telle).
-- **[non qualifié]** nommer le sujet de la carte — c'est l'élément que le lecteur d'écran et l'œil utilisent comme point d'entrée.
-- **[non qualifié]** le titre est un vrai titre sémantique, de niveau cohérent dans toute la collection (toutes les cartes d'une grille ont le même niveau de titre).
-- **[non qualifié]** donner juste assez d'information pour décider d'entrer ou passer — la carte est un résumé, pas le contenu lui-même.
-- **[non qualifié]** le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit `VOICE-UI.md` (§ Longueur et troncature, token `measure`) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (`title`/tooltip).
-- **[non qualifié]** badge de statut — c'est ici, dans le contenu, que vit la sémantique (nouveau, en rupture, urgent...) — jamais sur le conteneur (cf. note de transposition : la carte n'a pas de tone).
-- **[non qualifié]** cohérence lexicale des badges — le libellé d'un statut suit **« un concept = un mot »** de `VOICE-UX.md` (lexique contrôlé dans `VOICE-UI.md`) : un même statut porte le même mot d'une carte et d'un écran à l'autre (« En rupture » ne devient pas « Épuisé » puis « Indisponible »), sinon l'utilisateur doute qu'il s'agisse du même état.
-- **[non qualifié]** règle de cardinalité — une seule action principale par carte ; les actions secondaires (favori, partage, menu) passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents.
-- **[non qualifié]** règle de position — les actions vivent en fin de carte (footer) ou en coin de header pour les actions d'objet (éditer, menu) — position constante dans toute la collection.
-- **[non qualifié]** ne jamais rendre les actions d'une carte visibles *uniquement* au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent.
-- **[non qualifié]** renvoi — le choix de style/tone/taille des boutons internes suit BUTTON-UX.md : la carte impose le *nombre* et la *position*, le bouton garde ses propres règles.
-- **[non qualifié]** **la collection est vide** (première utilisation, recherche sans résultat, erreur) — afficher un état vide structuré : image facultative, titre court et positif, explication de *pourquoi* c'est vide, action pour en sortir.
-- **[non qualifié]** le wording diffère selon le cas : première utilisation ("Commencez par ajouter...") ≠ recherche sans résultat ("Aucun résultat pour...") ≠ erreur (ton factuel + action corrective).
-- **[non qualifié]** rattachement nommé — ce wording applique `VOICE-UX.md` § « Le ton suit l'utilisateur », ligne **« Vide / démarrage »** (ton encourageant, orienté action) : il faut **distinguer « rien encore » de « rien trouvé »** — la première utilisation (« rien encore », on pointe la première action) ne se formule pas comme une recherche infructueuse (« rien trouvé », on relance la requête).
-- **[non qualifié]** sur l'empty state d'**erreur**, la règle cardinale **« ne jamais blâmer »** de `VOICE-UX.md` s'applique : on décrit l'écart et la correction, on ne qualifie pas l'utilisateur ; quand la faute est côté système, le produit la prend à son compte.
-- **[non qualifié]** **une carte du flux manque de contenu** (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. "Media manquant"), sans casser la structure.
-- **[non qualifié]** **hover (carte cliquable uniquement)** — le survol doit confirmer l'affordance : élévation ou bordure renforcée (tokens dans CARD-UI.md). Une carte statique, elle, ne réagit pas au survol.
-- **[non qualifié]** **focus visible** — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé.
-- **[non qualifié]** **loading / skeleton** — pendant le chargement d'une collection, afficher des cartes squelettes qui reproduisent la structure réelle (bloc media, lignes de texte) plutôt qu'un spinner global. Le squelette doit avoir les mêmes dimensions que la carte réelle.
-- **[non qualifié]** **selected** — cf. mode selectable.
-- **[non qualifié]** rattachement nommé — les micro-mouvements de la Card appliquent `MOTION-UX.md`. Le hover d'une Card cliquable relève du **feedback** (confirmer que l'affordance a été reçue — court, `motion.fast`) ; la rotation du chevron et le dépliage du mode expandable relèvent de la **continuité** (relier deux états, expliquer d'où vient le changement — `motion.base`).
-- **[non qualifié]** **rien n'anime au chargement initial** — une collection de cartes est du contenu chargé avec la page, pas une conséquence réactive d'une action ; les squelettes occupent l'attente, ils n'« entrent » pas en animation. Seuls les changements réactifs (hover, sélection, dépliage déclenché par l'utilisateur) sont animés.
-- **[non qualifié]** **le mouvement confirme, il n'informe jamais seul** — l'état déplié/replié vit dans `aria-expanded`, pas dans la rotation du chevron ; couper le mouvement ne coupe aucune information. La rotation n'est qu'une confirmation sensorielle de ce que l'attribut porte déjà.
-- **[non qualifié]** contrat `prefers-reduced-motion` (couche UX ; valeurs et sélecteurs dans CARD-UI.md) — le chevron **saute** à son orientation finale sans rotation animée, et le contenu révélé apparaît en **crossfade instantané** plutôt qu'en glissement ; l'information (ouvert/fermé, contenu présent) reste intégrale, seul le déplacement spatial disparaît.
-- **[non qualifié]** statut tranché (arbitrage utilisateur 2026-07-21) — **la Card ne porte aucun moment E-motion.** L'absence est documentée et raisonnée, pas un oubli : elle se déduit du même raisonnement que l'exclusion danger/warning de `TOAST-UX.md` (§ Instrument E-motion), appliqué au conteneur plutôt qu'au tone.
-- **[non qualifié]** première raison — **surface de consultation calme.** La doctrine d'interaction fait de la Card statique l'expression de l'intention *consulter* (une surface qui organise sans promettre de clic) ; un battement expressif sur un conteneur de lecture mentirait sur son rôle, exactement comme un style cliquable sur une carte statique.
-- **[non qualifié]** seconde raison — **composant-collection.** La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'`EMOTION-UX.md` (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité.
-- **[non qualifié]** où va alors l'expression — le moment catalogué **« vide et attente qui ont une personnalité »** d'`EMOTION-UX.md` ne s'incarne pas dans le conteneur mais dans le **contenu injecté** (un Toast, réactif et seul à l'écran, cf. `TOAST-UX.md` § Instrument E-motion). L'expression appartient à ce qui est injecté, jamais au conteneur qui l'accueille.
-- **[non qualifié]** périmètre strict — l'empty state d'**erreur** et l'état **« sans résultat »** restent strictement productifs (ton factuel, « ne jamais blâmer ») : l'exception chaleureuse d'`EMOTION-UX.md`/`VOICE-UX.md` ne s'applique jamais à une erreur ni à une absence de résultat, ici pas davantage qu'ailleurs.
-- **[non qualifié]** largeurs uniformes, hauteurs idéalement alignées par rangée — c'est le ratio d'image fixe et la troncature de texte qui rendent cet alignement possible.
-- **[non qualifié]** la position de chaque slot est identique sur toutes les cartes — la grille promet la prédictibilité, chaque écart la rompt.
-- **[non qualifié]** alternative à la grille quand la lecture est séquentielle — la carte peut alors passer en disposition horizontale (media à gauche, contenu à droite).
-- **[non qualifié]** point de vigilance — si toutes les cartes sont homogènes et comparées entre elles, se reposer la question "liste de cartes ou simple liste ?" (cf. Quand ne pas l'utiliser).
-- **[non qualifié]** la carte-statistique (un chiffre + un libellé + une tendance) est une carte statique dans la quasi-totalité des cas — si elle navigue vers le détail, elle devient clickable et suit toutes les règles de ce mode.
-- **[non qualifié]** la hiérarchie d'un dashboard vient de la taille des cartes dans la grille, pas d'un axe de style par carte — cohérent avec la note de transposition.
-- **[non qualifié]** signaler le débordement (carte partiellement visible en bord d'écran) — un carrousel dont rien ne dépasse est indistinguable d'une grille complète.
-- **[non qualifié]** **toute opération offerte au glisser-déposer a une alternative à pointeur unique** — un bouton ou un menu « Déplacer vers… » qui réalise le même déplacement sans maintenir ni traîner (WCAG 2.5.7 « Dragging Movements »). Le glisser-déposer reste un raccourci, jamais le seul chemin : l'utilisateur au clavier, au contacteur ou à faible dextérité passe par l'alternative, et le déplacement effectif est annoncé au lecteur d'écran (départ → arrivée).
-- **[non qualifié]** **l'interactivité d'une carte doit être univoque : soit la carte est la cible, soit elle contient des cibles — jamais une ambiguïté entre les deux.**
+- **[préférence]** Le mode d'interaction d'une carte est reconnaissable au repos ; le survol confirme une cible déjà annoncée et ne révèle jamais après coup qu'une carte était cliquable. `CARD-R11`
+  - vérifiable : aucun signal d'affordance d'une carte n'est porté exclusivement par un sélecteur de survol
+- **[préférence]** L'adaptation d'une carte à la largeur de son conteneur peut changer sa disposition, sa densité et la divulgation d'informations secondaires, jamais son mode d'interaction, son sujet, sa destination ni les informations nécessaires pour décider. `CARD-R12`
+  - vérifiable : à toutes les largeurs, une carte conserve le même mode d'interaction et la même destination
+- **[préférence]** La carte convient au parcours de contenus hétérogènes dont chaque élément se suffit à lui-même : tableau de bord, flux varié, catalogue où l'image porte l'essentiel de la décision. `CARD-R15`
+- **[préférence]** La carte ne convient pas à la comparaison ni à la recherche parmi des éléments homogènes, où une liste ou une table est supérieure. `CARD-R16`
+- **[préférence]** Lorsqu'un même écran peut relever des deux régimes, le critère qui tranche est le mode de lecture dominant : la découverte appelle la carte, l'évaluation comparative appelle la liste ou la table, quitte à offrir les deux modes. `CARD-R17`
+- **[préférence]** Une carte statique présente un groupe d'informations sans être elle-même une cible ; les seules cibles sont les éléments interactifs placés à l'intérieur. `CARD-R18`
+  - vérifiable : aucun gestionnaire d'activation n'est posé sur le conteneur d'une carte statique
+- **[préférence]** Le mode statique est le seul qui accepte librement plusieurs éléments interactifs internes. `CARD-R19`
+- **[préférence]** Dans une carte cliquable, toute la surface constitue une cible unique, typiquement une navigation vers le détail du sujet. `CARD-R20`
+  - vérifiable : une carte cliquable n'expose qu'une seule cible d'activation pour l'ensemble de sa surface
+- **[préférence]** Quand une carte cliquable doit malgré tout porter des actions, celles-ci sont des éléments frères dans le document, dotés de cibles propres et distinctes, et cette coexistence est arbitrée explicitement plutôt que subie. `CARD-R23`
+  - vérifiable : les actions d'une carte cliquable ne sont pas descendantes de la cible de surface et disposent chacune d'une cible d'au moins 24 × 24 px CSS
+- **[préférence]** Une carte sélectionnable représente une option dans un choix : son activation sélectionne, elle ne navigue pas. `CARD-R24`
+- **[loi]** L'état sélectionné d'une carte est signalé autrement que par la couleur seule et est exposé programmatiquement. `CARD-R25`
+  - vérifiable : l'état sélectionné porte au moins un indice non chromatique et un état programmatique (case, bouton radio ou attribut d'état ARIA)
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
+- **[préférence]** Dans un groupe de cartes sélectionnables, toutes partagent le même mode de sélection — simple ou multiple — et la même structure interne. `CARD-R26`
+  - vérifiable : un groupe de cartes sélectionnables n'associe pas des sélections simples et multiples
+- **[préférence]** Une carte dépliable masque puis révèle un contenu secondaire volumineux sans faire quitter le contexte ; elle ne sert pas à dissimuler une information nécessaire à la décision. `CARD-R27`
+- **[préférence]** Lorsqu'une carte dépliable contient des éléments interactifs, seul un contrôle dédié déclenche le dépliage ; lorsqu'elle n'en contient pas, toute la surface peut le déclencher. `CARD-R28`
+- **[préférence]** Une même collection ne mélange jamais plusieurs modes d'interaction de carte. `CARD-R29`
+  - vérifiable : toutes les cartes d'une collection partagent le même mode d'interaction
+- **[préférence]** La densité confortable est le défaut de la carte : tableaux de bord, pages de contenu, catalogues. `CARD-R30`
+- **[préférence]** La densité compacte est réservée aux contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets. `CARD-R31`
+- **[préférence]** La densité modifie le remplissage interne et les écarts entre emplacements, jamais la structure : une carte compacte a les mêmes emplacements, dans le même ordre, qu'une carte confortable. `CARD-R32`
+  - vérifiable : une carte compacte et une carte confortable exposent la même liste d'emplacements dans le même ordre
+- **[préférence]** Une collection de cartes partage une densité unique. `CARD-R33`
+  - vérifiable : toutes les cartes d'une collection partagent la même densité
+- **[préférence]** L'ordre des emplacements d'une carte est canonique — media, en-tête, corps, zone d'actions — chaque emplacement restant facultatif ; cet ordre ne se réinvente pas carte par carte. `CARD-R34`
+  - vérifiable : l'ordre des emplacements présents est identique sur toutes les cartes d'une collection
+- **[préférence]** Le media d'une carte porte l'identification visuelle du sujet ; une image qui n'aide ni à identifier ni à décider agrandit la carte sans bénéfice. `CARD-R35`
+- **[préférence]** Une collection de cartes emploie un ratio d'image unique et fixe. `CARD-R36`
+  - vérifiable : toutes les images d'une même collection partagent le même ratio
+- **[préférence]** L'absence de media est un cas normal et non une erreur : elle est traitée par un remplacement délibéré de même encombrement, jamais par une image cassée ni par un effondrement de la carte. `CARD-R37`
+  - vérifiable : toute carte sans media affiche un bloc de remplacement de même ratio que le media attendu
+- **[loi]** Toute image informative d'une carte porte une alternative textuelle ; une image purement décorative est explicitement marquée comme telle afin d'être ignorée par les technologies d'assistance. `CARD-R38`
+  - vérifiable : toute image de carte porte une alternative textuelle non vide, ou une alternative vide explicite si elle est décorative
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
+- **[loi]** Le titre d'une carte nomme le sujet de la carte et en décrit le propos ; il est le point d'entrée de la lecture visuelle comme de la lecture d'écran. `CARD-R39`
+  - vérifiable : chaque carte porte un titre non vide
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html
+- **[loi]** Le titre d'une carte est un élément de titre sémantique réel, de niveau identique sur toutes les cartes d'une même collection. `CARD-R40`
+  - vérifiable : le titre de chaque carte d'une collection est un élément de titre (h1–h6) de même niveau
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html
+- **[préférence]** Le corps d'une carte donne juste assez d'information pour décider d'entrer ou de passer : la carte est un résumé, pas le contenu lui-même. `CARD-R41`
+- **[préférence]** Le texte d'une carte est tronqué à un nombre de lignes constant plutôt que laissé libre ; la troncature ne masque jamais une information décisive et le texte complet reste accessible. `CARD-R42`
+  - vérifiable : toutes les cartes d'une collection tronquent leur corps au même nombre de lignes
+- **[préférence]** Une carte ne porte qu'une seule action principale ; les actions secondaires passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents. `CARD-R45`
+  - vérifiable : une carte ne contient qu'un seul bouton d'action principal
+- **[loi]** Les actions d'une carte occupent une position constante dans toute la collection : en pied de carte pour les appels à l'action, en coin d'en-tête pour les actions portant sur l'objet entier. `CARD-R46`
+  - vérifiable : la zone d'actions occupe la même position sur toutes les cartes d'une collection
+  - source : https://polaris-react.shopify.com/patterns/card-layout
+- **[préférence]** Les actions d'une carte ne sont jamais visibles au seul survol : un menu de débordement permanent est préférable à des icônes qui apparaissent. `CARD-R47`
+  - vérifiable : aucune action de carte n'est révélée exclusivement par un sélecteur de survol
+- **[préférence]** Une collection vide affiche un état vide structuré : image facultative, titre court et positif, explication de la cause du vide, et action pour en sortir. `CARD-R49`
+  - vérifiable : aucune collection vide n'est rendue sans titre, explication et action
+- **[préférence]** Le texte d'un état vide diffère selon sa cause : première utilisation, absence de résultat, ou erreur. `CARD-R50`
+- **[préférence]** Le survol d'une carte cliquable confirme son affordance par une élévation ou une bordure renforcée ; une carte statique ne réagit pas au survol. `CARD-R54`
+  - vérifiable : aucune carte statique ne définit de style de survol
+- **[loi]** Une carte cliquable ou sélectionnable est une cible clavier : elle présente un indicateur de focus visible, portant sur la carte entière, qui n'est jamais supprimé. `CARD-R55`
+  - vérifiable : aucune règle de style ne supprime l'indicateur de focus d'une carte sans le remplacer par un indicateur visible
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html
+- **[préférence]** Le chargement d'une collection est occupé par des cartes squelettes qui reproduisent la structure et les dimensions des cartes réelles, plutôt que par un indicateur global. `CARD-R56`
+  - vérifiable : l'arrivée des données ne provoque aucun décalage de mise en page de la collection
+- **[préférence]** Rien n'anime au chargement initial d'une collection de cartes : seuls les changements réactifs déclenchés par l'utilisateur sont animés, les squelettes occupent l'attente sans entrer en scène. `CARD-R59`
+  - vérifiable : aucune animation d'entrée n'est déclenchée par le rendu initial d'une collection de cartes
+- **[loi]** Le mouvement d'une carte confirme un changement d'état sans jamais le porter seul : l'état déplié ou replié est exposé programmatiquement, de sorte que la suppression de l'animation ne supprime aucune information. `CARD-R60`
+  - vérifiable : l'état déplié ou replié est porté par un attribut d'état programmatique et reste déterminable sans animation
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html
+- **[préférence]** Sous préférence de mouvement réduit, le chevron d'une carte dépliable saute à son orientation finale sans rotation animée et le contenu révélé apparaît en fondu instantané plutôt qu'en glissement : l'information reste intégrale, seul le déplacement spatial disparaît. `CARD-R61`
+  - vérifiable : sous prefers-reduced-motion, aucune transition de rotation ni de hauteur n'est appliquée au dépliage, et le contenu révélé reste présent
+- **[préférence]** Une carte est une surface de consultation calme : un battement expressif sur un conteneur de lecture mentirait sur son rôle, comme le ferait un style cliquable sur une carte statique. `CARD-R63`
+- **[préférence]** Un composant qui vit en collection est disqualifié d'emblée pour tout moment expressif : ce qui se répète à chaque carte cesse d'être un moment mérité. `CARD-R64`
+- **[préférence]** En grille, les cartes ont des largeurs uniformes et des hauteurs alignées par rangée ; c'est le ratio d'image fixe et la troncature du texte qui rendent cet alignement possible. `CARD-R67`
+  - vérifiable : toutes les cartes d'une même rangée ont la même largeur
+- **[préférence]** En grille, chaque emplacement occupe la même position sur toutes les cartes : la répétition visuelle promet la prédictibilité et chaque écart la rompt. `CARD-R68`
+- **[préférence]** En liste verticale, quand la lecture est séquentielle, une carte peut adopter une disposition horizontale plaçant le media à côté du contenu. `CARD-R69`
+- **[préférence]** Une liste de cartes homogènes comparées entre elles rouvre la question du composant : la liste simple redevient candidate. `CARD-R70`
+- **[préférence]** Une carte statistique — un chiffre, un libellé, une tendance — est statique par défaut ; si elle conduit vers un détail, elle devient cliquable et suit toutes les règles de ce mode. `CARD-R71`
+- **[préférence]** La hiérarchie d'un tableau de bord vient de la taille occupée par chaque carte dans la grille, non d'un axe de style porté par la carte. `CARD-R72`
+- **[préférence]** Un carrousel de cartes signale son débordement en laissant une carte partiellement visible en bord de zone ; un carrousel dont rien ne dépasse est indistinguable d'une grille complète. `CARD-R73`
+- **[loi]** Toute opération de déplacement offerte au glisser-déposer dispose d'une alternative à pointeur unique réalisant le même déplacement sans maintien ni traînée, et le déplacement effectif est annoncé aux technologies d'assistance. `CARD-R74`
+  - vérifiable : toute opération de glisser-déposer dispose d'un contrôle équivalent activable par un clic unique et au clavier
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
+- **[préférence]** L'interactivité d'une carte est univoque : soit la carte est la cible, soit elle contient des cibles, sans ambiguïté possible entre les deux. `CARD-R76`
 
 ## Non couvert — poser la question, ne rien trancher
 

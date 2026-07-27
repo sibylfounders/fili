@@ -4,8 +4,8 @@ nature: components
 resume: "Activer ou désactiver **une fonction, tout de suite**."
 selon-contexte: [border]
 source: SWITCH-UX.md v1.0.0 + SWITCH-UI.md v1.0.0
-empreinte: sha256:b995854a511579af
-regles: {loi: 0, preference: 0, non_qualifie: 10}
+empreinte: sha256:77b26f89f1d9ef33
+regles: {loi: 5, preference: 1, non_qualifie: 0}
 ---
 # RULES — switch (compilé, mode audit)
 
@@ -19,12 +19,17 @@ regles: {loi: 0, preference: 0, non_qualifie: 10}
 
 ## Règles de design
 
-- **[non qualifié]** **switch** = l'action prend effet **immédiatement** (un réglage, le mode sombre, une notification
-- **[non qualifié]** l'effet immédiat implique qu'il n'y a **rien à soumettre** — le switch n'attend pas un envoi. Si la
-- **[non qualifié]** l'état on/off se lit d'abord à la **position** du pouce (gauche/droite), pas seulement à la couleur
-- **[non qualifié]** le switch porte un **libellé** qui dit ce qu'il gouverne ; ce libellé est cliquable et fait partie
-- **[non qualifié]** `role="switch"` + `aria-checked` (true/false) ; **Espace** (et Entrée) **basculent** ; le nom
-- **[non qualifié]** la **couleur** des états relève de `color` ; le **mouvement** du pouce relève de `motion` ; l'**anneau
+- **[loi]** Un switch est réservé aux bascules binaires dont l'effet est immédiat et n'appelle aucune validation ; une sélection binaire qui n'est appliquée qu'à la soumission d'un formulaire est une case à cocher, et l'un ne se substitue jamais à l'autre. `SWITCH-R01`
+  - vérifiable : aucun switch n'est accompagné d'un bouton d'application ou d'enregistrement de son propre état
+  - source : https://www.nngroup.com/articles/toggle-switch-guidelines/
+- **[loi]** L'état d'un switch se lit à un canal non chromatique — la position du pouce sur la piste — en plus de toute variation de couleur, et un libellé d'état accompagne la bascule quand la conséquence de l'état n'est pas évidente. `SWITCH-R03`
+  - vérifiable : l'état activé se distingue de l'état désactivé autrement que par la seule couleur
+- **[loi]** Un switch porte un libellé qui nomme ce qu'il gouverne ; ce libellé est cliquable, il est contenu dans le nom accessible du contrôle, et les états désactivé et focalisé restent perceptibles. `SWITCH-R04`
+  - vérifiable : le nom accessible du switch contient le texte du libellé visible ; un clic sur le libellé bascule le switch
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html
+- **[loi]** Un switch expose role=switch et aria-checked, bascule à la barre d'espace, et notifie son changement d'état par aria-checked plutôt que par le seul déplacement visuel du pouce. `SWITCH-R05`
+  - vérifiable : le contrôle porte role=switch et aria-checked ; la barre d'espace bascule l'état ; aria-checked change à chaque bascule
+  - source : https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 
 ## Non couvert — poser la question, ne rien trancher
 

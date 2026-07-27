@@ -168,7 +168,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "la carte représente une option dans un choix (plan tarifaire, configuration, sélection multiple d'items). Le clic ne navigue pas — il sélectionne."
+       "html": "la carte représente une option dans un choix (plan tarifaire, configuration, sélection multiple d'items). Le clic ne navigue pas — il sélectionne.",
+       "id": "CARD-R24"
       }
      ]
     },
@@ -198,7 +199,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "la carte-statistique (un chiffre + un libellé + une tendance) est une carte statique dans la quasi-totalité des cas — si elle navigue vers le détail, elle devient clickable et suit toutes les règles de ce mode."
+       "html": "la carte-statistique (un chiffre + un libellé + une tendance) est une carte statique dans la quasi-totalité des cas — si elle navigue vers le détail, elle devient clickable et suit toutes les règles de ce mode.",
+       "id": "CARD-R71"
       }
      ]
     },
@@ -335,15 +337,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>compact</strong> — contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets."
+       "html": "<strong>compact</strong> — contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets.",
+       "id": "CARD-R31"
       },
       {
        "tag": "Règle",
-       "html": "seconde raison — <strong>composant-collection.</strong> La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'<code>EMOTION-UX.md</code> (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité."
+       "html": "seconde raison — <strong>composant-collection.</strong> La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'<code>EMOTION-UX.md</code> (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité.",
+       "id": "CARD-R64"
       },
       {
        "tag": "Règle",
-       "html": "point de vigilance — si toutes les cartes sont homogènes et comparées entre elles, se reposer la question &quot;liste de cartes ou simple liste ?&quot; (cf. Quand ne pas l'utiliser)."
+       "html": "point de vigilance — si toutes les cartes sont homogènes et comparées entre elles, se reposer la question &quot;liste de cartes ou simple liste ?&quot; (cf. Quand ne pas l'utiliser).",
+       "id": "CARD-R70"
       }
      ]
     },
@@ -505,15 +510,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "une Card statique exprime l'intention <strong>consulter</strong> : containment calme, aucune réaction de"
+       "html": "une Card statique exprime l'intention <strong>consulter</strong> : containment calme, aucune réaction de",
+       "id": "CARD-R10"
       },
       {
        "tag": "Règle",
-       "html": "rattachement nommé — cette section applique <code>INTERACTION-UX.md</code>. La Card statique incarne l'intention <strong>consulter</strong> de son § « Les six intentions » (« lire une information organisée » — expression canonique explicitement listée : Texte, Card statique, Panel) : elle organise sans se donner pour une cible."
+       "html": "rattachement nommé — cette section applique <code>INTERACTION-UX.md</code>. La Card statique incarne l'intention <strong>consulter</strong> de son § « Les six intentions » (« lire une information organisée » — expression canonique explicitement listée : Texte, Card statique, Panel) : elle organise sans se donner pour une cible.",
+       "id": "CARD-R13"
       },
       {
        "tag": "Règle",
-       "html": "les deux lois d'affordance qui gouvernent la Card sont nommées — loi 3 « une surface organise sans promettre un clic » (une Card statique reste calme, ne copie jamais l'apparence d'un contrôle) et loi 4 « la profondeur explique une couche » (l'élévation au survol indique un changement d'état, elle ne décore pas — d'où l'<code>elevation.raised</code> réservé au hover cliquable, jamais au repos généralisé)."
+       "html": "les deux lois d'affordance qui gouvernent la Card sont nommées — loi 3 « une surface organise sans promettre un clic » (une Card statique reste calme, ne copie jamais l'apparence d'un contrôle) et loi 4 « la profondeur explique une couche » (l'élévation au survol indique un changement d'état, elle ne décore pas — d'où l'<code>elevation.raised</code> réservé au hover cliquable, jamais au repos généralisé).",
+       "id": "CARD-R14"
       }
      ]
     },
@@ -543,11 +551,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "si carte entièrement cliquable <em>et</em> boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des <em>siblings</em> dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir &quot;Zone d'actions&quot;)."
+       "html": "si carte entièrement cliquable <em>et</em> boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des <em>siblings</em> dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir &quot;Zone d'actions&quot;).",
+       "id": "CARD-R23"
       },
       {
        "tag": "Règle",
-       "html": "<strong>focus visible</strong> — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé."
+       "html": "<strong>focus visible</strong> — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé.",
+       "id": "CARD-R55"
       }
      ]
     },
@@ -577,15 +587,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "seule exception apparente — l'état &quot;sélectionné&quot; d'une carte sélectionnable : un état d'interaction, pas un tone."
+       "html": "seule exception apparente — l'état &quot;sélectionné&quot; d'une carte sélectionnable : un état d'interaction, pas un tone.",
+       "id": "CARD-R04"
       },
       {
        "tag": "Règle",
-       "html": "règle de cohérence — dans un groupe de cartes sélectionnables, toutes partagent le même mode (single ou multi) et la même structure interne — un groupe mixte est illisible."
+       "html": "règle de cohérence — dans un groupe de cartes sélectionnables, toutes partagent le même mode (single ou multi) et la même structure interne — un groupe mixte est illisible.",
+       "id": "CARD-R26"
       },
       {
        "tag": "Règle",
-       "html": "<strong>focus visible</strong> — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé."
+       "html": "<strong>focus visible</strong> — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé.",
+       "id": "CARD-R55"
       }
      ]
     },
@@ -640,7 +653,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>loading / skeleton</strong> — pendant le chargement d'une collection, afficher des cartes squelettes qui reproduisent la structure réelle (bloc media, lignes de texte) plutôt qu'un spinner global. Le squelette doit avoir les mêmes dimensions que la carte réelle."
+       "html": "<strong>loading / skeleton</strong> — pendant le chargement d'une collection, afficher des cartes squelettes qui reproduisent la structure réelle (bloc media, lignes de texte) plutôt qu'un spinner global. Le squelette doit avoir les mêmes dimensions que la carte réelle.",
+       "id": "CARD-R56"
       }
      ]
     },
@@ -670,15 +684,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>la collection est vide</strong> (première utilisation, recherche sans résultat, erreur) — afficher un état vide structuré : image facultative, titre court et positif, explication de <em>pourquoi</em> c'est vide, action pour en sortir."
+       "html": "<strong>la collection est vide</strong> (première utilisation, recherche sans résultat, erreur) — afficher un état vide structuré : image facultative, titre court et positif, explication de <em>pourquoi</em> c'est vide, action pour en sortir.",
+       "id": "CARD-R49"
       },
       {
        "tag": "Règle",
-       "html": "sur l'empty state d'<strong>erreur</strong>, la règle cardinale <strong>« ne jamais blâmer »</strong> de <code>VOICE-UX.md</code> s'applique : on décrit l'écart et la correction, on ne qualifie pas l'utilisateur ; quand la faute est côté système, le produit la prend à son compte."
+       "html": "sur l'empty state d'<strong>erreur</strong>, la règle cardinale <strong>« ne jamais blâmer »</strong> de <code>VOICE-UX.md</code> s'applique : on décrit l'écart et la correction, on ne qualifie pas l'utilisateur ; quand la faute est côté système, le produit la prend à son compte.",
+       "id": "CARD-R52"
       },
       {
        "tag": "Règle",
-       "html": "<strong>une carte du flux manque de contenu</strong> (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. &quot;Media manquant&quot;), sans casser la structure."
+       "html": "<strong>une carte du flux manque de contenu</strong> (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. &quot;Media manquant&quot;), sans casser la structure.",
+       "id": "CARD-R53"
       }
      ]
     },
@@ -815,7 +832,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ne jamais rendre les actions d'une carte visibles <em>uniquement</em> au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent."
+       "html": "ne jamais rendre les actions d'une carte visibles <em>uniquement</em> au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent.",
+       "id": "CARD-R47"
       }
      ]
     },
@@ -845,15 +863,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "règle d'implémentation — la cliquabilité vient d'un vrai lien (ou bouton) sémantique étendu à la surface de la carte — jamais d'un <code>div</code> avec un gestionnaire de clic, invisible au clavier et au lecteur d'écran (technique exacte dans CARD-UI.md)."
+       "html": "règle d'implémentation — la cliquabilité vient d'un vrai lien (ou bouton) sémantique étendu à la surface de la carte — jamais d'un <code>div</code> avec un gestionnaire de clic, invisible au clavier et au lecteur d'écran (technique exacte dans CARD-UI.md).",
+       "id": "CARD-R22"
       },
       {
        "tag": "Règle",
-       "html": "nommer le sujet de la carte — c'est l'élément que le lecteur d'écran et l'œil utilisent comme point d'entrée."
+       "html": "nommer le sujet de la carte — c'est l'élément que le lecteur d'écran et l'œil utilisent comme point d'entrée.",
+       "id": "CARD-R39"
       },
       {
        "tag": "Règle",
-       "html": "contrat <code>prefers-reduced-motion</code> (couche UX ; valeurs et sélecteurs dans CARD-UI.md) — le chevron <strong>saute</strong> à son orientation finale sans rotation animée, et le contenu révélé apparaît en <strong>crossfade instantané</strong> plutôt qu'en glissement ; l'information (ouvert/fermé, contenu présent) reste intégrale, seul le déplacement spatial disparaît."
+       "html": "contrat <code>prefers-reduced-motion</code> (couche UX ; valeurs et sélecteurs dans CARD-UI.md) — le chevron <strong>saute</strong> à son orientation finale sans rotation animée, et le contenu révélé apparaît en <strong>crossfade instantané</strong> plutôt qu'en glissement ; l'information (ouvert/fermé, contenu présent) reste intégrale, seul le déplacement spatial disparaît.",
+       "id": "CARD-R61"
       }
      ]
     },
@@ -940,7 +961,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "alternative à la grille quand la lecture est séquentielle — la carte peut alors passer en disposition horizontale (media à gauche, contenu à droite)."
+       "html": "alternative à la grille quand la lecture est séquentielle — la carte peut alors passer en disposition horizontale (media à gauche, contenu à droite).",
+       "id": "CARD-R69"
       }
      ]
     },
@@ -970,15 +992,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "la présence d'une image, le nombre d'actions, la présence d'un titre ne sont <strong>pas</strong> des axes : ce sont des <em>slots</em> de composition (media / header / corps / zone d'actions), optionnels et combinables — l'équivalent de &quot;Forme et contenu&quot; chez le bouton."
+       "html": "la présence d'une image, le nombre d'actions, la présence d'un titre ne sont <strong>pas</strong> des axes : ce sont des <em>slots</em> de composition (media / header / corps / zone d'actions), optionnels et combinables — l'équivalent de &quot;Forme et contenu&quot; chez le bouton.",
+       "id": "CARD-R07"
       },
       {
        "tag": "Règle",
-       "html": "ordre canonique : <strong>media → header → corps → zone d'actions</strong>. Chaque slot est optionnel ; l'ordre, lui, ne se réinvente pas carte par carte."
+       "html": "ordre canonique : <strong>media → header → corps → zone d'actions</strong>. Chaque slot est optionnel ; l'ordre, lui, ne se réinvente pas carte par carte.",
+       "id": "CARD-R34"
       },
       {
        "tag": "Règle",
-       "html": "media manquant — prévoir un remplacement délibéré (couleur de fond + icône ou initiales) plutôt que de laisser la carte s'effondrer ou afficher une image cassée : le trou de media est un cas normal, pas une erreur."
+       "html": "media manquant — prévoir un remplacement délibéré (couleur de fond + icône ou initiales) plutôt que de laisser la carte s'effondrer ou afficher une image cassée : le trou de media est un cas normal, pas une erreur.",
+       "id": "CARD-R37"
       }
      ]
     },
@@ -1008,7 +1033,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>une carte du flux manque de contenu</strong> (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. &quot;Media manquant&quot;), sans casser la structure."
+       "html": "<strong>une carte du flux manque de contenu</strong> (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. &quot;Media manquant&quot;), sans casser la structure.",
+       "id": "CARD-R53"
       }
      ]
     },
@@ -1038,15 +1064,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>tone n'existe pas</strong> : le conteneur n'a pas de sémantique propre — la charge sémantique appartient au <em>contenu</em> de la carte (un badge de statut, un texte), jamais à la carte elle-même. Une carte &quot;d'erreur&quot; ou &quot;d'alerte&quot; n'est pas une variante de carte : c'est un autre composant (alert)."
+       "html": "<strong>tone n'existe pas</strong> : le conteneur n'a pas de sémantique propre — la charge sémantique appartient au <em>contenu</em> de la carte (un badge de statut, un texte), jamais à la carte elle-même. Une carte &quot;d'erreur&quot; ou &quot;d'alerte&quot; n'est pas une variante de carte : c'est un autre composant (alert).",
+       "id": "CARD-R03"
       },
       {
        "tag": "Règle",
-       "html": "badge de statut — c'est ici, dans le contenu, que vit la sémantique (nouveau, en rupture, urgent...) — jamais sur le conteneur (cf. note de transposition : la carte n'a pas de tone)."
+       "html": "badge de statut — c'est ici, dans le contenu, que vit la sémantique (nouveau, en rupture, urgent...) — jamais sur le conteneur (cf. note de transposition : la carte n'a pas de tone).",
+       "id": "CARD-R43"
       },
       {
        "tag": "Règle",
-       "html": "cohérence lexicale des badges — le libellé d'un statut suit <strong>« un concept = un mot »</strong> de <code>VOICE-UX.md</code> (lexique contrôlé dans <code>VOICE-UI.md</code>) : un même statut porte le même mot d'une carte et d'un écran à l'autre (« En rupture » ne devient pas « Épuisé » puis « Indisponible »), sinon l'utilisateur doute qu'il s'agisse du même état."
+       "html": "cohérence lexicale des badges — le libellé d'un statut suit <strong>« un concept = un mot »</strong> de <code>VOICE-UX.md</code> (lexique contrôlé dans <code>VOICE-UI.md</code>) : un même statut porte le même mot d'une carte et d'un écran à l'autre (« En rupture » ne devient pas « Épuisé » puis « Indisponible »), sinon l'utilisateur doute qu'il s'agisse du même état.",
+       "id": "CARD-R44"
       }
      ]
     },
@@ -1101,11 +1130,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "règle de cardinalité — une seule action principale par carte ; les actions secondaires (favori, partage, menu) passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents."
+       "html": "règle de cardinalité — une seule action principale par carte ; les actions secondaires (favori, partage, menu) passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents.",
+       "id": "CARD-R45"
       },
       {
        "tag": "Règle",
-       "html": "ne jamais rendre les actions d'une carte visibles <em>uniquement</em> au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent."
+       "html": "ne jamais rendre les actions d'une carte visibles <em>uniquement</em> au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent.",
+       "id": "CARD-R47"
       }
      ]
     },
@@ -1135,7 +1166,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit <code>VOICE-UI.md</code> (§ Longueur et troncature, token <code>measure</code>) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (<code>title</code>/tooltip)."
+       "html": "le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit <code>VOICE-UI.md</code> (§ Longueur et troncature, token <code>measure</code>) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (<code>title</code>/tooltip).",
+       "id": "CARD-R42"
       }
      ]
     }
@@ -1172,7 +1204,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "si carte entièrement cliquable <em>et</em> boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des <em>siblings</em> dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir &quot;Zone d'actions&quot;)."
+       "html": "si carte entièrement cliquable <em>et</em> boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des <em>siblings</em> dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir &quot;Zone d'actions&quot;).",
+       "id": "CARD-R23"
       }
      ]
     },
@@ -1227,7 +1260,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "seconde raison — <strong>composant-collection.</strong> La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'<code>EMOTION-UX.md</code> (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité."
+       "html": "seconde raison — <strong>composant-collection.</strong> La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'<code>EMOTION-UX.md</code> (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité.",
+       "id": "CARD-R64"
       }
      ]
     },
@@ -1257,7 +1291,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit <code>VOICE-UI.md</code> (§ Longueur et troncature, token <code>measure</code>) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (<code>title</code>/tooltip)."
+       "html": "le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit <code>VOICE-UI.md</code> (§ Longueur et troncature, token <code>measure</code>) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (<code>title</code>/tooltip).",
+       "id": "CARD-R42"
       }
      ]
     },
@@ -1582,6 +1617,2790 @@
    "date": "2026-07-14",
    "titre": "Accessibilité : fondation transversale accessibility (UX-only, compilée, socle universel) + règles chez leurs propriétaires",
    "html": "<ul><li><strong>Fichiers</strong> : foundations/accessibility/ACCESSIBILITY-UX.md (créé), dist/RULES-accessibility.md (créé), MOTION-UX.md 1.0.0→1.1.0, BORDER-UX.md 1.0.0→1.1.0, BUTTON-UX.md 1.3.2→1.4.0, CARD-UX.md 1.1.2→1.2.0, FORM-UX.md 2.0.0→2.1.0, ALERT-UX.md 1.2.0→1.3.0, INPUT-UX.md 1.4.0→1.5.0, dist/RULES-{motion,border,button,card,form,alert,input}, tools/genere-routeur.js, tools/genere-site.js, DESIGN.md 1.15.0→1.16.0, README.md, METHODE.md 1.4.0→1.5.0, inventaires/inventaire-cas-usage-accessibilite.md.</li><li><strong>Ancien état</strong> : l'inventaire transversal du 2026-07-14 (entrée précédente) avait cartographié l'accessibilité et refusé de fabriquer une fondation orpheline — les trous devaient se combler chez leur propriétaire. Il laissait cinq trous <strong>P1</strong> (modalités concurrentes, focus complet, pointer/motricité, flash, canaux sensoriels) sans contrat consommable par le build, et signalait un risque de lecture : la fondation VOICE pouvait passer pour une couverture de la commande vocale.</li><li><strong>Nouvelle règle — architecture hybride</strong> : (1) une fondation <code>accessibility</code> <strong>UX-only</strong> (<code>companion: none</code>, aucun token, aucune valeur visuelle) pose les <strong>obligations universelles</strong> (clavier ; modalités concurrentes non bloquées ; focus visible/ordonné/non piégé/non masqué ; nom accessible = libellé visible ; jamais un seul canal ; alternative aux gestes complexes et au glisser-déposer ; limites de temps contrôlables ; aucun flash dangereux) et <strong>renvoie aux propriétaires</strong> — elle ne duplique jamais COLOR/BORDER/MOTION/ICONOGRAPHY/VOICE. (2) Chaque règle <em>propre</em> est placée chez son vrai propriétaire : <strong>MOTION</strong> (flash 2.3.1), <strong>BORDER</strong> (focus non masqué 2.4.11), <strong>BUTTON</strong> (annulation du pointeur 2.5.2 + haptique jamais indispensable), <strong>CARD</strong> (alternative au glisser-déposer 2.5.7), <strong>FORM</strong> (limites de temps 2.2.1), <strong>ALERT</strong> (signal sonore toujours doublé du texte, 1.4.1), <strong>INPUT</strong> (dictée + label in name 2.5.3). <strong>Aucune section « accessibilité » générique recopiée</strong> dans chaque fichier — seulement la règle qui décrit le comportement propre du sujet.</li><li><strong>Précédent nouveau</strong> : <code>companion: none</code> <strong>sans</strong> <code>audience: humans</code>. Contrairement à <code>laws</code> (référence humaine, non compilée), <code>accessibility</code> <strong>est compilée</strong> vers <code>dist/RULES-accessibility.md</code> et <strong>intégrée au socle du routeur</strong> (constante <code>SOCLE_FONDATIONS</code> dans genere-routeur.js), donc chargée d'office pour <strong>toute</strong> intention. valide-dossier.js reconnaissait déjà le cas UX-only ; genere-routeur.js a reçu la notion de socle universel (poids mesuré, sujet non-orphelin) ; genere-site.js l'expose comme une fondation à part entière.</li><li><strong>VOICE recadrée explicitement</strong> : VOICE = voix <strong>éditoriale</strong>, jamais commande <strong>vocale</strong>. L'obligation « service utilisable sans parler / nom adressable à la voix » relève de l'interaction (clavier + nom accessible chez INPUT), pas de VOICE. Écrit noir sur blanc dans ACCESSIBILITY-UX et RULES-accessibility.</li><li><strong>Chargement minimal préservé, poids mesuré</strong> : le socle passe de « routeur + tokens.yaml » à « + RULES-accessibility » (~1,3 k). Chaque bundle augmente uniformément de ~1,3 k — Formulaire ~25,1 k, Collection ~18,4 k, Page de contenu ~11,4 k, Feedback ~13,7 k (cf. tools/RAPPORT-ROUTEUR.md). <code>accessibility</code> a <code>requires: []</code> (n'entraîne aucune fondation dans la fermeture) et <code>selon-contexte: [color, border, motion, iconography, voice]</code> (renvois, non chargés d'office).</li><li><strong>En attente (inchangé)</strong> : sous-titres, transcriptions, audiodescriptions, reconnaissance vocale complète — aucun composant audio/vidéo ne les exerce ; position à prendre avant d'en créer un. Dette <strong>P3</strong> : aucun test réel (clavier, lecteur d'écran, dictée, tactile imprécis, zoom/reflow) sur écran assemblé — la couverture est <strong>documentaire, pas éprouvée</strong>.</li><li><strong>Pourquoi</strong> : une somme de règles par composant ne prouve pas une couverture des capacités, et une section accessibilité recopiée partout diverge dès la première évolution. Un contrat unique chargé partout + un renvoi vers le propriétaire réel : la règle ne vit qu'à un seul endroit, et le build la consomme réellement.</li></ul>"
+  }
+ ],
+ "decisions": [
+  {
+   "id": "CARD-R01",
+   "couche": "ux",
+   "solution": "les axes de la carte sont **interaction_mode / density** — pas les 3 axes du bouton.",
+   "enonce": "Le modèle de variantes de la carte repose sur deux axes seulement — mode d'interaction et densité — et ne transpose pas les trois axes du bouton.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R02",
+   "couche": "ux",
+   "solution": "**l'axe `style` n'existe pas ici.** Le style de conteneur (outlined / elevated — cf. Material Design) pourrait y ressembler, mais c'est une décision d'identité visuelle prise une fois pour tout le produit, pas un choix par instance : il vit dans CARD-UI.md comme token, pas ici comme axe.",
+   "enonce": "Le style de conteneur (contour, élévation, remplissage) n'est pas un axe de variante de la carte : c'est une décision d'identité visuelle prise une fois pour tout le produit et portée par la couche UI, non un choix par instance.",
+   "mesure": "le style de conteneur n'est pas exposé comme propriété d'instance dans l'API du composant",
+   "contre": "",
+   "probleme": "la carte vit presque toujours **en collection** (grille, liste, dashboard), où la hiérarchie est *volontairement absente* — le régime du \"menu à choix parallèles\" documenté comme exception dans BUTTON-UX.md, devenu ici le cas normal.",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "3 styles de conteneur (elevated/filled/outlined) comme décision visuelle, pas hiérarchie par instance",
+     "liens": [
+      {
+       "label": "Material Design 3 — Cards",
+       "url": "https://m3.material.io/components/cards/guidelines"
+      },
+      {
+       "label": "MUI — Card",
+       "url": "https://mui.com/material-ui/react-card/"
+      }
+     ],
+     "confiance": "Établi pour l'existence des 3 styles ; l'interprétation \"décision produit, pas axe par instance\" est une lecture de ce fichier"
+    },
+    {
+     "ref": "S30",
+     "affirmation": "« Les cartes affichent du contenu et des actions relatifs à un sujet unique » ; trois types de conteneur : elevated, filled, outlined",
+     "liens": [
+      {
+       "label": "Material Design 3 — Cards",
+       "url": "https://m3.material.io/components/cards/overview"
+      }
+     ],
+     "confiance": "Établi pour la définition et les trois types (page rendue en JavaScript : seule la description canonique de la page a pu être lue) — corrobore S8"
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "3 styles de conteneur (elevated/filled/outlined) comme décision visuelle, pas hiérarchie par instance",
+    "liens": [
+     {
+      "label": "Material Design 3 — Cards",
+      "url": "https://m3.material.io/components/cards/guidelines"
+     },
+     {
+      "label": "MUI — Card",
+      "url": "https://mui.com/material-ui/react-card/"
+     }
+    ],
+    "confiance": "Établi pour l'existence des 3 styles ; l'interprétation \"décision produit, pas axe par instance\" est une lecture de ce fichier"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R03",
+   "couche": "ux",
+   "solution": "**tone n'existe pas** : le conteneur n'a pas de sémantique propre — la charge sémantique appartient au *contenu* de la carte (un badge de statut, un texte), jamais à la carte elle-même. Une carte \"d'erreur\" ou \"d'alerte\" n'est pas une variante de carte : c'est un autre composant (alert).",
+   "enonce": "La carte n'a pas de sémantique propre : la charge sémantique appartient à son contenu, et une surface porteuse d'un sens d'alerte ou d'erreur relève d'un autre composant, pas d'une variante de carte.",
+   "mesure": "aucune variante de carte ne porte un nom de tone sémantique (succès, avertissement, erreur, information)",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-4",
+     "titre": "Badge / tag de statut",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R04",
+   "couche": "ux",
+   "solution": "seule exception apparente — l'état \"sélectionné\" d'une carte sélectionnable : un état d'interaction, pas un tone.",
+   "enonce": "L'état « sélectionné » d'une carte sélectionnable est un état d'interaction et non une variante sémantique du conteneur.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "Polaris les sépare explicitement (Card vs Alert card).",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-2",
+     "titre": "Sélectionnable",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R05",
+   "couche": "ux",
+   "solution": "**size se réduit à la densité** (comfortable / compact) : la hauteur d'une carte est dictée par son contenu et sa largeur par la grille — pas de sm/md/lg. La densité module le padding interne et répond à la même question que size (\"quelle est la densité du contexte ?\") sans fixer de dimensions.",
+   "enonce": "La carte n'a pas d'axe de taille : sa hauteur est dictée par son contenu et sa largeur par la grille ; seule subsiste une densité qui module l'espacement interne.",
+   "mesure": "aucune variante de carte ne fixe de hauteur ni de largeur en dur",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R06",
+   "couche": "ux",
+   "solution": "les axes réels (issus du benchmark, notamment des 4 variantes de tile chez IBM Carbon) :",
+   "enonce": "Les deux axes de la carte sont le mode d'interaction — statique, cliquable, sélectionnable, dépliable — qui détermine ce que la carte a le droit de contenir, et la densité.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R07",
+   "couche": "ux",
+   "solution": "la présence d'une image, le nombre d'actions, la présence d'un titre ne sont **pas** des axes : ce sont des *slots* de composition (media / header / corps / zone d'actions), optionnels et combinables — l'équivalent de \"Forme et contenu\" chez le bouton.",
+   "enonce": "La présence d'un media, d'un titre ou d'actions n'est pas un axe de variante mais un jeu d'emplacements de composition, optionnels et combinables.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Card layout",
+      "url": "https://polaris-react.shopify.com/patterns/card-layout"
+     }
+    ],
+    "confiance": "Établi — pattern documenté en détail par Polaris"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-2",
+     "titre": "Sans media",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R08",
+   "couche": "ux",
+   "solution": "**la règle de cardinalité** (\"un seul bouton d'action principal par carte, actions secondaires en icônes\") vit ici (section \"Zone d'actions\") — ce fichier fait autorité sur le nombre et la position des actions dans une carte.",
+   "enonce": "L'autorité sur le nombre et la position des actions à l'intérieur d'une carte appartient au document de la carte, pas à celui du bouton.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R09",
+   "couche": "ux",
+   "solution": "**la contrainte de zone tactile en grille dense** reste dans BUTTON-UX.md : c'est une propriété du bouton (son padding, son seuil de 44px), pas de la carte — la carte n'a pas à connaître les tokens du bouton.",
+   "enonce": "L'autorité sur la zone tactile d'un bouton, y compris en grille dense, reste au document du bouton : la carte n'a pas à connaître les tokens du bouton.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R10",
+   "couche": "ux",
+   "solution": "une Card statique exprime l'intention **consulter** : containment calme, aucune réaction de",
+   "enonce": "Chaque mode d'interaction de la carte incarne une intention du langage d'interaction — consulter pour la carte statique, naviguer pour la carte cliquable, choisir pour la carte sélectionnable — et la carte cliquable délègue sa cible aux règles du lien plutôt que d'en redéfinir la sémantique.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+     "liens": [
+      {
+       "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    },
+    {
+     "ref": "S25",
+     "affirmation": "La finalité d'un lien est déterminable à partir de son texte seul ou de son texte et de son contexte programmatiquement déterminé — ce qui impose que le texte accessible d'une carte cliquable soit son titre",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.4 Link Purpose (In Context)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html"
+      },
+      {
+       "label": "WCAG 2.2 — 2.4.9 Link Purpose (Link Only)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html"
+      }
+     ],
+     "confiance": "Établi, standards (A et AAA) — la règle correspondante est portée par LINK-UX.md (R15/R16), la carte s'y rattache sans la réécrire"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+    "liens": [
+     {
+      "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Statique",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R11",
+   "couche": "ux",
+   "solution": "le mode d'interaction est reconnaissable au repos. Le hover confirme la cible ; il ne révèle",
+   "enonce": "Le mode d'interaction d'une carte est reconnaissable au repos ; le survol confirme une cible déjà annoncée et ne révèle jamais après coup qu'une carte était cliquable.",
+   "mesure": "aucun signal d'affordance d'une carte n'est porté exclusivement par un sélecteur de survol",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+     "liens": [
+      {
+       "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+    "liens": [
+     {
+      "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R12",
+   "couche": "ux",
+   "solution": "l'adaptation au conteneur peut changer disposition, densité et divulgation d'informations",
+   "enonce": "L'adaptation d'une carte à la largeur de son conteneur peut changer sa disposition, sa densité et la divulgation d'informations secondaires, jamais son mode d'interaction, son sujet, sa destination ni les informations nécessaires pour décider.",
+   "mesure": "à toutes les largeurs, une carte conserve le même mode d'interaction et la même destination",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R13",
+   "couche": "ux",
+   "solution": "rattachement nommé — cette section applique `INTERACTION-UX.md`. La Card statique incarne l'intention **consulter** de son § « Les six intentions » (« lire une information organisée » — expression canonique explicitement listée : Texte, Card statique, Panel) : elle organise sans se donner pour une cible.",
+   "enonce": "Le traitement de la carte se rattache nommément au langage d'interaction : la carte statique y est l'expression canonique de l'intention consulter et organise sans se donner pour une cible.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+     "liens": [
+      {
+       "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+    "liens": [
+     {
+      "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Statique",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R14",
+   "couche": "ux",
+   "solution": "les deux lois d'affordance qui gouvernent la Card sont nommées — loi 3 « une surface organise sans promettre un clic » (une Card statique reste calme, ne copie jamais l'apparence d'un contrôle) et loi 4 « la profondeur explique une couche » (l'élévation au survol indique un changement d'état, elle ne décore pas — d'où l'`elevation.raised` réservé au hover cliquable, jamais au repos généralisé).",
+   "enonce": "Deux lois d'affordance gouvernent la carte et sont nommées plutôt que réécrites : une surface organise sans promettre un clic, et la profondeur explique un changement de couche au lieu de décorer.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "la Card doit passer le « Test de reconnaissance » d'`INTERACTION-UX.md` — en niveaux de gris et sans hover, une Card statique se distingue d'une Card cliquable, et son rôle (consulter) ne se confond pas avec agir ou naviguer. Un « non » à ce test n'appelle pas plus d'effets mais un meilleur mode d'interaction ou une meilleure structure.",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+     "liens": [
+      {
+       "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+    "liens": [
+     {
+      "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Statique",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R15",
+   "couche": "ux",
+   "solution": "utiliser pour parcourir du contenu hétérogène où chaque item se suffit à lui-même : dashboard, flux de contenus variés, catalogue où l'image porte l'essentiel de la décision.",
+   "enonce": "La carte convient au parcours de contenus hétérogènes dont chaque élément se suffit à lui-même : tableau de bord, flux varié, catalogue où l'image porte l'essentiel de la décision.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — article de référence, définition largement reprise"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — article de référence, définition largement reprise"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R16",
+   "couche": "ux",
+   "solution": "ne pas utiliser pour comparer ou rechercher parmi des items homogènes — une liste ou une table est alors supérieure.",
+   "enonce": "La carte ne convient pas à la comparaison ni à la recherche parmi des éléments homogènes, où une liste ou une table est supérieure.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "la carte dégrade la scannabilité et rend la comparaison difficile (positions d'information variables d'une carte à l'autre). C'est le point le plus contre-intuitif du benchmark : le réflexe \"des cartes, c'est plus moderne qu'une liste\" est explicitement identifié comme une erreur par NN/g.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R17",
+   "couche": "ux",
+   "solution": "cas limite fréquent — une liste de résultats de recherche produits : le critère qui tranche est le mode de lecture dominant : *découverte* (browse) → carte, *évaluation comparative* → liste/table, quitte à proposer les deux modes.",
+   "enonce": "Lorsqu'un même écran peut relever des deux régimes, le critère qui tranche est le mode de lecture dominant : la découverte appelle la carte, l'évaluation comparative appelle la liste ou la table, quitte à offrir les deux modes.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+   },
+   "confiance": "établi — NN/g, argumenté par mécanisme (scannabilité), pas chiffré.",
+   "cas": []
+  },
+  {
+   "id": "CARD-R18",
+   "couche": "ux",
+   "solution": "présenter un groupe d'informations, sans que la carte elle-même soit une cible. Les éléments interactifs (boutons, liens) vivent *à l'intérieur* et sont les seules cibles.",
+   "enonce": "Une carte statique présente un groupe d'informations sans être elle-même une cible ; les seules cibles sont les éléments interactifs placés à l'intérieur.",
+   "mesure": "aucun gestionnaire d'activation n'est posé sur le conteneur d'une carte statique",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R19",
+   "couche": "ux",
+   "solution": "c'est le seul mode qui accepte librement plusieurs éléments interactifs internes.",
+   "enonce": "Le mode statique est le seul qui accepte librement plusieurs éléments interactifs internes.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "donner à une carte statique un style qui suggère la cliquabilité (ombre au survol, curseur pointer) — l'utilisateur clique dans le vide et perd confiance dans les affordances du produit.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    },
+    {
+     "ref": "S4",
+     "affirmation": "Carte cliquable sans CTA interne ; expansion par chevron si contenu interactif",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — règle explicite du système"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R20",
+   "couche": "ux",
+   "solution": "toute la surface de la carte est une seule et même cible — typiquement une navigation vers le détail du sujet.",
+   "enonce": "Dans une carte cliquable, toute la surface constitue une cible unique, typiquement une navigation vers le détail du sujet.",
+   "mesure": "une carte cliquable n'expose qu'une seule cible d'activation pour l'ensemble de sa surface",
+   "contre": "",
+   "probleme": "l'intérêt est ergonomique — une grande cible est plus facile à atteindre qu'un petit lien (loi de Fitts).",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — article de référence, définition largement reprise"
+    },
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — article de référence, définition largement reprise"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R21",
+   "couche": "ux",
+   "solution": "règle absolue — une carte cliquable ne contient **aucun élément interactif imbriqué**.",
+   "enonce": "L'interdiction d'imbriquer un élément interactif dans une carte cliquable n'est pas propre à la carte : elle renvoie à la règle du lien, qui interdit tout descendant interactif, et n'est pas réécrite ici.",
+   "mesure": "aucun élément interactif n'est descendant de l'élément qui rend la carte cliquable",
+   "contre": "",
+   "probleme": "un lien dans un lien ou un bouton dans une cible cliquable produit un ordre de tabulation incohérent et des annonces de lecteur d'écran imprévisibles — ce n'est pas une dégradation esthétique, c'est une exclusion.",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Carte cliquable sans CTA interne ; expansion par chevron si contenu interactif",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — règle explicite du système"
+    },
+    {
+     "ref": "S24",
+     "affirmation": "Le modèle de contenu de l'élément a interdit tout descendant de contenu interactif, tout descendant a et tout descendant portant l'attribut tabindex",
+     "liens": [
+      {
+       "label": "HTML Living Standard — 4.5.1 The a element",
+       "url": "https://html.spec.whatwg.org/multipage/text-level-semantics.html"
+      }
+     ],
+     "confiance": "Normatif — l'interdiction d'imbrication dans une carte cliquable n'est pas une convention de design system mais une contrainte de la spécification HTML"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Carte cliquable sans CTA interne ; expansion par chevron si contenu interactif",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — règle explicite du système"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R22",
+   "couche": "ux",
+   "solution": "règle d'implémentation — la cliquabilité vient d'un vrai lien (ou bouton) sémantique étendu à la surface de la carte — jamais d'un `div` avec un gestionnaire de clic, invisible au clavier et au lecteur d'écran (technique exacte dans CARD-UI.md).",
+   "enonce": "La technique qui rend une carte cliquable renvoie aux règles du lien : la cliquabilité vient d'un élément sémantique réel étendu à la surface, jamais d'un conteneur inerte muni d'un gestionnaire de clic.",
+   "mesure": "aucune surface de carte navigable n'est portée par un élément non interactif muni d'un gestionnaire de clic",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+     "liens": [
+      {
+       "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+       "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+      }
+     ],
+     "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "Surface cliquable + actions détachées pour éviter les conflits d'événements",
+     "liens": [
+      {
+       "label": "MUI — Card (CardActionArea)",
+       "url": "https://mui.com/material-ui/react-card/"
+      }
+     ],
+     "confiance": "Établi — pattern d'implémentation documenté"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+    "liens": [
+     {
+      "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+      "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+     }
+    ],
+    "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-3",
+     "titre": "Lecteur d'écran",
+     "famille": "Plateforme / device"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R23",
+   "couche": "ux",
+   "solution": "si carte entièrement cliquable *et* boutons d'action internes sont tous deux nécessaires — les actions internes doivent être des *siblings* dans le DOM avec des cibles dédiées, et le conflit doit être une décision consciente, pas un accident (voir \"Zone d'actions\").",
+   "enonce": "Quand une carte cliquable doit malgré tout porter des actions, celles-ci sont des éléments frères dans le document, dotés de cibles propres et distinctes, et cette coexistence est arbitrée explicitement plutôt que subie.",
+   "mesure": "les actions d'une carte cliquable ne sont pas descendantes de la cible de surface et disposent chacune d'une cible d'au moins 24 × 24 px CSS",
+   "contre": "",
+   "probleme": "vouloir le beurre et l'argent du beurre — carte entièrement cliquable *et* boutons d'action à l'intérieur, sans arbitrage.",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+     "liens": [
+      {
+       "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+       "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+      }
+     ],
+     "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "Surface cliquable + actions détachées pour éviter les conflits d'événements",
+     "liens": [
+      {
+       "label": "MUI — Card (CardActionArea)",
+       "url": "https://mui.com/material-ui/react-card/"
+      }
+     ],
+     "confiance": "Établi — pattern d'implémentation documenté"
+    },
+    {
+     "ref": "S27",
+     "affirmation": "La cible pour les entrées de pointage mesure au moins 24 × 24 px CSS, sauf exceptions d'espacement, d'équivalence, de texte en ligne, de contrôle par l'agent utilisateur ou d'essentialité",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau AA) — s'applique aux cibles internes distinctes d'une carte cliquable"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+    "liens": [
+     {
+      "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+      "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+     }
+    ],
+    "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+   },
+   "confiance": "établi — interdiction des imbrications convergente (Livefront, règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité).",
+   "cas": [
+    {
+     "id": "cas-2-1",
+     "titre": "Cliquable entière",
+     "famille": "État / comportement dans le temps"
+    },
+    {
+     "id": "cas-5-0",
+     "titre": "Carte cliquable + actions imbriquées",
+     "famille": "Enjeu business / risque"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R24",
+   "couche": "ux",
+   "solution": "la carte représente une option dans un choix (plan tarifaire, configuration, sélection multiple d'items). Le clic ne navigue pas — il sélectionne.",
+   "enonce": "Une carte sélectionnable représente une option dans un choix : son activation sélectionne, elle ne navigue pas.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-3",
+     "titre": "Carte-option (plan tarifaire, configuration)",
+     "famille": "Rôle / type de contenu"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R25",
+   "couche": "ux",
+   "solution": "l'état sélectionné doit être signalé par plus que la couleur seule (bordure renforcée + coche, par exemple) — même exigence daltonisme que le message d'erreur de l'input.",
+   "enonce": "L'état sélectionné d'une carte est signalé autrement que par la couleur seule et est exposé programmatiquement.",
+   "mesure": "l'état sélectionné porte au moins un indice non chromatique et un état programmatique (case, bouton radio ou attribut d'état ARIA)",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S20",
+     "affirmation": "La couleur n'est jamais le seul moyen visuel de véhiculer une information, d'indiquer une action, d'appeler une réponse ou de distinguer un élément",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.1 Use of Color",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — fonde l'exigence d'un indice non chromatique sur l'état sélectionné"
+    },
+    {
+     "ref": "S22",
+     "affirmation": "Pour tout composant d'interface, le nom et le rôle sont programmatiquement déterminables, les états et propriétés modifiables sont programmatiquement réglables, et la notification de leur changement est disponible aux technologies d'assistance",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — fonde à la fois l'état sélectionné exposé et l'état déplié porté par un attribut, pas par le mouvement"
+    }
+   ],
+   "principale": {
+    "ref": "S20",
+    "affirmation": "La couleur n'est jamais le seul moyen visuel de véhiculer une information, d'indiquer une action, d'appeler une réponse ou de distinguer un élément",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.4.1 Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau A) — fonde l'exigence d'un indice non chromatique sur l'état sélectionné"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R26",
+   "couche": "ux",
+   "solution": "règle de cohérence — dans un groupe de cartes sélectionnables, toutes partagent le même mode (single ou multi) et la même structure interne — un groupe mixte est illisible.",
+   "enonce": "Dans un groupe de cartes sélectionnables, toutes partagent le même mode de sélection — simple ou multiple — et la même structure interne.",
+   "mesure": "un groupe de cartes sélectionnables n'associe pas des sélections simples et multiples",
+   "contre": "",
+   "probleme": "ne pas distinguer visuellement \"sélectionné\" de \"survolé\" — l'utilisateur ne sait plus ce qu'il a réellement choisi.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-2",
+     "titre": "Sélectionnable",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R27",
+   "couche": "ux",
+   "solution": "masquer puis révéler un contenu secondaire volumineux sans quitter le contexte.",
+   "enonce": "Une carte dépliable masque puis révèle un contenu secondaire volumineux sans faire quitter le contexte ; elle ne sert pas à dissimuler une information nécessaire à la décision.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "4 modes d'interaction (base/clickable/selectable/expandable)",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — taxonomie explicitement documentée par Carbon"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R28",
+   "couche": "ux",
+   "solution": "si la carte contient des éléments interactifs, seul un contrôle dédié (chevron) déclenche l'expansion — pas toute la surface. Si elle n'en contient pas, toute la surface peut déclencher (convention Carbon).",
+   "enonce": "Lorsqu'une carte dépliable contient des éléments interactifs, seul un contrôle dédié déclenche le dépliage ; lorsqu'elle n'en contient pas, toute la surface peut le déclencher.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "utiliser l'expansion pour cacher du contenu essentiel à la décision — l'expansion est pour le secondaire, pas pour faire tenir l'important dans une grille.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Carte cliquable sans CTA interne ; expansion par chevron si contenu interactif",
+     "liens": [
+      {
+       "label": "IBM Carbon — Tile usage",
+       "url": "https://carbondesignsystem.com/components/tile/usage/"
+      }
+     ],
+     "confiance": "Établi — règle explicite du système"
+    },
+    {
+     "ref": "S24",
+     "affirmation": "Le modèle de contenu de l'élément a interdit tout descendant de contenu interactif, tout descendant a et tout descendant portant l'attribut tabindex",
+     "liens": [
+      {
+       "label": "HTML Living Standard — 4.5.1 The a element",
+       "url": "https://html.spec.whatwg.org/multipage/text-level-semantics.html"
+      }
+     ],
+     "confiance": "Normatif — l'interdiction d'imbrication dans une carte cliquable n'est pas une convention de design system mais une contrainte de la spécification HTML"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Carte cliquable sans CTA interne ; expansion par chevron si contenu interactif",
+    "liens": [
+     {
+      "label": "IBM Carbon — Tile usage",
+      "url": "https://carbondesignsystem.com/components/tile/usage/"
+     }
+    ],
+    "confiance": "Établi — règle explicite du système"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R29",
+   "couche": "ux",
+   "solution": "ne jamais mélanger les modes d'interaction dans une même collection.",
+   "enonce": "Une même collection ne mélange jamais plusieurs modes d'interaction de carte.",
+   "mesure": "toutes les cartes d'une collection partagent le même mode d'interaction",
+   "contre": "",
+   "probleme": "une grille où certaines cartes naviguent, d'autres sélectionnent, casse la prédictibilité que la répétition visuelle promet. Même logique que \"un groupe de boutons partage la même taille\".",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R30",
+   "couche": "ux",
+   "solution": "**comfortable** — le défaut : dashboards, pages de contenu, catalogues.",
+   "enonce": "La densité confortable est le défaut de la carte : tableaux de bord, pages de contenu, catalogues.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R31",
+   "couche": "ux",
+   "solution": "**compact** — contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets.",
+   "enonce": "La densité compacte est réservée aux contextes denses : panneaux latéraux, listes de cartes à fort volume, widgets.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Liste verticale (cartes empilées)",
+     "famille": "Conteneur / contexte d'intégration"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R32",
+   "couche": "ux",
+   "solution": "la densité module le padding interne et les écarts entre slots (valeurs dans CARD-UI.md), jamais la structure : une carte compact a les mêmes slots dans le même ordre qu'une carte comfortable.",
+   "enonce": "La densité modifie le remplissage interne et les écarts entre emplacements, jamais la structure : une carte compacte a les mêmes emplacements, dans le même ordre, qu'une carte confortable.",
+   "mesure": "une carte compacte et une carte confortable exposent la même liste d'emplacements dans le même ordre",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R33",
+   "couche": "ux",
+   "solution": "même règle de groupe que partout — une collection partage une seule densité.",
+   "enonce": "Une collection de cartes partage une densité unique.",
+   "mesure": "toutes les cartes d'une collection partagent la même densité",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R34",
+   "couche": "ux",
+   "solution": "ordre canonique : **media → header → corps → zone d'actions**. Chaque slot est optionnel ; l'ordre, lui, ne se réinvente pas carte par carte.",
+   "enonce": "L'ordre des emplacements d'une carte est canonique — media, en-tête, corps, zone d'actions — chaque emplacement restant facultatif ; cet ordre ne se réinvente pas carte par carte.",
+   "mesure": "l'ordre des emplacements présents est identique sur toutes les cartes d'une collection",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Card layout",
+      "url": "https://polaris-react.shopify.com/patterns/card-layout"
+     }
+    ],
+    "confiance": "Établi — pattern documenté en détail par Polaris"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-2",
+     "titre": "Sans media",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R35",
+   "couche": "ux",
+   "solution": "porter l'identification visuelle du sujet — pas décorer. Une image qui n'aide pas à identifier ou décider est du bruit qui agrandit la carte sans bénéfice.",
+   "enonce": "Le media d'une carte porte l'identification visuelle du sujet ; une image qui n'aide ni à identifier ni à décider agrandit la carte sans bénéfice.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S11",
+     "affirmation": "Media = éducatif/identification, pas décoration ; toujours accompagné de texte",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Media card",
+       "url": "https://polaris-react.shopify.com/components/layout-and-structure/media-card"
+      }
+     ],
+     "confiance": "Établi chez Polaris, formulation générale extrapolée"
+    }
+   ],
+   "principale": {
+    "ref": "S11",
+    "affirmation": "Media = éducatif/identification, pas décoration ; toujours accompagné de texte",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Media card",
+      "url": "https://polaris-react.shopify.com/components/layout-and-structure/media-card"
+     }
+    ],
+    "confiance": "Établi chez Polaris, formulation générale extrapolée"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R36",
+   "couche": "ux",
+   "solution": "règle de ratio — un ratio d'image unique et fixe pour toute la collection (token dans CARD-UI.md).",
+   "enonce": "Une collection de cartes emploie un ratio d'image unique et fixe.",
+   "mesure": "toutes les images d'une même collection partagent le même ratio",
+   "contre": "",
+   "probleme": "des hauteurs d'image variables détruisent l'alignement de la grille, qui est la principale promesse visuelle d'une collection de cartes.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R37",
+   "couche": "ux",
+   "solution": "media manquant — prévoir un remplacement délibéré (couleur de fond + icône ou initiales) plutôt que de laisser la carte s'effondrer ou afficher une image cassée : le trou de media est un cas normal, pas une erreur.",
+   "enonce": "L'absence de media est un cas normal et non une erreur : elle est traitée par un remplacement délibéré de même encombrement, jamais par une image cassée ni par un effondrement de la carte.",
+   "mesure": "toute carte sans media affiche un bloc de remplacement de même ratio que le media attendu",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-2",
+     "titre": "Sans media",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R38",
+   "couche": "ux",
+   "solution": "l'alternative textuelle est obligatoire, sauf si l'image est purement décorative (auquel cas elle doit être explicitement marquée comme telle).",
+   "enonce": "Toute image informative d'une carte porte une alternative textuelle ; une image purement décorative est explicitement marquée comme telle afin d'être ignorée par les technologies d'assistance.",
+   "mesure": "toute image de carte porte une alternative textuelle non vide, ou une alternative vide explicite si elle est décorative",
+   "contre": "",
+   "probleme": "laisser l'image porter l'information seule, sans équivalent textuel.",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S19",
+     "affirmation": "Tout contenu non textuel dispose d'une alternative textuelle de finalité équivalente ; un contenu purement décoratif est implémenté de façon à pouvoir être ignoré par les technologies d'assistance",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.1.1 Non-text Content",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — couvre les deux volets de la règle media (alt obligatoire / décoratif explicitement marqué)"
+    }
+   ],
+   "principale": {
+    "ref": "S19",
+    "affirmation": "Tout contenu non textuel dispose d'une alternative textuelle de finalité équivalente ; un contenu purement décoratif est implémenté de façon à pouvoir être ignoré par les technologies d'assistance",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.1.1 Non-text Content",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau A) — couvre les deux volets de la règle media (alt obligatoire / décoratif explicitement marqué)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R39",
+   "couche": "ux",
+   "solution": "nommer le sujet de la carte — c'est l'élément que le lecteur d'écran et l'œil utilisent comme point d'entrée.",
+   "enonce": "Le titre d'une carte nomme le sujet de la carte et en décrit le propos ; il est le point d'entrée de la lecture visuelle comme de la lecture d'écran.",
+   "mesure": "chaque carte porte un titre non vide",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S31",
+     "affirmation": "Les titres et les étiquettes décrivent le sujet ou la finalité",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.6 Headings and Labels",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau AA) — donne un ancrage normatif au titre de carte qui « nomme le sujet »"
+    },
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    }
+   ],
+   "principale": {
+    "ref": "S31",
+    "affirmation": "Les titres et les étiquettes décrivent le sujet ou la finalité",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.6 Headings and Labels",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau AA) — donne un ancrage normatif au titre de carte qui « nomme le sujet »"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-3",
+     "titre": "Lecteur d'écran",
+     "famille": "Plateforme / device"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R40",
+   "couche": "ux",
+   "solution": "le titre est un vrai titre sémantique, de niveau cohérent dans toute la collection (toutes les cartes d'une grille ont le même niveau de titre).",
+   "enonce": "Le titre d'une carte est un élément de titre sémantique réel, de niveau identique sur toutes les cartes d'une même collection.",
+   "mesure": "le titre de chaque carte d'une collection est un élément de titre (h1–h6) de même niveau",
+   "contre": "",
+   "probleme": "faire du titre le seul lien cliquable d'une carte \"presque entièrement cliquable\" — soit la carte est cliquable (mode clickable), soit le titre est un lien dans une carte statique, mais le choix doit être franc.",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S18",
+     "affirmation": "Information, structure et relations véhiculées par la présentation sont programmatiquement déterminables ou disponibles en texte — ce qui fonde le titre de carte réel et le balisage de collection",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.3.1 Info and Relationships",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — techniques suffisantes H42 (h1–h6) et H48 (ol/ul/dl) explicitement listées"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S18",
+    "affirmation": "Information, structure et relations véhiculées par la présentation sont programmatiquement déterminables ou disponibles en texte — ce qui fonde le titre de carte réel et le balisage de collection",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.3.1 Info and Relationships",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau A) — techniques suffisantes H42 (h1–h6) et H48 (ol/ul/dl) explicitement listées"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R41",
+   "couche": "ux",
+   "solution": "donner juste assez d'information pour décider d'entrer ou passer — la carte est un résumé, pas le contenu lui-même.",
+   "enonce": "Le corps d'une carte donne juste assez d'information pour décider d'entrer ou de passer : la carte est un résumé, pas le contenu lui-même.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — article de référence, définition largement reprise"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Carte = résumé + point d'entrée, entièrement cliquable de préférence (Fitts)",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — article de référence, définition largement reprise"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R42",
+   "couche": "ux",
+   "solution": "le texte est tronqué à une longueur fixe (nombre de lignes constant) plutôt que laissé libre — même raison que le ratio d'image : l'alignement de la collection prime sur l'exhaustivité d'une carte isolée. La troncature suit `VOICE-UI.md` (§ Longueur et troncature, token `measure`) : l'ellipsis ne masque jamais une information décisive et le texte complet reste accessible (`title`/tooltip).",
+   "enonce": "Le texte d'une carte est tronqué à un nombre de lignes constant plutôt que laissé libre ; la troncature ne masque jamais une information décisive et le texte complet reste accessible.",
+   "mesure": "toutes les cartes d'une collection tronquent leur corps au même nombre de lignes",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S16",
+     "affirmation": "Cohérence lexicale des badges (« un concept = un mot ») ; troncature (`measure`)",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Cohérence lexicale + `VOICE-UI.md` § Lexique contrôlé / Longueur et troncature",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S16",
+    "affirmation": "Cohérence lexicale des badges (« un concept = un mot ») ; troncature (`measure`)",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` § Cohérence lexicale + `VOICE-UI.md` § Lexique contrôlé / Longueur et troncature",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-7",
+     "titre": "Texte tronqué / line clamp",
+     "famille": "Contenu / forme visuelle"
+    },
+    {
+     "id": "cas-5-3",
+     "titre": "Performance (images en collection longue)",
+     "famille": "Enjeu business / risque"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R43",
+   "couche": "ux",
+   "solution": "badge de statut — c'est ici, dans le contenu, que vit la sémantique (nouveau, en rupture, urgent...) — jamais sur le conteneur (cf. note de transposition : la carte n'a pas de tone).",
+   "enonce": "La sémantique d'état — nouveau, en rupture, urgent — vit dans le contenu de la carte sous forme de badge, jamais sur le conteneur, qui n'a pas de tone.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-4",
+     "titre": "Badge / tag de statut",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R44",
+   "couche": "ux",
+   "solution": "cohérence lexicale des badges — le libellé d'un statut suit **« un concept = un mot »** de `VOICE-UX.md` (lexique contrôlé dans `VOICE-UI.md`) : un même statut porte le même mot d'une carte et d'un écran à l'autre (« En rupture » ne devient pas « Épuisé » puis « Indisponible »), sinon l'utilisateur doute qu'il s'agisse du même état.",
+   "enonce": "Le libellé d'un badge de statut n'est pas défini dans le document de la carte : il se rattache au lexique contrôlé du langage de voix, qui impose qu'un même statut porte le même mot d'un écran à l'autre.",
+   "mesure": "un même statut est désigné par un libellé unique dans tout le produit",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S16",
+     "affirmation": "Cohérence lexicale des badges (« un concept = un mot ») ; troncature (`measure`)",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Cohérence lexicale + `VOICE-UI.md` § Lexique contrôlé / Longueur et troncature",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S16",
+    "affirmation": "Cohérence lexicale des badges (« un concept = un mot ») ; troncature (`measure`)",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` § Cohérence lexicale + `VOICE-UI.md` § Lexique contrôlé / Longueur et troncature",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-4",
+     "titre": "Badge / tag de statut",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R45",
+   "couche": "ux",
+   "solution": "règle de cardinalité — une seule action principale par carte ; les actions secondaires (favori, partage, menu) passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents.",
+   "enonce": "Une carte ne porte qu'une seule action principale ; les actions secondaires passent en icônes discrètes ou en menu de débordement, jamais en boutons texte concurrents.",
+   "mesure": "une carte ne contient qu'un seul bouton d'action principal",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Card layout",
+      "url": "https://polaris-react.shopify.com/patterns/card-layout"
+     }
+    ],
+    "confiance": "Établi — pattern documenté en détail par Polaris"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-6",
+     "titre": "Menu de débordement (overflow)",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R46",
+   "couche": "ux",
+   "solution": "règle de position — les actions vivent en fin de carte (footer) ou en coin de header pour les actions d'objet (éditer, menu) — position constante dans toute la collection.",
+   "enonce": "Les actions d'une carte occupent une position constante dans toute la collection : en pied de carte pour les appels à l'action, en coin d'en-tête pour les actions portant sur l'objet entier.",
+   "mesure": "la zone d'actions occupe la même position sur toutes les cartes d'une collection",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    },
+    {
+     "ref": "S29",
+     "affirmation": "Carte = point d'entrée résumant une information plus vaste ; anatomie en-tête / media / corps / pied avec les actions en pied ; groupe de cartes balisé ul + li ; niveau de titre choisi selon la structure de la page ; ratio d'image contrôlé par utilitaire",
+     "liens": [
+      {
+       "label": "U.S. Web Design System — Card",
+       "url": "https://designsystem.digital.gov/components/card/"
+      }
+     ],
+     "confiance": "Établi — troisième design system public vérifié sur la carte (avec Carbon S3/S4 et Polaris S5) ; fonde les convergences invoquées sur l'anatomie, la position des actions et le titre sémantique"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Card layout",
+      "url": "https://polaris-react.shopify.com/patterns/card-layout"
+     }
+    ],
+    "confiance": "Établi — pattern documenté en détail par Polaris"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R47",
+   "couche": "ux",
+   "solution": "ne jamais rendre les actions d'une carte visibles *uniquement* au survol. Un menu de débordement toujours visible vaut mieux que des icônes qui apparaissent.",
+   "enonce": "Les actions d'une carte ne sont jamais visibles au seul survol : un menu de débordement permanent est préférable à des icônes qui apparaissent.",
+   "mesure": "aucune action de carte n'est révélée exclusivement par un sélecteur de survol",
+   "contre": "",
+   "probleme": "même piège que les icônes hover-only en table documenté dans BUTTON-UX.md — invisible donc inexistant sur écran tactile.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-2",
+     "titre": "Actions révélées au survol",
+     "famille": "Plateforme / device"
+    },
+    {
+     "id": "cas-4-6",
+     "titre": "Menu de débordement (overflow)",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R48",
+   "couche": "ux",
+   "solution": "renvoi — le choix de style/tone/taille des boutons internes suit BUTTON-UX.md : la carte impose le *nombre* et la *position*, le bouton garde ses propres règles.",
+   "enonce": "Le style, le tone et la taille des boutons internes à une carte ne sont pas définis par le document de la carte : celui-ci fixe le nombre et la position, le document du bouton garde ses propres règles.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R49",
+   "couche": "ux",
+   "solution": "**la collection est vide** (première utilisation, recherche sans résultat, erreur) — afficher un état vide structuré : image facultative, titre court et positif, explication de *pourquoi* c'est vide, action pour en sortir.",
+   "enonce": "Une collection vide affiche un état vide structuré : image facultative, titre court et positif, explication de la cause du vide, et action pour en sortir.",
+   "mesure": "aucune collection vide n'est rendue sans titre, explication et action",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Empty state : image/titre/corps/action, variantes première utilisation / sans résultat / erreur",
+     "liens": [
+      {
+       "label": "IBM Carbon — Empty states pattern",
+       "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/"
+      }
+     ],
+     "confiance": "Établi — pattern documenté"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Empty state : image/titre/corps/action, variantes première utilisation / sans résultat / erreur",
+    "liens": [
+     {
+      "label": "IBM Carbon — Empty states pattern",
+      "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/"
+     }
+    ],
+    "confiance": "Établi — pattern documenté"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-5",
+     "titre": "Collection vide (empty state)",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R50",
+   "couche": "ux",
+   "solution": "le wording diffère selon le cas : première utilisation (\"Commencez par ajouter...\") ≠ recherche sans résultat (\"Aucun résultat pour...\") ≠ erreur (ton factuel + action corrective).",
+   "enonce": "Le texte d'un état vide diffère selon sa cause : première utilisation, absence de résultat, ou erreur.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Empty state : image/titre/corps/action, variantes première utilisation / sans résultat / erreur",
+     "liens": [
+      {
+       "label": "IBM Carbon — Empty states pattern",
+       "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/"
+      }
+     ],
+     "confiance": "Établi — pattern documenté"
+    },
+    {
+     "ref": "S15",
+     "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Empty state : image/titre/corps/action, variantes première utilisation / sans résultat / erreur",
+    "liens": [
+     {
+      "label": "IBM Carbon — Empty states pattern",
+      "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/"
+     }
+    ],
+    "confiance": "Établi — pattern documenté"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R51",
+   "couche": "ux",
+   "solution": "rattachement nommé — ce wording applique `VOICE-UX.md` § « Le ton suit l'utilisateur », ligne **« Vide / démarrage »** (ton encourageant, orienté action) : il faut **distinguer « rien encore » de « rien trouvé »** — la première utilisation (« rien encore », on pointe la première action) ne se formule pas comme une recherche infructueuse (« rien trouvé », on relance la requête).",
+   "enonce": "Le ton des états vides n'est pas redéfini dans le document de la carte : il se rattache au langage de voix, dont la ligne « vide / démarrage » impose de distinguer « rien encore » de « rien trouvé ».",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S15",
+     "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S15",
+    "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R52",
+   "couche": "ux",
+   "solution": "sur l'empty state d'**erreur**, la règle cardinale **« ne jamais blâmer »** de `VOICE-UX.md` s'applique : on décrit l'écart et la correction, on ne qualifie pas l'utilisateur ; quand la faute est côté système, le produit la prend à son compte.",
+   "enonce": "Le texte d'un état vide d'erreur se rattache à la règle cardinale du langage de voix : on décrit l'écart et la correction sans qualifier l'utilisateur, et le produit prend à son compte la faute qui est la sienne.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S15",
+     "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S15",
+    "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-5",
+     "titre": "Collection vide (empty state)",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R53",
+   "couche": "ux",
+   "solution": "**une carte du flux manque de contenu** (pas d'image, description absente) — ce n'est pas un empty state, c'est un cas normal de données incomplètes : traité slot par slot (cf. \"Media manquant\"), sans casser la structure.",
+   "enonce": "Une carte dont un emplacement est vide relève des données incomplètes et non de l'état vide : elle est traitée emplacement par emplacement, sans casser la structure de la collection.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "l'écran blanc silencieux — une grille vide sans explication est indistinguable d'un bug pour l'utilisateur.",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-5",
+     "titre": "Collection vide (empty state)",
+     "famille": "État / comportement dans le temps"
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Media manquant (donnée incomplète)",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R54",
+   "couche": "ux",
+   "solution": "**hover (carte cliquable uniquement)** — le survol doit confirmer l'affordance : élévation ou bordure renforcée (tokens dans CARD-UI.md). Une carte statique, elle, ne réagit pas au survol.",
+   "enonce": "Le survol d'une carte cliquable confirme son affordance par une élévation ou une bordure renforcée ; une carte statique ne réagit pas au survol.",
+   "mesure": "aucune carte statique ne définit de style de survol",
+   "contre": "",
+   "probleme": "la réaction au survol *est* le signal de cliquabilité, il ne doit jamais mentir.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "3 styles de conteneur (elevated/filled/outlined) comme décision visuelle, pas hiérarchie par instance",
+     "liens": [
+      {
+       "label": "Material Design 3 — Cards",
+       "url": "https://m3.material.io/components/cards/guidelines"
+      },
+      {
+       "label": "MUI — Card",
+       "url": "https://mui.com/material-ui/react-card/"
+      }
+     ],
+     "confiance": "Établi pour l'existence des 3 styles ; l'interprétation \"décision produit, pas axe par instance\" est une lecture de ce fichier"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "Surface cliquable + actions détachées pour éviter les conflits d'événements",
+     "liens": [
+      {
+       "label": "MUI — Card (CardActionArea)",
+       "url": "https://mui.com/material-ui/react-card/"
+      }
+     ],
+     "confiance": "Établi — pattern d'implémentation documenté"
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "3 styles de conteneur (elevated/filled/outlined) comme décision visuelle, pas hiérarchie par instance",
+    "liens": [
+     {
+      "label": "Material Design 3 — Cards",
+      "url": "https://m3.material.io/components/cards/guidelines"
+     },
+     {
+      "label": "MUI — Card",
+      "url": "https://mui.com/material-ui/react-card/"
+     }
+    ],
+    "confiance": "Établi pour l'existence des 3 styles ; l'interprétation \"décision produit, pas axe par instance\" est une lecture de ce fichier"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R55",
+   "couche": "ux",
+   "solution": "**focus visible** — une carte cliquable ou sélectionnable est une cible clavier comme une autre : focus ring obligatoire sur la carte entière, jamais supprimé.",
+   "enonce": "Une carte cliquable ou sélectionnable est une cible clavier : elle présente un indicateur de focus visible, portant sur la carte entière, qui n'est jamais supprimé.",
+   "mesure": "aucune règle de style ne supprime l'indicateur de focus d'une carte sans le remplacer par un indicateur visible",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S21",
+     "affirmation": "Toute interface opérable au clavier dispose d'un mode où l'indicateur de focus clavier est visible",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.7 Focus Visible",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau AA)"
+    }
+   ],
+   "principale": {
+    "ref": "S21",
+    "affirmation": "Toute interface opérable au clavier dispose d'un mode où l'indicateur de focus clavier est visible",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.7 Focus Visible",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau AA)"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-1",
+     "titre": "Cliquable entière",
+     "famille": "État / comportement dans le temps"
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Sélectionnable",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R56",
+   "couche": "ux",
+   "solution": "**loading / skeleton** — pendant le chargement d'une collection, afficher des cartes squelettes qui reproduisent la structure réelle (bloc media, lignes de texte) plutôt qu'un spinner global. Le squelette doit avoir les mêmes dimensions que la carte réelle.",
+   "enonce": "Le chargement d'une collection est occupé par des cartes squelettes qui reproduisent la structure et les dimensions des cartes réelles, plutôt que par un indicateur global.",
+   "mesure": "l'arrivée des données ne provoque aucun décalage de mise en page de la collection",
+   "contre": "",
+   "probleme": "réduit l'attente perçue et évite le saut de mise en page à l'arrivée des données — sinon il ajoute le layout shift qu'il devait éviter.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-2-4",
+     "titre": "Loading / skeleton",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R57",
+   "couche": "ux",
+   "solution": "**selected** — cf. mode selectable.",
+   "enonce": "L'état sélectionné n'est pas redéfini dans la section des états : il est entièrement régi par les règles du mode sélectionnable.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R58",
+   "couche": "ux",
+   "solution": "rattachement nommé — les micro-mouvements de la Card appliquent `MOTION-UX.md`. Le hover d'une Card cliquable relève du **feedback** (confirmer que l'affordance a été reçue — court, `motion.fast`) ; la rotation du chevron et le dépliage du mode expandable relèvent de la **continuité** (relier deux états, expliquer d'où vient le changement — `motion.base`).",
+   "enonce": "Les micro-mouvements de la carte se rattachent nommément au langage de motion : le survol d'une carte cliquable relève du feedback, la rotation du chevron et le dépliage relèvent de la continuité.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S14",
+     "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+     "liens": [
+      {
+       "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S14",
+    "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+    "liens": [
+     {
+      "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R59",
+   "couche": "ux",
+   "solution": "**rien n'anime au chargement initial** — une collection de cartes est du contenu chargé avec la page, pas une conséquence réactive d'une action ; les squelettes occupent l'attente, ils n'« entrent » pas en animation. Seuls les changements réactifs (hover, sélection, dépliage déclenché par l'utilisateur) sont animés.",
+   "enonce": "Rien n'anime au chargement initial d'une collection de cartes : seuls les changements réactifs déclenchés par l'utilisateur sont animés, les squelettes occupent l'attente sans entrer en scène.",
+   "mesure": "aucune animation d'entrée n'est déclenchée par le rendu initial d'une collection de cartes",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S14",
+     "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+     "liens": [
+      {
+       "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S14",
+    "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+    "liens": [
+     {
+      "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R60",
+   "couche": "ux",
+   "solution": "**le mouvement confirme, il n'informe jamais seul** — l'état déplié/replié vit dans `aria-expanded`, pas dans la rotation du chevron ; couper le mouvement ne coupe aucune information. La rotation n'est qu'une confirmation sensorielle de ce que l'attribut porte déjà.",
+   "enonce": "Le mouvement d'une carte confirme un changement d'état sans jamais le porter seul : l'état déplié ou replié est exposé programmatiquement, de sorte que la suppression de l'animation ne supprime aucune information.",
+   "mesure": "l'état déplié ou replié est porté par un attribut d'état programmatique et reste déterminable sans animation",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S22",
+     "affirmation": "Pour tout composant d'interface, le nom et le rôle sont programmatiquement déterminables, les états et propriétés modifiables sont programmatiquement réglables, et la notification de leur changement est disponible aux technologies d'assistance",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — fonde à la fois l'état sélectionné exposé et l'état déplié porté par un attribut, pas par le mouvement"
+    },
+    {
+     "ref": "S26",
+     "affirmation": "Dans le motif Disclosure, le déclencheur porte le rôle button et l'attribut aria-expanded vaut true quand le contenu est visible, false quand il est masqué ; Entrée et Espace l'activent",
+     "liens": [
+      {
+       "label": "ARIA Authoring Practices Guide — Disclosure Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+      }
+     ],
+     "confiance": "Normatif (pratique de référence W3C) — fonde le mode expandable : l'état vit dans aria-expanded, pas dans la rotation du chevron"
+    }
+   ],
+   "principale": {
+    "ref": "S22",
+    "affirmation": "Pour tout composant d'interface, le nom et le rôle sont programmatiquement déterminables, les états et propriétés modifiables sont programmatiquement réglables, et la notification de leur changement est disponible aux technologies d'assistance",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+     }
+    ],
+    "confiance": "Établi, standard (niveau A) — fonde à la fois l'état sélectionné exposé et l'état déplié porté par un attribut, pas par le mouvement"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R61",
+   "couche": "ux",
+   "solution": "contrat `prefers-reduced-motion` (couche UX ; valeurs et sélecteurs dans CARD-UI.md) — le chevron **saute** à son orientation finale sans rotation animée, et le contenu révélé apparaît en **crossfade instantané** plutôt qu'en glissement ; l'information (ouvert/fermé, contenu présent) reste intégrale, seul le déplacement spatial disparaît.",
+   "enonce": "Sous préférence de mouvement réduit, le chevron d'une carte dépliable saute à son orientation finale sans rotation animée et le contenu révélé apparaît en fondu instantané plutôt qu'en glissement : l'information reste intégrale, seul le déplacement spatial disparaît.",
+   "mesure": "sous prefers-reduced-motion, aucune transition de rotation ni de hauteur n'est appliquée au dépliage, et le contenu révélé reste présent",
+   "contre": "",
+   "probleme": "c'est la condition qui rend `prefers-reduced-motion` implémentable sans perte — puisque aucune information n'est portée par le seul mouvement, la préférence d'accessibilité dégrade le confort sensoriel, jamais la fonction.",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S14",
+     "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+     "liens": [
+      {
+       "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    }
+   ],
+   "principale": {
+    "ref": "S14",
+    "affirmation": "Hover = feedback, chevron/dépliage = continuité ; rien n'anime au chargement initial ; mouvement jamais seul porteur ; reduced-motion (chevron qui saute, crossfade)",
+    "liens": [
+     {
+      "label": "`MOTION-UX.md` § Deux rôles / Le mouvement confirme… / prefers-reduced-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-3",
+     "titre": "Lecteur d'écran",
+     "famille": "Plateforme / device"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R62",
+   "couche": "ux",
+   "solution": "statut tranché (arbitrage utilisateur 2026-07-21) — **la Card ne porte aucun moment E-motion.** L'absence est documentée et raisonnée, pas un oubli : elle se déduit du même raisonnement que l'exclusion danger/warning de `TOAST-UX.md` (§ Instrument E-motion), appliqué au conteneur plutôt qu'au tone.",
+   "enonce": "La carte ne porte aucun moment d'animation expressive, et cette absence est documentée et raisonnée plutôt que laissée implicite.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S17",
+     "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+     "liens": [
+      {
+       "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+    }
+   ],
+   "principale": {
+    "ref": "S17",
+    "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+    "liens": [
+     {
+      "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R63",
+   "couche": "ux",
+   "solution": "première raison — **surface de consultation calme.** La doctrine d'interaction fait de la Card statique l'expression de l'intention *consulter* (une surface qui organise sans promettre de clic) ; un battement expressif sur un conteneur de lecture mentirait sur son rôle, exactement comme un style cliquable sur une carte statique.",
+   "enonce": "Une carte est une surface de consultation calme : un battement expressif sur un conteneur de lecture mentirait sur son rôle, comme le ferait un style cliquable sur une carte statique.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+     "liens": [
+      {
+       "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    },
+    {
+     "ref": "S17",
+     "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+     "liens": [
+      {
+       "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "Intention *consulter* + lois d'affordance 3 et 4 + Test de reconnaissance",
+    "liens": [
+     {
+      "label": "`INTERACTION-UX.md` § Les six intentions / Les lois d'affordance / Test de reconnaissance",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R64",
+   "couche": "ux",
+   "solution": "seconde raison — **composant-collection.** La Card vit en collection (grille, liste, dashboard) ; or le budget de rareté d'`EMOTION-UX.md` (« un moment qui se répète cesse d'être expressif ») disqualifie d'emblée tout ce qui se répète par carte — une grille de vingt cartes est l'exact opposé d'un moment mérité.",
+   "enonce": "Un composant qui vit en collection est disqualifié d'emblée pour tout moment expressif : ce qui se répète à chaque carte cesse d'être un moment mérité.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S17",
+     "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+     "liens": [
+      {
+       "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+    }
+   ],
+   "principale": {
+    "ref": "S17",
+    "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+    "liens": [
+     {
+      "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Liste verticale (cartes empilées)",
+     "famille": "Conteneur / contexte d'intégration"
+    },
+    {
+     "id": "cas-5-2",
+     "titre": "Cartes pour comparer (mauvais choix de composant)",
+     "famille": "Enjeu business / risque"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R65",
+   "couche": "ux",
+   "solution": "où va alors l'expression — le moment catalogué **« vide et attente qui ont une personnalité »** d'`EMOTION-UX.md` ne s'incarne pas dans le conteneur mais dans le **contenu injecté** (un Toast, réactif et seul à l'écran, cf. `TOAST-UX.md` § Instrument E-motion). L'expression appartient à ce qui est injecté, jamais au conteneur qui l'accueille.",
+   "enonce": "L'expression liée au vide et à l'attente n'appartient pas au conteneur mais au contenu qui y est injecté ; le document de la carte renvoie sur ce point au composant réactif concerné.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S17",
+     "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+     "liens": [
+      {
+       "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+    }
+   ],
+   "principale": {
+    "ref": "S17",
+    "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+    "liens": [
+     {
+      "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+      "url": null
+     }
+    ],
+    "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R66",
+   "couche": "ux",
+   "solution": "périmètre strict — l'empty state d'**erreur** et l'état **« sans résultat »** restent strictement productifs (ton factuel, « ne jamais blâmer ») : l'exception chaleureuse d'`EMOTION-UX.md`/`VOICE-UX.md` ne s'applique jamais à une erreur ni à une absence de résultat, ici pas davantage qu'ailleurs.",
+   "enonce": "L'exception chaleureuse du langage expressif ne s'applique ni à un état d'erreur ni à une absence de résultat, qui restent strictement productifs.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S15",
+     "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — rattachement interne nommé"
+    },
+    {
+     "ref": "S17",
+     "affirmation": "Card = surface calme sans moment E-motion ; expression dans le contenu injecté (Toast)",
+     "liens": [
+      {
+       "label": "`EMOTION-UX.md` (budget de rareté, catalogue) + `TOAST-UX.md` § Instrument E-motion",
+       "url": null
+      }
+     ],
+     "confiance": "Déduction argumentée — arbitrage utilisateur 2026-07-21"
+    }
+   ],
+   "principale": {
+    "ref": "S15",
+    "affirmation": "Wording empty state (« rien encore » vs « rien trouvé ») ; « ne jamais blâmer » sur l'erreur",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` § Le ton suit l'utilisateur",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — rattachement interne nommé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R67",
+   "couche": "ux",
+   "solution": "largeurs uniformes, hauteurs idéalement alignées par rangée — c'est le ratio d'image fixe et la troncature de texte qui rendent cet alignement possible.",
+   "enonce": "En grille, les cartes ont des largeurs uniformes et des hauteurs alignées par rangée ; c'est le ratio d'image fixe et la troncature du texte qui rendent cet alignement possible.",
+   "mesure": "toutes les cartes d'une même rangée ont la même largeur",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R68",
+   "couche": "ux",
+   "solution": "la position de chaque slot est identique sur toutes les cartes — la grille promet la prédictibilité, chaque écart la rompt.",
+   "enonce": "En grille, chaque emplacement occupe la même position sur toutes les cartes : la répétition visuelle promet la prédictibilité et chaque écart la rompt.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+     "liens": [
+      {
+       "label": "Shopify Polaris — Card layout",
+       "url": "https://polaris-react.shopify.com/patterns/card-layout"
+      }
+     ],
+     "confiance": "Établi — pattern documenté en détail par Polaris"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Structure header/corps/footer, actions d'objet en header, CTA en footer, 1 seule action mise en avant",
+    "liens": [
+     {
+      "label": "Shopify Polaris — Card layout",
+      "url": "https://polaris-react.shopify.com/patterns/card-layout"
+     }
+    ],
+    "confiance": "Établi — pattern documenté en détail par Polaris"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R69",
+   "couche": "ux",
+   "solution": "alternative à la grille quand la lecture est séquentielle — la carte peut alors passer en disposition horizontale (media à gauche, contenu à droite).",
+   "enonce": "En liste verticale, quand la lecture est séquentielle, une carte peut adopter une disposition horizontale plaçant le media à côté du contenu.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-1",
+     "titre": "Media latéral (horizontal)",
+     "famille": "Contenu / forme visuelle"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R70",
+   "couche": "ux",
+   "solution": "point de vigilance — si toutes les cartes sont homogènes et comparées entre elles, se reposer la question \"liste de cartes ou simple liste ?\" (cf. Quand ne pas l'utiliser).",
+   "enonce": "Une liste de cartes homogènes comparées entre elles rouvre la question du composant : la liste simple redevient candidate.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+     "liens": [
+      {
+       "label": "NN/g — Cards: UI-Component Definition",
+       "url": "https://www.nngroup.com/articles/cards-component/"
+      }
+     ],
+     "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Cartes inférieures aux listes pour comparer/rechercher des items homogènes",
+    "liens": [
+     {
+      "label": "NN/g — Cards: UI-Component Definition",
+      "url": "https://www.nngroup.com/articles/cards-component/"
+     }
+    ],
+    "confiance": "Établi — argumenté par mécanisme (scannabilité), pas chiffré"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Liste verticale (cartes empilées)",
+     "famille": "Conteneur / contexte d'intégration"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R71",
+   "couche": "ux",
+   "solution": "la carte-statistique (un chiffre + un libellé + une tendance) est une carte statique dans la quasi-totalité des cas — si elle navigue vers le détail, elle devient clickable et suit toutes les règles de ce mode.",
+   "enonce": "Une carte statistique — un chiffre, un libellé, une tendance — est statique par défaut ; si elle conduit vers un détail, elle devient cliquable et suit toutes les règles de ce mode.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-4",
+     "titre": "Carte-statistique / KPI",
+     "famille": "Rôle / type de contenu"
+    }
+   ]
+  },
+  {
+   "id": "CARD-R72",
+   "couche": "ux",
+   "solution": "la hiérarchie d'un dashboard vient de la taille des cartes dans la grille, pas d'un axe de style par carte — cohérent avec la note de transposition.",
+   "enonce": "La hiérarchie d'un tableau de bord vient de la taille occupée par chaque carte dans la grille, non d'un axe de style porté par la carte.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R73",
+   "couche": "ux",
+   "solution": "signaler le débordement (carte partiellement visible en bord d'écran) — un carrousel dont rien ne dépasse est indistinguable d'une grille complète.",
+   "enonce": "Un carrousel de cartes signale son débordement en laissant une carte partiellement visible en bord de zone ; un carrousel dont rien ne dépasse est indistinguable d'une grille complète.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R74",
+   "couche": "ux",
+   "solution": "**toute opération offerte au glisser-déposer a une alternative à pointeur unique** — un bouton ou un menu « Déplacer vers… » qui réalise le même déplacement sans maintenir ni traîner (WCAG 2.5.7 « Dragging Movements »). Le glisser-déposer reste un raccourci, jamais le seul chemin : l'utilisateur au clavier, au contacteur ou à faible dextérité passe par l'alternative, et le déplacement effectif est annoncé au lecteur d'écran (départ → arrivée).",
+   "enonce": "Toute opération de déplacement offerte au glisser-déposer dispose d'une alternative à pointeur unique réalisant le même déplacement sans maintien ni traînée, et le déplacement effectif est annoncé aux technologies d'assistance.",
+   "mesure": "toute opération de glisser-déposer dispose d'un contrôle équivalent activable par un clic unique et au clavier",
+   "contre": "",
+   "probleme": "c'est l'application au conteneur du principe « pas de dépendance à une seule modalité » — un tableau Kanban où l'on ne peut avancer une carte qu'en la traînant exclut d'emblée qui ne peut pas produire ce geste continu.",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S7",
+     "affirmation": "Alternative à pointeur unique pour tout glisser-déposer",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.7 Dragging Movements",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html"
+      }
+     ],
+     "confiance": "Établi, standard (2.2)"
+    },
+    {
+     "ref": "S23",
+     "affirmation": "Toute fonctionnalité du contenu est opérable au clavier, sauf lorsque la fonction sous-jacente dépend du tracé du mouvement et non de ses seuls points d'arrivée",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.1.1 Keyboard",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — complète 2.5.7 sur l'alternative au glisser-déposer"
+    },
+    {
+     "ref": "S28",
+     "affirmation": "Les messages d'état, dont ceux qui portent sur l'attente et la progression d'un traitement, sont programmatiquement déterminables par rôle ou propriétés et présentables sans prise de focus",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.3 Status Messages",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau AA) — fonde l'annonce du déplacement effectif d'une carte et l'annonce de chargement d'une collection"
+    }
+   ],
+   "principale": {
+    "ref": "S7",
+    "affirmation": "Alternative à pointeur unique pour tout glisser-déposer",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.5.7 Dragging Movements",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html"
+     }
+    ],
+    "confiance": "Établi, standard (2.2)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R75",
+   "couche": "ux",
+   "solution": "table ci-dessous",
+   "enonce": "Les risques de la carte sont recensés dans une table unique du document, ordonnée par sévérité ; elle ne crée aucune règle nouvelle mais qualifie la gravité des manquements aux règles précédentes.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "CARD-R76",
+   "couche": "ux",
+   "solution": "**l'interactivité d'une carte doit être univoque : soit la carte est la cible, soit elle contient des cibles — jamais une ambiguïté entre les deux.**",
+   "enonce": "L'interactivité d'une carte est univoque : soit la carte est la cible, soit elle contient des cibles, sans ambiguïté possible entre les deux.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "c'est la déclinaison pour un conteneur du principe déjà posé pour le bouton (la friction suit le risque réel) et l'input (la validation suit le risque d'erreur) : ici, ce qui doit suivre la fonction réelle, c'est l'affordance — une surface qui a l'air cliquable doit l'être, une surface cliquable doit le montrer, et l'utilisateur ne doit jamais deviner où cliquer.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+     "liens": [
+      {
+       "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+       "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+      }
+     ],
+     "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "Interdiction des éléments interactifs imbriqués ; siblings DOM + cible étendue en CSS ; balisage liste pour les collections",
+    "liens": [
+     {
+      "label": "Livefront — Accessibility dos and don'ts for interactive cards",
+      "url": "https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/"
+     }
+    ],
+    "confiance": "Établi — converge avec les règles HTML/ARIA, recoupé par plusieurs sources d'accessibilité"
+   },
+   "confiance": "",
+   "cas": []
   }
  ]
 }

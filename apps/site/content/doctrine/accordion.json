@@ -196,7 +196,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>plusieurs sections peuvent être ouvertes à la fois</strong> (multi-ouvert par défaut). Le <strong>single-open</strong>"
+       "html": "<strong>plusieurs sections peuvent être ouvertes à la fois</strong> (multi-ouvert par défaut). Le <strong>single-open</strong>",
+       "id": "ACCORDION-R02"
       }
      ]
     },
@@ -226,7 +227,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>plusieurs sections peuvent être ouvertes à la fois</strong> (multi-ouvert par défaut). Le <strong>single-open</strong>"
+       "html": "<strong>plusieurs sections peuvent être ouvertes à la fois</strong> (multi-ouvert par défaut). Le <strong>single-open</strong>",
+       "id": "ACCORDION-R02"
       }
      ]
     },
@@ -355,5 +357,505 @@
   ],
   "tokens": []
  },
- "evolution": []
+ "evolution": [],
+ "decisions": [
+  {
+   "id": "ACCORDION-R01",
+   "couche": "ux",
+   "solution": "chaque section a un **en-tête cliquable** (un `button`) qui **révèle/masque** sa région. Le contenu",
+   "enonce": "Chaque section d'un accordéon est révélée ou masquée par un en-tête qui est un bouton ; le contenu replié n'est pas détruit et sa réouverture restitue l'état précédent.",
+   "mesure": "l'en-tête de section est un élément bouton ; le contenu replié reste dans le document et retrouve son état à la réouverture",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+     "liens": [
+      {
+       "label": "ARIA APG — Accordion",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+      },
+      {
+       "label": "Disclosure",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+    "liens": [
+     {
+      "label": "ARIA APG — Accordion",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+     },
+     {
+      "label": "Disclosure",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-R02",
+   "couche": "ux",
+   "solution": "**plusieurs sections peuvent être ouvertes à la fois** (multi-ouvert par défaut). Le **single-open**",
+   "enonce": "Plusieurs sections d'un accordéon peuvent être ouvertes simultanément ; la fermeture automatique des autres sections à l'ouverture d'une section est une option demandée explicitement, jamais le comportement par défaut.",
+   "mesure": "par défaut, ouvrir une section ne referme aucune autre section",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+     "liens": [
+      {
+       "label": "ARIA APG — Accordion",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+      },
+      {
+       "label": "Disclosure",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S2",
+     "affirmation": "Multi-ouvert par défaut, single-open optionnel",
+     "liens": [
+      {
+       "label": "Convergence des systèmes (Carbon, GOV.UK details)",
+       "url": null
+      }
+     ],
+     "confiance": "Convergent"
+    },
+    {
+     "ref": "S4",
+     "affirmation": "Un accordéon peut afficher plusieurs sections ouvertes à la fois, à la différence des onglets, et propose un « Show all sections » ; il ne doit pas servir à du contenu que tous les utilisateurs doivent voir, car il masque du contenu que tous ne remarquent pas",
+     "liens": [
+      {
+       "label": "GOV.UK Design System — Accordion",
+       "url": "https://design-system.service.gov.uk/components/accordion/"
+      }
+     ],
+     "confiance": "Établi par convergence — système public vérifié ; confirme le multi-ouvert comme comportement admis, pas comme prescription"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+    "liens": [
+     {
+      "label": "ARIA APG — Accordion",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+     },
+     {
+      "label": "Disclosure",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Multi-ouvert",
+     "famille": "Comportement d'ouverture"
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Single-open",
+     "famille": "Comportement d'ouverture"
+    }
+   ]
+  },
+  {
+   "id": "ACCORDION-R03",
+   "couche": "ux",
+   "solution": "l'en-tête est un `button` avec `aria-expanded` (true/false) et `aria-controls` vers sa région ; la",
+   "enonce": "L'en-tête d'une section est un bouton portant aria-expanded et aria-controls vers sa région, laquelle est nommée par cet en-tête ; lorsque les en-têtes structurent la page, le bouton est l'unique enfant d'un élément de titre de niveau cohérent, et Entrée comme Espace basculent l'état.",
+   "mesure": "chaque en-tête porte un bouton avec aria-expanded et aria-controls ; le bouton est l'unique enfant de l'élément de titre ; Entrée et Espace basculent la section",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+     "liens": [
+      {
+       "label": "ARIA APG — Accordion",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+      },
+      {
+       "label": "Disclosure",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+    "liens": [
+     {
+      "label": "ARIA APG — Accordion",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+     },
+     {
+      "label": "Disclosure",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-R04",
+   "couche": "ux",
+   "solution": "l'ouverture d'une section **ne vole pas le focus** et ne déplace pas la page sous le pointeur ; le",
+   "enonce": "L'ouverture ou la fermeture d'une section ne déplace ni le focus ni le contenu déjà sous le pointeur : le focus reste sur l'en-tête activé, la tabulation entre et sort librement, et aucun piège de focus n'est posé.",
+   "mesure": "après activation, le focus reste sur l'en-tête ; Tab et Maj+Tab traversent l'accordéon sans être retenus",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+     "liens": [
+      {
+       "label": "ARIA APG — Accordion",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+      },
+      {
+       "label": "Disclosure",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S5",
+     "affirmation": "Changer le réglage d'un composant ne provoque pas automatiquement de changement de contexte non annoncé ; un déplacement de focus ou un réagencement significatif de la page en sont",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.2.2 On Input",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/on-input.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — fonde l'interdit de vol de focus à l'ouverture d'une section"
+    },
+    {
+     "ref": "S7",
+     "affirmation": "Toute fonctionnalité est opérable au clavier sans exiger de rythme de frappe particulier",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.1.1 Keyboard",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A)"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "En-tête `button` + `aria-expanded` + région `aria-labelledby` ; Entrée/Espace basculent",
+    "liens": [
+     {
+      "label": "ARIA APG — Accordion",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/"
+     },
+     {
+      "label": "Disclosure",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-R05",
+   "couche": "ux",
+   "solution": "l'état ouvert/fermé se lit à un **indicateur non chromatique** (chevron qui pivote, +/−), pas à la",
+   "enonce": "L'état ouvert ou fermé d'une section se lit à un indicateur non chromatique — chevron orienté, signe plus ou moins — et jamais à la seule couleur.",
+   "mesure": "l'état ouvert se distingue de l'état fermé par au moins un signal non chromatique",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S3",
+     "affirmation": "État par indicateur non chromatique (chevron), pas la couleur",
+     "liens": [
+      {
+       "label": "WCAG 1.4.1 (renvoi ACCESSIBILITY)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S8",
+     "affirmation": "La couleur n'est jamais le seul moyen visuel de véhiculer une information, d'indiquer une action, d'appeler une réponse ou de distinguer un élément visuel",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.1 Use of Color",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html"
+      }
+     ],
+     "confiance": "Établi, standard (niveau A) — donne son URL à S3, cité sans lien dans le fichier"
+    }
+   ],
+   "principale": {
+    "ref": "S3",
+    "affirmation": "État par indicateur non chromatique (chevron), pas la couleur",
+    "liens": [
+     {
+      "label": "WCAG 1.4.1 (renvoi ACCESSIBILITY)",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-R06",
+   "couche": "ux",
+   "solution": "le dépliage/repliage anime la **hauteur** en `motion.base` / `motion.ease-in-out` (mouvement sur",
+   "enonce": "Le dépliage et le repliage d'une section sont un mouvement sur place emprunté aux tokens de mouvement, et deviennent une bascule instantanée lorsque l'utilisateur a demandé moins de mouvement, sans jamais escamoter de contenu.",
+   "mesure": "sous prefers-reduced-motion: reduce, la bascule est instantanée ; aucune durée ni courbe en dur",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "L'animation de mouvement déclenchée par une interaction peut être désactivée sauf si elle est essentielle ; la valeur reduce de prefers-reduced-motion demande de supprimer ou remplacer le mouvement non essentiel",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.3.3 Animation from Interactions",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+      },
+      {
+       "label": "MDN — prefers-reduced-motion",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+      }
+     ],
+     "confiance": "Établi — 2.3.3 est de niveau AAA et admet plusieurs techniques suffisantes ; la média-requête n'est que l'une d'elles"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "L'animation de mouvement déclenchée par une interaction peut être désactivée sauf si elle est essentielle ; la valeur reduce de prefers-reduced-motion demande de supprimer ou remplacer le mouvement non essentiel",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.3.3 Animation from Interactions",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+     },
+     {
+      "label": "MDN — prefers-reduced-motion",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+     }
+    ],
+    "confiance": "Établi — 2.3.3 est de niveau AAA et admet plusieurs techniques suffisantes ; la média-requête n'est que l'une d'elles"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-R07",
+   "couche": "ux",
+   "solution": "le **chevron** relève d'`iconography` ; les **durées/courbes** de `motion` ; un **lien** dans une",
+   "enonce": "L'accordéon ne redéfinit pas ce qui appartient à ses voisins : le chevron relève de l'iconographie, les durées et courbes du mouvement, un lien de sa région du composant lien, l'anneau de focus de la bordure, le mot de l'en-tête du langage ; un révélateur modal, qui recouvre et piège le focus, n'est pas un accordéon mais un superposé.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-U01",
+   "couche": "ui",
+   "solution": "l'en-tête a un padding pris dans `spacing`, un rayon `radius.md` sur son fond de survol",
+   "enonce": "L'en-tête d'accordéon résout son retrait, le rayon de son fond de survol et sa couleur de texte sur les tokens, et son chevron — icône en couleur courante — pivote à l'ouverture par transformation, aux durées et courbes des tokens de mouvement.",
+   "mesure": "aucune valeur brute sur l'en-tête ; le chevron pivote par transformation, sans substitution d'icône",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T1",
+     "affirmation": "Chevron qui pivote comme indicateur d'état, animé en motion",
+     "liens": [
+      {
+       "label": "convergence des systèmes",
+       "url": null
+      }
+     ],
+     "confiance": "Établi par convergence"
+    },
+    {
+     "ref": "T2",
+     "affirmation": "Espace avant le trait pour séparer les sections",
+     "liens": [
+      {
+       "label": "SPACING-UX / BORDER-UX (guardrail)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi (interne)"
+    }
+   ],
+   "principale": {
+    "ref": "T1",
+    "affirmation": "Chevron qui pivote comme indicateur d'état, animé en motion",
+    "liens": [
+     {
+      "label": "convergence des systèmes",
+      "url": null
+     }
+    ],
+    "confiance": "Établi par convergence"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-U02",
+   "couche": "ui",
+   "solution": "la région ouverte a un padding `spacing` ; un **séparateur** entre sections, si nécessaire, est un",
+   "enonce": "La région ouverte prend son retrait dans l'échelle d'espacement, et la séparation entre deux sections passe d'abord par l'espace, le trait n'intervenant qu'en dernier recours.",
+   "mesure": "la séparation par défaut entre deux sections est un espacement, non un trait",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T2",
+     "affirmation": "Espace avant le trait pour séparer les sections",
+     "liens": [
+      {
+       "label": "SPACING-UX / BORDER-UX (guardrail)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi (interne)"
+    },
+    {
+     "ref": "T3",
+     "affirmation": "L'animation déclenchée par interaction doit pouvoir être désactivée ; prefers-reduced-motion: reduce exprime cette demande de l'utilisateur",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.3.3 Animation from Interactions",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html"
+      },
+      {
+       "label": "MDN — prefers-reduced-motion",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+      }
+     ],
+     "confiance": "Établi — niveau AAA, plusieurs techniques suffisantes admises"
+    }
+   ],
+   "principale": {
+    "ref": "T2",
+    "affirmation": "Espace avant le trait pour séparer les sections",
+    "liens": [
+     {
+      "label": "SPACING-UX / BORDER-UX (guardrail)",
+      "url": null
+     }
+    ],
+    "confiance": "Établi (interne)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCORDION-U03",
+   "couche": "ui",
+   "solution": "aucune couleur, rayon ou durée codés en dur : tout référence `spacing.*`, `radius.md`,",
+   "enonce": "Aucune couleur, rayon ni durée de l'accordéon n'est codé en dur — chacun résout un token de fondation — et la cible pointeur de l'en-tête atteint le seuil de confort retenu par l'accessibilité.",
+   "mesure": "aucune valeur brute dans l'implémentation de l'accordéon ; cible pointeur de l'en-tête ≥ 44 × 44 px CSS",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T4",
+     "affirmation": "La cible pointeur mesure au moins 24 × 24 px CSS (AA) ; le seuil renforcé de 44 × 44 px CSS relève du niveau AAA",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      },
+      {
+       "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA et AAA) — le 44 px du composant est le seuil AAA, pas le seuil de conformité courant"
+    }
+   ],
+   "principale": {
+    "ref": "T4",
+    "affirmation": "La cible pointeur mesure au moins 24 × 24 px CSS (AA) ; le seuil renforcé de 44 × 44 px CSS relève du niveau AAA",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+     },
+     {
+      "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+     }
+    ],
+    "confiance": "Établi, standard (AA et AAA) — le 44 px du composant est le seuil AAA, pas le seuil de conformité courant"
+   },
+   "confiance": "",
+   "cas": []
+  }
+ ]
 }

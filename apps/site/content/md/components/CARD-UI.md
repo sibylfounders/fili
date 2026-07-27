@@ -128,13 +128,14 @@ La cliquabilité de toute la surface vient d'un vrai lien étendu en CSS, pas d'
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Lien étendu par pseudo-élément + actions en siblings DOM | [Livefront](https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/), recoupé par la littérature accessibilité (Piccalilli, Berkeley DAP) | Établi — technique convergente entre sources indépendantes |
-| Balisage liste pour les collections de cartes | [Livefront](https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/), WAI/WCAG | Établi |
-| Zone tactile minimum 44px | WCAG / Apple HIG / Material Design | Établi, standard de l'industrie (seule valeur brute autorisée ici) |
-| Ratio minimum 2:1 et espacement par tokens entre sections | [IBM Carbon — Tile usage](https://carbondesignsystem.com/components/tile/usage/) | Établi chez Carbon ; le choix 16/9 par défaut est une décision de ce design system, pas un standard |
-| Padding de carte sur le token d'espacement standard (space-400 ≈ spacing.md) | [Shopify Polaris — Card layout](https://polaris-react.shopify.com/patterns/card-layout) | Établi chez Polaris, transposé à notre grille (spacing.base) |
-| Élévation au survol comme signal d'affordance des cartes cliquables | Convention Material/MUI, observation production | Établi par convergence, non académique |
-| Chevron/dépliage sous reduced-motion : chevron qui saute, crossfade, opacité conservée | `MOTION-UI.md`, WCAG 2.3.3 | Établi — rattachement interne nommé |
-| `skeleton_pulse` : exemption WCAG 2.2.2 (indicateur de chargement) + coupé quand même sous reduced-motion | `MOTION-UI.md`, [WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | Établi — standard + sur-respect interne assumé |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Lien étendu par pseudo-élément + actions en siblings DOM | [Livefront](https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/), recoupé par la littérature accessibilité (Piccalilli, Berkeley DAP) | Établi — technique convergente entre sources indépendantes |
+| T2 | Balisage liste pour les collections de cartes | [Livefront](https://livefront.com/writing/accessibility-dos-and-donts-for-interactive-cards/), WAI/WCAG | Établi |
+| T3 | Zone tactile minimum 44px | WCAG / Apple HIG / Material Design | Établi, standard de l'industrie (seule valeur brute autorisée ici) |
+| T4 | Ratio minimum 2:1 et espacement par tokens entre sections | [IBM Carbon — Tile usage](https://carbondesignsystem.com/components/tile/usage/) | Établi chez Carbon ; le choix 16/9 par défaut est une décision de ce design system, pas un standard |
+| T5 | Padding de carte sur le token d'espacement standard (space-400 ≈ spacing.md) | [Shopify Polaris — Card layout](https://polaris-react.shopify.com/patterns/card-layout) | Établi chez Polaris, transposé à notre grille (spacing.base) |
+| T6 | Élévation au survol comme signal d'affordance des cartes cliquables | Convention Material/MUI, observation production | Établi par convergence, non académique |
+| T7 | Chevron/dépliage sous reduced-motion : chevron qui saute, crossfade, opacité conservée | `MOTION-UI.md`, WCAG 2.3.3 | Établi — rattachement interne nommé |
+| T8 | `skeleton_pulse` : exemption WCAG 2.2.2 (indicateur de chargement) + coupé quand même sous reduced-motion | `MOTION-UI.md`, [WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | Établi — standard + sur-respect interne assumé |
+| T9 | Le seuil de conformité courant pour une cible de pointage est 24 × 24 px CSS (niveau AA) ; le 44 px déclaré « standard externe non négociable » dans le frontmatter de CARD-UI.md est plus strict que la norme AA et relève d'un sur-respect interne, pas d'une obligation de conformité | [WCAG 2.2 — 2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | Normatif — correction de qualification : min_touch_target: 44px est un choix plus exigeant que le standard invoqué, à documenter comme tel |

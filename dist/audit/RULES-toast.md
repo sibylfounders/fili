@@ -4,8 +4,8 @@ nature: components
 resume: "Ce fichier contient le raisonnement : tone, timing, actions, empilement, position, instrument"
 selon-contexte: [adaptive, alert, button, emotion, motion, voice]
 source: TOAST-UX.md v1.0.0 + TOAST-UI.md v1.1.0
-empreinte: sha256:fdfe8e0eb8e6f622
-regles: {loi: 0, preference: 0, non_qualifie: 41}
+empreinte: sha256:db75eae28a834e4b
+regles: {loi: 7, preference: 23, non_qualifie: 0}
 ---
 # RULES — toast (compilé, mode audit)
 
@@ -19,30 +19,37 @@ regles: {loi: 0, preference: 0, non_qualifie: 41}
 
 ## Règles de design
 
-- **[non qualifié]** les axes du toast sont **tone** uniquement — pas de **persistance** (le toast est temporaire
-- **[non qualifié]** l'alert vit *dans le flux* de la page ; le toast vit *au-dessus*, injecté par le système,
-- **[non qualifié]** le toast est le territoire du feedback immédiat d'une action qui vient de réussir
-- **[non qualifié]** échelle d'interruption héritée — **alert < toast < modale**. Le toast interrompt
-- **[non qualifié]** utiliser pour confirmer l'issue immédiate d'une action déclenchée par l'utilisateur
-- **[non qualifié]** ne pas utiliser pour une condition qui dure (→ alert) ni pour une décision qui doit bloquer
-- **[non qualifié]** cas limite — si la confirmation doit rester visible après que l'utilisateur a quitté des
-- **[non qualifié]** les 4 tones d'`ALERT-UX.md` sont repris à l'identique — **info / success / warning /
-- **[non qualifié]** **avertissement documenté — danger/warning en toast portent un risque spécifique que
-- **[non qualifié]** un toast qui disparaît après un délai fixe relève de WCAG 2.2.1 (Timing Adjustable) — le
-- **[non qualifié]** **contrat de repli, décliné du contrat E-motion** — le toast n'est jamais le seul porteur
-- **[non qualifié]** durée de base — pas de valeur nouvelle inventée ici : `BUTTON-UX.md` § Bouton d'annulation
-- **[non qualifié]** **une action tolérée, jamais deux** (arbitrage utilisateur 2026-07-20 — pattern undo :
-- **[non qualifié]** l'action est soumise à la même suspension de timing que le texte (§ Timing) — sans ça, la
-- **[non qualifié]** cohérence de tone héritée d'`ALERT-UX.md` — l'action décrit ce qu'elle fait
-- **[non qualifié]** **jusqu'à 2-3 toasts simultanés** (arbitrage utilisateur 2026-07-20 — écarte l'option « 1
-- **[non qualifié]** **ordre d'arrivée, pas gravité décroissante** — divergence assumée avec `ALERT-UX.md`
-- **[non qualifié]** au-delà de 2-3, le plus ancien sort (FIFO) plutôt que d'agréger — contrairement à l'alert
-- **[non qualifié]** **pilotée par Adaptive, pas un ancrage fixe à la fenêtre** (arbitrage utilisateur
-- **[non qualifié]** reste au-dessus du contenu (superposé, jamais dans le flux — cf. § Frontière), l'ancrage
-- **[non qualifié]** le toast est le foyer naturel du moment catalogué **« réussite d'un envoi / d'une
-- **[non qualifié]** **l'instrument illustration ne s'active que si le toast est seul à l'écran** (arbitrage
-- **[non qualifié]** sur un toast danger/warning, l'instrument reste dans le registre productif (icône `◈`
-- **[non qualifié]** toujours réactif par nature (jamais chargé avec la page) — doit être annoncé :
-- **[non qualifié]** hérite du contrat d'accessibilité motion/E-motion pour son animation d'entrée/sortie — pas
-- **[non qualifié]** pas d'état hover/focus propre au conteneur — seuls l'action et la fermeture explicite (si
-- **[non qualifié]** **le toast confirme un événement passé, il ne doit jamais être le seul endroit où vit une
+- **[loi]** Le toast confirme l'issue immédiate d'une action déclenchée par l'utilisateur lorsque cette confirmation n'a pas besoin de rester consultable. `TOAST-R05`
+  - source : https://fluent2.microsoft.design/components/web/react/core/toast/usage
+- **[loi]** Le toast n'est employé ni pour une condition qui dure, ni pour une décision qui doit bloquer l'utilisateur, ni pour du contenu promotionnel. `TOAST-R06`
+  - vérifiable : aucun toast n'est émis sans être la conséquence directe d'une action de l'utilisateur
+  - source : https://fluent2.microsoft.design/components/web/react/core/toast/usage
+- **[préférence]** Le toast porte l'un des quatre tones info, success, warning ou danger, identiques à ceux de l'alert ; il n'existe pas de tone neutre. `TOAST-R08`
+  - vérifiable : l'énumération des tones vaut exactement info, success, warning, danger
+- **[préférence]** Les tones warning et danger sont autorisés sur un toast à la seule condition que la condition grave dispose d'un répondant durable ailleurs dans l'interface ; un toast n'est jamais l'unique porteur d'un état qui persiste. `TOAST-R09`
+  - vérifiable : tout toast de tone danger ou warning s'accompagne d'un changement d'état visible ou d'un alert de relais
+- **[loi]** Le minuteur d'un toast se suspend intégralement au survol du pointeur et au focus clavier, et ne reprend son décompte qu'à leur sortie. `TOAST-R10`
+  - vérifiable : le temps restant est identique avant et après une période de survol ou de focus
+  - source : https://fluent2.microsoft.design/components/web/react/core/toast/usage
+- **[loi]** Un toast n'est jamais le seul porteur d'une information : l'état qu'il confirme reste lisible dans l'écran sous-jacent après sa disparition. `TOAST-R11`
+  - vérifiable : l'information portée par le toast reste atteignable dans l'interface après son expiration
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
+- **[préférence]** La durée d'affichage d'un toast ne descend jamais sous cinq secondes, qu'il porte une action ou non. `TOAST-R12`
+  - vérifiable : durée d'affichage >= 5000 ms
+- **[préférence]** Un toast porte au plus une action ; il n'expose jamais une seconde sortie ni un second lien. `TOAST-R13`
+  - vérifiable : nombre d'éléments interactifs d'action par toast <= 1
+- **[préférence]** L'action d'un toast est soumise à la même suspension de minuteur que son texte, afin que la fenêtre de décision annoncée reste effective au survol comme au focus clavier. `TOAST-R14`
+  - vérifiable : le focus sur l'action suspend le minuteur du toast qui la porte
+- **[préférence]** Au plus trois toasts sont affichés simultanément. `TOAST-R16`
+  - vérifiable : nombre de toasts simultanément visibles <= 3
+- **[préférence]** Une pile de toasts s'ordonne par ordre chronologique d'arrivée et non par gravité décroissante, contrairement à une pile d'alerts qui empile des conditions simultanément vraies. `TOAST-R17`
+  - vérifiable : l'ordre d'affichage reproduit l'ordre d'émission
+- **[préférence]** Lorsque le plafond d'empilement est atteint, le toast le plus ancien sort ; les toasts ne sont jamais agrégés en un message de synthèse. `TOAST-R18`
+  - vérifiable : aucun toast ne résume plusieurs événements
+- **[préférence]** La position et la largeur d'un toast sont déterminées par l'espace du conteneur qui l'héberge et non par un ancrage fixe à un coin du viewport. `TOAST-R19`
+  - vérifiable : aucune valeur de position exprimée en unités de viewport dans la région de toasts
+- **[préférence]** Le moment E-motion « réussite d'un envoi ou d'une soumission » s'incarne dans le toast et non dans l'alert. `TOAST-R21`
+- **[préférence]** L'instrument illustration ne s'active que sur un toast seul à l'écran, jamais sur un toast qui rejoint une pile existante. `TOAST-R22`
+  - vérifiable : aucune animation d'instrument déclenchée lorsque le nombre de toasts visibles est supérieur à un
+- **[loi]** Un toast confirme un événement passé et ne peut jamais être le seul endroit où vit une information qui compte encore. `TOAST-R27`
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
