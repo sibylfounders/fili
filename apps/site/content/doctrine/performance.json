@@ -1,0 +1,784 @@
+{
+ "slug": "performance",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"13.5\" cy=\"12\" r=\"7.5\" fill=\"#bcb9f5\"/><path d=\"M13.5 7.2V12l3.2 2.2\" stroke=\"#4F46E5\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"1.5\" y=\"8\" width=\"6\" height=\"2\" rx=\"1\" fill=\"#F2C744\"/><rect x=\"3\" y=\"12\" width=\"4.5\" height=\"2\" rx=\"1\" fill=\"#0891B2\"/><rect x=\"1.5\" y=\"16\" width=\"6\" height=\"2\" rx=\"1\" fill=\"#4F46E5\" opacity=\"0.5\"/></svg>",
+ "nom": "performance",
+ "nature": "Principe",
+ "meta": "UX v1.0.0 · mis à jour 2026-07-21 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · performance",
+  "question": "Combien de temps une interface a-t-elle le droit de faire attendre — et que doit-elle montrer pendant qu’elle travaille ?",
+  "detail": "Ce principe pose le contrat des attentes : un feedback au bon seuil (rien sous 0,1 s, local jusqu’à 1 s, visible et annoncé au-delà), une structure qui ne bouge pas après coup, un optimisme réservé au réversible, et une honnêteté totale — jamais de fausse progression, jamais d’attente fabriquée.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Le feedback suit le délai"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Rien ne bouge après coup"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "L’attente ne se met pas en scène"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "23",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "20",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "1",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-performance.md",
+   "source": "---\nsujet: performance\ntype: principe\nresume: \"Contrat des attentes : feedback au bon seuil (~0,1 s rien / ~1 s local / au-delà visible et annoncé / ~10 s état à part avec issue), anti-scintillement, l'utile d'abord et rien ne bouge après coup, UI optimiste sous conditions, honnêteté totale (jamais de fausse progression ni d'attente artificielle) — pose l'obligation et renvoie au propriétaire\"\nrequires: []\nselon-contexte: [\"button\", \"form\", \"form-server-errors\", \"form-async-validation\", \"input\", \"card\", \"collection\", \"motion\", \"voice\", \"cognitive-load\", \"accessibility\"]\n---\n# RULES — Performance perçue (compilé, condensé)\n\n> Généré depuis `principles/performance/PERFORMANCE-UX.md` (v1.0.0). **Socle universel** : ce fichier est chargé d'office avec le routeur pour toute intention. Il pose le contrat des attentes et **renvoie au propriétaire** — il ne réécrit ni cycle de soumission, ni squelette, ni durées d'animation. Ne pas éditer à la main. La source fait autorité.\n\n## Nature\n- Principe transversal, **sans token, sans valeur visuelle**. Il pose l'obligation ; le propriétaire pose la mécanique (FORM cycle/timeout, BUTTON loading, INPUT async, CARD/COLLECTION squelettes, MOTION durées). En divergence, le propriétaire a raison.\n- La vitesse **réelle** est hors périmètre (ingénierie) — et la perception ne la remplace pas : une attente récurrente au-delà des bornes se **remonte**, elle ne se maquille pas.\n- Aucun token : les seuils sont des bornes de raisonnement sourcées, pas des valeurs à thématiser.\n\n## L'échelle de l'attente (tout écran généré en hérite)\n- **< ~100 ms** : aucun indicateur — le feedback d'activation suffit. Un spinner sur de l'instantané fabrique de la lenteur.\n- **~100 ms – 1 s** : l'attente est **locale** — l'élément déclencheur change d'état (bouton loading, champ en validation) ; pas d'indicateur global, pas de blocage.\n- **> ~1 s** : attente **visible ET annoncée** (un spinner seul n'annonce rien — aria-live chez RULES-form/RULES-input) ; l'écran reste utilisable partout où l'attente ne bloque pas réellement.\n- **> ~10 s ou durée inconnue longue** : état à part entière — progression réelle ou estimation honnête, issue offerte (réessayer, continuer ailleurs), **timeout toujours défini**.\n- **Anti-scintillement** : l'indicateur attend un court délai avant d'apparaître, et reste un minimum perceptible une fois montré — un squelette qui flashe est un défaut.\n\n## Ordre d'apparition\n- L'utile d'abord : ce qui permet de décider ou d'agir arrive en premier ; le squelette est une promesse de structure exacte (RULES-card, stabilité RULES-collection).\n- **Rien ne bouge après coup** : le contenu tardif ne déplace jamais ce qui est lu et ne vole jamais un geste engagé — espace réservé ou arrivée neutre.\n\n## UI optimiste — trois conditions cumulées\n- Autorisée si : action **réversible/rejouable**, succès **très probable**, échec **réparé visiblement** (rien ne se perd en silence — reprise RULES-form-server-errors).\n- **Interdite** sur l'irréversible, le paiement, l'engagement légal (cohérent RULES-cognitive-load : « Annuler » = promesse tenue).\n- Un succès optimiste reste un état en cours — jamais une base pour une décision irréversible de l'utilisateur.\n\n## Honnêteté de l'attente\n- **Jamais de fausse progression** ni d'étapes gonflées ; barre déterminée si mesurable, indéterminée sinon ; estimation seulement si honnête.\n- **Jamais d'attente artificielle** — si le système peut répondre instantanément, il répond instantanément (la labor illusion existe ; ce système refuse de l'exploiter).\n- Une attente qui s'éternise **s'avoue** (« plus long que prévu ») et donne une issue.\n\n## Qui porte quoi (renvois — charger le propriétaire pour le détail)\n| Besoin | Propriétaire |\n|---|---|\n| Loading du déclencheur, anti-double-clic | `RULES-button` |\n| Cycle de soumission, timeout, annonce, reprise | `RULES-form` (+ `RULES-form-server-errors`, `RULES-form-async-validation`) |\n| Attente par champ | `RULES-input` |\n| Squelette, rien n'anime au chargement | `RULES-card` |\n| Squelettes stables, croissance, échec de page suivante | `RULES-collection` |\n| Durées/courbes, spinner, reduced-motion | `RULES-motion` |\n| Mots de l'attente | `RULES-voice` |\n| Réversibilité, confirmation méritée | `RULES-cognitive-load` |\n| Limites de temps, conservation des données | `RULES-accessibility` |\n\nCONFIANCE : seuils 0,1/1/10 s et doctrine des indicateurs établis (NN/g ; Doherty via le catalogue des lois) ; conditions de l'UI optimiste et interdit de l'attente artificielle = positions du système, identifiées comme telles. Décision non tranchée par une règle (cas limite entre deux seuils, optimisme d'un cas précis, estimation affichable ou non) : STOP — remonter.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 6 cas",
+   "titre": "L'échelle de l'attente",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : L'échelle de l'attente\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><path d=\"M44 96h232\" stroke=\"#E5E7EB\" stroke-width=\"2.5\"/><circle cx=\"70\" cy=\"96\" r=\"6\" fill=\"#15803D\"/><text x=\"58\" y=\"120\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">0,1 s</text><circle cx=\"160\" cy=\"96\" r=\"9\" fill=\"#4F46E5\"/><text x=\"152\" y=\"120\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">1 s</text><circle cx=\"252\" cy=\"96\" r=\"13\" fill=\"none\" stroke=\"#92400E\" stroke-width=\"3\"/><text x=\"240\" y=\"124\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">10 s</text><text x=\"44\" y=\"52\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#111827\">le feedback suit le délai</text></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Réponse quasi instantanée",
+     "quand": "Le système répond sous ~100 ms.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Réponse quasi instantanée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"72\" width=\"110\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"259\" y=\"83\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><circle cx=\"366\" cy=\"86\" r=\"9\" fill=\"#15803D\"/><path d=\"M362 86l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"392\" y=\"90\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">< 100 ms</text><g opacity=\".35\"><circle class=\"ill-spin\" style=\"transform-origin:266px 150px\" cx=\"266\" cy=\"150\" r=\"8\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/></g><circle cx=\"310\" cy=\"144\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M306.5 140.5l7 7M313.5 140.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"334\" y=\"150\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">pas de spinner ici</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le système répond sous ~100 ms.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Aucun indicateur d'attente — le feedback d'activation suffit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un spinner sur de l'instantané fabrique de la lenteur.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Attente courte portée localement",
+     "quand": "La réponse prend entre ~100 ms et ~1 s.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente courte portée localement\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"84\" width=\"120\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"264\" y=\"95\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><circle class=\"ill-spin\" style=\"transform-origin:286px 98px\" cx=\"286\" cy=\"98\" r=\"8\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"360\" y=\"96\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">l’écran reste vivant</text><rect x=\"360\" y=\"110\" width=\"150\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"371\" y=\"119\" width=\"68\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La réponse prend entre ~100 ms et ~1 s.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'élément déclencheur change d'état ; pas d'indicateur global, pas de blocage.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Le bouton passe en loading, l'écran reste vivant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "entre <strong>~100 ms et ~1 s</strong>, l'attente se porte <strong>localement</strong> — l'élément qui a déclenché change d'état (bouton en loading, champ en validation) ; pas d'indicateur global, pas de blocage d'écran. Le flux de pensée n'est pas rompu (NN/g : 1 s est la limite du flux ininterrompu)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Attente visible et annoncée",
+     "quand": "L'attente dépasse ~1 s.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente visible et annoncée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle class=\"ill-spin\" style=\"transform-origin:258px 104px\" cx=\"258\" cy=\"104\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"282\" y=\"108\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">Envoi en cours…</text><rect x=\"416\" y=\"90\" width=\"88\" height=\"22\" rx=\"11\" fill=\"#DBEAFE\"/><text x=\"428\" y=\"105\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#1D4ED8\">aria-live</text><circle cx=\"548\" cy=\"102\" r=\"20\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2.2\"/><path d=\"M548 91V102l9 6\" stroke=\"#6B7280\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'attente dépasse ~1 s.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Indicateur perceptible ET annonce — un spinner seul n'annonce rien.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Envoi en cours… » en région live polie.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "au-delà de <strong>~1 s</strong>, l'attente est <strong>visible et annoncée</strong> — indicateur perceptible ET annonce aux technologies d'assistance (un spinner seul n'annonce rien — la mécanique <code>aria-live</code> vit chez <code>FORM</code>/<code>INPUT</code>). L'interface dit <em>que</em> ça travaille, et reste utilisable partout où l'attente ne bloque pas réellement."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Attente longue ou inconnue",
+     "quand": "Au-delà de ~10 s, ou durée imprévisible.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente longue ou inconnue\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"88\" width=\"200\" height=\"12\" rx=\"6\" fill=\"#E5E7EB\"/><rect x=\"226\" y=\"88\" width=\"88\" height=\"12\" rx=\"6\" fill=\"#4F46E5\"/><text x=\"226\" y=\"126\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">Plus long que prévu</text><rect x=\"226\" y=\"140\" width=\"96\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"254\" y=\"151\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><text x=\"444\" y=\"100\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">issue offerte</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Au-delà de ~10 s, ou durée imprévisible.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>État à part entière : progression honnête, issue offerte, timeout défini.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Plus long que prévu — réessayer ou être prévenu ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "au-delà de <strong>~10 s</strong> — ou dès que la durée est longue et inconnue — l'attente devient un <strong>état à part entière</strong> : progression réelle ou estimation honnête, possibilité de continuer autre chose quand c'est techniquement vrai, et un <strong>timeout toujours défini</strong> (jamais d'attente infinie silencieuse — le cycle de <code>FORM</code> fait autorité sur la reprise)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Indicateur anti-scintillement",
+     "quand": "La réponse est parfois rapide, parfois lente.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Indicateur anti-scintillement\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"64\" width=\"110\" height=\"80\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"224\" y=\"72\" width=\"94\" height=\"32\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"224\" y=\"130\" width=\"55\" height=\"5\" rx=\"2.5\" fill=\"#4B5563\" opacity=\"0.35\"/><text x=\"214\" y=\"176\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">apparu après un délai</text><g opacity=\".3\"><rect x=\"366\" y=\"64\" width=\"110\" height=\"80\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"374\" y=\"72\" width=\"94\" height=\"32\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"374\" y=\"130\" width=\"55\" height=\"5\" rx=\"2.5\" fill=\"#4B5563\" opacity=\"0.35\"/></g><circle cx=\"506\" cy=\"72\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M502.5 68.5l7 7M509.5 68.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"452\" y=\"176\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">flash de 80 ms : défaut</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La réponse est parfois rapide, parfois lente.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'indicateur attend un court délai, puis reste un minimum perceptible.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un squelette qui flashe 80 ms est un défaut.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Timeout toujours défini",
+     "quand": "Le serveur ne répond pas.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · L'échelle de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Timeout toujours défini\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"280\" cy=\"110\" r=\"34\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2.2\"/><path d=\"M280 91.3V110l15.3 10.2\" stroke=\"#6B7280\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"330\" cy=\"84\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M326.5 80.5l7 7M333.5 80.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"352\" y=\"92\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">timeout défini</text><rect x=\"352\" y=\"110\" width=\"96\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"380\" y=\"121\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><text x=\"352\" y=\"156\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">reprise prévue (FORM)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le serveur ne répond pas.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Jamais d'attente infinie silencieuse — le cycle prévoit la sortie et la reprise.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Cycle de soumission FORM : timeout → reprise.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "au-delà de <strong>~10 s</strong> — ou dès que la durée est longue et inconnue — l'attente devient un <strong>état à part entière</strong> : progression réelle ou estimation honnête, possibilité de continuer autre chose quand c'est techniquement vrai, et un <strong>timeout toujours défini</strong> (jamais d'attente infinie silencieuse — le cycle de <code>FORM</code> fait autorité sur la reprise)."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 4 cas",
+   "titre": "Apparition et stabilité",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Apparition et stabilité\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"42\" y=\"44\" width=\"86\" height=\"64\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"52\" y=\"54\" width=\"66\" height=\"24\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"52\" y=\"90\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><path d=\"M140 76h24m-7-7 7 7-7 7\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"178\" y=\"44\" width=\"86\" height=\"64\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"188\" y=\"54\" width=\"66\" height=\"24\" rx=\"5\" fill=\"#E0E7FF\"/><rect x=\"188\" y=\"90\" width=\"52\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"178\" y=\"118\" width=\"86\" height=\"16\" rx=\"6\" fill=\"none\" stroke=\"#0891B2\" stroke-dasharray=\"4 3\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "L'utile arrive en premier",
+     "quand": "L'écran se remplit progressivement.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Apparition et stabilité",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : L'utile arrive en premier\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"54\" width=\"240\" height=\"60\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"238\" y=\"78\" width=\"160\" height=\"9\" rx=\"4.5\" fill=\"#111827\" opacity=\"0.7\"/><text x=\"238\" y=\"100\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">décider d’abord</text><g opacity=\".4\"><rect x=\"216\" y=\"128\" width=\"240\" height=\"58\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/></g><rect x=\"238\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.3\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'écran se remplit progressivement.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Ce qui permet de décider ou d'agir arrive avant l'accessoire.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Le contenu principal avant les recommandations.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "ce qui permet de <strong>décider ou d'agir arrive en premier</strong> — le contenu principal avant l'accessoire, la structure avant le détail. Le squelette est une <strong>promesse de structure</strong> (anatomie chez <code>CARD</code>, stabilité de grille chez <code>COLLECTION</code>) : il promet exactement ce qui va arriver, là où ça va arriver."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Squelette = promesse de structure",
+     "quand": "Le contenu se fait attendre.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Apparition et stabilité",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Squelette = promesse de structure\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"60\" width=\"110\" height=\"84\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"224\" y=\"68\" width=\"94\" height=\"34\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"224\" y=\"130\" width=\"55\" height=\"5\" rx=\"2.5\" fill=\"#4B5563\" opacity=\"0.35\"/><path d=\"M342 102L378 102\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M378 102L370.1 106.3M378 102L370.1 97.7\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"392\" y=\"60\" width=\"110\" height=\"84\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"400\" y=\"68\" width=\"94\" height=\"34\" rx=\"5\" fill=\"#E0E7FF\"/><rect x=\"400\" y=\"116\" width=\"60\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le contenu se fait attendre.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le squelette promet exactement ce qui va arriver, là où ça va arriver.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Anatomie CARD, cellules stables COLLECTION.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "ce qui permet de <strong>décider ou d'agir arrive en premier</strong> — le contenu principal avant l'accessoire, la structure avant le détail. Le squelette est une <strong>promesse de structure</strong> (anatomie chez <code>CARD</code>, stabilité de grille chez <code>COLLECTION</code>) : il promet exactement ce qui va arriver, là où ça va arriver."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Rien n'anime au chargement",
+     "quand": "La page ou la collection arrive.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Apparition et stabilité",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Rien n'anime au chargement\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"64\" width=\"110\" height=\"80\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"350\" y=\"64\" width=\"110\" height=\"80\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"240\" y=\"176\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">le contenu arrive, rien ne bouge</text><circle cx=\"500\" cy=\"76\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M496.5 72.5l7 7M503.5 72.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"478\" y=\"110\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">entrée animée</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La page ou la collection arrive.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le contenu initial est du contenu, pas un spectacle d'entrée.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Règle MOTION — les entrées animées sont réactives.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Rien ne bouge après coup",
+     "quand": "Un contenu tardif arrive.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Apparition et stabilité",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Rien ne bouge après coup\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"60\" width=\"180\" height=\"50\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"236\" y=\"80\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"216\" y=\"122\" width=\"180\" height=\"44\" rx=\"9\" fill=\"none\" stroke=\"#0891B2\" stroke-dasharray=\"5 4\"/><text x=\"240\" y=\"148\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#0891B2\">espace réservé</text><circle cx=\"480\" cy=\"80\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M476.5 76.5l7 7M483.5 76.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"444\" y=\"116\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">décalage = clic volé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un contenu tardif arrive.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Il ne déplace jamais ce qui est lu et ne vole jamais un geste engagé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Espace réservé d'avance, arrivée neutre.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>rien ne se déplace après coup</strong> — un contenu qui arrive tard ne pousse pas ce que l'utilisateur lit et ne vole jamais le geste engagé (le clic parti vers un bouton qui s'est décalé). L'espace du tardif est réservé d'avance ou son arrivée est neutre pour la mise en page. Généralisation d'écran de la règle <code>COLLECTION</code> (« la grille ne saute pas ») et cousine du « le contenu ne se déplace jamais sans action » de <code>SPACING</code>/<code>MOTION</code>."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 4 cas",
+   "titre": "Optimisme",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Optimisme\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><circle cx=\"64\" cy=\"64\" r=\"9\" fill=\"#15803D\"/><path d=\"M60 64l3 3 5.5-6.5\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"88\" y=\"52\" width=\"118\" height=\"26\" rx=\"7\" fill=\"#111827\"/><text x=\"98\" y=\"69\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#FFFFFF\">Envoyé ·</text><text x=\"142\" y=\"69\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#0891B2\">Annuler</text><rect x=\"88\" y=\"94\" width=\"96\" height=\"26\" rx=\"7\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><text x=\"100\" y=\"111\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#111827\">Payer 49 €</text><circle cx=\"212\" cy=\"107\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M208.5 103.5l7 7M215.5 103.5l-7 7\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"232\" y=\"111\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">jamais optimiste</text></svg>",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Succès affiché avant confirmation",
+     "quand": "On veut fluidifier une action fréquente.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Optimisme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Succès affiché avant confirmation\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"76\" width=\"100\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"244\" y=\"87\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><circle cx=\"344\" cy=\"90\" r=\"9\" fill=\"#15803D\"/><path d=\"M340 90l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"368\" y=\"94\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">affiché « fait »</text><rect x=\"216\" y=\"130\" width=\"230\" height=\"30\" rx=\"8\" fill=\"#111827\"/><text x=\"232\" y=\"149\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#FFFFFF\">Envoyé ·</text><text x=\"282\" y=\"149\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#0891B2\">Annuler</text><text x=\"470\" y=\"148\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">réversible</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On veut fluidifier une action fréquente.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Trois conditions cumulées : réversible, très probable, échec réparé visiblement.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Le message part « immédiatement », révocable.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "une interface peut <strong>afficher le succès avant la confirmation serveur</strong> à trois conditions cumulées : l'action est <strong>réversible ou rejouable sans dommage</strong>, son succès est <strong>très probable</strong>, et l'échec éventuel sera <strong>réparé visiblement</strong> (l'élément revient, l'écart est expliqué, rien ne se perd en silence — la reprise vit chez <code>FORM</code>, erreurs serveur)."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Optimisme interdit",
+     "quand": "L'action est irréversible, payante ou légale.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Optimisme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Optimisme interdit\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"64\" width=\"200\" height=\"110\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"248\" y=\"100\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">Payer 49 €</text><circle class=\"ill-spin\" style=\"transform-origin:258px 136px\" cx=\"258\" cy=\"136\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"280\" y=\"140\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">confirmation réelle attendue</text><circle cx=\"486\" cy=\"80\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M482.5 76.5l7 7M489.5 76.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"462\" y=\"116\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">pas d’optimisme</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'action est irréversible, payante ou légale.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>On attend la confirmation réelle — l'attente coûte moins que l'erreur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Jamais de paiement « optimiste ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "l'optimisme est <strong>interdit</strong> sur l'irréversible, le paiement, l'engagement légal et tout ce dont l'échec coûterait plus que l'attente économisée — ces actions attendent leur confirmation réelle (cohérent avec <code>cognitive-load</code> : la confirmation est réservée à ce qui la mérite, et « Annuler » est une promesse tenue)."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Échec après optimisme",
+     "quand": "Le serveur refuse ce qui était affiché comme fait.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Optimisme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Échec après optimisme\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"250\" cy=\"84\" r=\"9\" fill=\"#15803D\"/><path d=\"M246 84l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M276 84L316 84\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M316 84L308.1 88.3M316 84L308.1 79.7\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"340\" cy=\"84\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M336.5 80.5l7 7M343.5 80.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"238\" y=\"116\" width=\"240\" height=\"52\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"238\" y=\"116\" width=\"6\" height=\"52\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"258\" y=\"140\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Échec — votre texte est conservé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le serveur refuse ce qui était affiché comme fait.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'élément revient, l'écart est expliqué — rien ne se perd en silence.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« L'envoi a échoué — votre texte est conservé ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "l'optimisme est <strong>interdit</strong> sur l'irréversible, le paiement, l'engagement légal et tout ce dont l'échec coûterait plus que l'attente économisée — ces actions attendent leur confirmation réelle (cohérent avec <code>cognitive-load</code> : la confirmation est réservée à ce qui la mérite, et « Annuler » est une promesse tenue)."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Succès optimiste = état en cours",
+     "quand": "Un état non confirmé s'affiche comme acquis.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Optimisme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Succès optimiste = état en cours\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"254\" cy=\"92\" r=\"9\" fill=\"#15803D\"/><path d=\"M250 92l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"278\" y=\"96\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">envoyé (en cours de confirmation)</text><circle cx=\"300\" cy=\"148\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M296.5 144.5l7 7M303.5 144.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"324\" y=\"152\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">décision irréversible fondée dessus</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un état non confirmé s'affiche comme acquis.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Jamais une base pour une décision irréversible de l'utilisateur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Pas de « supprimer le brouillon » fondé sur un envoi non confirmé.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "un succès optimiste <strong>reste un état en cours</strong> pour le système — jamais re-présenté comme définitif à un endroit où l'utilisateur prendrait sur lui une décision irréversible fondée sur un état non confirmé."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "04 · 4 cas",
+   "titre": "Honnêteté de l'attente",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Honnêteté de l'attente\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"46\" y=\"52\" width=\"160\" height=\"12\" rx=\"6\" fill=\"#E5E7EB\"/><rect x=\"46\" y=\"52\" width=\"104\" height=\"12\" rx=\"6\" fill=\"#4F46E5\"/><text x=\"216\" y=\"62\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#111827\">65 %</text><rect x=\"46\" y=\"88\" width=\"160\" height=\"12\" rx=\"6\" fill=\"#B91C1C\" opacity=\".35\"/><path d=\"M42 106l172-24\" stroke=\"#B91C1C\" stroke-width=\"3\" stroke-linecap=\"round\"/><text x=\"222\" y=\"98\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#B91C1C\">jauge menteuse</text></svg>",
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Fausse progression interdite",
+     "quand": "Une jauge avance sans lien avec le travail réel.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Honnêteté de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Fausse progression interdite\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"96\" width=\"220\" height=\"14\" rx=\"7\" fill=\"#E5E7EB\"/><rect x=\"226\" y=\"96\" width=\"180\" height=\"14\" rx=\"7\" fill=\"#B91C1C\" opacity=\".5\"/><path d=\"M224 118l224 -28\" stroke=\"#B91C1C\" stroke-width=\"3\" stroke-linecap=\"round\"/><text x=\"472\" y=\"108\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">jauge menteuse</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une jauge avance sans lien avec le travail réel.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Jamais — la progression est vraie ou n'est pas.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Pas d'étapes gonflées pour faire vivre une barre.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>jamais de fausse progression</strong> — pas de barre qui avance sans lien avec le travail réel, pas d'étapes gonflées pour faire vivre une jauge (la frontière Goal-Gradient du catalogue <code>laws</code> devient ici un interdit opérationnel). Barre <strong>déterminée</strong> si l'avancement est mesurable, <strong>indéterminée</strong> sinon — et une estimation ne s'affiche que si elle est honnête."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Barre déterminée ou indéterminée",
+     "quand": "Montrer que ça avance.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Honnêteté de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Barre déterminée ou indéterminée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"80\" width=\"180\" height=\"12\" rx=\"6\" fill=\"#E5E7EB\"/><rect x=\"216\" y=\"80\" width=\"117\" height=\"12\" rx=\"6\" fill=\"#4F46E5\"/><text x=\"406\" y=\"90\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">65 %</text><circle class=\"ill-spin\" style=\"transform-origin:256px 140px\" cx=\"256\" cy=\"140\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"280\" y=\"144\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">durée inconnue : indéterminé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Il faut montrer que ça avance.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Percent-done si mesurable, indéterminé sinon ; estimation seulement si honnête.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Composant de progression : à naître — remonter.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>jamais de fausse progression</strong> — pas de barre qui avance sans lien avec le travail réel, pas d'étapes gonflées pour faire vivre une jauge (la frontière Goal-Gradient du catalogue <code>laws</code> devient ici un interdit opérationnel). Barre <strong>déterminée</strong> si l'avancement est mesurable, <strong>indéterminée</strong> sinon — et une estimation ne s'affiche que si elle est honnête."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Attente artificielle interdite",
+     "quand": "On serait tenté de ralentir « pour faire sérieux ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Honnêteté de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente artificielle interdite\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"272\" cy=\"110\" r=\"30\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2.2\"/><path d=\"M272 93.5V110l13.5 9\" stroke=\"#6B7280\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M252 90l40 40M292 90l-40 40\" stroke=\"#B91C1C\" stroke-width=\"3\" stroke-linecap=\"round\" opacity=\".7\"/><text x=\"324\" y=\"106\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">pas d’attente fabriquée</text><text x=\"324\" y=\"126\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">réponse prête = réponse rendue</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On serait tenté de ralentir « pour faire sérieux ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Si le système peut répondre instantanément, il répond instantanément.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>La labor illusion existe ; ce système ne l'exploite pas.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>jamais d'attente artificielle.</strong> Si le système peut répondre instantanément, il répond instantanément — on ne ralentit pas « pour montrer le travail ». La labor illusion (l'attente mise en scène augmente la confiance perçue) est documentée : ce système choisit de <strong>ne pas l'exploiter</strong> — même famille de refus que les dark patterns de <code>cognitive-load</code>."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-3",
+     "titre": "Attente qui s'éternise avouée",
+     "quand": "L'indicateur tourne bien au-delà du raisonnable.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Honnêteté de l'attente",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente qui s'éternise avouée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle class=\"ill-spin\" style=\"transform-origin:250px 100px\" cx=\"250\" cy=\"100\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"276\" y=\"104\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">…</text><rect x=\"238\" y=\"128\" width=\"250\" height=\"44\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"238\" y=\"128\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#92400E\"/><text x=\"258\" y=\"150\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">Plus long que prévu — réessayer ?</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'indicateur tourne bien au-delà du raisonnable.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'interface l'avoue et donne une issue.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Plus long que prévu » + réessayer.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "une attente qui <strong>s'éternise l'avoue</strong> — au-delà du raisonnable, l'interface le dit (« plus long que prévu ») et donne une issue (réessayer, continuer ailleurs, être prévenu) plutôt que de laisser un indicateur tourner à vide."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "05 · 5 cas",
+   "titre": "Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Mécaniques existantes (le principe renvoie, ne réécrit pas)\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"42\" y=\"58\" width=\"72\" height=\"26\" rx=\"7\" fill=\"#4F46E5\"/><circle class=\"ill-spin\" style=\"transform-origin:78px 71px\" cx=\"78\" cy=\"71\" r=\"6\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-dasharray=\"9 18\" stroke-linecap=\"round\"/><rect x=\"134\" y=\"60\" width=\"84\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><circle class=\"ill-spin\" style=\"transform-origin:236px 70px\" cx=\"236\" cy=\"70\" r=\"6\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2\" stroke-dasharray=\"9 18\" stroke-linecap=\"round\"/><text x=\"42\" y=\"112\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">les mécaniques vivent chez leurs propriétaires</text></svg>",
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Anti-double-soumission pendant l'attente",
+     "quand": "L'impatience fait recliquer.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Anti-double-soumission pendant l'attente\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"84\" width=\"120\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"278\" y=\"95\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><circle class=\"ill-spin\" style=\"transform-origin:300px 132px\" cx=\"300\" cy=\"132\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"326\" y=\"136\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">envoi neutralisé (FORM/BUTTON)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'impatience fait recliquer.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'envoi est neutralisé, l'état montré.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Propriétaires FORM / BUTTON.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>frontière avec <code>motion</code></strong> — <code>MOTION</code> possède les durées et courbes des <strong>animations</strong> (ce qui bouge) ; ce principe possède le contrat des <strong>attentes</strong> (ce qu'on montre pendant que le système travaille). Les deux se rejoignent sur une conviction : tout le registre productif vit sous ~400 ms — mais une transition de 200 ms et une réponse serveur de 4 s sont deux problèmes différents, avec deux propriétaires."
+      },
+      {
+       "tag": "Règle",
+       "html": "ce principe <strong>ne fait pas autorité sur un comportement précis</strong> — il pose l'obligation, le propriétaire pose la mécanique (<code>FORM</code> pour le cycle de soumission et ses timeouts, <code>BUTTON</code> pour l'état loading, <code>INPUT</code> pour l'attente par champ, <code>CARD</code>/<code>COLLECTION</code> pour les squelettes). En cas de divergence, le propriétaire a raison."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Validation asynchrone pendant la frappe",
+     "quand": "La validité dépend d'un aller-retour serveur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Validation asynchrone pendant la frappe\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"236\" y=\"84\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"247\" y=\"93\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><circle class=\"ill-spin\" style=\"transform-origin:426px 96px\" cx=\"426\" cy=\"96\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"448\" y=\"100\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">vérification…</text><text x=\"236\" y=\"140\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">jamais un submit muet</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La validité dépend d'un aller-retour serveur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>État d'attente du champ visible et annoncé, jamais un submit muet.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Propriétaires INPUT / FORM.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Conservation des données pendant l'attente",
+     "quand": "Interruption ou expiration en cours de saisie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Conservation des données pendant l'attente\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"236\" y=\"84\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"247\" y=\"93\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><circle cx=\"436\" cy=\"96\" r=\"9\" fill=\"#DCFCE7\"/><path d=\"M432 96l3 3 5.5-6\" stroke=\"#15803D\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/><text x=\"454\" y=\"100\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">brouillon conservé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Interruption ou expiration en cours de saisie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Rien ne se perd — autosave et limites de temps contrôlables.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Propriétaires FORM / ACCESSIBILITY.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>frontière avec <code>motion</code></strong> — <code>MOTION</code> possède les durées et courbes des <strong>animations</strong> (ce qui bouge) ; ce principe possède le contrat des <strong>attentes</strong> (ce qu'on montre pendant que le système travaille). Les deux se rejoignent sur une conviction : tout le registre productif vit sous ~400 ms — mais une transition de 200 ms et une réponse serveur de 4 s sont deux problèmes différents, avec deux propriétaires."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Spinner : rotation continue, reduced-motion",
+     "quand": "L'indicateur tourne.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Spinner : rotation continue, reduced-motion\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle class=\"ill-spin\" style=\"transform-origin:300px 104px\" cx=\"300\" cy=\"104\" r=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-dasharray=\"13 26\" stroke-linecap=\"round\"/><text x=\"330\" y=\"108\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">linéaire — la seule exception</text><text x=\"330\" y=\"132\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">reduced-motion : pulse d’opacité</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'indicateur tourne.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>La seule exception au « jamais linéaire » ; pulse d'opacité en repli.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Propriétaire MOTION.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-4",
+     "titre": "Perception ≠ vitesse réelle",
+     "quand": "Les attentes dépassent régulièrement les bornes.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Mécaniques existantes (le principe renvoie, ne réécrit pas)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Perception ≠ vitesse réelle\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"64\" width=\"110\" height=\"80\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"224\" y=\"72\" width=\"94\" height=\"32\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"224\" y=\"130\" width=\"55\" height=\"5\" rx=\"2.5\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"340\" y=\"64\" width=\"110\" height=\"80\" rx=\"9\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"348\" y=\"72\" width=\"94\" height=\"32\" rx=\"5\" fill=\"#E5E7EB\"/><rect x=\"348\" y=\"130\" width=\"55\" height=\"5\" rx=\"2.5\" fill=\"#4B5563\" opacity=\"0.35\"/><circle cx=\"520\" cy=\"104\" r=\"26\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"2.2\"/><path d=\"M520 89.7V104l11.700000000000001 7.8\" stroke=\"#B91C1C\" stroke-width=\"2.2\" fill=\"none\" stroke-linecap=\"round\"/><text x=\"468\" y=\"168\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">10 s restent 10 s — remonter</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Les attentes dépassent régulièrement les bornes.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>La réponse est l'ingénierie ou le parcours — remonter, pas maquiller.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un squelette ne répare pas dix secondes.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de PERFORMANCE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>la perception ne remplace pas la vitesse.</strong> Un squelette ne répare pas dix secondes. Si une attente dépasse régulièrement ses bornes, la réponse est l'ingénierie ou la conception du parcours — pas un indicateur de plus. Ce constat se <strong>remonte</strong>, il ne se maquille pas."
+      },
+      {
+       "tag": "Règle",
+       "html": "il ne mesure pas la performance réelle, ne fixe aucun budget technique, n'ajoute aucun token, et ne possède aucune mécanique d'attente — table de renvois ci-dessous. Quand la vitesse réelle est le problème, il l'expose et <strong>remonte</strong>."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "",
+  "titre": "",
+  "lead": "",
+  "specimens": [],
+  "tokens": []
+ },
+ "evolution": []
+}

@@ -1,0 +1,658 @@
+{
+ "slug": "interaction",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\" fill=\"#4F46E5\"/><rect x=\"14.5\" y=\"4\" width=\"7\" height=\"7\" rx=\"2\" fill=\"#F2C744\"/><rect x=\"8.5\" y=\"14\" width=\"7\" height=\"7\" rx=\"2\" fill=\"#0891B2\"/><path d=\"M9.5 7.5h5M18 11v3M12 11v3\" stroke=\"#111827\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg>",
+ "nom": "interaction",
+ "nature": "Langage",
+ "meta": "UX v1.1.0 · UI v1.1.0 · mis à jour 2026-07-20 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · interaction",
+  "question": "Comment faire comprendre ce qui peut être fait avant même que l’utilisateur lise chaque libellé ?",
+  "detail": "Ce langage distingue action, navigation, saisie, sélection, information et statut. Forme, limite, profondeur et mouvement renforcent ces rôles sans devenir décoratifs ni remplacer le texte accessible.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Le rôle se reconnaît avant la lecture"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "La matérialité sert l’affordance"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Couleur, ombre, hover et mouvement ne portent jamais seuls une information"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "13",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "25",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "1",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-interaction.md",
+   "source": "---\nsujet: interaction\ntype: langage\nresume: \"Langage d'affordance : le rôle se reconnaît avant le style ; action, navigation, saisie, sélection, information et statut restent distincts sans dépendre d'un effet seul\"\nrequires: []\nselon-contexte: []\n---\n# RULES — Langage d'interaction (compilé, condensé)\n\n> Généré depuis `languages/interaction/INTERACTION-UX.md` (v1.1.0) et\n> `INTERACTION-UI.md` (v1.1.0). La source fait autorité. Ne pas éditer à la main.\n\n## Premier principe\n\n- **Une interface doit pouvoir être comprise avant d'être lue.** La forme, la structure, la position\n  et les états indiquent le rôle ; le mot précise l'intention.\n- Ce principe ne remplace jamais le texte accessible : icône seule = nom accessible ; état =\n  sémantique programmatique.\n\n## Intentions\n\n| Intention | Composant / expression |\n|---|---|\n| Agir | Button |\n| Naviguer | Link |\n| Saisir | Input / contrôle de formulaire |\n| Choisir | checkbox, radio, switch, select |\n| Consulter | texte, Card statique, Panel |\n| Comprendre un état | Alert, badge, message explicite |\n\n- Deux éléments qui se ressemblent et réagissent de la même façon promettent un résultat de même\n  nature. Deux rôles différents ne deviennent pas indiscernables.\n- Toujours utiliser la sémantique native correspondant à l'intention.\n\n## Lois d'affordance\n\n- **Action** : limite et états perceptibles ; présence modulée par la hiérarchie, jamais effacée.\n- **Saisie** : zone réceptive délimitée + label + focus ; jamais élevée comme une action.\n- **Surface** : Card statique calme ; Card cliquable avec une cible réelle et des signaux\n  supplémentaires.\n- **Profondeur** : explique une couche ou un changement d'état, jamais l'importance ni la décoration.\n- **Couleur** : renforce le sens, ne le crée jamais seule.\n- **États** : repos, hover, focus, active, loading et disabled distincts quand ils existent. Le hover\n  confirme une cible déjà reconnaissable ; le focus n'est pas une imitation du hover.\n\n## Matérialité fonctionnelle\n\n- Matérialité = fond, bordure, forme, position, état, mouvement ou profondeur au service d'une\n  question fonctionnelle. **Aucune ombre, aucun inset, aucun gradient n'est imposé.**\n- Conserver un effet seulement s'il explique : manipulable, réceptif, organisateur, superposé ou\n  changement d'état. Sinon, il est décoratif et hors langage.\n- Neumorphisme et glassmorphism ne sont pas le langage par défaut : effets fragiles, contrastes et\n  performance à démontrer.\n\n## Robustesse\n\n- Le langage reste opérant en niveaux de gris, sans hover, au clavier, au zoom, en contraste forcé et\n  avec mouvement réduit.\n- Ombre, vibration, couleur ou animation ne sont jamais indispensables.\n- Test : distinguer action/navigation/saisie/information en niveaux de gris ; reconnaître les cibles\n  sans hover ; voir le focus ; vérifier que des rendus équivalents promettent des résultats équivalents.\n\n## UI\n\n- Actions : limite via tokens du composant, state layers existants, `motion.fast`.\n- Saisie : `color.border-strong`, `color.background`, focus de la fondation Border.\n- Surface statique : `elevation.none`.\n- Profondeur : uniquement selon Elevation ; aucune ombre de repos créée ici.\n- Focus : `border.focus-width` + `border.focus-offset`, jamais remplacé par un effet tactile.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 6 cas",
+   "titre": "Intention",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Intention\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"58\" width=\"64\" height=\"26\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"54\" y=\"68\" width=\"36\" height=\"7\" rx=\"3.5\" fill=\"#ffffff\" opacity=\"1\"/><text x=\"124\" y=\"74\" font-size=\"11\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">naviguer</text><path d=\"M124 78h48\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><rect x=\"192\" y=\"60\" width=\"84\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"202\" y=\"66\" width=\"2\" height=\"12\" fill=\"#111827\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Déclencher une action",
+     "quand": "Button identifiable, états perceptibles.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Déclencher une action\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"272\" y=\"96\" width=\"136\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"318\" y=\"107\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><path d=\"M398 138l13 32 4-12 12-4z\" fill=\"#111827\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Button identifiable, états perceptibles.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par <code>BUTTON</code>, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « déclencher une action » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Naviguer",
+     "quand": "Link identifiable et destination explicite.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Naviguer\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"200\" y=\"120\" font-size=\"15\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Voir le détail</text><path d=\"M200 127h96\" stroke=\"#4F46E5\" stroke-width=\"2\"/><path d=\"M320 114L378 114\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M378 114L370.1 118.3M378 114L370.1 109.7\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"408\" y=\"72\" width=\"130\" height=\"96\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"424\" y=\"92\" width=\"80\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"424\" y=\"112\" width=\"96\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Link identifiable et destination explicite.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « naviguer » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Saisir une donnée",
+     "quand": "Zone réceptive délimitée + label.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Saisir une donnée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"266\" y=\"84\" width=\"70\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"266\" y=\"98\" width=\"164\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"278\" y=\"104\" width=\"2.5\" height=\"13\" fill=\"#111827\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Zone réceptive délimitée + label.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par <code>INPUT</code>, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « saisir une donnée » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Choisir",
+     "quand": "Contrôle de sélection natif.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Choisir\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"252\" cy=\"94\" r=\"9\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><circle cx=\"252\" cy=\"132\" r=\"9\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"2\"/><circle cx=\"252\" cy=\"132\" r=\"4.5\" fill=\"#4F46E5\"/><rect x=\"272\" y=\"90\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"272\" y=\"128\" width=\"76\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"402\" y=\"86\" width=\"18\" height=\"18\" rx=\"4\" fill=\"#4F46E5\"/><path d=\"M406 95l4 4 7-8\" stroke=\"#ffffff\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/><rect x=\"430\" y=\"90\" width=\"78\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"402\" y=\"122\" width=\"18\" height=\"18\" rx=\"4\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"430\" y=\"126\" width=\"62\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Contrôle de sélection natif.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Compléter la couverture existante, puis vérifier le résultat avec la technologie d’assistance concernée.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « choisir » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Consulter",
+     "quand": "Contenu calme, sans fausse affordance.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Consulter\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"60\" width=\"180\" height=\"118\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"268\" y=\"80\" width=\"110\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"268\" y=\"104\" width=\"140\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"268\" y=\"124\" width=\"126\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"268\" y=\"144\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Contenu calme, sans fausse affordance.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par <code>CARD</code>, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « consulter » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Comprendre un état",
+     "quand": "Mot + signal visuel.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Intention",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Comprendre un état\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"96\" width=\"248\" height=\"46\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"216\" y=\"96\" width=\"6\" height=\"46\" rx=\"3\" fill=\"#15803D\"/><circle cx=\"246\" cy=\"119\" r=\"9\" fill=\"#15803D\"/><path d=\"M242 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"266\" y=\"124\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#15803D\">Enregistré</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Mot + signal visuel.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par <code>ALERT</code>, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « comprendre un état » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 6 cas",
+   "titre": "Canal",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Canal\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><circle cx=\"60\" cy=\"74\" r=\"12\" fill=\"#B91C1C\"/><rect x=\"100\" y=\"62\" width=\"50\" height=\"34\" rx=\"8\" fill=\"#111827\" opacity=\".12\"/><rect x=\"94\" y=\"56\" width=\"50\" height=\"34\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><path d=\"M168 74q9-13 18 0t18 0\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2\"/><text x=\"226\" y=\"79\" font-size=\"12\" font-family=\"Inter,sans-serif\" fill=\"#111827\">le mot</text></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Couleur",
+     "quand": "Interface désaturée / daltonisme.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Couleur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"234\" cy=\"106\" r=\"15\" fill=\"#B91C1C\"/><circle cx=\"234\" cy=\"152\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M230.5 148.5l7 7M237.5 148.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"420\" cy=\"106\" r=\"15\" fill=\"#B91C1C\"/><text x=\"446\" y=\"111\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Erreur</text><circle cx=\"510\" cy=\"106\" r=\"9\" fill=\"#15803D\"/><path d=\"M506 106l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Interface désaturée / daltonisme.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « couleur » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Ombre",
+     "quand": "Forced-colors / faible gamme.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Ombre\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"216\" y=\"72\" width=\"124\" height=\"98\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"366\" y=\"82\" width=\"124\" height=\"98\" rx=\"13\" fill=\"#111827\" opacity=\".13\"/><rect x=\"358\" y=\"74\" width=\"124\" height=\"98\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"340\" y=\"128\" font-size=\"20\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">+</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Forced-colors / faible gamme.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « ombre » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "« réceptif » décrit une fonction, pas un effet imposé. Une ombre interne peut soutenir cette"
+      },
+      {
+       "tag": "Règle",
+       "html": "l'ombre indique une relation spatiale ou un changement d'état ; elle ne décore pas. La"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Hover",
+     "quand": "Tactile.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Hover\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"196\" y=\"72\" width=\"140\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"212\" y=\"132\" width=\"62\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"223\" y=\"143\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><rect x=\"356\" y=\"72\" width=\"140\" height=\"100\" rx=\"13\" fill=\"#F3F4F6\" stroke=\"#6B7280\"/><rect x=\"372\" y=\"132\" width=\"62\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"383\" y=\"143\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><path d=\"M470 110l13 32 4-12 12-4z\" fill=\"#111827\"/><text x=\"340\" y=\"126\" font-size=\"17\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">=</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Tactile.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « hover » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "repos, hover, focus, active, loading et disabled sont distincts quand ils existent. Le"
+      },
+      {
+       "tag": "Règle",
+       "html": "le focus clavier est un état à part entière, jamais une imitation du hover. L'active peut"
+      },
+      {
+       "tag": "Règle",
+       "html": "le langage reste opérant au clavier, au toucher, au zoom, en contraste forcé, sans hover et"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Mouvement",
+     "quand": "Reduced-motion.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Mouvement\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><path d=\"M258 104l6 7 6-7\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M300 122a26 26 0 1 1 10 18\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><path d=\"M306 136l-8 6 10 3z\" fill=\"#4F46E5\"/><path d=\"M376 120L416 120\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M416 120L408.1 124.3M416 120L408.1 115.7\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"452\" cy=\"120\" r=\"9\" fill=\"#15803D\"/><path d=\"M448 120l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"472\" y=\"125\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">sans mouvement</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Reduced-motion.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « mouvement » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Vibration",
+     "quand": "Indisponible ou désactivée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Vibration\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"266\" y=\"62\" width=\"72\" height=\"116\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><path d=\"M250 84q-9 36 0 72M354 84q9 36 0 72\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><rect x=\"384\" y=\"100\" width=\"150\" height=\"38\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"384\" y=\"100\" width=\"6\" height=\"38\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"414\" y=\"116\" width=\"104\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Indisponible ou désactivée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « vibration » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Texte",
+     "quand": "Icône seule.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Canal",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Texte\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"84\" width=\"24\" height=\"24\" rx=\"6\" fill=\"#E0E7FF\"/><text x=\"276\" y=\"101\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">Supprimer</text><rect x=\"240\" y=\"130\" width=\"24\" height=\"24\" rx=\"6\" fill=\"#FEE2E2\"/><text x=\"276\" y=\"147\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Erreur : format attendu</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Icône seule.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « texte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "ce principe ne remplace jamais le texte accessible. « Reconnaître avant de lire » réduit"
+      },
+      {
+       "tag": "Règle",
+       "html": "un même rôle conserve ses signaux essentiels dans tous les contextes. Une action principale"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 6 cas",
+   "titre": "Incohérence à détecter",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Incohérence à détecter\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"42\" y=\"56\" width=\"70\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"56\" y=\"66\" width=\"40\" height=\"7\" rx=\"3.5\" fill=\"#ffffff\" opacity=\"1\"/><text x=\"150\" y=\"64\" font-size=\"14\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">=</text><text x=\"176\" y=\"74\" font-size=\"11\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">lien inline</text><path d=\"M176 78h52\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><circle cx=\"268\" cy=\"68\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M264.5 64.5l7 7M271.5 64.5l-7 7\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Button visuellement identique à un lien inline",
+     "quand": "Traiter le cas « Button visuellement identique à un lien inline ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Button visuellement identique à un lien inline\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"214\" y=\"116\" font-size=\"15\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Enregistrer</text><path d=\"M214 123h86\" stroke=\"#4F46E5\" stroke-width=\"2\"/><circle cx=\"340\" cy=\"110\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M336.5 106.5l7 7M343.5 106.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"392\" y=\"96\" width=\"116\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"428\" y=\"107\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><circle cx=\"534\" cy=\"110\" r=\"9\" fill=\"#15803D\"/><path d=\"M530 110l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Button visuellement identique à un lien inline ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « button visuellement identique à un lien inline » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Card statique avec hover de carte cliquable",
+     "quand": "Traiter le cas « Card statique avec hover de carte cliquable ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Card statique avec hover de carte cliquable\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"244\" y=\"70\" width=\"152\" height=\"104\" rx=\"13\" fill=\"#F3F4F6\" stroke=\"#6B7280\"/><rect x=\"262\" y=\"92\" width=\"84\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"262\" y=\"114\" width=\"112\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><path d=\"M380 140l13 32 4-12 12-4z\" fill=\"#111827\"/><circle cx=\"436\" cy=\"92\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M432.5 88.5l7 7M439.5 88.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Card statique avec hover de carte cliquable ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « card statique avec hover de carte cliquable » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "une Card statique reste calme. Une Card cliquable reçoit une cible réelle et des signaux"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Input élevé comme une action",
+     "quand": "Traiter le cas « Input élevé comme une action ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Input élevé comme une action\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"262\" y=\"106\" width=\"164\" height=\"30\" rx=\"7\" fill=\"#111827\" opacity=\".14\"/><rect x=\"256\" y=\"100\" width=\"164\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><circle cx=\"452\" cy=\"110\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M448.5 106.5l7 7M455.5 106.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Input élevé comme une action ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « input élevé comme une action » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Deux composants identiques produisant action et navigation",
+     "quand": "Traiter le cas « Deux composants identiques produisant action et navigation ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Deux composants identiques produisant action et navigation\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"210\" y=\"76\" width=\"112\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"244\" y=\"87\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><rect x=\"210\" y=\"132\" width=\"112\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"244\" y=\"143\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/><path d=\"M334 90L388 76\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M388 76L381.4 82.2M388 76L379.3 73.8\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M334 146L388 160\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M388 160L379.3 162.2M388 160L381.4 153.8\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"416\" cy=\"72\" r=\"14\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\"/><rect x=\"400\" y=\"146\" width=\"44\" height=\"32\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><circle cx=\"516\" cy=\"116\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M512.5 112.5l7 7M519.5 112.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Deux composants identiques produisant action et navigation ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « deux composants identiques produisant action et navigation » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "action, navigation, erreur, sélection et focus restent compréhensibles sans perception de la"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-4",
+     "titre": "Matérialité sobre qui renforce une limite déjà accessible",
+     "quand": "Traiter le cas « Matérialité sobre qui renforce une limite déjà accessible ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Matérialité sobre qui renforce une limite déjà accessible\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"252\" y=\"96\" width=\"156\" height=\"26\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"252\" y=\"96\" width=\"156\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><circle cx=\"438\" cy=\"108\" r=\"9\" fill=\"#15803D\"/><path d=\"M434 108l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Matérialité sobre qui renforce une limite déjà accessible ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « matérialité sobre qui renforce une limite déjà accessible » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-5",
+     "titre": "Effet décoratif sans rôle fonctionnel",
+     "quand": "Traiter le cas « Effet décoratif sans rôle fonctionnel ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Incohérence à détecter",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Effet décoratif sans rôle fonctionnel\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"196\" y=\"72\" width=\"140\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"212\" y=\"92\" width=\"86\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"212\" y=\"114\" width=\"104\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><path d=\"M366 60v122\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-dasharray=\"5 6\"/><path d=\"M430 96l6 12 12 6-12 6-6 12-6-12-12-6 12-6z\" fill=\"#92400E\"/><path d=\"M486 132l4 9 9 4-9 4-4 9-4-9-9-4 9-4z\" fill=\"#92400E\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Effet décoratif sans rôle fonctionnel ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « effet décoratif sans rôle fonctionnel » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de INTERACTION-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "si l'effet ne répond à aucune de ces questions, il est décoratif et ne fait pas partie du"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "specimens": [],
+  "tokens": [
+   {
+    "token": "action.boundary",
+    "ref": "color.border-strong",
+    "valeur": "#6B7280",
+    "couleur": "#6B7280"
+   },
+   {
+    "token": "action.hover_surface",
+    "ref": "color.surface-hover",
+    "valeur": "#E5E7EB",
+    "couleur": "#E5E7EB"
+   },
+   {
+    "token": "action.press_duration",
+    "ref": "motion.fast",
+    "valeur": "100ms",
+    "couleur": null
+   },
+   {
+    "token": "receptive.boundary",
+    "ref": "color.border-strong",
+    "valeur": "#6B7280",
+    "couleur": "#6B7280"
+   },
+   {
+    "token": "receptive.background",
+    "ref": "color.background",
+    "valeur": "#FFFFFF",
+    "couleur": "#FFFFFF"
+   },
+   {
+    "token": "surface.rest_shadow",
+    "ref": "elevation.none",
+    "valeur": "none",
+    "couleur": null
+   },
+   {
+    "token": "focus.width",
+    "ref": "border.focus-width",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "focus.offset",
+    "ref": "border.focus-offset",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "state_motion.duration",
+    "ref": "motion.fast",
+    "valeur": "100ms",
+    "couleur": null
+   },
+   {
+    "token": "state_motion.easing",
+    "ref": "motion.ease-out",
+    "valeur": "cubic-bezier(0, 0, 0.2, 1)",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": []
+}

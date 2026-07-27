@@ -1,0 +1,1200 @@
+{
+ "slug": "modal",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\" fill=\"#C7D2FE\" opacity=\"0.55\"/><rect x=\"5\" y=\"7\" width=\"14\" height=\"10\" rx=\"2\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"1.4\"/><rect x=\"5\" y=\"7\" width=\"14\" height=\"3.2\" rx=\"1.6\" fill=\"#4F46E5\"/><rect x=\"13.5\" y=\"13\" width=\"4.2\" height=\"2.4\" rx=\"1.2\" fill=\"#0891B2\"/></svg>",
+ "nom": "modal",
+ "nature": "Composant",
+ "meta": "UX v1.0.0 · UI v1.0.0 · mis à jour 2026-07-26 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · modal",
+  "question": "Quand une boîte qui bloque tout l'écran mérite-t-elle d'exister — et quand faut-il choisir autre chose ?",
+  "detail": "La modale interrompt : elle pose un voile, piège le clavier, réclame une décision avant de rendre la main. Elle hérite toute sa mécanique d'overlay (scrim, focus, scroll-lock) ; ce qu'elle tranche en propre, c'est la légitimité de l'interruption — trois familles (confirmation, saisie courte, détail), une seule modale à la fois, jamais de modale sur modale, et le nom exact de ce qu'on s'apprête à détruire.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Une modale n'existe que si l'interruption est courte, réclame une décision, et le contexte de retour compte"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Une seule modale à la fois — jamais de modale ouverte depuis une modale"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Une confirmation destructive nomme l'objet réel, jamais un « Confirmer » générique"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "34",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "20",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "0",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "",
+   "source": ""
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 6 cas",
+   "titre": "Famille d'usage",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Confirmation d'action destructive",
+     "quand": "Supprimer, révoquer, clôturer — une conséquence irréversible.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Supprimer, révoquer, clôturer — une conséquence irréversible.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Confirmation d'action destructive » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le titre et le corps <strong>nomment l'objet réel</strong>, jamais un « Confirmer » générique — « Supprimer le projet <em>Rocket</em> ? », pas « Êtes-vous sûr ? ».</p>"
+      },
+      {
+       "tag": "Règle",
+       "html": "<p>Le bouton destructif n'est <strong>jamais</strong> le bouton par défaut activable par un simple Entrée réflexe (renvoi <code>BUTTON-UX.md</code>).</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Confirmation d'action non destructive",
+     "quand": "Publier, envoyer, archiver — engageant mais réversible.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Publier, envoyer, archiver — engageant mais réversible.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Confirmation d'action non destructive » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Deux boutons seulement : l'action et son retrait — jamais plus, largeur <code>grid.container-narrow</code>.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Saisie courte (1 à 3 champs)",
+     "quand": "Renommer, ajouter un tag, régler une valeur unique sans quitter le contexte.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Renommer, ajouter un tag, régler une valeur unique sans quitter le contexte.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Saisie courte (1 à 3 champs) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le nom du bouton reflète la conclusion réelle de l'action, pas un « Valider » générique (renvoi <code>BUTTON-UX.md</code>).</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Détail / lecture (fiche courte)",
+     "quand": "Aperçu d'un élément, résumé, détail d'un cas d'usage.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Aperçu d'un élément, résumé, détail d'un cas d'usage.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Détail / lecture (fiche courte) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Contenu de type détail/lecture : largeur <code>grid.overlay</code> (640), zéro à une action, souvent un simple bouton de fermeture.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Formulaire long multi-champs",
+     "quand": "Inscription, réglages complets d'un objet — plusieurs sections de champs.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Inscription, réglages complets d'un objet — plusieurs sections de champs.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Formulaire long multi-champs » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un contenu qui appelle un défilement long et une saisie étendue n'est pas un cas de modale : « au-delà de 640 le contenu appelle une page, pas un superposé ».</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Wizard multi-étapes",
+     "quand": "Séquence d'écrans qui progresse vers un but (ex. création de compte).",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Famille d'usage",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Séquence d'écrans qui progresse vers un but (ex. création de compte).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Wizard multi-étapes » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Une modale porte toujours une conclusion simple ; une séquence orchestrée relève d'un flow, pas du composant Modal.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 7 cas",
+   "titre": "Déclenchement",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Depuis un bouton d'action principal",
+     "quand": "Un CTA d'écran ouvre la modale (« Supprimer », « Ajouter »).",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un CTA d'écran ouvre la modale (« Supprimer », « Ajouter »).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Depuis un bouton d'action principal » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>À la fermeture, le focus <strong>revient</strong> exactement au déclencheur qui a ouvert la modale.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Depuis une icône d'action de ligne (table/liste)",
+     "quand": "Une action rapide sur un élément de liste ouvre une modale de confirmation ou de saisie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une action rapide sur un élément de liste ouvre une modale de confirmation ou de saisie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Depuis une icône d'action de ligne (table/liste) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le retour du focus vise l'icône déclenchante, pas un point d'ancrage générique de la page.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Depuis un lien « en savoir plus »",
+     "quand": "Ouvre une fiche courte sans quitter l'écran d'origine.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Ouvre une fiche courte sans quitter l'écran d'origine.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Depuis un lien « en savoir plus » » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Contenu de type détail/lecture, largeur <code>grid.overlay</code> — le contexte de retour doit compter pour justifier la modale plutôt qu'une page.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Depuis une notification qui invite à un détail",
+     "quand": "Un toast affiche un résumé et propose d'ouvrir le détail complet.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un toast affiche un résumé et propose d'ouvrir le détail complet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Depuis une notification qui invite à un détail » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le toast reste non-modal et léger ; la modale ne prend le relais qu'au clic, jamais automatiquement.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Enchaînée depuis une autre modale",
+     "quand": "Une action dans une modale (ex. supprimer) réclame elle-même une confirmation.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une action dans une modale (ex. supprimer) réclame elle-même une confirmation.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Enchaînée depuis une autre modale » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>La modale existante <strong>remplace son propre contenu</strong> par l'étape de confirmation — elle ne s'empile jamais une seconde fois.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "À l'arrivée sur une URL profonde (deep link)",
+     "quand": "Une route applicative ouvre directement la modale au chargement.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une route applicative ouvre directement la modale au chargement.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « À l'arrivée sur une URL profonde (deep link) » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le composant ne gère pas de routage — l'ouverture liée à une URL est la responsabilité du consommateur, hors périmètre de Modal.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-6",
+     "titre": "Ouverture automatique sans interaction",
+     "quand": "Une modale s'affiche au chargement sans déclencheur explicite (ex. onboarding).",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Déclenchement",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une modale s'affiche au chargement sans déclencheur explicite (ex. onboarding).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Ouverture automatique sans interaction » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le coût d'interruption d'une ouverture non sollicitée par un geste utilisateur n'est pas tranché par la doctrine — arbitrage à remonter avant de généraliser ce cas.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 7 cas",
+   "titre": "Fermeture",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Touche Échap",
+     "quand": "Fermeture clavier universelle, toujours active.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Fermeture clavier universelle, toujours active.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Touche Échap » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Trois sorties toujours actives, héritées d'<code>OVERLAY-UX.md</code> sans exception : Échap, la croix, le clic sur le voile.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Croix dans le header",
+     "quand": "Fermeture explicite, cliquable, portée par <code>Modal.Close</code>.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Fermeture explicite, cliquable, portée par <code>Modal.Close</code>.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Croix dans le header » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>La croix reste active même quand le clic-voile est désarmé — elle n'est jamais l'une des sorties qu'on retire.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Clic sur le voile",
+     "quand": "Équivalent d'une annulation, actif par défaut (<code>dismissOnScrim</code>).",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Équivalent d'une annulation, actif par défaut (<code>dismissOnScrim</code>).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Clic sur le voile » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un clic sur le voile ferme le superposé modal — cohérent avec le light-dismiss du non-modal (renvoi <code>OVERLAY-UX.md</code>).</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Clic sur le voile désarmé (saisie en cours)",
+     "quand": "Une saisie non enregistrée rend la fermeture accidentelle risquée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une saisie non enregistrée rend la fermeture accidentelle risquée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Clic sur le voile désarmé (saisie en cours) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le clic-voile se désarme (<code>dismissOnScrim={false}</code>) quand une fermeture accidentelle perdrait une saisie en cours ; Échap et la croix restent actifs.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-4",
+     "titre": "Bouton « Annuler » explicite",
+     "quand": "Une sortie nommée, à côté de l'action principale du Footer.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une sortie nommée, à côté de l'action principale du Footer.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Bouton « Annuler » explicite » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le bouton d'annulation suit la convention de position définie une fois pour tout le produit — jamais réinventée modale par modale (renvoi <code>BUTTON-UX.md</code>).</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-5",
+     "titre": "Fermeture automatique après succès",
+     "quand": "La modale se ferme d'elle-même une fois la tâche conclue.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La modale se ferme d'elle-même une fois la tâche conclue.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Fermeture automatique après succès » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Une modale porte toujours une conclusion — une fois l'action validée, la fermeture n'a plus besoin d'un geste supplémentaire.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-6",
+     "titre": "Confirmation de perte de données avant fermeture",
+     "quand": "Échap ou la croix sont actionnés avec une saisie non enregistrée.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Fermeture",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Échap ou la croix sont actionnés avec une saisie non enregistrée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Confirmation de perte de données avant fermeture » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Router Échap/croix vers une confirmation de perte de données est laissé au consommateur du composant — Modal ne l'implémente pas nativement.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "04 · 7 cas",
+   "titre": "Contenu et structure",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Titre obligatoire et nom accessible",
+     "quand": "Toute modale doit être nommée pour un lecteur d'écran.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Toute modale doit être nommée pour un lecteur d'écran.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Titre obligatoire et nom accessible » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p><code>Header</code> pose automatiquement <code>aria-labelledby</code> sur la surface ; sans <code>Header</code>, un <code>aria-label</code> explicite est requis.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Sur-titre (kicker) au-dessus du titre",
+     "quand": "Un contexte court précède le titre principal (ex. nom de section).",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un contexte court précède le titre principal (ex. nom de section).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Sur-titre (kicker) au-dessus du titre » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le titre nomme la tâche ou la question, jamais l'objet générique du composant.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Contenu long avec défilement interne",
+     "quand": "Le contenu dépasse la hauteur disponible à l'écran.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le contenu dépasse la hauteur disponible à l'écran.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Contenu long avec défilement interne » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Au-delà de la hauteur disponible, seul le <code>Body</code> défile — jamais la page derrière, jamais la surface entière.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-3",
+     "titre": "Footer d'actions toujours visible",
+     "quand": "Les actions restent accessibles même sur un contenu qui déborde.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Les actions restent accessibles même sur un contenu qui déborde.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Footer d'actions toujours visible » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un <code>Footer</code> d'actions reste visible sans défiler — jamais relégué en bas d'un contenu qui déborde.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-4",
+     "titre": "Modale sans Footer (lecture pure)",
+     "quand": "Aucune action requise, seule la lecture compte.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Aucune action requise, seule la lecture compte.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Modale sans Footer (lecture pure) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Une modale de détail/lecture porte zéro à une action ; la fermeture par croix/Échap/voile suffit.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-5",
+     "titre": "Tableau court dans la modale",
+     "quand": "Un contenu tabulaire tient dans une seule modale sans devenir une page.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un contenu tabulaire tient dans une seule modale sans devenir une page.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Tableau court dans la modale » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le cran <code>size=\"default\"</code> (<code>grid.overlay</code>, 640) couvre la modale qui porte un tableau court.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-6",
+     "titre": "Illustration ou média dans la modale",
+     "quand": "Un aperçu visuel accompagne le texte, sans devenir la pièce principale d'une page.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu et structure",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un aperçu visuel accompagne le texte, sans devenir la pièce principale d'une page.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle correspondante de <code>MODAL-UX.md</code>, puis vérifier le résultat sur un écran assemblé du produit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Illustration ou média dans la modale » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le cran <code>size=\"default\"</code> (<code>grid.overlay</code>, 640) couvre la modale qui porte une illustration.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "05 · 7 cas",
+   "titre": "Frontières",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Drawer",
+     "quand": "Un panneau ancré à un bord plutôt que centré à l'écran.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un panneau ancré à un bord plutôt que centré à l'écran.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Drawer » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Modal et Drawer partagent toute la mécanique modale d'<code>OVERLAY-UX.md</code> ; ils divergent sur un seul axe, l'ancrage — centré pour la modale, bord pour le drawer.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Toast",
+     "quand": "Une notification éphémère et non-modale, sans décision requise.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une notification éphémère et non-modale, sans décision requise.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Toast » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Toast et Alert n'interrompent pas — une information qui ne réclame aucune décision immédiate est un toast, jamais une modale.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Alert inline",
+     "quand": "Un message dans le flux de la page, non superposé.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un message dans le flux de la page, non superposé.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Alert inline » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>L'alerte reste dans le flux ; elle ne pose jamais de scrim ni ne piège le focus, à la différence de la modale.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Popover / dropdown",
+     "quand": "Un superposé non-modal ancré au déclencheur, pour un détail court.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un superposé non-modal ancré au déclencheur, pour un détail court.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Popover / dropdown » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Une aide ponctuelle ancrée à un élément précis n'a pas besoin de piéger le focus pour un détail court — c'est un popover, pas une modale.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-4",
+     "titre": "Modale sur modale (empilement)",
+     "quand": "Une seconde modale s'ouvrirait depuis une première déjà ouverte.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une seconde modale s'ouvrirait depuis une première déjà ouverte.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Modale sur modale (empilement) » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Une seule modale ouverte à la fois — une modale ouverte depuis une modale est interdite, pas d'empilement de <code>z-index.overlay</code> sur lui-même.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-5",
+     "titre": "Page dédiée",
+     "quand": "Un contenu long, autonome, navigable et partageable par URL.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un contenu long, autonome, navigable et partageable par URL.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Page dédiée » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Au-delà de <code>grid.overlay</code> (640), le contenu appelle une page, pas un superposé.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-6",
+     "titre": "Confirmation native du navigateur (beforeunload)",
+     "quand": "L'avertissement natif à la fermeture d'onglet ou de fenêtre.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontières",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'avertissement natif à la fermeture d'onglet ou de fenêtre.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert par Modal : voir la ligne correspondante de l'inventaire pour le propriétaire ou l'arbitrage à trancher.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Vérifier « Confirmation native du navigateur (beforeunload) » avant d'improviser une extension du composant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de MODAL-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Mécanisme du navigateur, hors périmètre du composant — Modal ne s'y substitue pas.</p>"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles de Modal."
+ },
+ "specs": {
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "css": "",
+  "specimens": [],
+  "tokens": [
+   {
+    "token": "empilement.surface_et_voile",
+    "ref": "z-index.overlay",
+    "valeur": "1000",
+    "couleur": null
+   },
+   {
+    "token": "voile.fond",
+    "ref": "overlay.scrim",
+    "valeur": "rgba(17, 24, 39, 0.5)",
+    "couleur": null
+   },
+   {
+    "token": "surface.ombre",
+    "ref": "elevation.overlay",
+    "valeur": "0 4px 12px rgba(17, 24, 39, 0.14)",
+    "couleur": null
+   },
+   {
+    "token": "surface.rayon",
+    "ref": "radius.md",
+    "valeur": "8px",
+    "couleur": null
+   },
+   {
+    "token": "mouvement.entree_sortie",
+    "ref": "motion.slow",
+    "valeur": "300ms",
+    "couleur": null
+   },
+   {
+    "token": "focus.anneau_largeur",
+    "ref": "border.focus-width",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "focus.anneau_decalage",
+    "ref": "border.focus-offset",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "largeur.confirmation_et_saisie",
+    "ref": "grid.container-narrow",
+    "valeur": "480px",
+    "couleur": null
+   },
+   {
+    "token": "largeur.detail_et_lecture",
+    "ref": "grid.overlay",
+    "valeur": "640px",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": [
+  {
+   "date": "2026-07-26",
+   "titre": "MODAL naît : le composant rattrape la case laissée ouverte par overlay, sa doctrine rattrape le composant",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>packages/react/src/components/modal/modal.tsx</code> (nouveau, livré le 2026-07-26) ; <code>MODAL-UX.md</code> + <code>MODAL-UI.md</code> (1.0.0, nouveaux) ; <code>inventaire-cas-usage-modal.md</code> (34 cas) ; <code>DESIGN.md</code> 1.32.0 (token <code>grid.overlay</code>) ; <code>doctrine/modal.json</code>.</li><li><strong>Contexte</strong> : l'inventaire d'<code>overlay</code> annonçait déjà la modale — « Modale / dialog — couvert (mécanique posée) ; composant différé ». La reprise du site de doctrine dans l'app React a exigé un détail de cas d'usage réel : le différé s'est arrêté là. Le composant a précédé sa paire UX/UI (dette assumée et datée, cf. <code>DECISIONS.md</code> 2026-07-26, entrée « MODAL / TABS »), soldée par cette fiche.</li><li><strong>Décision</strong> : Modal applique <code>OVERLAY-UX/UI</code> à la lettre — scrim, clic-voile = annulation, focus qui entre / piégé / rendu au déclencheur, défilement verrouillé, <code>z-index.overlay</code>, <code>elevation.overlay</code>, <code>radius.md</code>, entrée <code>motion.slow</code>, <code>prefers-reduced-motion</code> respecté, ring de focus laissé à BORDER. La doctrine y ajoute ce qui est propre à la modale : trois familles d'usage (confirmation, saisie courte, détail/lecture), le seuil de légitimité face à page/drawer/inline/toast, « une seule modale à la fois », et le nommage de l'objet dans une confirmation destructive (renvoi <code>BUTTON-UX.md</code>).</li><li><strong>Token créé</strong> : <code>grid.overlay</code> = 640px, largeur de la modale « détail/lecture » — la modale de confirmation reste sur <code>grid.container-narrow</code> (480). Un seul cran neuf, cf. <code>DESIGN.md</code> 1.32.0.</li><li><strong>Limite assumée</strong> : le fond n'est pas mis <code>inert</code> faute de racine applicative référencée par le package — l'inertie est approchée par scrim + piège de focus manuel + <code>aria-modal</code>, un écart documenté à <code>OVERLAY-UX.md</code>, pas un oubli silencieux.</li></ul>"
+  }
+ ]
+}

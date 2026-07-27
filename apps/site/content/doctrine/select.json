@@ -1,0 +1,439 @@
+{
+ "slug": "select",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"4.5\" width=\"17\" height=\"6.5\" rx=\"2\" fill=\"#bcb9f5\"/><path d=\"M15 6.7l1.7 1.9 1.7-1.9\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"3.5\" y=\"12.5\" width=\"17\" height=\"7\" rx=\"2\" fill=\"#4F46E5\"/><rect x=\"5.6\" y=\"14.5\" width=\"8.5\" height=\"1.5\" rx=\"0.75\" fill=\"white\"/><path d=\"M16.7 15.2l1 1 2-2.2\" fill=\"none\" stroke=\"#F2C744\" stroke-width=\"1.3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"5.6\" y=\"16.9\" width=\"6.5\" height=\"1.3\" rx=\"0.65\" fill=\"#0891B2\"/></svg>",
+ "nom": "select",
+ "nature": "Composant",
+ "meta": "UX v1.0.0 · UI v1.0.0 · mis à jour 2026-07-24 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · select",
+  "question": "Comment choisir une valeur dans une liste sans encombrer l'écran ni perdre le clavier ?",
+  "detail": "Un déclencheur montre la valeur courante et déplie, à la demande, une liste d'options. La liste flotte au-dessus du contenu sans le bloquer (non-modale) : on la ferme d'un Échap ou d'un clic ailleurs, et tout se pilote au clavier.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "On choisit une valeur parmi une liste prédéfinie"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "La liste flotte sans bloquer la page et tout se navigue au clavier, y compris la frappe pour filtrer"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "L'option retenue se reconnaît à une coche"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "13",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "8",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "0",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-select.md",
+   "source": "---\nsujet: select\ntype: composant\nresume: \"Choix unique parmi des options prédéfinies : déclencheur (combobox) + liste (listbox) en popover NON-MODAL (overlay), clavier APG (↑↓ Début/Fin Entrée Échap, type-ahead), option sélectionnée marquée par une coche (jamais la seule couleur)\"\nrequires: []\nselon-contexte: [\"overlay (la liste est un superposé non-modal : ancrage, light-dismiss, z-index.popover, elevation.overlay)\", \"form (le requis et la validation d'un select dans un formulaire)\", \"iconography (chevron + coche de l'option sélectionnée)\", \"input (frontière : le select n'est pas une saisie libre)\"]\n---\n# RULES — Select (compilé, condensé)\n\n> Généré depuis `components/select/SELECT-UX.md` (v1.0.0) et `SELECT-UI.md` (v1.0.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.\n\n## Nature\n- Choisir **une** valeur parmi un ensemble **prédéfini et limité**. INPUT y renvoie dès que le choix n'est pas une saisie libre. Déclencheur (montre la valeur courante) + liste dépliable.\n- **select** pour une liste longue/encombrante ; **radios** visibles pour peu d'options (≈ 2-5) ; **input** pour une saisie libre ; **switch** pour activer/désactiver tout de suite.\n\n## Liste = popover non-modal (fondation overlay)\n- Ancrée au déclencheur, **sans voile**, **sans piège de focus**, `z-index.popover` ; **light-dismiss** (Échap ou clic/focus dehors) ; retour du focus au déclencheur à la fermeture.\n- À l'ouverture, l'option sélectionnée (ou la première) devient active ; navigation par `aria-activedescendant`.\n\n## Clavier (select-only combobox, ARIA APG)\n- Fermé : ↓/↑/Entrée/Espace ouvrent ; une frappe ouvre + présélectionne (type-ahead).\n- Ouvert : ↑↓ déplacent l'actif, Début/Fin aux extrêmes, Entrée/Espace sélectionnent + ferment, Échap ferme sans changer, Tab ferme en validant l'actif.\n\n## Rôle / nom / valeur\n- Déclencheur `role=\"combobox\"` + `aria-expanded` + `aria-haspopup=\"listbox\"`, nom accessible = libellé visible ; liste `listbox`, options `option` + `aria-selected`.\n\n## UI (tokens)\n- Déclencheur : hauteur `scale.base`, `radius.md`, **bordure `border-strong`** (délimite un contrôle : 3:1), chevron `icon.md`, focus ring `border`.\n- Liste : `z-index.popover`, `elevation.overlay`, `radius.md`, fond `background` ; option active = `surface-hover` ; option sélectionnée = **coche** (icône, jamais la seule couleur). Ouverture en `motion.base`, `prefers-reduced-motion` respecté. Cible tactile 44px.\n\n## Frontières\n- Ancrage/dismiss/z-index → `overlay` ; requis/validation → `form` ; chevron/coche → `iconography` ; saisie libre → `input` ; wording → `voice`.\n\n## Risque\n| Cas | Risque | Sévérité |\n|---|---|---|\n| Liste modale (scrim + piège) au lieu de non-modale | Attente trahie, focus sur-contraint | Moyenne-élevée |\n| Option sélectionnée signalée par la seule couleur | Choix illisible sans perception des couleurs (WCAG 1.4.1) | Élevée |\n| Déclencheur qui masque la valeur courante | L'utilisateur ne sait plus ce qui est choisi | Moyenne |\n| Clavier partiel (pas de type-ahead / Début-Fin) | Navigation lente, non conforme APG | Moyenne |\n\nCONFIANCE : motif combobox/listbox + clavier = établi (ARIA APG *Select-Only Combobox*). Seuil select vs radios = repère convergent (NN/g), pas une loi. Mono-sélection ; multi/recherche différés.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 4 cas",
+   "titre": "Usage",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Usage\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"60\" width=\"120\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M162 67l4 5 4-5\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><rect x=\"200\" y=\"46\" width=\"90\" height=\"58\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"200\" y=\"46\" width=\"90\" height=\"18\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"210\" y=\"54\" width=\"54\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.6\"/><circle cx=\"278\" cy=\"55\" r=\"9\" fill=\"#15803D\"/><path d=\"M274 55l3 3 5.5-6.5\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"210\" y=\"76\" width=\"60\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"60\" y=\"130\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">déclencheur + liste non-modale</text></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Sélecteur de site",
+     "quand": "Passer d'un site/espace à un autre (tête du rail de nav).",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Sélecteur de site\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Passer d'un site/espace à un autre (tête du rail de nav).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « sélecteur de site » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Réglage dans le rail d'outils",
+     "quand": "Densité, thème, préférence à effet immédiat.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Réglage dans le rail d'outils\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Densité, thème, préférence à effet immédiat.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « réglage dans le rail d'outils » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Champ de formulaire",
+     "quand": "Un choix parmi des options, validé à la soumission.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Champ de formulaire\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un choix parmi des options, validé à la soumission.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « champ de formulaire » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Filtre d'une collection",
+     "quand": "Restreindre une liste affichée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Filtre d'une collection\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Restreindre une liste affichée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « filtre d'une collection » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 5 cas",
+   "titre": "Contenu de la liste",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Contenu de la liste\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"90\" y=\"34\" width=\"140\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M212 41l5 6 5-6\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><rect x=\"90\" y=\"62\" width=\"140\" height=\"76\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"90\" y=\"62\" width=\"140\" height=\"22\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"102\" y=\"71\" width=\"70\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"214\" cy=\"73\" r=\"9\" fill=\"#15803D\"/><path d=\"M210 73l3 3 5.5-6.5\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"102\" y=\"98\" width=\"86\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"102\" y=\"118\" width=\"66\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Liste courte",
+     "quand": "Quelques options comparables d'un coup.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contenu de la liste",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Liste courte\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Quelques options comparables d'un coup.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « liste courte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Liste longue",
+     "quand": "Beaucoup d'options à déplier à la demande.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contenu de la liste",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Liste longue\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"241\" y=\"75\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M410 78l6 7 6-7\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"100\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"230\" y=\"104\" width=\"200\" height=\"30\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"116\" width=\"96\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.7\"/><circle cx=\"410\" cy=\"119\" r=\"9\" fill=\"#4F46E5\"/><path d=\"M406 119l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"250\" y=\"150\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"250\" y=\"176\" width=\"92\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.5\"/><text x=\"230\" y=\"226\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">liste non-modale : Échap ou clic dehors ferme, tout au clavier</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Beaucoup d'options à déplier à la demande.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « liste longue » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de SELECT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>select</strong> pour un choix unique dans une liste <strong>longue ou encombrante</strong> à déplier à la demande."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Options groupées",
+     "quand": "Regrouper par catégorie.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "02 · Contenu de la liste",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Options groupées\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"56\" width=\"190\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"261\" y=\"65\" width=\"86\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><rect x=\"250\" y=\"92\" width=\"190\" height=\"122\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"266\" y=\"112\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">GROUPE A</text><rect x=\"266\" y=\"122\" width=\"120\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"266\" y=\"142\" width=\"100\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.6\"/><path d=\"M250 158h190\" stroke=\"#E5E7EB\"/><text x=\"266\" y=\"176\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">GROUPE B</text><rect x=\"266\" y=\"188\" width=\"110\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.6\"/><text x=\"250\" y=\"228\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">options regroupées par catégorie</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Regrouper par catégorie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « options groupées » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Recherche dans la liste (combobox éditable)",
+     "quand": "Saisie qui filtre les options.",
+     "statut": "hors périmètre",
+     "lien": "Comprendre la frontière",
+     "kicker": "02 · Contenu de la liste",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Recherche dans la liste (combobox éditable)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"96\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"251\" y=\"105\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><circle cx=\"455\" cy=\"106\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M451.5 102.5l7 7M458.5 102.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"240\" y=\"150\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">saisie qui filtre / multi-sélection : hors périmètre, différé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Saisie qui filtre les options.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « recherche dans la liste (combobox éditable) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Multi-sélection",
+     "quand": "Plusieurs valeurs à la fois.",
+     "statut": "hors périmètre",
+     "lien": "Comprendre la frontière",
+     "kicker": "02 · Contenu de la liste",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Multi-sélection\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"96\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"251\" y=\"105\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><circle cx=\"455\" cy=\"106\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M451.5 102.5l7 7M458.5 102.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"240\" y=\"150\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">saisie qui filtre / multi-sélection : hors périmètre, différé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Plusieurs valeurs à la fois.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « multi-sélection » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 4 cas",
+   "titre": "État",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : État\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"30\" y=\"54\" width=\"86\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M100 61l4 5 4-5\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><text x=\"30\" y=\"90\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">rempli</text><rect x=\"128\" y=\"54\" width=\"86\" height=\"20\" rx=\"5\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><text x=\"128\" y=\"90\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">désactivé</text><rect x=\"226\" y=\"54\" width=\"72\" height=\"20\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"1.5\"/><text x=\"226\" y=\"90\" font-size=\"9\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">erreur</text></svg>",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Vide (placeholder)",
+     "quand": "Aucun choix encore fait.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Vide (placeholder)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"90\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"71\" y=\"99\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M212 98l5 6 5-6\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"60\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">rempli</text><rect x=\"260\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"276\" y=\"97\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><text x=\"260\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">désactivé</text><rect x=\"460\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"1.6\"/><rect x=\"476\" y=\"97\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/><text x=\"460\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">erreur (orchestrée par le form)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Aucun choix encore fait.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « vide (placeholder) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Désactivé",
+     "quand": "Non focalisable, contraste réduit assumé.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Désactivé\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"90\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"71\" y=\"99\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M212 98l5 6 5-6\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"60\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">rempli</text><rect x=\"260\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"276\" y=\"97\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><text x=\"260\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">désactivé</text><rect x=\"460\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"1.6\"/><rect x=\"476\" y=\"97\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/><text x=\"460\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">erreur (orchestrée par le form)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Non focalisable, contraste réduit assumé.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « désactivé » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de SELECT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>désactivé</strong> (non focalisable, contraste réduit assumé), <strong>erreur</strong> (bordure et message d'erreur"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Erreur",
+     "quand": "Choix requis manquant.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Erreur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"90\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"71\" y=\"99\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M212 98l5 6 5-6\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"60\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">rempli</text><rect x=\"260\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"276\" y=\"97\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><text x=\"260\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">désactivé</text><rect x=\"460\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"1.6\"/><rect x=\"476\" y=\"97\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/><text x=\"460\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">erreur (orchestrée par le form)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Choix requis manquant.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « erreur » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de SELECT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>désactivé</strong> (non focalisable, contraste réduit assumé), <strong>erreur</strong> (bordure et message d'erreur"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Option désactivée",
+     "quand": "Une entrée non sélectionnable dans la liste.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Option désactivée\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"90\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"71\" y=\"99\" width=\"77\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><path d=\"M212 98l5 6 5-6\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"60\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">rempli</text><rect x=\"260\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><rect x=\"276\" y=\"97\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><text x=\"260\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">désactivé</text><rect x=\"460\" y=\"86\" width=\"170\" height=\"30\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#B91C1C\" stroke-width=\"1.6\"/><rect x=\"476\" y=\"97\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/><text x=\"460\" y=\"150\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">erreur (orchestrée par le form)</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une entrée non sélectionnable dans la liste.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « option désactivée » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "specimens": [
+   "</section></div> <p class=\"pied\">Généré par <code>tools/genere-site.js</code> le 2026-07-24 — depuis l'atelier (DESIGN.md 1.31.0). Ce site n'est pas une source : <a href=\"../llms.txt\">llms.txt</a>. Constellation : <a href=\"https://sibylfounders.github.io/audit-md-site/\">Audit MD</a>.</p>"
+  ],
+  "tokens": []
+ },
+ "evolution": []
+}

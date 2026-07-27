@@ -1,0 +1,332 @@
+{
+ "slug": "toast",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"4\" y=\"10\" width=\"16\" height=\"9\" rx=\"4.5\" fill=\"#111827\" opacity=\"0.18\" transform=\"translate(1.5,2)\"/><rect x=\"3\" y=\"9\" width=\"16\" height=\"9\" rx=\"4.5\" fill=\"#4F46E5\"/><circle cx=\"7.3\" cy=\"13.4\" r=\"2.1\" fill=\"#31A06E\"/><path d=\"M6.5 13.4l.6.6 1.1-1.3\" stroke=\"#FFFFFF\" stroke-width=\"1.1\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"11\" y=\"12.6\" width=\"6\" height=\"1.7\" rx=\"0.85\" fill=\"#FFFFFF\" opacity=\"0.85\"/></svg>",
+ "nom": "toast",
+ "nature": "Composant",
+ "meta": "UX v1.0.0 · UI v1.1.0 · mis à jour 2026-07-20 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · toast",
+  "question": "Quand une confirmation peut-elle disparaître seule, sans jamais emporter une information qui compte encore ?",
+  "detail": "Cette page distingue le toast — feedback réactif et chronométré — de l'alerte qui vit dans le flux, cadre le tone, le timing, l'empilement et le seul moment où l'instrument d'illustration a le droit de s'y allumer.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Un toast confirme un événement qui vient de se produire"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Son délai est toujours suspendu au survol et au focus clavier (WCAG 2.2.1)"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Il n'est jamais le seul endroit où vit une information encore utile une fois disparu"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "—",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "27",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "2",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-toast.md",
+   "source": "---\nsujet: toast\ntype: composant\nresume: \"Feedback réactif et chronométré : tone (info/success/warning/danger), une action tolérée (undo), empilement FIFO 2-3 max, position pilotée par Adaptive — jamais le seul porteur d'une information qui compte encore\"\nrequires: []\nselon-contexte: [\"alert (frontière flux/superposé, tone et rôles hérités)\", \"interaction (elevation.overlay désigné pour le toast)\", \"button (l'action undo suit RULES-button)\", \"emotion (instrument illustration, toast seul, envoi réussi)\", \"adaptive (position pilotée par conteneur)\"]\n---\n# RULES — Toast (compilé, condensé)\n\n> Généré depuis `components/toast/TOAST-UX.md` (v1.0.0) et `TOAST-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.\n\n## Axes\n- Un seul axe : **tone** (info/success/warning/danger) — identique à alert, aucun token couleur nouveau. **Pas d'axe persistance** : le toast est temporaire par nature, c'est ce qui le distingue de l'alert.\n- **Frontière avec Alert** : l'alert vit *dans le flux* ; le toast vit *au-dessus*, injecté par le système, toujours réactif. Le toast est le territoire du feedback immédiat d'une action réussie — le registre qu'Alert exclut explicitement de lui-même.\n- Échelle d'interruption héritée : **alert < toast < modale**.\n\n## Usage\n- Utiliser pour confirmer l'issue immédiate d'une action déclenchée par l'utilisateur, quand cette confirmation n'a pas besoin de *rester consultable*.\n- Ne pas utiliser pour une condition qui dure (→ alert) ni pour une décision bloquante (→ modale).\n- Cas limite : si la confirmation doit rester visible après coup, c'est un alert success dismissible, pas un toast — le toast n'a pas de mémoire.\n\n## Tone\n- Les 4 tones d'alert repris à l'identique (arbitrage 2026-07-20).\n- **Danger/warning acceptés avec risque documenté** : un toast danger aggrave le risque déjà identifié sur l'alert (« condition critique masquée puis oubliée ») — il disparaît de lui-même, sans changement d'état pour le remplacer. Un toast danger ne doit jamais être le seul porteur d'une condition qui dure ; un répondant durable (état visible ailleurs, ou un alert) doit exister à côté.\n\n## Timing (le point le plus sensible)\n- Le délai est **toujours suspendu au survol et au focus clavier** (WCAG 2.2.1, Timing Adjustable), reprend à leur sortie, ne redémarre jamais de zéro.\n- **Contrat de repli hérité d'E-motion** : le toast n'est jamais le seul porteur d'une information ; sa disparition ne doit jamais effacer une donnée absente ailleurs de l'écran.\n- Durée plancher **5-8s**, reprise telle quelle de `RULES-button.md` (pattern undo, IBM Carbon) — aucune valeur nouvelle inventée à ce niveau. Formule exacte de prolongation : proposition non sourcée, cf. TOAST-UI.md.\n\n## Actions\n- **Une seule tolérée, jamais deux** (pattern undo : « Élément supprimé — Annuler »).\n- Soumise à la même suspension de timing que le texte — sinon la fenêtre de décision n'est pas fiable au clavier ni au survol.\n- Cohérence de tone héritée d'alert : l'action décrit ce qu'elle fait, pas la gravité du toast qui la porte.\n\n## Empilement\n- **2-3 toasts simultanés max**, **ordre d'arrivée (FIFO)** — divergence assumée avec alert (qui empile par gravité décroissante) : le toast empile des événements séquentiels, pas des conditions simultanées.\n- Au-delà, le plus ancien sort (jamais d'agrégation — contrairement à alert, agréger des événements hétérogènes perdrait le contenu spécifique de chacun).\n- Chaque toast de la pile a son propre minuteur indépendant.\n\n## Position\n- **Pilotée par Adaptive (conteneur), pas un ancrage fixe viewport** — cohérent avec « la fenêtre définit la page, le conteneur définit le composant ».\n- État compact : pleine largeur utile, empilement vertical. État regular/expanded : coin ancré. Ancrage exact (quel coin) : proposition non vérifiée, cf. TOAST-UI.md.\n\n## Instrument E-motion — illustration/forme\n- Foyer naturel du moment catalogué **« réussite d'un envoi / d'une soumission »**.\n- **Actif uniquement si le toast est seul à l'écran** — jamais sur une pile (cohérence avec le budget de rareté E-motion : un empilement est par nature une répétition).\n- **Jamais sur danger/warning** — l'exception chaleureuse de Voice/E-motion ne s'applique jamais à une erreur ou une action destructive. Le moment « sortie d'erreur » s'incarne dans le toast success/info qui confirme la résolution, pas dans le toast danger lui-même.\n- Technique : glyphe **dessiné** (`stroke-dashoffset`, gabarit SubmitButton, héritage direct d'EMOTION-UI) — jamais une illustration statique importée. L'arbitrage plus large « bibliothèque d'illustration externe » reste NON TRANCHÉ (cf. DECISIONS.md 2026-07-20).\n\n## États et comportement\n- Toujours réactif (jamais chargé avec la page) : `role=\"alert\"` (danger/warning), `role=\"status\"` (info/success) — miroir exact d'alert.\n- Hérite le contrat d'accessibilité motion/E-motion pour l'animation d'entrée/sortie : `transform`/`opacity` uniquement, pas de flash > 3/s, `prefers-reduced-motion` dégrade vers une apparition/disparition instantanée sans perte d'information.\n- Pas d'état hover/focus propre au conteneur — seuls l'action et une éventuelle fermeture explicite le sont.\n- **`elevation.overlay` légitime** — déjà désigné dans RULES-interaction.md pour « futur toast » avant même que ce composant existe. Seule différence de relief avec alert, qui n'en porte aucune.\n\n## Risque\n| Cas | Risque | Sévérité |\n|---|---|---|\n| Toast danger seul porteur d'une condition durable | Condition grave disparaît sans successeur, perte silencieuse | Élevée (acceptée, documentée) |\n| Timing non suspendu au survol/focus | Fenêtre de décision (undo) non fiable, WCAG 2.2.1 non respecté | Élevée |\n| Toast réactif injecté sans rôle live | Lecteur d'écran jamais informé | Critique |\n| Instrument illustration actif sur une pile | Répétition qui banalise le moment, décor gratuit (anti-usage E-motion) | Moyenne |\n| Empilement agrégé au lieu de FIFO | Perte du contenu spécifique de chaque événement | Moyenne |\n\n## Règle transversale\n- **Le toast confirme un événement passé ; il ne doit jamais être le seul endroit où vit une information qui compte encore.**\n\n---\n\n## Règles techniques (UI)\n\n- Rendu identique à alert pour les 4 tones (fond `{tone}-subtle`, bordure `{tone}`, texte et icône `{tone}`), silhouettes d'icône normatives héritées (cercle/cercle-coche/triangle/octogone). Seul écart : `elevation.overlay` (alert n'en porte aucune).\n- Pas de croix de fermeture par défaut (proposition — le pause-au-survol/focus couvre déjà le besoin).\n\n```yaml\ntone: { info: color.info, success: color.success, warning: color.warning, danger: color.danger } # tokens identiques à alert\nelevation: elevation.overlay\nempilement: { max: 3, ordre: fifo, comportement_au_dela: le_plus_ancien_sort }\nduree: { base_ms: 6000, extension_par_mot_ms: 50, bonus_action_ms: 2000, plafond_ms: 10000 } # proposition, non établi\naria: { reactive_danger_warning: role=\"alert\", reactive_info_success: role=\"status\" }\nmotion: { apparition: { duration: motion.base, easing: motion.ease-out }, disparition: { duration: motion.fast, easing: motion.ease-in } }\n```\n\n### Timing — implémentation\n- Un seul `setTimeout` par toast, suspendu/relancé sur entrée-sortie de `:hover`/`:focus-within`, jamais un intervalle recalculé en continu.\n\n### Position — implémentation\n- Conteneur de requête (`container-type: inline-size`) sur la région d'accueil des toasts, jamais un ancrage codé en dur au viewport — ancré **bas-centré** (arbitrage utilisateur 2026-07-21). `container-type` exige toujours une largeur EXPLICITE (pas seulement un plafond), sinon la région s'effondre à 0px et devient invisible — piège CSS corrigé le 2026-07-21.\n\n### Accessibilité — spécifications techniques\n- Conteneur live présent dans le DOM avant l'injection, comme alert.\n- Icône `aria-hidden=\"true\"` si le tone est déjà annoncé par le texte/rôle ; sinon alternative textuelle.\n- Zone tactile de l'action : 44px minimum, focusable, libellée explicitement.\n- RTL : l'ancrage bas-centré n'a, par construction, aucun miroir à écrire ; seul l'état compact utilise `inset-inline` (logique, pas `left`/`right`).\n\n## Sources et niveau de confiance\n| Affirmation | Source | Confiance |\n|---|---|---|\n| Frontière alert/toast, exclusion du feedback immédiat | RULES-alert.md (déjà tranché) | Établi |\n| Durée plancher undo 5-8s | RULES-button.md (IBM Carbon) | Établi — transposition interne |\n| Timing suspendu au survol/focus | WCAG 2.2.1 (Timing Adjustable) | Établi, standard d'accessibilité |\n| `elevation.overlay` légitime pour le toast | RULES-interaction.md (déjà écrit avant ce composant) | Établi |\n| `role=\"alert\"`/`role=\"status\"` par tone | RULES-alert.md (Polaris, WCAG/ARIA) | Établi — transposition interne |\n| Tone 4 valeurs, actions tolérées, empilement FIFO, position Adaptive | Arbitrage utilisateur, conversation 2026-07-20 | Décision d'identité interne |\n| Formule de durée exacte | Proposition de premier jet, TOAST-UI.md | Non établi — à vérifier à l'usage |\n| Ancrage bas-centré | Arbitrage utilisateur, 2026-07-21 | Établi |\n\nCONFIANCE : mixte — le contrat de timing/accessibilité, la frontière avec l'alert et l'ancrage bas-centré sont établis ; seule la formule de durée exacte reste une proposition non vérifiée. Toute décision non tranchée par ce fichier : STOP, remonter.\n"
+  }
+ },
+ "cas": [],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "specimens": [],
+  "tokens": [
+   {
+    "token": "axes.tone",
+    "ref": "info, success, warning, danger",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "tone.info.background",
+    "ref": "color.info-subtle",
+    "valeur": "#DBEAFE",
+    "couleur": "#DBEAFE"
+   },
+   {
+    "token": "tone.info.border",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.info.text",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.info.icon",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.success.background",
+    "ref": "color.success-subtle",
+    "valeur": "#DCFCE7",
+    "couleur": "#DCFCE7"
+   },
+   {
+    "token": "tone.success.border",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.success.text",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.success.icon",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.warning.background",
+    "ref": "color.warning-subtle",
+    "valeur": "#FEF3C7",
+    "couleur": "#FEF3C7"
+   },
+   {
+    "token": "tone.warning.border",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.warning.text",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.warning.icon",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.danger.background",
+    "ref": "color.danger-subtle",
+    "valeur": "#FEE2E2",
+    "couleur": "#FEE2E2"
+   },
+   {
+    "token": "tone.danger.border",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "tone.danger.text",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "tone.danger.icon",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "icon_shape.info",
+    "ref": "circle",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.success",
+    "ref": "circle-check",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.warning",
+    "ref": "triangle",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.danger",
+    "ref": "octagon",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "structure.radius",
+    "ref": "radius.lg",
+    "valeur": "12px",
+    "couleur": null
+   },
+   {
+    "token": "structure.padding",
+    "ref": "spacing.md",
+    "valeur": "16px",
+    "couleur": null
+   },
+   {
+    "token": "structure.icon_gap",
+    "ref": "spacing.sm",
+    "valeur": "8px",
+    "couleur": null
+   },
+   {
+    "token": "structure.action_gap",
+    "ref": "spacing.sm",
+    "valeur": "8px",
+    "couleur": null
+   },
+   {
+    "token": "structure.max_width",
+    "ref": "24rem",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "elevation",
+    "ref": "elevation.overlay",
+    "valeur": "0 4px 12px rgba(17, 24, 39, 0.14)",
+    "couleur": null
+   },
+   {
+    "token": "motion.apparition.duration",
+    "ref": "motion.base",
+    "valeur": "200ms",
+    "couleur": null
+   },
+   {
+    "token": "motion.apparition.easing",
+    "ref": "motion.ease-out",
+    "valeur": "cubic-bezier(0, 0, 0.2, 1)",
+    "couleur": null
+   },
+   {
+    "token": "motion.disparition.duration",
+    "ref": "motion.fast",
+    "valeur": "100ms",
+    "couleur": null
+   },
+   {
+    "token": "motion.disparition.easing",
+    "ref": "motion.ease-in",
+    "valeur": "cubic-bezier(0.4, 0, 1, 1)",
+    "couleur": null
+   },
+   {
+    "token": "motion.reduced_motion",
+    "ref": "crossfade d'opacité conservé, jamais de translation supprimée sans remplacement (cf. § reduced-motion)",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "duree.base_ms",
+    "ref": "6000",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "duree.extension_par_mot_ms",
+    "ref": "50",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "duree.bonus_action_ms",
+    "ref": "2000",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "duree.plafond_ms",
+    "ref": "10000",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "aria.reactive_danger_warning",
+    "ref": "role=\"alert\"",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "aria.reactive_info_success",
+    "ref": "role=\"status\"",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "empilement.max",
+    "ref": "3",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "empilement.ordre",
+    "ref": "fifo",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "empilement.comportement_au_dela",
+    "ref": "le_plus_ancien_sort",
+    "valeur": "—",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": [
+  {
+   "date": "2026-07-21",
+   "titre": "TOAST (DS-UI) : région invisible — piège CSS corrigé, ancrage bas-centré tranché",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>atelier/components/toast/TOAST-UI.md</code> (1.0.0 → 1.1.0), <code>dist/RULES-toast.md</code> (régénéré à la main, compagnon). Côté DS-UI (hors périmètre normatif de ce dépôt, mentionné pour traçabilité) : <code>packages/react/src/components/toast/toast.css</code>, <code>atelier.html</code>.</li><li><strong>Constat (rapport utilisateur)</strong> : le premier livrable Toast sur DS-UI (2026-07-20) affichait les boutons déclencheurs mais aucun toast visible à l'écran — capture d'écran à l'appui.</li><li><strong>Root cause</strong> : <code>.ds-toast-region</code> déclarait <code>container-type: inline-size</code> (Container Query, Adaptive) avec seulement une <code>max-inline-size</code> en guise de largeur. <code>container-type: inline-size</code> applique un <code>contain</code> sur l'axe inline : le conteneur perd sa taille intrinsèque (impossible de la dériver de son contenu). Un plafond (<code>max-*</code>) ne fixe rien tant que rien d'autre ne détermine la taille de départ — sans une largeur EXPLICITE, l'élément s'effondre à 0px et devient invisible, avec tout son contenu.</li><li><strong>Décisions</strong> :</li><li><strong>Correction technique</strong> (haute) : <code>TOAST-UI.md</code> § Position — implémentation prescrit désormais une largeur EXPLICITE (<code>width</code>, pas seulement un plafond) pour tout conteneur de requête. RÈGLE TRANSVERSALE ajoutée : pertinente pour n'importe quel futur composant de ce système utilisant <code>container-type</code>, pas seulement Toast.</li><li><strong>Ancrage</strong> (moyenne) : <strong>bas-centré</strong>, tranché par l'utilisateur en conversation — remplace la proposition « bas-droit » de <code>TOAST-UI.md</code> v1.0.0, qui n'avait jamais été qu'une convergence d'usage externe (Carbon/Polaris/Material) non vérifiée. Conséquence directe : la note RTL de <code>TOAST-UI.md</code> change de nature — un centrage n'a par construction aucun miroir à écrire, contrairement à un ancrage de coin.</li><li><strong>Pourquoi une entrée plutôt qu'une simple correction silencieuse</strong> : la cause n'est pas un détail d'implémentation isolé — c'est un piège CSS reproductible par tout futur conteneur de requête de ce système (Toast n'est que le premier concerné). Le documenter dans <code>TOAST-UI.md</code> en RÈGLE plutôt que dans le seul historique de DS-UI le rend retrouvable la prochaine fois qu'un composant Adaptive doit gérer une taille contrainte plutôt qu'un flux normal.</li><li><strong>À approfondir</strong> : vérifier si <code>Card</code> (autre conteneur de requête du système) est exposé au même piège — <code>.ds-card</code> a une largeur naturelle (<code>width: 100%</code> dans un flux normal), donc probablement hors de cause, mais à confirmer plutôt que supposer.</li></ul>"
+  }
+ ]
+}

@@ -1,0 +1,1334 @@
+{
+ "slug": "voice",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"4.2\" fill=\"#bcb9f5\"/><path d=\"M7.5 14.5 L7.5 20 L13 15 Z\" fill=\"#bcb9f5\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" fill=\"#4F46E5\"/><circle cx=\"12\" cy=\"10\" r=\"1.5\" fill=\"#F2C744\"/><circle cx=\"15\" cy=\"10\" r=\"1.5\" fill=\"#0891B2\"/></svg>",
+ "nom": "voice",
+ "nature": "Langage",
+ "meta": "UX v1.3.1 · UI v1.2.0 · mis à jour 2026-07-21 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX",
+  "question": "Comment le produit parle-t-il — d’une voix constante, sur un ton qui s’adapte à l’utilisateur ?",
+  "detail": "On y pose la voix (claire, sobre, jamais culpabilisante) qui ne change pas d’un écran à l’autre, le ton qui s’ajuste à l’instant (erreur, succès, attente), et les mécaniques concrètes — casse, ponctuation, nombres, dates, gabarits de messages — pour que le mot reste le canal d’information le plus fiable.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "La voix reste constante d'un écran à l'autre"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Un message d'erreur ne blâme jamais"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Le mot est le canal d'information fiable"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "43",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "20",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "4",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-voice.md",
+   "source": "---\nsujet: voice\ntype: langage\nresume: \"Voix constante / ton variable selon l'état de l'utilisateur, ne jamais blâmer, le mot comme canal fiable ; sentence case, ponctuation FR, chiffres/dates, gabarits de messages\"\nrequires: []\nselon-contexte: [\"emotion\"]\n---\n# RULES — Voix & ton (compilé, condensé)\n\n> Généré depuis `languages/voice/VOICE-UX.md` (v1.3.0) et `VOICE-UI.md` (v1.2.0). Langage de contenu — aucun token propre (référence `typography.label`, `measure.reading-max`). Ne pas éditer à la main. La source fait autorité.\n\n## Nature\n- Langage de contenu. Registre **productif, pas expressif** : clair, précis, sobre — pas d'humour d'apparat, pas de superlatif, pas de sur-célébration.\n- **Contrainte ≠ parti pris** : ne jamais blâmer, texte de lien signifiant (2.4.4), jamais l'info par le style seul, plain language = contraintes non négociables ; le registre « productif » est un **parti pris d'identité paramétrable** (surface marketing assumée) — sans jamais toucher aux contraintes. **Lecture d'audit** : chez un hôte tiers, le registre = paramètre relevable → *divergence de registre* signalée à part, jamais une non-conformité.\n- **Règle cardinale : le mot est le canal d'information fiable.** Il survit à la couleur coupée, au mouvement coupé, à l'icône incomprise, au lecteur d'écran. Quand color/motion/iconography disent « jamais ce canal seul », le canal de repli qu'ils invoquent tous est le mot.\n- Le wording exact de chaque composant vit dans sa fiche (bouton, input, alert, form) — ce langage fournit le **cadre commun** (ton + mécaniques), pas les libellés.\n- **Exception E-motion (unique)** : sur les moments mérités du catalogue `RULES-emotion.md` — et seulement eux — le microcopy de résolution se réchauffe d'un cran (émoji ponctuel, « ! » autorisé, ex. « C'est parti ✈️ »). Jamais sur une erreur, une action destructive ou une action fréquente ; hors catalogue, le registre productif fait seul autorité.\n\n## Voix constante, ton variable (le quasi-axe)\n- La **voix** ne change pas d'un écran à l'autre ; le **ton** s'ajuste à l'état de l'utilisateur :\n  - Routine → clair, direct, discret. Succès (routinier) → bref, factuel, pas de « ! ». Succès (moment E-motion catalogué) → seule exception, cf. ci-dessus.\n  - Erreur *utilisateur* → calme, **sans blâme**, orienté correction (dire quoi corriger, jamais « saisie invalide »).\n  - Erreur *système* → le produit assume (« Nous n'avons pas pu… ») + une issue.\n  - Destructif → direct, conséquence nommée. Attente → présent progressif (« Enregistrement… »).\n- **Ne jamais blâmer l'utilisateur** (règle cardinale du ton). Soigner particulièrement l'erreur et la clôture (Peak-End).\n\n## Clarté & accessibilité\n- Plain language : phrases courtes, voix active, mot courant, pas de jargon exposé (codes/sigles → logs, pas l'écran).\n- Texte de lien/bouton **signifiant hors contexte** (WCAG 2.4.4) — jamais « cliquez ici », « OK », « en savoir plus ».\n- Un concept = un mot, partout (cohérence lexicale). Ne pas concaténer de fragments ni coder la longueur en dur (i18n).\n\n## Mécaniques (couche UI)\n- **Casse** : sentence case partout (pas de Title Case) ; CAPITALES réservées aux étiquettes `typography.label`.\n- **Ponctuation** : pas de point sur un libellé court ; « … » pour une action différée ; ponctuation FR (espace insécable avant `: ; ! ?`, guillemets `« »`) ; pas de « ! » (registre productif).\n- **Nombres** : chiffres pour les données ; format localisé (espace insécable milliers, virgule décimale, insécable avant `% €`) — jamais codé en dur.\n- **Dates** : format non ambigu (« 12 juillet 2026 » / `12/07/2026`), relatif borné (~24-48 h) et doublé de l'absolu.\n- **Longueur** : prose ≤ `measure.reading-max` (70ch) ; troncature qui ne masque jamais une info décisive (nom complet en `title`).\n\n## Gabarits\n- **Erreur** = ce qui s'est passé + pourquoi + comment corriger, sans blâme.\n- **Succès (routinier)** = confirmation brève au passé accompli, sans félicitation ni « ! ». **Succès (moment E-motion catalogué)** = seule exception (cf. § Nature) — pas de valeur par défaut.\n- **Vide** = situation + première action (distinguer « rien encore » de « rien trouvé »).\n- **Confirmation destructive** = conséquence nommée + bouton qui dit l'action (« Supprimer », pas « OK ») ; jamais de registre E-motion sur ce cas.\n- **Attente** = ce qui se passe, au présent progressif ; double l'indicateur visuel (motion), ne le remplace pas.\n- **Bannis** : « Oups », emoji et « ! » dans une erreur, une action destructive ou une action fréquente ; « cliquez ici » ; guillemets droits en contenu. Seule dérogation : la résolution d'un moment E-motion catalogué.\n\n## Vérifiabilité\n- La voix ne se teste pas automatiquement (comme la redondance couleur) : exigence de **revue**. Un lint de contenu (mots bannis, point final sur libellé court, guillemets droits) reste à ajouter.\n\nCONFIANCE : plain language, texte de lien signifiant, « ne jamais blâmer », sentence case, chiffres = établi (Nielsen, GOV.UK, Polaris, WCAG). Registre « productif seul » = décision d'identité interne. Lexique exact = noyau extensible. Toute décision de wording non tranchée par un gabarit : STOP, remonter.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 12 cas",
+   "titre": "Type de message",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Type de message\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"40\" width=\"200\" height=\"22\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"60\" y=\"40\" width=\"6\" height=\"22\" rx=\"3\" fill=\"#15803D\"/><rect x=\"80\" y=\"49\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#15803D\" opacity=\"0.45\"/><rect x=\"60\" y=\"70\" width=\"200\" height=\"22\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"60\" y=\"70\" width=\"6\" height=\"22\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"80\" y=\"79\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.45\"/><rect x=\"60\" y=\"100\" width=\"200\" height=\"22\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"60\" y=\"100\" width=\"6\" height=\"22\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"80\" y=\"109\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.45\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Libellé d'action (bouton)",
+     "quand": "Un bouton déclenche une action.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Libellé d'action (bouton)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"256\" y=\"96\" width=\"168\" height=\"46\" rx=\"10\" fill=\"#4F46E5\"/><rect x=\"276\" y=\"118\" width=\"44\" height=\"9\" rx=\"4.5\" fill=\"#fff\" opacity=\"1\"/><rect x=\"328\" y=\"118\" width=\"72\" height=\"9\" rx=\"4.5\" fill=\"#fff\" opacity=\"0.85\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un bouton déclenche une action.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Un verbe qui dit la conséquence ; le bouton garde son wording.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Créer le compte », pas « Envoyer ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>le texte de lien et de bouton se suffit hors contexte.</strong> « Cliquez ici », « En savoir plus », « OK » échouent : un lecteur d'écran qui liste les liens de la page, ou un utilisateur qui scanne, ne voit pas le contexte autour. Le libellé dit <em>où il mène</em> ou <em>ce qu'il fait</em> (WCAG 2.4.4 ; renvoi BUTTON-UX § Wording : « un verbe qui décrit la conséquence bat un label générique »)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Titre / en-tête",
+     "quand": "On titre une page ou une section.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Titre / en-tête\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"248\" y=\"96\" font-size=\"30\" font-weight=\"700\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">H1</text><rect x=\"310\" y=\"74\" width=\"150\" height=\"10\" rx=\"5\" fill=\"#111827\" opacity=\"0.75\"/><rect x=\"310\" y=\"98\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"310\" y=\"116\" width=\"140\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On titre une page ou une section.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Sentence case, clair, un seul h1.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Vos projets », pas « Vos Projets ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Label de champ",
+     "quand": "Un champ attend une saisie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Label de champ\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"248\" y=\"74\" width=\"64\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"248\" y=\"90\" width=\"184\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"262\" y=\"100\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un champ attend une saisie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Un label court, en sentence case, sans point final.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Adresse e-mail ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Texte d'aide (helper)",
+     "quand": "Un champ a besoin d'une précision avant la saisie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Texte d'aide (helper)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"248\" y=\"66\" width=\"60\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"248\" y=\"82\" width=\"184\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"248\" y=\"120\" width=\"150\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.45\"/><circle cx=\"452\" cy=\"94\" r=\"11\" fill=\"none\" stroke=\"#1D4ED8\" stroke-width=\"2\"/><path d=\"M452 89v.5M452 93v6\" stroke=\"#1D4ED8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un champ a besoin d'une précision avant la saisie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Une aide qui guide, visible dès le départ — elle n'ordonne pas.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« 8 caractères minimum ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Message d'erreur",
+     "quand": "Une saisie échoue.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Message d'erreur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"238\" y=\"76\" width=\"210\" height=\"60\" rx=\"10\" fill=\"#FEE2E2\"/><rect x=\"238\" y=\"76\" width=\"6\" height=\"60\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"274\" cy=\"106\" r=\"15\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><circle cx=\"269\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><circle cx=\"279\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><path d=\"M267 112h14\" stroke=\"#B91C1C\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><rect x=\"302\" y=\"98\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"302\" y=\"116\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#B91C1C\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une saisie échoue.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Dites quoi, pourquoi et comment corriger — jamais de blâme.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Format attendu : JJ/MM/AAAA ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Message de succès",
+     "quand": "Une action a réussi.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Message de succès\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"340\" cy=\"118\" r=\"40\" fill=\"#DCFCE7\"/><path class=\"ill-pop\" d=\"M322 118l12 12 22-26\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"4.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une action a réussi.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Bref, factuel, au passé — pas de « ! » ni de célébration.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Modifications enregistrées. »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-6",
+     "titre": "Avertissement / info",
+     "quand": "Un état mérite l'attention sans être une erreur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Avertissement / info\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"230\" y=\"66\" width=\"220\" height=\"40\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"230\" y=\"66\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#92400E\"/><path d=\"M256 74l10 18h-20z\" fill=\"none\" stroke=\"#92400E\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/><rect x=\"280\" y=\"82\" width=\"120\" height=\"7\" rx=\"3.5\" fill=\"#92400E\" opacity=\"0.5\"/><rect x=\"230\" y=\"120\" width=\"220\" height=\"40\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"230\" y=\"120\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#1D4ED8\"/><circle cx=\"256\" cy=\"140\" r=\"10\" fill=\"none\" stroke=\"#1D4ED8\" stroke-width=\"2.2\"/><path d=\"M256 136v.5M256 140v6\" stroke=\"#1D4ED8\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><rect x=\"280\" y=\"136\" width=\"120\" height=\"7\" rx=\"3.5\" fill=\"#1D4ED8\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un état mérite l'attention sans être une erreur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le mot porte le sens, pas seulement la couleur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Votre essai finit demain. »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-7",
+     "titre": "État vide (empty state)",
+     "quand": "Une zone n'a pas encore de contenu.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : État vide (empty state)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"256\" y=\"66\" width=\"168\" height=\"120\" rx=\"14\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-dasharray=\"7 6\"/><circle cx=\"340\" cy=\"118\" r=\"24\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.4\"/><path d=\"M340 106v24M328 118h24\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><rect x=\"300\" y=\"158\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une zone n'a pas encore de contenu.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Distinguez « rien encore » de « rien trouvé » et pointez l'action.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Créez votre premier projet. »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-8",
+     "titre": "Chargement / attente",
+     "quand": "Un traitement est en cours.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Chargement / attente\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle class=\"ill-spin\" style=\"transform-origin:340px 116px\" cx=\"340\" cy=\"116\" r=\"26\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"5\" stroke-dasharray=\"40 82\" stroke-linecap=\"round\"/><circle cx=\"312\" cy=\"162\" r=\"4\" fill=\"#4B5563\"/><circle cx=\"340\" cy=\"162\" r=\"4\" fill=\"#4B5563\" opacity=\".7\"/><circle cx=\"368\" cy=\"162\" r=\"4\" fill=\"#4B5563\" opacity=\".4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un traitement est en cours.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Dites ce qui se passe, au présent progressif.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistrement… »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-9",
+     "titre": "Confirmation destructive",
+     "quand": "Une action est irréversible.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Confirmation destructive\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><path d=\"M310 84h60M320 84v-9a6 6 0 0 1 6-6h28a6 6 0 0 1 6 6v9M326 84l4 62h20l4-62z\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M334 98v36M346 98v36\" stroke=\"#B91C1C\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"300\" y=\"160\" width=\"80\" height=\"26\" rx=\"7\" fill=\"#B91C1C\"/><rect x=\"322\" y=\"172\" width=\"36\" height=\"7\" rx=\"3.5\" fill=\"#fff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une action est irréversible.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Nommez la conséquence ; le bouton dit l'action.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Supprimer ce projet ? »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-10",
+     "titre": "Consentement / mentions",
+     "quand": "Un consentement ou une mention légale s'affiche.",
+     "statut": "hors périmètre",
+     "lien": "Comprendre la frontière",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Consentement / mentions\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"248\" y=\"76\" width=\"26\" height=\"26\" rx=\"6\" fill=\"#15803D\" stroke=\"#15803D\" stroke-width=\"2\"/><path d=\"M254 89l5 5 9-10\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"288\" y=\"86\" width=\"176\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"288\" y=\"102\" width=\"120\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"248\" y=\"122\" width=\"26\" height=\"26\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><rect x=\"288\" y=\"132\" width=\"176\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"288\" y=\"148\" width=\"120\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un consentement ou une mention légale s'affiche.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Clarté d'abord ; le fond juridique reste hors périmètre.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une case à cocher expliquée simplement.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-11",
+     "titre": "Onboarding / premier usage",
+     "quand": "L'utilisateur découvre le produit.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Onboarding / premier usage\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><path d=\"M320 70l9 22 22 9-22 9-9 22-9-22-22-9 22-9z\" fill=\"#4F46E5\"/><path d=\"M404 96l5 12 12 5-12 5-5 12-5-12-12-5 12-5z\" fill=\"#0891B2\"/><rect x=\"276\" y=\"168\" width=\"128\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur découvre le produit.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Aide dans l'action, pas un tutoriel bloquant.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une astuce contextuelle au bon moment.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 6 cas",
+   "titre": "Composant consommateur",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Composant consommateur\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"50\" y=\"42\" width=\"94\" height=\"54\" rx=\"12\" fill=\"#E0E7FF\"/><path d=\"M68 90 L68 110 L90 94 Z\" fill=\"#E0E7FF\"/><circle cx=\"74\" cy=\"66\" r=\"4\" fill=\"#4F46E5\"/><circle cx=\"96\" cy=\"66\" r=\"4\" fill=\"#4F46E5\"/><circle cx=\"118\" cy=\"66\" r=\"4\" fill=\"#0891B2\"/><path d=\"M156 74h22\" stroke=\"#0891B2\" stroke-width=\"2.5\"/><path d=\"M172 68l8 6-8 6\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"194\" y=\"50\" width=\"76\" height=\"20\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"194\" y=\"80\" width=\"76\" height=\"22\" rx=\"7\" fill=\"#4F46E5\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Bouton (BUTTON-UX)",
+     "quand": "On écrit un libellé de bouton.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Bouton (BUTTON-UX)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"256\" y=\"96\" width=\"168\" height=\"46\" rx=\"10\" fill=\"#4F46E5\"/><rect x=\"276\" y=\"118\" width=\"44\" height=\"9\" rx=\"4.5\" fill=\"#fff\" opacity=\"1\"/><rect x=\"328\" y=\"118\" width=\"72\" height=\"9\" rx=\"4.5\" fill=\"#fff\" opacity=\"0.85\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On écrit un libellé de bouton.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le bouton garde l'autorité ; voice fournit casse et lexique.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Payer », en sentence case.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>le texte de lien et de bouton se suffit hors contexte.</strong> « Cliquez ici », « En savoir plus », « OK » échouent : un lecteur d'écran qui liste les liens de la page, ou un utilisateur qui scanne, ne voit pas le contexte autour. Le libellé dit <em>où il mène</em> ou <em>ce qu'il fait</em> (WCAG 2.4.4 ; renvoi BUTTON-UX § Wording : « un verbe qui décrit la conséquence bat un label générique »)."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Input (INPUT-UX)",
+     "quand": "On écrit un message ou un label de champ.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Input (INPUT-UX)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"248\" y=\"74\" width=\"64\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"248\" y=\"90\" width=\"184\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"262\" y=\"100\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#111827\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On écrit un message ou un label de champ.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'input garde ses messages ; voice fixe le ton et les mécaniques.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur qui dit comment corriger.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Alert (ALERT-UX)",
+     "quand": "Une alerte porte un message.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Alert (ALERT-UX)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"60\" width=\"180\" height=\"26\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"250\" y=\"60\" width=\"6\" height=\"26\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"272\" y=\"71\" width=\"110\" height=\"7\" rx=\"3.5\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"250\" y=\"94\" width=\"180\" height=\"26\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"250\" y=\"94\" width=\"6\" height=\"26\" rx=\"3\" fill=\"#92400E\"/><rect x=\"272\" y=\"105\" width=\"110\" height=\"7\" rx=\"3.5\" fill=\"#92400E\" opacity=\"0.5\"/><rect x=\"250\" y=\"128\" width=\"180\" height=\"26\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"250\" y=\"128\" width=\"6\" height=\"26\" rx=\"3\" fill=\"#15803D\"/><rect x=\"272\" y=\"139\" width=\"110\" height=\"7\" rx=\"3.5\" fill=\"#15803D\" opacity=\"0.5\"/><rect x=\"250\" y=\"162\" width=\"180\" height=\"26\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"250\" y=\"162\" width=\"6\" height=\"26\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"272\" y=\"173\" width=\"110\" height=\"7\" rx=\"3.5\" fill=\"#1D4ED8\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une alerte porte un message.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>L'alert garde son contenu par tone ; voice donne le ton.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une bannière d'erreur calme.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Form (FORM-UX)",
+     "quand": "Un formulaire annonce un état ou une erreur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Form (FORM-UX)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"244\" y=\"54\" width=\"192\" height=\"132\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"264\" y=\"74\" width=\"60\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"264\" y=\"86\" width=\"152\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"264\" y=\"118\" width=\"72\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"264\" y=\"130\" width=\"152\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"264\" y=\"164\" width=\"152\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"318\" y=\"175\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un formulaire annonce un état ou une erreur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le form orchestre ; voice fixe le ton du cycle.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un résumé d'erreurs sans blâme.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix est un <strong>langage de contenu</strong> — pas de variantes visuelles, pas d'assemblage, pas de token de valeur : une grammaire transversale sur tout ce que le produit <em>dit</em>. Elle se scinde en deux couches : le <strong>principe de voix</strong> (stable, ce fichier — ce qu'est le produit quand il parle) et le <strong>lexique + les mécaniques</strong> (changeants avec la marque ou le produit, <code>VOICE-UI.md</code> — les mots exacts, la casse, les formats). Une voix qui référence des principes survit à un changement de marque ; un texte qui code en dur ses tournures meurt avec lui."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>distinguer la contrainte du parti pris (1.1.0)</strong> — comme MOTION. Les contraintes (ne jamais blâmer, texte de lien signifiant WCAG 2.4.4, jamais l'information par le style seul, plain language accessible) ne se négocient pas ; le registre « productif, pas expressif » est un <strong>parti pris d'identité paramétrable</strong> — une surface marketing assumée peut relever le registre sans toucher aux contraintes d'accessibilité et d'anti-blâme. <strong>Lecture d'audit (pivot 2026-07-21)</strong> : face à une interface tierce, ce parti pris se lit comme un <strong>paramètre relevable, jamais comme un défaut</strong> — un « Parfait ! » chez un hôte au registre expressif assumé est une <em>divergence de registre</em> à signaler à part, pas une non-conformité ; seules les contraintes fondent un constat."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong><code>EMOTION-UX.md</code> est l'unique exception cadrée au registre productif, et ce langage l'autorise explicitement.</strong> Jusqu'ici l'autorisation n'existait que du côté d'E-motion (« Autorité : RULES-voice.md ») sans être réciproquée ici — un agent qui charge Voice sans E-motion n'avait aucun moyen de le savoir. Sur les moments mérités du catalogue d'E-motion (réussite d'un envoi, première fois, cap franchi, sortie d'erreur, vide avec personnalité) — et seulement ceux-là — le microcopy de résolution peut se réchauffer d'un cran : un émoji ponctuel et une formulation plus chaleureuse deviennent possibles (« C'est parti ✈️ » plutôt que « Envoyé »). Voice ne redéfinit pas cette exception, il la borne : E-motion reste gouverné par son propre catalogue fermé et son budget de rareté."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Card (CARD-UX)",
+     "quand": "Une carte affiche un état vide ou un titre.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Card (CARD-UX)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"258\" y=\"58\" width=\"164\" height=\"124\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"258\" y=\"58\" width=\"164\" height=\"52\" rx=\"13\" fill=\"#E0E7FF\"/><rect x=\"276\" y=\"132\" width=\"110\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"276\" y=\"152\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une carte affiche un état vide ou un titre.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>La card déclenche, voice fournit le gabarit d'état vide.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Aucun résultat. »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>la règle cardinale de ce langage</strong> — le texte est le <strong>seul canal d'information qui survit à tout</strong> : à la couleur coupée (daltonisme, forced-colors), au mouvement coupé (reduced-motion), à l'icône non comprise, au lecteur d'écran. Quand COLOR-UX dit « jamais la couleur seule », MOTION-UX « le mouvement n'informe jamais seul », ICONOGRAPHY-UX « jamais le dessin seul » — <strong>le canal redondant qu'ils invoquent tous, c'est le mot.</strong> Ce langage est donc le socle de la redondance de tout le système."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>ne jamais blâmer l'utilisateur — règle cardinale du ton.</strong> L'erreur est une information, pas un reproche. On décrit l'écart et la correction (« Le format attendu est JJ/MM/AAAA »), on ne qualifie pas l'utilisateur (« saisie invalide », « vous n'avez pas rempli… »). Quand la faute est côté système, le produit la prend à son compte."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Contenu de page (marketing, doc)",
+     "quand": "Une page de contenu ou marketing est rédigée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Composant consommateur",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Contenu de page (marketing, doc)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"56\" width=\"200\" height=\"130\" rx=\"10\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"260\" y=\"80\" width=\"150\" height=\"9\" rx=\"4.5\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"260\" y=\"104\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"120\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"136\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"152\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"168\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une page de contenu ou marketing est rédigée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Voice pose la base ; le registre marketing reste à cadrer.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un article de documentation.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 6 cas",
+   "titre": "Mécanique d'écriture (couche UI)",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Mécanique d'écriture (couche UI)\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><text x=\"56\" y=\"92\" font-size=\"40\" font-weight=\"700\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">Aa</text><text x=\"132\" y=\"92\" font-size=\"32\" font-family=\"Inter,sans-serif\" fill=\"#0891B2\">.,;</text><text x=\"196\" y=\"92\" font-size=\"30\" font-weight=\"600\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">12,5</text></svg>",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Capitalisation",
+     "quand": "On met une majuscule.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Capitalisation\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"340\" y=\"146\" font-size=\"76\" font-weight=\"700\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\" text-anchor=\"middle\">Aa</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On met une majuscule.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Sentence case partout ; CAPITALES réservées aux étiquettes.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistrer les modifications ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Ponctuation",
+     "quand": "On ponctue un libellé ou un message.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Ponctuation\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"340\" y=\"128\" font-size=\"58\" font-weight=\"700\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\" text-anchor=\"middle\">.,;</text><text x=\"340\" y=\"176\" font-size=\"30\" font-family=\"Inter,sans-serif\" fill=\"#0891B2\" text-anchor=\"middle\">…</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On ponctue un libellé ou un message.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Pas de point sur un libellé court ; ponctuation FR (espaces insécables).</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Exporter… » pour une action différée.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Nombres",
+     "quand": "On affiche une donnée chiffrée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Nombres\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"340\" y=\"142\" font-size=\"56\" font-weight=\"700\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\" text-anchor=\"middle\">1 234</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On affiche une donnée chiffrée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Chiffres, pas lettres ; format localisé, jamais codé en dur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« 12 500 » avec espace insécable.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Dates et heures",
+     "quand": "On affiche une date ou une heure.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Dates et heures\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"270\" y=\"70\" width=\"140\" height=\"112\" rx=\"12\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><rect x=\"270\" y=\"70\" width=\"140\" height=\"30\" rx=\"12\" fill=\"#4F46E5\"/><circle cx=\"292\" cy=\"124\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"324\" cy=\"124\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"356\" cy=\"124\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"388\" cy=\"124\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"292\" cy=\"146\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"324\" cy=\"146\" r=\"5\" fill=\"#4F46E5\"/><circle cx=\"356\" cy=\"146\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"388\" cy=\"146\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"292\" cy=\"168\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"324\" cy=\"168\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"356\" cy=\"168\" r=\"5\" fill=\"#E5E7EB\"/><circle cx=\"388\" cy=\"168\" r=\"5\" fill=\"#E5E7EB\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On affiche une date ou une heure.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Format non ambigu ; le relatif borné et doublé de l'absolu.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« 12 juillet 2026 ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-4",
+     "titre": "Abréviations, jargon, acronymes",
+     "quand": "Un terme technique apparaît.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Abréviations, jargon, acronymes\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"98\" width=\"72\" height=\"40\" rx=\"8\" fill=\"#E0E7FF\"/><text x=\"286\" y=\"124\" text-anchor=\"middle\" font-size=\"20\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">API</text><path d=\"M330 118h30m-9-8 9 8-9 8\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"372\" y=\"98\" width=\"120\" height=\"40\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"388\" y=\"118\" width=\"88\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un terme technique apparaît.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Plain language ; développez un sigle à sa première occurrence.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Double authentification (2FA) ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-5",
+     "titre": "Longueur / troncature",
+     "quand": "Un texte risque de déborder.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Mécanique d'écriture (couche UI)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Longueur / troncature\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"52\" width=\"190\" height=\"104\" rx=\"14\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"2.4\"/><path d=\"M274 155h22l-22 24z\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><rect x=\"272\" y=\"92\" width=\"140\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"272\" y=\"114\" width=\"104\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.42\"/><rect x=\"272\" y=\"134\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un texte risque de déborder.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Prose ≤ 70ch ; une troncature ne masque jamais l'essentiel.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Le nom complet gardé en info-bulle.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>écrire pour être traduisible, même monolingue.</strong> Ne jamais <strong>concaténer</strong> des fragments de phrase par du code (l'ordre des mots change d'une langue à l'autre) ; ne pas coder la longueur en dur (certaines langues s'allongent ~30 %) — c'est un renvoi vers <code>measure</code> et vers la mécanique de troncature de VOICE-UI. Éviter les idiomes, l'humour et les jeux de mots qui ne franchissent pas les langues."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "04 · 7 cas",
+   "titre": "État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : État émotionnel de l'utilisateur (le quasi-axe : le ton varie)\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><circle cx=\"88\" cy=\"70\" r=\"17\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.4\"/><circle cx=\"82\" cy=\"66\" r=\"1.8\" fill=\"#4B5563\"/><circle cx=\"94\" cy=\"66\" r=\"1.8\" fill=\"#4B5563\"/><path d=\"M79 79q9 -6 18 0\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"160\" cy=\"70\" r=\"17\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><circle cx=\"154\" cy=\"66\" r=\"1.8\" fill=\"#B91C1C\"/><circle cx=\"166\" cy=\"66\" r=\"1.8\" fill=\"#B91C1C\"/><path d=\"M151 78h18\" stroke=\"#B91C1C\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle cx=\"232\" cy=\"70\" r=\"17\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2.4\"/><circle cx=\"226\" cy=\"66\" r=\"1.8\" fill=\"#15803D\"/><circle cx=\"238\" cy=\"66\" r=\"1.8\" fill=\"#15803D\"/><path d=\"M223 76q9 8 18 0\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2.2\" stroke-linecap=\"round\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Routine / neutre",
+     "quand": "Une situation ordinaire, sans émotion.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Routine / neutre\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"258\" cy=\"116\" r=\"30\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.6\"/><circle cx=\"248\" cy=\"110\" r=\"2.6\" fill=\"#4B5563\"/><circle cx=\"268\" cy=\"110\" r=\"2.6\" fill=\"#4B5563\"/><path d=\"M248 124h20\" stroke=\"#4B5563\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"340\" cy=\"116\" r=\"30\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.6\"/><circle cx=\"330\" cy=\"110\" r=\"2.6\" fill=\"#B91C1C\"/><circle cx=\"350\" cy=\"110\" r=\"2.6\" fill=\"#B91C1C\"/><path d=\"M329 126q11 -9 22 0\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"422\" cy=\"116\" r=\"30\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2.6\"/><circle cx=\"412\" cy=\"110\" r=\"2.6\" fill=\"#15803D\"/><circle cx=\"432\" cy=\"110\" r=\"2.6\" fill=\"#15803D\"/><path d=\"M411 122q11 10 22 0\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2.6\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une situation ordinaire, sans émotion.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Clair, direct, discret : la voix par défaut.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Paramètres enregistrés. »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Erreur de l'utilisateur",
+     "quand": "L'utilisateur s'est trompé.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Erreur de l'utilisateur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"238\" y=\"76\" width=\"210\" height=\"60\" rx=\"10\" fill=\"#FEE2E2\"/><rect x=\"238\" y=\"76\" width=\"6\" height=\"60\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"274\" cy=\"106\" r=\"15\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><circle cx=\"269\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><circle cx=\"279\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><path d=\"M267 112h14\" stroke=\"#B91C1C\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><rect x=\"302\" y=\"98\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"302\" y=\"116\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#B91C1C\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur s'est trompé.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Calme, sans blâme, orienté correction.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Vérifiez le format de la date. »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix porte <strong>un quasi-axe</strong> propre aux langages — le <strong>ton varie selon l'état émotionnel de l'utilisateur</strong> (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique <strong>voix vs ton</strong> : la voix est <em>constante</em> (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>l'exception ne s'étend jamais</strong> à une erreur (utilisateur ou système), à une action destructive, ni à une action fréquente ou réflexe — ces cas restent strictement dans le registre productif (bannis : « Oups », emoji, « ! »). Une exception positive et rare n'est pas une porte vers l'expressif généralisé ; hors du catalogue d'E-motion, le § « Le ton suit l'utilisateur » ci-dessous fait seul autorité."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>pas de jargon exposé à l'utilisateur.</strong> Les termes techniques, codes d'erreur et sigles internes restent dans les logs et le support ; l'utilisateur lit une phrase humaine. Un acronyme inévitable se développe à sa première occurrence."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Erreur système / panne",
+     "quand": "Le produit a échoué, pas l'utilisateur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Erreur système / panne\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"238\" y=\"76\" width=\"210\" height=\"60\" rx=\"10\" fill=\"#FEE2E2\"/><rect x=\"238\" y=\"76\" width=\"6\" height=\"60\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"274\" cy=\"106\" r=\"15\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><circle cx=\"269\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><circle cx=\"279\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><path d=\"M267 112h14\" stroke=\"#B91C1C\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><rect x=\"302\" y=\"98\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"302\" y=\"116\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#B91C1C\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le produit a échoué, pas l'utilisateur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le produit assume et propose une suite.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Nous n'avons pas pu enregistrer. Réessayez. »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix porte <strong>un quasi-axe</strong> propre aux langages — le <strong>ton varie selon l'état émotionnel de l'utilisateur</strong> (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique <strong>voix vs ton</strong> : la voix est <em>constante</em> (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>l'exception ne s'étend jamais</strong> à une erreur (utilisateur ou système), à une action destructive, ni à une action fréquente ou réflexe — ces cas restent strictement dans le registre productif (bannis : « Oups », emoji, « ! »). Une exception positive et rare n'est pas une porte vers l'expressif généralisé ; hors du catalogue d'E-motion, le § « Le ton suit l'utilisateur » ci-dessous fait seul autorité."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>ne jamais blâmer l'utilisateur — règle cardinale du ton.</strong> L'erreur est une information, pas un reproche. On décrit l'écart et la correction (« Le format attendu est JJ/MM/AAAA »), on ne qualifie pas l'utilisateur (« saisie invalide », « vous n'avez pas rempli… »). Quand la faute est côté système, le produit la prend à son compte."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-3",
+     "titre": "Action destructive",
+     "quand": "On confirme une suppression.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Action destructive\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><path d=\"M310 84h60M320 84v-9a6 6 0 0 1 6-6h28a6 6 0 0 1 6 6v9M326 84l4 62h20l4-62z\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M334 98v36M346 98v36\" stroke=\"#B91C1C\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"300\" y=\"160\" width=\"80\" height=\"26\" rx=\"7\" fill=\"#B91C1C\"/><rect x=\"322\" y=\"172\" width=\"36\" height=\"7\" rx=\"3.5\" fill=\"#fff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On confirme une suppression.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Direct, la conséquence nommée, sans dramatiser.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Cette action est irréversible. »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>l'exception ne s'étend jamais</strong> à une erreur (utilisateur ou système), à une action destructive, ni à une action fréquente ou réflexe — ces cas restent strictement dans le registre productif (bannis : « Oups », emoji, « ! »). Une exception positive et rare n'est pas une porte vers l'expressif généralisé ; hors du catalogue d'E-motion, le § « Le ton suit l'utilisateur » ci-dessous fait seul autorité."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-4",
+     "titre": "Succès",
+     "quand": "Une action aboutit.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Succès\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"340\" cy=\"118\" r=\"40\" fill=\"#DCFCE7\"/><path class=\"ill-pop\" d=\"M322 118l12 12 22-26\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"4.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une action aboutit.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Bref et factuel, sans sur-célébration.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Envoyé. »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix porte <strong>un quasi-axe</strong> propre aux langages — le <strong>ton varie selon l'état émotionnel de l'utilisateur</strong> (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique <strong>voix vs ton</strong> : la voix est <em>constante</em> (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-5",
+     "titre": "Attente",
+     "quand": "Un traitement prend du temps.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Attente\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle class=\"ill-spin\" style=\"transform-origin:340px 116px\" cx=\"340\" cy=\"116\" r=\"26\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"5\" stroke-dasharray=\"40 82\" stroke-linecap=\"round\"/><circle cx=\"312\" cy=\"162\" r=\"4\" fill=\"#4B5563\"/><circle cx=\"340\" cy=\"162\" r=\"4\" fill=\"#4B5563\" opacity=\".7\"/><circle cx=\"368\" cy=\"162\" r=\"4\" fill=\"#4B5563\" opacity=\".4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un traitement prend du temps.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Rassurez en disant ce qui se passe.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Vérification du paiement… »</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix porte <strong>un quasi-axe</strong> propre aux langages — le <strong>ton varie selon l'état émotionnel de l'utilisateur</strong> (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique <strong>voix vs ton</strong> : la voix est <em>constante</em> (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-6",
+     "titre": "Vide / démarrage",
+     "quand": "L'utilisateur démarre à vide.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · État émotionnel de l'utilisateur (le quasi-axe : le ton varie)",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Vide / démarrage\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"256\" y=\"66\" width=\"168\" height=\"120\" rx=\"14\" fill=\"none\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-dasharray=\"7 6\"/><circle cx=\"340\" cy=\"118\" r=\"24\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.4\"/><path d=\"M340 106v24M328 118h24\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><rect x=\"300\" y=\"158\" width=\"80\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur démarre à vide.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Encouragez et pointez la première action.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Ajoutez votre premier contact. »</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "05 · 5 cas",
+   "titre": "Plateforme, accessibilité et internationalisation",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Plateforme, accessibilité et internationalisation\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><circle cx=\"94\" cy=\"74\" r=\"32\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.5\"/><path d=\"M62 74h64M94 42v64M70 54q24 15 48 0M70 94q24-15 48 0\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"1.7\"/><rect x=\"168\" y=\"58\" width=\"104\" height=\"32\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><text x=\"182\" y=\"79\" font-size=\"13\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">a11y · i18n</text></svg>",
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Lecteur d'écran",
+     "quand": "Le contenu est lu à voix haute.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Plateforme, accessibilité et internationalisation",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lecteur d'écran\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"226\" y=\"54\" width=\"182\" height=\"110\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"246\" y=\"80\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"246\" y=\"112\" width=\"96\" height=\"9\" rx=\"3\" fill=\"#1D4ED8\"/><path d=\"M246 126h96\" stroke=\"#1D4ED8\" stroke-width=\"1.6\"/><path d=\"M430 88v34l24 14V74z\" fill=\"#4F46E5\"/><path d=\"M464 88a18 18 0 0 1 0 34M474 78a30 30 0 0 1 0 54\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.6\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le contenu est lu à voix haute.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Texte alternatif utile ; un lien qui dit sa destination.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Télécharger le PDF », pas « cliquez ici ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>la règle cardinale de ce langage</strong> — le texte est le <strong>seul canal d'information qui survit à tout</strong> : à la couleur coupée (daltonisme, forced-colors), au mouvement coupé (reduced-motion), à l'icône non comprise, au lecteur d'écran. Quand COLOR-UX dit « jamais la couleur seule », MOTION-UX « le mouvement n'informe jamais seul », ICONOGRAPHY-UX « jamais le dessin seul » — <strong>le canal redondant qu'ils invoquent tous, c'est le mot.</strong> Ce langage est donc le socle de la redondance de tout le système."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>le texte de lien et de bouton se suffit hors contexte.</strong> « Cliquez ici », « En savoir plus », « OK » échouent : un lecteur d'écran qui liste les liens de la page, ou un utilisateur qui scanne, ne voit pas le contexte autour. Le libellé dit <em>où il mène</em> ou <em>ce qu'il fait</em> (WCAG 2.4.4 ; renvoi BUTTON-UX § Wording : « un verbe qui décrit la conséquence bat un label générique »)."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>le mot descriptif porte l'accessibilité non visuelle</strong> — texte alternatif utile (pas « image »), <code>aria-label</code> qui dit l'action, texte de lien signifiant. C'est la même exigence que la redondance de COLOR, côté lecteur d'écran."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Niveau de lecture",
+     "quand": "Le vocabulaire pourrait être trop complexe.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Plateforme, accessibilité et internationalisation",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Niveau de lecture\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"84\" width=\"160\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"250\" y=\"100\" width=\"160\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"250\" y=\"116\" width=\"110\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"250\" y=\"150\" width=\"180\" height=\"16\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"250\" y=\"150\" width=\"70\" height=\"16\" rx=\"8\" fill=\"#15803D\"/><path d=\"M320 138v12M320 168v8\" stroke=\"#4F46E5\" stroke-width=\"2.5\"/><circle cx=\"320\" cy=\"132\" r=\"6\" fill=\"#4F46E5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le vocabulaire pourrait être trop complexe.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Plain language ; niveau bas par principe (cible non chiffrée).</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une phrase courte plutôt que savante.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>le niveau de lecture reste bas par choix.</strong> Plain language sert d'abord l'accessibilité cognitive (WCAG 3.1.5, AAA, vise un niveau collège) et les non-natifs. Aucun niveau chiffré n'est encore fixé pour ce produit — position explicite, pas oubli (cf. À approfondir)."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Traduction / longueur",
+     "quand": "Le texte sera peut-être traduit.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Plateforme, accessibilité et internationalisation",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Traduction / longueur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"298\" cy=\"118\" r=\"38\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\"/><path d=\"M260 118h76M298 80v76M272 99q26 16 52 0M272 137q26 -16 52 0\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"1.7\"/><rect x=\"366\" y=\"100\" width=\"130\" height=\"36\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><text x=\"431\" y=\"123\" text-anchor=\"middle\" font-size=\"15\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">FR EN</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le texte sera peut-être traduit.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Ne concaténez pas de fragments ; ne codez pas la longueur en dur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une phrase complète, pas des morceaux.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Sens de lecture (RTL)",
+     "quand": "Une langue se lit de droite à gauche.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "05 · Plateforme, accessibilité et internationalisation",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Sens de lecture (RTL)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><path d=\"M300 118h60m-14-14 14 14-14 14\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M380 152h-60m14 14-14-14 14-14\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"340\" y=\"90\" text-anchor=\"middle\" font-size=\"16\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">RTL</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une langue se lit de droite à gauche.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Non couvert : décision produit non prise.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>L'arabe ou l'hébreu.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-4",
+     "titre": "Ambiguïté culturelle / ton",
+     "quand": "Un idiome ou de l'humour ne passe pas les langues.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Plateforme, accessibilité et internationalisation",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Ambiguïté culturelle / ton\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"246\" y=\"66\" width=\"150\" height=\"72\" rx=\"14\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"2.4\"/><path d=\"M270 137h22l-22 24z\" fill=\"#FFFFFF\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><text x=\"320\" y=\"118\" text-anchor=\"middle\" font-size=\"26\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">?!</text><rect x=\"420\" y=\"86\" width=\"30\" height=\"30\" rx=\"8\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><path d=\"M425 91l20 20M445 91l-20 20\" stroke=\"#B91C1C\" stroke-width=\"2.4\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un idiome ou de l'humour ne passe pas les langues.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Registre sobre ; évitez idiomes et jeux de mots.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Éviter une expression intraduisible.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "06 · 7 cas",
+   "titre": "Enjeu / risque",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Enjeu / risque\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"66\" y=\"46\" width=\"150\" height=\"56\" rx=\"12\" fill=\"#FEE2E2\"/><path d=\"M88 98 L88 118 L110 102 Z\" fill=\"#FEE2E2\"/><rect x=\"84\" y=\"66\" width=\"102\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"84\" y=\"84\" width=\"70\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.35\"/><path d=\"M244 48l26 48h-52z\" fill=\"#FEF3C7\" stroke=\"#92400E\" stroke-width=\"2.2\" stroke-linejoin=\"round\"/><path d=\"M244 64v14\" stroke=\"#92400E\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><circle cx=\"244\" cy=\"86\" r=\"1.6\" fill=\"#92400E\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-5-0",
+     "titre": "Message qui blâme l'utilisateur",
+     "quand": "Un message accuse l'utilisateur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Message qui blâme l'utilisateur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"330\" cy=\"118\" r=\"40\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"3\"/><circle cx=\"316\" cy=\"110\" r=\"3\" fill=\"#B91C1C\"/><circle cx=\"344\" cy=\"110\" r=\"3\" fill=\"#B91C1C\"/><path d=\"M316 138q14 -12 28 0\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.6\" stroke-linecap=\"round\"/><circle cx=\"330\" cy=\"118\" r=\"54\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"4.5\"/><path d=\"M292 80l76 76\" stroke=\"#B91C1C\" stroke-width=\"4.5\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un message accuse l'utilisateur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Interdit : décrivez l'écart, jamais la faute.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Format attendu… », pas « Vous avez mal saisi ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>ne jamais blâmer l'utilisateur — règle cardinale du ton.</strong> L'erreur est une information, pas un reproche. On décrit l'écart et la correction (« Le format attendu est JJ/MM/AAAA »), on ne qualifie pas l'utilisateur (« saisie invalide », « vous n'avez pas rempli… »). Quand la faute est côté système, le produit la prend à son compte."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>le mot est le seul canal qui ne tombe jamais — il porte donc l'information, calmement, sans blâmer, dans un vocabulaire constant.</strong> Voix stable, ton ajusté à l'utilisateur, clarté avant élégance."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-1",
+     "titre": "Erreur générique non actionnable",
+     "quand": "Un message d'erreur ne dit pas quoi faire.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Erreur générique non actionnable\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"238\" y=\"76\" width=\"210\" height=\"60\" rx=\"10\" fill=\"#FEE2E2\"/><rect x=\"238\" y=\"76\" width=\"6\" height=\"60\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"274\" cy=\"106\" r=\"15\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/><circle cx=\"269\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><circle cx=\"279\" cy=\"102\" r=\"2\" fill=\"#B91C1C\"/><path d=\"M267 112h14\" stroke=\"#B91C1C\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><rect x=\"302\" y=\"98\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"302\" y=\"116\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#B91C1C\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un message d'erreur ne dit pas quoi faire.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Toujours une issue : quoi / pourquoi / comment corriger.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Éviter « Une erreur est survenue ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-5-2",
+     "titre": "Information portée par le style seul",
+     "quand": "Une info repose sur la seule couleur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Information portée par le style seul\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"244\" y=\"54\" width=\"192\" height=\"132\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"264\" y=\"74\" width=\"60\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"264\" y=\"86\" width=\"152\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"264\" y=\"118\" width=\"72\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><rect x=\"264\" y=\"130\" width=\"152\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"264\" y=\"164\" width=\"152\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"318\" y=\"175\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une info repose sur la seule couleur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le mot double le signal (rouge + « Erreur »).</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Erreur : … » écrit, pas juste du rouge.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>distinguer la contrainte du parti pris (1.1.0)</strong> — comme MOTION. Les contraintes (ne jamais blâmer, texte de lien signifiant WCAG 2.4.4, jamais l'information par le style seul, plain language accessible) ne se négocient pas ; le registre « productif, pas expressif » est un <strong>parti pris d'identité paramétrable</strong> — une surface marketing assumée peut relever le registre sans toucher aux contraintes d'accessibilité et d'anti-blâme. <strong>Lecture d'audit (pivot 2026-07-21)</strong> : face à une interface tierce, ce parti pris se lit comme un <strong>paramètre relevable, jamais comme un défaut</strong> — un « Parfait ! » chez un hôte au registre expressif assumé est une <em>divergence de registre</em> à signaler à part, pas une non-conformité ; seules les contraintes fondent un constat."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-3",
+     "titre": "Jargon interne exposé à l'utilisateur",
+     "quand": "Un code ou un terme technique fuit à l'écran.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Jargon interne exposé à l'utilisateur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"250\" y=\"98\" width=\"72\" height=\"40\" rx=\"8\" fill=\"#E0E7FF\"/><text x=\"286\" y=\"124\" text-anchor=\"middle\" font-size=\"20\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">API</text><path d=\"M330 118h30m-9-8 9 8-9 8\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><rect x=\"372\" y=\"98\" width=\"120\" height=\"40\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"388\" y=\"118\" width=\"88\" height=\"8\" rx=\"4\" fill=\"#4B5563\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un code ou un terme technique fuit à l'écran.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Traduisez en langage humain ; gardez le code pour les logs.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Réessayez », pas « Error 500 ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>pas de jargon exposé à l'utilisateur.</strong> Les termes techniques, codes d'erreur et sigles internes restent dans les logs et le support ; l'utilisateur lit une phrase humaine. Un acronyme inévitable se développe à sa première occurrence."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-4",
+     "titre": "Incohérence de vocabulaire",
+     "quand": "Un même concept a plusieurs mots.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Incohérence de vocabulaire\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"430\" y=\"68\" width=\"70\" height=\"30\" rx=\"7\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"444\" y=\"83\" width=\"42\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><path d=\"M422 83L384 110\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M384 110L387.9 101.9M384 110L392.9 108.9\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"430\" y=\"110\" width=\"70\" height=\"30\" rx=\"7\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"444\" y=\"125\" width=\"42\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><path d=\"M422 125L384 110\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M384 110L392.9 108.9M384 110L389.8 116.9\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"430\" y=\"152\" width=\"70\" height=\"30\" rx=\"7\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"444\" y=\"167\" width=\"42\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.5\"/><path d=\"M422 167L384 110\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M384 110L392.0 114.2M384 110L384.8 119.0\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"290\" y=\"94\" width=\"92\" height=\"34\" rx=\"8\" fill=\"#4F46E5\"/><rect x=\"312\" y=\"111\" width=\"48\" height=\"8\" rx=\"4\" fill=\"#fff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un même concept a plusieurs mots.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Un concept = un mot, partout.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Toujours « Supprimer », jamais « Effacer ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-5-5",
+     "titre": "Voix qui change de personnalité entre écrans",
+     "quand": "Le ton passe de formel à familier sans raison.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Voix qui change de personnalité entre écrans\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"248\" y=\"70\" width=\"110\" height=\"120\" rx=\"12\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M248 92h110\" stroke=\"#E5E7EB\"/><circle cx=\"303\" cy=\"140\" r=\"16\" fill=\"#E0E7FF\"/><path d=\"M287 140a16 16 0 0 0 32 0\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\"/><rect x=\"378\" y=\"70\" width=\"110\" height=\"120\" rx=\"12\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M378 92h110\" stroke=\"#E5E7EB\"/><circle cx=\"433\" cy=\"140\" r=\"16\" fill=\"#E0E7FF\"/><path d=\"M417 140a16 16 0 0 0 32 0\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\"/><text x=\"340\" y=\"148\" text-anchor=\"middle\" font-size=\"24\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">=</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le ton passe de formel à familier sans raison.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>La voix reste constante ; seul le ton s'ajuste.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un vouvoiement tenu partout.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "la voix porte <strong>un quasi-axe</strong> propre aux langages — le <strong>ton varie selon l'état émotionnel de l'utilisateur</strong> (routine, erreur, panne, succès, attente, destruction). C'est la distinction classique <strong>voix vs ton</strong> : la voix est <em>constante</em> (la personnalité du produit ne change pas d'un écran à l'autre), le ton s'*ajuste* (on ne parle pas d'un échec de paiement comme d'un succès d'inscription). Le § « Le ton suit l'utilisateur » tient lieu de table d'axes."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-6",
+     "titre": "Sur-promesse marketing dans l'UI produit",
+     "quand": "Un superlatif s'invite dans l'interface.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Sur-promesse marketing dans l'UI produit\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"56\" width=\"200\" height=\"130\" rx=\"10\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"260\" y=\"80\" width=\"150\" height=\"9\" rx=\"4.5\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"260\" y=\"104\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"120\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"136\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"152\" width=\"160\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"260\" y=\"168\" width=\"90\" height=\"7\" rx=\"3.5\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un superlatif s'invite dans l'interface.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Registre productif : pas de « magique » ni « sans effort ».</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistré », pas « Parfait ! ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de VOICE-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>le registre de ce produit est productif, pas expressif</strong> — reprise littérale de MOTION-UX. Clarté, précision, sobriété ; pas d'humour d'apparat, pas de superlatif marketing, pas de sur-célébration. Le produit parle comme un collègue compétent et calme, pas comme une marque qui vend. Toute exception (surface marketing) se journalise et se cadre à part."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "",
+  "titre": "",
+  "lead": "",
+  "specimens": [],
+  "tokens": []
+ },
+ "evolution": [
+  {
+   "date": "2026-07-21",
+   "titre": "Statut de frontière : les quatre règles désignées par la mesure M2 sont annotées",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>METHODE.md</code> 1.10.0 (la convention), <code>VOICE-UX.md</code> 1.3.1, <code>MOTION-UX.md</code> 1.3.2, <code>FORM-UX.md</code> 2.3.0, <code>BUTTON-UI.md</code> 1.6.1, + miroirs <code>dist/RULES-voice|motion|form|button.md</code>.</li><li><strong>Contexte</strong> : le dépouillement des findings des huit études (mesure M2 du pivot) donne 95 % de justifications universelles ; les seules exceptions sont trois contrats de registre (voice « pas de ! », motion « productif seulement », label 16 px) et un parti pris contesté (« jamais de disabled comme validation » — Strava-decisions F09, Carbon/iOS documentent l'inverse).</li><li><strong>Décision</strong> : généraliser la distinction « contrainte ≠ parti pris » (stress-test 2026-07-17) en <strong>statut de frontière</strong> à trois valeurs — <strong>propriété universelle / parti pris d'identité / implémentation de référence</strong> — avec sa <strong>lecture d'audit</strong> : seule la propriété universelle fonde une non-conformité chez un hôte tiers ; un parti pris se signale comme <em>divergence de registre</em>, à part ; l'implémentation de référence n'est jamais un critère. L'annotation est progressive, tirée par l'usage des audits — pas de passe de réécriture.</li><li><strong>Pourquoi</strong> : sans ce statut, un audit d'interface tierce requalifie en défaut ce qui n'est qu'une identité maison — trois cas réels dans Passion Courtage site-v2 (F06 « pas de ! », F08 registre motion, F09 label 16 px). La crédibilité du moteur d'audit dépend de cette distinction.</li></ul>"
+  },
+  {
+   "date": "2026-07-20",
+   "titre": "VOICE : exception E-motion documentée dans les deux sens",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>atelier/languages/voice/VOICE-UX.md</code> (→ 1.3.0), <code>VOICE-UI.md</code> (→ 1.2.0).</li><li><strong>Ancienne situation</strong> : <code>EMOTION-UX.md</code> affirmait unilatéralement (§ Quatre instruments) : « Voix — autorité <code>RULES-voice.md</code> ; E-motion en autorise le registre chaleureux ». Ni <code>VOICE-UX.md</code> ni <code>VOICE-UI.md</code> ne mentionnaient E-motion — un agent chargeant Voice sans E-motion (ou lisant les deux dans cet ordre) n'avait aucun moyen de découvrir l'exception. Pire, le tableau « Le ton suit l'utilisateur » de VOICE-UX affirmait l'inverse pour le cas Succès : « pas de &quot;Bravo !&quot;, pas de confettis (écho MOTION : pas de célébration) », sans distinguer succès routinier et moment E-motion catalogué — et VOICE-UI gardait un gabarit « succès » identique, sans exception.</li><li><strong>Nouvelle règle</strong> : VOICE-UX documente désormais explicitement l'exception (§ Exception E-motion, nouvelle section) et corrige la ligne Succès du tableau de ton en deux cas (routinier / moment E-motion catalogué) ; VOICE-UI assortit la règle « pas de point d'exclamation » et le gabarit « succès » de la même exception, bornée aux seuls moments du catalogue d'EMOTION-UX.md.</li><li><strong>Pourquoi</strong> : une règle d'autorité doit être lisible depuis les deux fichiers qu'elle relie. Le routeur charge Voice quand E-motion est invoqué (<code>selon-contexte</code>), jamais l'inverse — l'exception ne pouvait donc être garantie visible que si elle vivait aussi côté Voice.</li></ul>"
+  },
+  {
+   "date": "2026-07-12",
+   "titre": "Fondations : ajout de laws (lois UX) et voice (voix & ton) — le test de transposition donne deux structures différentes",
+   "html": "<ul><li><strong>Fichiers</strong> : foundations/laws/LAWS-UX.md (créé), foundations/voice/VOICE-UX.md + VOICE-UI.md (créés), inventaires/inventaire-cas-usage-{lois,voix}.md (créés), DESIGN.md 1.13.0 (index <code>foundations:</code> étendu, aucune valeur ajoutée).</li><li><strong>Décision</strong> : deux fondations ajoutées, avec un <strong>résultat de transposition différent pour chacune</strong> (le test appliqué sujet par sujet, jamais copié par défaut) :</li><li><strong>laws → UX-only.</strong> Un catalogue de lois n'a ni surface visuelle (hex/px) ni lexique concret : c'est la <em>couche théorique</em> que les autres fondations citent déjà (Doherty dans motion, Hick dans l'inflation du primary, Gestalt/proximité dans spacing). Pas de <code>LAWS-UI.md</code> — le créer dupliquerait ce qui vit dans les autres <code>*-UI.md</code>. Sa « couche concrète » est la <strong>carte d'application</strong> en fin de fichier (loi → règle qui l'implémente). Périmètre « catalogue large » (27 lois, aligné lawsofux.com + sources primaires) ; deux mythes réfutés à leur source (Miller « 7 items », règle des 3 clics).</li><li><strong>voice → paire UX/UI.</strong> Le split rôle/valeur de la couleur retombe pile : principes de voix <em>stables</em> (voix constante, ton variable, ne jamais blâmer, le mot comme canal fiable) en UX ; lexique + mécaniques <em>changeants avec la marque</em> (casse, ponctuation FR, nombres, dates, gabarits) en UI. VOICE-UI n'introduit <strong>aucun token</strong> — il référence <code>typography.label</code>, <code>typography.body</code>, <code>measure.reading-max</code>. Consolide le wording déjà écrit dans BUTTON-UX (§ Wording), INPUT-UX (§ Contenu du message) et ALERT-UX <strong>sans en retirer l'autorité</strong> : le composant garde son libellé, la fondation fournit la mécanique (même modèle que COLOR pour les valeurs).</li><li><strong>Conséquence outillée à trancher (remontée, non tranchée d'office)</strong> : <code>valide-dossier.js</code> vérifie la complétude des paires UX/UI ; une fondation délibérément UX-only (laws) est un cas qu'il ne connaît pas. Deux issues admises : (1) le script exempte les fichiers <code>type: foundation</code> déclarant <code>companion: none</code> ; (2) exception documentée. À confirmer au moment de recompiler <code>dist/</code>. Décision explicite : <strong>ne pas</strong> fabriquer un <code>LAWS-UI.md</code> factice pour satisfaire le script — ce serait une valeur sans besoin réel (guardrail COLOR/Occam).</li><li><strong>Pourquoi</strong> : <code>laws</code> rend lisible la théorie derrière les règles existantes (résorbe la « déduction silencieuse » conceptuelle : une règle fondée sur une loi qu'on ne nomme pas) ; <code>voice</code> fournit le socle des canaux redondants — quand COLOR/MOTION/ICONOGRAPHY disent « jamais ce canal seul », le canal de repli qu'ils invoquent tous est le mot. Inventaire + benchmark faits <strong>avant</strong> livraison pour les deux (leçon typographie) ; ratios de trous conformes à la série (laws 3/27, voice 6/38). Nouveau constat de méthode : sur <code>voice</code>, le prédicteur « état transitoire » s'applique enfin <em>littéralement</em> (ton d'attente, de résolution, message qui en remplace un autre) — écrit d'office ; sur <code>laws</code>, il ne s'applique pas (aucun état), le trou-type devient « la loi connue mais non reliée ».</li></ul>"
+  }
+ ]
+}

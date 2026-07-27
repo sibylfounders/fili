@@ -1,0 +1,576 @@
+{
+ "slug": "link",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9.2 14.8l-1.4 1.4a4 4 0 0 1-5.7-5.7l3.2-3.2A4 4 0 0 1 11 7\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><path d=\"M14.8 9.2l1.4-1.4a4 4 0 0 1 5.7 5.7l-3.2 3.2A4 4 0 0 1 13 17\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><path d=\"M8.5 12h7\" stroke=\"#F2C744\" stroke-width=\"2.2\" stroke-linecap=\"round\"/></svg>",
+ "nom": "link",
+ "nature": "Composant",
+ "meta": "UX v1.1.0 · UI v1.1.0 · mis à jour 2026-07-21 · confiance globale : established",
+ "confiance": "established",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX",
+  "question": "Quand faut-il proposer un lien plutôt qu’un bouton, et comment rendre sa destination évidente ?",
+  "detail": "Cette page distingue navigation et action, puis couvre les liens dans le texte, les destinations externes, les téléchargements et les cartes cliquables sans dépendre de la seule couleur.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Un Link promet une destination"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Un lien inline reste identifiable sans dépendre de la couleur seule"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Son texte décrit la destination"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "—",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "21",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "0",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-link.md",
+   "source": "---\nsujet: link\ntype: composant\nresume: \"Navigation : lien inline, autonome ou de navigation ; destination explicite, états, téléchargements et changement de contexte\"\nrequires: [\"interaction\"]\nselon-contexte: [\"card (si le lien étend une carte cliquable)\", \"iconography (si icône)\", \"voice (texte de lien signifiant = cadre unificateur)\", \"motion (feedback d'état, focus ring non animé)\"]\n---\n# RULES — Link (compilé, condensé)\n\n> Généré depuis `components/link/LINK-UX.md` (v1.0.0) et `LINK-UI.md` (v1.0.0).\n> La source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.\n\n## Usage\n\n- **Un Link dit “aller”, un Button dit “faire”.**\n- Link = autre page, ressource, section ou URL. Button = modifier l'état, soumettre, créer, supprimer,\n  ouvrir une action ou déclencher un traitement.\n- Une SPA ne change pas la frontière : le résultat perçu décide.\n- Navigation = `<a href>` réel. JavaScript peut enrichir, pas remplacer la destination native.\n\n## Contextes\n\n- **Inline** : souligné au repos ; identifiable sans couleur.\n- **Standalone** : texte + éventuelle icône directionnelle ; plus léger qu'un Button adjacent.\n- **Navigation** : destination courante signalée sans couleur seule + `aria-current`.\n- **Téléchargement** : annoncer le type et, si utile, la taille.\n- **Nouvel onglet** : exceptionnel et annoncé dans le libellé ou l'indication accessible cohérente.\n- **Card cliquable** : vrai Link dont le texte accessible est le titre ; actions internes hors du lien.\n\n## Wording\n\n- Décrire la destination ou la ressource : « Voir les factures », « Documentation de l'API », pas\n  « En savoir plus » répété ni URL brute quand un nom humain existe.\n- Le but du lien reste compréhensible depuis son texte ou son contexte accessible.\n\n## États\n\n- default : `color.primary` + soulignement selon contexte ;\n- hover : `color.primary-hover`, soulignement maintenu ;\n- focus : `color.accent` + `border.focus-width` + `border.focus-offset` ;\n- active : feedback immédiat sans déplacement du layout ;\n- visited : `color.text-secondary` seulement quand l'historique aide (collections de contenu).\n- Pas de Link disabled : retirer la cible ou expliquer l'indisponibilité.\n\n## Icônes et cible\n\n- Inline : `icon.sm` ; standalone : `icon.md`.\n- Icône seule : nom accessible obligatoire + zone tactile commune de 44px.\n- Une icône externe/directionnelle complète le texte ; elle ne porte pas seule un changement de\n  contexte non établi.\n\n## Risques\n\n| Cas | Risque | Sévérité |\n|---|---|---|\n| Link utilisé pour une action | attente, clavier et sémantique incohérents | Élevée |\n| Button utilisé pour naviguer | comportements natifs du lien perdus | Élevée |\n| couleur seule / soulignement hover-only | lien invisible | Élevée |\n| nouvel onglet non annoncé | changement de contexte inattendu | Moyenne |\n\n## Application des Languages\n\n- **Interaction** : **un Link dit « aller », un Button dit « faire »** — Link = expression de la navigation dans `INTERACTION-UX` ; c'est le résultat perçu qui décide, pas la technique (SPA incluse).\n- **Voice** : le wording est la déclinaison locale de `VOICE-UX` (cadre unificateur) — texte de lien **signifiant hors contexte** (WCAG 2.4.4), un concept = un mot ; pas d'« En savoir plus » répété ni d'URL brute quand un nom humain existe.\n- **Motion** : la transition d'état (couleur) est du **feedback** (`motion.fast`/`ease-out`, `MOTION-UX`), supprimable sans perte sous `prefers-reduced-motion` ; le **focus ring n'est jamais animé** (information de position clavier, pas un effet).\n- **E-motion** : **aucun instrument** — un clic de navigation est une action à haute fréquence, hors du catalogue des moments mérités (`EMOTION-UX` § budget de rareté) ; son seul besoin temporel est le feedback d'état.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 8 cas",
+   "titre": "Contexte",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Contexte\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"40\" width=\"240\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"40\" y=\"58\" width=\"64\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><text x=\"114\" y=\"65\" font-size=\"11\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">documentation</text><path d=\"M114 68h78\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><rect x=\"202\" y=\"58\" width=\"78\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"40\" y=\"76\" width=\"210\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"40\" y=\"98\" width=\"240\" height=\"28\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"56\" y=\"116\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">Accueil</text><text x=\"112\" y=\"116\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">Guides</text><path d=\"M112 119h36\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><text x=\"170\" y=\"116\" font-size=\"10\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">Tokens</text></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Lien inline dans un paragraphe",
+     "quand": "Souligné au repos, sens hors couleur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lien inline dans un paragraphe\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"160\" y=\"72\" width=\"360\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"160\" y=\"98\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><text x=\"296\" y=\"106\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">la documentation</text><path d=\"M296 113h118\" stroke=\"#4F46E5\" stroke-width=\"2\"/><rect x=\"430\" y=\"98\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"160\" y=\"124\" width=\"340\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"160\" y=\"150\" width=\"240\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.35\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Souligné au repos, sens hors couleur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « lien inline dans un paragraphe » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Lien autonome",
+     "quand": "Destination explicite, plus léger qu'un Button.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lien autonome\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"240\" y=\"124\" font-size=\"16\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Consulter le guide</text><path d=\"M240 131h146\" stroke=\"#4F46E5\" stroke-width=\"2\"/><path d=\"M410 118L452 118\" stroke=\"#4F46E5\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M452 118L444.1 122.3M452 118L444.1 113.7\" stroke=\"#4F46E5\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Destination explicite, plus léger qu'un Button.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « lien autonome » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Navigation principale",
+     "quand": "Destination courante annoncée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Navigation principale\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"140\" y=\"76\" width=\"400\" height=\"48\" rx=\"12\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"170\" y=\"105\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Accueil</text><text x=\"258\" y=\"105\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Guides</text><path d=\"M258 112h50\" stroke=\"#4F46E5\" stroke-width=\"2\"/><text x=\"348\" y=\"105\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Tokens</text><text x=\"436\" y=\"105\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Blog</text><circle cx=\"283\" cy=\"68\" r=\"4\" fill=\"#4F46E5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Destination courante annoncée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « navigation principale » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Ancre dans la page",
+     "quand": "Destination interne et focus cohérent.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Ancre dans la page\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"220\" y=\"36\" width=\"240\" height=\"176\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><text x=\"244\" y=\"68\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Aller aux détails</text><path d=\"M244 75h112\" stroke=\"#4F46E5\" stroke-width=\"2\"/><path d=\"M340 84L340 138\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M340 138L335.7 130.1M340 138L344.3 130.1\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"238\" y=\"146\" width=\"204\" height=\"36\" rx=\"8\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2\"/><rect x=\"252\" y=\"160\" width=\"120\" height=\"8\" rx=\"4\" fill=\"#111827\" opacity=\"0.7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Destination interne et focus cohérent.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « ancre dans la page » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Lien externe",
+     "quand": "Nouvel onglet exceptionnel et annoncé.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lien externe\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"200\" y=\"120\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Documentation externe</text><path d=\"M200 127h162\" stroke=\"#4F46E5\" stroke-width=\"2\"/><g transform=\"translate(386,100)\"><rect width=\"26\" height=\"26\" rx=\"5\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2\"/><path d=\"M10 16 20 6M13 6h7v7\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2\" stroke-linecap=\"round\"/></g><rect x=\"452\" y=\"66\" width=\"96\" height=\"70\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"452\" y=\"66\" width=\"96\" height=\"16\" rx=\"8\" fill=\"#F3F4F6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Nouvel onglet exceptionnel et annoncé.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « lien externe » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Téléchargement",
+     "quand": "Type et taille annoncés quand utiles.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Téléchargement\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"206\" y=\"118\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Rapport annuel</text><path d=\"M206 125h112\" stroke=\"#4F46E5\" stroke-width=\"2\"/><g transform=\"translate(344,98)\"><path d=\"M13 2v14m0 0-6-6m6 6 6-6\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M3 21h20\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linecap=\"round\"/></g><rect x=\"396\" y=\"102\" width=\"86\" height=\"24\" rx=\"12\" fill=\"#E0E7FF\"/><text x=\"410\" y=\"118\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">PDF · 2 Mo</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Type et taille annoncés quand utiles.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « téléchargement » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "un téléchargement annonce la nature du fichier et, quand elle est utile, sa taille."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-6",
+     "titre": "Card cliquable",
+     "quand": "Vrai lien étendu portant le titre.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Card cliquable\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"220\" y=\"46\" width=\"240\" height=\"148\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"236\" y=\"62\" width=\"84\" height=\"56\" rx=\"8\" fill=\"#E0E7FF\"/><text x=\"236\" y=\"146\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Titre de la carte</text><path d=\"M236 153h118\" stroke=\"#4F46E5\" stroke-width=\"2\"/><rect x=\"236\" y=\"164\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"206\" y=\"34\" width=\"268\" height=\"172\" rx=\"16\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-dasharray=\"5 6\" opacity=\".7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Vrai lien étendu portant le titre.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « card cliquable » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "une Card cliquable vers un détail contient un vrai Link dont le texte accessible est le titre"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-7",
+     "titre": "Icône seule",
+     "quand": "Nom accessible + cible tactile.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Contexte",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Icône seule\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"298\" y=\"86\" width=\"64\" height=\"64\" rx=\"12\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-dasharray=\"5 5\"/><g transform=\"translate(316,104)\"><path d=\"M12 17a6 6 0 0 1-1-9l4-4a6 6 0 0 1 9 9l-2 2\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><path d=\"M16 11a6 6 0 0 1 1 9l-4 4a6 6 0 0 1-9-9l2-2\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2.4\" stroke-linecap=\"round\"/></g><rect x=\"402\" y=\"104\" width=\"96\" height=\"26\" rx=\"13\" fill=\"#F3F4F6\" stroke=\"#E5E7EB\"/><text x=\"416\" y=\"121\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">aria-label</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Nom accessible + cible tactile.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « icône seule » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "un lien icône seule conserve une cible tactile suffisante et un nom accessible. Sa forme ne"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 6 cas",
+   "titre": "État",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : État\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><text x=\"44\" y=\"60\" font-size=\"12\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">Repos</text><path d=\"M44 64h38\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><text x=\"124\" y=\"60\" font-size=\"12\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">Survol</text><path d=\"M124 64h42\" stroke=\"#4F46E5\" stroke-width=\"3\"/><rect x=\"204\" y=\"40\" width=\"76\" height=\"32\" rx=\"8\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\"/><text x=\"218\" y=\"60\" font-size=\"12\" font-family=\"Inter,sans-serif\" fill=\"#4F46E5\">Focus</text><path d=\"M218 64h38\" stroke=\"#4F46E5\" stroke-width=\"1.6\"/><text x=\"44\" y=\"108\" font-size=\"12\" font-family=\"Inter,sans-serif\" fill=\"#4B5563\">Visité</text><path d=\"M44 112h38\" stroke=\"#4B5563\" stroke-width=\"1.6\"/><circle cx=\"232\" cy=\"104\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M228.5 100.5l7 7M235.5 100.5l-7 7\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Default",
+     "quand": "Identifiable.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Default\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"272\" y=\"124\" font-size=\"15\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Lien au repos</text><path d=\"M272 131h104\" stroke=\"#4F46E5\" stroke-width=\"2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Identifiable.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « default » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Hover",
+     "quand": "Renforcement, jamais révélation.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Hover\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"196\" y=\"124\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Lien</text><path d=\"M196 131h36\" stroke=\"#4F46E5\" stroke-width=\"2\"/><text x=\"372\" y=\"124\" font-size=\"15\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4338CA\">Lien</text><path d=\"M372 131h40\" stroke=\"#4338CA\" stroke-width=\"2\"/><path d=\"M372 134h40\" stroke=\"#4338CA\" stroke-width=\"3.4\"/><path d=\"M424 140l13 32 4-12 12-4z\" fill=\"#111827\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Renforcement, jamais révélation.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « hover » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Focus",
+     "quand": "Outline visible.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Focus\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"262\" y=\"98\" width=\"158\" height=\"42\" rx=\"9\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"3\"/><text x=\"282\" y=\"124\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Lien focalisé</text><path d=\"M282 131h102\" stroke=\"#4F46E5\" stroke-width=\"2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Outline visible.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « focus » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Active",
+     "quand": "Feedback immédiat.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Active\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"282\" y=\"124\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4338CA\">Lien activé</text><path d=\"M282 131h88\" stroke=\"#4338CA\" stroke-width=\"2\"/><path d=\"M270 104l-9-9M392 104l9-9M270 144l-9 9M392 144l9 9\" stroke=\"#0891B2\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Feedback immédiat.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « active » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Visited",
+     "quand": "Réservé aux contextes où l'historique aide.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Visited\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"250\" y=\"100\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Résultat consulté</text><path d=\"M250 107h124\" stroke=\"#4B5563\" stroke-width=\"2\"/><text x=\"250\" y=\"146\" font-size=\"14\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">Résultat suivant</text><path d=\"M250 153h118\" stroke=\"#4F46E5\" stroke-width=\"2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Réservé aux contextes où l'historique aide.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « visited » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+      },
+      {
+       "tag": "Règle",
+       "html": "<code>visited</code> sert surtout aux collections de contenu où se souvenir des pages consultées aide la"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Disabled",
+     "quand": "Traiter le cas « Disabled ».",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · État",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Disabled\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><text x=\"160\" y=\"120\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Action indisponible</text><path d=\"M160 127h144\" stroke=\"#4B5563\" stroke-width=\"2\"/><circle cx=\"340\" cy=\"114\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M336.5 110.5l7 7M343.5 110.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M374 116L414 116\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M414 116L406.1 120.3M414 116L406.1 111.7\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"430\" y=\"120\" font-size=\"13\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#111827\">texte simple</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Traiter le cas « Disabled ».</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l’inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « disabled » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de LINK-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "un lien n'a normalement pas d'état disabled. Si la destination n'est pas disponible, le lien"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "specimens": [
+   "</section></div> <p class=\"pied\">Généré par <code>tools/genere-site.js</code> le 2026-07-24 — depuis l'atelier (DESIGN.md 1.31.0). Ce site n'est pas une source : <a href=\"../llms.txt\">llms.txt</a>. Constellation : <a href=\"https://sibylfounders.github.io/audit-md-site/\">Audit MD</a>.</p>"
+  ],
+  "tokens": [
+   {
+    "token": "typography.font",
+    "ref": "typography.body",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "typography.fallback",
+    "ref": "typography.fallback.sans",
+    "valeur": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    "couleur": null
+   },
+   {
+    "token": "colors.default",
+    "ref": "color.primary",
+    "valeur": "#4F46E5",
+    "couleur": "#4F46E5"
+   },
+   {
+    "token": "colors.hover",
+    "ref": "color.primary-hover",
+    "valeur": "#4338CA",
+    "couleur": "#4338CA"
+   },
+   {
+    "token": "colors.visited",
+    "ref": "color.text-secondary",
+    "valeur": "#4B5563",
+    "couleur": "#4B5563"
+   },
+   {
+    "token": "focus.color",
+    "ref": "color.accent",
+    "valeur": "#0891B2",
+    "couleur": "#0891B2"
+   },
+   {
+    "token": "focus.width",
+    "ref": "border.focus-width",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "focus.offset",
+    "ref": "border.focus-offset",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "icon.inline",
+    "ref": "icon.sm",
+    "valeur": "16px",
+    "couleur": null
+   },
+   {
+    "token": "icon.standalone",
+    "ref": "icon.md",
+    "valeur": "20px",
+    "couleur": null
+   },
+   {
+    "token": "motion.state.duration",
+    "ref": "motion.fast",
+    "valeur": "100ms",
+    "couleur": null
+   },
+   {
+    "token": "motion.state.easing",
+    "ref": "motion.ease-out",
+    "valeur": "cubic-bezier(0, 0, 0.2, 1)",
+    "couleur": null
+   },
+   {
+    "token": "axes.context",
+    "ref": "inline, standalone, navigation",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "axes.icon",
+    "ref": "none, leading, trailing, only",
+    "valeur": "—",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": []
+}

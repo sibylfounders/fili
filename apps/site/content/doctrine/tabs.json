@@ -1,0 +1,1172 @@
+{
+ "slug": "tabs",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"2\" y=\"8\" width=\"20\" height=\"12\" rx=\"2\" fill=\"#C7D2FE\" opacity=\"0.55\"/><rect x=\"2\" y=\"4\" width=\"7\" height=\"5.6\" rx=\"1.6\" fill=\"#4F46E5\"/><rect x=\"10\" y=\"5.4\" width=\"6\" height=\"4.2\" rx=\"1.4\" fill=\"#0891B2\" opacity=\"0.55\"/><rect x=\"17\" y=\"5.4\" width=\"5\" height=\"4.2\" rx=\"1.4\" fill=\"#F2C744\" opacity=\"0.75\"/><rect x=\"4.6\" y=\"12\" width=\"10\" height=\"1.8\" rx=\"0.9\" fill=\"#4B5563\" opacity=\"0.35\"/><rect x=\"4.6\" y=\"15.6\" width=\"14\" height=\"1.8\" rx=\"0.9\" fill=\"#4B5563\" opacity=\"0.2\"/></svg>",
+ "nom": "tabs",
+ "nature": "Composant",
+ "meta": "UX v1.0.0 · UI v1.0.0 · mis à jour 2026-07-26 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · tabs",
+  "question": "Comment découper un même contenu en vues exclusives sans mentir sur ce qui est caché ?",
+  "detail": "Un onglet révèle un seul volet à la fois parmi plusieurs vues du même objet — jamais des sujets distincts, jamais un contenu à comparer ou à chercher au Cmd+F. La frontière avec l'Accordion (exclusif vs multi-ouvert) et avec la Navigation (changer de vue vs changer de page) fixe où le composant s'arrête.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Un seul volet visible à la fois, toujours le même objet vu sous plusieurs angles"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Un seul onglet dans l'ordre de tabulation, les flèches circulent, le volet reste focalisable"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Jamais deux lignes d'onglets, jamais un contenu à comparer ou à chercher au Cmd+F"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "31",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "30",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "0",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "",
+   "source": ""
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 6 cas",
+   "titre": "Usage légitime",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Fiche de doctrine",
+     "quand": "Volets « essentiel / cas d'usage / spécifications » d'un même composant.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Volets « essentiel / cas d'usage / spécifications » d'un même composant.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Fiche de doctrine » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les onglets s'appliquent à un seul objet dont les volets sont des vues alternatives, jamais des sujets distincts.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Réglages d'un compte",
+     "quand": "Général / sécurité / facturation d'un même compte.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Général / sécurité / facturation d'un même compte.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Réglages d'un compte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le test : peut-on dire « voici le même compte, vu sous l'angle A, B, C » — si oui, les onglets sont légitimes.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Détail produit",
+     "quand": "Description / caractéristiques / avis d'un même produit.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Description / caractéristiques / avis d'un même produit.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Détail produit » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Chaque volet décrit la même chose sous un angle différent : c'est la définition même d'un jeu d'onglets légitime.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Dossier client",
+     "quand": "Résumé / documents / historique d'un même dossier.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Résumé / documents / historique d'un même dossier.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Dossier client » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les onglets s'appliquent à un seul objet dont les volets sont des vues alternatives.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Bascule courte d'atelier",
+     "quand": "Aperçu / code d'un même composant.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Aperçu / code d'un même composant.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Bascule courte d'atelier » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Deux vues concurrentes d'un même objet — regarder l'une OU l'autre, jamais les deux à la fois : c'est le cas d'usage moteur des onglets.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Comparateur de plans tarifaires",
+     "quand": "Deux offres à regarder en même temps, pas l'une après l'autre.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Usage légitime",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Deux offres à regarder en même temps, pas l'une après l'autre.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Comparateur de plans tarifaires » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les onglets mentent quand le contenu de deux volets doit être comparé côte à côte : un onglet masque ce qu'on veut voir en même temps que l'autre.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 6 cas",
+   "titre": "Cas où les onglets mentent",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Formulaire long découpé en onglets",
+     "quand": "Champs d'une même soumission répartis en volets exclusifs.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Champs d'une même soumission répartis en volets exclusifs.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Formulaire long découpé en onglets » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les champs d'un même formulaire ne sont pas des vues exclusives d'un objet — ils sont tous nécessaires à la même soumission.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Deux volets à comparer côte à côte",
+     "quand": "Le contenu masqué est précisément ce qu'on veut voir en même temps.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le contenu masqué est précisément ce qu'on veut voir en même temps.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Deux volets à comparer côte à côte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un onglet promet « ce que tu ne vois pas est ailleurs, à un clic » — une promesse fausse quand le contenu masqué doit être comparé.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Contenu cherché au Cmd+F",
+     "quand": "Le volet non monté ou masqué échappe à la recherche de page.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le volet non monté ou masqué échappe à la recherche de page.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Contenu cherché au Cmd+F » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un moteur de recherche de page ne voit pas le contenu des volets non montés, et même monté-masqué il reste invisible.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Un seul volet disponible",
+     "quand": "Un onglet unique n'est pas un choix — habillage inutile.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un onglet unique n'est pas un choix — habillage inutile.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Un seul volet disponible » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Il n'y a qu'un seul volet : supprimer la tablist et afficher le contenu directement.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Étapes d'un parcours imposé",
+     "quand": "Ordre contraint, pas de bascule libre — c'est un stepper.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Ordre contraint, pas de bascule libre — c'est un stepper.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Étapes d'un parcours imposé » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les « volets » sont en réalité des étapes d'un parcours : c'est alors un stepper, pas des onglets — l'ordre est imposé, pas la liberté de bascule.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Sujets sans rapport logés côte à côte",
+     "quand": "Les volets ne décrivent pas le même objet.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Cas où les onglets mentent",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Les volets ne décrivent pas le même objet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Sujets sans rapport logés côte à côte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si les volets parlent de choses différentes, ce ne sont pas des vues — c'est un découpage arbitraire qui emprunte la forme visuelle des onglets.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 7 cas",
+   "titre": "Activation et clavier",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Volets déjà en mémoire",
+     "quand": "Contenu statique, bon marché à afficher : activation automatique.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Contenu statique, bon marché à afficher : activation automatique.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Volets déjà en mémoire » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si les volets sont déjà en mémoire ou bon marché à afficher, l'activation automatique est le défaut.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Volet coûteux à monter",
+     "quand": "Requête réseau ou calcul lourd déclenché à l'affichage : activation manuelle.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Requête réseau ou calcul lourd déclenché à l'affichage : activation manuelle.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Volet coûteux à monter » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si monter un volet déclenche un coût réel, l'activation manuelle évite de déclencher ce coût à chaque frappe de flèche.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Balayage aux flèches",
+     "quand": "← → circulent entre onglets, retour au premier après le dernier.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>← → circulent entre onglets, retour au premier après le dernier.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Balayage aux flèches » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Les flèches gauche/droite déplacent le focus d'onglet en onglet, avec retour au premier après le dernier.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Origine / Fin",
+     "quand": "Sauter directement au premier ou au dernier onglet.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Sauter directement au premier ou au dernier onglet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Origine / Fin » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Origine (Home) va au premier onglet, Fin (End) au dernier.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-4",
+     "titre": "Un seul onglet tabbable",
+     "quand": "Tab entre et sort de la tablist en une seule étape.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Tab entre et sort de la tablist en une seule étape.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Un seul onglet tabbable » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un seul onglet est dans l'ordre de tabulation normal — Tab entre et sort de la tablist en une seule étape, jamais un Tab par onglet.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-5",
+     "titre": "Volet focalisable même vide",
+     "quand": "tabindex=\"0\" sur le panneau, atteignable après l'onglet.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>tabindex=\"0\" sur le panneau, atteignable après l'onglet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Volet focalisable même vide » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le volet est focalisable même s'il ne contient aucun élément interactif, sans quoi Tab depuis l'onglet saute directement au contenu suivant.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-2-6",
+     "titre": "Onglet désactivé",
+     "quand": "Fonctionnalité verrouillée (plan, permission) rendue non activable.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "03 · Activation et clavier",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Fonctionnalité verrouillée (plan, permission) rendue non activable.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Onglet désactivé » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Aucun token de couleur désactivée n'est formalisé pour Tabs — dette assumée comme le disabled de BUTTON-UI.md.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "04 · 6 cas",
+   "titre": "Contenu du volet",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Formulaire en cours de saisie",
+     "quand": "La bascule ne doit pas effacer un brouillon : keepMounted.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La bascule ne doit pas effacer un brouillon : keepMounted.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Formulaire en cours de saisie » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si un volet contient une saisie utilisateur que la bascule ne doit pas perdre, il doit rester monté et seulement masqué.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Contenu statique texte",
+     "quand": "Aucun état à préserver : démonté par défaut.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Aucun état à préserver : démonté par défaut.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Contenu statique texte » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Par défaut, le volet non courant est démonté, pas seulement masqué — démonter simplifie le DOM et évite qu'un contenu invisible reste interactif.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Widget avec scroll interne à préserver",
+     "quand": "Position de défilement à conserver entre deux visites du volet.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Position de défilement à conserver entre deux visites du volet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Widget avec scroll interne à préserver » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le choix entre garder le volet monté et restaurer sa position n'est pas encore tranché par la doctrine.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-3",
+     "titre": "Contenu lourd (vidéo, graphique)",
+     "quand": "Montage à la demande, pas au chargement de la page.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Montage à la demande, pas au chargement de la page.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Contenu lourd (vidéo, graphique) » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si monter un volet déclenche un coût réel, l'activation manuelle évite de déclencher ce coût prématurément.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-4",
+     "titre": "Filtre de recherche par onglet",
+     "quand": "État de filtre propre à chaque volet.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>État de filtre propre à chaque volet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Filtre de recherche par onglet » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Un volet qui porte un état de saisie doit rester monté et seulement masqué pour ne pas perdre ce filtre à la bascule.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-3-5",
+     "titre": "Badge de compteur sur un onglet",
+     "quand": "Ex. « Messages (3) » — affichage d'un nombre sur le libellé.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Contenu du volet",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Ex. « Messages (3) » — affichage d'un nombre sur le libellé.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Badge de compteur sur un onglet » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>L'API actuelle de Tabs.Tab ne prévoit pas de slot dédié à un compteur — le libellé reste un nom simple, sans décoration additionnelle formalisée.</p>"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "05 · 6 cas",
+   "titre": "Frontière avec d'autres composants",
+   "visuel": null,
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Regroupement multi-ouvert",
+     "quand": "Plusieurs sections ouvertes à la fois.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Plusieurs sections ouvertes à la fois.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Regroupement multi-ouvert » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Tabs = un seul volet monté à l'écran, choix exclusif. Accordion = plusieurs sections peuvent être ouvertes à la fois : ce n'est pas le même composant.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Deep-link à l'ouverture",
+     "quand": "Un paramètre d'URL lu au montage positionne l'onglet initial.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un paramètre d'URL lu au montage positionne l'onglet initial.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Deep-link à l'ouverture » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le deep-link positionne l'état initial ; il ne transforme pas Tabs en navigation à chaque interaction.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Bascule partageable par URL à chaque clic",
+     "quand": "Historique poussé à chaque changement de volet.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Historique poussé à chaque changement de volet.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Bascule partageable par URL à chaque clic » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Si un produit a besoin que chaque volet soit partageable par URL ou revenable au Retour, ce n'est plus un choix de vue interne — c'est une navigation.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Superposé qui recouvre et piège",
+     "quand": "Contenu qui masque le reste de l'écran.",
+     "statut": "non couvert",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Contenu qui masque le reste de l'écran.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Superposé qui recouvre et piège » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Le superposé qui recouvre et piège n'est pas un onglet, c'est overlay.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-4",
+     "titre": "Onglets qui retombent sur deux lignes",
+     "quand": "Jeu d'onglets trop nombreux pour la largeur.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Jeu d'onglets trop nombreux pour la largeur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Onglets qui retombent sur deux lignes » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Jamais d'onglets sur deux lignes : un jeu qui retombe à la ligne perd l'exclusivité visuelle et casse la navigation clavier.</p>"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-5",
+     "titre": "Jeu d'onglets qui déborde",
+     "quand": "Plus d'onglets que la largeur ne peut afficher sur une ligne.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Frontière avec d'autres composants",
+     "visuel": null,
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Plus d'onglets que la largeur ne peut afficher sur une ligne.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Appliquer la règle portée par le propriétaire indiqué dans l'inventaire, puis vérifier le résultat sur un écran assemblé.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Tester « Jeu d'onglets qui déborde » sur un écran représentatif du produit.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de TABS-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<p>Deux issues seulement quand le jeu déborde : le défilement horizontal de la tablist, ou une refonte du contenu.</p>"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d'usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "css": "",
+  "specimens": [],
+  "tokens": [
+   {
+    "token": "onglet.texte_repos",
+    "ref": "color.text-secondary",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.texte_survol",
+    "ref": "color.text-primary",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.texte_courant",
+    "ref": "color.text-primary",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.trait_courant_line",
+    "ref": "color.primary",
+    "valeur": "#4F46E5",
+    "couleur": "#4F46E5"
+   },
+   {
+    "token": "onglet.trait_survol_line",
+    "ref": "color.border-strong",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.fond_courant_pill",
+    "ref": "color.surface",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.relief_courant_pill",
+    "ref": "elevation.raised",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.piste_pill",
+    "ref": "color.background",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.bordure_pill",
+    "ref": "color.border",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.rayon_pill",
+    "ref": "radius.pill",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.poids_courant",
+    "ref": "typography.display.fontWeight",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.espacement_line",
+    "ref": "spacing.lg",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.espacement_pill",
+    "ref": "spacing.xs",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.padding_line",
+    "ref": "spacing.sm",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.padding_pill",
+    "ref": "spacing.md",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.transition",
+    "ref": "motion.fast",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "onglet.courbe",
+    "ref": "motion.ease-out",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "focus.couleur",
+    "ref": "color.accent",
+    "valeur": "#0891B2",
+    "couleur": "#0891B2"
+   },
+   {
+    "token": "focus.largeur",
+    "ref": "border.focus-width",
+    "valeur": "2px",
+    "couleur": null
+   },
+   {
+    "token": "focus.ecart",
+    "ref": "border.focus-offset",
+    "valeur": "2px",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": [
+  {
+   "date": "2026-07-26",
+   "titre": "Naissance du composant Tabs — vues exclusives d'un même objet",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>components/TABS-UX.md</code> 1.0.0, <code>TABS-UI.md</code> 1.0.0, <code>inventaires/inventaire-cas-usage-tabs.md</code> ; implémentation de référence <code>packages/react/src/components/tabs/tabs.tsx</code>.</li><li><strong>Contexte</strong> : les fiches de doctrine du site (essentiel / cas d'usage / spécifications) et les bascules courtes d'un atelier avaient besoin d'un motif de vues exclusives — jusqu'ici assemblé au cas par cas sans règle écrite.</li><li><strong>Décision</strong> : Tabs découpe un même objet en vues exclusives, un seul volet monté à la fois. Frontière tranchée avec Accordion (exclusif vs multi-ouvert) et avec Navigation (changer de vue interne, jamais une entrée d'historique par bascule). Motif clavier ARIA APG Tabs : tablist/tab/tabpanel, un seul onglet tabbable, flèches + Origine/Fin, activation auto par défaut (manuelle si le volet coûte à monter).</li><li><strong>Pourquoi</strong> : sans cette doctrine, chaque écran réinventait son propre découpage en onglets — avec des dérives fréquentes (formulaires découpés en onglets, contenu à comparer masqué). La frontière explicite avec Accordion et Navigation évite ces deux confusions les plus coûteuses.</li></ul>"
+  }
+ ]
+}

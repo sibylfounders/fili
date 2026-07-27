@@ -1,0 +1,1805 @@
+{
+ "slug": "alert",
+ "embleme": "<svg class=\"ico\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"3\" fill=\"#bcb9f5\"/><rect x=\"2\" y=\"5\" width=\"4.5\" height=\"14\" rx=\"2.2\" fill=\"#EE7A66\"/><circle cx=\"11\" cy=\"12\" r=\"2\" fill=\"#F2C744\"/><rect x=\"15\" y=\"10.8\" width=\"5\" height=\"2.4\" rx=\"1.2\" fill=\"#111827\" opacity=\"0.45\"/></svg>",
+ "nom": "alert",
+ "nature": "Composant",
+ "meta": "UX v1.4.0 · UI v1.4.0 · mis à jour 2026-07-21 · confiance globale : mixte",
+ "confiance": "mixte",
+ "onglets": [
+  {
+   "id": "essentiel",
+   "label": "L’essentiel"
+  },
+  {
+   "id": "cas",
+   "label": "Cas d’usage"
+  },
+  {
+   "id": "ui",
+   "label": "Spécifications"
+  },
+  {
+   "id": "decisions",
+   "label": "Évolution"
+  }
+ ],
+ "essentiel": {
+  "kicker": "La question UX · alert",
+  "question": "Quand faut-il interrompre l’utilisateur avec un message, et sur quel ton le dire ?",
+  "detail": "Cette page distingue ce qui mérite une alerte de ce qui peut rester discret, et choisit le registre — information, succès, avertissement ou erreur — pour que le message aide au lieu d’affoler.",
+  "titreRegles": "Trois règles fondamentales",
+  "regles": [
+   {
+    "num": "01 / PRINCIPE",
+    "texte": "Une alerte communique un changement d'état ou une information au bon moment"
+   },
+   {
+    "num": "02 / MÉCANIQUE",
+    "texte": "Son tone (info, succès, avertissement, erreur) porte un sens, doublé d'une icône et d'un mot"
+   },
+   {
+    "num": "03 / GARDE-FOU",
+    "texte": "Elle vit dans le flux de la page et pousse le contenu qui la suit"
+   }
+  ],
+  "preuves": [
+   {
+    "valeur": "46",
+    "libelle": "situations cartographiées"
+   },
+   {
+    "valeur": "74",
+    "libelle": "règles explicites"
+   },
+   {
+    "valeur": "9",
+    "libelle": "arbitrages journalisés"
+   }
+  ],
+  "rules": {
+   "nom": "RULES-alert.md",
+   "source": "---\nsujet: alert\ntype: composant\nresume: \"Messages d'état dans le flux : tone (info/success/warning/danger) × persistance (permanent/dismissible) — toast et modale hors périmètre\"\nrequires: []\nselon-contexte: [\"button (si l'alert porte une action)\", \"form (résumé d'erreurs : l'orchestration vit côté form)\", \"input (une erreur mono-champ est un message inline d'input, pas un alert)\", \"interaction (intention « comprendre un état », lois d'affordance 3/5)\", \"motion (apparition réactive en opacité, reduced-motion)\", \"voice (ton par gravité, ne jamais blâmer)\", \"emotion (moment « sortie d'erreur » délégué au relais)\"]\n---\n# RULES — Alert (compilé, condensé)\n\n> Généré depuis `components/alert/ALERT-UX.md` (v1.3.0) et `ALERT-UI.md` (v1.1.3). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.\n\n## Axes\n- Deux axes : **tone** (info/success/warning/danger) × **persistance** (permanent/dismissible).\n- **Pas d'axe style** : le contraste suit la gravité du message, il ne se choisit pas par instance (un danger discret ou un info tapageur = mensonge d'interface). Rendu unique \"low contrast\" (fond subtil).\n- **Pas de neutral** : porter une charge sémantique est la fonction même de l'alert ; sa valeur minimale est info.\n- **Pas de size** : largeur dictée par le conteneur, hauteur par le contenu.\n- Nommage : `danger` ici = même registre que `destructive` (bouton) et `error` (input) — famille `color.danger`, nom adapté à chaque composant.\n- **Frontière** : le toast (temporaire, au-dessus du flux, chronométré) et la modale d'alerte (bloquante) sont d'autres composants. L'alert vit *dans le flux* de la page.\n\n## Usage\n- Utiliser pour une information contextuelle qui doit être vue sans être cherchée : condition affectant la page, conséquence d'un état, résumé d'erreurs de formulaire, avertissement avant zone risquée.\n- Pas pour le feedback immédiat d'une action réussie (\"Enregistré ✓\") → toast. Pas pour une décision bloquante → modale. Jamais pour du promotionnel/upsell.\n- **Échelle d'interruption** : alert < toast < modale. Le niveau se choisit sur l'urgence *réelle* pour l'utilisateur, jamais sur l'envie de visibilité de l'émetteur.\n- Erreur d'un seul champ → message inline de l'input (RULES-input), pas un alert. L'alert entre en scène quand l'information dépasse l'élément (plusieurs erreurs, une section, la page).\n\n## Partage d'autorité\n- Le résumé d'erreurs de formulaire = alert danger permanent. Ce fichier régit le conteneur (structure, tokens, role=\"alert\", non-dismissibilité) ; RULES-form régit l'orchestration (déclenchement, contenu, focus, coexistence avec l'inline).\n- Les boutons d'une bannière de consentement restent régis par RULES-button ; la bannière elle-même est hors périmètre.\n\n## Tone\n- **Info** : informer sans alarmer ; seul tone légitime pour du proactif sans risque. Si l'info n'a pas besoin d'être remarquée → texte courant, pas de alert.\n- **Success** : confirmer durablement un état acquis, quand la confirmation doit *rester consultable*. Un simple feedback d'action → toast, jamais un alert.\n- **Warning** : condition qui mérite attention avant d'agir, aucune erreur encore commise. Doit dire *quoi faire* ou *quoi surveiller* — jamais d'avertissement sans action possible. Pas un \"danger poli\" : si c'est déjà bloquant, c'est un danger.\n- **Danger** : condition grave *déjà* vraie (erreur bloquante, perte en cours). Rare — plusieurs danger simultanés = problème d'architecture d'information. Dit toujours quoi, pourquoi, comment sortir.\n\n## Persistance\n- **Permanent** : vit tant que la condition est vraie, pas de fermeture utilisateur. Réservé à proactif ou bloquant (ignorance = coût réel). Jamais pour du confort d'émetteur.\n  - Résolution : l'alert disparaît quand la condition cesse — si c'est suite à une action utilisateur, la confirmation doit être annoncée par le mécanisme qui prend le relais (lecteur d'écran : une disparition n'annonce rien).\n- **Dismissible** : le défaut pour tout ce qui n'est ni bloquant ni critique. Croix = vraie cible (44px, focusable, libellée \"Fermer\"). Fermeture mémorisée au moins pour la session, durablement pour les annonces ponctuelles. Réapparition légitime uniquement si la condition redevient vraie ou s'aggrave.\n\n## Combinaisons tone × persistance\n| Tone | Permanent | Dismissible |\n|---|---|---|\n| Info | Rare (info conditionnant l'usage de la page) | **Cas nominal** |\n| Success | À peu près jamais justifié | Bon défaut du success |\n| Warning | Condition active à surveiller | OK si le risque est assumable |\n| Danger | **Cas nominal** — jamais dismissible si critique | Seulement si gravité passée/assumable (sinon c'était un warning) |\n\n## Composition\n- Ordre canonique : **icône → titre → corps → actions**, croix (dismissible uniquement) en coin opposé au sens de lecture. Jamais de croix sur un permanent (affordance mensongère).\n- **Icône** : canal redondant du tone, jamais retirée pour alléger (WCAG 1.4.1). Une icône par tone, constante. Silhouettes distinctes par tone, pas seulement des couleurs : cercle / cercle-coche / triangle / octogone. CONFIANCE : établi.\n- **Titre** : le message en une ligne — qui ne lit que le titre repart avec l'essentiel. Jamais de titre-catégorie (\"Erreur\") : le tone porte la catégorie, le titre porte le contenu (\"Le paiement n'a pas abouti\").\n- **Corps** : le pourquoi et le comment-corriger, diagnostic fait pour l'utilisateur. Optionnel si le titre suffit. 1-2 phrases max — au-delà, lier vers une page.\n- **Actions** : une seule action mise en avant, une seconde tolérée en lien discret. Emphasis/tone des boutons → RULES-button ; l'alert impose le nombre. Le tone du bouton décrit l'*action*, pas la condition : l'action d'un danger n'est pas forcément destructive (\"Corriger\" répare).\n\n## Empilement\n- Plafond : **un alert par niveau de conteneur** (un page, un par section). Au-delà, agréger (3 warnings de quota → 1 alert qui liste).\n- Cohabitation inévitable : gravité décroissante (danger > warning > info), jamais l'ordre d'arrivée.\n- L'agrégé est toujours préférable à la pile. CONFIANCE : non formalisé (convergence des \"sparingly\", pas de règle chiffrée).\n\n## États et comportement\n- Proactif (chargé avec la page) : contenu ordinaire — pas d'animation d'entrée, pas de rôle live, placé dans le DOM avant ce qu'il conditionne.\n- Réactif (injecté) : doit être annoncé — `role=\"alert\"` (danger/warning), `role=\"status\"` (info/success). CONFIANCE : établi.\n- L'insertion ne provoque jamais de saut de mise en page sous le point de lecture.\n- Pas d'état hover/focus propre : l'alert n'est pas interactif en surface, seuls ses enfants le sont. Jamais de alert entièrement cliquable.\n- **Canal sonore éventuel** : strictement redondant — un futur bip *double* le message (texte + icône + couleur), jamais seul (WCAG 1.4.1). Contrat en avance, aucun son actuel.\n\n## Contextes\n- **Pleine page** : en tête du contenu, sous le header, pleine largeur — avant ce qu'il conditionne, jamais après. Réservé aux conditions affectant la page entière.\n- **Section/carte/modale** : sous le titre de la section, largeur du conteneur annoté. Dans une modale : au-dessus des éléments concernés, jamais pleine page.\n- **Au-dessus d'un élément** : condition portant sur un geste précis. Frontière : valeur d'un champ → input ; disponibilité/contexte du geste → alert.\n- **Résumé d'erreurs de formulaire** : orchestration → RULES-form.\n\n## Risque\n| Cas | Risque | Sévérité |\n|---|---|---|\n| Réactif injecté sans annonce (SPA) | Lecteur d'écran jamais informé | Critique |\n| Tone par couleur seule | Exclusion daltonisme | Élevée |\n| Signal sonore sans équivalent texte/visuel | Exclusion des sourds / son coupé (1.4.1) | Élevée |\n| Danger dismissible sur condition active | Condition critique masquée, perte | Élevée |\n| Inflation de alerts | Cécité d'attention apprise | Élevée (différée) |\n| Fermeture non mémorisée | Réflexe \"fermer sans lire\" | Moyenne |\n| Success qui ne part jamais | Méfiance sur la fraîcheur de la page | Moyenne |\n| Insertion avec saut de layout | Perte de position, clic raté | Moyenne |\n| Titre-catégorie sans contenu | Diagnostic transféré à l'utilisateur | Moyenne |\n\n## Règle transversale\n- **L'interruption est proportionnelle à l'urgence réelle du message, jamais à l'envie de visibilité de l'émetteur.**\n\n## Application des Languages\n- **Interaction** : l'alert est l'expression canonique de l'intention **« comprendre un état »** (`INTERACTION-UX`) ; sa non-interactivité de surface applique la **loi d'affordance n°3** (une surface organise sans promettre un clic), la redondance icône/couleur la **loi n°5** (la couleur renforce, ne crée pas seule le sens).\n- **Motion** : l'apparition d'un alert *réactif* se joue **en opacité seule** (jamais de slide qui pousse le contenu, `MOTION-UX`) ; **proactif = aucune animation** ; sortie au cran inférieur de l'entrée ; contrat `prefers-reduced-motion` conforme par construction (aucune translation à supprimer, le fondu demeure).\n- **Voice** : l'axe de gravité info/success/warning/danger est une **projection de l'axe état-émotionnel** de `VOICE-UX`, pas un axe concurrent ; règle cardinale **ne jamais blâmer** ; « le mot est le canal de dernier recours » (une résolution passe par un relais textuel, jamais la seule disparition visuelle).\n- **E-motion** : **sans instrument expressif — position tranchée**, l'alert est productif de bout en bout. **Un événement, un porteur** : le moment « sortie d'erreur / récupération » ne s'incarne pas dans l'alert danger (porteur du problème) mais dans le **success / toast de relais** qui confirme après coup ; l'exception chaleureuse ne touche jamais danger ni warning.\n\n---\n\n## Règles techniques (UI)\n\n- Rendu identique pour les 4 tones : fond `{tone}-subtle`, bordure `{tone}` en 1px (hairline, exception documentée non tokenisée), texte et icône `{tone}`, `radius.lg` (cran conteneur).\n- Tous les couples texte/fond ≥ 4.5:1 (AA sans aménagement — danger 5.30, warning 6.37, info 5.49, success 4.57).\n- Persistance : aucun token propre — seule différence de rendu, la croix.\n\n```yaml\nicon_shape: { info: circle, success: circle-check, warning: triangle, danger: octagon } # forme normative ; danger = octogone \"stop\", jamais un triangle\ntone:\n  info: { background: color.info-subtle, border: color.info, text: color.info, icon: color.info }\n  success: { background: color.success-subtle, border: color.success, text: color.success, icon: color.success }\n  warning: { background: color.warning-subtle, border: color.warning, text: color.warning, icon: color.warning }\n  danger: { background: color.danger-subtle, border: color.danger, text: color.danger, icon: color.danger }\nstructure: { radius: radius.lg, padding: spacing.md, icon_gap: spacing.sm, title_to_body: spacing.xs, body_to_actions: spacing.sm }\ntypography: { body_font: typography.body, title_weight: typography.display.fontWeight, fallback: typography.fallback.sans }\ndismiss: { icon: color.text-secondary, min_touch_target: 44px }\naria: { reactive_danger_warning: role=\"alert\", reactive_info_success: role=\"status\", proactive: aucun role live }\n```\n\n### Structure\n- Icône alignée sur la première ligne du titre, jamais centrée verticalement sur le bloc.\n- Largeur : 100 % du conteneur d'accueil — jamais de largeur propre.\n- Le bloc se lit comme une seule unité (titre/corps resserrés `spacing.xs`).\n\n### Croix de fermeture\n- Vrai `<button>` libellé \"Fermer\", icône `color.text-secondary`, zone tactile 44px même si le glyphe est petit.\n- Fin de ligne de titre, dans le DOM *après* le contenu (le lecteur d'écran lit le message avant l'option de fermeture).\n\n### Accessibilité\n- Titre ≠ heading (`h2`…`h4`) : un alert est un aparté, pas une section — graisse forte, pas de heading fantôme dans la navigation par titres.\n- Rôle live : l'élément porteur du rôle est présent dans le DOM *avant* l'injection (ou message inséré d'un bloc avec son conteneur rôlé).\n- Icône : `aria-hidden=\"true\"` si le tone est annoncé par le texte/rôle ; sinon alternative textuelle (\"Avertissement :\"). Jamais la couleur seule.\n- Insertion dynamique : réserver l'espace ou insérer sous le point de lecture courant.\n"
+  }
+ },
+ "cas": [
+  {
+   "kicker": "01 · 10 cas",
+   "titre": "Rôle / type de message",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Rôle / type de message\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"36\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FEE2E2\"/><rect x=\"60\" y=\"36\" width=\"5\" height=\"24\" rx=\"2.5\" fill=\"#B91C1C\"/><rect x=\"60\" y=\"66\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#FEF3C7\"/><rect x=\"60\" y=\"66\" width=\"5\" height=\"24\" rx=\"2.5\" fill=\"#92400E\"/><rect x=\"60\" y=\"96\" width=\"200\" height=\"24\" rx=\"6\" fill=\"#DBEAFE\"/><rect x=\"60\" y=\"96\" width=\"5\" height=\"24\" rx=\"2.5\" fill=\"#1D4ED8\"/><path d=\"M44 44v64\" stroke=\"#6B7280\" stroke-width=\"1.6\"/><circle cx=\"44\" cy=\"48\" r=\"3.5\" fill=\"#B91C1C\"/><circle cx=\"44\" cy=\"78\" r=\"3.5\" fill=\"#92400E\"/><circle cx=\"44\" cy=\"108\" r=\"3.5\" fill=\"#1D4ED8\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Résumé d'erreurs de formulaire",
+     "quand": "Plusieurs erreurs de formulaire doivent être regroupées.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Résumé d'erreurs de formulaire\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"44\" width=\"280\" height=\"80\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"44\" width=\"6\" height=\"80\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"86\" width=\"140\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><rect x=\"224\" y=\"104\" width=\"170\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.5\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Plusieurs erreurs de formulaire doivent être regroupées.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Une alerte danger permanente en tête, orchestrée par le formulaire.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« 3 champs empêchent l'envoi ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "le &quot;résumé d'erreurs&quot; de FORM-UX.md est structurellement un alert <code>danger</code> permanent placé en tête de formulaire."
+      },
+      {
+       "tag": "Règle",
+       "html": "utiliser pour une information contextuelle qui doit être vue sans être cherchée : condition affectant la page (maintenance à venir, données partielles), conséquence d'un état (abonnement expirant), résumé d'erreurs de formulaire, avertissement avant une zone risquée."
+      },
+      {
+       "tag": "Règle",
+       "html": "signaler qu'une condition grave est <em>déjà</em> vraie — erreur bloquante, perte en cours, échéance dépassée. Couvre les deux registres : l'erreur-feedback (résumé d'erreurs de formulaire) et l'état critique persistant (paiement refusé, service coupé)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-1",
+     "titre": "Condition système (maintenance, dégradation)",
+     "quand": "Un service est affecté mais la page fonctionne.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Condition système (maintenance, dégradation)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"46\" width=\"600\" height=\"30\" rx=\"6\" fill=\"#DBEAFE\"/><rect x=\"40\" y=\"46\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#1D4ED8\"/><text x=\"66\" y=\"66\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#1D4ED8\">Service ralenti</text><rect x=\"60\" y=\"100\" width=\"220\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.3\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un service est affecté mais la page fonctionne.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Alerte info ou warning, permanente tant que la condition dure.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Certaines fonctions sont ralenties ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "utiliser pour une information contextuelle qui doit être vue sans être cherchée : condition affectant la page (maintenance à venir, données partielles), conséquence d'un état (abonnement expirant), résumé d'erreurs de formulaire, avertissement avant une zone risquée."
+      },
+      {
+       "tag": "Règle",
+       "html": "le placement contextuel de Carbon (&quot;above buttons/inputs when relevant&quot;) — pour une condition qui ne concerne qu'un geste précis (&quot;l'export est indisponible pendant la maintenance&quot;, au-dessus du bouton d'export)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-2",
+     "titre": "Échéance / quota (abonnement expire, stockage plein)",
+     "quand": "Une condition s'aggrave avec le temps.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Échéance / quota (abonnement expire, stockage plein)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"60\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"60\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#92400E\"/><rect x=\"224\" y=\"90\" width=\"180\" height=\"6\" rx=\"3\" fill=\"#92400E\" opacity=\".25\"/><rect x=\"224\" y=\"90\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#92400E\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une condition s'aggrave avec le temps.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Warning permanent, réapparition légitime si ça s'aggrave.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Votre stockage est presque plein ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-3",
+     "titre": "Erreur bloquante de page (paiement refusé, accès coupé)",
+     "quand": "Une condition critique est déjà vraie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Erreur bloquante de page (paiement refusé, accès coupé)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"60\" width=\"280\" height=\"50\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"60\" width=\"6\" height=\"50\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"224\" cy=\"85\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M220.5 81.5l7 7M227.5 81.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"244\" y=\"90\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Paiement refusé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une condition critique est déjà vraie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Alerte danger permanente tant que le problème bloque.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Votre paiement a été refusé ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "signaler qu'une condition grave est <em>déjà</em> vraie — erreur bloquante, perte en cours, échéance dépassée. Couvre les deux registres : l'erreur-feedback (résumé d'erreurs de formulaire) et l'état critique persistant (paiement refusé, service coupé)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Confirmation durable (paiement validé, migration finie)",
+     "quand": "Un succès doit rester consultable.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Confirmation durable (paiement validé, migration finie)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"60\" width=\"280\" height=\"50\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"200\" y=\"60\" width=\"6\" height=\"50\" rx=\"3\" fill=\"#15803D\"/><circle cx=\"224\" cy=\"85\" r=\"9\" fill=\"#15803D\"/><path d=\"M220 85l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"244\" y=\"90\" font-size=\"12\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#15803D\">Migration terminée</text><circle cx=\"456\" cy=\"72\" r=\"8\" fill=\"#FFFFFF\"/><path d=\"M453 69l6 6m0-6l-6 6\" stroke=\"#4B5563\" stroke-width=\"1.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un succès doit rester consultable.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Alerte succès, fermable par l'utilisateur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Votre migration est terminée ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "confirmer durablement qu'un état positif est acquis — pas féliciter pour un clic. Le success en alert se justifie quand la confirmation doit <em>rester consultable</em> (paiement validé en haut du récapitulatif, migration terminée avec bilan)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-5",
+     "titre": "Annonce de nouveauté factuelle",
+     "quand": "Une information factuelle est à annoncer.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Annonce de nouveauté factuelle\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"66\" width=\"280\" height=\"42\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"66\" width=\"6\" height=\"42\" rx=\"3\" fill=\"#1D4ED8\"/><circle cx=\"456\" cy=\"78\" r=\"8\" fill=\"#FFFFFF\"/><path d=\"M453 75l6 6m0-6l-6 6\" stroke=\"#4B5563\" stroke-width=\"1.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une information factuelle est à annoncer.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Alerte info fermable, avec mémoire de fermeture.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Les exports sont désormais en CSV ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "le degré zéro — informer sans alarmer. État du système, précision utile, nouveauté factuelle (&quot;Les exports sont désormais au format CSV&quot;)."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-6",
+     "titre": "Feedback immédiat d'action (\"Enregistré ✓\")",
+     "quand": "Le retour est réactif et de vie courte.",
+     "statut": "hors périmètre → toast",
+     "lien": "Comprendre la frontière",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Feedback immédiat d'action (&quot;Enregistré ✓&quot;)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><g class=\"ill-appear\"><rect x=\"250\" y=\"92\" width=\"170\" height=\"36\" rx=\"8\" fill=\"#111827\"/><circle cx=\"272\" cy=\"110\" r=\"9\" fill=\"#15803D\"/><path d=\"M268 110l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"290\" y=\"115\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#fff\">Enregistré</text></g></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le retour est réactif et de vie courte.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Hors périmètre : c'est un toast.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistré ✓ » qui disparaît seul.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "ne pas utiliser pour le feedback immédiat d'une action qui vient de réussir (&quot;Enregistré ✓&quot;) — c'est le territoire du toast : message réactif, à vie courte, qui n'a pas besoin d'occuper le flux."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-7",
+     "titre": "Alerte bloquante exigeant une décision",
+     "quand": "L'utilisateur ne doit pas pouvoir continuer.",
+     "statut": "hors périmètre → modale",
+     "lien": "Comprendre la frontière",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Alerte bloquante exigeant une décision\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect width=\"680\" height=\"240\" fill=\"#111827\" opacity=\".3\"/><rect x=\"240\" y=\"64\" width=\"200\" height=\"112\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"264\" y=\"90\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.6\"/><rect x=\"264\" y=\"134\" width=\"64\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"276\" y=\"145\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><rect x=\"342\" y=\"134\" width=\"74\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"357\" y=\"145\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur ne doit pas pouvoir continuer.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Hors périmètre : c'est une modale.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Confirmez avant de quitter ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-0-8",
+     "titre": "Bannière de consentement (cookies)",
+     "quand": "Un consentement réglementaire est requis.",
+     "statut": "hors périmètre",
+     "lien": "Comprendre la frontière",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Bannière de consentement (cookies)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"90\" y=\"86\" width=\"500\" height=\"50\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><text x=\"112\" y=\"116\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">Cookies</text><rect x=\"360\" y=\"98\" width=\"100\" height=\"28\" rx=\"7\" fill=\"none\" stroke=\"#6B7280\"/><rect x=\"390\" y=\"109\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.55\"/><rect x=\"468\" y=\"98\" width=\"100\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"496\" y=\"109\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un consentement réglementaire est requis.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Hors périmètre : pattern dédié à persistance légale.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>La bannière cookies RGPD.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "recoupement secondaire, non déplacé — la section &quot;Dans une bannière (cookies/consentement ou promotionnelle)&quot; de BUTTON-UX.md reste où elle est : elle régit les <em>boutons</em> d'une bannière de consentement, pas la bannière elle-même. La bannière de consentement en tant qu'objet est un pattern réglementaire (choix bloquant + persistance légale) qui déborde l'alert — signalé dans l'inventaire comme hors périmètre."
+      }
+     ]
+    },
+    {
+     "id": "cas-0-9",
+     "titre": "Contenu promotionnel / upsell",
+     "quand": "On veut pousser du marketing dans le flux.",
+     "statut": "cadre négatif",
+     "lien": "Comprendre la décision",
+     "kicker": "01 · Rôle / type de message",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Contenu promotionnel / upsell\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"66\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#E0E7FF\"/><rect x=\"200\" y=\"66\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#4F46E5\"/><text x=\"224\" y=\"93\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4F46E5\">-50 % aujourd hui !</text><circle cx=\"452\" cy=\"80\" r=\"9\" fill=\"#4B5563\"/><path d=\"M448.5 76.5l7 7M455.5 76.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On veut pousser du marketing dans le flux.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>À éviter : ce n'est pas le rôle de l'alerte.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une pub déguisée en alerte.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "ne pas utiliser pour du contenu promotionnel ou d'upsell."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "02 · 7 cas",
+   "titre": "Contexte d'intégration",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Contexte d'intégration\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"46\" y=\"30\" width=\"228\" height=\"92\" rx=\"10\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"46\" y=\"30\" width=\"228\" height=\"18\" rx=\"10\" fill=\"#F3F4F6\"/><circle cx=\"58\" cy=\"39\" r=\"2.6\" fill=\"#6B7280\"/><circle cx=\"67\" cy=\"39\" r=\"2.6\" fill=\"#6B7280\"/><rect x=\"112\" y=\"62\" width=\"96\" height=\"46\" rx=\"8\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"2\" stroke-dasharray=\"4 4\"/><rect x=\"126\" y=\"82\" width=\"68\" height=\"6\" rx=\"3\" fill=\"#4F46E5\" opacity=\"0.7\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Pleine page (sous le header)",
+     "quand": "La condition affecte toute la page.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Pleine page (sous le header)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"40\" width=\"600\" height=\"24\" rx=\"6\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"74\" width=\"600\" height=\"30\" rx=\"6\" fill=\"#FEE2E2\"/><rect x=\"40\" y=\"74\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"66\" y=\"94\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Alerte pleine largeur</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La condition affecte toute la page.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le cas de référence, sous l'en-tête.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Site en maintenance » en haut.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "en tête du contenu, sous le header, pleine largeur du contenu (Polaris) — avant ce qu'il conditionne, jamais après."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Section / carte",
+     "quand": "La condition ne concerne qu'une zone.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Section / carte\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"210\" y=\"42\" width=\"260\" height=\"148\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"232\" y=\"64\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.5\"/><rect x=\"232\" y=\"88\" width=\"216\" height=\"30\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"232\" y=\"88\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#92400E\"/><rect x=\"250\" y=\"106\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#92400E\" opacity=\"0.7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La condition ne concerne qu'une zone.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Placez l'alerte dans la zone, elle en hérite le contexte.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur dans un panneau de réglages.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Dans une modale",
+     "quand": "L'alerte concerne le flux modal.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Dans une modale\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect width=\"680\" height=\"240\" fill=\"#111827\" opacity=\".26\"/><rect x=\"230\" y=\"54\" width=\"220\" height=\"132\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"252\" y=\"78\" width=\"176\" height=\"28\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"252\" y=\"78\" width=\"6\" height=\"28\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"252\" y=\"120\" width=\"176\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte concerne le flux modal.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Jamais de pleine page dans une modale.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur en tête d'un formulaire modal.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "frontière du composant — la 3e valeur de persistance qu'on pourrait attendre, <em>temporaire</em> (le toast/snackbar, qui disparaît seul), est <strong>exclue : c'est un autre composant</strong>. Le critère est le rapport à la page : l'alert vit <em>dans le flux</em> (il charge avec le contenu ou s'y insère, pousse ce qui le suit, appartient au contexte qu'il annote) ; le toast vit <em>au-dessus du flux et dans le temps</em> (superposé, empilable, chronométré, placé par le système et non par la page). Même logique pour la modale d'alerte : elle bloque l'interaction, c'est un dialogue."
+      },
+      {
+       "tag": "Règle",
+       "html": "ne pas utiliser pour une décision qui doit bloquer l'utilisateur — c'est la modale."
+      },
+      {
+       "tag": "Règle",
+       "html": "l'échelle d'interruption (le critère qui tranche) : <strong>alert &lt; toast &lt; modale</strong>. L'alert occupe l'espace sans interrompre le geste ; le toast interrompt l'attention quelques secondes ; la modale interrompt tout. Le niveau se choisit sur l'urgence <em>réelle</em> de la décision demandée à l'utilisateur, jamais sur l'envie de visibilité de l'émetteur."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Au-dessus d'un élément précis (bouton, champ)",
+     "quand": "La condition concerne un geste précis.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Au-dessus d'un élément précis (bouton, champ)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"240\" y=\"50\" width=\"200\" height=\"30\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"240\" y=\"50\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#92400E\"/><text x=\"260\" y=\"70\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">Attention</text><path d=\"M340 86L340 102\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M340 102L335.7 94.1M340 102L344.3 94.1\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"290\" y=\"106\" width=\"100\" height=\"28\" rx=\"7\" fill=\"#4F46E5\"/><rect x=\"318\" y=\"117\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#ffffff\" opacity=\"1\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La condition concerne un geste précis.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Placement contextuel juste au-dessus de l'élément.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un avertissement au-dessus d'un bouton risqué.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "dans une modale — au-dessus des champs/boutons concernés ; jamais de alert pleine page <em>dans</em> une modale."
+      },
+      {
+       "tag": "Règle",
+       "html": "le placement contextuel de Carbon (&quot;above buttons/inputs when relevant&quot;) — pour une condition qui ne concerne qu'un geste précis (&quot;l'export est indisponible pendant la maintenance&quot;, au-dessus du bouton d'export)."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "En tête de formulaire",
+     "quand": "L'alerte résume les erreurs d'un formulaire.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : En tête de formulaire\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"210\" y=\"40\" width=\"260\" height=\"150\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"232\" y=\"60\" width=\"216\" height=\"30\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"232\" y=\"60\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"232\" y=\"102\" width=\"216\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"232\" y=\"140\" width=\"216\" height=\"24\" rx=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte résume les erreurs d'un formulaire.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Orchestrée par le formulaire : moment, liens, focus.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Le résumé d'erreurs en haut.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "le &quot;résumé d'erreurs&quot; de FORM-UX.md est structurellement un alert <code>danger</code> permanent placé en tête de formulaire."
+      }
+     ]
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Bannière globale multi-pages (système entier)",
+     "quand": "Le message persiste à travers la navigation.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Bannière globale multi-pages (système entier)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"40\" y=\"44\" width=\"600\" height=\"28\" rx=\"6\" fill=\"#FEF3C7\"/><rect x=\"40\" y=\"44\" width=\"6\" height=\"28\" rx=\"3\" fill=\"#92400E\"/><rect x=\"120\" y=\"92\" width=\"200\" height=\"70\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"380\" y=\"92\" width=\"200\" height=\"70\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message persiste à travers la navigation.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Frontière à trancher avec une bannière système dédiée.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Incident en cours » sur tout le produit.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-1-6",
+     "titre": "Dans une collection (alert entre les cartes)",
+     "quand": "Un message s'insère dans une grille ou une liste.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "02 · Contexte d'intégration",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Dans une collection (alert entre les cartes)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"54\" width=\"150\" height=\"120\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"390\" y=\"54\" width=\"150\" height=\"120\" rx=\"13\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"236\" y=\"54\" width=\"180\" height=\"120\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"236\" y=\"54\" width=\"6\" height=\"120\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"256\" y=\"108\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Un message s'insère dans une grille ou une liste.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Tension avec la prédictibilité de la grille — non tranché.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une alerte glissée entre deux cartes.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "03 · 8 cas",
+   "titre": "État / comportement dans le temps",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : État / comportement dans le temps\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><path d=\"M50 78h172\" stroke=\"#E5E7EB\" stroke-width=\"2.5\"/><circle cx=\"62\" cy=\"78\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><circle cx=\"114\" cy=\"78\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><circle cx=\"166\" cy=\"78\" r=\"9\" fill=\"#4F46E5\" stroke=\"#4F46E5\" stroke-width=\"2\"/><circle cx=\"218\" cy=\"78\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#6B7280\" stroke-width=\"2\"/><circle cx=\"256\" cy=\"78\" r=\"16\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\"/><path d=\"M256 68v10l6 4\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\" stroke-linecap=\"round\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-2-0",
+     "titre": "Permanent, chargé avec la page (proactif)",
+     "quand": "L'alerte vit tant que la condition est vraie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Permanent, chargé avec la page (proactif)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"80\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"80\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#B91C1C\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte vit tant que la condition est vraie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Pas de fermeture : elle reste tant que le problème dure.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un bandeau d'incident persistant.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "permanent = proactif ou bloquant. Ce qui charge avec la page (Carbon : &quot;always present on the screen and load with contents&quot;) ou ce qui doit être résolu (résumé d'erreurs). Jamais pour du confort d'émetteur."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-1",
+     "titre": "Dismissible, fermé par l'utilisateur",
+     "quand": "L'utilisateur décide de la fin de vie du message.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Dismissible, fermé par l'utilisateur\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"96\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/><circle cx=\"452\" cy=\"90\" r=\"10\" fill=\"#FFFFFF\"/><path d=\"M448 86l8 8m0-8l-8 8\" stroke=\"#4B5563\" stroke-width=\"1.8\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur décide de la fin de vie du message.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Autorisez la fermeture, et retenez-la.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une nouveauté qu'on ferme d'un clic.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>persistance — permanent / dismissible</strong> : l'axe qui encode <em>qui décide de la fin de vie du message</em> — personne tant que la condition est vraie (permanent), ou l'utilisateur (dismissible)."
+      },
+      {
+       "tag": "Règle",
+       "html": "le message vit aussi longtemps que sa condition — l'utilisateur ne peut pas le fermer, seul un changement d'état le fait disparaître. Réservé aux informations dont l'ignorance a un coût réel : erreurs à corriger, conditions critiques actives."
+      },
+      {
+       "tag": "Règle",
+       "html": "l'utilisateur peut clore le message — il en a pris connaissance, il reprend son espace. Le défaut raisonnable pour tout ce qui n'est ni bloquant ni critique (Polaris : &quot;be dismissible unless they contain critical information or an important step&quot;)."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-2",
+     "titre": "Réapparition après fermeture",
+     "quand": "La condition redevient vraie ou s'aggrave.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Réapparition après fermeture\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"60\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"60\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#92400E\"/><text x=\"224\" y=\"84\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">80 % → 95 %</text><path d=\"M356 118a20 20 0 1 0 6 14\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\"/><path d=\"M360 108v12h-12\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.4\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La condition redevient vraie ou s'aggrave.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Mémoire de fermeture ; réapparition seulement si aggravation.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un quota repassé de 80 % à 95 %.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Résolution de la condition d'un permanent",
+     "quand": "L'alerte disparaît car le problème est résolu.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Résolution de la condition d'un permanent\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><g class=\"ill-appear\"><rect x=\"200\" y=\"70\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"200\" y=\"70\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#15803D\"/><circle cx=\"224\" cy=\"90\" r=\"9\" fill=\"#15803D\"/><path d=\"M220 90l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"244\" y=\"95\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#15803D\">Connexion rétablie</text></g></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte disparaît car le problème est résolu.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Annoncez la disparition, pas seulement visuellement.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Connexion rétablie » puis retrait.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "résolution silencieuse — un alert permanent dont la condition cesse d'être vraie doit disparaître, mais pas <em>silencieusement</em> pour tout le monde : si la résolution résulte d'une action de l'utilisateur (erreurs corrigées, soumission réussie), la confirmation doit être annoncée par le mécanisme qui prend le relais (message de succès, changement d'état focalisé)."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>« un événement, un porteur » (arbitrage utilisateur 2026-07-21).</strong> Le moment catalogué « <strong>sortie d'une erreur / récupération</strong> » d'<code>EMOTION-UX.md</code> — qui recoupe la « résolution silencieuse » d'un danger permanent enfin résolu (§ Persistance / Permanent) — ne s'incarne <strong>pas dans l'alert danger elle-même</strong> : l'alert reste le porteur <em>productif</em> du problème tant que la condition dure. Le soulagement, lui, s'incarne dans le <strong>success / toast de relais</strong> qui confirme la résolution <strong>après coup</strong> — exactement la distinction que <code>TOAST-UX.md</code> fait déjà « entre le problème et son soulagement ». Le porteur du problème et le porteur de la récupération sont deux composants distincts, jamais la même surface."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-4",
+     "titre": "Injection dynamique après action (réactif)",
+     "quand": "Le message apparaît après une action.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Injection dynamique après action (réactif)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"60\" y=\"50\" width=\"180\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.3\"/><rect x=\"60\" y=\"68\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.3\"/><g class=\"ill-appear\"><rect x=\"200\" y=\"96\" width=\"280\" height=\"38\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"96\" width=\"6\" height=\"38\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"112\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.7\"/></g></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message apparaît après une action.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>role alert/status, insertion sans voler la position.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur affichée après l'envoi.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "apparition dynamique (réactif) — un alert injecté après une action doit être <em>annoncé</em> : <code>role=&quot;alert&quot;</code> pour danger/warning réactifs, <code>role=&quot;status&quot;</code> pour info/success (Polaris fait exactement cette distinction)."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-5",
+     "titre": "Plusieurs alerts simultanés",
+     "quand": "Plusieurs conditions sont vraies en même temps.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Plusieurs alerts simultanés\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"44\" width=\"280\" height=\"30\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"44\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"60\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.7\"/><rect x=\"200\" y=\"84\" width=\"280\" height=\"30\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"84\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#92400E\"/><rect x=\"224\" y=\"100\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#92400E\" opacity=\"0.7\"/><rect x=\"200\" y=\"124\" width=\"280\" height=\"30\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"124\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"140\" width=\"110\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.7\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Plusieurs conditions sont vraies en même temps.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Plafond par conteneur, tri par gravité, agrégation.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Deux bandeaux empilés, le plus grave en haut.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-2-6",
+     "titre": "Contenu de l'alert mis à jour en place",
+     "quand": "Le contenu change sans re-création.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Contenu de l'alert mis à jour en place\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#92400E\"/><text x=\"224\" y=\"92\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">Quota : </text><g class=\"ill-appear\"><text x=\"268\" y=\"92\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">95 %</text></g></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le contenu change sans re-création.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Décider re-annonce ou silence — non explicité.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un quota qui passe de 80 % à 95 %.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "frontière du composant — la 3e valeur de persistance qu'on pourrait attendre, <em>temporaire</em> (le toast/snackbar, qui disparaît seul), est <strong>exclue : c'est un autre composant</strong>. Le critère est le rapport à la page : l'alert vit <em>dans le flux</em> (il charge avec le contenu ou s'y insère, pousse ce qui le suit, appartient au contexte qu'il annote) ; le toast vit <em>au-dessus du flux et dans le temps</em> (superposé, empilable, chronométré, placé par le système et non par la page). Même logique pour la modale d'alerte : elle bloque l'interaction, c'est un dialogue."
+      },
+      {
+       "tag": "Règle",
+       "html": "apparition au chargement (proactif) — l'alert est du contenu comme un autre : pas d'animation d'entrée nécessaire, pas d'annonce spéciale ; le lecteur d'écran le rencontre à sa place dans le flux, avant le contenu qu'il conditionne."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>chorégraphie d'apparition / disparition — rattachée nommément à <code>MOTION-UX.md</code>.</strong> L'apparition d'un alert <em>réactif</em> se joue <strong>en opacité seule</strong> (fondu), jamais en slide qui pousserait le contenu : c'est l'application directe de la règle « <strong>le contenu ne se déplace jamais sans action de l'utilisateur</strong> » de <code>MOTION-UX.md</code> — un alert injecté qui glisse déplacerait la cible sous le curseur d'un lecteur qui n'a rien demandé. La <strong>sortie prend le cran inférieur de l'entrée</strong> (plus brève, même registre, <code>motion.fast</code> vs <code>motion.base</code> — cf. ALERT-UI.md), et l'annonce au lecteur d'écran ne dépend jamais du mouvement."
+      }
+     ]
+    },
+    {
+     "id": "cas-2-7",
+     "titre": "Auto-dismiss temporisé",
+     "quand": "Le message disparaît seul après quelques secondes.",
+     "statut": "hors périmètre → toast",
+     "lien": "Comprendre la frontière",
+     "kicker": "03 · État / comportement dans le temps",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Auto-dismiss temporisé\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><g class=\"ill-appear\"><rect x=\"250\" y=\"88\" width=\"170\" height=\"34\" rx=\"8\" fill=\"#111827\"/><rect x=\"272\" y=\"103\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#fff\" opacity=\"0.85\"/></g><rect x=\"250\" y=\"128\" width=\"170\" height=\"4\" rx=\"2\" fill=\"#0891B2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message disparaît seul après quelques secondes.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Hors périmètre : c'est la définition du toast.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un message qui s'efface tout seul.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    }
+   ]
+  },
+  {
+   "kicker": "04 · 7 cas",
+   "titre": "Plateforme / device",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Plateforme / device\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"52\" y=\"38\" width=\"150\" height=\"86\" rx=\"8\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><path d=\"M112 124h30M104 132h46\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"68\" y=\"54\" width=\"80\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"68\" y=\"72\" width=\"54\" height=\"6\" rx=\"3\" fill=\"#4F46E5\" opacity=\"0.8\"/><rect x=\"220\" y=\"46\" width=\"52\" height=\"86\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"230\" y=\"60\" width=\"32\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"230\" y=\"110\" width=\"32\" height=\"14\" rx=\"7\" fill=\"#4F46E5\" opacity=\"0.8\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Desktop",
+     "quand": "L'alerte s'affiche sur desktop.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Desktop\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"120\" y=\"40\" width=\"440\" height=\"30\" rx=\"6\" fill=\"#FEE2E2\"/><rect x=\"120\" y=\"40\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"144\" y=\"58\" width=\"200\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte s'affiche sur desktop.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le cas de référence.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un bandeau pleine largeur.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Mobile (largeur réduite)",
+     "quand": "L'écran est étroit.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Mobile (largeur réduite)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"270\" y=\"30\" width=\"140\" height=\"180\" rx=\"14\" fill=\"#FFFFFF\" stroke=\"#6B7280\"/><rect x=\"282\" y=\"54\" width=\"116\" height=\"44\" rx=\"6\" fill=\"#FEE2E2\"/><rect x=\"282\" y=\"54\" width=\"5\" height=\"44\" rx=\"2\" fill=\"#B91C1C\"/><rect x=\"296\" y=\"72\" width=\"80\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><rect x=\"296\" y=\"86\" width=\"60\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'écran est étroit.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Pleine largeur, texte qui replie ; largeur = conteneur.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une alerte sur toute la largeur mobile.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Lecteur d'écran — proactif",
+     "quand": "L'alerte est présente au chargement.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lecteur d'écran — proactif\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"70\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"70\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"90\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte est présente au chargement.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Contenu ordinaire du flux, pas de rôle live.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un avis lu dans l'ordre de la page.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "apparition au chargement (proactif) — l'alert est du contenu comme un autre : pas d'animation d'entrée nécessaire, pas d'annonce spéciale ; le lecteur d'écran le rencontre à sa place dans le flux, avant le contenu qu'il conditionne."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-3",
+     "titre": "Lecteur d'écran — réactif",
+     "quand": "L'alerte apparaît après une action.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Lecteur d'écran — réactif\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><g class=\"ill-appear\"><rect x=\"200\" y=\"64\" width=\"240\" height=\"40\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"64\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"84\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/></g><path d=\"M456 66v34l20 10v-54z\" fill=\"#4F46E5\"/><path d=\"M482 72a12 12 0 0 1 0 22\" fill=\"none\" stroke=\"#0891B2\" stroke-width=\"2.2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte apparaît après une action.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>role alert/status, conteneur présent avant l'injection.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur annoncée dès l'envoi.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>chorégraphie d'apparition / disparition — rattachée nommément à <code>MOTION-UX.md</code>.</strong> L'apparition d'un alert <em>réactif</em> se joue <strong>en opacité seule</strong> (fondu), jamais en slide qui pousserait le contenu : c'est l'application directe de la règle « <strong>le contenu ne se déplace jamais sans action de l'utilisateur</strong> » de <code>MOTION-UX.md</code> — un alert injecté qui glisse déplacerait la cible sous le curseur d'un lecteur qui n'a rien demandé. La <strong>sortie prend le cran inférieur de l'entrée</strong> (plus brève, même registre, <code>motion.fast</code> vs <code>motion.base</code> — cf. ALERT-UI.md), et l'annonce au lecteur d'écran ne dépend jamais du mouvement."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-4",
+     "titre": "Zone tactile de la croix",
+     "quand": "L'alerte est fermable au doigt.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Zone tactile de la croix\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"240\" height=\"44\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"96\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/><rect x=\"440\" y=\"72\" width=\"48\" height=\"48\" rx=\"8\" fill=\"none\" stroke=\"#0891B2\" stroke-dasharray=\"4 4\"/><path d=\"M456 88l16 16m0-16l-16 16\" stroke=\"#4B5563\" stroke-width=\"2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte est fermable au doigt.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Cible d'au moins 44px, même si le glyphe est petit.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une croix facile à toucher.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "règle de fermeture — la croix de fermeture est une cible à part entière (taille tactile, focusable, libellée &quot;Fermer&quot; pour le lecteur d'écran) — pas un ornement de coin."
+      }
+     ]
+    },
+    {
+     "id": "cas-3-5",
+     "titre": "RTL (lecture droite-gauche)",
+     "quand": "La langue se lit de droite à gauche.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : RTL (lecture droite-gauche)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"474\" y=\"74\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#1D4ED8\"/><circle cx=\"456\" cy=\"94\" r=\"7\" fill=\"#1D4ED8\"/><rect x=\"240\" y=\"91\" width=\"180\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>La langue se lit de droite à gauche.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Miroir de la position icône/croix — à approfondir.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Icône à droite en arabe.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-3-6",
+     "titre": "Reduced motion",
+     "quand": "L'utilisateur limite les animations.",
+     "statut": "non couvert",
+     "lien": "Ce qui reste à traiter",
+     "kicker": "04 · Plateforme / device",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Reduced motion\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"94\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/><path d=\"M300 150l14-14m0 14l-14-14\" stroke=\"#4B5563\" stroke-width=\"2\"/><text x=\"322\" y=\"150\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">sans animation</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'utilisateur limite les animations.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Insertion sans animation.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une alerte qui apparaît sans glissement.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>contrat <code>prefers-reduced-motion</code> — POSITION explicite, pas un oubli.</strong> L'apparition en opacité est <strong>nativement conforme</strong> au contrat reduced-motion de <code>MOTION-UX.md</code> (« réduire ≠ supprimer : les changements d'opacité et de couleur peuvent rester, seul le mouvement <em>spatial</em> se désactive »). Comme l'alert n'a <strong>aucune translation à supprimer</strong>, sa chorégraphie ne se dégrade pas sous <code>prefers-reduced-motion: reduce</code> — il n'y a rien à couper, le fondu demeure. Ce n'est pas un point resté ouvert (contrairement au « reduced motion » historiquement signalé en fin de fichier) : c'est une conformité par construction, posée ici comme position tenue."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "05 · 8 cas",
+   "titre": "Contenu / forme",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Contenu / forme\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><rect x=\"54\" y=\"34\" width=\"94\" height=\"82\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><path d=\"M54 44a9 9 0 0 1 9-9h76a9 9 0 0 1 9 9v22H54z\" fill=\"#4F46E5\" opacity=\".18\"/><rect x=\"66\" y=\"78\" width=\"60\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"66\" y=\"92\" width=\"68\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/><rect x=\"172\" y=\"34\" width=\"94\" height=\"82\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#E5E7EB\"/><rect x=\"172\" y=\"34\" width=\"34\" height=\"82\" rx=\"9\" fill=\"#0891B2\" opacity=\".18\"/><rect x=\"216\" y=\"58\" width=\"40\" height=\"6\" rx=\"3\" fill=\"#111827\" opacity=\"0.7\"/><rect x=\"216\" y=\"72\" width=\"44\" height=\"6\" rx=\"3\" fill=\"#4B5563\" opacity=\"0.4\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Icône + titre seul",
+     "quand": "Le message tient en une ligne.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Icône + titre seul\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"80\" width=\"280\" height=\"34\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"80\" width=\"6\" height=\"34\" rx=\"3\" fill=\"#1D4ED8\"/><circle cx=\"224\" cy=\"97\" r=\"8\" fill=\"#1D4ED8\"/><text x=\"244\" y=\"101\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#1D4ED8\">Message en une ligne</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message tient en une ligne.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le corps est optionnel.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistré ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>ce fichier est la référence générique du conteneur</strong> : structure (icône + titre + corps), redondance icône/couleur, tokens par tone, comportement <code>role=&quot;alert&quot;</code>, non-dismissibilité tant que la condition persiste."
+      },
+      {
+       "tag": "Règle",
+       "html": "ordre canonique : <strong>icône → titre → corps → actions</strong>, plus la <strong>croix de fermeture</strong> (dismissible uniquement) en coin opposé au sens de lecture."
+      },
+      {
+       "tag": "Règle",
+       "html": "l'icône n'est pas décorative, elle est le canal redondant du sens — elle ne se retire pas pour alléger. (WCAG 1.4.1 — l'information ne repose jamais sur la couleur seule ; et <strong>loi d'affordance n°5</strong> d'<code>INTERACTION-UX.md</code>, « la couleur renforce, elle ne crée pas seule le sens » — la forme de l'icône, sa silhouette et le mot fournissent le second canal que la couleur seule ne garantit pas.)"
+      }
+     ]
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Icône + titre + corps",
+     "quand": "Le message a un titre et un détail.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Icône + titre + corps\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"58\" width=\"280\" height=\"64\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"58\" width=\"6\" height=\"64\" rx=\"3\" fill=\"#B91C1C\"/><circle cx=\"224\" cy=\"80\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M220.5 76.5l7 7M227.5 76.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><text x=\"244\" y=\"84\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Erreur</text><rect x=\"244\" y=\"98\" width=\"180\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.5\"/><rect x=\"244\" y=\"110\" width=\"130\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message a un titre et un détail.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Ordre canonique : icône, titre, corps.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Erreur — vérifiez votre connexion ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>ce fichier est la référence générique du conteneur</strong> : structure (icône + titre + corps), redondance icône/couleur, tokens par tone, comportement <code>role=&quot;alert&quot;</code>, non-dismissibilité tant que la condition persiste."
+      },
+      {
+       "tag": "Règle",
+       "html": "ordre canonique : <strong>icône → titre → corps → actions</strong>, plus la <strong>croix de fermeture</strong> (dismissible uniquement) en coin opposé au sens de lecture."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Avec une action",
+     "quand": "L'alerte propose une action (« Corriger »).",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Avec une action\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"66\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"66\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"88\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><rect x=\"384\" y=\"78\" width=\"80\" height=\"22\" rx=\"5\" fill=\"none\" stroke=\"#B91C1C\"/><text x=\"398\" y=\"93\" font-size=\"9\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Réessayer</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte propose une action (« Corriger »).</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Une action mise en avant ; son tone diffère de celui de l'alerte.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Réessayer » dans une alerte danger.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "sur le nom <code>danger</code> (vs <code>destructive</code> au bouton, <code>error</code> à l'input) — les trois composants nomment le même registre — la famille <code>color.danger</code> — par ce qu'il signifie <em>pour eux</em> : une action qui détruit, une saisie invalide, un état grave. Divergence assumée plutôt qu'un terme unique qui mentirait sur au moins un composant. (cf. DECISIONS.md.)"
+      },
+      {
+       "tag": "Règle",
+       "html": "frontière du composant — la 3e valeur de persistance qu'on pourrait attendre, <em>temporaire</em> (le toast/snackbar, qui disparaît seul), est <strong>exclue : c'est un autre composant</strong>. Le critère est le rapport à la page : l'alert vit <em>dans le flux</em> (il charge avec le contenu ou s'y insère, pousse ce qui le suit, appartient au contexte qu'il annote) ; le toast vit <em>au-dessus du flux et dans le temps</em> (superposé, empilable, chronométré, placé par le système et non par la page). Même logique pour la modale d'alerte : elle bloque l'interaction, c'est un dialogue."
+      },
+      {
+       "tag": "Règle",
+       "html": "dans la grille des six intentions d'<code>INTERACTION-UX.md</code> (§ Les six intentions), <strong>l'alert est l'expression canonique de l'intention « Comprendre un état »</strong> — recevoir un statut ou un retour. C'est l'ancrage de ce composant dans le langage Interaction : tout ce qui suit (non-interactivité de surface, redondance des canaux, wording du message) découle de cette promesse — l'alert <em>informe sur un état</em>, il ne <em>propose pas un geste</em>."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-3",
+     "titre": "Avec deux actions",
+     "quand": "Une action et une alternative.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Avec deux actions\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"66\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"66\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"88\" width=\"90\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.6\"/><rect x=\"346\" y=\"78\" width=\"56\" height=\"22\" rx=\"5\" fill=\"#1D4ED8\"/><text x=\"354\" y=\"93\" font-size=\"9\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#fff\">Voir</text><text x=\"412\" y=\"93\" font-size=\"9\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#1D4ED8\">Ignorer</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Il faut une action et une alternative.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>La seconde tolérée en lien discret.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Réessayer » + « En savoir plus ».</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-4",
+     "titre": "Corps = liste de liens d'ancre",
+     "quand": "L'alerte est un résumé d'erreurs.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Corps = liste de liens d'ancre\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"50\" width=\"280\" height=\"84\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"50\" width=\"6\" height=\"84\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"224\" y=\"72\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">2 erreurs :</text><rect x=\"224\" y=\"84\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\"/><path d=\"M224 94h120\" stroke=\"#1D4ED8\" stroke-width=\"1.2\"/><rect x=\"224\" y=\"104\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\"/><path d=\"M224 114h150\" stroke=\"#1D4ED8\" stroke-width=\"1.2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>L'alerte est un résumé d'erreurs.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Chaque ligne renvoie au champ concerné.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une liste cliquable d'erreurs.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "l'alert n'a pas d'état hover/focus propre — il n'est pas interactif en surface ; seuls ses enfants (actions, croix, liens d'ancre) le sont."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-5",
+     "titre": "Contenu long (paragraphe+)",
+     "quand": "Le message dépasse deux phrases.",
+     "statut": "cadre négatif",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Contenu long (paragraphe+)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"48\" width=\"280\" height=\"88\" rx=\"8\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"48\" width=\"6\" height=\"88\" rx=\"3\" fill=\"#1D4ED8\"/><rect x=\"224\" y=\"66\" width=\"180\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.5\"/><rect x=\"224\" y=\"80\" width=\"170\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.4\"/><rect x=\"224\" y=\"94\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\" opacity=\"0.4\"/><rect x=\"224\" y=\"110\" width=\"80\" height=\"6\" rx=\"3\" fill=\"#1D4ED8\"/><path d=\"M224 120h80\" stroke=\"#1D4ED8\" stroke-width=\"1.2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le message dépasse deux phrases.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Liez vers le détail plutôt que d'entasser.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« En savoir plus » vers une page d'aide.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-4-6",
+     "titre": "Sans icône",
+     "quand": "On envisage de porter le tone par la seule couleur.",
+     "statut": "cadre négatif",
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Sans icône\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"94\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><circle cx=\"452\" cy=\"94\" r=\"14\" fill=\"#B91C1C\"/><path d=\"M448.5 90.5l7 7M455.5 90.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On envisage de porter le tone par la seule couleur.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Interdit : la couleur seule ne suffit pas.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Toujours une icône avec la couleur.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>ce fichier est la référence générique du conteneur</strong> : structure (icône + titre + corps), redondance icône/couleur, tokens par tone, comportement <code>role=&quot;alert&quot;</code>, non-dismissibilité tant que la condition persiste."
+      },
+      {
+       "tag": "Règle",
+       "html": "ordre canonique : <strong>icône → titre → corps → actions</strong>, plus la <strong>croix de fermeture</strong> (dismissible uniquement) en coin opposé au sens de lecture."
+      },
+      {
+       "tag": "Règle",
+       "html": "porter le tone <em>autrement que par la couleur</em>. Une icône par tone, constante dans tout le produit."
+      }
+     ]
+    },
+    {
+     "id": "cas-4-7",
+     "titre": "Titre-catégorie (\"Erreur\")",
+     "quand": "Le titre ne dit que la catégorie.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "05 · Contenu / forme",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Titre-catégorie (&quot;Erreur&quot;)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"50\" width=\"280\" height=\"36\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"50\" width=\"6\" height=\"36\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"224\" y=\"73\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Erreur</text><circle cx=\"452\" cy=\"66\" r=\"9\" fill=\"#4B5563\"/><path d=\"M448.5 62.5l7 7M455.5 62.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M300 110L300 126\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M300 126L295.7 118.1M300 126L304.3 118.1\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"200\" y=\"132\" width=\"280\" height=\"30\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"132\" width=\"6\" height=\"30\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"224\" y=\"152\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Paiement refusé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Le titre ne dit que la catégorie.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Évitez le wording vide : dites ce qui se passe.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Paiement refusé » plutôt que « Erreur ».</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "le pourquoi et le comment-corriger — mêmes exigences de wording que le message d'erreur de l'input : diagnostic fait pour l'utilisateur, pas transféré à l'utilisateur. Optionnel si le titre suffit."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kicker": "06 · 6 cas",
+   "titre": "Enjeu / risque",
+   "visuel": "<svg viewBox=\"0 0 320 150\" role=\"img\" aria-label=\"Illustration de la famille : Enjeu / risque\"><rect width=\"320\" height=\"150\" rx=\"12\" fill=\"#F3F4F6\"/><path d=\"M160 30l42 16v26c0 30-20 46-42 52-22-6-42-22-42-52V46z\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"3\" stroke-linejoin=\"round\"/><path d=\"M140 76l14 14 26-30\" fill=\"none\" stroke=\"#4F46E5\" stroke-width=\"3.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+   "cas": [
+    {
+     "id": "cas-5-0",
+     "titre": "Alert réactif muet pour lecteur d'écran",
+     "quand": "Une erreur s'affiche sans être annoncée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Alert réactif muet pour lecteur d'écran\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"64\" width=\"240\" height=\"40\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"64\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"84\" width=\"120\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><path d=\"M456 66v34l20 10v-54z\" fill=\"#4B5563\" opacity=\".5\"/><path d=\"M486 74l16 22m0-22l-16 22\" stroke=\"#B91C1C\" stroke-width=\"2.4\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une erreur s'affiche sans être annoncée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Le risque n°1 : rendez-la audible (role alert).</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une erreur vocalisée dès l'affichage.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>chorégraphie d'apparition / disparition — rattachée nommément à <code>MOTION-UX.md</code>.</strong> L'apparition d'un alert <em>réactif</em> se joue <strong>en opacité seule</strong> (fondu), jamais en slide qui pousserait le contenu : c'est l'application directe de la règle « <strong>le contenu ne se déplace jamais sans action de l'utilisateur</strong> » de <code>MOTION-UX.md</code> — un alert injecté qui glisse déplacerait la cible sous le curseur d'un lecteur qui n'a rien demandé. La <strong>sortie prend le cran inférieur de l'entrée</strong> (plus brève, même registre, <code>motion.fast</code> vs <code>motion.base</code> — cf. ALERT-UI.md), et l'annonce au lecteur d'écran ne dépend jamais du mouvement."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-1",
+     "titre": "Danger fermable sur condition active",
+     "quand": "Une alerte critique peut être masquée puis oubliée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Danger fermable sur condition active\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"74\" width=\"280\" height=\"44\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"74\" width=\"6\" height=\"44\" rx=\"3\" fill=\"#B91C1C\"/><rect x=\"224\" y=\"96\" width=\"150\" height=\"6\" rx=\"3\" fill=\"#B91C1C\" opacity=\"0.6\"/><circle cx=\"452\" cy=\"90\" r=\"10\" fill=\"#FFFFFF\"/><path d=\"M448 86l8 8m0-8l-8 8\" stroke=\"#B91C1C\"/><circle cx=\"452\" cy=\"90\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M300 150l14-14m0 14l-14-14\" stroke=\"#B91C1C\" stroke-width=\"2\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une alerte critique peut être masquée puis oubliée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Ne la rendez pas fermable tant que la condition dure.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Accès coupé » non fermable.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "le message vit aussi longtemps que sa condition — l'utilisateur ne peut pas le fermer, seul un changement d'état le fait disparaître. Réservé aux informations dont l'ignorance a un coût réel : erreurs à corriger, conditions critiques actives."
+      },
+      {
+       "tag": "Règle",
+       "html": "règle de cohérence de tone — l'action d'un alert danger n'est pas nécessairement un bouton destructive : le tone de l'alert décrit la condition ; le tone du bouton décrit l'action."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>« un événement, un porteur » (arbitrage utilisateur 2026-07-21).</strong> Le moment catalogué « <strong>sortie d'une erreur / récupération</strong> » d'<code>EMOTION-UX.md</code> — qui recoupe la « résolution silencieuse » d'un danger permanent enfin résolu (§ Persistance / Permanent) — ne s'incarne <strong>pas dans l'alert danger elle-même</strong> : l'alert reste le porteur <em>productif</em> du problème tant que la condition dure. Le soulagement, lui, s'incarne dans le <strong>success / toast de relais</strong> qui confirme la résolution <strong>après coup</strong> — exactement la distinction que <code>TOAST-UX.md</code> fait déjà « entre le problème et son soulagement ». Le porteur du problème et le porteur de la récupération sont deux composants distincts, jamais la même surface."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-2",
+     "titre": "Inflation de alerts",
+     "quand": "Trop d'alertes créent une cécité d'attention.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Inflation de alerts\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"40\" width=\"280\" height=\"22\" rx=\"5\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"70\" width=\"280\" height=\"22\" rx=\"5\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"100\" width=\"280\" height=\"22\" rx=\"5\" fill=\"#DBEAFE\"/><rect x=\"200\" y=\"130\" width=\"280\" height=\"22\" rx=\"5\" fill=\"#FEF3C7\"/><circle cx=\"340\" cy=\"150\" r=\"9\" fill=\"#4B5563\"/><path d=\"M336.5 146.5l7 7M343.5 146.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Trop d'alertes créent une cécité d'attention.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Budget d'attention : n'alertez que l'essentiel.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Éviter cinq bandeaux à la fois.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-5-3",
+     "titre": "Tones indiscernables (daltonisme)",
+     "quand": "Danger et succès risquent d'être confondus.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Tones indiscernables (daltonisme)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><circle cx=\"250\" cy=\"80\" r=\"9\" fill=\"#B91C1C\"/><path d=\"M246.5 76.5l7 7M253.5 76.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"310\" cy=\"80\" r=\"9\" fill=\"#15803D\"/><path d=\"M306 80l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"230\" y=\"120\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#4B5563\">formes distinctes</text><circle cx=\"400\" cy=\"80\" r=\"12\" fill=\"#B91C1C\"/><circle cx=\"440\" cy=\"80\" r=\"12\" fill=\"#15803D\"/><circle cx=\"420\" cy=\"120\" r=\"9\" fill=\"#4B5563\"/><path d=\"M416.5 116.5l7 7M423.5 116.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Danger et succès risquent d'être confondus.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Une icône par tone, et des couleurs distinguables.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Une croix vs une coche, pas juste rouge/vert.</p>"
+      }
+     ],
+     "sourceRegles": "",
+     "regles": []
+    },
+    {
+     "id": "cas-5-4",
+     "titre": "Warning utilisé comme \"danger poli\"",
+     "quand": "On hésite entre warning et danger.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Warning utilisé comme &quot;danger poli&quot;\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"58\" width=\"280\" height=\"32\" rx=\"8\" fill=\"#FEF3C7\"/><rect x=\"200\" y=\"58\" width=\"6\" height=\"32\" rx=\"3\" fill=\"#92400E\"/><text x=\"224\" y=\"79\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#92400E\">Paiement refusé</text><circle cx=\"452\" cy=\"74\" r=\"9\" fill=\"#4B5563\"/><path d=\"M448.5 70.5l7 7M455.5 70.5l-7 7\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M300 100L300 116\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><path d=\"M300 116L295.7 108.1M300 116L304.3 108.1\" stroke=\"#6B7280\" stroke-width=\"2\" stroke-linecap=\"round\"/><rect x=\"200\" y=\"122\" width=\"280\" height=\"32\" rx=\"8\" fill=\"#FEE2E2\"/><rect x=\"200\" y=\"122\" width=\"6\" height=\"32\" rx=\"3\" fill=\"#B91C1C\"/><text x=\"224\" y=\"143\" font-size=\"10\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#B91C1C\">Paiement refusé</text></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>On hésite entre warning et danger.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>N'édulcorez pas un danger en warning : la correction serait retardée.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>Un paiement refusé est un danger.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "<strong>tone : info / success / warning / danger — pas de <code>neutral</code>.</strong> Sa valeur minimale est <strong>info</strong>, le degré zéro de la gravité, pas l'absence de sens."
+      },
+      {
+       "tag": "Règle",
+       "html": "<strong>l'axe de gravité info / success / warning / danger est une projection, sur ce composant, de l'axe état-émotionnel de <code>VOICE-UX.md</code> (§ « Le ton suit l'utilisateur ») — pas un axe concurrent.</strong> Voice fait varier le <em>ton</em> selon l'état de l'utilisateur (routine, erreur de l'utilisateur, erreur système / panne, succès, attente) ; l'alert fige ces états en quatre tones nommés et colorés qui les incarnent dans une surface. Le wording de chaque tone ci-dessous suit donc les prescriptions de Voice : c'est le même axe, vu depuis le conteneur qui le porte, pas une seconde taxonomie à réconcilier."
+      },
+      {
+       "tag": "Règle",
+       "html": "règle de complétude — un danger dit toujours quoi, pourquoi, et comment sortir : le gabarit du message d'erreur de l'input (INPUT-UX.md, section wording) s'applique au paragraphe entier."
+      }
+     ]
+    },
+    {
+     "id": "cas-5-5",
+     "titre": "Success fantôme (confirmation périmée à l'écran)",
+     "quand": "Une confirmation reste affichée alors qu'elle est périmée.",
+     "statut": null,
+     "lien": "Comprendre la décision",
+     "kicker": "06 · Enjeu / risque",
+     "visuel": "<svg viewBox=\"0 0 680 240\" role=\"img\" aria-label=\"Illustration du cas : Success fantôme (confirmation périmée à l'écran)\"><rect width=\"680\" height=\"240\" fill=\"#F3F4F6\"/><rect x=\"200\" y=\"64\" width=\"280\" height=\"40\" rx=\"8\" fill=\"#DCFCE7\"/><rect x=\"200\" y=\"64\" width=\"6\" height=\"40\" rx=\"3\" fill=\"#15803D\"/><circle cx=\"224\" cy=\"84\" r=\"9\" fill=\"#15803D\"/><path d=\"M220 84l3 3 5.5-6.5\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"244\" y=\"89\" font-size=\"11\" font-family=\"Inter,ui-sans-serif,sans-serif\" fill=\"#15803D\">Enregistré</text><circle cx=\"430\" cy=\"78\" r=\"12\" fill=\"none\" stroke=\"#4B5563\" stroke-width=\"2\"/><path d=\"M430 70v8l5 4\" stroke=\"#4B5563\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/></svg>",
+     "blocs": [
+      {
+       "titre": "Quand utiliser cette règle ?",
+       "html": "<p>Une confirmation reste affichée alors qu'elle est périmée.</p>"
+      },
+      {
+       "titre": "Que faire ?",
+       "html": "<p>Retirez-la quand elle n'est plus vraie.</p>"
+      },
+      {
+       "titre": "Exemple",
+       "html": "<p>« Enregistré » qui traîne après modification.</p>"
+      }
+     ],
+     "sourceRegles": "extraites de ALERT-UX.md",
+     "regles": [
+      {
+       "tag": "Règle",
+       "html": "confirmer durablement qu'un état positif est acquis — pas féliciter pour un clic. Le success en alert se justifie quand la confirmation doit <em>rester consultable</em> (paiement validé en haut du récapitulatif, migration terminée avec bilan)."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "casChapeau": {
+  "kicker": "02 · Carte de couverture",
+  "titre": "Cas d’usage",
+  "lead": "Des situations concrètes, regroupées par angle de décision — la carte qui sert à éprouver la couverture des règles."
+ },
+ "specs": {
+  "css": "",
+  "kicker": "03 · Spécifications",
+  "titre": "Voir les décisions en action",
+  "lead": "Les exemples rendent les règles concrètes ; les tokens montrent comment elles se traduisent visuellement.",
+  "specimens": [
+   "<p class=\"spec-note\">Exemple d’implémentation de référence (DS-UI), non normatif — généré depuis <code>ALERT-UI.md</code> → <code>DESIGN.md</code>. Le référentiel décrit les états et fonctions ; les valeurs vivent dans DESIGN.md, jamais recopiées.</p><h3>Les quatre tones — silhouettes d’icônes normatives</h3><div class=\"spec-col\"><div style=\"font-family:'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#DBEAFE;border-left:3px solid #1D4ED8;border-radius:12px;padding:16px;display:flex;gap:8px;align-items:flex-start;max-width:460px;\"> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1D4ED8\" stroke-width=\"2\"/><rect x=\"11\" y=\"10\" width=\"2\" height=\"7\" rx=\"1\" fill=\"#1D4ED8\"/><rect x=\"11\" y=\"6.5\" width=\"2\" height=\"2\" rx=\"1\" fill=\"#1D4ED8\"/></svg> <div style=\"color:#1D4ED8;min-width:0;\"><div style=\"font-weight:500;\">Info</div><div style=\"font-size:.92em;\">Une information utile au contexte.</div></div> </div><div style=\"font-family:'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#DCFCE7;border-left:3px solid #15803D;border-radius:12px;padding:16px;display:flex;gap:8px;align-items:flex-start;max-width:460px;\"> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2\"/><path d=\"M8 12.2l2.6 2.6 5-5.6\" fill=\"none\" stroke=\"#15803D\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> <div style=\"color:#15803D;min-width:0;\"><div style=\"font-weight:500;\">Success</div><div style=\"font-size:.92em;\">Vos modifications ont été enregistrées.</div></div> </div><div style=\"font-family:'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#FEF3C7;border-left:3px solid #92400E;border-radius:12px;padding:16px;display:flex;gap:8px;align-items:flex-start;max-width:460px;\"> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;\" aria-hidden=\"true\"><path d=\"M12 4 L21 19 H3 Z\" fill=\"none\" stroke=\"#92400E\" stroke-width=\"2\" stroke-linejoin=\"round\"/><rect x=\"11\" y=\"9.5\" width=\"2\" height=\"5\" rx=\"1\" fill=\"#92400E\"/><rect x=\"11\" y=\"16\" width=\"2\" height=\"2\" rx=\"1\" fill=\"#92400E\"/></svg> <div style=\"color:#92400E;min-width:0;\"><div style=\"font-weight:500;\">Warning</div><div style=\"font-size:.92em;\">Cette action engage un tiers.</div></div> </div><div style=\"font-family:'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#FEE2E2;border-left:3px solid #B91C1C;border-radius:12px;padding:16px;display:flex;gap:8px;align-items:flex-start;max-width:460px;\"> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;\" aria-hidden=\"true\"><path d=\"M8.5 3.5h7l5 5v7l-5 5h-7l-5-5v-7z\" fill=\"none\" stroke=\"#B91C1C\" stroke-width=\"2\" stroke-linejoin=\"round\"/><path d=\"M9.5 9.5l5 5M14.5 9.5l-5 5\" stroke=\"#B91C1C\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg> <div style=\"color:#B91C1C;min-width:0;\"><div style=\"font-weight:500;\">Danger</div><div style=\"font-size:.92em;\">Le formulaire contient 2 erreurs.</div></div> </div></div><h3>Persistance — dismissible</h3><div class=\"spec-col\"><div style=\"font-family:'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;background:#DBEAFE;border-left:3px solid #1D4ED8;border-radius:12px;padding:16px;display:flex;gap:8px;align-items:flex-start;max-width:460px;\"> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1D4ED8\" stroke-width=\"2\"/><rect x=\"11\" y=\"10\" width=\"2\" height=\"7\" rx=\"1\" fill=\"#1D4ED8\"/><rect x=\"11\" y=\"6.5\" width=\"2\" height=\"2\" rx=\"1\" fill=\"#1D4ED8\"/></svg> <div style=\"color:#1D4ED8;min-width:0;\"><div style=\"font-weight:500;\">Info</div><div style=\"font-size:.92em;\">Une information utile au contexte.</div></div> <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" style=\"flex:none;margin-left:auto;\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\" stroke=\"#4B5563\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></div></div></section>"
+  ],
+  "tokens": [
+   {
+    "token": "axes.tone",
+    "ref": "info, success, warning, danger",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "axes.persistance",
+    "ref": "permanent, dismissible",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.info",
+    "ref": "circle",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.success",
+    "ref": "circle-check",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.warning",
+    "ref": "triangle",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "icon_shape.danger",
+    "ref": "octagon",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "tone.info.background",
+    "ref": "color.info-subtle",
+    "valeur": "#DBEAFE",
+    "couleur": "#DBEAFE"
+   },
+   {
+    "token": "tone.info.border",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.info.text",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.info.icon",
+    "ref": "color.info",
+    "valeur": "#1D4ED8",
+    "couleur": "#1D4ED8"
+   },
+   {
+    "token": "tone.success.background",
+    "ref": "color.success-subtle",
+    "valeur": "#DCFCE7",
+    "couleur": "#DCFCE7"
+   },
+   {
+    "token": "tone.success.border",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.success.text",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.success.icon",
+    "ref": "color.success",
+    "valeur": "#15803D",
+    "couleur": "#15803D"
+   },
+   {
+    "token": "tone.warning.background",
+    "ref": "color.warning-subtle",
+    "valeur": "#FEF3C7",
+    "couleur": "#FEF3C7"
+   },
+   {
+    "token": "tone.warning.border",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.warning.text",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.warning.icon",
+    "ref": "color.warning",
+    "valeur": "#92400E",
+    "couleur": "#92400E"
+   },
+   {
+    "token": "tone.danger.background",
+    "ref": "color.danger-subtle",
+    "valeur": "#FEE2E2",
+    "couleur": "#FEE2E2"
+   },
+   {
+    "token": "tone.danger.border",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "tone.danger.text",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "tone.danger.icon",
+    "ref": "color.danger",
+    "valeur": "#B91C1C",
+    "couleur": "#B91C1C"
+   },
+   {
+    "token": "structure.radius",
+    "ref": "radius.lg",
+    "valeur": "12px",
+    "couleur": null
+   },
+   {
+    "token": "structure.padding",
+    "ref": "spacing.md",
+    "valeur": "16px",
+    "couleur": null
+   },
+   {
+    "token": "structure.icon_gap",
+    "ref": "spacing.sm",
+    "valeur": "8px",
+    "couleur": null
+   },
+   {
+    "token": "structure.title_to_body",
+    "ref": "spacing.xs",
+    "valeur": "4px",
+    "couleur": null
+   },
+   {
+    "token": "structure.body_to_actions",
+    "ref": "spacing.sm",
+    "valeur": "8px",
+    "couleur": null
+   },
+   {
+    "token": "typography.body_font",
+    "ref": "typography.body",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "typography.title_weight",
+    "ref": "typography.display.fontWeight",
+    "valeur": "500",
+    "couleur": null
+   },
+   {
+    "token": "typography.fallback",
+    "ref": "typography.fallback.sans",
+    "valeur": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    "couleur": null
+   },
+   {
+    "token": "icon_size",
+    "ref": "icon.md",
+    "valeur": "20px",
+    "couleur": null
+   },
+   {
+    "token": "motion.apparition_reactive.duration",
+    "ref": "motion.base",
+    "valeur": "200ms",
+    "couleur": null
+   },
+   {
+    "token": "motion.apparition_reactive.easing",
+    "ref": "motion.ease-out",
+    "valeur": "cubic-bezier(0, 0, 0.2, 1)",
+    "couleur": null
+   },
+   {
+    "token": "motion.disparition.duration",
+    "ref": "motion.fast",
+    "valeur": "100ms",
+    "couleur": null
+   },
+   {
+    "token": "motion.disparition.easing",
+    "ref": "motion.ease-in",
+    "valeur": "cubic-bezier(0.4, 0, 1, 1)",
+    "couleur": null
+   },
+   {
+    "token": "motion.proactif",
+    "ref": "aucune animation — contenu ordinaire du flux (règle généralisée dans MOTION-UX.md)",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "dismiss.icon",
+    "ref": "color.text-secondary",
+    "valeur": "#4B5563",
+    "couleur": "#4B5563"
+   },
+   {
+    "token": "dismiss.min_touch_target",
+    "ref": "44px",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "aria.reactive_danger_warning",
+    "ref": "role=\"alert\"",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "aria.reactive_info_success",
+    "ref": "role=\"status\"",
+    "valeur": "—",
+    "couleur": null
+   },
+   {
+    "token": "aria.proactive",
+    "ref": "aucun role live — contenu ordinaire du flux",
+    "valeur": "—",
+    "couleur": null
+   }
+  ]
+ },
+ "evolution": [
+  {
+   "date": "2026-07-20",
+   "titre": "TOAST : nouveau composant, adopté (candidat qu'ALERT-UX.md appelait déjà)",
+   "html": "<ul><li><strong>Fichiers</strong> : nouveaux <code>atelier/components/toast/TOAST-UX.md</code> (1.0.0), <code>TOAST-UI.md</code> (1.0.0). Aucun fichier existant modifié — Toast était déjà anticipé sans être écrit (<code>ALERT-UX.md</code> § À approfondir : « composant frère exclu par la frontière de périmètre — candidat naturel de prochaine documentation »).</li><li><strong>Origine</strong> : remonté depuis une question produit sur l'humanisation de l'UI (Fluent UI Emoji) — l'analyse a montré que le foyer légitime de l'instrument « illustration/forme » d'E-motion pour les moments « envoi réussi » et « sortie d'erreur » n'est pas l'Alert (qui exclut structurellement le feedback immédiat) mais ce composant frère, jusqu'ici non documenté.</li><li><strong>Décisions (arbitrées en conversation avec l'utilisateur)</strong> :</li><li><strong>Tone</strong> (moyenne) : les 4 tones d'Alert repris à l'identique (info/success/warning/danger) — pas de restriction à info/success malgré le risque identifié.</li><li><strong>Danger en toast</strong> (haute) : accepté avec risque documenté plutôt qu'exclu vers l'alert seul — un toast danger ne doit jamais être le seul porteur d'une condition qui dure (cf. TOAST-UX.md § Tone).</li><li><strong>Actions</strong> (moyenne) : une seule tolérée (pattern undo), timing suspendu au survol/focus obligatoire (WCAG 2.2.1). Durée plancher reprise telle quelle de <code>BUTTON-UX.md</code> (5-8s, IBM Carbon) — aucune nouvelle valeur inventée à ce niveau.</li><li><strong>Empilement</strong> (moyenne) : 2-3 max, ordre d'arrivée (FIFO) — divergence assumée avec Alert (qui empile par gravité décroissante) : le toast empile des événements séquentiels, pas des conditions simultanées, le raisonnement d'Alert ne se transpose pas à l'identique.</li><li><strong>Position</strong> (basse) : pilotée par Adaptive (conteneur), pas un ancrage fixe viewport — cohérent avec la décision Adaptive du 2026-07-20 (Interaction Language, Adaptive Architecture et Link).</li><li><strong>Instrument illustration E-motion</strong> (haute) : actif uniquement si le toast est seul à l'écran (jamais sur une pile — cohérence avec le budget de rareté), jamais sur danger/warning. Technique retenue : glyphe dessiné (<code>stroke-dashoffset</code>, gabarit SubmitButton, héritage direct d'<code>EMOTION-UI.md</code>) — PAS une illustration importée. L'arbitrage plus large « Fluent UI Emoji comme bibliothèque d'illustration » (options A/B/C) reste NON TRANCHÉ ; seule la technique déjà établie est utilisée ici.</li><li><strong>Valeurs UI proposées, non sourcées</strong> (<code>TOAST-UI.md</code> § Sources, marquées « non établi ») : formule de durée (base 6000ms + 50ms/mot au-delà de 8 + bonus 2000ms si action, plafond 10000ms) et ancrage bas-droit par défaut — les deux à vérifier à l'usage avant d'être promues « établi ».</li><li><strong>Ce qui est repris sans discussion</strong> (déjà établi ailleurs, pas une décision de cette entrée) : silhouettes d'icône par tone, <code>role=&quot;alert&quot;</code>/<code>role=&quot;status&quot;</code>, <code>elevation.overlay</code> — désigné légitime pour le toast dans <code>RULES-interaction.md</code> avant même que ce composant existe.</li><li><strong>Pourquoi une entrée plutôt qu'un silence</strong> : six décisions de gouvernance et deux valeurs techniques non sourcées méritent chacune d'être retrouvables — même principe que la décision Interaction/Adaptive/Link du même jour : documenter la raison, pas seulement la règle.</li><li><strong>À approfondir</strong> : cf. <code>TOAST-UX.md</code> § À approfondir (RTL, reduced motion, fermeture manuelle explicite) et <code>TOAST-UI.md</code> § À approfondir (vérification des deux valeurs proposées).</li></ul>"
+  },
+  {
+   "date": "2026-07-19",
+   "titre": "Propagation du modèle STYLE × TONE dans les renvois croisés",
+   "html": "<ul><li><strong>Fichiers</strong> : <code>COLOR-UI.md</code> (v1.1.0 — paires garanties étendues aux nouveaux fonds pleins, « warning jamais un fond plein » levé aussi ici, table de consommation du bouton réécrite en rôles par tone) et <code>dist/RULES-color.md</code> (mêmes tables) ; bumps de vocabulaire sans changement de règle : COLOR-UX 1.1.1, ALERT-UX 1.3.1, CARD-UX 1.2.1, INPUT-UX 1.5.1, INPUT-UI 1.4.2, FORM-UX 2.1.3, CREATION-COMPTE-UX 1.2.2, TYPOGRAPHY-UX 1.1.2, GRID-UX 1.0.1, METHODE 1.8.1, inventaire couleur (9 → 16 combinaisons), RULES-alert/card/input/creation-compte(-sso-social), <code>tools/genere-site.js</code> + <code>tools/methode-contenu.js</code> (deux textes du site).</li><li><strong>Ancienne situation</strong> : la décision BUTTON du 2026-07-18 avait renommé l'axe <code>emphasis</code> → <code>style</code> dans BUTTON-* et DESIGN.md, mais l'ancien nom restait vivant dans les notes de transposition et les renvois des autres sujets — et COLOR-UI garantissait encore « warning : jamais un fond plein » alors que le garde-fou était levé, sans mentionner <code>neutral-strong(-hover)</code>, <code>warning-hover</code> ni <code>danger-subtle-hover</code>.</li><li><strong>Nouvelle situation</strong> : plus aucune occurrence normative d'<code>emphasis</code> ; les mentions restantes sont historiques (ce journal, la note de vocabulaire BUTTON-UX 1.5.0, les récits du site). La formule des notes de transposition devient « l'axe <code>style</code> n'existe pas ici ». La table des paires garanties dit les paires réelles : <code>on-primary</code> sur <code>neutral-strong(-hover)</code> et <code>warning(-hover)</code>, <code>danger</code> sur <code>danger-subtle-hover</code>.</li><li><strong>Pourquoi</strong> : un renvoi normatif vers un axe qui n'existe plus est un défaut de doc du même ordre qu'un token fantôme ; et la table des paires garanties est le contrat que <code>test-rendu.js</code> vérifie — elle doit dire ce qui est vrai, ni plus ni moins.</li></ul>"
+  },
+  {
+   "date": "2026-07-04",
+   "titre": "CALLOUT : création du composant, deux résultats de transposition inédits",
+   "html": "<ul><li><strong>Fichiers</strong> : components/callout/CALLOUT-UX.md, CALLOUT-UI.md (v1.0.0 → 1.1.0)</li><li><strong>Décisions structurantes</strong> :</li><li><strong>tone garde 4 valeurs mais <code>neutral</code> → <code>info</code></strong> : un composant dont la fonction est de porter du sens ne peut pas être neutre ; sa valeur minimale est le degré zéro de gravité. Convergence des 4 systèmes benchmarkés (Carbon, Polaris, Material, Atlassian).</li><li><strong>axe <code>persistance</code> (permanent/dismissible)</strong> : premier axe de fin de vie du projet — n'émerge que sur un contenu qui se termine.</li><li><strong>frontière de périmètre</strong> : le toast (auto-dismiss, au-dessus du flux) et la modale d'alerte (bloquante) sont d'autres composants — critère : dans le flux vs au-dessus du flux.</li><li><strong>nommage <code>danger</code></strong> (vs <code>destructive</code> bouton, <code>error</code> input) : chaque composant nomme le registre de la famille <code>color.danger</code> par ce qu'il signifie pour lui — divergence assumée plutôt qu'un terme unique qui mentirait sur au moins un composant.</li><li><strong>Pourquoi</strong> : 4e test de transposition — les axes ne se contentent pas d'apparaître/disparaître selon la fonction, ils <em>changent de nature</em> en transposant. Trous comblés après test de couverture (8/39) : résolution silencieuse d'un permanent (<strong>4e occurrence du biais &quot;état transitoire&quot;</strong> — désormais un prédicteur : écrire la section &quot;sortie de scène&quot; d'office au prochain composant), mémoire de fermeture, empilement/agrégation.</li></ul>"
+  },
+  {
+   "date": "2026-07-04",
+   "titre": "FORM ↔ CALLOUT : le résumé d'erreurs rend son conteneur au composant",
+   "html": "<ul><li><strong>Fichiers</strong> : patterns/form/FORM-UX.md 1.1.0, FORM-UI.md 1.1.0, components/callout/*</li><li><strong>Ancienne règle</strong> : structure et style du résumé d'erreurs (fond danger-subtle, bordure/texte danger, radius) définis dans FORM-UX.md / FORM-UI.md — le composant callout n'existait pas.</li><li><strong>Nouvelle règle</strong> : le conteneur (structure, tokens, icône, <code>role=&quot;alert&quot;</code>) vit dans components/callout/ (tone danger, persistance permanent) ; FORM-UX.md garde l'orchestration propre au formulaire (timing d'apparition, liens d'ancre reprenant les messages exacts, focus) ; FORM-UI.md a rendu ses tokens <code>error_summary</code>.</li><li><strong>Pourquoi</strong> : 3e application du principe de dédoublonnage — appliquée pour la première fois dans l'autre sens : c'est le pattern qui rend une règle au composant. Les valeurs n'ont pas changé, la duplication est résorbée.</li></ul>"
+  },
+  {
+   "date": "2026-07-04",
+   "titre": "DESIGN 1.4.0 : tokens du callout et recalibrage de success",
+   "html": "<ul><li><strong>Fichier</strong> : DESIGN.md</li><li><strong>Ancien état</strong> : pas de <code>info</code>/<code>info-subtle</code> ni <code>success-subtle</code> ; <code>success</code> à #16A34A (3.30:1 sur blanc).</li><li><strong>Nouvelle règle</strong> : <code>info</code> #1D4ED8 / <code>info-subtle</code> #DBEAFE ajoutés (le tone info ne peut pas emprunter <code>accent</code> — guardrail palette de marque ≠ état sémantique) ; <code>success-subtle</code> #DCFCE7 ajouté ; <code>success</code> recalibré → #15803D (5.02:1 sur blanc, 4.57:1 sur success-subtle).</li><li><strong>Pourquoi</strong> : le callout est le premier composant où chaque tone doit fonctionner en couple texte/fond subtil — success devenait un token de <em>texte</em> et ne tenait pas le seuil 4.5:1 que le système s'impose. Même mouvement que danger/warning en 1.3.0 : famille conservée, luminosité descendue jusqu'au seuil.</li></ul>"
+  },
+  {
+   "date": "2026-07-04",
+   "titre": "RAPPORT-TEST F03 : silhouettes d'icônes normatives pour le callout",
+   "html": "<ul><li><strong>Fichiers</strong> : components/callout/CALLOUT-UI.md 1.1.0, CALLOUT-UX.md 1.1.1</li><li><strong>Ancienne règle</strong> : une icône par tone, glyphes entièrement laissés à l'identité visuelle.</li><li><strong>Nouvelle règle</strong> : la <em>forme</em> de base est fixée par tone (<code>icon_shape</code> : cercle / cercle-coche / triangle / octogone) ; seul le dessin précis reste une décision d'identité.</li><li><strong>Pourquoi</strong> : warning (#92400E) et danger (#B91C1C) sont chromatiquement proches (distance RGB 55 entre les textes) — pour une déficience rouge-vert, la couleur seule ne les sépare pas. Triangle vs octogone est la distinction standard de l'industrie (signalisation, Carbon, GOV.UK).</li></ul>"
+  },
+  {
+   "date": "2026-07-04",
+   "titre": "RAPPORT-VALIDATION : résorption des 9 constats structurels",
+   "html": "<ul><li><strong>Fichiers</strong> : DESIGN.md 1.5.0, BUTTON-UI.md 1.2.0, CARD-UI.md 1.2.0, CALLOUT-UI.md 1.1.2, INPUT-UX.md 1.3.2, tools/*</li><li><strong>Ancien état</strong> : renvoi périmé vers un rapport disparu dans DESIGN.md ; 8 valeurs brutes dans les *-UI.md (480px ×2, 36px, 4px/8px illustratifs, 1px, #15803D) ; numérotation F04 ambiguë (historique vs tools/RAPPORT-TEST.md) ; &quot;À approfondir&quot; périmé dans INPUT-UX.md (autofill déjà documenté côté UI).</li><li><strong>Nouvelle règle</strong> : <code>breakpoint.mobile</code> (480px) et <code>scale.desktop-min</code> (36px) créés dans DESIGN.md et référencés par nom ; mentions de grille reformulées en tokens (spacing.*) ; <code>1px</code> promu <strong>exception documentée</strong> au même titre que 44px (épaisseur de hairline, pas une valeur d'échelle — documenté dans CALLOUT-UI.md, admis par valide-dossier.js) ; #15803D remplacé par <code>color.success</code> ; la source historique de BUTTON-UI est préfixée &quot;F04 (numérotation historique)&quot; ; le &quot;À approfondir&quot; autofill est retiré.</li><li><strong>Pourquoi</strong> : premier passage complet de l'outil de validation structurelle — les valeurs brutes se traitent par famille (token d'échelle, exception documentée, ou reformulation) plutôt qu'au cas par cas, pour que la règle survive au prochain constat du même type.</li></ul>"
+  },
+  {
+   "date": "2026-07-14",
+   "titre": "Accessibilité : fondation transversale accessibility (UX-only, compilée, socle universel) + règles chez leurs propriétaires",
+   "html": "<ul><li><strong>Fichiers</strong> : foundations/accessibility/ACCESSIBILITY-UX.md (créé), dist/RULES-accessibility.md (créé), MOTION-UX.md 1.0.0→1.1.0, BORDER-UX.md 1.0.0→1.1.0, BUTTON-UX.md 1.3.2→1.4.0, CARD-UX.md 1.1.2→1.2.0, FORM-UX.md 2.0.0→2.1.0, ALERT-UX.md 1.2.0→1.3.0, INPUT-UX.md 1.4.0→1.5.0, dist/RULES-{motion,border,button,card,form,alert,input}, tools/genere-routeur.js, tools/genere-site.js, DESIGN.md 1.15.0→1.16.0, README.md, METHODE.md 1.4.0→1.5.0, inventaires/inventaire-cas-usage-accessibilite.md.</li><li><strong>Ancien état</strong> : l'inventaire transversal du 2026-07-14 (entrée précédente) avait cartographié l'accessibilité et refusé de fabriquer une fondation orpheline — les trous devaient se combler chez leur propriétaire. Il laissait cinq trous <strong>P1</strong> (modalités concurrentes, focus complet, pointer/motricité, flash, canaux sensoriels) sans contrat consommable par le build, et signalait un risque de lecture : la fondation VOICE pouvait passer pour une couverture de la commande vocale.</li><li><strong>Nouvelle règle — architecture hybride</strong> : (1) une fondation <code>accessibility</code> <strong>UX-only</strong> (<code>companion: none</code>, aucun token, aucune valeur visuelle) pose les <strong>obligations universelles</strong> (clavier ; modalités concurrentes non bloquées ; focus visible/ordonné/non piégé/non masqué ; nom accessible = libellé visible ; jamais un seul canal ; alternative aux gestes complexes et au glisser-déposer ; limites de temps contrôlables ; aucun flash dangereux) et <strong>renvoie aux propriétaires</strong> — elle ne duplique jamais COLOR/BORDER/MOTION/ICONOGRAPHY/VOICE. (2) Chaque règle <em>propre</em> est placée chez son vrai propriétaire : <strong>MOTION</strong> (flash 2.3.1), <strong>BORDER</strong> (focus non masqué 2.4.11), <strong>BUTTON</strong> (annulation du pointeur 2.5.2 + haptique jamais indispensable), <strong>CARD</strong> (alternative au glisser-déposer 2.5.7), <strong>FORM</strong> (limites de temps 2.2.1), <strong>ALERT</strong> (signal sonore toujours doublé du texte, 1.4.1), <strong>INPUT</strong> (dictée + label in name 2.5.3). <strong>Aucune section « accessibilité » générique recopiée</strong> dans chaque fichier — seulement la règle qui décrit le comportement propre du sujet.</li><li><strong>Précédent nouveau</strong> : <code>companion: none</code> <strong>sans</strong> <code>audience: humans</code>. Contrairement à <code>laws</code> (référence humaine, non compilée), <code>accessibility</code> <strong>est compilée</strong> vers <code>dist/RULES-accessibility.md</code> et <strong>intégrée au socle du routeur</strong> (constante <code>SOCLE_FONDATIONS</code> dans genere-routeur.js), donc chargée d'office pour <strong>toute</strong> intention. valide-dossier.js reconnaissait déjà le cas UX-only ; genere-routeur.js a reçu la notion de socle universel (poids mesuré, sujet non-orphelin) ; genere-site.js l'expose comme une fondation à part entière.</li><li><strong>VOICE recadrée explicitement</strong> : VOICE = voix <strong>éditoriale</strong>, jamais commande <strong>vocale</strong>. L'obligation « service utilisable sans parler / nom adressable à la voix » relève de l'interaction (clavier + nom accessible chez INPUT), pas de VOICE. Écrit noir sur blanc dans ACCESSIBILITY-UX et RULES-accessibility.</li><li><strong>Chargement minimal préservé, poids mesuré</strong> : le socle passe de « routeur + tokens.yaml » à « + RULES-accessibility » (~1,3 k). Chaque bundle augmente uniformément de ~1,3 k — Formulaire ~25,1 k, Collection ~18,4 k, Page de contenu ~11,4 k, Feedback ~13,7 k (cf. tools/RAPPORT-ROUTEUR.md). <code>accessibility</code> a <code>requires: []</code> (n'entraîne aucune fondation dans la fermeture) et <code>selon-contexte: [color, border, motion, iconography, voice]</code> (renvois, non chargés d'office).</li><li><strong>En attente (inchangé)</strong> : sous-titres, transcriptions, audiodescriptions, reconnaissance vocale complète — aucun composant audio/vidéo ne les exerce ; position à prendre avant d'en créer un. Dette <strong>P3</strong> : aucun test réel (clavier, lecteur d'écran, dictée, tactile imprécis, zoom/reflow) sur écran assemblé — la couverture est <strong>documentaire, pas éprouvée</strong>.</li><li><strong>Pourquoi</strong> : une somme de règles par composant ne prouve pas une couverture des capacités, et une section accessibilité recopiée partout diverge dès la première évolution. Un contrat unique chargé partout + un renvoi vers le propriétaire réel : la règle ne vit qu'à un seul endroit, et le build la consomme réellement.</li></ul>"
+  }
+ ]
+}

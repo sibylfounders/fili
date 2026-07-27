@@ -1,0 +1,176 @@
+---
+name: "Méthode — pipeline de documentation d'un sujet"
+version: "1.13.0" # 1.13.0 : format « décisions sourcées » — identifiant stable, statut de frontière, sources citées par la règle, problème facultatif ; projection mécanique vers la fiche (tools/extrait-decisions.py). Pilote sur border, cf. DECISIONS.md 2026-07-26. 1.12.0 : 1.12.0 : re-synchronisation (2026-07-23) — exceptions UX-only formulées par nature (principes companion:none + flow, sans nombre en dur) ; hors-périmètre : Toast retiré (désormais documenté), exemples non couverts = modale/table/navigation/datepicker ; re-thématisation vs rebranding complet explicité (un fichier UX peut évoluer sous un rebranding complet). 1.11.0 : le routeur porte deux modes — build et audit (bundle sans tokens, statut de frontière, constats non couverts remontés) ; P2 du pivot 2026-07-21. 1.10.0 : statut de frontière (pivot 2026-07-21) — propriété universelle / parti pris d'identité / implémentation de référence entre dans la méthode, avec sa lecture d'audit. 1.9.0 : la méthode reconnaît les trois familles Core — Foundations, Languages, Principles — et leur test de classement. 1.8.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.8.0 : la nature Flow et ses exceptions UX-only entrent dans la méthode. Historique antérieur : cf. DECISIONS.md.
+description: "Le fonctionnement du produit, étape par étape : comment une demande (« documente le sujet X ») devient une source UX/UI ou UX-only sourcée, éprouvée, journalisée, puis compilée en règles consommables par une IA. Compagnon visuel : public/pages/process.html (volet Pipeline)."
+companion: "public/pages/process.html"
+---
+# Méthode — le pipeline de documentation
+
+## Rôle de ce fichier
+Ce fichier nomme et explique le fonctionnement du produit, de la demande initiale à la consommation par une IA. Il **compile** la méthode déjà établie dans `README.md` (section « Méthode de travail établie »), `DECISIONS.md` et `tools/README.md` — il n'invente aucune règle. **Non normatif** : en cas de divergence, le README et les fichiers de composants font foi.
+
+## Les deux couches du produit
+
+Le produit repose sur une séparation stricte entre deux couches :
+
+- **L'atelier** (la source) : `atelier/core/`, `atelier/foundations/`, `atelier/languages/`, `atelier/principles/`, `atelier/components/`, `atelier/patterns/`, `atelier/flows/` et `atelier/inventaires/`. C'est là que le raisonnement vit et que les décisions se journalisent. Riche et daté, il est trop lourd pour servir de contexte à une IA en train de coder.
+- **La distribution** (`dist/`) : le paquet consommé par l'IA — un `RULES-<sujet>.md` par sujet, les tokens, et un **routeur généré** (`CLAUDE.md` + son jumeau `AGENTS.md`) qui fixe le protocole et route chaque intention vers son bundle minimal. Elle n'est jamais éditée comme source. Le routeur, les tokens et les six RULES du Flow sont aujourd'hui régénérés mécaniquement ; les RULES historiques restent des condensations éditoriales contrôlées par le graphe, mais pas encore toutes dérivées automatiquement. C'est une dette explicite, pas une compilation prétendue.
+
+Une troisième nature de fichier traverse les deux couches : `DESIGN.md`, seule source des valeurs réelles (hex, px). Une **re-thématisation** de ces valeurs (couleurs, radius, police) se fait dans ce seul fichier, sans toucher aux règles UX ; un **changement d'identité plus large** peut en revanche demander des décisions d'iconographie, de voix, de composition ou de forme qui dépassent les tokens.
+
+## Le pipeline — 10 étapes
+
+### 1. La demande et le cadrage
+Tout part d'une demande : *« documente le sujet X »*. Deux décisions avant d'écrire quoi que ce soit :
+
+- **La nature du sujet** : *fondation* (matière ou vocabulaire de construction — couleur, typographie), *langage* (canal d'expression — interaction, mouvement, voix, émotion), *principe* (obligation ou raisonnement transversal — accessibilité, adaptation, lois), *composant* (variantes visuelles propres — bouton, input, card, alert), *pattern* (composition de plusieurs composants sur un écran — form) ou *flow* (séquence de patterns ou d'écrans vers un but — création de compte).
+- **Le test de transposition** : vérifier que le modèle d'axes (style / tone / size…) s'applique réellement au sujet, plutôt que de le copier par défaut. C'est ce test qui a donné 2 axes seulement à la carte, un axe inédit (persistance) à l'alert, et aucun axe au form.
+
+Le périmètre se trace aussi en négatif : ce que le composant **n'est pas** (le toast exclu de l'alert par la frontière « dans le flux vs au-dessus du flux »).
+
+### 2. L'inventaire des cas d'usage
+Avant la rédaction, construire `atelier/inventaires/inventaire-cas-usage-x` (fichier .md) : la carte de tous les contextes où le composant apparaît. C'est un **outil de vérification** (checklist de couverture pour l'étape 6), pas du contenu à lire.
+
+Règle apprise — biais confirmé 4 fois, désormais un prédicteur : **l'état transitoire** (loading, validation asynchrone, skeleton, disparition/résolution) est systématiquement le trou de la première rédaction. La section « sortie de scène / état d'attente » s'écrit donc d'office, avant le test de couverture.
+
+Leçon typographie (v1.1.0) : cette étape s'applique **aussi aux fondations** — l'avoir sautée avait laissé 10 trous sur 33 cas.
+
+Deux portées d'inventaire coexistent désormais :
+
+- **inventaire de sujet** — vérifie un composant, pattern, flow ou fondation contre ses contextes ; chaque trou revient à ce sujet ou à un propriétaire nommé ;
+- **inventaire transversal** — audite une contrainte qui traverse plusieurs propriétaires (premier cas : `inventaire-cas-usage-accessibilite.md`). Il cartographie les règles réparties, distingue couvert / partiel / absent / en attente, et **ne devient pas une source normative de substitution**. Un trou se comble dans le composant, pattern ou fondation qui en est propriétaire, puis le statut transversal est recalculé.
+
+### 3. La rédaction UX/UI — paire ou exception déclarée
+Un sujet visuel se documente en **2 fichiers** :
+
+- **`X-UX`** (fichier .md) — le raisonnement : les axes, les règles, les frontières, les cas limites. Une re-thématisation (valeurs de tokens) ne le fait pas bouger ; un rebranding complet (voix, iconographie, formes, composition, partis pris d'identité) peut en revanche faire évoluer certaines de ses règles.
+- **`X-UI`** (fichier .md) — les tokens visuels : référence toujours `DESIGN.md` **par nom de token**, jamais de valeur brute (hex, px) — sauf standard externe non négociable (ex. zone tactile 44px WCAG).
+
+Si un token manque, il s'ajoute d'abord à `DESIGN.md` avec montée de version (la carte a introduit `elevation.*` et `media_ratio.*` ; l'alert, `info`/`info-subtle` et `success-subtle`).
+
+Les exceptions UX-only sont déclarées par `companion: none` : les principes de référence ou transversaux sans traduction visuelle propre (`accessibility`, `cognitive-load`, `laws`, `performance`) et le flow qui orchestre des écrans sans posséder de pixels (`creation-compte`). Le validateur les reconnaît par leur nature (`companion: none` + type principle/language/foundation/flow), sans compte figé. L'exception décrit une différence de nature ; elle ne permet pas d'oublier un fichier UI nécessaire.
+
+### 4. Le sourçage
+Les affirmations non triviales sont **sourcées** ; les arbitrages débattus, divergents ou fragiles portent en plus un **niveau de confiance explicite** : *établi > convergence > cas isolé > non formalisé*. Chaque fiche se clôt sur son tableau de sources, avec une clause par défaut pour les règles de simple mécanisme — la couverture règle par règle n'est pas encore vérifiée mécaniquement. Les points réellement débattus sont marqués comme tels (ex. fluid type et WCAG 1.4.4 à zoom extrême — « émergent/débattu »).
+
+Ce sourçage n'est pas décoratif : c'est lui qui indique à l'IA consommatrice (étape 9) quand trancher seule et quand remonter la question.
+
+Depuis le pivot du 2026-07-21 (DS-MD = couche d'intelligence au-dessus d'un design system hôte), le sourçage porte une seconde dimension : le **statut de frontière**, dans la continuité de la distinction « contrainte ≠ parti pris » née du stress-test du 2026-07-17. Trois statuts : la **propriété universelle** (contrainte — WCAG, standards, mécanismes établis) fonde seule une non-conformité en audit d'une interface tierce ; le **parti pris d'identité** (registres productifs de motion/voice, « jamais de disabled comme validation ») est paramétrable et se lit en audit comme une *divergence de registre* à signaler à part, jamais comme un défaut ; l'**implémentation de référence** (tokens, valeurs et variantes des fichiers `*-UI.md` et de `DESIGN.md`) n'est jamais un critère d'audit d'hôte. Le statut s'annote progressivement, tiré par l'usage des audits — pas par une passe de réécriture.
+
+### 5. Le benchmark externe
+Confronter la fiche à la littérature, aux standards et aux systèmes de design majeurs (Carbon, Polaris, Material, GOV.UK, Atlassian…) pour repérer ce que la première rédaction a manqué. Pour un flow, cette passe précède la confrontation à un corpus d'interfaces réelles : la littérature formule les règles ; le réel éprouve leur pouvoir de détection. Complémentaire à l'inventaire, elle ne le remplace pas.
+
+### 6. Le test de couverture
+Vérifier la fiche **contre l'inventaire** de l'étape 2 : chaque cas d'usage est-il couvert par une règle ? Identifier les trous, combler les prioritaires (l'ordre de grandeur constaté : ~3 trous prioritaires par composant). Tester avant livraison, pas après.
+
+### 7. La vérification outillée
+Deux scripts Node sans dépendance — lancés depuis la racine, isolément pour le diagnostic ou enchaînés par le build complet (`node tools/build.js`, chemin recommandé, qui ajoute en fin de course un contrôle des liens et ancres du site généré) :
+
+- **`tools/valide-dossier.js`** — la structure : tokens référencés existants dans `DESIGN.md`, renvois croisés valides, pas de valeur brute non justifiée, paires UX/UI complètes, versions incrémentées. → `RAPPORT-VALIDATION.md`.
+- **`tools/test-rendu.js`** — le rendu : résolution des tokens, combinaisons d'axes indiscernables, contrastes WCAG (3:1 état visible, 4.5:1 texte courant). → `RAPPORT-TEST.md`.
+
+Les seuils du système ne sont pas déclaratifs, ils sont **testés** : tout recalibrage de couleur se re-vérifie par `test-rendu.js`. À relancer après toute modification de `DESIGN.md`, d'un `*-UI.md`, ou tout ajout/déplacement de fichier.
+
+### 8. La journalisation des décisions
+Tout changement de règle s'inscrit dans `DECISIONS.md`, daté : *ancienne règle → nouvelle règle → pourquoi*. Les fichiers `*-UX.md`/`*-UI.md` ne contiennent que les règles **actuelles** et renvoient au journal quand le contexte historique vaut le détour. Non normatif : en cas de divergence, le fichier de composant a raison.
+
+### 9. La compilation vers `dist/` — et le routeur d'intention
+L'atelier alimente une distribution légère : un fichier `RULES-X` (.md) par sujet + les tokens. Chaque `RULES-X` porte un **frontmatter de routage** : son périmètre, ses dépendances dures (`requires`) et conditionnelles (`selon-contexte`). Depuis le 2026-07-15, `tools/genere-flow.js` extrait mécaniquement `RULES-creation-compte.md` et ses cinq extensions depuis la source UX ; version et empreinte SHA-256 rendent leur provenance vérifiable. La généralisation de ce mécanisme aux RULES antérieurs reste à faire.
+
+`tools/genere-routeur.js` compile ces frontmatters + une table d'intentions éditoriale (Formulaire / Collection / Page de contenu / Feedback / Création de compte) en un **routeur généré** — `dist/CLAUDE.md` (auto-lu par Claude Code) et son jumeau `dist/AGENTS.md` (Cursor, Codex, Copilot…), jamais édités à la main. Le routeur fixe le protocole de consommation par une IA en deux modes : **build** (générer ou modifier de l'UI conforme) et, depuis le pivot du 2026-07-21, **audit** (confronter une interface existante aux règles : bundle d'intention chargé **sans** les tokens — l'implémentation de référence n'est jamais un critère —, constats qui citent leurs règles, statut de frontière appliqué, non-couverts remontés). Pour le mode build :
+
+- charger le socle (routeur + `tokens.yaml` + `RULES-accessibility`, le contrat d'accessibilité universel chargé pour toute intention) puis **uniquement** le bundle de l'intention reconnue ; intention inconnue → décomposer par sujet via la table et les `requires` ; retouche isolée → le seul fichier concerné ;
+- sujet hors périmètre (modale, table, navigation, datepicker…) : **s'arrêter et remonter**, ne pas improviser depuis les règles voisines ;
+- ne **jamais** lire la couche atelier pendant un build, ne jamais éditer la distribution à la main ;
+- **s'arrêter et remonter la question** dès qu'une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, wording, conflit apparent, cas absent) — les lignes CONFIANCE calibrent la vitesse de remontée : plus c'est faible, plus on remonte vite.
+
+Le script valide le graphe (toute mention « RULES-x » d'un corps doit être déclarée dans son frontmatter ; tout bundle est clos sur ses dépendances dures) et **refuse de régénérer** en cas d'erreur → `tools/reports/RAPPORT-ROUTEUR.md`, qui mesure aussi le coût en tokens par bundle. Pour installer la distribution dans un projet consommateur (Claude Code, Cursor, Codex, Copilot…) : `docs/INSTALLATION.md`, rendu public par la page installation du site avec l'archive de la distribution.
+
+### 10. La boucle de dédoublonnage
+Signal de méthode permanent, à l'origine de deux réorganisations :
+
+- **Règle dupliquée entre deux composants → pattern.** La coordination bouton/champs trouvée en double entre `BUTTON-UX.md` et `INPUT-UX.md` a fait naître `atelier/patterns/form/`.
+- **Recouvrement entre un pattern et un composant → le composant fait autorité.** Le résumé d'erreurs est un alert danger permanent : le conteneur vit dans `atelier/components/alert/`, `FORM-UX.md` garde l'orchestration propre au formulaire.
+
+Chaque composant documenté renvoie ainsi de la connaissance vers les précédents — le système converge au lieu de s'empiler.
+
+## Les boucles de rétroaction
+
+Le pipeline n'est pas linéaire ; trois boucles le referment :
+
+| Boucle | De → vers | Déclencheur |
+|---|---|---|
+| Couverture | Étape 6 → étape 3 | Un trou trouvé contre l'inventaire → on complète la fiche |
+| Dédoublonnage | Étape 10 → étapes 1–3 | Une règle en double → naissance d'un pattern ou transfert d'autorité |
+| Arbitrage | Étape 9 → l'humain | L'IA consommatrice rencontre une décision non tranchée → elle s'arrête et expose les options |
+
+À quoi s'ajoute la boucle de fond : tout ce que les boucles produisent passe par l'étape 8 (journal) et se recompile en étape 9.
+
+## En une phrase
+Une demande entre, un inventaire cadre la couverture, une paire UX/UI sourcée est rédigée puis éprouvée (benchmark, couverture, scripts), les décisions sont journalisées, et le tout est compilé en règles légères qu'une IA peut consommer pour générer de l'UI conforme — ou pour auditer une interface existante en l'y confrontant — en remontant les arbitrages qu'elle n'a pas le droit de trancher.
+
+## Décisions sourcées (pilote 2026-07-26 — sujet `border`)
+
+Une règle n'est utile à un audit que si elle est **adressable** et **qualifiée**. Le format ajoute quatre
+choses à chaque `RÈGLE`, dans le markdown qui reste la source de vérité :
+
+```
+RÈGLE [BORDER-R03] : <la solution — la règle elle-même>
+STATUT : propriété universelle | parti pris d'identité | implémentation de référence | note de méthode
+SOURCE : S1, S6            # références de la bibliographie de fin de fichier ; « interne » si la décision est nôtre
+PROBLÈME : <une phrase>    # facultatif — à défaut, le « > **Pourquoi** » ou l'« > **Erreur fréquente** » qui suit
+```
+
+La bibliographie de fin de fichier gagne une colonne `Réf.` (`S1…Sn`) : les sources ne sont plus une
+annexe du fichier, elles sont citées **par la règle**.
+
+RÈGLE : le **statut de frontière** décide de ce qu'un audit a le droit d'opposer à un tiers.
+`propriété universelle` = vraie de tout produit, opposable. `parti pris d'identité` = notre choix,
+jamais imposé. `implémentation de référence` = vrai de ce code, pas du design. `note de méthode` = hors audit.
+
+RÈGLE : le champ `PROBLÈME` reste **facultatif**. Toutes les règles n'ont pas de douleur à énoncer
+(une définition n'en a pas) ; l'imposer partout fabriquerait du remplissage. `SOURCE`, lui, est
+**obligatoire** — c'est la promesse : une règle sans source déclarée, fût-ce « interne », est un trou.
+
+RÈGLE : les identifiants sont **stables et jamais réattribués**. Une règle retirée laisse son numéro
+vacant ; le journal (DECISIONS.md) dit ce qu'elle est devenue.
+
+
+RÈGLE : la **couche UI porte aussi ses règles**, avec le même format et un préfixe distinct
+(`SUJET-Unn`, sources `T1…Tn`). Ce ne sont pas des arbitrages de design mais des consignes
+d'implémentation : elles se citent en revue de code, pas en réunion client. Leur statut est le plus
+souvent `implémentation de référence`.
+
+RÈGLE : **l'autorité descend au grain de la décision.** La version et le niveau de confiance en tête
+de fichier restent un journal de rédaction — ils ne font plus autorité sur une règle en particulier,
+qui porte les siens. Deux endroits qui disent la même chose finissent par se contredire : en cas de
+divergence, la décision a raison.
+
+
+RÈGLE : deux champs complètent le format, tournés vers la **sortie d'audit** :
+`ÉNONCÉ` — la règle dite en une phrase pour quelqu'un d'extérieur, sans renvoi interne (c'est elle
+qui part en rapport et dans le prompt de correction) ; `MESURE` — le critère vérifiable, quand il
+existe. Une règle sans mesure ne peut pas produire de constat automatique : l'outil ne promet que ce
+qu'il sait constater. La **première source citée** est la source principale, celle qu'un rapport affiche.
+
+RÈGLE : la sortie d'audit a **trois registres**, jamais mélangés — `à corriger` (norme violée),
+`suggestion` (notre parti pris diffère), `à trancher` (le référentiel ne couvre pas : on pose la
+question, on ne propose rien). Le registre se déduit du statut de frontière ; mélanger les trois fait
+rejeter la liste entière.
+
+
+RÈGLE : **une règle ne peut être une « propriété universelle » que si elle repose sur une norme
+(W3C, WCAG, MDN) ou sur au moins DEUX systèmes indépendants qui convergent.** Un seul système d'accord
+avec nous n'est pas une convergence, c'est un emprunt — la règle redescend en « parti pris d'identité ».
+Le contrôle est mécanique : `tools/extrait-decisions.py` liste les « lois fragiles » à chaque passage.
+
+RÈGLE : quand le secteur fait autrement, le champ `CONTRE` le dit, chiffré. Ce n'est pas une
+concession : c'est la seule preuve qu'on a lu avant de choisir, et c'est ce qui distingue une doctrine
+d'une compilation. Un lecteur qui voit quatre fois la même source conclut « copie » ; il faut lui
+montrer là où nous avons tranché contre elle.
+
+Projection mécanique vers la fiche du site (le markdown ne bouge pas) :
+`python3 tools/extrait-decisions.py <slug>` — écrit `decisions[]` dans `apps/site/content/doctrine/<slug>.json`
+et rattache à chaque décision les cas d'usage qui la citent (les cartes portaient déjà le texte de la règle).
+Le script remonte deux trous : les décisions sans source déclarée, et celles qu'aucun cas d'usage n'éprouve.
+
