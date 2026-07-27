@@ -87,7 +87,7 @@ const theme = {
   transitionDuration: Object.fromEntries(Object.entries(motion.duration).map(([k, v]) => [k, v])),
   transitionTimingFunction: Object.fromEntries(
     Object.entries(motion.easing).map(([k, v]) => [k.replace(/^ease-/, ""), v])),
-  maxWidth: Object.fromEntries(Object.entries(grid).filter(([k]) => k.startsWith("container-")).map(([k, v]) => [k, v])),
+  maxWidth: Object.fromEntries(Object.entries(grid).filter(([k]) => !k.startsWith("rail-"))),
   screens: { ...breakpoint },
   width: Object.fromEntries(Object.entries(grid).filter(([k]) => k.startsWith("rail-"))),
   minWidth: Object.fromEntries(Object.entries(grid).filter(([k]) => k.startsWith("rail-"))),

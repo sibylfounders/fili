@@ -2,6 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import { verrouilleDefilement } from "../../lib/scroll-lock";
 
 /**
  * Drawer — superposé MODAL ancré à un bord (off-canvas). Premier consommateur de la fondation
@@ -52,21 +53,20 @@ export function Drawer({ open, onClose, side = "start", className, children, ...
     if (!open) return;
     // 1. mémoriser le déclencheur pour lui rendre le focus à la fermeture
     restoreRef.current = document.activeElement as HTMLElement | null;
-    // 2. verrouiller le défilement du fond
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // 2. verrouiller le défilement du fond (body ET région défilante du shell)
+    const deverrouille = verrouilleDefilement(restoreRef.current);
     // 3. faire entrer le focus dans le panneau
     const panel = panelRef.current;
     const first = panel?.querySelector<HTMLElement>(FOCUSABLE);
-    (first ?? panel)?.focus();
+    (first ?? panel)?.focus({ preventScroll: true });
     // 4. jouer la transition d'entrée
     const raf = requestAnimationFrame(() => setShown(true));
 
     return () => {
       cancelAnimationFrame(raf);
-      document.body.style.overflow = prevOverflow;
+      deverrouille();
       setShown(false);
-      restoreRef.current?.focus?.();
+      restoreRef.current?.focus?.({ preventScroll: true });
     };
   }, [open]);
 

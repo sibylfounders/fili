@@ -206,7 +206,9 @@ module.exports = {
   "maxWidth": {
     "container-narrow": "480px",
     "container-default": "1024px",
-    "container-wide": "1440px"
+    "container-wide": "1440px",
+    "item-min": "256px",
+    "overlay": "640px"
   },
   "screens": {
     "mobile": "480px",

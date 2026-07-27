@@ -192,8 +192,10 @@
   --container-narrow: 480px;
   --container-default: 1024px;
   --container-wide: 1440px;
+  --item-min: 256px;
   --rail-nav: 280px;
   --rail-tools: 320px;
+  --overlay: 640px;
 
   /* z-index — ordre des couches (DS-MD overlay 1.30.0) */
   --z-sticky: 100;

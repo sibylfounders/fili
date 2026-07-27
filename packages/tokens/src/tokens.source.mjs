@@ -202,9 +202,16 @@ export const grid = {
   "container-narrow":  "480px",  // formulaire, auth, création de compte — mono-colonne focalisée
   "container-default": "1024px", // page de contenu ou d'app standard
   "container-wide":    "1440px", // dashboard, collection dense, tableau large
+  // Item minimal d'une grille intrinsèque (DS-MD grid 1.27.0, pattern collection) : les colonnes
+  // émergent de repeat(auto-fill, minmax(min(100%, item-min), 1fr)) — jamais d'un nombre par appareil.
+  "item-min":          "256px",
   // Rails du SHELL applicatif (DS-MD grid 1.29.0) — largeurs fixes ; le contenu prend le reste.
   "rail-nav":   "280px", // rail de navigation (début)
   "rail-tools": "320px", // rail d'outils (fin)
+  // Superposé modal centré (DS-MD grid 1.3.0, 2026-07-26) — la surface d'une modale n'est ni un
+  // conteneur de page ni un rail. UN seul cran : le besoin réel est la modale qui porte une
+  // illustration ou un tableau court. La modale de confirmation, elle, reste sur container-narrow.
+  "overlay": "640px",
 };
 
 // BREAKPOINT — points de bascule du SHELL (DS-MD breakpoint). Exposés en `screens` Tailwind :
