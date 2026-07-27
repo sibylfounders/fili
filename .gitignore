@@ -7,3 +7,8 @@ dist-app/
 .turbo/
 .env*
 _to_delete/
+build/
+
+# artefacts du pont de fichiers (fichiers supprimés encore ouverts)
+.fuse_hidden*
+*.tsbuildinfo
