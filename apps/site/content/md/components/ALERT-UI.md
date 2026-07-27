@@ -88,11 +88,11 @@ Fond `{tone}-subtle`, bordure `{tone}` en trait de 1px — **exception document�
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| `role="alert"` vs `role="status"` selon la gravité et la réactivité | [Shopify Polaris — Banner](https://polaris-react.shopify.com/components/feedback-indicators/banner), WAI-ARIA | Établi |
-| Conteneur live présent avant injection (fiabilité des annonces) | Littérature accessibilité (comportement documenté des regions aria-live) | Établi par convergence |
-| Zone tactile minimum 44px | WCAG / Apple HIG / Material Design | Établi, standard de l'industrie (seule valeur brute autorisée ici) |
-| Seuil 4.5:1 sur tous les couples texte/fond des 4 tones | WCAG 2.1 — 1.4.3 ; ratios calculés (formule WCAG), re-vérifiés par tools/test-rendu.js | Établi (seuil) ; vérifié numériquement (valeurs) |
-| Fond subtil + bordure + texte de la famille comme rendu d'alerte | Convention convergente (Polaris banner, Carbon low-contrast, GOV.UK) + précédent interne (FORM-UI ≤1.0.1) | Établi comme pattern, valeurs propres à ce système |
-| Apparition/disparition en opacité conservable sous `prefers-reduced-motion` (aucune translation spatiale à supprimer) | `MOTION-UI.md` (contrat prefers-reduced-motion) ; ALERT-UX.md § États et comportement | Établi — rattachement interne au langage |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | `role="alert"` vs `role="status"` selon la gravité et la réactivité | [Shopify Polaris — Banner](https://polaris-react.shopify.com/components/feedback-indicators/banner), WAI-ARIA | Établi |
+| T2 | Conteneur live présent avant injection (fiabilité des annonces) | Littérature accessibilité (comportement documenté des regions aria-live) | Établi par convergence |
+| T3 | Zone tactile minimum 44px | WCAG / Apple HIG / Material Design | Établi, standard de l'industrie (seule valeur brute autorisée ici) |
+| T4 | Seuil 4.5:1 sur tous les couples texte/fond des 4 tones | WCAG 2.1 — 1.4.3 ; ratios calculés (formule WCAG), re-vérifiés par tools/test-rendu.js | Établi (seuil) ; vérifié numériquement (valeurs) |
+| T5 | Fond subtil + bordure + texte de la famille comme rendu d'alerte | Convention convergente (Polaris banner, Carbon low-contrast, GOV.UK) + précédent interne (FORM-UI ≤1.0.1) | Établi comme pattern, valeurs propres à ce système |
+| T6 | Apparition/disparition en opacité conservable sous `prefers-reduced-motion` (aucune translation spatiale à supprimer) | `MOTION-UI.md` (contrat prefers-reduced-motion) ; ALERT-UX.md § États et comportement | Établi — rattachement interne au langage |

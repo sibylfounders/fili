@@ -14,73 +14,73 @@ confidence: mixed # les plages de durées, les courbes et reduced-motion sont é
 
 ## Note de transposition (à lire en premier)
 
-RÈGLE : le motion est un **langage temporel** — pas d'axes : il exprime tous les changements d'état du système par le feedback et la continuité. Particularité : ce langage est *entièrement fait* d'états transitoires — le prédicteur "état transitoire" du README ne désigne plus un trou probable mais le sujet lui-même ; son application ici devient : traiter d'office **l'interruption** (l'état transitoire de l'état transitoire, cf. § Interruption).
+RÈGLE [MOTION-R01] : le motion est un **langage temporel** — pas d'axes : il exprime tous les changements d'état du système par le feedback et la continuité. Particularité : ce langage est *entièrement fait* d'états transitoires — le prédicteur "état transitoire" du README ne désigne plus un trou probable mais le sujet lui-même ; son application ici devient : traiter d'office **l'interruption** (l'état transitoire de l'état transitoire, cf. § Interruption).
 
-RÈGLE : le mouvement porte deux fonctions, et seulement deux :
+RÈGLE [MOTION-R02] : le mouvement porte deux fonctions, et seulement deux :
   1. **Le feedback** — confirmer qu'une action a été reçue (hover, press, transition d'état). Court, discret, immédiat.
   2. **La continuité** — relier deux états pour expliquer d'où vient le changement (chevron qui tourne, contenu qui se déplie, alert qui se résout). Un peu plus long, jamais spectaculaire.
 
-RÈGLE : **frontière avec le principe `performance`** (2026-07-21) — ce langage possède les durées et courbes des **animations** ; le contrat des **attentes** (quel feedback à quel délai, optimisme, honnêteté de la progression) vit dans PERFORMANCE-UX.md. L'indicateur de chargement appartient aux deux : sa forme et son mouvement ici, son moment d'apparition et sa sincérité là-bas.
+RÈGLE [MOTION-R03] : **frontière avec le principe `performance`** (2026-07-21) — ce langage possède les durées et courbes des **animations** ; le contrat des **attentes** (quel feedback à quel délai, optimisme, honnêteté de la progression) vit dans PERFORMANCE-UX.md. L'indicateur de chargement appartient aux deux : sa forme et son mouvement ici, son moment d'apparition et sa sincérité là-bas.
 
-RÈGLE : **le registre de ce produit est productif, pas expressif** (dualité Carbon) : documentation, précision, sobriété. Le mouvement décoratif, d'ambiance ou de célébration est hors registre par décision — pas de bounce, pas de stagger d'apparat, pas d'animation de marque. Toute exception se journalise.
+RÈGLE [MOTION-R04] : **le registre de ce produit est productif, pas expressif** (dualité Carbon) : documentation, précision, sobriété. Le mouvement décoratif, d'ambiance ou de célébration est hors registre par décision — pas de bounce, pas de stagger d'apparat, pas d'animation de marque. Toute exception se journalise.
 
-RÈGLE : **distinguer la contrainte du parti pris (1.2.0).** Deux natures de règles cohabitent dans ce langage et ne se négocient pas de la même façon : les **contraintes** (WCAG — reduced-motion, flash < 3/s, transform/opacity, jamais l'information par le mouvement seul) sont **non négociables** ; le **registre « productif seulement »** est un **parti pris d'identité** (ligne CONFIANCE « décision interne »), donc **paramétrable par un consommateur qui l'assume** — une marque expressive (ex. un hero interactif) peut relever le registre **sans jamais toucher aux contraintes** (mouvement coupé sous reduced-motion, transform/opacity seuls, aucune information portée par le mouvement). Le système encadre la dérogation au lieu de la forcer : relever le registre est un chemin sanctionné, pas une entorse. **Lecture d'audit (pivot 2026-07-21)** : face à une interface tierce, seul le volet *contraintes* fonde une non-conformité ; une animation expressive chez un hôte au registre assumé est une *divergence de registre* à signaler à part, pas un défaut.
+RÈGLE [MOTION-R05] : **distinguer la contrainte du parti pris (1.2.0).** Deux natures de règles cohabitent dans ce langage et ne se négocient pas de la même façon : les **contraintes** (WCAG — reduced-motion, flash < 3/s, transform/opacity, jamais l'information par le mouvement seul) sont **non négociables** ; le **registre « productif seulement »** est un **parti pris d'identité** (ligne CONFIANCE « décision interne »), donc **paramétrable par un consommateur qui l'assume** — une marque expressive (ex. un hero interactif) peut relever le registre **sans jamais toucher aux contraintes** (mouvement coupé sous reduced-motion, transform/opacity seuls, aucune information portée par le mouvement). Le système encadre la dérogation au lieu de la forcer : relever le registre est un chemin sanctionné, pas une entorse. **Lecture d'audit (pivot 2026-07-21)** : face à une interface tierce, seul le volet *contraintes* fonde une non-conformité ; une animation expressive chez un hôte au registre assumé est une *divergence de registre* à signaler à part, pas un défaut.
 
 > **Pourquoi** : le mouvement est le canal le plus intrusif du système — il capte l'attention de force (la vision périphérique est câblée pour détecter le mouvement). Un produit de documentation qui bouge beaucoup est un produit qui interrompt beaucoup.
 
 ## Le mouvement confirme, il n'informe jamais seul
 
-RÈGLE : **la règle cardinale** : toute information portée par un mouvement existe aussi statiquement — l'état du chevron est dans `aria-expanded`, la résolution de l'alert est annoncée (ALERT-UX), le chargement a son indicateur visible. Le mouvement est une *confirmation sensorielle*, jamais la *source* de l'information.
+RÈGLE [MOTION-R06] : **la règle cardinale** : toute information portée par un mouvement existe aussi statiquement — l'état du chevron est dans `aria-expanded`, la résolution de l'alert est annoncée (ALERT-UX), le chargement a son indicateur visible. Le mouvement est une *confirmation sensorielle*, jamais la *source* de l'information.
 
 > **Pourquoi** : c'est la condition qui rend `prefers-reduced-motion` implémentable sans perte : si couper le mouvement coupait de l'information, la préférence d'accessibilité deviendrait une dégradation fonctionnelle.
 
 ## Durées — l'échelle et ses bornes
 
-RÈGLE : trois crans (`motion.fast` / `motion.base` / `motion.slow`), et une lecture simple : **petit changement = cran court, grand changement = cran long**. Feedback (hover, couleur) : fast. Continuité locale (chevron, apparition, dépliage) : base. Grandes surfaces (panneaux, futurs superposés) : slow.
+RÈGLE [MOTION-R07] : trois crans (`motion.fast` / `motion.base` / `motion.slow`), et une lecture simple : **petit changement = cran court, grand changement = cran long**. Feedback (hover, couleur) : fast. Continuité locale (chevron, apparition, dépliage) : base. Grandes surfaces (panneaux, futurs superposés) : slow.
 
-RÈGLE : bornes sourcées — sous ~100 ms, un feedback est perçu comme instantané (Nielsen) ; au-delà de ~400 ms, une transition paraît lente (Material). L'échelle entière de ce système vit dans cette fenêtre, et son cran le plus long reste sous la borne haute.
+RÈGLE [MOTION-R08] : bornes sourcées — sous ~100 ms, un feedback est perçu comme instantané (Nielsen) ; au-delà de ~400 ms, une transition paraît lente (Material). L'échelle entière de ce système vit dans cette fenêtre, et son cran le plus long reste sous la borne haute.
 
-RÈGLE : **la sortie est plus courte que l'entrée** : ce qui part n'a plus besoin d'attention — en pratique, une sortie prend le cran inférieur de son entrée (entrée base → sortie fast).
+RÈGLE [MOTION-R09] : **la sortie est plus courte que l'entrée** : ce qui part n'a plus besoin d'attention — en pratique, une sortie prend le cran inférieur de son entrée (entrée base → sortie fast).
 
-RÈGLE : le mouvement **ne verrouille jamais l'interaction** : aucune action n'attend la fin d'une animation pour être disponible ; l'animation accompagne le changement d'état, elle ne le retarde pas.
+RÈGLE [MOTION-R10] : le mouvement **ne verrouille jamais l'interaction** : aucune action n'attend la fin d'une animation pour être disponible ; l'animation accompagne le changement d'état, elle ne le retarde pas.
 
 ## Courbes — trois, et pourquoi pas plus
 
-RÈGLE : trois courbes (`motion.ease-out` / `motion.ease-in` / `motion.ease-in-out`), mappées sur les trois situations : **ce qui entre décélère** (ease-out : arrive vite, se pose), **ce qui sort accélère** (ease-in : s'efface sans traîner), **ce qui bouge sur place fait les deux** (ease-in-out : chevron, dépliage). Consensus explicite des quatre systèmes benchmarkés.
+RÈGLE [MOTION-R11] : trois courbes (`motion.ease-out` / `motion.ease-in` / `motion.ease-in-out`), mappées sur les trois situations : **ce qui entre décélère** (ease-out : arrive vite, se pose), **ce qui sort accélère** (ease-in : s'efface sans traîner), **ce qui bouge sur place fait les deux** (ease-in-out : chevron, dépliage). Consensus explicite des quatre systèmes benchmarkés.
 
-RÈGLE : **jamais de linéaire pour un déplacement** ("le mouvement strictement linéaire paraît artificiel à l'œil" — Carbon) — une seule exception : la **rotation continue du spinner** (Polaris la réserve exactement à ça).
+RÈGLE [MOTION-R12] : **jamais de linéaire pour un déplacement** ("le mouvement strictement linéaire paraît artificiel à l'œil" — Carbon) — une seule exception : la **rotation continue du spinner** (Polaris la réserve exactement à ça).
 
 ## Interruption — écrit d'office
 
-RÈGLE : toute transition est **interruptible et repart de l'état courant** : un re-hover pendant la sortie du hover inverse la transition là où elle en est ; un double clic sur le chevron ne rejoue pas deux animations. Jamais de file d'attente d'animations, jamais d'état "en attente de fin d'animation".
+RÈGLE [MOTION-R13] : toute transition est **interruptible et repart de l'état courant** : un re-hover pendant la sortie du hover inverse la transition là où elle en est ; un double clic sur le chevron ne rejoue pas deux animations. Jamais de file d'attente d'animations, jamais d'état "en attente de fin d'animation".
 
 > **Pourquoi** : les transitions CSS ont ce comportement nativement — le perdre (animations par keyframes rejouées, verrous JS) est une régression qu'on s'interdit d'introduire.
 
 ## Ce qui ne s'anime pas
 
-RÈGLE : **le focus ring n'est jamais animé** — c'est une information de position pour la navigation clavier, pas un effet (règle partagée avec BORDER-UX, qui fait autorité sur le ring).
+RÈGLE [MOTION-R14] : **le focus ring n'est jamais animé** — c'est une information de position pour la navigation clavier, pas un effet (règle partagée avec BORDER-UX, qui fait autorité sur le ring).
 
-RÈGLE : **rien n'anime au chargement initial** de la page — le contenu proactif est du contenu comme un autre (généralisation de ALERT-UX : "pas d'animation d'entrée nécessaire") ; les entrées animées sont réservées aux changements *réactifs* (conséquences d'une action).
+RÈGLE [MOTION-R15] : **rien n'anime au chargement initial** de la page — le contenu proactif est du contenu comme un autre (généralisation de ALERT-UX : "pas d'animation d'entrée nécessaire") ; les entrées animées sont réservées aux changements *réactifs* (conséquences d'une action).
 
-RÈGLE : **le contenu ne se déplace jamais sans action de l'utilisateur** : l'insertion dynamique réserve son espace quand c'est possible (ALERT-UX, SPACING-UX) ; à défaut, elle insère sous le point de lecture. Le déplacement non sollicité est le mouvement le plus hostile — il déplace la cible sous le curseur.
+RÈGLE [MOTION-R16] : **le contenu ne se déplace jamais sans action de l'utilisateur** : l'insertion dynamique réserve son espace quand c'est possible (ALERT-UX, SPACING-UX) ; à défaut, elle insère sous le point de lecture. Le déplacement non sollicité est le mouvement le plus hostile — il déplace la cible sous le curseur.
 
-RÈGLE : pas de **stagger décoratif** : ce qui réagit ensemble bouge ensemble (des cartes qui apparaissent en cascade, c'est de l'expressif — hors registre).
+RÈGLE [MOTION-R17] : pas de **stagger décoratif** : ce qui réagit ensemble bouge ensemble (des cartes qui apparaissent en cascade, c'est de l'expressif — hors registre).
 
 ## prefers-reduced-motion — le contrat d'accessibilité
 
-RÈGLE : sous `prefers-reduced-motion: reduce` : **les déplacements, rotations, changements d'échelle se désactivent ; les changements d'opacité et de couleur peuvent rester** (la préférence vise le mouvement *spatial* — troubles vestibulaires : nausées, vertiges — pas le changement visuel). "Reduce" ne veut pas dire zéro : un crossfade remplace un glissement.
+RÈGLE [MOTION-R18] : sous `prefers-reduced-motion: reduce` : **les déplacements, rotations, changements d'échelle se désactivent ; les changements d'opacité et de couleur peuvent rester** (la préférence vise le mouvement *spatial* — troubles vestibulaires : nausées, vertiges — pas le changement visuel). "Reduce" ne veut pas dire zéro : un crossfade remplace un glissement.
 
-RÈGLE : applications concrètes chez les consommateurs : bascules d'état instantanées ou en fondu (hover, élévation), chevron qui *saute* à son orientation finale, **skeleton sans pulse** (l'attente reste visible, statique — l'indicateur demeure, le mouvement part), spinner remplacé par un indicateur statique ou un pulse d'opacité.
+RÈGLE [MOTION-R19] : applications concrètes chez les consommateurs : bascules d'état instantanées ou en fondu (hover, élévation), chevron qui *saute* à son orientation finale, **skeleton sans pulse** (l'attente reste visible, statique — l'indicateur demeure, le mouvement part), spinner remplacé par un indicateur statique ou un pulse d'opacité.
 
-RÈGLE : cadre normatif — WCAG 2.3.3 (AAA) : les animations d'interaction doivent pouvoir être désactivées ; WCAG 2.2.2 (A) : tout mouvement automatique de plus de 5 s doit être arrêtable. Le seul mouvement en boucle du système (pulse du skeleton) est un indicateur de chargement — exemption prévue par 2.2.2 — et il est *quand même* coupé sous reduced-motion, par choix.
+RÈGLE [MOTION-R20] : cadre normatif — WCAG 2.3.3 (AAA) : les animations d'interaction doivent pouvoir être désactivées ; WCAG 2.2.2 (A) : tout mouvement automatique de plus de 5 s doit être arrêtable. Le seul mouvement en boucle du système (pulse du skeleton) est un indicateur de chargement — exemption prévue par 2.2.2 — et il est *quand même* coupé sous reduced-motion, par choix.
 
 CONFIANCE : établi (WCAG, MDN/web.dev, convergence des systèmes) ; le sur-respect du skeleton est une décision interne.
 
 ## Flash et clignotement — l'interdit dur
 
-RÈGLE : **aucune séquence ne flashe plus de trois fois par seconde**, et rien ne franchit les seuils de flash général ou de flash rouge (WCAG 2.3.1, niveau A). Le registre productif ne prévoit aucun flash — cette règle **verrouille** l'interdit pour tout futur consommateur (célébration, alerte clignotante, chargement pulsé agressif) : le clignotement rapide « pour attirer l'œil » est proscrit, l'attention se gagne par la place et le mot, jamais par le stroboscope.
+RÈGLE [MOTION-R21] : **aucune séquence ne flashe plus de trois fois par seconde**, et rien ne franchit les seuils de flash général ou de flash rouge (WCAG 2.3.1, niveau A). Le registre productif ne prévoit aucun flash — cette règle **verrouille** l'interdit pour tout futur consommateur (célébration, alerte clignotante, chargement pulsé agressif) : le clignotement rapide « pour attirer l'œil » est proscrit, l'attention se gagne par la place et le mot, jamais par le stroboscope.
 
-RÈGLE : le seul mouvement en boucle admis reste l'indicateur de chargement (skeleton, spinner) — il pulse en **opacité douce**, jamais en flash ; un clignotement décoratif, rapide (dangereux) comme lent (bruit), n'existe pas dans le registre.
+RÈGLE [MOTION-R22] : le seul mouvement en boucle admis reste l'indicateur de chargement (skeleton, spinner) — il pulse en **opacité douce**, jamais en flash ; un clignotement décoratif, rapide (dangereux) comme lent (bruit), n'existe pas dans le registre.
 
 > **Pourquoi** : c'est le seul risque du langage qui ne dégrade pas le confort mais peut **déclencher une crise** (épilepsie photosensible). Contrairement à une durée trop longue (agaçante) ou à un layout animé (saccadé), un flash au-dessus du seuil est un danger physiologique sans contrepartie ergonomique négociable — d'où l'interdit dur, distinct du reste du registre.
 
@@ -88,13 +88,13 @@ CONFIANCE : établi — WCAG 2.3.1 (seuil des trois flashs) et 2.3.2 sont un sta
 
 ## Performance — la contrainte qui décide des techniques
 
-RÈGLE : n'animer que **`transform` et `opacity`** (étape composite — pas de layout, pas de paint) ; jamais width/height/top/margin (layout) ni box-shadow interpolé (paint) — les techniques concrètes (ombre par pseudo-élément, dépliage) vivent dans MOTION-UI.
+RÈGLE [MOTION-R23] : n'animer que **`transform` et `opacity`** (étape composite — pas de layout, pas de paint) ; jamais width/height/top/margin (layout) ni box-shadow interpolé (paint) — les techniques concrètes (ombre par pseudo-élément, dépliage) vivent dans MOTION-UI.
 
 > **Pourquoi** : une animation qui saccade est pire que pas d'animation — elle transforme le feedback en bruit. La contrainte technique rejoint le registre sobre : ce qui est cher à animer est précisément ce qu'on ne veut pas animer.
 
 ## Risque
 
-RÈGLE : table ci-dessous
+RÈGLE [MOTION-R24] : table ci-dessous
 
 | Cas | Risque principal | Sévérité |
 |---|---|---|
@@ -111,23 +111,23 @@ RÈGLE : table ci-dessous
 
 ## Règle transversale
 
-RÈGLE : **le mouvement est un commentaire — jamais le texte.** Il confirme, relie, occupe l'attente ; il n'informe pas seul, ne bloque pas, ne décore pas.
+RÈGLE [MOTION-R25] : **le mouvement est un commentaire — jamais le texte.** Il confirme, relie, occupe l'attente ; il n'informe pas seul, ne bloque pas, ne décore pas.
 
 > **Pourquoi** : c'est la déclinaison temporelle du principe des canaux (COLOR-UX : jamais la couleur seule ; ICONOGRAPHY-UX : jamais le dessin seul) — le mouvement est le troisième canal non fiable : le plus rapide à percevoir, le premier à disparaître (reduced-motion, AT, captures).
 
 ## Sources et niveau de confiance
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Plages de durées 50-400 ms, petit=court/grand=long | [Atlassian — Motion](https://atlassian.design/foundations/motion) (interactions 50-150 / transitions 150-400), [Carbon — Motion](https://carbondesignsystem.com/elements/motion/overview/) (70-700 ms), [Material — durées](https://m1.material.io/motion/duration-easing.html) (au-delà de 400 ms : lent), [Polaris — tokens](https://polaris-react.shopify.com/tokens/motion) | Établi — convergence des quatre systèmes |
-| < 100 ms perçu instantané ; 1 s limite du flux de pensée | [NN/g — Response Times](https://www.nngroup.com/articles/response-times-3-important-limits/) ; [Doherty threshold](https://lawsofux.com/doherty-threshold/) (< 400 ms) | Établi — littérature fondatrice |
-| Sortie plus courte que l'entrée | [Material v1 — Duration & easing](https://m1.material.io/motion/duration-easing.html) (225/195 ms) | Établi chez Material, convergent |
-| ease-out entrée / ease-in sortie / ease-in-out sur place ; jamais linéaire sauf spinner | [Carbon](https://carbondesignsystem.com/elements/motion/overview/), [Atlassian](https://atlassian.design/foundations/motion), [Polaris](https://polaris-react.shopify.com/tokens/motion) (linear réservé aux spinners), [Material 3 — easing & duration](https://m3.material.io/styles/motion/easing-and-duration/tokens-specs) | Établi — consensus fort |
-| Dualité productive/expressive | [Carbon — Motion](https://carbondesignsystem.com/elements/motion/overview/) | Établi chez Carbon — le "productif seul" est un choix d'identité interne |
-| reduced-motion : réduire ≠ supprimer ; opacité conservable, déplacement remplacé | [MDN — prefers-reduced-motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion), [web.dev](https://web.dev/articles/prefers-reduced-motion) | Établi |
-| WCAG 2.3.3 (AAA) et 2.2.2 (A, exemption des indicateurs de progression) | [W3C — Animation from Interactions](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions), [Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | Établi, standard d'accessibilité |
-| Flash ≤ 3/s, seuils général et rouge (WCAG 2.3.1) | [W3C — Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html) | Établi, standard d'accessibilité |
-| transform/opacity seuls (composite) | [web.dev — Animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| S1 | Plages de durées 50-400 ms, petit=court/grand=long | [Atlassian — Motion](https://atlassian.design/foundations/motion) (interactions 50-150 / transitions 150-400), [Carbon — Motion](https://carbondesignsystem.com/elements/motion/overview/) (70-700 ms), [Material — durées](https://m1.material.io/motion/duration-easing.html) (au-delà de 400 ms : lent), [Polaris — tokens](https://polaris-react.shopify.com/tokens/motion) | Établi — convergence des quatre systèmes |
+| S2 | < 100 ms perçu instantané ; 1 s limite du flux de pensée | [NN/g — Response Times](https://www.nngroup.com/articles/response-times-3-important-limits/) ; [Doherty threshold](https://lawsofux.com/doherty-threshold/) (< 400 ms) | Établi — littérature fondatrice |
+| S3 | Sortie plus courte que l'entrée | [Material v1 — Duration & easing](https://m1.material.io/motion/duration-easing.html) (225/195 ms) | Établi chez Material, convergent |
+| S4 | ease-out entrée / ease-in sortie / ease-in-out sur place ; jamais linéaire sauf spinner | [Carbon](https://carbondesignsystem.com/elements/motion/overview/), [Atlassian](https://atlassian.design/foundations/motion), [Polaris](https://polaris-react.shopify.com/tokens/motion) (linear réservé aux spinners), [Material 3 — easing & duration](https://m3.material.io/styles/motion/easing-and-duration/tokens-specs) | Établi — consensus fort |
+| S5 | Dualité productive/expressive | [Carbon — Motion](https://carbondesignsystem.com/elements/motion/overview/) | Établi chez Carbon — le "productif seul" est un choix d'identité interne |
+| S6 | reduced-motion : réduire ≠ supprimer ; opacité conservable, déplacement remplacé | [MDN — prefers-reduced-motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion), [web.dev](https://web.dev/articles/prefers-reduced-motion) | Établi |
+| S7 | WCAG 2.3.3 (AAA) et 2.2.2 (A, exemption des indicateurs de progression) | [W3C — Animation from Interactions](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions), [Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | Établi, standard d'accessibilité |
+| S8 | Flash ≤ 3/s, seuils général et rouge (WCAG 2.3.1) | [W3C — Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html) | Établi, standard d'accessibilité |
+| S9 | transform/opacity seuls (composite) | [web.dev — Animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
 
 ## À approfondir
 

@@ -64,9 +64,9 @@ confidence: mixed
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Ombre par opacité de pseudo-élément ; transform/opacity seuls | [web.dev — Animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
-| Transitions CSS interruptibles nativement | Comportement spécifié (CSS Transitions) | Établi |
-| Linéaire réservé au spinner | [Polaris — Motion tokens](https://polaris-react.shopify.com/tokens/motion) | Établi chez Polaris, adopté |
-| Skeleton conservé mais statique sous reduced-motion | [web.dev — prefers-reduced-motion](https://web.dev/articles/prefers-reduced-motion) (indicateurs à conserver), choix interne plus strict | Convergence + décision interne |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Ombre par opacité de pseudo-élément ; transform/opacity seuls | [web.dev — Animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
+| T2 | Transitions CSS interruptibles nativement | Comportement spécifié (CSS Transitions) | Établi |
+| T3 | Linéaire réservé au spinner | [Polaris — Motion tokens](https://polaris-react.shopify.com/tokens/motion) | Établi chez Polaris, adopté |
+| T4 | Skeleton conservé mais statique sous reduced-motion | [web.dev — prefers-reduced-motion](https://web.dev/articles/prefers-reduced-motion) (indicateurs à conserver), choix interne plus strict | Convergence + décision interne |

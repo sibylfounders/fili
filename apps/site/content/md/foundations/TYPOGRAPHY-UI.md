@@ -81,9 +81,9 @@ Une fondation ne vaut que consommée. Chaque composant qui compose du texte déc
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Grammaire clamp(rem, rem + vw, rem) | [Smashing Magazine, nov. 2023](https://www.smashingmagazine.com/2023/11/addressing-accessibility-concerns-fluid-type/), [Adrian Roselli](https://adrianroselli.com/2019/12/responsive-type-and-zoom.html) | Établi comme mitigation ; limite au zoom extrême débattue (cf. TYPOGRAPHY-UX.md) |
-| Ratio ≤ 2.5 par échelon | [Smashing Magazine, nov. 2023](https://www.smashingmagazine.com/2023/11/addressing-accessibility-concerns-fluid-type/) | Communément admis, pas un critère WCAG officiel |
-| Piles de secours à métriques proches + font-display: swap | Pratique standard de chargement de polices web (web.dev, littérature performance) | Établi par convergence |
-| Mesure en ch, max-width sur le texte courant | Typographie classique (cf. TYPOGRAPHY-UX.md) + comportement documenté de l'unité ch | Établi |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Grammaire clamp(rem, rem + vw, rem) | [Smashing Magazine, nov. 2023](https://www.smashingmagazine.com/2023/11/addressing-accessibility-concerns-fluid-type/), [Adrian Roselli](https://adrianroselli.com/2019/12/responsive-type-and-zoom.html) | Établi comme mitigation ; limite au zoom extrême débattue (cf. TYPOGRAPHY-UX.md) |
+| T2 | Ratio ≤ 2.5 par échelon | [Smashing Magazine, nov. 2023](https://www.smashingmagazine.com/2023/11/addressing-accessibility-concerns-fluid-type/) | Communément admis, pas un critère WCAG officiel |
+| T3 | Piles de secours à métriques proches + font-display: swap | Pratique standard de chargement de polices web (web.dev, littérature performance) | Établi par convergence |
+| T4 | Mesure en ch, max-width sur le texte courant | Typographie classique (cf. TYPOGRAPHY-UX.md) + comportement documenté de l'unité ch | Établi |

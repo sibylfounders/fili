@@ -214,7 +214,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "un téléchargement annonce la nature du fichier et, quand elle est utile, sa taille."
+       "html": "un téléchargement annonce la nature du fichier et, quand elle est utile, sa taille.",
+       "id": "LINK-R08"
       }
      ]
     },
@@ -244,7 +245,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "une Card cliquable vers un détail contient un vrai Link dont le texte accessible est le titre"
+       "html": "une Card cliquable vers un détail contient un vrai Link dont le texte accessible est le titre",
+       "id": "LINK-R15"
       }
      ]
     },
@@ -274,7 +276,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "un lien icône seule conserve une cible tactile suffisante et un nom accessible. Sa forme ne"
+       "html": "un lien icône seule conserve une cible tactile suffisante et un nom accessible. Sa forme ne",
+       "id": "LINK-R14"
       }
      ]
     }
@@ -311,7 +314,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+       "id": "LINK-R10"
       }
      ]
     },
@@ -341,7 +345,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+       "id": "LINK-R10"
       }
      ]
     },
@@ -371,7 +376,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+       "id": "LINK-R10"
       }
      ]
     },
@@ -401,7 +407,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+       "id": "LINK-R10"
       }
      ]
     },
@@ -431,11 +438,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent."
+       "html": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+       "id": "LINK-R10"
       },
       {
        "tag": "Règle",
-       "html": "<code>visited</code> sert surtout aux collections de contenu où se souvenir des pages consultées aide la"
+       "html": "<code>visited</code> sert surtout aux collections de contenu où se souvenir des pages consultées aide la",
+       "id": "LINK-R11"
       }
      ]
     },
@@ -465,7 +474,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "un lien n'a normalement pas d'état disabled. Si la destination n'est pas disponible, le lien"
+       "html": "un lien n'a normalement pas d'état disabled. Si la destination n'est pas disponible, le lien",
+       "id": "LINK-R12"
       }
      ]
     }
@@ -572,5 +582,1453 @@
    }
   ]
  },
- "evolution": []
+ "evolution": [],
+ "decisions": [
+  {
+   "id": "LINK-R01",
+   "couche": "ux",
+   "solution": "utiliser un Link pour conduire vers une autre page, ressource, section ou URL.",
+   "enonce": "Un déclencheur qui conduit l'utilisateur vers une autre page, ressource, section ou URL est un lien.",
+   "mesure": "toute navigation est portée par un élément de type lien, jamais par un bouton",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Séparation lien/navigation et bouton/action",
+     "liens": [
+      {
+       "label": "Sémantique HTML + convergence des design systems majeurs",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Séparation lien/navigation et bouton/action",
+    "liens": [
+     {
+      "label": "Sémantique HTML + convergence des design systems majeurs",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R02",
+   "couche": "ux",
+   "solution": "utiliser un Button quand l'activation modifie l'état courant, soumet, crée, supprime, ouvre",
+   "enonce": "Un déclencheur dont l'activation modifie l'état courant, soumet, crée, supprime ou lance un traitement est un bouton, y compris dans une application monopage : c'est le résultat perçu qui décide, pas la technologie de routage.",
+   "mesure": "aucun lien ne déclenche une action sans changement de destination",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Séparation lien/navigation et bouton/action",
+     "liens": [
+      {
+       "label": "Sémantique HTML + convergence des design systems majeurs",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Séparation lien/navigation et bouton/action",
+    "liens": [
+     {
+      "label": "Sémantique HTML + convergence des design systems majeurs",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R03",
+   "couche": "ux",
+   "solution": "un lien qui ouvre une modale d'action est une mauvaise promesse ; un bouton qui conduit vers",
+   "enonce": "Un lien qui ouvre une modale d'action et un bouton qui conduit vers une page sont l'un et l'autre des promesses fausses ; toute exception se justifie par le parcours, jamais par un besoin de style.",
+   "mesure": "aucun lien n'ouvre une modale d'action ; aucun bouton ne provoque un changement de page",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Séparation lien/navigation et bouton/action",
+     "liens": [
+      {
+       "label": "Sémantique HTML + convergence des design systems majeurs",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Séparation lien/navigation et bouton/action",
+    "liens": [
+     {
+      "label": "Sémantique HTML + convergence des design systems majeurs",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R04",
+   "couche": "ux",
+   "solution": "dans un paragraphe, le lien reste identifiable sans dépendre de la couleur seule. Le",
+   "enonce": "Un lien placé dans un bloc de texte reste identifiable sans dépendre de la couleur seule, le soulignement étant le signal par défaut.",
+   "mesure": "un lien dans un bloc de texte est distingué autrement que par la seule couleur, au repos",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "La couleur ne suffit pas à identifier un lien inline",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.1 Use of Color",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "La couleur ne suffit pas à identifier un lien inline",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.4.1 Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R05",
+   "couche": "ux",
+   "solution": "le libellé garde du sens hors contexte immédiat. « En savoir plus » seul est évité quand",
+   "enonce": "Le libellé d'un lien garde son sens hors de son contexte immédiat ; un libellé générique répété est proscrit dès que plusieurs occurrences mènent à des destinations différentes.",
+   "mesure": "deux liens de même libellé dans une même page ne mènent pas à des destinations différentes",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+       "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S6",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte seul, hors contexte environnant",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.9 Link Purpose (Link Only)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html"
+      }
+     ],
+     "confiance": "Établi, standard (AAA) — complète S1 (2.4.4, niveau A, qui n'exige que le contexte)"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+      "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R06",
+   "couche": "ux",
+   "solution": "un lien placé seul peut associer texte et icône directionnelle. Il reste plus léger qu'un",
+   "enonce": "Un lien autonome peut associer texte et icône directionnelle ; il reste plus léger qu'un bouton adjacent et ne concurrence pas l'action dominante de l'écran.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R07",
+   "couche": "ux",
+   "solution": "les liens de navigation identifient la destination courante avec un signal non chromatique",
+   "enonce": "Dans un ensemble de navigation, la destination courante est signalée par un indice non chromatique et par l'état programmatique correspondant, et n'est pas présentée comme une action.",
+   "mesure": "la destination courante porte aria-current et un signal non chromatique",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "La couleur ne suffit pas à identifier un lien inline",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.1 Use of Color",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S12",
+     "affirmation": "L'élément courant d'un ensemble (navigation, pagination, fil d'Ariane) se déclare par aria-current",
+     "liens": [
+      {
+       "label": "WAI-ARIA 1.2 — aria-current",
+       "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-current"
+      }
+     ],
+     "confiance": "Normatif — la couche UX invoquait « l'état programmatique approprié » sans le nommer"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "La couleur ne suffit pas à identifier un lien inline",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.4.1 Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R08",
+   "couche": "ux",
+   "solution": "un téléchargement annonce la nature du fichier et, quand elle est utile, sa taille.",
+   "enonce": "Un lien de téléchargement annonce la nature du fichier et, quand elle est utile, sa taille, avant l'activation.",
+   "mesure": "tout lien de téléchargement mentionne le format du fichier dans son nom accessible",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Un lien vers un document annonce son format et sa taille dans le libellé, donc dans le nom accessible",
+     "liens": [
+      {
+       "label": "GOV.UK Publishing Components — Attachment link",
+       "url": "https://components.publishing.service.gov.uk/component-guide/attachment_link"
+      },
+      {
+       "label": "ONS Design System — Document list",
+       "url": "https://service-manual.ons.gov.uk/design-system/components/document-list"
+      }
+     ],
+     "confiance": "Établi par convergence — 2 systèmes publics vérifiés"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     },
+     {
+      "label": "MDN — élément a",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+     },
+     {
+      "label": "ARIA APG — Link Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+     }
+    ],
+    "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-5",
+     "titre": "Téléchargement",
+     "famille": "Contexte"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R09",
+   "couche": "ux",
+   "solution": "l'ouverture d'un nouvel onglet reste exceptionnelle et est annoncée dans le libellé ou par",
+   "enonce": "L'ouverture d'un nouvel onglet reste exceptionnelle et est annoncée dans le libellé ou par une indication accessible équivalente ; une icône seule ne suffit pas tant que sa signification n'est pas établie dans le produit.",
+   "mesure": "tout lien ouvrant un nouvel onglet porte une mention d'ouverture externe dans son nom accessible",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S7",
+     "affirmation": "Un changement de contexte — dont l'ouverture d'un nouvel onglet — n'est légitime que sur demande de l'utilisateur, et l'avertissement se fait dans le texte du lien ou par une description accessible équivalente",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.2.5 Change on Request",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/change-on-request.html"
+      },
+      {
+       "label": "WCAG — Technique G201",
+       "url": "https://www.w3.org/WAI/WCAG21/Techniques/general/G201"
+      }
+     ],
+     "confiance": "Établi, standard (AAA) — G201 se déclare elle-même consultative ; c'est 3.2.5 qui porte la norme. Ancrage mince, assumé"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S7",
+    "affirmation": "Un changement de contexte — dont l'ouverture d'un nouvel onglet — n'est légitime que sur demande de l'utilisateur, et l'avertissement se fait dans le texte du lien ou par une description accessible équivalente",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 3.2.5 Change on Request",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/change-on-request.html"
+     },
+     {
+      "label": "WCAG — Technique G201",
+      "url": "https://www.w3.org/WAI/WCAG21/Techniques/general/G201"
+     }
+    ],
+    "confiance": "Établi, standard (AAA) — G201 se déclare elle-même consultative ; c'est 3.2.5 qui porte la norme. Ancrage mince, assumé"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R10",
+   "couche": "ux",
+   "solution": "default, hover, focus, active et visited restent distinguables quand ils s'appliquent.",
+   "enonce": "Les états default, hover, focus, active et visited d'un lien restent distinguables les uns des autres partout où ils s'appliquent.",
+   "mesure": "chaque état appliqué se distingue de l'état default par au moins une propriété visuelle",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S13",
+     "affirmation": "L'indicateur de focus clavier reste visible",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.7 Focus Visible",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA) — ne couvre que le volet focus, pas hover/active/visited"
+    }
+   ],
+   "principale": {
+    "ref": "S13",
+    "affirmation": "L'indicateur de focus clavier reste visible",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.7 Focus Visible",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html"
+     }
+    ],
+    "confiance": "Établi, standard (AA) — ne couvre que le volet focus, pas hover/active/visited"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-0",
+     "titre": "Default",
+     "famille": "État"
+    },
+    {
+     "id": "cas-1-1",
+     "titre": "Hover",
+     "famille": "État"
+    },
+    {
+     "id": "cas-1-2",
+     "titre": "Focus",
+     "famille": "État"
+    },
+    {
+     "id": "cas-1-3",
+     "titre": "Active",
+     "famille": "État"
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Visited",
+     "famille": "État"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R11",
+   "couche": "ux",
+   "solution": "`visited` sert surtout aux collections de contenu où se souvenir des pages consultées aide la",
+   "enonce": "L'état visited est réservé aux collections de contenu où se souvenir des pages consultées sert la tâche ; il peut être omis dans la navigation applicative persistante lorsqu'il brouillerait le repère de destination courante.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S14",
+     "affirmation": "Pour des raisons de vie privée, :visited ne peut modifier que des propriétés de couleur ; aucun signal non chromatique n'est techniquement possible sur cet état",
+     "liens": [
+      {
+       "label": "MDN — :visited",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/:visited"
+      }
+     ],
+     "confiance": "Normatif (contrainte des navigateurs) — explique pourquoi visited est le seul état exempté de « jamais la couleur seule »"
+    }
+   ],
+   "principale": {
+    "ref": "S14",
+    "affirmation": "Pour des raisons de vie privée, :visited ne peut modifier que des propriétés de couleur ; aucun signal non chromatique n'est techniquement possible sur cet état",
+    "liens": [
+     {
+      "label": "MDN — :visited",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/:visited"
+     }
+    ],
+    "confiance": "Normatif (contrainte des navigateurs) — explique pourquoi visited est le seul état exempté de « jamais la couleur seule »"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-4",
+     "titre": "Visited",
+     "famille": "État"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R12",
+   "couche": "ux",
+   "solution": "un lien n'a normalement pas d'état disabled. Si la destination n'est pas disponible, le lien",
+   "enonce": "Un lien n'a pas d'état désactivé : une destination indisponible est retirée ou remplacée par une explication, jamais laissée sous la forme d'un lien inerte.",
+   "mesure": "aucun lien ne porte un état disabled ou aria-disabled",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     },
+     {
+      "label": "MDN — élément a",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+     },
+     {
+      "label": "ARIA APG — Link Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+     }
+    ],
+    "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-5",
+     "titre": "Disabled",
+     "famille": "État"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R13",
+   "couche": "ux",
+   "solution": "une icône leading décrit la ressource ; une icône trailing décrit la direction ou la nature",
+   "enonce": "Une icône de lien complète le libellé — en tête elle décrit la ressource, en fin elle décrit la direction ou la nature de la destination — et ne le remplace que si le lien conserve un nom accessible explicite.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S9",
+     "affirmation": "Tout composant d'interface, liens compris, expose un nom et un rôle programmatiquement déterminables",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (A)"
+    }
+   ],
+   "principale": {
+    "ref": "S9",
+    "affirmation": "Tout composant d'interface, liens compris, expose un nom et un rôle programmatiquement déterminables",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+     }
+    ],
+    "confiance": "Établi, standard (A)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R14",
+   "couche": "ux",
+   "solution": "un lien icône seule conserve une cible tactile suffisante et un nom accessible. Sa forme ne",
+   "enonce": "Un lien réduit à une icône porte un nom accessible et une cible pointeur suffisante, et sa forme ne le fait pas passer pour un bouton alors que son résultat est une navigation.",
+   "mesure": "tout lien icône seule a un nom accessible non vide et une cible ≥ 24×24 px CSS",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "Seuils de cible pointeur : 24 × 24 px CSS minimum (AA, avec exception explicite pour les liens en ligne dans une phrase), 44 × 44 px CSS renforcé (AAA)",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      },
+      {
+       "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA et AAA) — le 44 px cité par ce composant est le seuil AAA, pas le seuil de conformité courant"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "Tout composant d'interface, liens compris, expose un nom et un rôle programmatiquement déterminables",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (A)"
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "Seuils de cible pointeur : 24 × 24 px CSS minimum (AA, avec exception explicite pour les liens en ligne dans une phrase), 44 × 44 px CSS renforcé (AAA)",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+     },
+     {
+      "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+     }
+    ],
+    "confiance": "Établi, standard (AA et AAA) — le 44 px cité par ce composant est le seuil AAA, pas le seuil de conformité courant"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-7",
+     "titre": "Icône seule",
+     "famille": "Contexte"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R15",
+   "couche": "ux",
+   "solution": "une Card cliquable vers un détail contient un vrai Link dont le texte accessible est le titre",
+   "enonce": "Une carte cliquable vers un détail contient un lien réel dont le texte accessible est le titre de la carte ; l'extension de la surface cliquable est une technique de ce lien, pas un gestionnaire de clic posé sur un conteneur inerte.",
+   "mesure": "aucune surface de carte navigable n'est portée par un élément non interactif muni d'un gestionnaire de clic",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Séparation lien/navigation et bouton/action",
+     "liens": [
+      {
+       "label": "Sémantique HTML + convergence des design systems majeurs",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S9",
+     "affirmation": "Tout composant d'interface, liens compris, expose un nom et un rôle programmatiquement déterminables",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (A)"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Séparation lien/navigation et bouton/action",
+    "liens": [
+     {
+      "label": "Sémantique HTML + convergence des design systems majeurs",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-6",
+     "titre": "Card cliquable",
+     "famille": "Contexte"
+    }
+   ]
+  },
+  {
+   "id": "LINK-R16",
+   "couche": "ux",
+   "solution": "les actions internes à la Card restent hors du lien et conservent leur propre sémantique.",
+   "enonce": "Les actions internes à une carte restent hors du lien et conservent leur propre sémantique ; aucun élément interactif n'est descendant d'un lien.",
+   "mesure": "aucun élément interactif n'est descendant d'un élément de type lien",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     },
+     {
+      "label": "MDN — élément a",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+     },
+     {
+      "label": "ARIA APG — Link Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+     }
+    ],
+    "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R17",
+   "couche": "ux",
+   "solution": "le texte décrit la destination ou la ressource : « Voir les factures », « Documentation de",
+   "enonce": "Le texte d'un lien décrit la destination ou la ressource, et évite l'URL brute dès qu'un nom humain est disponible.",
+   "mesure": "aucun libellé de lien réduit à « cliquez ici », « ici » ou « en savoir plus » seul",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+       "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S6",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte seul, hors contexte environnant",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.9 Link Purpose (Link Only)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html"
+      }
+     ],
+     "confiance": "Établi, standard (AAA) — complète S1 (2.4.4, niveau A, qui n'exige que le contexte)"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+      "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R18",
+   "couche": "ux",
+   "solution": "le contexte accessible permet de comprendre la fonction du lien. Plusieurs liens portant le",
+   "enonce": "Le contexte accessible d'un lien permet d'en comprendre la fonction, et deux liens portant le même texte accessible conduisent à la même nature de destination.",
+   "mesure": "deux liens de même texte accessible dans une page mènent à la même nature de destination",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+       "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S6",
+     "affirmation": "La fonction d'un lien est déterminable à partir de son texte seul, hors contexte environnant",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.4.9 Link Purpose (Link Only)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html"
+      }
+     ],
+     "confiance": "Établi, standard (AAA) — complète S1 (2.4.4, niveau A, qui n'exige que le contexte)"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "La fonction d'un lien est déterminable à partir de son texte ou de son contexte",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.4.4 Link Purpose",
+      "url": "https://www.w3.org/TR/WCAG22/#link-purpose-in-context"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R19",
+   "couche": "ux",
+   "solution": "ces règles de wording sont la déclinaison locale de `VOICE-UX.md`, cadre unificateur du",
+   "enonce": "Les règles de wording du lien ne sont pas réécrites dans ce fichier : elles se rattachent nommément au cadre transversal du langage, qui fait autorité sur le vocabulaire et l'autosuffisance du texte de lien.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Texte de lien signifiant, cadre wording",
+     "liens": [
+      {
+       "label": "`VOICE-UX.md` (§ Le mot est le canal fiable / § Cohérence)",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — langage transversal"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Texte de lien signifiant, cadre wording",
+    "liens": [
+     {
+      "label": "`VOICE-UX.md` (§ Le mot est le canal fiable / § Cohérence)",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — langage transversal"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R20",
+   "couche": "ux",
+   "solution": "**un Link dit “aller”, un Button dit “faire”.** Le poids visuel ne change jamais cette",
+   "enonce": "Un lien dit « aller », un bouton dit « faire » ; le poids visuel ne modifie jamais cette répartition.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S4",
+     "affirmation": "Séparation lien/navigation et bouton/action",
+     "liens": [
+      {
+       "label": "Sémantique HTML + convergence des design systems majeurs",
+       "url": null
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Sémantique native du lien : une ancre sans href ne crée pas d'hyperlien ; l'attribut download déclare l'intention de téléchargement ; un lien ne peut pas contenir de contenu interactif",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      },
+      {
+       "label": "MDN — élément a",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/a"
+      },
+      {
+       "label": "ARIA APG — Link Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/link/"
+      }
+     ],
+     "confiance": "Normatif — remplace le renvoi non sourcé « Sémantique HTML » de S4"
+    }
+   ],
+   "principale": {
+    "ref": "S4",
+    "affirmation": "Séparation lien/navigation et bouton/action",
+    "liens": [
+     {
+      "label": "Sémantique HTML + convergence des design systems majeurs",
+      "url": null
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-R21",
+   "couche": "ux",
+   "solution": "Link n'invoque aucun instrument E-motion : un clic de navigation est une action à haute",
+   "enonce": "Le lien n'invoque aucun instrument d'animation expressive : un clic de navigation est une interaction à haute fréquence, hors du catalogue des moments mérités, et son seul besoin temporel est le feedback d'état.",
+   "mesure": "aucune animation d'un lien n'excède la durée de feedback du système",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U01",
+   "couche": "ui",
+   "solution": "`inline` reste souligné au repos. Le hover peut renforcer l'épaisseur ou le décalage du",
+   "enonce": "Un lien inline est souligné au repos ; le survol peut renforcer l'épaisseur ou le décalage du soulignement mais n'est jamais le moment où le lien devient enfin identifiable.",
+   "mesure": "un lien inline porte une décoration de texte visible à l'état de repos, pas seulement au survol",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T1",
+     "affirmation": "Soulignement et signal non chromatique des liens inline",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.1 Use of Color",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "T1",
+    "affirmation": "Soulignement et signal non chromatique des liens inline",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.4.1 Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U02",
+   "couche": "ui",
+   "solution": "`standalone` reste visuellement plus léger qu'un Button. Ajouter une boîte, un fond et des",
+   "enonce": "Un lien autonome reste visuellement plus léger qu'un bouton ; lui donner une boîte, un fond et des états de pression équivalents à un bouton signifie que le choix du composant doit être réexaminé.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U03",
+   "couche": "ui",
+   "solution": "le soulignement utilise les propriétés CSS dédiées (`text-decoration-*`) et reste lisible",
+   "enonce": "Le soulignement d'un lien est produit par les propriétés CSS dédiées text-decoration-* et reste lisible autour des jambages ; il n'est pas simulé par une bordure qui traverse les lignes.",
+   "mesure": "aucun soulignement de lien produit par border-bottom",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T6",
+     "affirmation": "Le soulignement natif contourne les jambages : text-decoration-skip-ink vaut auto par défaut, comportement qu'aucune bordure simulée ne reproduit",
+     "liens": [
+      {
+       "label": "MDN — text-decoration-skip-ink",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink"
+      }
+     ],
+     "confiance": "Normatif — largement disponible depuis mars 2022"
+    }
+   ],
+   "principale": {
+    "ref": "T6",
+    "affirmation": "Le soulignement natif contourne les jambages : text-decoration-skip-ink vaut auto par défaut, comportement qu'aucune bordure simulée ne reproduit",
+    "liens": [
+     {
+      "label": "MDN — text-decoration-skip-ink",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-skip-ink"
+     }
+    ],
+    "confiance": "Normatif — largement disponible depuis mars 2022"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U04",
+   "couche": "ui",
+   "solution": "les changements de couleur utilisent `motion.fast`/`motion.ease-out` — la transition d'état",
+   "enonce": "Les changements de couleur d'un lien s'animent sur la durée courte et la courbe de sortie du système au titre du feedback d'état, et sont supprimables sous prefers-reduced-motion sans perte d'information.",
+   "mesure": "sous prefers-reduced-motion: reduce, aucune transition du lien n'est nécessaire pour comprendre son état",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T4",
+     "affirmation": "Transition d'état = feedback motion ; focus ring jamais animé",
+     "liens": [
+      {
+       "label": "`MOTION-UX.md` (§ Durées / § Ce qui ne s'anime pas), `BORDER-UX.md`",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — langage transversal"
+    },
+    {
+     "ref": "T7",
+     "affirmation": "prefers-reduced-motion: reduce signale une préférence de suppression ou de réduction des animations non essentielles",
+     "liens": [
+      {
+       "label": "MDN — prefers-reduced-motion",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"
+      }
+     ],
+     "confiance": "Normatif"
+    }
+   ],
+   "principale": {
+    "ref": "T4",
+    "affirmation": "Transition d'état = feedback motion ; focus ring jamais animé",
+    "liens": [
+     {
+      "label": "`MOTION-UX.md` (§ Durées / § Ce qui ne s'anime pas), `BORDER-UX.md`",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — langage transversal"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U05",
+   "couche": "ui",
+   "solution": "le focus ring n'est jamais animé — c'est une information de position pour la navigation",
+   "enonce": "L'anneau de focus d'un lien n'est jamais animé : c'est une information de position pour la navigation clavier, pas un effet.",
+   "mesure": "aucune propriété de l'anneau de focus n'est transitionnée ou animée",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T4",
+     "affirmation": "Transition d'état = feedback motion ; focus ring jamais animé",
+     "liens": [
+      {
+       "label": "`MOTION-UX.md` (§ Durées / § Ce qui ne s'anime pas), `BORDER-UX.md`",
+       "url": null
+      }
+     ],
+     "confiance": "Établi — langage transversal"
+    }
+   ],
+   "principale": {
+    "ref": "T4",
+    "affirmation": "Transition d'état = feedback motion ; focus ring jamais animé",
+    "liens": [
+     {
+      "label": "`MOTION-UX.md` (§ Durées / § Ce qui ne s'anime pas), `BORDER-UX.md`",
+      "url": null
+     }
+    ],
+    "confiance": "Établi — langage transversal"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U06",
+   "couche": "ui",
+   "solution": "navigation = élément `<a>` avec une destination réelle. Un handler JavaScript peut enrichir",
+   "enonce": "Toute navigation est portée par un élément d'ancre muni d'une destination réelle ; un gestionnaire JavaScript peut enrichir le comportement, jamais remplacer l'attribut de destination.",
+   "mesure": "tout élément de navigation est une ancre porteuse d'un href non vide",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T2",
+     "affirmation": "Lien natif avec destination réelle",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      }
+     ],
+     "confiance": "Normatif"
+    }
+   ],
+   "principale": {
+    "ref": "T2",
+    "affirmation": "Lien natif avec destination réelle",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     }
+    ],
+    "confiance": "Normatif"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U07",
+   "couche": "ui",
+   "solution": "destination courante = `aria-current` approprié. Nouveau contexte ou téléchargement =",
+   "enonce": "La destination courante est déclarée par la valeur appropriée d'aria-current, et un changement de contexte ou un téléchargement porte les attributs natifs correspondants accompagnés de l'annonce accessible prévue.",
+   "mesure": "la destination courante porte aria-current ; tout téléchargement porte l'attribut download",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T2",
+     "affirmation": "Lien natif avec destination réelle",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      }
+     ],
+     "confiance": "Normatif"
+    },
+    {
+     "ref": "T3",
+     "affirmation": "`aria-current` pour l'élément courant d'un ensemble",
+     "liens": [
+      {
+       "label": "WAI-ARIA — aria-current",
+       "url": "https://www.w3.org/TR/wai-aria-1.2/#aria-current"
+      }
+     ],
+     "confiance": "Normatif"
+    }
+   ],
+   "principale": {
+    "ref": "T2",
+    "affirmation": "Lien natif avec destination réelle",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     }
+    ],
+    "confiance": "Normatif"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U08",
+   "couche": "ui",
+   "solution": "un lien étendu de Card suit la technique documentée dans `CARD-UI.md`; les actions internes",
+   "enonce": "Le lien étendu d'une carte suit la technique documentée du composant carte, et les actions internes restent des éléments frères du lien, jamais ses descendants.",
+   "mesure": "aucun élément interactif n'est descendant du lien étendu d'une carte",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T2",
+     "affirmation": "Lien natif avec destination réelle",
+     "liens": [
+      {
+       "label": "HTML Living Standard — Links",
+       "url": "https://html.spec.whatwg.org/multipage/links.html"
+      }
+     ],
+     "confiance": "Normatif"
+    }
+   ],
+   "principale": {
+    "ref": "T2",
+    "affirmation": "Lien natif avec destination réelle",
+    "liens": [
+     {
+      "label": "HTML Living Standard — Links",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+     }
+    ],
+    "confiance": "Normatif"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U09",
+   "couche": "ui",
+   "solution": "l'icône inline utilise `icon.sm`; un lien autonome peut utiliser `icon.md`. Le trait et le",
+   "enonce": "L'icône d'un lien inline utilise la taille d'icône petite et celle d'un lien autonome peut utiliser la taille moyenne ; le trait et le dessin suivent la fondation d'iconographie.",
+   "mesure": "icône de lien inline = icon.sm ; icône de lien autonome ≤ icon.md",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "LINK-U10",
+   "couche": "ui",
+   "solution": "en `only`, le nom accessible est obligatoire et la zone interactive atteint la cible tactile",
+   "enonce": "Un lien icône seule porte obligatoirement un nom accessible et une zone interactive atteignant la cible tactile commune de 44 px, sans que le glyphe lui-même soit agrandi.",
+   "mesure": "tout lien icône seule a un nom accessible non vide et une zone interactive ≥ 44×44 px CSS",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T5",
+     "affirmation": "Cible pointeur : 24 × 24 px CSS (AA) et 44 × 44 px CSS (AAA)",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+      },
+      {
+       "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      }
+     ],
+     "confiance": "Établi, standard (AAA et AA) — le « 44 px commun » n'était rattaché à aucune référence"
+    },
+    {
+     "ref": "T8",
+     "affirmation": "Nom et rôle programmatiquement déterminables pour tout composant, liens icône seule compris",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Name, Role, Value",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html"
+      }
+     ],
+     "confiance": "Établi, standard (A)"
+    }
+   ],
+   "principale": {
+    "ref": "T5",
+    "affirmation": "Cible pointeur : 24 × 24 px CSS (AA) et 44 × 44 px CSS (AAA)",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.5.5 Target Size (Enhanced)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html"
+     },
+     {
+      "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+     }
+    ],
+    "confiance": "Établi, standard (AAA et AA) — le « 44 px commun » n'était rattaché à aucune référence"
+   },
+   "confiance": "",
+   "cas": []
+  }
+ ]
 }

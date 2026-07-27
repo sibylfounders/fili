@@ -67,8 +67,8 @@ Chaque composant nomme le registre `danger` selon ce qu'il signifie pour lui (de
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Ratios des paires texte/fond | Calcul formule WCAG (tools/test-rendu.js), valeurs DESIGN.md 1.8.0 | Vérifié numériquement |
-| Paires garanties par tokens appariés (container/on-container, field/border par calque) | [Material 3](https://developer.android.com/design/ui/mobile/guides/styles/color) (paires de rôles), [Carbon](https://carbondesignsystem.com/elements/color/usage/) (tokens contextuels par layer) | Établi — même mécanique, implémentation plus simple ici (un seul thème) |
-| Hover exempté de 1.4.11 mais testé quand même | [WCAG 1.4.11 Understanding](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html) | Établi (exemption) ; sur-test = choix interne |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Ratios des paires texte/fond | Calcul formule WCAG (tools/test-rendu.js), valeurs DESIGN.md 1.8.0 | Vérifié numériquement |
+| T2 | Paires garanties par tokens appariés (container/on-container, field/border par calque) | [Material 3](https://developer.android.com/design/ui/mobile/guides/styles/color) (paires de rôles), [Carbon](https://carbondesignsystem.com/elements/color/usage/) (tokens contextuels par layer) | Établi — même mécanique, implémentation plus simple ici (un seul thème) |
+| T3 | Hover exempté de 1.4.11 mais testé quand même | [WCAG 1.4.11 Understanding](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html) | Établi (exemption) ; sur-test = choix interne |
