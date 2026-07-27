@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { CardGroup, Modal } from "@sibyl/react";
+import { Button, CardGroup, Modal } from "@sibyl/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Decision } from "@/lib/doctrine";
 
@@ -49,6 +49,25 @@ function Champ({ titre, children }: { titre: string; children: React.ReactNode }
 }
 
 /** Titre de carte : l'énoncé quand il existe — la règle dite en une phrase pour un lecteur extérieur. */
+/**
+ * La modale apporte-t-elle quelque chose que la carte ne montre pas déjà ?
+ *
+ * La carte affiche l'énoncé, PUIS la mesure OU le problème, PUIS les compteurs. La modale
+ * ajoute la règle complète, les deux champs à la fois, les situations, la position du secteur
+ * et les liens de source. Quand elle n'ajoute rien, la carte ne doit proposer aucune ouverture :
+ * un survol qui promet un détail inexistant est une affordance mensongère (CARD-UX, « le relief
+ * est un signal, jamais un décor »).
+ */
+function aDuDetail(d: Decision): boolean {
+  if (d.cas.length > 0) return true;
+  if (d.contre) return true;
+  if (d.sources.some((s) => s.liens.some((l) => l.url))) return true;
+  if (d.mesure && d.probleme) return true;
+  // La carte n'affiche qu'une ligne ; la modale rend la règle entière. Elle ne vaut le
+  // déplacement que si ce texte dit sensiblement plus que ce qui est déjà lisible.
+  return d.solution.trim().length > titre(d).length + 40;
+}
+
 function titre(d: Decision): string {
   if (d.enonce) return d.enonce;
   return d.solution.split("\n")[0].replace(/[*`]/g, "").trim();
@@ -94,7 +113,11 @@ export function DecisionsGrille({
   const d = ouvert;
   return (
     <>
-      <CardGroup mode="clickable" separated label={`Règles — ${groupe}`}>
+      {/* Mode STATIC : les cartes n'ont pas toutes un détail à montrer, et « un seul mode
+          par collection » (CARD-UX) interdit d'en rendre une partie cliquable. L'ouverture
+          est donc une action explicite, présente uniquement quand la modale ajoute vraiment
+          quelque chose — voir aDuDetail(). */}
+      <CardGroup mode="static" separated label={`Règles — ${groupe}`}>
         {decisions.map((x) => (
           <CardGroup.Card
             key={x.id}
@@ -102,7 +125,19 @@ export function DecisionsGrille({
             className="scroll-mt-[72px]"
             titleAs="h4"
             title={titre(x)}
-            onActivate={() => setOuvert(x)}
+            actions={
+              aDuDetail(x) ? (
+                <Button.Root
+                  style="ghost"
+                  tone="neutral"
+                  size="sm"
+                  onClick={() => setOuvert(x)}
+                  aria-label={`Détail de la règle ${x.id}`}
+                >
+                  Voir le détail
+                </Button.Root>
+              ) : undefined
+            }
             description={
               x.mesure ? (
                 <>
