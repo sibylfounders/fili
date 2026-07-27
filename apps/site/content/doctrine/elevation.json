@@ -1658,6 +1658,22 @@
    "cas": []
   },
   {
+   "id": "ELEVATION-R20",
+   "couche": "ux",
+   "solution": "le PLAN et le RELIEF sont deux signaux distincts. Ce que porte un plan — son existence, son remplissage, ce qu'il promet quand il apparaît — appartient à `SURFACE-UX` (2026-07-27). L'élévation ne possède que l'ombre et la grammaire des trois natures ; elle ne dit pas ce qu'est une surface.",
+   "enonce": "La définition d'une surface et le signal que constitue son apparition appartiennent à SURFACE-UX ; ce document ne possède que l'ombre et la grammaire posé / creusé / plat.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
    "id": "ELEVATION-R18",
    "couche": "ux",
    "solution": "table ci-dessous",

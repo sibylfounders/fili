@@ -2,9 +2,9 @@
 sujet: collection
 nature: patterns
 resume: "Ce pattern orchestre **une grille d'items et ses outils** : la zone de collection, la mécanique des colonnes, la croissance (charger plus, pagination), le tri et les filtres, les états de…"
-selon-contexte: [adaptive, card, grid, spacing]
+selon-contexte: [adaptive, card, grid, spacing, surface]
 source: COLLECTION-UX.md v1.0.1 + COLLECTION-UI.md v1.0.0
-empreinte: sha256:cdedd7127e0d9b29
+empreinte: sha256:4562ca0766c8a1eb
 regles: {loi: 5, preference: 28, non_qualifie: 0}
 ---
 # RULES — collection (compilé, mode audit)
@@ -57,7 +57,7 @@ regles: {loi: 5, preference: 28, non_qualifie: 0}
   - vérifiable : le compteur de résultats est exposé dans une région live polie et sa valeur change à chaque changement de résultats
   - source : https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html
 - **[préférence]** Dans une collection, le mode d'interaction est une propriété du groupe et la présence d'une cible une propriété de l'élément ; un élément sans cible ne présente aucun signal d'interaction. `COLLECTION-R33`
-  - vérifiable : aucun élément dépourvu de destination ou de commande ne porte de curseur d'action, de relief au survol ni de mise en évidence au passage du pointeur.
+  - vérifiable : aucun élément dépourvu de destination ou de commande ne porte de curseur d'action, ne gagne de surface au survol, ni ne reçoit de relief.
   - le secteur : **aucun système public relevé ne l'écrit.
 - **[préférence]** L'uniformité de largeur, de rythme, d'ordre et de règles est le contrat d'une collection : la mise en avant d'un item passe par son rang, par sa taille en cellules ou par son contenu, jamais par une exception locale à ce contrat. `COLLECTION-R32`
 

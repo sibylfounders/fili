@@ -1,7 +1,7 @@
 {
  "titre": "Sources",
  "lead": "Toutes les références citées par le corpus, avec le nombre de règles qui s'y adossent. Les chiffres sont mesurés sur les fichiers eux-mêmes : une source qui n'apparaît nulle part ne figure pas ici, et une source très citée que nous ne saurions pas justifier serait un problème.",
- "total_citations": 1337,
+ "total_citations": 1362,
  "total_hotes": 86,
  "familles": [
   "Normes et spécifications",
@@ -19,8 +19,8 @@
    "description": "L'autorité normative du corpus. Quand une règle est déclarée « loi », c'est le plus souvent ici qu'elle est adossée : critères WCAG avec leur niveau, motifs ARIA, spécifications CSS. Une exigence d'accessibilité qui ne s'y rattache pas n'est pas opposable.",
    "monogramme": "WW",
    "logo": "w3c.svg",
-   "citations": 409,
-   "sujets": 33,
+   "citations": 415,
+   "sujets": 34,
    "hotes": [
     "w3.org",
     "drafts.csswg.org"
@@ -98,8 +98,8 @@
    "description": "La référence de comportement réel des navigateurs. C'est elle qui tranche les questions que personne ne pense à poser : ce que le mode de couleurs forcées supprime, ce que `:visited` peut encore styler, ce qu'une ombre coûte à peindre.",
    "monogramme": "MW",
    "logo": "mdn-web-docs.svg",
-   "citations": 133,
-   "sujets": 25,
+   "citations": 137,
+   "sujets": 26,
    "hotes": [
     "developer.mozilla.org"
    ]
@@ -274,8 +274,8 @@
    "description": "Le plus documenté des systèmes produit, et le plus souvent en désaccord avec les autres — ce qui en fait un excellent contradicteur. C'est le seul du panel à ne poser aucune échelle d'ombre, et cette dissidence est plus instructive qu'un accord de plus.",
    "monogramme": "CI",
    "logo": "carbon.svg",
-   "citations": 135,
-   "sujets": 20,
+   "citations": 141,
+   "sujets": 21,
    "hotes": [
     "carbondesignsystem.com"
    ]
@@ -287,8 +287,8 @@
    "description": "Cité pour ses tokens publiés et pour la précision de ses consignes de contenu. Réserve connue : plusieurs de ses pages ont migré ou sont marquées dépréciées, et une citation ancienne peut pointer une page qui n'existe plus.",
    "monogramme": "PS",
    "logo": "polaris.svg",
-   "citations": 105,
-   "sujets": 16,
+   "citations": 107,
+   "sujets": 17,
    "hotes": [
     "polaris-react.shopify.com",
     "polaris.shopify.com"
@@ -301,8 +301,8 @@
    "description": "Longtemps la source la plus citée du corpus, ce qui était un défaut en soi — un contradicteur aurait pu répondre « autant lire Atlassian directement ». Son poids a été volontairement réduit au profit des sources normatives.",
    "monogramme": "AD",
    "logo": "atlassian-design-system.svg",
-   "citations": 77,
-   "sujets": 12,
+   "citations": 79,
+   "sujets": 13,
    "hotes": [
     "atlassian.design"
    ]
@@ -331,8 +331,8 @@
    "description": "Consulté pour les rampes d'élévation et de rayon, où il publie des valeurs exploitables. Même réserve de lisibilité que Material sur une partie du site.",
    "monogramme": "FM",
    "logo": "fluent.svg",
-   "citations": 17,
-   "sujets": 3,
+   "citations": 19,
+   "sujets": 4,
    "hotes": [
     "fluent2.microsoft.design"
    ]
@@ -370,8 +370,8 @@
    "description": "Consulté sur les états de champ et le focus. Sa documentation étant largement en JavaScript, les vérifications se font sur ses feuilles de style publiées.",
    "monogramme": "PG",
    "logo": "primer.svg",
-   "citations": 4,
-   "sujets": 2,
+   "citations": 6,
+   "sujets": 3,
    "hotes": [
     "primer.style"
    ]

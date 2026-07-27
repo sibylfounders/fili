@@ -142,6 +142,11 @@ SOURCE : S16, S12
 ÉNONCÉ : Les valeurs d'élévation et de liseré appartiennent au thème : un thème les redéfinit comme il redéfinit ses couleurs de fond.
 MESURE : aucune valeur d'ombre ou de liseré codée en dur hors de la définition de thème
 
+RÈGLE [ELEVATION-R20] : le PLAN et le RELIEF sont deux signaux distincts. Ce que porte un plan — son existence, son remplissage, ce qu'il promet quand il apparaît — appartient à `SURFACE-UX` (2026-07-27). L'élévation ne possède que l'ombre et la grammaire des trois natures ; elle ne dit pas ce qu'est une surface.
+STATUT : note de méthode
+SOURCE : interne
+ÉNONCÉ : La définition d'une surface et le signal que constitue son apparition appartiennent à SURFACE-UX ; ce document ne possède que l'ombre et la grammaire posé / creusé / plat.
+
 ## Risque
 
 RÈGLE [ELEVATION-R18] : table ci-dessous

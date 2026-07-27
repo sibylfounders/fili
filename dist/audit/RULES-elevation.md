@@ -2,9 +2,9 @@
 sujet: elevation
 nature: foundations
 resume: "Ce fichier contient le raisonnement : ce que la profondeur *signifie*, quand le relief est un signal et quand il est du bruit."
-selon-contexte: [alert, button, card, input, interaction, motion, toast, typography]
+selon-contexte: [alert, button, card, input, interaction, motion, surface, toast, typography]
 source: ELEVATION-UX.md v2.0.0 + ELEVATION-UI.md v2.0.0
-empreinte: sha256:57dcd007b514d7e4
+empreinte: sha256:bad4b5fa13aaf5c6
 regles: {loi: 3, preference: 13, non_qualifie: 0}
 ---
 # RULES — elevation (compilé, mode audit)

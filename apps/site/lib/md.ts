@@ -41,7 +41,7 @@ const INVENTAIRES: Record<string, string> = {
   navigation: "navigation", overlay: "overlay", performance: "performance", radius: "radius",
   select: "select", switch: "switch", touch: "touch", typographie: "typography",
   voix: "voice", whitespace: "spacing",
-  modal: "modal", tabs: "tabs", consentement: "consentement",
+  modal: "modal", tabs: "tabs", consentement: "consentement", surface: "surface",
 };
 
 export type Meta = {

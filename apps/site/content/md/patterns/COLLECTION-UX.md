@@ -226,14 +226,21 @@ SOURCE : interne
 | Barre d'outils improvisée sans composants | Contrôles incohérents, dette d'accessibilité | Moyenne à élevée |
 | État de collection oublié au retour | Parcours payé deux fois, abandon | Moyenne |
 
-RÈGLE [COLLECTION-R33] : **le mode appartient à la collection, la cible appartient à l'élément.** Une collection ne porte qu'un seul mode d'interaction (R28) — mais tous ses éléments n'ont pas forcément une destination : une règle sans détail supplémentaire, une ligne sans fiche, une option indisponible. Un élément qui n'ouvre rien se déclare **sans cible** et perd alors *toute* affordance : pas de curseur d'action, pas de relief au survol, pas de mise en évidence au passage du pointeur, pas de cible étendue. Il garde sa place, sa forme et son rang dans la collection.
+RÈGLE [COLLECTION-R33] : **le mode appartient à la collection, la cible appartient à l'élément.** Une collection ne porte qu'un seul mode d'interaction (R28) — mais tous ses éléments n'ont pas forcément une destination : une règle sans détail supplémentaire, une ligne sans fiche, une option indisponible. Un élément qui n'ouvre rien se déclare **sans cible** et perd alors *toute* affordance : pas de curseur d'action, pas de **surface** au survol, pas de relief, pas de cible étendue. Il garde sa place, sa forme et son rang dans la collection.
 STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Dans une collection, le mode d'interaction est une propriété du groupe et la présence d'une cible une propriété de l'élément ; un élément sans cible ne présente aucun signal d'interaction.
-MESURE : aucun élément dépourvu de destination ou de commande ne porte de curseur d'action, de relief au survol ni de mise en évidence au passage du pointeur.
+MESURE : aucun élément dépourvu de destination ou de commande ne porte de curseur d'action, ne gagne de surface au survol, ni ne reçoit de relief.
 CONTRE : **aucun système public relevé ne l'écrit.** Les motifs ARIA de liste et de grille documentent la sélection et le tri, jamais la disponibilité d'un élément isolé ; le motif Listbox ne mentionne même pas d'option désactivée (vérifié le 2026-07-27). Notre position est donc isolée, et assumée comme telle.
 POURQUOI : sans cette séparation, il ne reste que deux issues, toutes deux mauvaises. Garder l'affordance partout fait promettre au survol un contenu qui n'existe pas — un mensonge d'interface, et la contradiction directe de « le relief est un signal, jamais un décor » (CARD-UX). Retirer l'affordance partout oblige à réintroduire un bouton explicite sur chaque élément qui, lui, mène quelque part : l'interface s'alourdit d'un contrôle par ligne pour compenser une information que la carte pouvait porter seule.
 
+> **Ce qui change au survol est le PLAN, pas l'ombre.** Dans une collection, l'élément visé
+> quitte le fond de page et gagne une **surface** — un plan qui porte le contenu et se détache
+> de ce qui l'entoure. Le relief, lui, n'intervient qu'ensuite et seulement s'il est mérité.
+> La distinction n'est pas cosmétique : c'est elle qui permet de signaler « visé » sans
+> promettre « soulevé, donc pressable ». Le vocabulaire a désormais un propriétaire :
+> `SURFACE-UX` (fondation ouverte le 2026-07-27, née de ce constat).
+>
 > **Corollaire — l'action se déclare.** Retirer l'affordance ne suffit pas : sur les éléments
 > qui, eux, ont une cible, l'action est **nommée** (« Comprendre la règle → »), et ce libellé
 > n'apparaît jamais sur un élément sans cible. Deux conséquences : le survol cesse d'être le

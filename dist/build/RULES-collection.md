@@ -2,9 +2,9 @@
 sujet: collection
 nature: patterns
 resume: "Ce pattern orchestre **une grille d'items et ses outils** : la zone de collection, la mécanique des colonnes, la croissance (charger plus, pagination), le tri et les filtres, les états de…"
-selon-contexte: [adaptive, card, grid, spacing]
+selon-contexte: [adaptive, card, grid, spacing, surface]
 source: COLLECTION-UX.md v1.0.1 + COLLECTION-UI.md v1.0.0
-empreinte: sha256:cdedd7127e0d9b29
+empreinte: sha256:4562ca0766c8a1eb
 regles: {loi: 5, preference: 28, non_qualifie: 0}
 ---
 # RULES — collection (compilé, mode build)
