@@ -33,6 +33,20 @@ def fichiers(slug):
     return None, None, None
 
 
+def audience(slug):
+    """`audience: humans` — sujet de RÉFÉRENCE HUMAINE, jamais compilé vers `dist/`.
+
+    Décision journalée le 2026-07-12 (DECISIONS.md) et portée par LAWS-R02 : un catalogue
+    qui ne pose aucune contrainte que le build consomme n'a pas à peser dans le contexte
+    de l'IA. Le champ absent vaut « machine » — un sujet est compilé par défaut.
+    """
+    _, pux, _ = fichiers(slug)
+    if not pux:
+        return "machine"
+    m = re.search(r"^audience:\s*([a-z]+)", open(pux, encoding="utf-8").read(), re.M)
+    return m.group(1) if m else "machine"
+
+
 def entete(src):
     """version, chapeau et empreinte d'un fichier source."""
     v = re.search(r"^version:\s*\"?([0-9.]+)\"?", src, re.M)
@@ -106,6 +120,8 @@ def compile_sujet(slug, mode="audit"):
     nature, pux, pui = fichiers(slug)
     if not pux:
         return None
+    if audience(slug) == "humans":
+        return None  # référence humaine : aucun RULES, absent du routeur (LAWS-R02)
     sux = open(pux, encoding="utf-8").read()
     sui = open(pui, encoding="utf-8").read() if os.path.exists(pui) else ""
     vux, chapeau = entete(sux)
@@ -193,6 +209,12 @@ def tous():
 
 if __name__ == "__main__":
     cibles = tous() if (len(sys.argv) > 1 and sys.argv[1] == "--tous") else [sys.argv[1]]
+    humains = [s for s in cibles if audience(s) == "humans"]
+    for s in humains:
+        print(f"— {s} : audience: humans, référence humaine non compilée (LAWS-R02) — ignoré")
+    cibles = [s for s in cibles if s not in humains]
+    if not cibles:
+        sys.exit(0)
     for m in ("build", "audit"):
         res = [r for r in (compile_sujet(s, m) for s in cibles) if r]
         t = sum(r["tokens"] for r in res)

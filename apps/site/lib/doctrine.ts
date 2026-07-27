@@ -88,10 +88,26 @@ export type Fiche = {
 
 let _slugs: string[] | null = null;
 
+/**
+ * `content/doctrine/` héberge aussi des données qui ne sont PAS des fiches — `sources.json`
+ * alimente la page propre `/md/methode/sources/`. Une fiche se reconnaît à ses volets :
+ * sans ce filtre, `generateStaticParams` réclamait une page `/md/sources` et le build
+ * de production tombait sur `f.cas` absent.
+ */
+function estFiche(x: unknown): x is Fiche {
+  const f = x as Partial<Fiche> | undefined | null;
+  return !!f && typeof f.slug === "string" && Array.isArray(f.cas);
+}
+
 export function slugsDoctrine(): string[] {
   if (_slugs) return _slugs;
   _slugs = fs.existsSync(ROOT)
-    ? fs.readdirSync(ROOT).filter((f) => f.endsWith(".json")).map((f) => f.replace(/\.json$/, "")).sort()
+    ? fs
+        .readdirSync(ROOT)
+        .filter((f) => f.endsWith(".json"))
+        .map((f) => f.replace(/\.json$/, ""))
+        .filter((slug) => fiche(slug) !== undefined)
+        .sort()
     : [];
   return _slugs;
 }
@@ -102,7 +118,8 @@ const _cache = new Map<string, Fiche | undefined>();
 export function fiche(slug: string): Fiche | undefined {
   if (_cache.has(slug)) return _cache.get(slug);
   const p = path.join(ROOT, `${slug}.json`);
-  const f = fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as Fiche) : undefined;
+  const brut: unknown = fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, "utf8")) : undefined;
+  const f = estFiche(brut) ? brut : undefined;
   _cache.set(slug, f);
   return f;
 }
