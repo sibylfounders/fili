@@ -8,6 +8,7 @@ type Entree = {
   url: string;
   description: string;
   monogramme: string;
+  logo: string;
   citations: number;
   sujets: number;
 };
@@ -21,28 +22,60 @@ type Sources = {
   entrees: Entree[];
 };
 
+const DOSSIER_LOGOS = path.join(process.cwd(), "public", "logos");
+
 function sources(): Sources {
   const p = path.join(process.cwd(), "content", "doctrine", "sources.json");
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-/** Pastille de source — monogramme, jamais un logo distant : voir la note en bas de page. */
-function Pastille({ texte }: { texte: string }) {
+/** Logos réellement déposés — lu une fois au rendu, pas de test par entrée. */
+function logosPresents(): Set<string> {
+  try {
+    return new Set(fs.readdirSync(DOSSIER_LOGOS));
+  } catch {
+    return new Set();
+  }
+}
+
+/**
+ * Pastille de source — le logo s'il a été déposé dans `public/logos/`, sinon un monogramme.
+ * Les logos sont servis depuis notre propre domaine : aucune requête vers un tiers, donc
+ * aucune adresse IP de visiteur transmise. C'est la contrainte que nos audits imposent aux
+ * autres, elle vaut d'abord pour nous.
+ */
+function Pastille({ e, present }: { e: Entree; present: boolean }) {
+  if (present) {
+    return (
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border-subtle bg-surface p-1">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/logos/${e.logo}`}
+          alt=""
+          aria-hidden="true"
+          width={32}
+          height={32}
+          loading="lazy"
+          className="h-full w-full object-contain"
+        />
+      </span>
+    );
+  }
   return (
     <span
       aria-hidden="true"
       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border-subtle bg-surface-secondary font-label text-sm font-semibold tracking-wide text-text-secondary"
     >
-      {texte}
+      {e.monogramme}
     </span>
   );
 }
 
-function Carte({ e }: { e: Entree }) {
+function Carte({ e, present }: { e: Entree; present: boolean }) {
   return (
     <li className="m-0 list-none rounded-lg border border-border-subtle bg-surface p-md">
       <div className="flex items-start gap-sm">
-        <Pastille texte={e.monogramme} />
+        <Pastille e={e} present={present} />
         <div className="min-w-0">
           <h3 className="m-0 text-base font-semibold text-text-primary">
             <a
@@ -67,6 +100,9 @@ function Carte({ e }: { e: Entree }) {
 
 export default function SourcesPage() {
   const d = sources();
+  const presents = logosPresents();
+  const poses = d.entrees.filter((e) => presents.has(e.logo)).length;
+
   return (
     <main className="mx-auto max-w-[980px] px-lg py-xl">
       <p className="m-0">
@@ -97,7 +133,7 @@ export default function SourcesPage() {
             <h2 className="m-0 text-xl font-medium text-text-primary">{f}</h2>
             <ul className="mt-md grid list-none grid-cols-1 gap-md p-0 md:grid-cols-2">
               {lot.map((e) => (
-                <Carte key={e.nom} e={e} />
+                <Carte key={e.nom} e={e} present={presents.has(e.logo)} />
               ))}
             </ul>
           </section>
@@ -105,20 +141,20 @@ export default function SourcesPage() {
       })}
 
       <section className="mt-xl rounded-lg border border-border-subtle bg-surface-secondary p-md">
-        <h2 className="m-0 text-base font-semibold text-text-primary">
-          Pourquoi il n&rsquo;y a pas de logos
-        </h2>
+        <h2 className="m-0 text-base font-semibold text-text-primary">Les logos</h2>
         <p className="m-0 mt-sm max-w-[70ch] text-sm leading-relaxed text-text-secondary">
-          Afficher les logos supposerait de les charger depuis les serveurs de chaque organisation,
-          ce qui transmettrait l&rsquo;adresse IP de chaque visiteur à trente-quatre tiers pour un
-          bénéfice décoratif. C&rsquo;est exactement le défaut que nos audits signalent chez nos
-          clients&nbsp;: nous n&rsquo;allons pas le commettre sur notre propre page de sources. Les
-          pastilles sont générées à partir du nom.
+          {poses} logo{poses > 1 ? "s" : ""} sur {d.entrees.length} {poses > 1 ? "sont" : "est"}{" "}
+          en place. Les autres affichent un monogramme en attendant leur fichier.
         </p>
         <p className="m-0 mt-sm max-w-[70ch] text-sm leading-relaxed text-text-secondary">
-          Des logos hébergés localement, sous licence vérifiée, resteraient possibles&nbsp;: ils se
-          poseraient dans <code>public/logos/</code> sans changer cette page autrement que par le
-          rendu de la pastille.
+          Ils sont servis depuis notre propre domaine, jamais chargés chez leur propriétaire&nbsp;:
+          aucune requête vers un tiers, donc aucune adresse IP de visiteur transmise. C&rsquo;est la
+          contrainte que nos audits imposent aux autres, elle vaut d&rsquo;abord pour nous.
+        </p>
+        <p className="m-0 mt-sm max-w-[70ch] text-sm leading-relaxed text-text-secondary">
+          Ces marques appartiennent à leurs détenteurs et sont reproduites au seul titre de la
+          citation de nos sources. Leur présence n&rsquo;indique ni partenariat, ni approbation, ni
+          affiliation.
         </p>
       </section>
 

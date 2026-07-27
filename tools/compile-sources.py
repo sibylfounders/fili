@@ -200,6 +200,15 @@ FAMILLES = ["Normes et spécifications", "Régulateurs", "Plateformes",
             "Design systems publics", "Design systems produit", "Recherche et analyse"]
 
 
+def slug_logo(nom):
+    """Nom de fichier attendu dans `public/logos/` — la page retombe sur le monogramme s'il manque."""
+    import unicodedata
+    n = nom.split("—")[0].strip()
+    n = unicodedata.normalize("NFKD", n).encode("ascii", "ignore").decode()
+    n = re.sub(r"[^\w\s-]", "", n).strip().lower()
+    return re.sub(r"[\s_]+", "-", n) + ".svg"
+
+
 def monogramme(nom):
     """Deux lettres tirées du nom — aucune image tierce n'est chargée (cf. note de la page)."""
     mots = re.sub(r"[^\w\s—-]", " ", nom).replace("—", " ").split()
@@ -231,7 +240,8 @@ def main():
         n = sum(cit[h] for h in hotes)
         s = set().union(*(suj[h] for h in hotes)) if hotes else set()
         entrees.append({"nom": nom, "famille": famille, "url": url, "description": desc,
-                        "monogramme": monogramme(nom), "citations": n, "sujets": len(s),
+                        "monogramme": monogramme(nom), "logo": slug_logo(nom),
+                        "citations": n, "sujets": len(s),
                         "hotes": hotes})
 
     entrees.sort(key=lambda e: (FAMILLES.index(e["famille"]), -e["citations"]))
