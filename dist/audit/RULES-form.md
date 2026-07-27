@@ -3,8 +3,8 @@ sujet: form
 nature: patterns
 resume: "Ce fichier n'est pas un composant au sens de BUTTON-UX.md ou INPUT-UX.md — c'est un **pattern**, une règle qui n'émerge que quand plusieurs champs et un bouton sont assemblés."
 selon-contexte: [alert, button, emotion, input, interaction, motion, toast, voice]
-source: FORM-UX.md v2.3.0 + FORM-UI.md v1.3.0
-empreinte: sha256:be42fa4a6b695a00
+source: FORM-UX.md v2.3.1 + FORM-UI.md v1.3.0
+empreinte: sha256:702de78bed9c68f5
 regles: {loi: 17, preference: 52, non_qualifie: 0}
 ---
 # RULES — form (compilé, mode audit)

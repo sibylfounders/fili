@@ -3,8 +3,8 @@ sujet: cognitive-load
 nature: principles
 resume: "Ce fichier pose les **obligations universelles de charge cognitive** : ce que tout écran, composant, pattern et flow doit respecter pour que l'interface n'impose jamais plus de travail mental que…"
 selon-contexte: [laws]
-source: COGNITIVE-LOAD-UX.md v1.0.0
-empreinte: sha256:a37e3e0b06bc6441
+source: COGNITIVE-LOAD-UX.md v1.0.1
+empreinte: sha256:62334d3ebc1c66d9
 regles: {loi: 7, preference: 8, non_qualifie: 0}
 ---
 # RULES — cognitive-load (compilé, mode audit)

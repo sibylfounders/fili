@@ -4349,6 +4349,22 @@
    "cas": []
   },
   {
+   "id": "CARD-R77",
+   "couche": "ux",
+   "solution": "la présence d'une cible n'est pas un mode. Dans une collection interactive, un élément peut n'avoir rien à ouvrir — il se déclare alors sans cible et perd toute affordance, sans que la collection change de mode. La règle appartient à `COLLECTION-UX` (R33) ; elle est rappelée ici parce que la carte en est le premier porteur.",
+   "enonce": "La règle de l'élément sans cible dans une collection interactive appartient à COLLECTION-UX (R33) ; ce document ne la redéfinit pas.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
    "id": "CARD-R75",
    "couche": "ux",
    "solution": "table ci-dessous",

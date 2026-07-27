@@ -5,7 +5,7 @@ export { createIcon } from "./create-icon";
 export type { IconProps } from "./create-icon";
 
 /**
- * Jeu d'icônes @ds-ui — dessiné au trait, idiome Lucide (24×24, stroke 2, arrondi).
+ * Jeu d'icônes @sibyl/react — dessiné au trait, idiome Lucide (24×24, stroke 2, arrondi).
  * Regroupé par famille. Toutes héritent `currentColor` et se dimensionnent via `size`.
  * Ce n'est pas un portage 1:1 de Lucide (dépendance non récupérable dans l'environnement) :
  * ce sont des glyphes maison à la même grammaire visuelle, remplaçables plus tard par le

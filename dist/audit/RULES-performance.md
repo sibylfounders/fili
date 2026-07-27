@@ -3,8 +3,8 @@ sujet: performance
 nature: principles
 resume: "Ce fichier pose le **contrat des attentes** : ce que l'interface montre, dit et promet pendant que le système travaille."
 selon-contexte: [laws]
-source: PERFORMANCE-UX.md v1.0.0
-empreinte: sha256:2cc75e6ab8a612c2
+source: PERFORMANCE-UX.md v1.0.1
+empreinte: sha256:b14fd85a642c0639
 regles: {loi: 6, preference: 8, non_qualifie: 0}
 ---
 # RULES — performance (compilé, mode audit)

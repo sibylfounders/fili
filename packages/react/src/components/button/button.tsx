@@ -1,3 +1,7 @@
+"use client";
+// Composant interactif : hooks, contexte ou primitive Radix au niveau module.
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -6,7 +10,7 @@ import "./relief.css";
 
 /**
  * Button — construit sur les RÈGLES de Design System MD (autorité UX),
- * habillé par les tokens @ds-ui/tokens.
+ * habillé par les tokens @sibyl/tokens.
  *
  * MODÈLE (évolution 0.3.0, alignée sur le modèle orthogonal de la référence) :
  * deux axes vraiment indépendants + la taille —

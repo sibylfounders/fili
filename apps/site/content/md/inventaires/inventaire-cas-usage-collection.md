@@ -22,6 +22,7 @@
 | Cadre de page de la collection | La collection vit dans grid.container-wide, centrée | Couvert — GRID (largeurs de conteneur) |
 | Ordre préservé au reflux | 3→2→1 colonnes ne change jamais l'ordre de lecture ni le DOM | Couvert — ADAPTIVE (ordre DOM) + COLLECTION (l'applique à la grille) |
 | Item unique ou rare | Une collection d'un ou deux items garde sa grille — pas de mise en scène spéciale | Couvert — COLLECTION (la grille est un contrat, pas une décoration) |
+| Élément sans cible dans une collection interactive | Une règle sans détail, une ligne sans fiche, une option indisponible | Couvert — R33 (carte, liste, tableau, menu) |
 
 ## 2. Contenu et uniformité (autorité CARD — le pattern renvoie)
 

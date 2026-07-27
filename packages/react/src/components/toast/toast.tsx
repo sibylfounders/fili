@@ -1,3 +1,7 @@
+"use client";
+// Composant interactif : hooks, contexte ou primitive Radix au niveau module.
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { cva } from "class-variance-authority";
@@ -7,8 +11,8 @@ import "./toast.css";
 /**
  * Toast — confirmation RÉACTIVE, chronométrée, superposée au contenu (jamais dans le flux —
  * cf. Alert pour le territoire « condition qui dure, dans le flux »). Construit sur
- * `atelier/components/toast/TOAST-UX.md` + `TOAST-UI.md` (Design System MD, adopté 2026-07-20),
- * habillé par les tokens @ds-ui/tokens. Partage la palette/silhouettes de `Alert` (tone × icône
+ * `content/md/components/TOAST-UX.md` + `TOAST-UI.md` (doctrine DS-MD, adopté 2026-07-20),
+ * habillé par les tokens @sibyl/tokens. Partage la palette/silhouettes de `Alert` (tone × icône
  * normative), diverge sur : élévation (`elevation.overlay`, seul des deux à en porter une),
  * empilement (FIFO par ordre d'arrivée, PAS par gravité décroissante), position (pilotée par
  * Adaptive via Container Queries — jamais un ancrage fixe au viewport) et durée de vie

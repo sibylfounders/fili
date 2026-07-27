@@ -142,7 +142,15 @@ export function DecisionsGrille({
             }
           >
             <span className="mt-sm flex flex-wrap items-center gap-sm">
-              <span className="font-mono text-xs font-semibold text-primary">{x.id}</span>
+              {/* L'action est DÉCLARÉE, pas seulement suggérée par le survol — et elle
+                  n'apparaît que sur les cartes qui ont une cible. Une carte sans détail
+                  n'affiche donc ni texte accentué, ni flèche : rien qui ressemble à un lien.
+                  Ce n'est pas un élément interactif imbriqué (interdit dans une cible
+                  étendue, LINK-R16) mais un libellé ; la cible reste le titre de la carte. */}
+              {aDuDetail(x) ? (
+                <span className="text-xs font-medium text-primary">Comprendre la règle →</span>
+              ) : null}
+              <span className="font-mono text-xs font-semibold text-text-muted">{x.id}</span>
               <Pastille titre={COURT[x.statut].aide}>{COURT[x.statut].label}</Pastille>
               {x.couche === "ux" && x.statut !== "methode" && x.cas.length === 0 ? (
                 <Pastille ton="muted" titre="Aucune situation concrète ne l'illustre encore — trou de couverture, pas un défaut de la règle.">

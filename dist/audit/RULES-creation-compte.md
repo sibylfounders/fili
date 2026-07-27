@@ -2,9 +2,9 @@
 sujet: creation-compte
 nature: flows
 resume: "Ce fichier n'est ni un composant (BUTTON-UX, INPUT-UX) ni un pattern (FORM-UX) — c'est un **flow**, un parcours nommé de bout en bout."
-selon-contexte: [alert, button, emotion, form, input, interaction, motion, voice]
-source: CREATION-COMPTE-UX.md v1.3.2
-empreinte: sha256:bb529767170047b2
+selon-contexte: [alert, button, emotion, form, input, interaction, laws, motion, voice]
+source: CREATION-COMPTE-UX.md v1.3.3
+empreinte: sha256:d056b46924bcd6fe
 regles: {loi: 28, preference: 29, non_qualifie: 0}
 ---
 # RULES — creation-compte (compilé, mode audit)

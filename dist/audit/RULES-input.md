@@ -3,8 +3,8 @@ sujet: input
 nature: components
 resume: "Ce fichier contient le raisonnement : quand valider, quel wording, quels risques."
 selon-contexte: [accessibility, adaptive, border, button, emotion, form, interaction, motion, toast, typography, voice]
-source: INPUT-UX.md v1.7.0 + INPUT-UI.md v1.6.0
-empreinte: sha256:b07104c00d66f8c2
+source: INPUT-UX.md v1.7.1 + INPUT-UI.md v1.6.0
+empreinte: sha256:df4c0e6aef8b4e07
 regles: {loi: 22, preference: 35, non_qualifie: 0}
 ---
 # RULES — input (compilé, mode audit)

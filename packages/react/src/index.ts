@@ -1,4 +1,4 @@
-// @ds-ui/react — bibliothèque de composants (React + Radix + Tailwind, tokens @ds-ui/tokens)
+// @sibyl/react — bibliothèque de composants (React + Radix + Tailwind, tokens @sibyl/tokens)
 export * from "./components/button";
 export * from "./components/compact-button";
 export * from "./components/input";

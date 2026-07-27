@@ -533,6 +533,11 @@ MESURE : toute opération de glisser-déposer dispose d'un contrôle équivalent
 
 *Le reste du Kanban — affordance visuelle de saisie, réordonnancement fin, région live d'annonce — relève de l'extension à naître `collection-kanban` du pattern collection (COLLECTION-UX.md, § À approfondir) ; hors scope ici. Seule l'obligation d'alternative est normative dans ce fichier.*
 
+RÈGLE [CARD-R77] : la présence d'une cible n'est pas un mode. Dans une collection interactive, un élément peut n'avoir rien à ouvrir — il se déclare alors sans cible et perd toute affordance, sans que la collection change de mode. La règle appartient à `COLLECTION-UX` (R33) ; elle est rappelée ici parce que la carte en est le premier porteur.
+STATUT : note de méthode
+SOURCE : interne
+ÉNONCÉ : La règle de l'élément sans cible dans une collection interactive appartient à COLLECTION-UX (R33) ; ce document ne la redéfinit pas.
+
 ## Risque
 
 RÈGLE [CARD-R75] : table ci-dessous

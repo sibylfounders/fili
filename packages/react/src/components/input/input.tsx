@@ -1,3 +1,7 @@
+"use client";
+// Composant interactif : hooks, contexte ou primitive Radix au niveau module.
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -6,7 +10,7 @@ import "./input.css";
 
 /**
  * Input — construit sur les RÈGLES de Design System MD (autorité UX),
- * habillé par les tokens @ds-ui/tokens. API compound inspirée de la LOGIQUE
+ * habillé par les tokens @sibyl/tokens. API compound inspirée de la LOGIQUE
  * de référence : Root > Wrapper > (Icon · Input · InlineAffix) + Affix.
  *
  * Axes DS-MD, ORTHOGONAUX : tone × size × field_type (le type HTML natif).

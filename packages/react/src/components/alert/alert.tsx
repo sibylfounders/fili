@@ -1,10 +1,14 @@
+"use client";
+// Composant interactif : hooks, contexte ou primitive Radix au niveau module.
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 
 /**
  * Alert — messages d'état DANS le flux de la page. Construit sur les RÈGLES de
- * Design System MD (autorité UX), habillé par les tokens @ds-ui/tokens.
+ * Design System MD (autorité UX), habillé par les tokens @sibyl/tokens.
  *
  * Axes DS-MD : tone (info / success / warning / danger) × persistance
  * (permanent / dismissible — portée par la présence d'<Alert.Close>).

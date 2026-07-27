@@ -3,8 +3,8 @@ sujet: typography
 nature: foundations
 resume: "Ce fichier contient le raisonnement : hiérarchie, lisibilité, risques."
 selon-contexte: [alert, button, card, form, input]
-source: TYPOGRAPHY-UX.md v1.1.2 + TYPOGRAPHY-UI.md v1.1.0
-empreinte: sha256:2e942a28f9673f32
+source: TYPOGRAPHY-UX.md v1.1.3 + TYPOGRAPHY-UI.md v1.1.0
+empreinte: sha256:4b5768ddbbf4940c
 regles: {loi: 15, preference: 16, non_qualifie: 0}
 ---
 # RULES — typography (compilé, mode audit)

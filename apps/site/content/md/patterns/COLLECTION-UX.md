@@ -226,6 +226,28 @@ SOURCE : interne
 | Barre d'outils improvisée sans composants | Contrôles incohérents, dette d'accessibilité | Moyenne à élevée |
 | État de collection oublié au retour | Parcours payé deux fois, abandon | Moyenne |
 
+RÈGLE [COLLECTION-R33] : **le mode appartient à la collection, la cible appartient à l'élément.** Une collection ne porte qu'un seul mode d'interaction (R28) — mais tous ses éléments n'ont pas forcément une destination : une règle sans détail supplémentaire, une ligne sans fiche, une option indisponible. Un élément qui n'ouvre rien se déclare **sans cible** et perd alors *toute* affordance : pas de curseur d'action, pas de relief au survol, pas de mise en évidence au passage du pointeur, pas de cible étendue. Il garde sa place, sa forme et son rang dans la collection.
+STATUT : parti pris d'identité
+SOURCE : interne
+ÉNONCÉ : Dans une collection, le mode d'interaction est une propriété du groupe et la présence d'une cible une propriété de l'élément ; un élément sans cible ne présente aucun signal d'interaction.
+MESURE : aucun élément dépourvu de destination ou de commande ne porte de curseur d'action, de relief au survol ni de mise en évidence au passage du pointeur.
+CONTRE : **aucun système public relevé ne l'écrit.** Les motifs ARIA de liste et de grille documentent la sélection et le tri, jamais la disponibilité d'un élément isolé ; le motif Listbox ne mentionne même pas d'option désactivée (vérifié le 2026-07-27). Notre position est donc isolée, et assumée comme telle.
+POURQUOI : sans cette séparation, il ne reste que deux issues, toutes deux mauvaises. Garder l'affordance partout fait promettre au survol un contenu qui n'existe pas — un mensonge d'interface, et la contradiction directe de « le relief est un signal, jamais un décor » (CARD-UX). Retirer l'affordance partout oblige à réintroduire un bouton explicite sur chaque élément qui, lui, mène quelque part : l'interface s'alourdit d'un contrôle par ligne pour compenser une information que la carte pouvait porter seule.
+
+> **Corollaire — l'action se déclare.** Retirer l'affordance ne suffit pas : sur les éléments
+> qui, eux, ont une cible, l'action est **nommée** (« Comprendre la règle → »), et ce libellé
+> n'apparaît jamais sur un élément sans cible. Deux conséquences : le survol cesse d'être le
+> seul indice — donc l'information existe aussi au clavier, au lecteur d'écran et sur un
+> écran tactile où le survol n'existe pas ; et l'absence de texte accentué devient elle-même
+> le signal qu'il n'y a rien à ouvrir. Le libellé est un **texte**, pas un lien : imbriquer
+> un élément interactif dans une cible étendue est interdit (LINK-R16).
+>
+> **Portée** : la règle est écrite au niveau de la collection parce qu'elle ne concerne pas la carte.
+> Elle vaut identiquement pour une liste dont certaines entrées sont dépliables, pour un tableau
+> dont certaines lignes mènent à une fiche et d'autres non, pour un menu dont une option est
+> momentanément indisponible. Le premier consommateur est `CardGroup.Card` (prop `inactive`,
+> 2026-07-27) ; les suivants devront exposer la même distinction sous le même nom.
+
 ## Règle transversale
 
 RÈGLE [COLLECTION-R32] : **la grille est un contrat, pas une décoration.** Ce que la collection promet — même largeur, même rythme, même ordre, mêmes règles pour chaque item — est exactement ce que l'utilisateur utilise pour balayer vite. Chaque exception locale (une carte plus large « pour mettre en avant », un ratio différent « juste ici ») dépense la prédictibilité de toute la collection. La mise en avant se fait par l'ordre, la taille *dans* la grille (régime composé) ou le contenu — jamais en cassant le contrat.

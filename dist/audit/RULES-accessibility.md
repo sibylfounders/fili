@@ -3,8 +3,8 @@ sujet: accessibility
 nature: principles
 resume: "Ce fichier pose les **obligations universelles** d'accessibilité que tout composant, pattern, fondation et langage doit respecter — le contrat minimal, pas le détail."
 selon-contexte: []
-source: ACCESSIBILITY-UX.md v1.1.0
-empreinte: sha256:7e385fb61c6490d8
+source: ACCESSIBILITY-UX.md v1.1.1
+empreinte: sha256:992fdf4da2ee5f1f
 regles: {loi: 8, preference: 2, non_qualifie: 0}
 ---
 # RULES — accessibility (compilé, mode audit)

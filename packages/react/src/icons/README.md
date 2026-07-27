@@ -1,4 +1,4 @@
-# @ds-ui — Icônes
+# @sibyl/react — Icônes
 
 Jeu d'icônes React au trait (idiome Lucide : viewBox 24×24, `stroke` 2, bouts/jointures arrondis),
 toutes en `currentColor`. L'icône **hérite la couleur du texte parent** — donc le `tone` d'un Button,
@@ -7,7 +7,7 @@ le rôle `icon-*` d'un contexte, etc. — et se dimensionne sur les crans de la 
 ## Usage
 
 ```tsx
-import { ArrowRight, Search, Trash } from "@ds-ui/react";
+import { ArrowRight, Search, Trash } from "@sibyl/react";
 
 <Search />                    {/* 20px (icon.md) par défaut, currentColor */}
 <Search size={16} />          {/* icon.sm — contextes denses */}
@@ -18,7 +18,7 @@ import { ArrowRight, Search, Trash } from "@ds-ui/react";
 Dans un composant :
 
 ```tsx
-import { Button, ArrowRight } from "@ds-ui/react";
+import { Button, ArrowRight } from "@sibyl/react";
 
 <Button.Root style="filled" tone="primary">
   Continuer
@@ -37,7 +37,7 @@ import { Button, ArrowRight } from "@ds-ui/react";
 ## Étendre le jeu
 
 ```tsx
-import { createIcon } from "@ds-ui/react";
+import { createIcon } from "@sibyl/react";
 export const Sparkle = createIcon("Sparkle", <path d="M12 3v18M3 12h18" />);
 ```
 
