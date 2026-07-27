@@ -78,6 +78,25 @@ regles: {loi: 15, preference: 16, non_qualifie: 0}
   - vérifiable : au plus quatre échelons de titres stylés distincts en usage courant
 - **[loi]** La structure appartient au contenu et l'apparence appartient au design : aucune des deux ne se déduit de l'autre. `TYPOGRAPHY-R34`
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Texte en vw seul (sans composante rem) | Zoom navigateur sans effet — échec WCAG 1.4.4, exclusion des utilisateurs malvoyants | Critique |
+| Sauts de niveaux de titres (h2 → h4) | Arbre de navigation cassé pour lecteur d'écran, contenu perçu comme manquant | Élevée |
+| Plusieurs h1, ou h1 décoratif de hero | Titre réel du document illisible pour l'outillage (AT, SEO, sommaire) | Moyenne à élevée |
+| Fluid type non testé au zoom (seulement au resize) | Échec 1.4.4 invisible en test standard | Élevée |
+| Texte courant sans max-width sur grand écran | Mesure > 75 caractères, lecture dégradée, fatigue | Moyenne |
+| Polices non embarquées sans pile de secours | Rendu système imprévisible, métriques décalées (layout shift) | Moyenne |
+| Texte justifié sans césure | Rivières d'espace, lecture hachée — exclu par WCAG 1.4.8 | Moyenne |
+| Capitales sur du texte courant | Silhouette de mot perdue, lecture épelée, fatigue | Moyenne |
+| Graisse light en petit corps | Contraste effectif du trait dégradé, illisible sur écran basse densité | Élevée |
+| Input avec texte < 16px | Zoom automatique iOS au focus — saut de mise en page subi | Moyenne |
+| Hiérarchie par le gras seul, partout | Inflation de l'emphase — plus aucun signal ne porte | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Texte d'accroche / lead : Un premier paragraphe est mis en avant.

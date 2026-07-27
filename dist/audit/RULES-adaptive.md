@@ -59,3 +59,18 @@ regles: {loi: 13, preference: 14, non_qualifie: 0}
 - **[loi]** Une bascule d'état adaptative ne constitue pas un changement de contexte : le focus, la valeur saisie et la tâche en cours sont conservés de part et d'autre de la bascule. `ADAPTIVE-R19`
   - vérifiable : après une bascule d'état provoquée par un redimensionnement, l'élément focalisé et les valeurs saisies sont inchangés
   - source : https://www.w3.org/WAI/WCAG22/Understanding/change-on-request.html
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Composant piloté par le viewport | Mauvais rendu dans sidebar, modal ou split panel | Élevée |
+| Seuil copié d'un appareil | Bascule sans rapport avec le contenu réel | Moyenne |
+| Information essentielle masquée en compact | Décision impossible ou trompeuse | Élevée |
+| Actions secondaires supprimées | Fonction perdue selon la largeur | Élevée |
+| Ordre visuel différent de l'ordre DOM | Lecture et focus incohérents | Élevée |
+| Trop de seuils | Comportement difficile à prévoir et tester | Moyenne |
+| Conteneurs imbriqués non nommés | Requête déclenchée par le mauvais ancêtre | Moyenne |

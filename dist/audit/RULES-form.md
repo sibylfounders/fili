@@ -150,6 +150,23 @@ regles: {loi: 17, preference: 52, non_qualifie: 0}
 - **[préférence]** Nous appliquons au formulaire le même principe qu'au bouton et au champ : la friction doit informer, jamais bloquer silencieusement. `FORM-R77`
   - vérifiable : aucun blocage d'interaction (bouton désactivé, soumission silencieuse, formulaire vidé) ne se produit sans indication visible de sa cause
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Contexte | Coût d'une erreur | Friction adaptée |
+|---|---|---|
+| Recherche | Nul (on relance) | Aucune — pas de résumé d'erreurs, submit implicite (Entrée), formulaire dégénéré à un champ |
+| Contact, création rapide d'un objet | Faible | Validation au submit, correction simple ; undo plutôt que confirmation (BUTTON-UX.md) |
+| Inscription | Moyen | Validation au blur sur les champs de format, indication des contraintes avant saisie |
+| Paramètres | Moyen (réversible) | Soumission explicite ou autosave — jamais les deux ambigus sur le même écran |
+| Authentification | Moyen + accessibilité critique | Pas de test cognitif (copier-coller autorisé, pas de puzzle) — WCAG 2.2, 3.3.8 AA ; champ mot de passe : INPUT-UX.md |
+| Paiement, engagement juridique | Élevé, difficilement réversible | Récapitulation vérifiable + confirmation explicite — WCAG 3.3.4 AA : réversible, vérifié ou confirmé. Champs carte : INPUT-UX.md (iframe PCI) |
+| Données sensibles / médicales | Élevé (confidentialité) | Ne collecter que le nécessaire ; pas de validation-espion (pas d'aller-retour serveur sur une donnée sensible avant soumission explicite) ; consentement distinct |
+| Consentement | Élevé (légal) | Cases jamais pré-cochées, une case par finalité, options de poids visuel égal (BUTTON-UX.md, bannières). **Autorité selon le contexte** : à l'inscription, l'extension `creation-compte-consentement` fait autorité (CGU/confidentialité/marketing dégroupés) ; `form-sensitive-data` ne couvre le consentement que lorsqu'il est **lié à des données sensibles ou à un paiement** — ne jamais charger les deux extensions pour un même consentement (cf. DECISIONS.md 2026-07-16). |
+| Suppression | Critique | Paliers de friction de BUTTON-UX.md (coût de recréation) — le formulaire orchestre, le bouton porte le mécanisme |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Édition inline (table) : Une seule cellule devient éditable et se soumet seule.

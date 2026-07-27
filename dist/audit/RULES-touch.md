@@ -53,3 +53,19 @@ regles: {loi: 13, preference: 10, non_qualifie: 0}
 - **[loi]** Toute cible tactile est également opérable au clavier, porte un indicateur de focus visible et expose un nom et un rôle accessibles : la taille de la cible ne remplace jamais sa sémantique. `TOUCH-R15`
   - vérifiable : toute cible tactile est focalisable au clavier, montre un focus visible et porte un nom accessible programmatiquement déterminable
   - source : https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Cible sous `touch.target-min` hors exception | Ratage systématique au doigt | Élevée |
+| Deux petites cibles collées (pas d'espacement) | Action voisine déclenchée par erreur | Élevée |
+| Fonction derrière le seul hover | Invisible au doigt et au clavier | Élevée |
+| Cible = icône (dessin) au lieu de zone | Cible réelle bien plus petite qu'elle n'en a l'air | Élevée |
+| Action primaire fréquente en haut d'écran | Coût d'atteinte répété au pouce | Moyenne |
+| Cible tapable dans une zone de geste système | Conflit, déclenchement système involontaire | Moyenne |
+| Retour haptique comme seul signal | Perdu sur appareil sans vibreur ou vibration coupée | Moyenne |
+| Taille figée en px absolu | Cible qui ne suit pas le zoom | Moyenne |

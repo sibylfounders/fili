@@ -48,6 +48,21 @@ regles: {loi: 8, preference: 14, non_qualifie: 0}
 - **[loi]** Un même gris n'a pas le même statut selon qu'il délimite, groupe ou sépare : c'est l'usage qui décide, pas la valeur. `BORDER-R16`
   - source : https://carbondesignsystem.com/elements/color/tokens/
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Bordure délimitante sous 3:1 | Composant interactif invisible (WCAG 1.4.11) — deux précédents payés | Critique |
+| Focus supprimé sans remplacement | Navigation clavier aveugle — exclusion | Critique |
+| Cible focalisée cachée par un sticky/superposé | Focus invisible en usage clavier (WCAG 2.4.11) | Élevée |
+| Épaisseur qui change à l'état | Layout shift, focus confondu avec un état du trait | Moyenne à élevée |
+| Ring fondu dans le fond | Focus invisible sur fond non prévu | Moyenne à élevée |
+| Sur-bordage (traits partout) | Bruit, hiérarchie spatiale illisible — l'espace devait suffire | Moyenne |
+| Rôles confondus (décorative promue délimitante sans seuil) | Le guardrail fuit — retour au cas F02 | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Style de trait (dashed, dotted) : Une zone de dépôt appelle un trait pointillé.

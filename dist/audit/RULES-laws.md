@@ -79,6 +79,20 @@ regles: {loi: 19, preference: 7, non_qualifie: 0}
   - vérifiable : aucune règle du système ne fixe un plafond de clics ou de niveaux de profondeur
   - source : https://articles.uie.com/three_click_rule/
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Loi citée hors de sa source (Miller « 7 », 3 clics) | Décision justifiée par un mythe, débat clos à tort | Élevée |
+| Loi manipulable retournée en dark pattern (Zeigarnik, Goal-gradient) | Exploitation de l'utilisateur, perte de confiance, enjeu éthique | Élevée |
+| Aesthetic-usability qui masque un défaut d'UX en test | Problème réel non détecté car « c'est joli » | Élevée |
+| Une seule loi appliquée en ignorant sa tension (Hick vs découvrabilité) | Sur-simplification, fonction enfouie | Moyenne à élevée |
+| Loi appliquée mais non nommée (règle sans sa justification) | Règle fragile, indéfendable en revue, dupliquée par ignorance | Moyenne |
+| Von Restorff dilué (tout est mis en avant) | Plus aucun point focal — inflation | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Parkinson's Law : Une tâche s'étire pour remplir le temps disponible.

@@ -58,3 +58,18 @@ regles: {loi: 14, preference: 11, non_qualifie: 0}
   - source : https://www.w3.org/TR/mobile-accessibility-mapping/
 - **[loi]** L'alternative à pointeur unique et l'alternative sans glisser constituent l'accès principal des personnes à motricité réduite, qui ne peuvent ni tracer un chemin précis ni maintenir un appui : ce ne sont pas des compléments de confort. `GESTURE-R15`
   - source : https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Geste path-based/multipoint sans alternative | Fonction inaccessible (WCAG 2.5.1) | Critique |
+| Drag sans alternative sans glisser | Fonction inaccessible en motricité réduite (WCAG 2.5.7) | Critique |
+| Motion actuation sans équivalent ni désactivation | Déclenchement involontaire, inaccessible (WCAG 2.5.4) | Élevée |
+| Geste caché sans affordant | Fonction découverte par personne | Élevée |
+| Geste maison contre un geste système | Conflit, action involontaire | Élevée |
+| Pas de seuil (confusion avec le scroll) | Action déclenchée en défilant | Moyenne |
+| Retour de geste porté par le mouvement seul | Perte sous reduced-motion / AT | Moyenne |

@@ -64,6 +64,21 @@ regles: {loi: 7, preference: 13, non_qualifie: 0}
   - source : https://web.dev/articles/optimize-cls
 - **[préférence]** L'espace est un canal d'information et non un reste : ce que les distances disent d'une page doit être aussi vrai que ce qu'en dit le texte. `SPACING-R24`
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Proximité qui ment (label équidistant) | L'utilisateur relie l'information au mauvais élément | Élevée |
+| Valeur hors échelle | Rythme cassé, rebranding impossible, dérive au copier-coller | Élevée |
+| Interne > externe | Le contenu semble appartenir au voisin | Moyenne à élevée |
+| Sauts d'échelle indiscernables (crans adjacents pour séparer) | Groupes non perçus, page plate | Moyenne |
+| Espacements écrasés en mobile hors échelle | Zones tactiles accolées (< 44px effectifs) | Élevée |
+| Contenu qui saute (espace non réservé) | Cible déplacée sous le doigt/curseur | Élevée |
+| Densité qui change la structure | Deux produits dans un — apprentissage cassé | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Alignement optique vs mathématique : Un élément paraît décentré malgré des px égaux.

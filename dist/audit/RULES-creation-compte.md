@@ -128,6 +128,25 @@ regles: {loi: 28, preference: 29, non_qualifie: 0}
 - **[loi]** Une vérification d'âge minimum, si elle est requise, doit se faire par simple déclaration, sans interrogatoire, et sans stocker plus de données que nécessaire. `CREATION-COMPTE-R62`
   - vérifiable : si un âge minimum est requis, il est vérifié par une simple déclaration, sans pièce justificative demandée, et aucune donnée d'âge précise n'est stockée au-delà du nécessaire
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Vérification e-mail en barrage avant toute valeur sans risque identifié | Friction et abandon évitables | Moyenne à élevée |
+| Activation complète avant preuve de possession de l'e-mail | Usurpation, récupération ambiguë, abus de compte | Élevée |
+| Champs de profil (nom, société, téléphone) exigés à l'inscription | Friction non contrepartie, abandon, données de mauvaise qualité | Élevée |
+| « E-mail déjà utilisé » traité comme un mur, sans chemin vers la connexion | Utilisateur revenant bloqué, perçoit le produit comme cassé | Élevée |
+| Message « e-mail déjà utilisé » qui confirme l'existence d'un compte à un inconnu | Énumération de comptes — fuite de la base d'e-mails | Moyenne à élevée (selon le produit) |
+| Inscription forcée avant toute valeur (pas d'invité/essai) | Abandon de conversion documenté | Élevée |
+| « Confirmez le mot de passe » + collage bloqué | Double friction, mots de passe plus faibles, exclusion des gestionnaires | Moyenne |
+| Consentement marketing pré-coché ou groupé avec les CGU | Non-conformité RGPD (consentement non libre), défiance | Élevée (légal) |
+| Atterrissage sur une impasse « compte créé » sans premier pas | Élan perdu au moment de plus fort engagement | Moyenne |
+| Enfermement dans une méthode (doublon Google vs e-mail) | Comptes fantômes, utilisateur qui ne se retrouve pas | Moyenne |
+| Test cognitif / captcha inaccessible à l'inscription | Exclusion (WCAG 3.3.8), abandon | Élevée |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Âge minimum selon le contexte : Vérifier un âge plancher quand la loi l'exige.

@@ -70,3 +70,18 @@ regles: {loi: 19, preference: 13, non_qualifie: 0}
 - **[loi]** Un composant qui remplit la même fonction est nommé et représenté de façon constante dans tout le produit : l'apparence cohérente accompagne une identification cohérente. `INTERACTION-R24`
   - vérifiable : un composant de même fonction porte le même nom accessible et la même représentation dans tout le produit
   - source : https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Button rendu comme du texte | Action confondue avec navigation ou information | Élevée |
+| Link rendu comme un Button sans nécessité | Navigation annoncée comme action | Élevée |
+| Card statique traitée comme cliquable | Affordance mensongère | Élevée |
+| Couleur comme seul signal | Sens perdu pour une partie des utilisateurs | Élevée |
+| Hover comme révélation de la cible | Fonction invisible au tactile et au clavier | Élevée |
+| Ombres et reflets généralisés | Bruit visuel, signal dilué, coût de rendu | Moyenne |
+| Pression physique trop animée | Retard, inconfort ou distraction | Moyenne |

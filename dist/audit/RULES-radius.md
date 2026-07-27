@@ -38,3 +38,16 @@ regles: {loi: 2, preference: 7, non_qualifie: 0}
 - **[préférence]** L'angle droit n'a pas de token dans l'échelle : rien n'est carré par défaut, et un besoin réel devrait ajouter explicitement un cran nul. `RADIUS-R10`
   - vérifiable : l'échelle de rayon ne comporte aucun cran de valeur 0
 - **[préférence]** Le rayon suit la taille du composant et rien d'autre : ni son importance, ni son état, ni une préférence locale d'écran. `RADIUS-R12`
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Rayons dépareillés dans un même groupe de contrôles | Formulaire visuellement disparate, perçu comme cassé | Moyenne |
+| Imbrication non concentrique | "Oreilles" dans les coins, finition perçue dégradée | Moyenne |
+| Pill sur multiligne | Forme de stade, lisibilité du contour perdue | Moyenne |
+| Rayon dérivé en % de la hauteur | Pill accidentel, courbures dissonantes | Faible à moyenne |
+| Rayon qui change à l'état | Le composant semble se déformer | Faible |

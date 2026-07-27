@@ -170,3 +170,16 @@ regles: {loi: 11, preference: 83, non_qualifie: 0}
   - vérifiable : le badge ou compteur affiché sur un bouton n'est pas un élément cliquable indépendant
 - **[préférence]** Chez nous, un bouton de connexion sociale suit les contraintes de la marque tierce plutôt que le design system interne, à titre d'exception documentée. `BUTTON-R95`
 - **[préférence]** Chez nous, le niveau de friction d'un bouton doit toujours être proportionnel au risque réel de l'action, jamais appliqué de façon uniforme. `BUTTON-R97`
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Style + Tone | Risque principal | Sévérité | Réversibilité |
+|---|---|---|---|
+| filled + primary (conversion) | Perte de conversion si wording/état mal géré | Élevée | Facile à corriger, sessions perdues non récupérables |
+| filled/ghost + destructive | Perte de données, confiance utilisateur | Critique | Nulle par définition — le design doit compenser |
+| ghost + destructive (icône table/liste) | Exclusion accessibilité en plus du risque destructive | Critique | Nulle pour l'action, triviale pour la correction du bouton lui-même |
+| Désactivé sans cause (tout style) | Confusion, abandon silencieux | Moyenne | Facile à corriger, invisible dans les rapports de bug classiques |
+| filled/stroke + neutral (engagement financier) | Double soumission, perte de confiance si mal confirmé | Critique | Nulle en cas de double débit — dépend d'un remboursement manuel |

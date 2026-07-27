@@ -64,3 +64,17 @@ regles: {loi: 19, preference: 11, non_qualifie: 0}
 - **[loi]** Un lien dit « aller », un bouton dit « faire » ; le poids visuel ne modifie jamais cette répartition. `LINK-R20`
 - **[préférence]** Le lien n'invoque aucun instrument d'animation expressive : un clic de navigation est une interaction à haute fréquence, hors du catalogue des moments mérités, et son seul besoin temporel est le feedback d'état. `LINK-R21`
   - vérifiable : aucune animation d'un lien n'excède la durée de feedback du système
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Link utilisé pour une action | Sémantique, clavier et attente utilisateur incohérents | Élevée |
+| Button utilisé pour naviguer | Comportements natifs du lien perdus | Élevée |
+| Lien inline distingué par la couleur seule | Lien invisible pour une partie des utilisateurs | Élevée |
+| « En savoir plus » répété | Destination incompréhensible hors contexte | Moyenne |
+| Nouvel onglet non annoncé | Changement de contexte inattendu | Moyenne |
+| Lien disabled | Promesse visible mais impossible | Moyenne |

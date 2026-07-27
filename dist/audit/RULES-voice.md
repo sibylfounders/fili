@@ -55,6 +55,23 @@ regles: {loi: 25, preference: 10, non_qualifie: 0}
 - **[loi]** Le mot porte l'information quand les autres canaux tombent : il l'énonce sans blâmer, dans un vocabulaire constant, la clarté primant sur l'élégance. `VOICE-R20`
   - source : https://www.nngroup.com/articles/error-message-guidelines/
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Message qui blâme l'utilisateur | Honte, abandon, perte de confiance (pic négatif, Peak-End) | Élevée |
+| Erreur générique non actionnable (« Une erreur est survenue ») | Utilisateur bloqué sans issue — charge de résolution reportée (Tesler) | Élevée |
+| Information portée par le style seul (rouge sans le mot) | Exclusion daltonisme / lecteur d'écran (WCAG 1.4.1) | Critique |
+| Texte de lien/bouton non signifiant (« cliquez ici », « OK ») | Navigation lecteur d'écran cassée (WCAG 2.4.4) | Élevée |
+| Jargon ou code technique brut exposé | Exclusion des non-experts, incompréhension | Moyenne à élevée |
+| Vocabulaire incohérent (un concept, plusieurs mots) | Incertitude, l'utilisateur doute que ce soit la même action | Moyenne |
+| Voix qui change de personnalité entre écrans | Produit perçu comme disparate, méfiance | Moyenne |
+| Concaténation de fragments / longueur codée en dur | Traduction cassée, texte tronqué | Moyenne (élevée si multilingue) |
+| Sur-promesse ou sur-célébration marketing dans l'UI produit | Ton faux, décalage avec le registre productif | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Consentement / mentions : Un consentement ou une mention légale s'affiche.

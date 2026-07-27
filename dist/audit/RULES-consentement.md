@@ -54,3 +54,15 @@ regles: {loi: 11, preference: 8, non_qualifie: 0}
 - **[loi]** Un point d'accès permanent, présent sur toutes les pages, doit permettre de modifier ou retirer le choix exprimé. `CONSENTEMENT-R16`
   - vérifiable : un lien ou un bouton dédié est présent dans le pied de page de chaque page, et mène à un écran où le choix courant est visible et modifiable.
   - source : https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Ce que le site dépose | Ce que le pattern exige |
+|---|---|
+| Rien, ou seulement des traceurs exemptés (choix de langue, thème, panier, authentification, mémorisation du choix lui-même) | Aucun bandeau. Une page d'information suffit. R03, R05 |
+| Mesure d'audience limitée au seul éditeur, non recoupée, statistiques anonymisées | Question ouverte : selon les conditions remplies, l'exemption s'applique ou non. Remonter en « à trancher » avec l'inventaire. R04 |
+| Publicité, personnalisation, réseaux sociaux, recoupement inter-sites | Bandeau complet : R07 à R16 sans exception |
+| Aucun dépôt ne varie selon la réponse | Le choix est fictif : R06 |

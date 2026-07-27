@@ -114,6 +114,23 @@ regles: {loi: 22, preference: 35, non_qualifie: 0}
 - **[préférence]** Nous calibrons la friction de validation sur le risque réel d'erreur du champ, plutôt que d'appliquer un traitement uniforme. `INPUT-R58`
   - vérifiable : le niveau de validation appliqué varie selon le risque d'erreur du champ, et n'est pas uniforme sur tous les champs.
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Combinaison | Risque principal | Sévérité |
+|---|---|---|
+| Validation à la soumission uniquement sur un champ à fort risque de format | Abandon, redécouverte punitive d'erreurs (la stratégie du formulaire assemblé : FORM-UX.md) | Élevée |
+| Label en placeholder seul | Perte de repère, erreur de saisie | Moyenne |
+| Type HTML non natif (ex: text stylé en email) | Perte de comportements natifs, accessibilité | Moyenne |
+| Label non lié techniquement au champ | Exclusion lecteur d'écran | Critique |
+| Nom accessible divergent du libellé visible | Champ inadressable en commande vocale (WCAG 2.5.3) | Moyenne |
+| Masque de saisie qui rejette dictée/collage | Saisie vocale ou gestionnaire de mots de passe cassés | Moyenne |
+| Champ mot de passe sans toggle de visibilité | Erreurs de saisie non détectées, abandon | Moyenne |
+| Champ de paiement stylé hors iframe processeur | Non-conformité PCI-DSS | Critique |
+| Autofill navigateur non anticipé dans le design | Rupture visuelle du design system | Faible à moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Dans une modale : La saisie se fait dans une fenêtre superposée.

@@ -50,3 +50,18 @@ regles: {loi: 6, preference: 8, non_qualifie: 0}
 - **[préférence]** Une attente qui dépasse la durée attendue le dit explicitement à l'utilisateur et lui ouvre une issue — réessayer, poursuivre ailleurs, être prévenu — plutôt que de laisser un indicateur tourner sans fin. `PERFORMANCE-R18`
   - vérifiable : tout état d'attente prolongée expose un message d'anomalie et au moins une action de sortie
 - **[préférence]** Le temps de l'utilisateur est traité comme la ressource la plus chère que le produit dépense : chaque attente est un emprunt remboursé par un feedback au bon seuil, une structure stable, un optimisme mérité et une honnêteté totale, jamais par une mise en scène. `PERFORMANCE-R20`
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Optimisme sur l'irréversible (paiement, suppression) | Perte réelle présentée comme succès | Élevée |
+| Fausse progression, étapes gonflées | Confiance détruite quand le mensonge se voit | Élevée |
+| Attente > 1 s sans annonce (spinner muet) | Lecteur d'écran sans feedback, double soumission | Élevée |
+| Contenu tardif qui déplace la page | Clic volé, lecture perdue | Moyenne à élevée |
+| Indicateur instantané sur réponse rapide | Système rapide perçu comme lent | Moyenne |
+| Échec post-optimisme réparé en silence | Donnée perdue sans que personne ne le sache | Élevée |
+| Attente artificielle « pour faire sérieux » | Temps volé — et le jour où ça se sait, tout le reste devient suspect | Moyenne à élevée |

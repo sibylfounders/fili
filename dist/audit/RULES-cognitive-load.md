@@ -54,3 +54,17 @@ regles: {loi: 7, preference: 8, non_qualifie: 0}
   - source : https://www.nngroup.com/articles/ten-usability-heuristics/
 - **[préférence]** Une information critique — erreur, coût, sécurité, obligation légale — ne prend jamais la forme d'un élément décoratif ou promotionnel, sous peine d'être filtrée avant lecture. `COGNITIVE-LOAD-R19`
   - vérifiable : aucun message critique rendu avec les styles, placements ou composants réservés au contenu promotionnel ou décoratif
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Divulgation retournée en dissimulation (coût, engagement caché) | Dark pattern — confiance détruite, enjeu légal | Élevée |
+| Défaut pré-coché d'engagement | Consentement invalide (RGPD), enjeu légal direct | Élevée |
+| « Annuler » affiché mais non garanti techniquement | Perte réelle + promesse trahie — pire qu'une confirmation | Élevée |
+| « Une décision par écran » appliqué mécaniquement | Parcours émietté, complexité déplacée (Tesler ignoré) | Moyenne à élevée |
+| Plafond numérique inventé pour trancher (« max 7 ») | Décision justifiée par un mythe réfuté au catalogue | Moyenne |
+| Confirmation banalisée sur le réversible | Fatigue de confirmation — le garde-fou ne protège plus l'irréversible | Moyenne |

@@ -53,6 +53,22 @@ regles: {loi: 3, preference: 13, non_qualifie: 0}
 - **[préférence]** Le relief dit la nature d'un élément et jamais son importance, qui passe par la place, le contraste et le nom. `ELEVATION-R19`
   - vérifiable : deux composants de même nature et de rangs différents portent la même élévation
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Relief sur une surface statique | Affordance mensongère — clic dans le vide | Élevée |
+| Relief généralisé (surfaces posées par défaut) | Le signal ne signale plus rien — retour du skeuomorphisme | Élevée |
+| Relief comme seul signal | Information perdue en forced-colors | Élevée |
+| Enfoncé dérivé du token de survol en sombre | Physique inversée — l'objet monte quand on le presse | Élevée |
+| Liseré en anneau uniforme ou blanc pur en sombre | Lumière incohérente, halo criard | Moyenne |
+| Deux directions de lumière dans un même écran | Métaphore brisée, lecture ralentie | Moyenne |
+| Ombre + surface-contrast cumulés | Deux vocabulaires brouillés | Moyenne |
+| Box-shadow interpolé sur les transitions de relief | Paint coûteux, jank | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Empilement de superpositions : Une modale contient un popover.

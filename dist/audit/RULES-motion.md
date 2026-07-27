@@ -66,3 +66,21 @@ regles: {loi: 8, preference: 13, non_qualifie: 0}
   - vérifiable : aucune propriété de layout dans les transitions
   - source : https://web.dev/articles/animations-guide
 - **[préférence]** Le mouvement est un commentaire et jamais le texte : il confirme, relie et occupe l'attente, mais n'informe pas seul, ne bloque pas et ne décore pas. `MOTION-R25`
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Information portée par le mouvement seul | Perte fonctionnelle sous reduced-motion, AT aveugle | Critique |
+| Flash > 3/s ou seuil de flash rouge franchi | Risque de crise photosensible (WCAG 2.3.1) | Critique |
+| reduced-motion ignoré | Troubles vestibulaires — nausées, vertiges (WCAG 2.3.3) | Élevée |
+| Contenu déplacé sans action utilisateur | Cible mouvante, clics ratés, lecture perdue | Élevée |
+| Mouvement qui verrouille l'interaction | Utilisateur otage de l'animation | Élevée |
+| Animation de layout (width/top/margin) | Saccades, feedback transformé en bruit | Moyenne à élevée |
+| Boucle > 5 s non arrêtable (hors indicateurs) | Échec WCAG 2.2.2 (niveau A) | Élevée |
+| Durées > ~400 ms | Produit perçu comme lent | Moyenne |
+| Focus animé | Position clavier incertaine | Moyenne |
+| Vocabulaire incohérent (durées/courbes par écran) | Produit perçu comme disparate | Moyenne |

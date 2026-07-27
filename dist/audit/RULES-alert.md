@@ -127,6 +127,23 @@ regles: {loi: 18, preference: 44, non_qualifie: 0}
 - **[loi]** Le degré d'interruption d'un message est proportionnel à l'urgence réelle de ce message, jamais à la visibilité souhaitée par son émetteur. `ALERT-R74`
   - source : https://m2.material.io/components/banners
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Alert réactif injecté sans annonce (SPA) | Utilisateur lecteur d'écran jamais informé d'une erreur pourtant affichée | Critique |
+| Tone porté par la couleur seule (pas d'icône) | Exclusion daltonisme — un danger et un success indistinguables | Élevée |
+| Signal sonore porteur d'information sans équivalent texte/visuel | Exclusion des utilisateurs sourds ou au son coupé (WCAG 1.4.1) | Élevée |
+| Danger dismissible sur condition active | Condition critique masquée puis oubliée, perte de données ou d'échéance | Élevée |
+| Inflation de alerts (info-poubelle, piles) | Cécité d'attention apprise — les vrais danger ignorés avec le reste | Élevée (différée — invisible dans les tests ponctuels) |
+| Fermeture non mémorisée (réapparition à chaque page) | Harcèlement, apprentissage du réflexe "fermer sans lire" | Moyenne |
+| Success permanent / confirmation qui ne part jamais | Méfiance sur la fraîcheur de tout ce que la page affiche | Moyenne |
+| Insertion avec saut de mise en page | Perte de position de lecture, clic raté sur l'élément déplacé | Moyenne |
+| Wording titre-catégorie sans contenu | Charge de diagnostic transférée à l'utilisateur | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Feedback immédiat d'action ("Enregistré ✓") : Le retour est réactif et de vie courte.

@@ -58,6 +58,21 @@ regles: {loi: 5, preference: 27, non_qualifie: 0}
   - source : https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html
 - **[préférence]** L'uniformité de largeur, de rythme, d'ordre et de règles est le contrat d'une collection : la mise en avant d'un item passe par son rang, par sa taille en cellules ou par son contenu, jamais par une exception locale à ce contrat. `COLLECTION-R32`
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Colonnes fixées par appareil (4/2/1) | Grille cassée en sidebar/split, paliers à maintenir sans besoin | Moyenne à élevée |
+| Filtre par défaut silencieux | Résultats invisibles sans le savoir — information cachée, confiance rompue | Élevée |
+| Scroll infini seul | Footer inatteignable, position perdue, contrôle retiré | Élevée |
+| Étirement de la dernière rangée (auto-fit) | Items déformés, uniformité rompue | Faible à moyenne |
+| Grille qui saute au chargement (squelettes instables) | Repères perdus, clics ratés (layout shift) | Moyenne |
+| Barre d'outils improvisée sans composants | Contrôles incohérents, dette d'accessibilité | Moyenne à élevée |
+| État de collection oublié au retour | Parcours payé deux fois, abandon | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Table de données : Le besoin est un tableau à colonnes triables.

@@ -107,6 +107,23 @@ regles: {loi: 8, preference: 42, non_qualifie: 0}
   - source : https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
 - **[préférence]** L'interactivité d'une carte est univoque : soit la carte est la cible, soit elle contient des cibles, sans ambiguïté possible entre les deux. `CARD-R76`
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Carte cliquable avec éléments interactifs imbriqués | Exclusion clavier/lecteur d'écran, tabulation incohérente | Critique |
+| Cliquabilité par div + onclick (non sémantique) | Cible invisible aux technologies d'assistance | Critique |
+| Actions visibles uniquement au survol | Fonction inaccessible sur tactile | Élevée |
+| Déplacement possible uniquement au glisser-déposer | Exclusion clavier/motricité (WCAG 2.5.7) | Élevée |
+| Cartes pour des items homogènes à comparer | Scannabilité dégradée, comparaison difficile, abandon | Moyenne |
+| Ratio d'image variable dans une collection | Grille cassée, lecture désordonnée | Faible à moyenne |
+| État sélectionné signalé par la couleur seule | Exclusion daltonisme | Élevée |
+| Collection vide sans empty state | Confusion (vide = bug ?), abandon silencieux | Moyenne |
+| Style cliquable sur carte statique (ou l'inverse) | Affordance mensongère, perte de confiance | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Carte promotionnelle / alert : La carte veut porter un message mis en avant.

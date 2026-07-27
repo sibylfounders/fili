@@ -73,6 +73,22 @@ def regles_annotees(fiche):
     return out
 
 
+def table_risque(src):
+    """La table « Risque » d'un sujet : cas, risque principal, sévérité.
+
+    Elle vit dans le markdown sous forme de tableau, rattachée à une note de méthode —
+    donc jamais reprise par `regles_annotees`, qui ignore les notes de méthode. Sans elle,
+    le paquet d'audit sait dire qu'une règle est violée, mais pas si le constat est
+    bloquant ou cosmétique. Elle ne part qu'en mode audit : générer de l'UI n'a pas besoin
+    de savoir ce qui se passe quand on se trompe.
+    """
+    m = re.search(r"^## Risque.*?(?=^## |\Z)", src or "", re.S | re.M)
+    if not m:
+        return []
+    lignes = [l.rstrip() for l in m.group(0).split("\n") if l.startswith("|")]
+    return lignes if len(lignes) > 2 else []
+
+
 def dependances(*sources):
     """Renvois croisés détectés — heuristique, à valider par le routeur (étape 9)."""
     vus = set()
@@ -145,6 +161,16 @@ def compile_sujet(slug, mode="audit"):
                 if r["url"]:
                     L.append(f"  - source : {r['url']}")
         L.append("")
+
+    if mode == "audit":
+        risque = table_risque(sux)
+        if risque:
+            L += ["## Gravité — de quoi dépend la sévérité d'un constat", "",
+                  "> À lire avant de classer un constat. Une même règle violée n'a pas le même",
+                  "> poids selon le contexte : cette table donne le risque encouru, pas la règle.",
+                  ""]
+            L += risque
+            L.append("")
 
     ouverts = [c for fam in fiche.get("cas", []) for c in fam["cas"] if c.get("statut")]
     if ouverts:

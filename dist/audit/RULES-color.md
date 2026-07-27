@@ -76,6 +76,23 @@ regles: {loi: 13, preference: 10, non_qualifie: 0}
   - vérifiable : aucune valeur hexadécimale hors du fichier de valeurs unique ; un rôle correspond à un sens unique
   - source : https://developer.android.com/design/ui/mobile/guides/styles/color
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Information portée par la couleur seule | Exclusion daltonisme — danger/success indistinguables (WCAG 1.4.1) | Critique |
+| Texte courant sous 4.5:1 | Illisible pour basse vision (WCAG 1.4.3) | Critique |
+| État visible / bordure délimitante sous 3:1 | Composant invisible (WCAG 1.4.11) — cas border-strong vécu | Élevée |
+| Marque utilisée en sémantique (ou l'inverse) | Vocabulaire chromatique incohérent, apprentissage détruit | Élevée |
+| Valeur hex hors DESIGN.md | Rebranding impossible, dérive de palette | Élevée |
+| Token de texte posé sur un fond non déclaré | Contraste non garanti (cas success avant recalibrage) | Moyenne à élevée |
+| text-muted sur du texte fonctionnel | Métadonnée illisible promue au rang d'information (cas F01) | Moyenne |
+| forced-colors neutralisé | Mode d'accessibilité système cassé | Moyenne |
+| Texte nu sur image | Contraste imprévisible | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Couleur désactivée (disabled) : Un contrôle est désactivé.

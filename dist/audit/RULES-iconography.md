@@ -59,6 +59,23 @@ regles: {loi: 9, preference: 9, non_qualifie: 0}
   - vérifiable : aucune information ni action disponible uniquement par le dessin d'une icône
   - source : https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
 
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Icône seule sans aria-label | Action invisible au lecteur d'écran | Critique |
+| Sens porté par l'icône sans redondance (tone sans forme distincte) | Exclusion daltonisme (1.4.1) — cas F03 payé | Élevée |
+| Métaphore ambiguë sans label visible | Action non trouvée, erreurs d'usage (NN/g) | Élevée |
+| Icône hover-only | Inaccessible au tactile (précédent BUTTON-UX/CARD-UX) | Élevée |
+| Icon font | Échec de chargement illisible, AT perturbée | Moyenne à élevée |
+| Registre instable (même sens, glyphes différents) | Apprentissage détruit | Moyenne |
+| Cible réduite au glyphe | Zone tactile < 44px | Moyenne à élevée |
+| Icône redimensionnée hors crans | Relation typo/icône cassée, trait bouché | Moyenne |
+| Icônes décoratives multipliées | Bruit, promesses d'interaction mensongères (leçon GOV.UK) | Moyenne |
+
 ## Non couvert — poser la question, ne rien trancher
 
 - Illustration : Un visuel d'empty state ou pédagogique s'affiche.

@@ -53,3 +53,16 @@ regles: {loi: 7, preference: 23, non_qualifie: 0}
   - vérifiable : aucune animation d'instrument déclenchée lorsque le nombre de toasts visibles est supérieur à un
 - **[loi]** Un toast confirme un événement passé et ne peut jamais être le seul endroit où vit une information qui compte encore. `TOAST-R27`
   - source : https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
+
+## Gravité — de quoi dépend la sévérité d'un constat
+
+> À lire avant de classer un constat. Une même règle violée n'a pas le même
+> poids selon le contexte : cette table donne le risque encouru, pas la règle.
+
+| Cas | Risque principal | Sévérité |
+|---|---|---|
+| Toast danger seul porteur d'une condition durable | Condition grave disparaît sans successeur, perte silencieuse | Élevée (acceptée, documentée — cf. § Tone) |
+| Timing non suspendu au survol/focus | Fenêtre de décision (undo) non fiable, WCAG 2.2.1 non respecté | Élevée |
+| Instrument illustration actif sur une pile | Répétition qui banalise le moment, décor gratuit (anti-usage E-motion) | Moyenne |
+| Empilement agrégé au lieu de FIFO | Perte du contenu spécifique de chaque événement | Moyenne |
+| Toast réactif injecté sans rôle live | Lecteur d'écran jamais informé | Critique |
