@@ -43,6 +43,11 @@ export default function DoctrineHome() {
           titre="Socle"
           sous={`Le noyau en trois volets — ${socleIndex().map((d) => d.titre).join(", ")}.`}
         />
+        <Carte
+          href="/md/methode/sources/"
+          titre="Sources"
+          sous="34 organisations citées par le corpus, 1337 citations mesurées."
+        />
       </div>
 
       {groupes.map((g) => (
