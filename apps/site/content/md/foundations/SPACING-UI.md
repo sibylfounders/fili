@@ -84,8 +84,8 @@ Règle de lecture : un écart *dans* un composant ne dépasse pas `lg` ; `xl` et
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Segmentation petits/moyens/grands crans par usage | [Atlassian — Spacing](https://atlassian.design/foundations/spacing) | Établi chez Atlassian, mapping propre à ce système |
-| Densité = décalage d'un cran | Pratique interne (CARD-UI), convergente avec les échelles compactes des systèmes | Convergence, formalisation interne |
-| Échelle fermée outillée | [Carbon — Spacing](https://carbondesignsystem.com/elements/spacing/overview/) (écarts à éviter), précédent interne (valide-dossier.js) | Établi |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Segmentation petits/moyens/grands crans par usage | [Atlassian — Spacing](https://atlassian.design/foundations/spacing) | Établi chez Atlassian, mapping propre à ce système |
+| T2 | Densité = décalage d'un cran | Pratique interne (CARD-UI), convergente avec les échelles compactes des systèmes | Convergence, formalisation interne |
+| T3 | Échelle fermée outillée | [Carbon — Spacing](https://carbondesignsystem.com/elements/spacing/overview/) (écarts à éviter), précédent interne (valide-dossier.js) | Établi |

@@ -93,15 +93,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "l'espacement est une <strong>fondation</strong> — le modèle à axes ne s'applique pas. Tous les composants le consomment (paddings, gaps), tous les patterns le composent (field_gap, fieldset_gap), la page le rythme (section)."
+       "html": "l'espacement est une <strong>fondation</strong> — le modèle à axes ne s'applique pas. Tous les composants le consomment (paddings, gaps), tous les patterns le composent (field_gap, fieldset_gap), la page le rythme (section).",
+       "id": "SPACING-R01"
       },
       {
        "tag": "Règle",
-       "html": "la hiérarchie de proximité doit être <strong>monotone</strong> : lié &lt; frère &lt; groupe. En pratique chez les consommateurs : <code>label_to_field</code> &lt; <code>field_gap</code> &lt; <code>fieldset_gap</code> (FORM-UI) ; <code>icon_gap</code> interne &lt; padding externe (BUTTON-UI, ALERT-UI)."
+       "html": "la hiérarchie de proximité doit être <strong>monotone</strong> : lié &lt; frère &lt; groupe. En pratique chez les consommateurs : <code>label_to_field</code> &lt; <code>field_gap</code> &lt; <code>fieldset_gap</code> (FORM-UI) ; <code>icon_gap</code> interne &lt; padding externe (BUTTON-UI, ALERT-UI).",
+       "id": "SPACING-R08"
       },
       {
        "tag": "Règle",
-       "html": "<strong>l'espacement interne est toujours inférieur ou égal à l'espacement externe</strong> d'un même composant — un contenu plus proche du bord d'un voisin que de son propre bord a l'air d'appartenir au voisin."
+       "html": "<strong>l'espacement interne est toujours inférieur ou égal à l'espacement externe</strong> d'un même composant — un contenu plus proche du bord d'un voisin que de son propre bord a l'air d'appartenir au voisin.",
+       "id": "SPACING-R09"
       }
      ]
     },
@@ -181,7 +184,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "la séparation entre groupes passe par <strong>un saut d'échelle franc</strong> (fieldset_gap vs field_gap), pas par un cran adjacent — deux valeurs trop proches ne sont pas perçues comme différentes ; c'est l'équivalent spatial des combinaisons indiscernables que traque test-rendu.js."
+       "html": "la séparation entre groupes passe par <strong>un saut d'échelle franc</strong> (fieldset_gap vs field_gap), pas par un cran adjacent — deux valeurs trop proches ne sont pas perçues comme différentes ; c'est l'équivalent spatial des combinaisons indiscernables que traque test-rendu.js.",
+       "id": "SPACING-R10"
       }
      ]
     },
@@ -211,15 +215,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "l'espacement est une <strong>fondation</strong> — le modèle à axes ne s'applique pas. Tous les composants le consomment (paddings, gaps), tous les patterns le composent (field_gap, fieldset_gap), la page le rythme (section)."
+       "html": "l'espacement est une <strong>fondation</strong> — le modèle à axes ne s'applique pas. Tous les composants le consomment (paddings, gaps), tous les patterns le composent (field_gap, fieldset_gap), la page le rythme (section).",
+       "id": "SPACING-R01"
       },
       {
        "tag": "Règle",
-       "html": "l'échelle de ce système est <strong>plus courte</strong> que celles des systèmes majeurs (7 crans contre 13-14) — assumé : elle grandit sur besoin réel journalisé (précédent : <code>section</code> ajouté en 1.7.0 pour le rythme de page), jamais par symétrie avec un benchmark."
+       "html": "l'échelle de ce système est <strong>plus courte</strong> que celles des systèmes majeurs (7 crans contre 13-14) — assumé : elle grandit sur besoin réel journalisé (précédent : <code>section</code> ajouté en 1.7.0 pour le rythme de page), jamais par symétrie avec un benchmark.",
+       "id": "SPACING-R06"
       },
       {
        "tag": "Règle",
-       "html": "l'empilement vertical suit la <strong>même échelle fermée et la même monotonie</strong> que la proximité : intra-bloc (<code>xs</code>–<code>sm</code>) &lt; entre frères (<code>md</code>) &lt; entre groupes (<code>xl</code>) &lt; entre sections (<code>section</code>). Le rythme est un <strong>usage de l'échelle</strong>, pas une seconde échelle — aucun cran vertical propre."
+       "html": "l'empilement vertical suit la <strong>même échelle fermée et la même monotonie</strong> que la proximité : intra-bloc (<code>xs</code>–<code>sm</code>) &lt; entre frères (<code>md</code>) &lt; entre groupes (<code>xl</code>) &lt; entre sections (<code>section</code>). Le rythme est un <strong>usage de l'échelle</strong>, pas une seconde échelle — aucun cran vertical propre.",
+       "id": "SPACING-R12"
       }
      ]
     },
@@ -249,11 +256,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "l'espacement s'exprime en <strong>px, pas en rem</strong> — assumé et motivé : WCAG 1.4.4 protège l'agrandissement du <em>texte</em> ; un padding qui gonfle avec le zoom texte consomme l'écran sans servir la lecture (le zoom page, lui, agrandit tout uniformément). La typographie, elle, est en rem — les deux positions sont cohérentes entre elles, pas contradictoires."
+       "html": "l'espacement s'exprime en <strong>px, pas en rem</strong> — assumé et motivé : WCAG 1.4.4 protège l'agrandissement du <em>texte</em> ; un padding qui gonfle avec le zoom texte consomme l'écran sans servir la lecture (le zoom page, lui, agrandit tout uniformément). La typographie, elle, est en rem — les deux positions sont cohérentes entre elles, pas contradictoires.",
+       "id": "SPACING-R21"
       },
       {
        "tag": "Règle",
-       "html": "<strong>l'espace est un canal d'information, pas un reste</strong> — ce que l'espace dit (proximité, groupes) doit être aussi vrai que ce que le texte dit."
+       "html": "<strong>l'espace est un canal d'information, pas un reste</strong> — ce que l'espace dit (proximité, groupes) doit être aussi vrai que ce que le texte dit.",
+       "id": "SPACING-R24"
       }
      ]
     },
@@ -283,7 +292,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "quand l'équilibre mathématique et l'équilibre perçu divergent (icône asymétrique, pastille ronde contre texte), <strong>l'œil arbitre</strong> — l'ajustement optique est légitime, à deux conditions : il reste local (jamais promu en valeur d'échelle), et l'écart est commenté là où il vit."
+       "html": "quand l'équilibre mathématique et l'équilibre perçu divergent (icône asymétrique, pastille ronde contre texte), <strong>l'œil arbitre</strong> — l'ajustement optique est légitime, à deux conditions : il reste local (jamais promu en valeur d'échelle), et l'écart est commenté là où il vit.",
+       "id": "SPACING-R18"
       }
      ]
     }
@@ -345,7 +355,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse."
+       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+       "id": "SPACING-R02"
       }
      ]
     },
@@ -425,7 +436,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse."
+       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+       "id": "SPACING-R02"
       }
      ]
     },
@@ -455,11 +467,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse."
+       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+       "id": "SPACING-R02"
       },
       {
        "tag": "Règle",
-       "html": "l'espacement s'exprime en <strong>px, pas en rem</strong> — assumé et motivé : WCAG 1.4.4 protège l'agrandissement du <em>texte</em> ; un padding qui gonfle avec le zoom texte consomme l'écran sans servir la lecture (le zoom page, lui, agrandit tout uniformément). La typographie, elle, est en rem — les deux positions sont cohérentes entre elles, pas contradictoires."
+       "html": "l'espacement s'exprime en <strong>px, pas en rem</strong> — assumé et motivé : WCAG 1.4.4 protège l'agrandissement du <em>texte</em> ; un padding qui gonfle avec le zoom texte consomme l'écran sans servir la lecture (le zoom page, lui, agrandit tout uniformément). La typographie, elle, est en rem — les deux positions sont cohérentes entre elles, pas contradictoires.",
+       "id": "SPACING-R21"
       }
      ]
     }
@@ -571,7 +585,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>l'espacement interne est toujours inférieur ou égal à l'espacement externe</strong> d'un même composant — un contenu plus proche du bord d'un voisin que de son propre bord a l'air d'appartenir au voisin."
+       "html": "<strong>l'espacement interne est toujours inférieur ou égal à l'espacement externe</strong> d'un même composant — un contenu plus proche du bord d'un voisin que de son propre bord a l'air d'appartenir au voisin.",
+       "id": "SPACING-R09"
       }
      ]
     }
@@ -608,7 +623,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme."
+       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme.",
+       "id": "SPACING-R19"
       }
      ]
     },
@@ -638,11 +654,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme."
+       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme.",
+       "id": "SPACING-R19"
       },
       {
        "tag": "Règle",
-       "html": "<strong>l'échelle d'espacement ne change pas au breakpoint</strong> (contrairement à GOV.UK, dont l'échelle est responsive) — ce qui change en mobile : la densité choisie et la disposition, pas la valeur des crans. Si l'espace manque en mobile, on descend d'un cran de densité, on n'invente pas un &quot;md-mobile&quot;."
+       "html": "<strong>l'échelle d'espacement ne change pas au breakpoint</strong> (contrairement à GOV.UK, dont l'échelle est responsive) — ce qui change en mobile : la densité choisie et la disposition, pas la valeur des crans. Si l'espace manque en mobile, on descend d'un cran de densité, on n'invente pas un &quot;md-mobile&quot;.",
+       "id": "SPACING-R20"
       }
      ]
     },
@@ -672,7 +690,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme."
+       "html": "ce système définit <strong>deux régimes</strong> (mobile / desktop) séparés par <code>breakpoint.mobile</code>, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme.",
+       "id": "SPACING-R19"
       }
      ]
     },
@@ -734,15 +753,18 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse."
+       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+       "id": "SPACING-R02"
       },
       {
        "tag": "Règle",
-       "html": "l'échelle est <strong>fermée</strong> : on choisit un cran existant (<code>xs</code> à <code>xl</code>, <code>section</code>), on n'invente pas de valeur intermédiaire. Si aucun cran ne convient de façon répétée, c'est l'échelle qu'on fait évoluer (DESIGN.md + journal), pas l'écran."
+       "html": "l'échelle est <strong>fermée</strong> : on choisit un cran existant (<code>xs</code> à <code>xl</code>, <code>section</code>), on n'invente pas de valeur intermédiaire. Si aucun cran ne convient de façon répétée, c'est l'échelle qu'on fait évoluer (DESIGN.md + journal), pas l'écran.",
+       "id": "SPACING-R05"
       },
       {
        "tag": "Règle",
-       "html": "la séparation entre groupes passe par <strong>un saut d'échelle franc</strong> (fieldset_gap vs field_gap), pas par un cran adjacent — deux valeurs trop proches ne sont pas perçues comme différentes ; c'est l'équivalent spatial des combinaisons indiscernables que traque test-rendu.js."
+       "html": "la séparation entre groupes passe par <strong>un saut d'échelle franc</strong> (fieldset_gap vs field_gap), pas par un cran adjacent — deux valeurs trop proches ne sont pas perçues comme différentes ; c'est l'équivalent spatial des combinaisons indiscernables que traque test-rendu.js.",
+       "id": "SPACING-R10"
       }
      ]
     },
@@ -772,7 +794,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse."
+       "html": "<strong>le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.</strong> Atlassian, Carbon et Material documentent spacing <em>et</em> grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a <strong>aucun consommateur de colonnes</strong> (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille <em>dérive</em> de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+       "id": "SPACING-R02"
       }
      ]
     },
@@ -802,11 +825,13 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "<strong>la règle cardinale — l'espace encode la relation</strong> : plus deux éléments sont proches, plus leur lien perçu est fort (loi de proximité, Gestalt — formulée quasi textuellement par Carbon et Polaris)."
+       "html": "<strong>la règle cardinale — l'espace encode la relation</strong> : plus deux éléments sont proches, plus leur lien perçu est fort (loi de proximité, Gestalt — formulée quasi textuellement par Carbon et Polaris).",
+       "id": "SPACING-R07"
       },
       {
        "tag": "Règle",
-       "html": "l'empilement vertical suit la <strong>même échelle fermée et la même monotonie</strong> que la proximité : intra-bloc (<code>xs</code>–<code>sm</code>) &lt; entre frères (<code>md</code>) &lt; entre groupes (<code>xl</code>) &lt; entre sections (<code>section</code>). Le rythme est un <strong>usage de l'échelle</strong>, pas une seconde échelle — aucun cran vertical propre."
+       "html": "l'empilement vertical suit la <strong>même échelle fermée et la même monotonie</strong> que la proximité : intra-bloc (<code>xs</code>–<code>sm</code>) &lt; entre frères (<code>md</code>) &lt; entre groupes (<code>xl</code>) &lt; entre sections (<code>section</code>). Le rythme est un <strong>usage de l'échelle</strong>, pas une seconde échelle — aucun cran vertical propre.",
+       "id": "SPACING-R12"
       }
      ]
     },
@@ -836,7 +861,8 @@
      "regles": [
       {
        "tag": "Règle",
-       "html": "hiérarchie des séparateurs — <strong>l'espace d'abord, le fond ensuite, le trait en dernier</strong> : si un saut d'échelle suffit à séparer deux groupes, ni fond ni bordure ; réserver les séparateurs dessinés aux cas denses où l'espace manque (frontière avec la fondation border, qui fait autorité sur le trait)."
+       "html": "hiérarchie des séparateurs — <strong>l'espace d'abord, le fond ensuite, le trait en dernier</strong> : si un saut d'échelle suffit à séparer deux groupes, ni fond ni bordure ; réserver les séparateurs dessinés aux cas denses où l'espace manque (frontière avec la fondation border, qui fait autorité sur le trait).",
+       "id": "SPACING-R11"
       }
      ]
     },
@@ -929,6 +955,1197 @@
    "date": "2026-07-16",
    "titre": "Fondation grid : naissance par le besoin de largeur de conteneur",
    "html": "<ul><li><strong>Fichiers</strong> : <code>atelier/foundations/grid/GRID-UX.md</code> + <code>GRID-UI.md</code> (1.0.0), <code>atelier/inventaires/inventaire-cas-usage-grid.md</code>, <code>DESIGN.md</code> (1.18.0, groupe <code>grid</code>), <code>SPACING-UX.md</code> (1.1.0), <code>dist/RULES-grid.md</code> (condensation) + routeur (grid ajouté aux bundles Formulaire/Collection/Page de contenu/Création de compte), outillage (<code>genere-tokens</code>, <code>valide-dossier</code>, <code>garden</code>).</li><li><strong>Ancienne règle</strong> : SPACING avait différé la fondation grid <em>entière</em> en l'absence de consommateur ; un écran mono-colonne n'avait donc aucun token de largeur (détour de <code>breakpoint.mobile</code>).</li><li><strong>Nouvelle règle</strong> : la fondation <code>grid</code> naît avec le <strong>besoin prouvé</strong> — les largeurs de conteneur (<code>container-narrow</code> 480 / <code>-default</code> 1024 / <code>-wide</code> 1440), trou confirmé par deux pilotes indépendants le 2026-07-16. La <strong>grille de colonnes</strong> (12 colonnes, gouttières inter-colonnes) reste différée jusqu'au pattern collection/grille.</li><li><strong>Pourquoi</strong> : un token de largeur bolté seul aurait été une fondation orpheline ; le faire naître avec sa fiche, son inventaire et son benchmark (Carbon, GOV.UK, Material) respecte la méthode. Frontières posées : <code>grid</code> ≠ <code>measure</code> (lecture) ≠ <code>spacing</code> (proximité) ≠ <code>media_ratio</code> (ratio). RULES-spacing mis à jour (le cadre de page a quitté spacing).</li></ul>"
+  }
+ ],
+ "decisions": [
+  {
+   "id": "SPACING-R01",
+   "couche": "ux",
+   "solution": "l'espacement est une **fondation** — le modèle à axes ne s'applique pas. Tous les composants le consomment (paddings, gaps), tous les patterns le composent (field_gap, fieldset_gap), la page le rythme (section).",
+   "enonce": "L'espacement est une fondation consommée par tous les composants et composée par tous les patterns : le modèle à axes ne s'y applique pas.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Padding interne d'un composant",
+     "famille": "Rôle d'espacement"
+    },
+    {
+     "id": "cas-0-4",
+     "titre": "Rythme vertical de page",
+     "famille": "Rôle d'espacement"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R02",
+   "couche": "ux",
+   "solution": "**le grid (grille de colonnes) n'a pas de fondation propre — par cadrage, pas par oubli.** Atlassian, Carbon et Material documentent spacing *et* grid séparément ; le test de transposition donne ici un autre résultat : ce système n'a **aucun consommateur de colonnes** (la seule grille existante — la collection de cartes — se définit par un gap et un breakpoint, pas par 12 colonnes), et chez les systèmes majeurs eux-mêmes la grille *dérive* de l'échelle d'espacement (les gouttières d'Atlassian sont des valeurs de son échelle spacing ; la 2x Grid de Carbon et son échelle partagent la même mini-unit de 8px). La fondation grid est née depuis (cadre de page, 2026-07-16), et la grille de colonnes a trouvé son propriétaire le 2026-07-21 : le pattern collection — dont les gouttières sont des tokens spacing (mapping par densité dans COLLECTION-UI.md), héritées de cette fondation, pas l'inverse.",
+   "enonce": "La grille de colonnes n'a pas de fondation propre tant qu'aucun consommateur réel ne l'exige : ses gouttières restent des tokens d'espacement.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "copier le catalogue d'Atlassian par défaut est exactement ce que le test de transposition existe pour empêcher (précédent : les axes du bouton non transposés à la carte). Documenter une grille de 12 colonnes sans consommateur serait de l'anticipation — le travers que le principe \"un token naît d'un besoin réel\" interdit.",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S7",
+     "affirmation": "Grille de colonnes dérivée de l'échelle d'espacement",
+     "liens": [
+      {
+       "label": "Atlassian — Grid",
+       "url": "https://atlassian.design/foundations/grid-beta"
+      },
+      {
+       "label": "Carbon — 2x Grid",
+       "url": "https://carbondesignsystem.com/elements/2x-grid/overview/"
+      }
+     ],
+     "confiance": "Établi — c'est l'argument du cadrage \"pas de fondation grid\""
+    }
+   ],
+   "principale": {
+    "ref": "S7",
+    "affirmation": "Grille de colonnes dérivée de l'échelle d'espacement",
+    "liens": [
+     {
+      "label": "Atlassian — Grid",
+      "url": "https://atlassian.design/foundations/grid-beta"
+     },
+     {
+      "label": "Carbon — 2x Grid",
+      "url": "https://carbondesignsystem.com/elements/2x-grid/overview/"
+     }
+    ],
+    "confiance": "Établi — c'est l'argument du cadrage \"pas de fondation grid\""
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-1-1",
+     "titre": "Grille de cartes",
+     "famille": "Contexte d'intégration"
+    },
+    {
+     "id": "cas-1-4",
+     "titre": "Grille de colonnes (12 colonnes, gouttières, marges)",
+     "famille": "Contexte d'intégration"
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Densité d'écran (dashboard dense vs page de lecture)",
+     "famille": "Contexte d'intégration"
+    },
+    {
+     "id": "cas-4-0",
+     "titre": "Valeur hors échelle",
+     "famille": "Enjeu / risque"
+    },
+    {
+     "id": "cas-4-1",
+     "titre": "Deux tokens pour une même valeur",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R03",
+   "couche": "ux",
+   "solution": "la fondation porte deux fonctions distinctes :",
+   "enonce": "La fondation porte deux fonctions distinctes : la relation, qui est une décision de sens, et le rythme, qui est une décision de système.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R04",
+   "couche": "ux",
+   "solution": "tout espacement est un multiple de la **grille de base** (`spacing.base`) — c'est la grille que les `*-UI.md` demandaient sans la fixer, posée par DESIGN.md.",
+   "enonce": "Tout espacement du système est un multiple entier d'une unité de base unique.",
+   "mesure": "toute valeur d'espacement est un multiple entier de spacing.base",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+     "liens": [
+      {
+       "label": "Atlassian — Spacing",
+       "url": "https://atlassian.design/foundations/spacing"
+      },
+      {
+       "label": "Carbon",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — tokens",
+       "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+      },
+      {
+       "label": "8pt grid",
+       "url": "https://spec.fm/specifics/8-pt-grid"
+      }
+     ],
+     "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+    "liens": [
+     {
+      "label": "Atlassian — Spacing",
+      "url": "https://atlassian.design/foundations/spacing"
+     },
+     {
+      "label": "Carbon",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — tokens",
+      "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+     },
+     {
+      "label": "8pt grid",
+      "url": "https://spec.fm/specifics/8-pt-grid"
+     }
+    ],
+    "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R05",
+   "couche": "ux",
+   "solution": "l'échelle est **fermée** : on choisit un cran existant (`xs` à `xl`, `section`), on n'invente pas de valeur intermédiaire. Si aucun cran ne convient de façon répétée, c'est l'échelle qu'on fait évoluer (DESIGN.md + journal), pas l'écran.",
+   "enonce": "L'échelle d'espacement est fermée : on choisit un cran existant sans inventer de valeur intermédiaire ; un besoin répété fait évoluer l'échelle, pas l'écran.",
+   "mesure": "aucune valeur d'espacement en dur hors des crans de l'échelle",
+   "contre": "",
+   "probleme": "la régularité perçue vient du petit nombre de valeurs, pas de leur précision — les systèmes majeurs convergent sur une échelle courte à progression non linéaire (serrée en bas : 4/8/16, écartée en haut : 24/40/80), parce que les petits écarts se jouent au pixel près et les grands à la dizaine.",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+     "liens": [
+      {
+       "label": "Atlassian — Spacing",
+       "url": "https://atlassian.design/foundations/spacing"
+      },
+      {
+       "label": "Carbon",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — tokens",
+       "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+      },
+      {
+       "label": "8pt grid",
+       "url": "https://spec.fm/specifics/8-pt-grid"
+      }
+     ],
+     "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+    },
+    {
+     "ref": "S4",
+     "affirmation": "Écarts hors échelle à éviter, exceptions admises",
+     "liens": [
+      {
+       "label": "Carbon — Spacing",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+    "liens": [
+     {
+      "label": "Atlassian — Spacing",
+      "url": "https://atlassian.design/foundations/spacing"
+     },
+     {
+      "label": "Carbon",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — tokens",
+      "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+     },
+     {
+      "label": "8pt grid",
+      "url": "https://spec.fm/specifics/8-pt-grid"
+     }
+    ],
+    "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-0",
+     "titre": "Valeur hors échelle",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R06",
+   "couche": "ux",
+   "solution": "l'échelle de ce système est **plus courte** que celles des systèmes majeurs (7 crans contre 13-14) — assumé : elle grandit sur besoin réel journalisé (précédent : `section` ajouté en 1.7.0 pour le rythme de page), jamais par symétrie avec un benchmark.",
+   "enonce": "Chez nous l'échelle est délibérément plus courte que celles des systèmes majeurs et ne s'allonge que sur un besoin réel journalisé.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+     "liens": [
+      {
+       "label": "Atlassian — Spacing",
+       "url": "https://atlassian.design/foundations/spacing"
+      },
+      {
+       "label": "Carbon",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — tokens",
+       "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+      },
+      {
+       "label": "8pt grid",
+       "url": "https://spec.fm/specifics/8-pt-grid"
+      }
+     ],
+     "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+    "liens": [
+     {
+      "label": "Atlassian — Spacing",
+      "url": "https://atlassian.design/foundations/spacing"
+     },
+     {
+      "label": "Carbon",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — tokens",
+      "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+     },
+     {
+      "label": "8pt grid",
+      "url": "https://spec.fm/specifics/8-pt-grid"
+     }
+    ],
+    "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-4",
+     "titre": "Rythme vertical de page",
+     "famille": "Rôle d'espacement"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R07",
+   "couche": "ux",
+   "solution": "**la règle cardinale — l'espace encode la relation** : plus deux éléments sont proches, plus leur lien perçu est fort (loi de proximité, Gestalt — formulée quasi textuellement par Carbon et Polaris).",
+   "enonce": "L'espace encode la relation : plus deux éléments sont proches, plus leur lien est perçu comme fort, et cette proximité l'emporte sur les autres indices visuels de groupement.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Loi de proximité appliquée à l'espacement",
+     "liens": [
+      {
+       "label": "Carbon — Spacing",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — Layout",
+       "url": "https://polaris.shopify.com/design/layout"
+      }
+     ],
+     "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Les éléments proches sont perçus comme appartenant au même groupe, et la proximité l'emporte sur les indices concurrents de couleur ou de forme",
+     "liens": [
+      {
+       "label": "Nielsen Norman Group — Proximity Principle in Visual Design",
+       "url": "https://www.nngroup.com/articles/gestalt-proximity/"
+      }
+     ],
+     "confiance": "Établi — principe Gestalt documenté par NN/g"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Loi de proximité appliquée à l'espacement",
+    "liens": [
+     {
+      "label": "Carbon — Spacing",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — Layout",
+      "url": "https://polaris.shopify.com/design/layout"
+     }
+    ],
+    "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-2",
+     "titre": "Proximité qui ment",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R08",
+   "couche": "ux",
+   "solution": "la hiérarchie de proximité doit être **monotone** : lié < frère < groupe. En pratique chez les consommateurs : `label_to_field` < `field_gap` < `fieldset_gap` (FORM-UI) ; `icon_gap` interne < padding externe (BUTTON-UI, ALERT-UI).",
+   "enonce": "La hiérarchie de proximité est monotone : l'écart entre éléments liés est inférieur à l'écart entre frères, lui-même inférieur à l'écart entre groupes.",
+   "mesure": "la suite des crans consommés est croissante du plus lié au plus séparé, sans inversion",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Loi de proximité appliquée à l'espacement",
+     "liens": [
+      {
+       "label": "Carbon — Spacing",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — Layout",
+       "url": "https://polaris.shopify.com/design/layout"
+      }
+     ],
+     "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Les éléments proches sont perçus comme appartenant au même groupe, et la proximité l'emporte sur les indices concurrents de couleur ou de forme",
+     "liens": [
+      {
+       "label": "Nielsen Norman Group — Proximity Principle in Visual Design",
+       "url": "https://www.nngroup.com/articles/gestalt-proximity/"
+      }
+     ],
+     "confiance": "Établi — principe Gestalt documenté par NN/g"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Loi de proximité appliquée à l'espacement",
+    "liens": [
+     {
+      "label": "Carbon — Spacing",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — Layout",
+      "url": "https://polaris.shopify.com/design/layout"
+     }
+    ],
+    "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Padding interne d'un composant",
+     "famille": "Rôle d'espacement"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R09",
+   "couche": "ux",
+   "solution": "**l'espacement interne est toujours inférieur ou égal à l'espacement externe** d'un même composant — un contenu plus proche du bord d'un voisin que de son propre bord a l'air d'appartenir au voisin.",
+   "enonce": "L'espacement interne d'un composant est toujours inférieur ou égal à son espacement externe.",
+   "mesure": "le plus grand espacement interne est inférieur ou égal au plus petit espacement externe",
+   "contre": "",
+   "probleme": "un label équidistant de son champ et du champ précédent — la proximité ment, l'utilisateur relie le label au mauvais champ. C'est le même mécanisme que l'affordance mensongère de la carte (CARD-UX) : un signal spatial qui dit faux est pire que pas de signal.",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Loi de proximité appliquée à l'espacement",
+     "liens": [
+      {
+       "label": "Carbon — Spacing",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — Layout",
+       "url": "https://polaris.shopify.com/design/layout"
+      }
+     ],
+     "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+    },
+    {
+     "ref": "S11",
+     "affirmation": "Les éléments proches sont perçus comme appartenant au même groupe, et la proximité l'emporte sur les indices concurrents de couleur ou de forme",
+     "liens": [
+      {
+       "label": "Nielsen Norman Group — Proximity Principle in Visual Design",
+       "url": "https://www.nngroup.com/articles/gestalt-proximity/"
+      }
+     ],
+     "confiance": "Établi — principe Gestalt documenté par NN/g"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Loi de proximité appliquée à l'espacement",
+    "liens": [
+     {
+      "label": "Carbon — Spacing",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — Layout",
+      "url": "https://polaris.shopify.com/design/layout"
+     }
+    ],
+    "confiance": "Établi — Gestalt + formulation convergente des systèmes"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-0",
+     "titre": "Padding interne d'un composant",
+     "famille": "Rôle d'espacement"
+    },
+    {
+     "id": "cas-2-3",
+     "titre": "Contenu plus long que prévu",
+     "famille": "État / comportement dans le temps"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R10",
+   "couche": "ux",
+   "solution": "la séparation entre groupes passe par **un saut d'échelle franc** (fieldset_gap vs field_gap), pas par un cran adjacent — deux valeurs trop proches ne sont pas perçues comme différentes ; c'est l'équivalent spatial des combinaisons indiscernables que traque test-rendu.js.",
+   "enonce": "La séparation entre deux groupes passe par un saut d'échelle franc et non par un cran adjacent.",
+   "mesure": "deux groupes séparés par au moins deux crans, jamais par des crans adjacents",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-3",
+     "titre": "Séparation entre groupes",
+     "famille": "Rôle d'espacement"
+    },
+    {
+     "id": "cas-4-0",
+     "titre": "Valeur hors échelle",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R11",
+   "couche": "ux",
+   "solution": "hiérarchie des séparateurs — **l'espace d'abord, le fond ensuite, le trait en dernier** : si un saut d'échelle suffit à séparer deux groupes, ni fond ni bordure ; réserver les séparateurs dessinés aux cas denses où l'espace manque (frontière avec la fondation border, qui fait autorité sur le trait).",
+   "enonce": "La séparation se fait d'abord par l'espace, ensuite par le fond, et en dernier recours seulement par un trait dessiné.",
+   "mesure": "aucun séparateur dessiné là où un saut de cran suffit",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S6",
+     "affirmation": "Séparateurs dessinés en dernier recours",
+     "liens": [
+      {
+       "label": "Polaris — Spacial organization",
+       "url": "https://polaris-react.shopify.com/design/layout/spacial-organization"
+      }
+     ],
+     "confiance": "Établi chez Polaris, adopté ici"
+    }
+   ],
+   "principale": {
+    "ref": "S6",
+    "affirmation": "Séparateurs dessinés en dernier recours",
+    "liens": [
+     {
+      "label": "Polaris — Spacial organization",
+      "url": "https://polaris-react.shopify.com/design/layout/spacial-organization"
+     }
+    ],
+    "confiance": "Établi chez Polaris, adopté ici"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-4-3",
+     "titre": "Espace comme seul séparateur de groupes",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R12",
+   "couche": "ux",
+   "solution": "l'empilement vertical suit la **même échelle fermée et la même monotonie** que la proximité : intra-bloc (`xs`–`sm`) < entre frères (`md`) < entre groupes (`xl`) < entre sections (`section`). Le rythme est un **usage de l'échelle**, pas une seconde échelle — aucun cran vertical propre.",
+   "enonce": "L'empilement vertical est un usage de l'échelle existante et non une seconde échelle.",
+   "mesure": "aucun token d'espacement vertical distinct de l'échelle spacing",
+   "contre": "",
+   "probleme": "la loi de proximité ne connaît pas d'axe — ce que la fondation impose horizontalement (des distances qui disent la relation) vaut verticalement. Une page dont les blocs sont espacés de valeurs quelconques n'a pas de rythme au sens musical : c'est le trou des compositions « au mimétisme », qui copient des pixels, pas des relations.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+     "liens": [
+      {
+       "label": "Richard Rutter — Compose to a vertical rhythm",
+       "url": "https://webtypography.net/2.2.2"
+      },
+      {
+       "label": "NN/g — The Power of White Space",
+       "url": "https://www.nngroup.com/articles/whitespace/"
+      }
+     ],
+     "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+    "liens": [
+     {
+      "label": "Richard Rutter — Compose to a vertical rhythm",
+      "url": "https://webtypography.net/2.2.2"
+     },
+     {
+      "label": "NN/g — The Power of White Space",
+      "url": "https://www.nngroup.com/articles/whitespace/"
+     }
+    ],
+    "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-4",
+     "titre": "Rythme vertical de page",
+     "famille": "Rôle d'espacement"
+    },
+    {
+     "id": "cas-4-2",
+     "titre": "Proximité qui ment",
+     "famille": "Enjeu / risque"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R13",
+   "couche": "ux",
+   "solution": "**un titre est plus proche de ce qu'il ouvre que de ce qu'il ferme** — l'espace au-dessus d'un titre dépasse d'au moins un cran l'espace au-dessous.",
+   "enonce": "Un titre est placé plus près de ce qu'il ouvre que de ce qu'il ferme : l'espace au-dessus dépasse l'espace au-dessous d'au moins un cran.",
+   "mesure": "pour tout titre, le cran au-dessus dépasse d'au moins un rang celui au-dessous",
+   "contre": "",
+   "probleme": "le titre appartient à son contenu (proximité, encore) ; un titre équidistant flotte, un titre plus proche du bloc précédent ment. Convention éditoriale constante (Rutter), transposée en crans d'échelle.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+     "liens": [
+      {
+       "label": "Richard Rutter — Compose to a vertical rhythm",
+       "url": "https://webtypography.net/2.2.2"
+      },
+      {
+       "label": "NN/g — The Power of White Space",
+       "url": "https://www.nngroup.com/articles/whitespace/"
+      }
+     ],
+     "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+    },
+    {
+     "ref": "S12",
+     "affirmation": "L'espace sous un titre doit être plus petit que l'espace au-dessus, pour que le titre soit visuellement plus proche du texte qu'il introduit",
+     "liens": [
+      {
+       "label": "Butterick — Space above & below",
+       "url": "https://practicaltypography.com/space-above-and-below.html"
+      }
+     ],
+     "confiance": "Établi comme convention typographique — ni norme ni design system : soutient R13 sans en faire une loi"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+    "liens": [
+     {
+      "label": "Richard Rutter — Compose to a vertical rhythm",
+      "url": "https://webtypography.net/2.2.2"
+     },
+     {
+      "label": "NN/g — The Power of White Space",
+      "url": "https://www.nngroup.com/articles/whitespace/"
+     }
+    ],
+    "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R14",
+   "couche": "ux",
+   "solution": "les **hauteurs posées** du système s'accrochent à la grille de base (`spacing.base`) : hauteurs interactives (`scale.*` — 32/36/40/48, déjà conformes), espacements verticaux (multiples par construction), zones réservées. Toute nouvelle hauteur se justifie en multiples de `base`.",
+   "enonce": "Toute hauteur posée par le système s'exprime en multiples de la grille de base et s'y justifie.",
+   "mesure": "toute hauteur posée est un multiple entier de spacing.base",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S2",
+     "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+     "liens": [
+      {
+       "label": "Atlassian — Spacing",
+       "url": "https://atlassian.design/foundations/spacing"
+      },
+      {
+       "label": "Carbon",
+       "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+      },
+      {
+       "label": "Polaris — tokens",
+       "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+      },
+      {
+       "label": "8pt grid",
+       "url": "https://spec.fm/specifics/8-pt-grid"
+      }
+     ],
+     "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+    }
+   ],
+   "principale": {
+    "ref": "S2",
+    "affirmation": "Grille de base 4/8px, échelle courte non linéaire",
+    "liens": [
+     {
+      "label": "Atlassian — Spacing",
+      "url": "https://atlassian.design/foundations/spacing"
+     },
+     {
+      "label": "Carbon",
+      "url": "https://carbondesignsystem.com/elements/spacing/overview/"
+     },
+     {
+      "label": "Polaris — tokens",
+      "url": "https://polaris-react.shopify.com/design/layout/layout-tokens"
+     },
+     {
+      "label": "8pt grid",
+      "url": "https://spec.fm/specifics/8-pt-grid"
+     }
+    ],
+    "confiance": "Établi par convergence ; base 4 ici = choix interne préexistant (DESIGN.md)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R15",
+   "couche": "ux",
+   "solution": "les **interlignes** restent gouvernés par la lisibilité, pas par la grille — **baseline souple, position assumée et révisable**. État chiffré : aucun interligne calculé ne tombe aujourd'hui sur la grille (body 16 × 1.6 = 25,6 px ; body-small 21 ; label 14,4 ; display 52,8 ; headings fluides par nature). Ne recaler aucun interligne sans arbitrage produit — la posture stricte est documentée en « À approfondir ».",
+   "enonce": "Les interlignes restent gouvernés par la lisibilité et non par la grille de base : aucun interligne n'est recalé sur la grille sans arbitrage explicite.",
+   "mesure": "interligne du corps de texte ≥ 1,5 ; aucun interligne contraint à tomber sur la grille",
+   "contre": "",
+   "probleme": "la baseline stricte des livres suppose des corps fixes ; ce système a des titres fluides et un corps dont l'interligne 1.6 est un choix de lisibilité (WCAG 1.4.8 demande ≥ 1.5). Accrocher les espacements et les hauteurs suffit à produire un rythme perçu ; accrocher les interlignes est un raffinement dont le coût se pèse, il ne se subit pas.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S10",
+     "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+     "liens": [
+      {
+       "label": "Richard Rutter — Compose to a vertical rhythm",
+       "url": "https://webtypography.net/2.2.2"
+      },
+      {
+       "label": "NN/g — The Power of White Space",
+       "url": "https://www.nngroup.com/articles/whitespace/"
+      }
+     ],
+     "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+    },
+    {
+     "ref": "S16",
+     "affirmation": "Un mécanisme doit permettre un interligne d'au moins 1,5 et un espacement de paragraphe au moins 1,5 fois supérieur à l'interligne",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.8 Visual Presentation",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html"
+      }
+     ],
+     "confiance": "Établi — **mais niveau AAA et conditionné à un mécanisme** : le fichier le citait comme un plancher applicable"
+    },
+    {
+     "ref": "S13",
+     "affirmation": "Aucune perte de contenu ni de fonctionnalité lorsque l'utilisateur impose interligne 1,5×, espacement de paragraphe 2×, interlettrage 0,12× et intermots 0,16×",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.12 Text Spacing",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA) — critère littéralement homonyme du sujet, **absent du fichier**"
+    }
+   ],
+   "principale": {
+    "ref": "S10",
+    "affirmation": "Rythme vertical composé sur une unité commune ; le vide n'est pas un reste",
+    "liens": [
+     {
+      "label": "Richard Rutter — Compose to a vertical rhythm",
+      "url": "https://webtypography.net/2.2.2"
+     },
+     {
+      "label": "NN/g — The Power of White Space",
+      "url": "https://www.nngroup.com/articles/whitespace/"
+     }
+    ],
+    "confiance": "Établi dans la tradition typographique ; transposition écran en baseline souple, assumée ici"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R16",
+   "couche": "ux",
+   "solution": "la densité d'un composant est un **décalage d'un cran** sur l'échelle (comfortable : padding `md` → compact : padding `sm`), jamais une valeur propre — l'axe density de la card en est l'application.",
+   "enonce": "La densité d'un composant est un décalage d'exactement un cran sur l'échelle commune, jamais une valeur propre.",
+   "mesure": "padding compact = padding confortable décalé d'exactement un cran",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R17",
+   "couche": "ux",
+   "solution": "la densité change les espacements, **jamais la structure** (ordre des slots, présence des éléments) — règle déjà posée par CARD-UI, généralisée ici.",
+   "enonce": "La densité modifie les espacements et jamais la structure : l'ordre des emplacements et la présence des éléments restent identiques.",
+   "mesure": "à densités différentes, ordre et présence des emplacements identiques",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R18",
+   "couche": "ux",
+   "solution": "quand l'équilibre mathématique et l'équilibre perçu divergent (icône asymétrique, pastille ronde contre texte), **l'œil arbitre** — l'ajustement optique est légitime, à deux conditions : il reste local (jamais promu en valeur d'échelle), et l'écart est commenté là où il vit.",
+   "enonce": "Quand l'équilibre mathématique et l'équilibre perçu divergent, l'ajustement optique est légitime s'il reste local, n'est jamais promu en valeur d'échelle, et est commenté là où il vit.",
+   "mesure": "tout ajustement optique est commenté à son point d'usage et n'apparaît dans aucun token",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Ajustements optiques légitimes, locaux",
+     "liens": [
+      {
+       "label": "Atlassian",
+       "url": "https://atlassian.design/foundations/spacing"
+      },
+      {
+       "label": "Polaris — Spacial organization",
+       "url": "https://polaris-react.shopify.com/design/layout/spacial-organization"
+      }
+     ],
+     "confiance": "Établi par convergence, conditions propres à ce système"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Ajustements optiques légitimes, locaux",
+    "liens": [
+     {
+      "label": "Atlassian",
+      "url": "https://atlassian.design/foundations/spacing"
+     },
+     {
+      "label": "Polaris — Spacial organization",
+      "url": "https://polaris-react.shopify.com/design/layout/spacial-organization"
+     }
+    ],
+    "confiance": "Établi par convergence, conditions propres à ce système"
+   },
+   "confiance": "convergence (Atlassian \"optical adjustments\", Polaris admet le padding asymétrique pour l'équilibre visuel — en cassant la cohérence *entre* conteneurs, jamais *dans* un conteneur).",
+   "cas": [
+    {
+     "id": "cas-0-6",
+     "titre": "Alignement optique vs mathématique",
+     "famille": "Rôle d'espacement"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R19",
+   "couche": "ux",
+   "solution": "ce système définit **deux régimes** (mobile / desktop) séparés par `breakpoint.mobile`, pas une gamme de 5-6 paliers comme Atlassian ou Carbon — divergence assumée : un seul produit consommateur, deux régimes réels observés (grille → 1 colonne, primaires full-width, hauteurs tactiles). Un palier intermédiaire (tablette) s'ajoutera sur besoin réel, pas par mimétisme.",
+   "enonce": "Le système ne définit que deux régimes de mise en page, mobile et desktop, séparés par un seuil unique.",
+   "mesure": "un seul seuil de largeur global dans le système",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "Breakpoints multiples chez les systèmes majeurs",
+     "liens": [
+      {
+       "label": "Atlassian",
+       "url": "https://atlassian.design/foundations/grid-beta"
+      },
+      {
+       "label": "Carbon",
+       "url": "https://carbondesignsystem.com/elements/2x-grid/overview/"
+      },
+      {
+       "label": "Material — window size classes",
+       "url": "https://developer.android.com/develop/ui/views/layout/use-window-size-classes"
+      }
+     ],
+     "confiance": "Établi ailleurs — le breakpoint unique ici est une divergence assumée, documentée"
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "Breakpoints multiples chez les systèmes majeurs",
+    "liens": [
+     {
+      "label": "Atlassian",
+      "url": "https://atlassian.design/foundations/grid-beta"
+     },
+     {
+      "label": "Carbon",
+      "url": "https://carbondesignsystem.com/elements/2x-grid/overview/"
+     },
+     {
+      "label": "Material — window size classes",
+      "url": "https://developer.android.com/develop/ui/views/layout/use-window-size-classes"
+     }
+    ],
+    "confiance": "Établi ailleurs — le breakpoint unique ici est une divergence assumée, documentée"
+   },
+   "confiance": "décision interne datée (2026-07-11) — à réviser au premier consommateur qui exige un 3e régime.",
+   "cas": [
+    {
+     "id": "cas-3-0",
+     "titre": "Desktop",
+     "famille": "Plateforme / device"
+    },
+    {
+     "id": "cas-3-1",
+     "titre": "Mobile",
+     "famille": "Plateforme / device"
+    },
+    {
+     "id": "cas-3-2",
+     "titre": "Tablette / intermédiaire",
+     "famille": "Plateforme / device"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R20",
+   "couche": "ux",
+   "solution": "**l'échelle d'espacement ne change pas au breakpoint** (contrairement à GOV.UK, dont l'échelle est responsive) — ce qui change en mobile : la densité choisie et la disposition, pas la valeur des crans. Si l'espace manque en mobile, on descend d'un cran de densité, on n'invente pas un \"md-mobile\".",
+   "enonce": "Les crans conservent la même valeur de part et d'autre du seuil responsive : ce qui change au mobile est la densité et la disposition, jamais la valeur des crans.",
+   "mesure": "les crans ont la même valeur de part et d'autre du seuil",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S9",
+     "affirmation": "Échelle responsive (l'unité change au breakpoint)",
+     "liens": [
+      {
+       "label": "GOV.UK — Spacing",
+       "url": "https://design-system.service.gov.uk/styles/spacing/"
+      }
+     ],
+     "confiance": "Établi chez GOV.UK — explicitement **non** adopté ici"
+    }
+   ],
+   "principale": {
+    "ref": "S9",
+    "affirmation": "Échelle responsive (l'unité change au breakpoint)",
+    "liens": [
+     {
+      "label": "GOV.UK — Spacing",
+      "url": "https://design-system.service.gov.uk/styles/spacing/"
+     }
+    ],
+    "confiance": "Établi chez GOV.UK — explicitement **non** adopté ici"
+   },
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-3-1",
+     "titre": "Mobile",
+     "famille": "Plateforme / device"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R21",
+   "couche": "ux",
+   "solution": "l'espacement s'exprime en **px, pas en rem** — assumé et motivé : WCAG 1.4.4 protège l'agrandissement du *texte* ; un padding qui gonfle avec le zoom texte consomme l'écran sans servir la lecture (le zoom page, lui, agrandit tout uniformément). La typographie, elle, est en rem — les deux positions sont cohérentes entre elles, pas contradictoires.",
+   "enonce": "L'espacement s'exprime en pixels et non en unités relatives au texte, la typographie restant seule à suivre l'agrandissement.",
+   "mesure": "tous les tokens d'espacement sont exprimés en px",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S15",
+     "affirmation": "Le texte peut être agrandi jusqu'à 200 % sans perte ; le Understanding précise que les conteneurs de texte doivent s'agrandir avec lui",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.4 Resize Text",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA) — **nuance la lecture faite par R21**"
+    }
+   ],
+   "principale": {
+    "ref": "S15",
+    "affirmation": "Le texte peut être agrandi jusqu'à 200 % sans perte ; le Understanding précise que les conteneurs de texte doivent s'agrandir avec lui",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 1.4.4 Resize Text",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html"
+     }
+    ],
+    "confiance": "Établi, standard (AA) — **nuance la lecture faite par R21**"
+   },
+   "confiance": "convergence partielle (Carbon fixe ses tokens en px/rem selon les cas ; le débat px/rem sur l'espacement n'est pas tranché par une norme) — position interne documentée, réversible.",
+   "cas": [
+    {
+     "id": "cas-0-5",
+     "titre": "Espace de respiration du texte",
+     "famille": "Rôle d'espacement"
+    },
+    {
+     "id": "cas-1-5",
+     "titre": "Densité d'écran (dashboard dense vs page de lecture)",
+     "famille": "Contexte d'intégration"
+    }
+   ]
+  },
+  {
+   "id": "SPACING-R22",
+   "couche": "ux",
+   "solution": "l'espace réservé **ne dépend pas de l'état** — le skeleton occupe les dimensions du contenu réel (CARD-UI), l'espace d'un alert attendu se réserve quand c'est possible (ALERT-UX). Le déplacement de contenu non sollicité est le risque : il appartient à la fondation motion, l'espacement fournit la prévention (réservation).",
+   "enonce": "L'espace occupé par un élément ne dépend pas de son état : la place du contenu attendu ou différé est réservée dès la mise en page initiale.",
+   "mesure": "les dimensions d'un squelette égalent celles du contenu réel ; aucun décalage non provoqué par une action utilisateur",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S18",
+     "affirmation": "Les décalages de mise en page s'évitent en réservant la place du contenu tardif dès la mise en page initiale, et en ne repliant pas cette réserve",
+     "liens": [
+      {
+       "label": "web.dev — Optimize Cumulative Layout Shift",
+       "url": "https://web.dev/articles/optimize-cls"
+      }
+     ],
+     "confiance": "Établi — référence d'implémentation de l'équipe Chrome"
+    },
+    {
+     "ref": "S19",
+     "affirmation": "Un décalage se produit dès qu'un élément visible change de position entre deux images ; ces éléments sont dits instables et mesurables par l'API Layout Instability",
+     "liens": [
+      {
+       "label": "MDN — LayoutShift",
+       "url": "https://developer.mozilla.org/en-US/docs/Web/API/LayoutShift"
+      }
+     ],
+     "confiance": "Établi — fonde la mesurabilité de R22"
+    }
+   ],
+   "principale": {
+    "ref": "S18",
+    "affirmation": "Les décalages de mise en page s'évitent en réservant la place du contenu tardif dès la mise en page initiale, et en ne repliant pas cette réserve",
+    "liens": [
+     {
+      "label": "web.dev — Optimize Cumulative Layout Shift",
+      "url": "https://web.dev/articles/optimize-cls"
+     }
+    ],
+    "confiance": "Établi — référence d'implémentation de l'équipe Chrome"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R23",
+   "couche": "ux",
+   "solution": "table ci-dessous",
+   "enonce": "La fondation tient une table des cas à risque d'espacement et de leur sévérité, qui sert de grille de relecture avant livraison.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S17",
+     "affirmation": "Les cibles de moins de 24 × 24 px doivent être positionnées de sorte qu'un cercle de 24 px centré sur chacune n'en intersecte aucune autre : l'espacement est le critère de rattrapage normatif",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA) — **donne le seuil réel (24) là où la table de risque annonçait 44**"
+    }
+   ],
+   "principale": {
+    "ref": "S17",
+    "affirmation": "Les cibles de moins de 24 × 24 px doivent être positionnées de sorte qu'un cercle de 24 px centré sur chacune n'en intersecte aucune autre : l'espacement est le critère de rattrapage normatif",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 2.5.8 Target Size (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html"
+     }
+    ],
+    "confiance": "Établi, standard (AA) — **donne le seuil réel (24) là où la table de risque annonçait 44**"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "SPACING-R24",
+   "couche": "ux",
+   "solution": "**l'espace est un canal d'information, pas un reste** — ce que l'espace dit (proximité, groupes) doit être aussi vrai que ce que le texte dit.",
+   "enonce": "L'espace est un canal d'information et non un reste : ce que les distances disent d'une page doit être aussi vrai que ce qu'en dit le texte.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "c'est la déclinaison spatiale du principe des affordances honnêtes (CARD-UX : \"la réaction au survol ne doit jamais mentir\") — l'utilisateur lit la page par ses distances avant de lire ses mots.",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": [
+    {
+     "id": "cas-0-5",
+     "titre": "Espace de respiration du texte",
+     "famille": "Rôle d'espacement"
+    }
+   ]
   }
  ]
 }

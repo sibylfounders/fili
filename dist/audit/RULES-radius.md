@@ -4,8 +4,8 @@ nature: foundations
 resume: "Ce fichier contient le raisonnement : ce que le rayon suit, l'imbrication, le pill."
 selon-contexte: [alert, border, button, card, input]
 source: RADIUS-UX.md v1.1.0 + RADIUS-UI.md v1.1.0
-empreinte: sha256:6d61a152ddc5fd76
-regles: {loi: 0, preference: 0, non_qualifie: 11}
+empreinte: sha256:b06ffc5dfc5424dd
+regles: {loi: 2, preference: 7, non_qualifie: 0}
 ---
 # RULES — radius (compilé, mode audit)
 
@@ -19,14 +19,22 @@ regles: {loi: 0, preference: 0, non_qualifie: 11}
 
 ## Règles de design
 
-- **[non qualifié]** le radius est une **fondation** — la contrainte transversale la plus courte du système, et c'est une propriété du sujet : trois tokens, quatre règles, aucun axe. L'inventaire (17 cas) confirme que la brièveté n'est pas un trou de couverture.
-- **[non qualifié]** le rayon est une propriété d'**identité**, pas d'état : il ne change jamais entre repos/hover/focus/error, et il ne porte aucun sens sémantique. Ce qu'il suit, c'est la **taille du composant**.
-- **[non qualifié]** **le cran suit la taille ET le type (contrôle vs conteneur)** : `radius.sm` pour les petites hauteurs (bouton/input sm), `radius.md` pour les **contrôles** de taille standard (bouton/input md-lg), `radius.lg` pour les **conteneurs** (card, alert). C'est la logique croissante convergente des systèmes majeurs (Atlassian : 2px badges → 12px conteneurs → 16px players ; Material : 4 → 28dp), à échelle réduite.
-- **[non qualifié]** le rayon ne grandit **pas linéairement** avec la taille — le bouton lg garde `radius.md` ("l'agrandir proportionnellement donnerait un effet pilule non désiré", BUTTON-UI). Le rayon est un cran choisi, jamais un pourcentage de la hauteur.
-- **[non qualifié]** la cohérence se joue **par taille, pas par composant** : un input md à côté d'un bouton md partagent `radius.md` — les contrôles d'un même formulaire ont la même courbure (BUTTON-UI et INPUT-UI le font déjà, la règle est désormais dite).
-- **[non qualifié]** un coin interne n'est jamais plus rond que le coin externe qui le contient. Cas collé (media d'une carte) : le rayon interne épouse l'externe. Cas concentrique idéal : rayon interne = rayon externe − écart.
-- **[non qualifié]** le cas **inversé** existe aussi : un anneau posé *à l'extérieur* (le focus ring) prend rayon du composant **+ offset** — c'est la même géométrie dans l'autre sens, et Atlassian la tokenise exactement ainsi (radius.focus = rayon de base + 2px).
-- **[non qualifié]** `radius.pill` (valeur géante, convention partagée : 999/9999px) est **réservé aux contenus mono-ligne intrinsèques dont la forme EST la pilule** — pastilles, badges, avatars. **Tranché (1.1.0) : un contrôle mono-ligne (bouton, input) ne prend JAMAIS `pill`** — il est mono-ligne mais pas *intrinsèquement pilule*, et suit sa taille (sm/md). « Intrinsèque » qualifie la forme du contenu, pas le simple fait de tenir sur une ligne. Jamais sur un contenu qui peut passer en multiligne : la pilule devient un stade.
-- **[non qualifié]** aucun consommateur documenté à ce jour — provision rendue visible (même statut qu'`elevation.overlay`), candidat naturel : badge/tag, dont `typography.label` (Inter, 1.8.0) est l'autre moitié déjà née.
-- **[non qualifié]** l'**angle droit n'a pas de token** — décision, pas oubli : rien dans ce système n'est carré par défaut (Carbon fait le choix inverse — esthétique d'identité, pas une norme). Un besoin réel l'ajouterait en un cran `none`.
-- **[non qualifié]** **le rayon suit la taille et rien d'autre** — ni l'importance (BUTTON-UX : "large ne veut pas dire important"), ni l'état, ni le goût de l'écran.
+- **[préférence]** Le rayon est une propriété d'identité et non d'état : il ne varie jamais entre repos, survol, focus, erreur ou sélection. `RADIUS-R02`
+  - vérifiable : rayon identique au repos et dans tous les états d'un même composant
+- **[préférence]** Le cran de rayon se choisit selon la taille et le type du composant, sur une échelle fermée et croissante. `RADIUS-R03`
+  - vérifiable : chaque composant résout un cran de l'échelle ; aucune valeur de rayon en dur
+- **[préférence]** Le rayon n'est jamais dérivé d'un pourcentage ni d'une fraction de la hauteur : c'est un cran choisi, qui ne croît pas proportionnellement à la taille. `RADIUS-R04`
+  - vérifiable : aucun rayon exprimé en pourcentage ou calculé depuis la hauteur
+- **[préférence]** Deux contrôles de même taille voisins dans une même composition partagent le même cran de rayon. `RADIUS-R05`
+  - vérifiable : contrôles de même taille d'un même groupe : même token de rayon
+- **[loi]** Un coin intérieur n'est jamais plus rond que le coin extérieur qui le contient : au contact il épouse le rayon extérieur, à distance il vaut le rayon extérieur moins l'écart. `RADIUS-R06`
+  - vérifiable : rayon interne ≤ rayon externe ; cas concentrique : rayon interne = rayon externe − écart
+  - source : https://www.w3.org/TR/css-backgrounds-3/
+- **[loi]** Un anneau posé à l'extérieur d'un composant prend pour rayon celui du composant augmenté de son écart. `RADIUS-R07`
+  - vérifiable : rayon de l'anneau de focus = rayon du composant + écart de focus
+  - source : https://www.w3.org/TR/css-backgrounds-3/
+- **[préférence]** Le rayon plein est réservé aux contenus mono-ligne dont la forme est intrinsèquement une pilule ; aucun contrôle ni contenu susceptible de passer en multiligne ne le prend. `RADIUS-R08`
+  - vérifiable : aucun composant de type contrôle ni contenu multiligne ne consomme le rayon plein
+- **[préférence]** L'angle droit n'a pas de token dans l'échelle : rien n'est carré par défaut, et un besoin réel devrait ajouter explicitement un cran nul. `RADIUS-R10`
+  - vérifiable : l'échelle de rayon ne comporte aucun cran de valeur 0
+- **[préférence]** Le rayon suit la taille du composant et rien d'autre : ni son importance, ni son état, ni une préférence locale d'écran. `RADIUS-R12`

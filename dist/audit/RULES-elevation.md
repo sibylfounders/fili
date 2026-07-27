@@ -4,8 +4,8 @@ nature: foundations
 resume: "Ce fichier contient le raisonnement : ce que la profondeur *signifie*, quand le relief est un signal et quand il est du bruit."
 selon-contexte: [alert, button, card, input, interaction, motion, toast, typography]
 source: ELEVATION-UX.md v2.0.0 + ELEVATION-UI.md v2.0.0
-empreinte: sha256:86b141546e18722c
-regles: {loi: 0, preference: 0, non_qualifie: 18}
+empreinte: sha256:57dcd007b514d7e4
+regles: {loi: 3, preference: 13, non_qualifie: 0}
 ---
 # RULES — elevation (compilé, mode audit)
 
@@ -19,24 +19,39 @@ regles: {loi: 0, preference: 0, non_qualifie: 18}
 
 ## Règles de design
 
-- **[non qualifié]** l'élévation est une **fondation** — pas d'axes, pas d'assemblage : une contrainte transversale. Particularité de trajectoire : ses tokens sont nés *avant* sa doctrine (créés en DESIGN.md 1.2.0 pour la card) ; la 2.0.0 élargit la doctrine de l'**ombre** au **relief** entier (ombre + arête + liseré), après que l'implémentation de référence (atelier DS-UI) en a éprouvé la grammaire.
-- **[non qualifié]** l'élévation porte une seule fonction — **dire à quelle couche du flux un élément appartient** :
-- **[non qualifié]** le relief est la **matérialité retrouvée de la fonction** : un objet qui dépasse de la page appelle le doigt ; un creux appelle un contenu ; une surface plate se lit sans rien promettre. Le flat design a uniformisé ces trois natures en une seule — le système les redistingue.
-- **[non qualifié]** **grammaire à trois natures** — à la création de tout composant, chaque surface est classée :
-- **[non qualifié]** **le relief suit la fonction, jamais la décoration.** Le test reste celui du langage d'interaction (INTERACTION-UX, matérialité fonctionnelle) : manipulable ? reçoit ? organise ? couche temporaire ? état changé ? — un effet qui ne répond à aucune question est décoratif, donc banni. La grammaire ne crée pas un droit à l'effet ; elle nomme les trois seules réponses admises.
-- **[non qualifié]** **statut de frontière — parti pris d'identité, paramétrable.** Le registre Relief est débrayable (l'implémentation de référence l'expose comme un réglage de thème) : un consommateur peut le désactiver et retomber sur le registre plat intégral (doctrine 1.x, conservée ci-dessous). En audit d'une interface tierce, l'absence de relief n'est jamais une non-conformité ; l'affordance mensongère (relief sur du statique) en est une.
-- **[non qualifié]** **la lumière vient du haut, pour tout le monde.** Un objet posé porte une arête externe sombre, un liseré interne clair *en haut qui fond vers sa couleur en bas* (jamais un anneau uniforme — la lumière ne cercle pas), et l'ombre de repos `raised`. Un creux porte une ombre interne haute. Une seule source de lumière dans tout le produit ; deux objets éclairés de deux directions sont un bug de physique.
-- **[non qualifié]** **matrice d'états des objets posés** — trois états, une seule métaphore :
-- **[non qualifié]** **en thème sombre, la physique tient, les valeurs changent.** La convention « les surfaces s'éclaircissent avec la hauteur » (1.1.0) s'applique au registre entier : le soulevé s'éclaircit aussi en sombre ; l'enfoncé se dérive *vers le noir* — jamais via le token de survol, qui s'éclaircit en sombre et inverserait la physique (un bouton qui *monte* quand on le presse). Le liseré s'exprime dans la gamme de l'objet, jamais en blanc pur.
-- **[non qualifié]** les surfaces restent gouvernées par la doctrine 1.x, **inchangée** : le repos d'une *surface* est à plat ; `raised` reste le retour de survol des surfaces **cliquables** uniquement (card clickable — et en registre relief, ce survol porte aussi l'arête et le liseré, qui apparaissent et disparaissent *avec* lui) ; une surface statique ne réagit jamais.
-- **[non qualifié]** **mise en avant ≠ élévation**, inchangé : `surface-contrast` met en avant par le fond, sans ombre (non-cumul). Et **l'importance ne réquisitionne pas le relief** : un bouton primaire n'est pas plus posé qu'un bouton neutre — la hiérarchie passe par style × tone (BUTTON-UX), le relief dit la nature, pas le rang.
-- **[non qualifié]** trois niveaux d'ombre, inchangés. Le relief n'ajoute **aucun niveau** : il compose les niveaux existants avec l'arête et le liseré (fondation border : le containment passe par la bordure). L'ombre interne d'enfoncement est un état, pas un palier — elle n'entre pas dans l'échelle.
-- **[non qualifié]** les ombres restent **teintées** (base `text-primary`, jamais noir pur) et se distinguent par la *portée*, pas par l'opacité seule.
-- **[non qualifié]** les transitions d'état du relief appartiennent à motion (MOTION-UX) : les couleurs transitionnent ; **les ombres se remplacent instantanément** (jamais de box-shadow interpolé — le soulevé/enfoncé est un changement d'état sec, pas un glissement). Sous `prefers-reduced-motion`, tout est instantané ; l'information (la nature de l'objet) reste — elle est statique par construction.
-- **[non qualifié]** le **skeleton n'est jamais en relief** — il occupe l'espace du contenu, il ne promet aucune interaction (inchangé).
-- **[non qualifié]** le relief n'est **jamais le seul signal** (inchangé, étendu) : en `forced-colors`, ombres ET liserés disparaissent — restent la bordure, le focus ring, la sémantique. Le registre relief a l'avantage de reposer d'abord sur des *bordures* (arête = border réel), qui survivent au contraste forcé mieux que les ombres.
-- **[non qualifié]** l'élévation — et désormais le liseré — sont **dépendants du thème** (1.1.0, étendu) : un thème redéfinit `elevation.*` et les dérivations de liseré comme il redéfinit `background`.
-- **[non qualifié]** **le relief dit la nature, jamais l'importance.** Posé = pressable, creusé = remplissable, plat = lisible — et rien d'autre. Un élément important n'est pas plus posé : il est mieux placé, mieux contrasté, mieux nommé.
+- **[préférence]** L'élévation ne dit qu'une chose : à quelle couche du flux un élément appartient — à plat, soulevé mais dans le flux, ou au-dessus du flux. `ELEVATION-R02`
+  - vérifiable : toute élévation résout vers l'un des trois niveaux nommés
+- **[préférence]** Un élément interactif doit porter un signifiant perceptible de sa nature ; ce système choisit le relief comme signifiant. `ELEVATION-R03`
+- **[préférence]** Toute surface est classée dans l'une de trois natures — posé, creusé, plat — et cette classe détermine son relief. `ELEVATION-R04`
+  - vérifiable : chaque surface documentée est classée posé, creusé ou plat
+- **[préférence]** Un effet de relief qui ne répond à aucune question de matérialité fonctionnelle est décoratif et interdit. `ELEVATION-R05`
+- **[loi]** L'ombrage suppose une source de lumière unique et venue du haut, la perception humaine interprétant toute ombre selon un a priori de lumière d'en haut. `ELEVATION-R07`
+  - vérifiable : une seule direction de décalage d'ombre portée dans tout le produit
+  - source : https://jov.arvojournals.org/article.aspx?articleid=2191755
+- **[préférence]** Un objet posé a trois états dans une seule métaphore : posé au repos, soulevé au survol, enfoncé à l'appui. `ELEVATION-R08`
+  - vérifiable : l'état d'appui porte une ombre interne et un fond plus sombre que l'état de repos
+- **[préférence]** En thème sombre les directions de la physique du relief sont conservées et seules les valeurs changent. `ELEVATION-R09`
+  - vérifiable : le fond de l'état d'appui n'est jamais dérivé du token de survol
+- **[préférence]** Le repos d'une surface est à plat : l'élévation soulevée n'est accordée qu'au survol des surfaces cliquables. `ELEVATION-R10`
+  - vérifiable : aucune élévation soulevée au repos sur une surface non actionnable
+- **[préférence]** La mise en avant passe par le fond et non par l'ombre : élévation et fond contrasté ne se cumulent pas. `ELEVATION-R11`
+  - vérifiable : aucune surface ne porte simultanément un token d'élévation et un fond contrasté
+- **[préférence]** L'échelle d'ombre compte exactement trois niveaux ; l'ombre interne d'enfoncement est un état, pas un palier. `ELEVATION-R12`
+  - vérifiable : l'échelle expose exactement trois niveaux ; l'ombre interne n'y est pas comptée
+- **[préférence]** Les ombres sont teintées sur la couleur de texte primaire, jamais en noir pur, et se distinguent par leur portée plutôt que par leur seule opacité. `ELEVATION-R13`
+  - vérifiable : aucune valeur d'ombre en noir pur ; deux niveaux successifs diffèrent par leur flou ou leur décalage
+- **[préférence]** Les ombres se remplacent instantanément et ne sont jamais interpolées ; seules les couleurs transitionnent. `ELEVATION-R14`
+  - vérifiable : aucune propriété d'ombre déclarée dans une transition ou une animation
+- **[préférence]** Un squelette de chargement ne porte jamais de relief : il occupe l'espace du contenu sans promettre d'interaction. `ELEVATION-R15`
+  - vérifiable : aucun token d'élévation appliqué à un squelette
+- **[loi]** Aucune information ne repose sur la seule ombre ni sur le seul liseré : en mode de couleurs forcées les ombres sont supprimées et les fonds dégradés annulés. `ELEVATION-R16`
+  - vérifiable : en couleurs forcées, chaque élément reste identifiable par sa bordure, son anneau de focus ou son texte
+  - source : https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors
+- **[loi]** Les valeurs d'élévation et de liseré appartiennent au thème : un thème les redéfinit comme il redéfinit ses couleurs de fond. `ELEVATION-R17`
+  - vérifiable : aucune valeur d'ombre ou de liseré codée en dur hors de la définition de thème
+  - source : https://atlassian.design/foundations/elevation
+- **[préférence]** Le relief dit la nature d'un élément et jamais son importance, qui passe par la place, le contraste et le nom. `ELEVATION-R19`
+  - vérifiable : deux composants de même nature et de rangs différents portent la même élévation
 
 ## Non couvert — poser la question, ne rien trancher
 

@@ -4,8 +4,8 @@ nature: foundations
 resume: "Ce fichier contient le raisonnement : quand une icône a le droit d'exister, ce qu'elle porte, ce qu'elle ne remplace jamais."
 selon-contexte: [alert, button, card, color, input, motion, spacing]
 source: ICONOGRAPHY-UX.md v1.0.0 + ICONOGRAPHY-UI.md v1.0.0
-empreinte: sha256:c6f8657be9c66b1a
-regles: {loi: 0, preference: 0, non_qualifie: 21}
+empreinte: sha256:d86596ba0df16fc3
+regles: {loi: 9, preference: 9, non_qualifie: 0}
 ---
 # RULES — iconography (compilé, mode audit)
 
@@ -19,27 +19,45 @@ regles: {loi: 0, preference: 0, non_qualifie: 21}
 
 ## Règles de design
 
-- **[non qualifié]** l'iconographie est une **fondation** — pas d'axes, pas d'assemblage : tous les composants consomment des icônes (tones de l'alert, chevron de la card, actions du bouton, services de l'input).
-- **[non qualifié]** **ce système ne fournit pas de bibliothèque d'icônes.** Le dessin précis des glyphes est une décision d'identité visuelle — précédent posé par `icon_shape` de l'alert : la *silhouette* est normative (cercle/triangle/octogone), le *dessin* est libre. Cette fondation régit tout ce qui ne dépend pas du dessin : rôles, tailles, style, redondance, accessibilité, stabilité du sens. La grille de construction interne (keylines, zone de sécurité) appartient à la bibliothèque choisie.
-- **[non qualifié]** la fondation sépare deux fonctions :
-- **[non qualifié]** **le texte d'abord** : "utiliser des labels pour soutenir les icônes partout où c'est possible, et éviter les icônes là où elles ne sont pas nécessaires" (Atlassian — repris tel quel). Une icône est un *accélérateur de reconnaissance*, pas un remplacement du langage.
-- **[non qualifié]** le droit de paraître seule est **une liste fermée, pas un jugement au cas par cas** : les métaphores quasi universelles (recherche/loupe, fermeture/croix, accueil/maison, impression — NN/g n'en reconnaît que trois ou quatre) plus les actions apprises *dans ce produit* et confirmées par l'usage. Tout le reste : label visible.
-- **[non qualifié]** icône seule → **aria-label obligatoire sans exception** (règle déjà posée par BUTTON-UI, généralisée) — et le tooltip au survol ne compte pas comme label : invisible au tactile, coûteux à découvrir (NN/g).
-- **[non qualifié]** la règle des 5 secondes (NN/g) comme test de conception : si trouver l'icône d'une action prend plus de 5 secondes, cette action n'a pas d'icône — elle a un mot.
-- **[non qualifié]** le registre iconographique du produit est **stable** : une fois un glyphe associé à un sens, il ne sert plus à rien d'autre — et le même sens ne change pas de glyphe selon l'écran (précédent : une icône par tone, constante dans tout le produit, ALERT-UX).
-- **[non qualifié]** ne jamais détourner un symbole à sens établi ailleurs (l'étoile note, elle ne "favorise" pas si le produit note aussi ; la corbeille supprime, elle n'archive pas).
-- **[non qualifié]** l'icône sémantique est un **canal redondant, pas décoratif** (WCAG 1.4.1) : les icônes de tone de l'alert ne se retirent pas pour alléger, et leurs silhouettes distinctes font le travail que la couleur ne garantit pas (deutéranopie — décision F03).
-- **[non qualifié]** **outline par défaut**, trait constant (`icon.stroke`) sur toute la bibliothèque — le style du trait est le "fallback stack" de l'iconographie : une seule décision, prise une fois, visible partout. Le **filled est réservé aux états actifs/sélectionnés** si le besoin naît (convention Material Symbols et Polaris : fill = transition d'état, pas un second style décoratif).
-- **[non qualifié]** contrainte de lisibilité : le trait doit tenir au plus petit cran (`icon.sm`) — une icône dont les détails se bouchent en petit est une icône trop détaillée, pas un cran trop petit.
-- **[non qualifié]** pas de 3D, pas de perspective, pas de détail intérieur superflu (Atlassian — difficile à décoder, notamment pour les troubles cognitifs).
-- **[non qualifié]** les tailles sont **des crans fermés** (`icon.sm/md/lg`, créés par cette fondation — elles étaient la déduction silencieuse de quatre composants), appariés aux corps de texte et aux hauteurs de composants, jamais des valeurs libres. **Ne jamais redimensionner une icône hors crans** (Polaris : cela détruit la relation établie avec la typographie).
-- **[non qualifié]** à côté d'un texte, l'icône est **centrée verticalement** sur la ligne — pas alignée sur la baseline (Carbon, explicite). Sa couleur est **celle du texte qu'elle accompagne** — jamais de couleur propre hors tone sémantique.
-- **[non qualifié]** l'icône informative respecte **3:1** (WCAG 1.4.11) comme tout signal visible ; l'icône décorative est exemptée — et cachée (`aria-hidden`).
-- **[non qualifié]** **cible tactile ≠ taille d'icône** : le glyphe reste petit, la cible s'étend par le padding — 44px partout (standard du système), ce qui couvre largement le minimum WCAG 2.5.8 (24px, AA).
-- **[non qualifié]** écrit d'office (prédicteur "état transitoire") : le **spinner** est une icône animée — sa taille et sa place relèvent de cette fondation (il occupe le cran de l'icône qu'il remplace : le label du bouton loading devient indicateur sans changer la géométrie), sa rotation appartient à la fondation motion (linéaire, la seule rotation continue admise).
-- **[non qualifié]** une icône qui change avec l'état est **le même glyphe transformé** (chevron tourné, œil barré) plutôt que deux glyphes — et l'état est toujours exposé techniquement (aria-expanded, aria-pressed) : le dessin confirme, il n'est jamais la source.
-- **[non qualifié]** **SVG inline, pas d'icon font** : une icon font qui échoue au chargement laisse un caractère fantôme ou un carré, se fait lire par certains lecteurs d'écran, et casse à la traduction automatique. Le SVG inline hérite de la couleur du texte (`currentColor`) et n'a pas d'état de chargement — c'est le pendant iconographique des piles de secours typographiques.
-- **[non qualifié]** **l'icône accélère la reconnaissance d'un sens que le produit sait déjà dire autrement — elle n'est jamais le seul dépositaire du sens.**
+- **[loi]** Toute icône est accompagnée d'un libellé textuel partout où c'est possible, et aucune icône n'est ajoutée là où elle n'est pas nécessaire. `ICONOGRAPHY-R04`
+  - source : https://www.nngroup.com/articles/icon-usability/
+- **[préférence]** Le droit d'une icône à paraître sans libellé visible est défini par une liste fermée et déclarée, non par un jugement au cas par cas. `ICONOGRAPHY-R05`
+  - vérifiable : toute icône sans libellé visible appartient à la liste fermée déclarée
+- **[loi]** Tout contrôle réduit à une icône porte un nom accessible non vide décrivant sa fonction ; une info-bulle au survol ne tient jamais lieu de nom accessible. `ICONOGRAPHY-R06`
+  - vérifiable : tout contrôle sans texte visible expose un nom accessible non vide
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
+- **[préférence]** Une action dont l'icône ne se laisse ni concevoir ni trouver en moins de cinq secondes se désigne par un mot et non par un glyphe. `ICONOGRAPHY-R07`
+- **[loi]** Un glyphe ne désigne qu'un seul sens dans tout le produit, et un sens donné est toujours porté par le même glyphe. `ICONOGRAPHY-R08`
+  - vérifiable : aucun glyphe associé à plus d'un sens et aucun sens porté par plus d'un glyphe
+  - source : https://atlassian.design/foundations/iconography
+- **[préférence]** Aucun symbole dont le sens est déjà établi ailleurs n'est réaffecté à un autre sens. `ICONOGRAPHY-R09`
+- **[loi]** Une icône porteuse de sens est un canal redondant d'une information déjà exprimée autrement : elle ne se retire pas pour alléger, et sa silhouette distingue le sens sans recours à la couleur. `ICONOGRAPHY-R10`
+  - vérifiable : chaque état sémantique reste distinguable sans la couleur
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
+- **[préférence]** La bibliothèque adopte un style de contour unique à trait constant, et réserve la variante pleine à la signalisation d'un état actif. `ICONOGRAPHY-R11`
+  - vérifiable : toutes les icônes partagent la même valeur de trait
+- **[préférence]** Une icône doit rester lisible au plus petit cran ; un glyphe dont les détails se bouchent est simplifié ou retiré, le cran n'est pas augmenté pour lui. `ICONOGRAPHY-R12`
+- **[préférence]** Les icônes s'en tiennent à des formes simples et frontales, sans perspective, sans volume et sans détail intérieur superflu. `ICONOGRAPHY-R13`
+- **[loi]** Les tailles d'icône proviennent d'un jeu fermé de crans appariés aux corps de texte ; une icône ne se redimensionne jamais hors de ces crans, elle change de cran. `ICONOGRAPHY-R14`
+  - vérifiable : toute icône rendue utilise une valeur du jeu de crans ; aucune taille libre
+  - source : https://carbondesignsystem.com/elements/icons/usage/
+- **[loi]** À côté d'un texte, l'icône est centrée verticalement sur la ligne plutôt qu'alignée sur la ligne de base, et prend la couleur du texte qu'elle accompagne. `ICONOGRAPHY-R15`
+  - vérifiable : aucune icône adjacente à du texte n'est alignée sur la ligne de base ; couleur héritée hors tone sémantique
+  - source : https://carbondesignsystem.com/elements/icons/usage/
+- **[loi]** Une icône porteuse d'information respecte un contraste d'au moins 3:1 avec les couleurs adjacentes ; une icône décorative en est exemptée et est retirée de l'arbre d'accessibilité. `ICONOGRAPHY-R16`
+  - vérifiable : contraste ≥ 3:1 pour toute icône informative ; toute icône décorative porte aria-hidden et n'est pas focalisable
+  - source : https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html
+- **[loi]** La cible tactile d'une icône interactive s'obtient par extension du padding et jamais par agrandissement du glyphe. `ICONOGRAPHY-R17`
+  - vérifiable : toute icône interactive a une cible ≥ 44 × 44 px, obtenue sans agrandir le glyphe
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
+- **[préférence]** Le spinner est traité comme une icône animée : il occupe le cran de l'icône qu'il remplace sans modifier la géométrie du composant. `ICONOGRAPHY-R18`
+- **[préférence]** Une icône qui varie avec l'état est le même glyphe transformé plutôt qu'un second glyphe, et l'état reste exposé programmatiquement. `ICONOGRAPHY-R19`
+  - vérifiable : tout contrôle dont l'icône varie selon l'état expose cet état par un attribut ARIA
+- **[préférence]** Les icônes sont rendues en SVG inline héritant de la couleur du texte, et non par une police d'icônes. `ICONOGRAPHY-R20`
+  - vérifiable : aucune icône rendue via une police d'icônes ou un caractère de pseudo-élément
+- **[loi]** Une icône n'est jamais le seul dépositaire d'un sens : toute information qu'elle porte reste disponible par le texte, le rôle ou la structure. `ICONOGRAPHY-R22`
+  - vérifiable : aucune information ni action disponible uniquement par le dessin d'une icône
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
 
 ## Non couvert — poser la question, ne rien trancher
 

@@ -59,9 +59,9 @@ Jamais de taille libre entre les crans — une icône ne se redimensionne pas, e
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Appariement tailles icône/texte | [Carbon — Icons usage](https://carbondesignsystem.com/elements/icons/usage/) (icônes 16/20 ↔ Plex 14/16) | Établi chez Carbon, transposé |
-| SVG + currentColor, aria-hidden par défaut | [Carbon — Icons code](https://carbondesignsystem.com/elements/icons/code/), [Polaris — Icon](https://polaris-react.shopify.com/components/images-and-icons/icon) | Établi par convergence |
-| Conventions de label (pas d'apparence, pas de répétition) | [Polaris — Icon](https://polaris-react.shopify.com/components/images-and-icons/icon) | Établi chez Polaris |
-| Cible étendue par padding | [Carbon](https://carbondesignsystem.com/elements/icons/usage/), [Material](https://m1.material.io/style/icons.html) (24dp dans cible 48dp) | Établi par convergence |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Appariement tailles icône/texte | [Carbon — Icons usage](https://carbondesignsystem.com/elements/icons/usage/) (icônes 16/20 ↔ Plex 14/16) | Établi chez Carbon, transposé |
+| T2 | SVG + currentColor, aria-hidden par défaut | [Carbon — Icons code](https://carbondesignsystem.com/elements/icons/code/), [Polaris — Icon](https://polaris-react.shopify.com/components/images-and-icons/icon) | Établi par convergence |
+| T3 | Conventions de label (pas d'apparence, pas de répétition) | [Polaris — Icon](https://polaris-react.shopify.com/components/images-and-icons/icon) | Établi chez Polaris |
+| T4 | Cible étendue par padding | [Carbon](https://carbondesignsystem.com/elements/icons/usage/), [Material](https://m1.material.io/style/icons.html) (24dp dans cible 48dp) | Établi par convergence |

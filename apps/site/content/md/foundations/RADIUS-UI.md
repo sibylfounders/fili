@@ -42,7 +42,7 @@ confidence: mixed
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Mapping par taille, échelle fermée | [Atlassian — Radius](https://atlassian.design/foundations/radius), précédents internes (BUTTON-UI, INPUT-UI) | Établi par convergence |
-| Rayon du ring = base + offset | [Atlassian — Radius](https://atlassian.design/foundations/radius) (leur token de rayon de focus, calculé base + écart) | Établi chez Atlassian, adopté (BORDER-UI) |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Mapping par taille, échelle fermée | [Atlassian — Radius](https://atlassian.design/foundations/radius), précédents internes (BUTTON-UI, INPUT-UI) | Établi par convergence |
+| T2 | Rayon du ring = base + offset | [Atlassian — Radius](https://atlassian.design/foundations/radius) (leur token de rayon de focus, calculé base + écart) | Établi chez Atlassian, adopté (BORDER-UI) |

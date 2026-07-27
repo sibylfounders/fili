@@ -75,8 +75,9 @@ confidence: mixed
 
 ## Sources et niveau de confiance (couche UI)
 
-| Affirmation | Source | Confiance |
-|---|---|---|
-| Ombre animée via états pré-rendus, jamais box-shadow interpolé | [web.dev — animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
-| Anneau dégradé par mask-composite (technique du liseré) | Technique CSS établie (gradient border), éprouvée dans l'implémentation de référence | Établi — technique ; valeurs = identité |
-| Recettes posé/creusé/plat, matrice d'états, dérivations sombres | Implémentation de référence atelier DS-UI (2026-07-23) | Implémentation de référence — jamais un critère d'audit d'hôte |
+| Réf. | Affirmation | Source | Confiance |
+|---|---|---|---|
+| T1 | Ombre animée via états pré-rendus, jamais box-shadow interpolé | [web.dev — animations guide](https://web.dev/articles/animations-guide) | Établi — littérature performance |
+| T2 | Anneau dégradé par mask-composite (technique du liseré) | Technique CSS établie (gradient border), éprouvée dans l'implémentation de référence | Établi — technique ; valeurs = identité |
+| T3 | Recettes posé/creusé/plat, matrice d'états, dérivations sombres | Implémentation de référence atelier DS-UI (2026-07-23) | Implémentation de référence — jamais un critère d'audit d'hôte |
+| T4 | La technique du liseré par dégradé masqué est annulée en couleurs forcées, les images de fond non-url y étant forcées à néant, tout comme l'ombre. Seule l'arête réalisée en bordure survit | [MDN — @media (forced-colors)](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors) ; [W3C — CSS Color Adjust Level 1](https://www.w3.org/TR/css-color-adjust-1/) | Établi — **la section « Techniques imposées » du fichier UI ne mentionne pas cette dégradation** |
