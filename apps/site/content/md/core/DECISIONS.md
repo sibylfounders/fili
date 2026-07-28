@@ -8,6 +8,13 @@
 
 ---
 
+## 2026-07-28 — BUTTON-R65 / FORM-R06 : les pointeurs de cession cessent d'être des règles normatives
+
+- **Fichiers** : `components/BUTTON-UX.md` (1.9.0), `patterns/FORM-UX.md` (2.4.0)
+- **Ancien état** : la cession du 2026-07-03 (« la règle vit dans FORM-UX.md, qui fait autorité ; BUTTON-UX.md y renvoie ») et la répartition form/button laissaient `BUTTON-R65` et `FORM-R06` au statut `parti pris d'identité`, avec ÉNONCÉ et MESURE — des doublons normatifs des règles de leurs propriétaires réels (`FORM-R28`, `BUTTON-R60`).
+- **Nouvel état** : les deux règles passent en `note de méthode` — pointeurs non normatifs vers le propriétaire, sans MESURE, identifiants conservés — même modèle que `BUTTON-R70` → `CARD-R08` et `BUTTON-R76` → `CONSENTEMENT-R08`. Les règles métier des propriétaires (`FORM-R28`, `BUTTON-R60`) ne bougent pas d'une virgule.
+- **Pourquoi** : le modèle de propriété du pilote relations/arbitrages (relation `cede-a`) exige qu'une règle cédante ne reste pas normative — deux endroits qui disent la même chose finissent par se contredire, et un audit qui cite le pointeur cite le mauvais propriétaire. Requalification issue de l'audit du 2026-07-28 ; cinquième et sixième requalifications de cession, les deux premières faites a posteriori.
+
 ## 2026-07-27 — CONSENTEMENT : un bandeau qui déclarait lui-même n'avoir pas lieu d'être
 
 - **Fichiers** : `patterns/CONSENTEMENT-UX.md` + `patterns/CONSENTEMENT-UI.md` (1.0.0, nouveaux), `inventaires/inventaire-cas-usage-consentement.md` (34 cas), `content/doctrine/consentement.json` (4 familles, 14 cas), `components/BUTTON-UX.md` 1.8.0 (R76 cède son autorité), `lib/md.ts` (branchement de l'inventaire).

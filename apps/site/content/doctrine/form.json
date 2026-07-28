@@ -3156,24 +3156,18 @@
   {
    "id": "FORM-R06",
    "couche": "ux",
-   "solution": "un seul bouton de soumission par formulaire (règle portée par BUTTON-UX.md) ; sa position en fin de flux et son label conclusif sont également régis là-bas. Le formulaire décide *quand* ce bouton change d'état (cf. cycle de soumission).",
-   "enonce": "Nous limitons chaque formulaire à un seul bouton de soumission, positionné en fin de flux.",
-   "mesure": "le formulaire ne contient qu'un seul bouton de type submit",
+   "solution": "cardinalité du bouton de soumission — **autorité portée par `BUTTON-UX.md`**. « Un seul bouton de soumission par formulaire », sa position en fin de flux et son label conclusif sont régis par `BUTTON-R60` et sa section « Dans un formulaire ». Le formulaire garde le *quand* : c'est lui qui décide des changements d'état de ce bouton (cf. cycle de soumission).",
+   "enonce": "La règle du bouton de soumission unique appartient à BUTTON-UX (R60) ; ce document décide seulement du moment où ce bouton change d'état.",
+   "mesure": "",
    "contre": "",
    "probleme": "",
-   "statut": "identite",
-   "statutLibelle": "parti pris d'identité",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
    "interne": true,
    "sources": [],
    "principale": null,
    "confiance": "",
-   "cas": [
-    {
-     "id": "cas-0-11",
-     "titre": "Un seul bouton de soumission",
-     "famille": "Structure et forme"
-    }
-   ]
+   "cas": []
   },
   {
    "id": "FORM-R07",
@@ -3729,7 +3723,7 @@
   {
    "id": "FORM-R21",
    "couche": "ux",
-   "solution": "**le conteneur est un alert** — structurellement, le résumé d'erreurs est un alert `tone: danger`, `persistance: permanent` (non fermable tant que des erreurs subsistent), injecté dynamiquement — donc annoncé (`role=\"alert\"`). Tout ce qui relève du *conteneur* (structure icône/titre/corps, tokens, redondance icône/couleur, comportement d'annonce) vit dans `atelier/components/alert/` (ALERT-UX.md + ALERT-UI.md), qui fait autorité. (Décision : cf. DECISIONS.md.)",
+   "solution": "**le conteneur est un alert** — structurellement, le résumé d'erreurs est un alert `tone: danger`, `persistance: permanent` (non fermable tant que des erreurs subsistent), injecté dynamiquement — donc annoncé (`role=\"alert\"`). Tout ce qui relève du *conteneur* (structure icône/titre/corps, tokens, redondance icône/couleur, comportement d'annonce) vit dans `content/md/components/ALERT-UX.md` (ALERT-UX.md + ALERT-UI.md), qui fait autorité. (Décision : cf. DECISIONS.md.)",
    "enonce": "Le résumé d'erreurs doit être structuré comme une alerte de tonalité danger, non fermable, annoncée via role=\"alert\".",
    "mesure": "le résumé d'erreurs est un composant alert de tone danger, non fermable tant que des erreurs subsistent, avec role=\"alert\"",
    "contre": "",

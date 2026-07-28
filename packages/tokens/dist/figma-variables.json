@@ -182,6 +182,13 @@
           }
         },
         {
+          "name": "red/150",
+          "type": "color",
+          "valuesByMode": {
+            "Value": "#FBCFCF"
+          }
+        },
+        {
           "name": "red/200",
           "type": "color",
           "valuesByMode": {
@@ -779,7 +786,7 @@
           "name": "danger/subtle/hover",
           "type": "color",
           "valuesByMode": {
-            "Light": "#FECACA",
+            "Light": "#FBCFCF",
             "Dark": "#7F1D1D"
           }
         },

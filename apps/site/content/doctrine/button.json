@@ -3030,13 +3030,13 @@
   {
    "id": "BUTTON-R65",
    "couche": "ux",
-   "solution": "coordination avec la validation des champs — le bouton de soumission reste actif en permanence : validation au clic, affichage des erreurs. La règle complète et ses sources vivent dans `atelier/patterns/form/FORM-UX.md`, qui fait autorité sur ce point. (Révision : cf. DECISIONS.md.)",
-   "enonce": "Chez nous, le bouton de soumission d'un formulaire reste cliquable en permanence ; la validation se fait au clic plutôt que de désactiver le bouton par avance.",
-   "mesure": "le bouton de soumission n'est jamais désactivé en attendant la validation des champs ; les erreurs s'affichent au clic",
+   "solution": "coordination avec la validation des champs — **autorité cédée à `FORM-UX.md`** (cession du 2026-07-03, requalifiée le 2026-07-28). La règle normative — bouton de soumission actif en permanence, validation au clic — sa mesure et ses sources sont portées par `FORM-R28` (et `FORM-R29` pour la seule désactivation légitime, le traitement asynchrone). Ce document n'en est plus le propriétaire.",
+   "enonce": "La règle du bouton de soumission actif en permanence appartient à FORM-UX (R28) ; ce document n'en est plus le propriétaire.",
+   "mesure": "",
    "contre": "",
    "probleme": "",
-   "statut": "identite",
-   "statutLibelle": "parti pris d'identité",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
    "interne": true,
    "sources": [],
    "principale": null,
@@ -3122,7 +3122,7 @@
   {
    "id": "BUTTON-R70",
    "couche": "ux",
-   "solution": "cardinalité et position des actions — régies par `atelier/components/card/CARD-UX.md` (section \"Zone d'actions\"), qui fait autorité. Ce fichier garde autorité sur le *choix* de chaque bouton (style, tone, taille) une fois son emplacement décidé par la carte. (Partage d'autorité : cf. DECISIONS.md.)",
+   "solution": "cardinalité et position des actions — régies par `content/md/components/CARD-UX.md` (section \"Zone d'actions\"), qui fait autorité. Ce fichier garde autorité sur le *choix* de chaque bouton (style, tone, taille) une fois son emplacement décidé par la carte. (Partage d'autorité : cf. DECISIONS.md.)",
    "enonce": "Ce document précise que le nombre et la position des actions dans une carte relèvent d'un autre document, mais que le style de chaque bouton reste défini ici.",
    "mesure": "",
    "contre": "",
@@ -3133,13 +3133,7 @@
    "sources": [],
    "principale": null,
    "confiance": "",
-   "cas": [
-    {
-     "id": "cas-1-2",
-     "titre": "Bouton dans une carte (card)",
-     "famille": "Conteneur / contexte d'intégration"
-    }
-   ]
+   "cas": []
   },
   {
    "id": "BUTTON-R71",
@@ -3224,38 +3218,16 @@
   {
    "id": "BUTTON-R76",
    "couche": "ux",
-   "solution": "consentement — les deux options doivent porter un poids visuel équivalent.",
-   "enonce": "Une bannière de consentement doit donner un poids visuel strictement équivalent à l'option d'acceptation et à l'option de refus, sous peine de dark pattern.",
-   "mesure": "les boutons d'acceptation et de refus d'une bannière de consentement ont un poids visuel équivalent",
+   "solution": "consentement — **autorité cédée à `CONSENTEMENT-UX` le 2026-07-27**. La symétrie de poids visuel entre l'acceptation et le refus n'est pas une règle du bouton : c'est une contrainte du flow de consentement, qui s'impose au bouton. Elle est désormais portée par `CONSENTEMENT-R08` (UX) et `CONSENTEMENT-UI-R02` (tokens).",
+   "enonce": "La règle de poids visuel équivalent des deux options d'un bandeau de consentement appartient à CONSENTEMENT-UX (R08) ; ce document n'en est plus le propriétaire.",
+   "mesure": "",
    "contre": "",
-   "probleme": "donner un style primary à \"Accepter\" et un style discret à \"Refuser\" est un dark pattern documenté.",
-   "statut": "universelle",
-   "statutLibelle": "propriété universelle",
-   "interne": false,
-   "sources": [
-    {
-     "ref": "S5",
-     "affirmation": "Dark pattern sur bannières de consentement (poids visuel inégal)",
-     "liens": [
-      {
-       "label": "Littérature UX/éthique du design, largement documentée",
-       "url": null
-      }
-     ],
-     "confiance": "Établi"
-    }
-   ],
-   "principale": {
-    "ref": "S5",
-    "affirmation": "Dark pattern sur bannières de consentement (poids visuel inégal)",
-    "liens": [
-     {
-      "label": "Littérature UX/éthique du design, largement documentée",
-      "url": null
-     }
-    ],
-    "confiance": "Établi"
-   },
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
    "confiance": "",
    "cas": []
   },

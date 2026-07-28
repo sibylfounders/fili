@@ -3,9 +3,9 @@ sujet: button
 nature: components
 resume: "Ce fichier contient le raisonnement : quand utiliser quoi, pourquoi, quel wording, quel risque."
 selon-contexte: [accessibility, adaptive, border, card, consentement, elevation, emotion, form, iconography, interaction, link, motion, toast, typography, voice]
-source: BUTTON-UX.md v1.8.1 + BUTTON-UI.md v1.6.2
-empreinte: sha256:bfb4367b9c587424
-regles: {loi: 11, preference: 83, non_qualifie: 0}
+source: BUTTON-UX.md v1.9.0 + BUTTON-UI.md v1.6.2
+empreinte: sha256:28e3c503d988bed4
+regles: {loi: 10, preference: 82, non_qualifie: 0}
 ---
 # RULES — button (compilé, mode build)
 
@@ -81,7 +81,6 @@ regles: {loi: 11, preference: 83, non_qualifie: 0}
 - **[préférence]** Chez nous, le texte visible d'un bouton n'est jamais tronqué automatiquement ; il se replie sur plusieurs lignes si besoin plutôt que d'être coupé. `BUTTON-R62`
 - **[préférence]** Chez nous, le bouton de soumission d'un formulaire se trouve toujours en fin de parcours, jamais au milieu d'un long formulaire qui défile. `BUTTON-R63`
 - **[préférence]** Chez nous, le libellé du bouton final d'un formulaire reflète la conclusion réelle de l'action plutôt que de rester générique sur la dernière étape. `BUTTON-R64`
-- **[préférence]** Chez nous, le bouton de soumission d'un formulaire reste cliquable en permanence ; la validation se fait au clic plutôt que de désactiver le bouton par avance. `BUTTON-R65`
 - **[loi]** Une action affichée uniquement au survol d'une ligne doit rester accessible sans survol, car les appareils tactiles n'ont pas de hover et l'action deviendrait inutilisable. `BUTTON-R66`
 - **[préférence]** Chez nous, une action destructive représentée par une simple icône reste soumise à confirmation obligatoire, contrairement à une icône d'action réversible. `BUTTON-R67`
 - **[préférence]** Chez nous, la position du bouton qui referme ou valide une modale suit une convention unique définie pour tout le produit, jamais réinventée au cas par cas. `BUTTON-R68`
@@ -91,7 +90,6 @@ regles: {loi: 11, preference: 83, non_qualifie: 0}
 - **[préférence]** Chez nous, un header ne contient qu'un seul bouton d'action dominant ; les autres éléments de navigation restent des liens, pas des boutons. `BUTTON-R73`
 - **[préférence]** Chez nous, dans une pagination, la page actuellement affichée n'est jamais cliquable et son état est visuellement sans ambiguïté. `BUTTON-R74`
 - **[préférence]** Chez nous, une pagination affiche, quand c'est pertinent, une indication explicite de progression comme le numéro de page sur le total. `BUTTON-R75`
-- **[loi]** Une bannière de consentement doit donner un poids visuel strictement équivalent à l'option d'acceptation et à l'option de refus, sous peine de dark pattern. `BUTTON-R76`
 - **[préférence]** Chez nous, le bouton de fermeture d'une bannière promotionnelle reste une action facile et sans friction. `BUTTON-R77`
 - **[préférence]** Chez nous, un bouton d'action flottant réserve une zone d'exclusion autour de lui pour ne jamais masquer de contenu critique. `BUTTON-R78`
 - **[préférence]** Chez nous, un écran ne doit jamais afficher plus d'un bouton d'action flottant à la fois. `BUTTON-R79`

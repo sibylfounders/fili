@@ -7,7 +7,9 @@ dist-app/
 .turbo/
 .env*
 _to_delete/
-build/
+# `build/` sans barre attrapait AUSSI `dist/build/` — toute la moitié « mode build » de la
+# distribution n'était pas versionnée, alors que `dist/audit/` l'était. Ancré à la racine.
+/build/
 
 # artefacts du pont de fichiers (fichiers supprimés encore ouverts)
 .fuse_hidden*

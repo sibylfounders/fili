@@ -3,9 +3,9 @@ sujet: form
 nature: patterns
 resume: "Ce fichier n'est pas un composant au sens de BUTTON-UX.md ou INPUT-UX.md — c'est un **pattern**, une règle qui n'émerge que quand plusieurs champs et un bouton sont assemblés."
 selon-contexte: [alert, button, emotion, input, interaction, motion, toast, voice]
-source: FORM-UX.md v2.3.1 + FORM-UI.md v1.3.0
-empreinte: sha256:702de78bed9c68f5
-regles: {loi: 17, preference: 52, non_qualifie: 0}
+source: FORM-UX.md v2.4.0 + FORM-UI.md v1.3.0
+empreinte: sha256:2266fea548ff554e
+regles: {loi: 17, preference: 51, non_qualifie: 0}
 ---
 # RULES — form (compilé, mode audit)
 
@@ -23,8 +23,6 @@ regles: {loi: 17, preference: 52, non_qualifie: 0}
   - vérifiable : chaque groupe de champs liés par le sens est contenu dans un fieldset dont la legend nomme le groupe
 - **[loi]** L'ordre des champs et du focus doit suivre la logique de la tâche et ne jamais utiliser de tabindex positif pour corriger un DOM mal ordonné. `FORM-R05`
   - vérifiable : aucun attribut tabindex positif n'est utilisé sur les champs du formulaire
-- **[préférence]** Nous limitons chaque formulaire à un seul bouton de soumission, positionné en fin de flux. `FORM-R06`
-  - vérifiable : le formulaire ne contient qu'un seul bouton de type submit
 - **[préférence]** Nous définissons un formulaire comme long non par un nombre de champs mais par le besoin de scroller pour voir toutes les erreurs possibles. `FORM-R07`
   - vérifiable : le formulaire est classé long dès que l'utilisateur doit scroller pour voir toutes les erreurs possibles
 - **[préférence]** Dans une modale, nous réservons le formulaire aux saisies courtes et déplaçons tout formulaire long en page complète. `FORM-R08`

@@ -10,7 +10,9 @@
   "scripts": {
     "dev": "npm run dev --workspace @sibyl/site",
     "build": "npm run build --workspaces --if-present",
-    "tokens:build": "npm run build --workspace @sibyl/tokens"
+    "tokens:build": "npm run build --workspace @sibyl/tokens",
+    "plugin": "node tools/plugin/publie.js",
+    "plugin:build": "node tools/plugin/build-plugin.js"
   },
   "engines": {
     "node": ">=18.18"

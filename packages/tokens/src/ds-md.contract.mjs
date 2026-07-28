@@ -1,18 +1,19 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // CONTRAT DS-MD — valeurs d'AUTORITÉ importées de « Design System MD ».
 //
-// GÉNÉRÉ par build/sync-ds-md.mjs depuis DS-MD dist/tokens.yaml.
+// GÉNÉRÉ par build/sync-ds-md.mjs depuis apps/site/content/md/core/DESIGN.md.
 // NE PAS ÉDITER À LA MAIN : relancer `npm run sync:ds-md` pour rafraîchir.
 //
-// DS-MD fait autorité sur les VALEURS (README « Deux entités » : « MD tranche »).
-// build/verify-ds-md.mjs asserte que chaque token DS-UI correspondant porte
-// EXACTEMENT la valeur ci-dessous. Une divergence non déclarée est une dérive.
+// La doctrine fait autorité sur les VALEURS ; tokens.source.mjs fait autorité sur les
+// NOMS et l'organisation en trois étages. build/verify-ds-md.mjs asserte que chaque
+// token DS-UI correspondant porte EXACTEMENT la valeur ci-dessous. Une divergence non
+// déclarée est une dérive.
 //
-// Source : Design System MD — DESIGN.md v1.20.0
+// Source : doctrine DS-MD — DESIGN.md v1.32.0
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const dsMdVersion = "1.20.0";
-export const syncedAt = "2026-07-18";
+export const dsMdVersion = "1.32.0";
+export const syncedAt = "2026-07-27";
 
 export const contract = {
   "colors": {
@@ -26,11 +27,13 @@ export const contract = {
     "danger": "#B91C1C",
     "danger-hover": "#991B1B",
     "danger-subtle": "#FEE2E2",
+    "danger-subtle-hover": "#FBCFCF",
     "success": "#15803D",
     "success-subtle": "#DCFCE7",
     "info": "#1D4ED8",
     "info-subtle": "#DBEAFE",
     "warning": "#92400E",
+    "warning-hover": "#78350F",
     "warning-subtle": "#FEF3C7",
     "warning-subtle-hover": "#FDE68A",
     "background": "#FFFFFF",
@@ -41,7 +44,9 @@ export const contract = {
     "text-secondary": "#4B5563",
     "text-muted": "#9CA3AF",
     "border": "#E5E7EB",
-    "border-strong": "#6B7280"
+    "border-strong": "#6B7280",
+    "neutral-strong": "#111827",
+    "neutral-strong-hover": "#1F2937"
   },
   "spacing": {
     "base": "4px",

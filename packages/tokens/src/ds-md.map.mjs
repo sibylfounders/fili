@@ -29,8 +29,14 @@ export const colorMap = {
   info:                   { role: "info" },            // blue.700
   "info-subtle":          { role: "info-subtle" },     // blue.100
   warning:                { role: "warning" },         // amber.800
+  "warning-hover":        { role: "warning-hover" },   // amber.900
   "warning-subtle":       { role: "warning-subtle" },  // amber.100
   "warning-subtle-hover": { prim: "amber.200" },
+  "danger-subtle-hover":  { role: "danger-subtle-hover" }, // red.150 — cran calibré par la doctrine
+  // neutral-strong / -hover : DS-MD 1.21.0+ nomme un remplissage neutre plein que DS-UI
+  // porte encore comme primitive, sans rôle sémantique dédié. Les valeurs coïncident.
+  "neutral-strong":       { prim: "neutral.900" },     // #111827
+  "neutral-strong-hover": { prim: "neutral.800" },     // #1F2937
   background:             { role: "background" },      // neutral.0
   surface:                { role: "surface" },         // neutral.100
   "surface-hover":        { role: "surface-hover" },   // neutral.200

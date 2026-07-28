@@ -1,6 +1,12 @@
-// Design System UI — SOURCE DE VÉRITÉ DES TOKENS
+// Design System UI — SOURCE DES TOKENS : les NOMS et l'ORGANISATION.
 // Écrit à la main. Tout le reste (CSS, thème Tailwind, variables Figma) en est GÉNÉRÉ.
-// Valeurs = palette DS-MD (échelles froides Tailwind-like), organisées en 3 étages.
+//
+// Partage d'autorité, pour qu'il n'y ait jamais deux « sources de vérité » :
+//   • la doctrine (apps/site/content/md/core/DESIGN.md) tranche les VALEURS partagées ;
+//   • ce fichier tranche les NOMS, les trois étages et tout ce que DS-MD ne nomme pas
+//     (échelles primitives complètes, mode sombre, états dérivés).
+// La garde build/verify-ds-md.mjs confronte les deux à chaque build : une valeur qui
+// s'écarte de DESIGN.md sans arbitrage déclaré dans ds-md.map.mjs est une dérive.
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ÉTAGE 1 — PRIMITIVES (échelles brutes, ne jamais consommer directement en composant)
@@ -19,7 +25,12 @@ export const primitives = {
   },
   // error = red (DS-MD danger #B91C1C = red-700)
   red: {
-    50: "#FEF2F2", 100: "#FEE2E2", 200: "#FECACA", 300: "#FCA5A5", 400: "#F87171",
+    50: "#FEF2F2", 100: "#FEE2E2",
+    // 150 : cran INTERMÉDIAIRE calibré par la doctrine, pas un pas d'échelle Tailwind.
+    // DESIGN.md 1.21.0 : « un #FECACA red-200 naïf tombait à 4.47:1, sous le seuil ».
+    // #FBCFCF tient 4.60:1 sous `danger` #B91C1C. Seul `danger-subtle-hover` le consomme.
+    150: "#FBCFCF",
+    200: "#FECACA", 300: "#FCA5A5", 400: "#F87171",
     500: "#EF4444", 600: "#DC2626", 700: "#B91C1C", 800: "#991B1B", 900: "#7F1D1D",
     950: "#450A0A",
   },
@@ -104,7 +115,9 @@ export const semantic = {
   "danger":              { light: "red.700", dark: "red.400" },
   "danger-hover":        { light: "red.800", dark: "red.300" },
   "danger-subtle":       { light: "red.100", dark: "red.950" },
-  "danger-subtle-hover": { light: "red.200", dark: "red.900" }, // lavis interactif — extension (cf. warning-subtle-hover)
+  // Le CLAIR n'est PAS une extension : l'autorité le définit et l'a calibré (cf. red.150).
+  // Le SOMBRE, lui, reste une extension DS-UI comme tout le mode sombre.
+  "danger-subtle-hover": { light: "red.150", dark: "red.900" },
   "on-danger":           { light: "neutral.0", dark: "neutral.950" },
 
   // ── Succès (autorité : success / success-subtle)
@@ -243,7 +256,7 @@ export const overlay = {
 };
 
 export const meta = {
-  name: "@ds-ui/tokens",
+  name: "@sibyl/tokens",
   modes: ["light", "dark"],
   note: "DS-UI consomme DS-MD. Valeurs = DS-MD ; organisation 3 étages + modes.",
 };

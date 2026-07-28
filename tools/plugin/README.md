@@ -3,11 +3,28 @@
 Produit `build/design-system-md.plugin`, le paquet installable dans Cowork.
 
 ```bash
-node tools/plugin/build-plugin.js
+npm run plugin                 # le chemin normal : livrer une nouvelle version
 ```
 
-Le paquet obtenu se glisse dans une conversation Cowork pour installer ou mettre à jour le
-plugin. Le dossier `build/` n'est pas versionné.
+`publie.js` compare les sources du paquet à ce qui a été livré la dernière fois
+(`etat-publication.json`). Identique : il s'arrête sur « rien de neuf » sans rien reconstruire.
+Sinon il énumère ce qui a bougé, incrémente la version et reconstruit :
+
+- **patch** (1.7.0 → 1.7.1) par défaut — une fiche retouchée, un token modifié ;
+- **mineur** automatique si un sujet entre ou sort du corpus, ou avec `npm run plugin -- --minor` ;
+- `-- --majeur` pour une rupture côté consommateur, `-- --version=2.1.0` pour imposer un numéro,
+  `-- --sans-bump` pour reconstruire sans toucher à la version (mise au point).
+
+Le numéro de version est ce qui distingue deux paquets pour celui qui les installe : il ne bouge
+que quand le contenu livré a changé, et jamais deux fois pour le même contenu.
+
+```bash
+npm run plugin:build           # reconstruire sans passer par la logique de version
+```
+
+**L'installation demande toujours un geste** : glisser `build/design-system-md.plugin` dans une
+conversation Cowork et accepter la carte. Il n'existe pas d'API d'installation silencieuse.
+Le dossier `build/` n'est pas versionné.
 
 ## Ce qui est source, ce qui est généré
 
@@ -19,7 +36,9 @@ plugin. Le dossier `build/` n'est pas versionné.
 | `tools/plugin/plugin.json` | **source** — nom, version, description du paquet |
 | `tools/plugin/README-paquet.md` | **source** — README embarqué dans le paquet |
 | `tools/plugin/theme-gate.mjs` | **source** — barrière consommateur, voyage avec les tokens |
-| `build/plugin/**` | généré | 
+| `tools/plugin/DECISIONS-locales.gabarit.md` | **source** — journal du consommateur, livré sous le nom `DECISIONS-locales.md` |
+| `tools/plugin/etat-publication.json` | **source** — mémoire de ce qui a été livré (écrit par `publie.js`, à committer) |
+| `build/plugin/**` | généré |
 | `tools/plugin/reports/RAPPORT-ROUTEUR.md` | généré (poids des bundles, erreurs, avertissements) |
 
 ## Le point qui se rate
@@ -55,6 +74,25 @@ lettres dans le corps, sans le préfixe.
 
 Une fiche `type: extension` porte en plus `extension-de: <parent>` ; elle n'entre jamais dans un
 bundle d'intention, seulement dans la colonne « selon contexte » de son parent.
+
+## Diffuser à d'autres utilisateurs — le jour où
+
+Aujourd'hui la diffusion est manuelle : un fichier `.plugin`, une carte acceptée. Ça tient pour
+une personne, pas pour une équipe ni pour un client.
+
+Le chemin prévu par Claude est le **marketplace** : un dépôt git qui porte un
+`.claude-plugin/marketplace.json` (champs obligatoires `name`, `owner`, `plugins[]`, chaque entrée
+avec `name` et `source` — chemin relatif, dépôt GitHub, URL ou paquet npm). L'utilisateur ajoute le
+marketplace une fois, installe le plugin depuis celui-ci, et reçoit ensuite les nouvelles versions —
+mise à jour de fond, ou `/plugin marketplace update`. Le champ `version` du `plugin.json` sert
+exactement à ça : tant qu'il ne bouge pas, personne ne reçoit rien. D'où la discipline de `publie.js`.
+
+Ce que ça demanderait ici : un dépôt de distribution (public si des tiers doivent s'y brancher,
+privé si la diffusion est contrôlée), un `publie.js` étendu qui copie `build/plugin/` dedans, commit
+et push — le modèle de `deploie-md.sh` dans DS-MD. Décision reportée le 2026-07-28 : on reste au
+fichier pour l'instant.
+
+Source : <https://code.claude.com/docs/en/plugin-marketplaces.md>.
 
 ## Historique
 

@@ -61,6 +61,18 @@ for (const mode of ["light", "dark"]) {
   for (const fam of ["danger", "success", "info", "warning"]) {
     add(`${M} ${fam}-hover / ${fam}-subtle-hover`, role(`${fam}-hover`, mode), role(`${fam}-subtle-hover`, mode), 4.5);
   }
+  // Le lavis au survol garde le token de TONE comme texte — c'est la formulation de
+  // l'autorité : « un cran plus soutenu, le texte garde son token de tone ≥ 4.5:1 »
+  // (DESIGN.md, hover d'un fond subtil). La boucle ci-dessus ne testait que la variante
+  // -hover du texte, donc ne voyait pas ce cas : un danger-subtle-hover à 4.47:1 passait.
+  // Restreint aux deux familles que l'autorité nomme, en clair — le mode sombre et les
+  // familles success/info sont des extensions DS-UI dont le modèle d'état n'est pas tranché.
+  if (mode === "light") {
+    for (const fam of ["danger", "warning"]) {
+      add(`${M} ${fam} / ${fam}-subtle-hover`, role(fam, mode), role(`${fam}-subtle-hover`, mode), 4.5);
+    }
+  }
+
   // lavis primaire (secondary) au survol : on-secondary tient sur secondary-hover
   add(`${M} on-secondary / secondary-hover`, role("on-secondary", mode), role("secondary-hover", mode), 4.5);
 }

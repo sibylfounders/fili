@@ -8,6 +8,8 @@
  * Chaîne (arrêt à la première erreur) :
  *   1. nettoie build/plugin/
  *   2. copie tools/plugin/rules/RULES-*.md            → skills/design-system-md/
+ *   2bis. copie DECISIONS-locales.gabarit.md          → skills/design-system-md/DECISIONS-locales.md
+ *         (journal du consommateur — cf. CADRAGE-ARBITRAGE-CONSOMMATEUR.md 0.2.0)
  *   3. genere-tokens.js : DESIGN.md → tokens.css + tokens.yaml + theme-gate.mjs
  *   4. genere-routeur.js : frontmatters → CLAUDE.md + AGENTS.md + SKILL.md (valide le graphe)
  *   5. écrit .claude-plugin/plugin.json + README.md
@@ -50,6 +52,17 @@ const rules = fs.readdirSync(path.join(PLUGIN_SRC, 'rules')).filter((f) => /^RUL
 if (!rules.length) { console.error('✗ tools/plugin/rules/ ne contient aucune fiche RULES-*.md'); process.exit(1); }
 for (const f of rules) fs.copyFileSync(path.join(PLUGIN_SRC, 'rules', f), path.join(SKILL_DIR, f));
 console.log(`  ${rules.length} fiches RULES-* copiées`);
+
+// 2bis. journal des décisions locales (gabarit) -------------------------------
+// Deuxième surface possédée par le consommateur (après les valeurs de tokens.yaml) :
+// ses décisions, jamais les règles. Cf. CADRAGE-ARBITRAGE-CONSOMMATEUR.md 0.2.0 (§ 6 rendus).
+const gabaritDL = path.join(PLUGIN_SRC, 'DECISIONS-locales.gabarit.md');
+if (!fs.existsSync(gabaritDL)) {
+  console.error('✗ tools/plugin/DECISIONS-locales.gabarit.md introuvable — paquet NON produit');
+  process.exit(1);
+}
+fs.copyFileSync(gabaritDL, path.join(SKILL_DIR, 'DECISIONS-locales.md'));
+console.log('  gabarit DECISIONS-locales.md copié (journal du consommateur)');
 
 // 3. tokens ------------------------------------------------------------------
 const { version: versionDesign } = require('./genere-tokens.js');

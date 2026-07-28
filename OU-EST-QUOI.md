@@ -14,7 +14,8 @@ Trois familles de fichiers, et elles seules, sont écrites à la main.
 
 **Le corpus.** Une paire par sujet : le UX dit *pourquoi et quoi*, le UI dit *avec quels tokens*.
 36 sujets, rangés par nature — `principles`, `languages`, `foundations`, `components`,
-`patterns`, `flows`.
+`patterns`, `flows`. 35 sont compilés : `laws` porte `audience: humans` et reste une
+référence de lecture, jamais chargée par une IA au build.
 
 Chaque règle y prend cette forme :
 
@@ -156,9 +157,12 @@ python3 tools/compile-regles.py --tous
 `compile-regles.py --tous` finit par une ligne du genre :
 
 ```
-36 sujets · 543 règles qualifiées · 568 non qualifiées
+35 sujets · 974 règles qualifiées · 0 non qualifiées
 ```
 
 **Les « non qualifiées » sont le vrai reste-à-faire.** Chacune est une règle que le moteur d'audit
 ne sait pas défendre : il doit la traiter comme une préférence et poser la question au client, au
 lieu de constater. C'est ce nombre qui décide de la valeur d'un audit — pas le nombre de sujets.
+
+Il est à zéro depuis le 2026-07-27, et c'est un état à défendre, pas un acquis : toute règle
+ajoutée sans `STATUT` le fait remonter au prochain `--tous`.

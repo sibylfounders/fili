@@ -229,6 +229,13 @@ const tokensYamlPoids = fs.existsSync(path.join(DIST, 'tokens.yaml'))
   ? estimeTokens(fs.readFileSync(path.join(DIST, 'tokens.yaml'), 'utf8').length)
   : 0;
 
+// Journal des décisions locales : au socle des deux modes (cf. § Décisions locales du routeur).
+// Poids mesuré sur le gabarit livré — chez un consommateur, il croît avec les DL rendues.
+if (!fs.existsSync(path.join(DIST, 'DECISIONS-locales.md'))) erreurs.push('DECISIONS-locales.md introuvable dans le dossier de sortie (build-plugin.js copie le gabarit avant le routeur)');
+const poidsDL = fs.existsSync(path.join(DIST, 'DECISIONS-locales.md'))
+  ? estimeTokens(fs.readFileSync(path.join(DIST, 'DECISIONS-locales.md'), 'utf8').length)
+  : 0;
+
 // Poids du socle universel (principes + langage chargés pour toutes les intentions).
 const poidsSocle = Object.entries(SOCLE_SUJETS).reduce((s, [su, typeAttendu]) => {
   const f = sujets.get(su);
@@ -350,7 +357,7 @@ function genereRouteur(poidsSocle) {
 
 > Généré par \`tools/plugin/genere-routeur.js\` (monorepo Sibyl DS) — ne pas éditer à la main (frontmatters des RULES-* + table INTENTIONS du script font foi).
 > Deux modes : **build** (générer ou modifier de l'UI conforme — § Protocole) et **audit** (confronter une interface existante aux règles — § Mode audit).
-> Socle toujours chargé (les deux modes) : ce fichier + RULES-accessibility + RULES-interaction + RULES-adaptive + RULES-cognitive-load + RULES-performance. Tout le reste se charge à la demande, via les deux tables ci-dessous.
+> Socle toujours chargé (les deux modes) : ce fichier + RULES-accessibility + RULES-interaction + RULES-adaptive + RULES-cognitive-load + RULES-performance + \`DECISIONS-locales.md\` (le journal du consommateur — § Décisions locales). Tout le reste se charge à la demande, via les deux tables ci-dessous.
 
 ## Protocole (mode build)
 
@@ -363,7 +370,7 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 5. Sujet non couvert par le système (${HORS_PERIMETRE}…) : **stoppe et remonte** — ne l'improvise pas à partir des règles voisines.
 6. Jamais de valeur codée en dur : toute propriété visuelle référence un token de \`tokens.yaml\`. Token manquant → remonte.
 7. Si la couche source (\`apps/site/content/md/\` du dépôt Sibyl DS) est présente, ne la lis JAMAIS pendant un build — ce dossier en est la compilation à jour. N'édite jamais les fichiers de ce dossier à la main (exception consommateur : les valeurs de \`tokens.yaml\`, jamais ses noms).
-8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : stoppe, expose les options, attends l'arbitrage. Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
+8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : relis d'abord \`DECISIONS-locales.md\` — une DL \`rendue\` qui couvre la question s'applique telle quelle, la question ne se repose pas. Sinon : stoppe, émets le constat d'arbitrage (§ Décisions locales) et attends l'arbitrage. Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
 9. Une extension (type « extension » dans la table des sujets, ex. \`form-multi-step\`) ne se charge **jamais** par défaut avec son sujet parent — uniquement quand la situation qu'elle nomme se présente réellement dans la demande (étapes, validation asynchrone, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel). Charge le sujet parent en premier, l'extension en complément ciblé.
 10. **Socle universel** : \`RULES-accessibility\`, \`RULES-interaction\`, \`RULES-adaptive\`, \`RULES-cognitive-load\` et \`RULES-performance\` sont déjà chargés pour toute intention. Ils posent respectivement le principe d'accessibilité, le langage d'interaction, le principe adaptatif, le contrat de charge cognitive et le contrat des attentes (performance perçue). Ne jamais les retirer.
 
@@ -377,11 +384,27 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 6. L'audit **ne modifie jamais** les règles qu'il évalue, et le référentiel ne devient jamais une seconde source de vérité sur l'interface auditée.
 7. Le protocole outillé complet (corpus de captures, baseline gelée, empreintes SHA-256, dossier de preuve) vit dans le dépôt d'audit — ce mode couvre l'audit en contexte agent, sans chaîne de preuve.
 
+## Décisions locales — le journal du consommateur
+
+\`DECISIONS-locales.md\` (à côté de \`tokens.yaml\`) est la deuxième surface possédée par le consommateur : **ses décisions, jamais les règles**. Chargé au socle, dans les deux modes. Spécification : \`CADRAGE-ARBITRAGE-CONSOMMATEUR.md\` (monorepo Sibyl DS).
+
+1. **Avant de remonter, relis le journal.** Une question déjà tranchée (\`DL-nnn [rendue]\`) s'applique telle quelle et ne se repose jamais. Une DL ne vaut que dans l'espace **non couvert** : si elle contredit une règle du système ou une propriété universelle, elle est invalide — signale-la, ne l'applique pas.
+2. **Quand tu stoppes** (protocole, points 5 et 8 ; mode audit, point 5), émets un **constat d'arbitrage** et appends-le au journal avec le statut \`en attente\` — c'est la seule écriture qui t'est permise dans ce fichier :
+
+\`\`\`text
+DL-nnn [en attente] <contexte en une phrase>
+  Question : <la décision à rendre> — Options : <2 à 4, chacune avec sa conséquence>
+  CONFIANCE : <établi / convergence / cas isolé / non formalisé> — Attendu : <qui tranche>
+\`\`\`
+
+3. **Tu n'écris jamais une décision.** Seul l'arbitre déclaré en tête du journal convertit un constat en \`rendue\`. Sans arbitre déclaré, les constats s'accumulent et la boucle reste ouverte — dis-le.
+4. Au-delà d'une trentaine de DL rendues, recommande la **remontée** : les décisions récurrentes sont des candidats règles pour le système, pas des habitantes du journal.
+
 ## Intentions → bundle
 
 ${tableIntentions()}
 
-Poids = fichiers RULES du bundle, hors socle (ce fichier + tokens.yaml + les cinq RULES universels ≈ ${fmtK(poidsSocle)} au total). Les extensions ne sont jamais incluses dans ce poids — cf. protocole, point 9. En mode audit, \`tokens.yaml\` ne se charge pas : retrancher son poids du total.
+Poids = fichiers RULES du bundle, hors socle (ce fichier + tokens.yaml + DECISIONS-locales.md + les cinq RULES universels ≈ ${fmtK(poidsSocle)} au total). Les extensions ne sont jamais incluses dans ce poids — cf. protocole, point 9. En mode audit, \`tokens.yaml\` ne se charge pas : retrancher son poids du total (\`DECISIONS-locales.md\`, lui, reste chargé).
 
 ## Sujets
 
@@ -436,16 +459,23 @@ critère d'audit), confrontation qui **cite ses règles**, statut de frontière 
 
 ## Quand une règle manque
 
+- Relis d'abord **\`DECISIONS-locales.md\`** (chargé au socle) : une décision locale \`rendue\` qui
+  couvre la question s'applique telle quelle — la question ne se repose pas.
 - Sujet hors périmètre (${HORS_PERIMETRE}…) : **stoppe et remonte**, n'improvise pas à partir des règles voisines.
 - Décision de design non tranchée (style/tone, niveau de friction, wording, cas absent) :
-  **stoppe, expose les options, attends l'arbitrage**. Les lignes \`CONFIANCE\` des RULES
-  calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé).
+  **stoppe, émets le constat d'arbitrage** (format au § « Décisions locales » du routeur),
+  appends-le au journal en \`en attente\` — jamais la décision, qui appartient à l'arbitre —
+  et attends l'arbitrage. Les lignes \`CONFIANCE\` des RULES calibrent la vitesse de remontée
+  (établi > convergence > cas isolé > non formalisé).
 
 ## Structure du paquet
 
 Dossier plat : \`AGENTS.md\` + \`CLAUDE.md\` (le routeur — un seul est chargé selon l'agent),
-\`tokens.yaml\`, les \`RULES-<sujet>.md\` de base et leurs extensions contextuelles \`form-*\` et \`creation-compte-*\`, et ce \`SKILL.md\`.
-Seule modification autorisée côté consommateur : les **valeurs** de \`tokens.yaml\`, jamais ses noms.
+\`tokens.yaml\`, \`DECISIONS-locales.md\` (le journal des décisions du consommateur),
+les \`RULES-<sujet>.md\` de base et leurs extensions contextuelles \`form-*\` et \`creation-compte-*\`, et ce \`SKILL.md\`.
+Deux surfaces appartiennent au consommateur : les **valeurs** de \`tokens.yaml\` (jamais ses noms),
+et \`DECISIONS-locales.md\` (l'arbitre y rend ses décisions ; l'agent n'y écrit que des constats \`en attente\`).
+Tout le reste ne se modifie pas.
 
 ## Version
 
@@ -462,12 +492,18 @@ Demande « **Audite cette page de login.** » Le mode audit est bien branché si
 charge le bundle Formulaire **sans** \`tokens.yaml\` ; cite la règle fondant chaque constat ;
 distingue non-conformité (propriété universelle) / divergence de registre (parti pris) /
 non couvert ; ne juge jamais l'interface contre les tokens du système.
+
+Demande « **Ajoute un datepicker au formulaire.** » (sujet volontairement hors périmètre.)
+Le circuit d'arbitrage est bien branché si l'agent : relit \`DECISIONS-locales.md\` avant de
+remonter ; n'improvise rien à partir des règles voisines ; émet le **constat d'arbitrage
+formaté** (contexte, question, options avec conséquences, CONFIANCE, attendu) ; l'appende au
+journal en \`en attente\` ; et **ne tranche rien** — la décision appartient à l'arbitre déclaré.
 `;
 }
 
 // deux passes : le poids du socle dépend de la taille du routeur lui-même
-let routeur = genereRouteur(tokensYamlPoids + poidsSocle + 1000);
-routeur = genereRouteur(tokensYamlPoids + poidsSocle + estimeTokens(routeur.length));
+let routeur = genereRouteur(tokensYamlPoids + poidsDL + poidsSocle + 1000);
+routeur = genereRouteur(tokensYamlPoids + poidsDL + poidsSocle + estimeTokens(routeur.length));
 
 // --- 5. rapport + écriture ---------------------------------------------------
 
@@ -481,8 +517,8 @@ const lignesRapport = [
   '',
   '## Poids (estimation chars/3,6)',
   '',
-  `- Socle toujours chargé : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + RULES-accessibility/interaction/adaptive/cognitive-load/performance ${fmtK(poidsSocle)}`,
-  `- Totalité du paquet (l'ancien pire cas) : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`,
+  `- Socle toujours chargé : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + DECISIONS-locales.md ${fmtK(poidsDL)} (gabarit — croît chez le consommateur) + RULES-accessibility/interaction/adaptive/cognitive-load/performance ${fmtK(poidsSocle)}`,
+  `- Totalité du paquet (l'ancien pire cas) : ${fmtK(poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur)}`,
   '',
   `- Socle universel : principe d'accessibilité + langage d'interaction + principe adaptatif + principe de charge cognitive + principe de performance perçue (${fmtK(poidsSocle)}), quelle que soit l'intention.`,
   '',
@@ -490,8 +526,8 @@ const lignesRapport = [
   '|---|---|---|---|---|',
 ];
 for (const b of bundles) {
-  const total = b.poids + tokensYamlPoids + poidsRouteur + poidsSocle;
-  const tout = poidsTotal + tokensYamlPoids + poidsRouteur;
+  const total = b.poids + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle;
+  const tout = poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur;
   lignesRapport.push(`| ${b.intention} | ${b.fichiers.length} | ${fmtK(b.poids)} | ${fmtK(total)} | −${Math.round((1 - total / tout) * 100)} % |`);
 }
 lignesRapport.push('');
@@ -503,7 +539,7 @@ if (extensions.length) {
   lignesRapport.push('| Extension | Parent | Poids seul | Total avec parent et socle |', '|---|---|---|---|');
   for (const [nom, s] of extensions) {
     const parentFerme = fermeture([s.extensionDe]);
-    const totalParent = poidsBundle(parentFerme) + s.tokens + tokensYamlPoids + poidsRouteur + poidsSocle;
+    const totalParent = poidsBundle(parentFerme) + s.tokens + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle;
     lignesRapport.push(`| ${nom} | ${s.extensionDe} | ${fmtK(s.tokens)} | ${fmtK(totalParent)} |`);
   }
   lignesRapport.push('');
@@ -529,9 +565,9 @@ fs.writeFileSync(path.join(DIST, 'SKILL.md'), genereSkill());
 fs.writeFileSync(RAPPORT, lignesRapport.join('\n'));
 
 console.log(`  CLAUDE.md + AGENTS.md + SKILL.md régénérés (${sujets.size} sujets, ${INTENTIONS.length} intentions)`);
-console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`);
+console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + DECISIONS-locales ${fmtK(poidsDL)} + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur)}`);
 for (const b of bundles) {
-  console.log(`  bundle ${b.intention} : ${fmtK(b.poids + tokensYamlPoids + poidsRouteur + poidsSocle)} chargés`);
+  console.log(`  bundle ${b.intention} : ${fmtK(b.poids + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle)} chargés`);
 }
 if (extensions.length) {
   console.log(`  ${extensions.length} extension(s) (form-*, creation-compte-*) — poids détaillé dans tools/plugin/reports/RAPPORT-ROUTEUR.md`);
