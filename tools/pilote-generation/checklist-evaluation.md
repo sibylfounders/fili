@@ -11,7 +11,7 @@
 
 ## Signaux (assistés — signalés, jamais comptés en violation)
 
-- **S1** : un `Link`/`<a>` à destination réelle portant un `onClick` — analytics légitime ou action déguisée : c'est un juge qui tranche, pas le script.
+- **S1** : un `Link`/`<a>` portant un `onClick` avec une destination littérale **réelle** ou une destination **dynamique** (`href={expr}`, template) — analytics légitime ou action déguisée : c'est un juge qui tranche, pas le script (la destination d'une expression n'est pas décidable statiquement).
 
 ## Jugé par un humain en aveugle (échelles ancrées)
 

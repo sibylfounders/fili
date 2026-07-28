@@ -24,9 +24,9 @@
  * → Produit tools/plugin/reports/RAPPORT-ROUTEUR.md. Code de sortie 1 si au moins une erreur.
  *
  * À relancer après : tout ajout/suppression d'un RULES-*, toute modification d'un frontmatter,
- * toute évolution de la table INTENTIONS ci-dessous.
+ * toute évolution de la table INTENTIONS (config-intentions.js).
  *
- * NOTE ÉDITORIALE : la table INTENTIONS est le seul contenu « écrit » de ce script — c'est la
+ * NOTE ÉDITORIALE : la table INTENTIONS vit dans config-intentions.js (source unique) — c'est la
  * source de la table « Intentions → bundle » du routeur. Les dépendances, poids et périmètres
  * viennent des frontmatters ; ne dupliquez pas cette connaissance ici.
  *
@@ -434,7 +434,7 @@ fs.writeFileSync(path.join(DIST, 'SKILL.md'), genereSkill());
 fs.writeFileSync(RAPPORT, lignesRapport.join('\n'));
 
 console.log(`  CLAUDE.md + AGENTS.md + SKILL.md régénérés (${sujets.size} sujets, ${INTENTIONS.length} intentions)`);
-console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`);
+console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`);
 for (const b of bundles) {
   console.log(`  bundle ${b.intention} : ${fmtK(b.poids + tokensYamlPoids + poidsRouteur + poidsSocle)} chargés`);
 }

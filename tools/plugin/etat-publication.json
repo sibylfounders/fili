@@ -1,5 +1,5 @@
 {
-  "version": "1.8.0",
+  "version": "1.7.0",
   "date": "2026-07-28",
   "fiches": 47,
   "empreintes": {
@@ -51,13 +51,13 @@
     "rules/RULES-typography.md": "cbb6fc9b6265e253",
     "rules/RULES-voice.md": "6a9940aeebc62a14",
     "DESIGN.md (tokens)": "33fc1a263c47c8b9",
-    "build-plugin.js": "cf899d00c93241f5",
-    "genere-routeur.js": "b67b32aa8cd6f055",
+    "build-plugin.js": "d0f19ed3d0e05ca4",
+    "genere-routeur.js": "4f98d4d4704aac3e",
     "genere-tokens.js": "087ac03813d97a75",
-    "README-paquet.md": "5ff87b9a78fefd27",
+    "config-intentions.js": "7b2f3df537e60618",
+    "README-paquet.md": "19b7aa2e2f7e4af5",
     "theme-gate.mjs": "05913cfbef2bbabb",
     "zip.js": "00a6069ac71facc9",
-    "DECISIONS-locales.gabarit.md": "58470be378b5d38a",
     "plugin.json (hors version)": "c93221411e547ff8"
   }
 }

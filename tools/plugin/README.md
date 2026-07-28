@@ -36,7 +36,7 @@ Le dossier `build/` n'est pas versionné.
 | `tools/plugin/plugin.json` | **source** — nom, version, description du paquet |
 | `tools/plugin/README-paquet.md` | **source** — README embarqué dans le paquet |
 | `tools/plugin/theme-gate.mjs` | **source** — barrière consommateur, voyage avec les tokens |
-| `tools/plugin/DECISIONS-locales.gabarit.md` | **source** — journal du consommateur, livré sous le nom `DECISIONS-locales.md` |
+| `tools/plugin/config-intentions.js` | **source** — table d'intentions, socle universel, hors-périmètre (source unique, partagée avec le harnais du pilote) |
 | `tools/plugin/etat-publication.json` | **source** — mémoire de ce qui a été livré (écrit par `publie.js`, à committer) |
 | `build/plugin/**` | généré |
 | `tools/plugin/reports/RAPPORT-ROUTEUR.md` | généré (poids des bundles, erreurs, avertissements) |
@@ -52,7 +52,7 @@ doctrine d'un sujet oblige à repasser sur sa fiche à la main.
 fiche dans `tools/plugin/rules/`, puis :
 
 - si le sujet mérite sa propre porte d'entrée, ajouter une entrée à la table `INTENTIONS` de
-  `genere-routeur.js` (seul contenu éditorial de ce script) ;
+  `config-intentions.js` (la partie éditoriale du routeur vit là, plus dans le script) ;
 - sinon il reste accessible par la table des sujets du routeur — le rapport le signalera comme
   « orphelin », ce qui est l'état attendu dans ce cas.
 
@@ -100,3 +100,10 @@ Chaîne portée depuis le dépôt `Design System MD` le 2026-07-26 (`tools/gener
 `tools/genere-routeur.js`), au moment où le paquet Cowork installé (1.6.0, 16/07) a divergé du
 monorepo. Le reste de l'outillage DS-MD (génération du site, audits, garden) n'a pas été porté :
 seul le chemin du paquet l'a été.
+
+## Hors distribution
+
+`DECISIONS-locales.gabarit.md` vit dans `tools/pilote-arbitrage/` : c'est un **artefact de
+pilote**, retiré du paquet le 2026-07-28 tant que le cycle de vie des décisions locales
+(`CADRAGE-ARBITRAGE-CONSOMMATEUR.md` § 8) n'est pas mécaniquement garanti. Il n'entre ni dans
+le build, ni dans les empreintes de `publie.js`.

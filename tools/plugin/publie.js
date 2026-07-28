@@ -51,7 +51,7 @@ function empreintes() {
   const design = fs.readFileSync(DESIGN, 'utf8').match(/^---\n([\s\S]*?)\n---/);
   if (!design) { console.error('✗ frontmatter introuvable dans DESIGN.md'); process.exit(1); }
   e['DESIGN.md (tokens)'] = sha(design[1]);
-  for (const f of ['build-plugin.js', 'genere-routeur.js', 'genere-tokens.js', 'README-paquet.md', 'theme-gate.mjs', 'zip.js', 'DECISIONS-locales.gabarit.md']) {
+  for (const f of ['build-plugin.js', 'genere-routeur.js', 'genere-tokens.js', 'config-intentions.js', 'README-paquet.md', 'theme-gate.mjs', 'zip.js']) {
     const c = path.join(PLUGIN_SRC, f);
     if (fs.existsSync(c)) e[f] = sha(fs.readFileSync(c));
   }
