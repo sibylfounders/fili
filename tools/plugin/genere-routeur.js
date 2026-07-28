@@ -42,114 +42,9 @@ const fs = require('fs');
 const path = require('path');
 
 // ---------------------------------------------------------------------------
-// INTENTIONS — la partie éditoriale (à faire évoluer quand un sujet apparaît)
-// `sujets` : sujets chargés explicitement (leurs `requires` sont résolus automatiquement).
-// `fondations` : matières et vocabulaires de construction quasi certains pour cette intention.
-// `langages` : grammaires de sens quasi certaines pour cette intention.
-// `principes` : obligations ou raisonnements transversaux propres à l'intention.
-// `note` : compléments conditionnels, affichés tels quels dans la table.
-// Les extensions (type: extension) ne se déclarent JAMAIS ici — elles se chargent via la
-// colonne « Selon contexte » du sujet dont elles dépendent (extension-de), pas par intention.
-// ---------------------------------------------------------------------------
-const INTENTIONS = [
-  {
-    intention: 'Formulaire',
-    declencheurs: 'login / connexion, contact, checkout, réglages — toute page dont le cœur est une saisie isolée',
-    // select et switch sont des contrôles de saisie au même titre que input : un formulaire porte
-    // des choix et des bascules aussi souvent que des champs texte (ajoutés le 2026-07-27).
-    sujets: ['form', 'select', 'switch'],
-    fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
-    langages: ['emotion', 'motion', 'voice'],
-    principes: [],
-    note: '+ extensions form-* si le contexte les exige (étapes, validation async, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel) ; emotion UNIQUEMENT sur le moment de réussite d\'un envoi/soumission (moment mérité, budget de rareté — cf. RULES-emotion)',
-  },
-  {
-    intention: 'Collection',
-    declencheurs: 'dashboard, liste, grille de cartes, galerie, résultats de recherche',
-    sujets: ['collection'],
-    fondations: ['color', 'spacing', 'typography', 'elevation', 'grid', 'touch'],
-    langages: ['motion'],
-    principes: [],
-    note: '+ iconography si icônes ; card et button tirés via les requires du pattern collection',
-  },
-  {
-    intention: 'Page de contenu',
-    declencheurs: 'article, landing, page marketing, documentation, à-propos',
-    // tabs : une page documentaire découpe régulièrement un même objet en vues exclusives.
-    sujets: ['tabs'],
-    fondations: ['typography', 'color', 'spacing', 'grid'],
-    langages: ['voice'],
-    principes: [],
-    note: '+ button si CTA, + card si sections en cartes',
-  },
-  {
-    intention: 'Feedback',
-    declencheurs: "notification, message d'état, bannière, confirmation, erreur globale",
-    sujets: ['alert', 'toast'],
-    fondations: ['color', 'iconography', 'touch'],
-    langages: ['emotion', 'motion', 'voice'],
-    principes: ['adaptive'],
-    note: "+ button si l'alert/le toast porte une action ; emotion seulement sur un moment de réussite/accomplissement mérité (budget de rareté — cf. RULES-emotion) ; toast jamais seul porteur d'une condition qui dure (cf. RULES-toast)",
-  },
-  {
-    intention: 'Création de compte',
-    declencheurs: 'inscription, sign-up, « créer un compte », écran d\'enregistrement',
-    sujets: ['creation-compte'],
-    fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
-    langages: ['motion', 'voice'],
-    principes: [],
-    note: '+ extensions creation-compte-* selon le contexte (vérification e-mail, SSO/social, force du mot de passe, e-mail déjà utilisé, consentement) ; form/input/button/alert tirés via requires',
-  },
-  {
-    // Le bandeau de consentement est un flow à part entière (CONSENTEMENT 1.1.0) : il n'invente
-    // aucun objet visuel, il décide s'il faut interrompre et impose la symétrie des deux issues.
-    // Il ne se confond pas avec l'extension creation-compte-consentement, qui traite l'acceptation
-    // des CGU à l'inscription — autre moment, autre propriétaire (ajouté le 2026-07-27).
-    intention: 'Consentement',
-    declencheurs: "bandeau cookies, gestion des traceurs, préférences de confidentialité, « gérer mes choix », page cookies",
-    sujets: ['consentement'],
-    fondations: ['color', 'spacing', 'typography', 'border', 'radius', 'grid', 'touch'],
-    langages: ['voice', 'motion'],
-    principes: ['accessibility'],
-    note: "alert, button et voice tirés via les requires ; navigation pour le lien permanent en pied de page ; overlay/modal UNIQUEMENT si le bandeau devient modal, ce qui n'est pas le défaut",
-  },
-  {
-    // Le shell applicatif est déjà une réalité de la doctrine — GRID 1.2.0 a tokenisé ses rails
-    // et son point de bascule (grid.rail-nav, grid.rail-tools, breakpoint.tablet). Il lui manquait
-    // seulement sa porte d'entrée dans le routeur : navigation n'était joignable par aucune
-    // intention (ajouté le 2026-07-27).
-    intention: 'Cadre applicatif',
-    declencheurs: "shell d'application, rail ou barre de navigation, menu latéral, en-tête de site, découpage d'un écran en vues",
-    sujets: ['navigation', 'tabs'],
-    fondations: ['color', 'spacing', 'typography', 'grid', 'elevation', 'touch'],
-    langages: ['motion', 'voice'],
-    principes: ['adaptive'],
-    note: 'link et accordion tirés via les requires de navigation ; overlay dès que le rail passe en off-canvas sous breakpoint.tablet',
-  },
-  {
-    intention: 'Superposé modal',
-    declencheurs: "modale de confirmation, « confirmer la suppression », dialogue de saisie courte, panneau de détail superposé, drawer",
-    sujets: ['modal'],
-    fondations: ['color', 'spacing', 'typography', 'elevation', 'grid', 'touch'],
-    langages: ['motion', 'voice'],
-    principes: [],
-    note: "+ button dès que la modale porte des actions, + form si elle porte une saisie ; overlay tiré via les requires de modal — c'est lui qui porte scrim, z-index, piège de focus et scroll-lock",
-  },
-];
-
-// Sujets connus comme HORS périmètre (frontière documentée ou jamais traités) :
-// affichés dans le protocole pour que l'agent s'arrête au lieu d'improviser.
-const HORS_PERIMETRE = 'table, datepicker, popover'; // toast retiré le 2026-07-21 (RULES-toast) ; modale retirée le 2026-07-26 (RULES-modal, intention « Superposé modal ») ; popover ajouté — cité comme frontière par overlay et modal, jamais traité
-
-// Sujets du SOCLE UNIVERSEL : chargés d'office avec le routeur pour TOUTE intention.
-// accessibility : contrat d'accessibilité universel, compilé mais companion:none (2026-07-14).
-const SOCLE_SUJETS = {
-  accessibility: 'principe',
-  interaction: 'langage',
-  adaptive: 'principe',
-  'cognitive-load': 'principe', // contrat de charge cognitive, même modèle qu'accessibility (2026-07-21)
-  performance: 'principe', // contrat des attentes (performance perçue), même modèle (2026-07-21)
-};
+// La table INTENTIONS, le SOCLE universel et le HORS_PERIMETRE — la partie éditoriale —
+// vivent dans config-intentions.js (source unique, partagée avec le harnais du pilote).
+const { INTENTIONS, SOCLE_SUJETS, HORS_PERIMETRE } = require('./config-intentions.js');
 
 // ---------------------------------------------------------------------------
 
@@ -227,13 +122,6 @@ fs.mkdirSync(path.dirname(RAPPORT), { recursive: true });
 if (!fs.existsSync(path.join(DIST, 'tokens.yaml'))) erreurs.push('tokens.yaml introuvable dans le dossier de sortie (lancer genere-tokens.js avant)');
 const tokensYamlPoids = fs.existsSync(path.join(DIST, 'tokens.yaml'))
   ? estimeTokens(fs.readFileSync(path.join(DIST, 'tokens.yaml'), 'utf8').length)
-  : 0;
-
-// Journal des décisions locales : au socle des deux modes (cf. § Décisions locales du routeur).
-// Poids mesuré sur le gabarit livré — chez un consommateur, il croît avec les DL rendues.
-if (!fs.existsSync(path.join(DIST, 'DECISIONS-locales.md'))) erreurs.push('DECISIONS-locales.md introuvable dans le dossier de sortie (build-plugin.js copie le gabarit avant le routeur)');
-const poidsDL = fs.existsSync(path.join(DIST, 'DECISIONS-locales.md'))
-  ? estimeTokens(fs.readFileSync(path.join(DIST, 'DECISIONS-locales.md'), 'utf8').length)
   : 0;
 
 // Poids du socle universel (principes + langage chargés pour toutes les intentions).
@@ -357,7 +245,7 @@ function genereRouteur(poidsSocle) {
 
 > Généré par \`tools/plugin/genere-routeur.js\` (monorepo Sibyl DS) — ne pas éditer à la main (frontmatters des RULES-* + table INTENTIONS du script font foi).
 > Deux modes : **build** (générer ou modifier de l'UI conforme — § Protocole) et **audit** (confronter une interface existante aux règles — § Mode audit).
-> Socle toujours chargé (les deux modes) : ce fichier + RULES-accessibility + RULES-interaction + RULES-adaptive + RULES-cognitive-load + RULES-performance + \`DECISIONS-locales.md\` (le journal du consommateur — § Décisions locales). Tout le reste se charge à la demande, via les deux tables ci-dessous.
+> Socle toujours chargé (les deux modes) : ce fichier + RULES-accessibility + RULES-interaction + RULES-adaptive + RULES-cognitive-load + RULES-performance. Tout le reste se charge à la demande, via les deux tables ci-dessous.
 
 ## Protocole (mode build)
 
@@ -370,7 +258,7 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 5. Sujet non couvert par le système (${HORS_PERIMETRE}…) : **stoppe et remonte** — ne l'improvise pas à partir des règles voisines.
 6. Jamais de valeur codée en dur : toute propriété visuelle référence un token de \`tokens.yaml\`. Token manquant → remonte.
 7. Si la couche source (\`apps/site/content/md/\` du dépôt Sibyl DS) est présente, ne la lis JAMAIS pendant un build — ce dossier en est la compilation à jour. N'édite jamais les fichiers de ce dossier à la main (exception consommateur : les valeurs de \`tokens.yaml\`, jamais ses noms).
-8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : relis d'abord \`DECISIONS-locales.md\` — une DL \`rendue\` qui couvre la question s'applique telle quelle, la question ne se repose pas. Sinon : stoppe, émets le constat d'arbitrage (§ Décisions locales) et attends l'arbitrage. Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
+8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : **stoppe et remonte la question en exposant les options** (2 à 4, chacune avec sa conséquence). Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
 9. Une extension (type « extension » dans la table des sujets, ex. \`form-multi-step\`) ne se charge **jamais** par défaut avec son sujet parent — uniquement quand la situation qu'elle nomme se présente réellement dans la demande (étapes, validation asynchrone, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel). Charge le sujet parent en premier, l'extension en complément ciblé.
 10. **Socle universel** : \`RULES-accessibility\`, \`RULES-interaction\`, \`RULES-adaptive\`, \`RULES-cognitive-load\` et \`RULES-performance\` sont déjà chargés pour toute intention. Ils posent respectivement le principe d'accessibilité, le langage d'interaction, le principe adaptatif, le contrat de charge cognitive et le contrat des attentes (performance perçue). Ne jamais les retirer.
 
@@ -384,27 +272,11 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 6. L'audit **ne modifie jamais** les règles qu'il évalue, et le référentiel ne devient jamais une seconde source de vérité sur l'interface auditée.
 7. Le protocole outillé complet (corpus de captures, baseline gelée, empreintes SHA-256, dossier de preuve) vit dans le dépôt d'audit — ce mode couvre l'audit en contexte agent, sans chaîne de preuve.
 
-## Décisions locales — le journal du consommateur
-
-\`DECISIONS-locales.md\` (à côté de \`tokens.yaml\`) est la deuxième surface possédée par le consommateur : **ses décisions, jamais les règles**. Chargé au socle, dans les deux modes. Spécification : \`CADRAGE-ARBITRAGE-CONSOMMATEUR.md\` (monorepo Sibyl DS).
-
-1. **Avant de remonter, relis le journal.** Une question déjà tranchée (\`DL-nnn [rendue]\`) s'applique telle quelle et ne se repose jamais. Une DL ne vaut que dans l'espace **non couvert** : si elle contredit une règle du système ou une propriété universelle, elle est invalide — signale-la, ne l'applique pas.
-2. **Quand tu stoppes** (protocole, points 5 et 8 ; mode audit, point 5), émets un **constat d'arbitrage** et appends-le au journal avec le statut \`en attente\` — c'est la seule écriture qui t'est permise dans ce fichier :
-
-\`\`\`text
-DL-nnn [en attente] <contexte en une phrase>
-  Question : <la décision à rendre> — Options : <2 à 4, chacune avec sa conséquence>
-  CONFIANCE : <établi / convergence / cas isolé / non formalisé> — Attendu : <qui tranche>
-\`\`\`
-
-3. **Tu n'écris jamais une décision.** Seul l'arbitre déclaré en tête du journal convertit un constat en \`rendue\`. Sans arbitre déclaré, les constats s'accumulent et la boucle reste ouverte — dis-le.
-4. Au-delà d'une trentaine de DL rendues, recommande la **remontée** : les décisions récurrentes sont des candidats règles pour le système, pas des habitantes du journal.
-
 ## Intentions → bundle
 
 ${tableIntentions()}
 
-Poids = fichiers RULES du bundle, hors socle (ce fichier + tokens.yaml + DECISIONS-locales.md + les cinq RULES universels ≈ ${fmtK(poidsSocle)} au total). Les extensions ne sont jamais incluses dans ce poids — cf. protocole, point 9. En mode audit, \`tokens.yaml\` ne se charge pas : retrancher son poids du total (\`DECISIONS-locales.md\`, lui, reste chargé).
+Poids = fichiers RULES du bundle, hors socle (ce fichier + tokens.yaml + les cinq RULES universels ≈ ${fmtK(poidsSocle)} au total). Les extensions ne sont jamais incluses dans ce poids — cf. protocole, point 9. En mode audit, \`tokens.yaml\` ne se charge pas : retrancher son poids du total.
 
 ## Sujets
 
@@ -459,22 +331,17 @@ critère d'audit), confrontation qui **cite ses règles**, statut de frontière 
 
 ## Quand une règle manque
 
-- Relis d'abord **\`DECISIONS-locales.md\`** (chargé au socle) : une décision locale \`rendue\` qui
-  couvre la question s'applique telle quelle — la question ne se repose pas.
 - Sujet hors périmètre (${HORS_PERIMETRE}…) : **stoppe et remonte**, n'improvise pas à partir des règles voisines.
 - Décision de design non tranchée (style/tone, niveau de friction, wording, cas absent) :
-  **stoppe, émets le constat d'arbitrage** (format au § « Décisions locales » du routeur),
-  appends-le au journal en \`en attente\` — jamais la décision, qui appartient à l'arbitre —
-  et attends l'arbitrage. Les lignes \`CONFIANCE\` des RULES calibrent la vitesse de remontée
+  **stoppe et remonte la question en exposant les options** (2 à 4, chacune avec sa
+  conséquence) — ne tranche pas silencieusement. Les lignes \`CONFIANCE\` des RULES calibrent la vitesse de remontée
   (établi > convergence > cas isolé > non formalisé).
 
 ## Structure du paquet
 
 Dossier plat : \`AGENTS.md\` + \`CLAUDE.md\` (le routeur — un seul est chargé selon l'agent),
-\`tokens.yaml\`, \`DECISIONS-locales.md\` (le journal des décisions du consommateur),
-les \`RULES-<sujet>.md\` de base et leurs extensions contextuelles \`form-*\` et \`creation-compte-*\`, et ce \`SKILL.md\`.
-Deux surfaces appartiennent au consommateur : les **valeurs** de \`tokens.yaml\` (jamais ses noms),
-et \`DECISIONS-locales.md\` (l'arbitre y rend ses décisions ; l'agent n'y écrit que des constats \`en attente\`).
+\`tokens.yaml\`, les \`RULES-<sujet>.md\` de base et leurs extensions contextuelles \`form-*\` et \`creation-compte-*\`, et ce \`SKILL.md\`.
+Une surface appartient au consommateur : les **valeurs** de \`tokens.yaml\` (jamais ses noms).
 Tout le reste ne se modifie pas.
 
 ## Version
@@ -492,18 +359,12 @@ Demande « **Audite cette page de login.** » Le mode audit est bien branché si
 charge le bundle Formulaire **sans** \`tokens.yaml\` ; cite la règle fondant chaque constat ;
 distingue non-conformité (propriété universelle) / divergence de registre (parti pris) /
 non couvert ; ne juge jamais l'interface contre les tokens du système.
-
-Demande « **Ajoute un datepicker au formulaire.** » (sujet volontairement hors périmètre.)
-Le circuit d'arbitrage est bien branché si l'agent : relit \`DECISIONS-locales.md\` avant de
-remonter ; n'improvise rien à partir des règles voisines ; émet le **constat d'arbitrage
-formaté** (contexte, question, options avec conséquences, CONFIANCE, attendu) ; l'appende au
-journal en \`en attente\` ; et **ne tranche rien** — la décision appartient à l'arbitre déclaré.
 `;
 }
 
 // deux passes : le poids du socle dépend de la taille du routeur lui-même
-let routeur = genereRouteur(tokensYamlPoids + poidsDL + poidsSocle + 1000);
-routeur = genereRouteur(tokensYamlPoids + poidsDL + poidsSocle + estimeTokens(routeur.length));
+let routeur = genereRouteur(tokensYamlPoids + poidsSocle + 1000);
+routeur = genereRouteur(tokensYamlPoids + poidsSocle + estimeTokens(routeur.length));
 
 // --- 5. rapport + écriture ---------------------------------------------------
 
@@ -517,8 +378,8 @@ const lignesRapport = [
   '',
   '## Poids (estimation chars/3,6)',
   '',
-  `- Socle toujours chargé : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + DECISIONS-locales.md ${fmtK(poidsDL)} (gabarit — croît chez le consommateur) + RULES-accessibility/interaction/adaptive/cognitive-load/performance ${fmtK(poidsSocle)}`,
-  `- Totalité du paquet (l'ancien pire cas) : ${fmtK(poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur)}`,
+  `- Socle toujours chargé : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + RULES-accessibility/interaction/adaptive/cognitive-load/performance ${fmtK(poidsSocle)}`,
+  `- Totalité du paquet (l'ancien pire cas) : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`,
   '',
   `- Socle universel : principe d'accessibilité + langage d'interaction + principe adaptatif + principe de charge cognitive + principe de performance perçue (${fmtK(poidsSocle)}), quelle que soit l'intention.`,
   '',
@@ -526,8 +387,8 @@ const lignesRapport = [
   '|---|---|---|---|---|',
 ];
 for (const b of bundles) {
-  const total = b.poids + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle;
-  const tout = poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur;
+  const total = b.poids + tokensYamlPoids + poidsRouteur + poidsSocle;
+  const tout = poidsTotal + tokensYamlPoids + poidsRouteur;
   lignesRapport.push(`| ${b.intention} | ${b.fichiers.length} | ${fmtK(b.poids)} | ${fmtK(total)} | −${Math.round((1 - total / tout) * 100)} % |`);
 }
 lignesRapport.push('');
@@ -539,7 +400,7 @@ if (extensions.length) {
   lignesRapport.push('| Extension | Parent | Poids seul | Total avec parent et socle |', '|---|---|---|---|');
   for (const [nom, s] of extensions) {
     const parentFerme = fermeture([s.extensionDe]);
-    const totalParent = poidsBundle(parentFerme) + s.tokens + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle;
+    const totalParent = poidsBundle(parentFerme) + s.tokens + tokensYamlPoids + poidsRouteur + poidsSocle;
     lignesRapport.push(`| ${nom} | ${s.extensionDe} | ${fmtK(s.tokens)} | ${fmtK(totalParent)} |`);
   }
   lignesRapport.push('');
@@ -559,15 +420,23 @@ if (erreurs.length) {
   process.exit(1);
 }
 
+// Composition EXACTE des bundles — consommée par le harnais du pilote (comparaison des
+// membres, pas seulement des comptes). Artefact généré.
+fs.writeFileSync(path.join(RACINE, 'tools', 'plugin', 'reports', 'bundles.json'), JSON.stringify({
+  _genere: 'ARTEFACT GÉNÉRÉ par genere-routeur.js — ne pas éditer.',
+  socle: Object.keys(SOCLE_SUJETS).sort(),
+  bundles: Object.fromEntries(bundles.map((b) => [b.intention, [...b.fichiers].sort()])),
+}, null, 2));
+
 fs.writeFileSync(path.join(DIST, 'CLAUDE.md'), routeur);
 fs.writeFileSync(path.join(DIST, 'AGENTS.md'), routeur);
 fs.writeFileSync(path.join(DIST, 'SKILL.md'), genereSkill());
 fs.writeFileSync(RAPPORT, lignesRapport.join('\n'));
 
 console.log(`  CLAUDE.md + AGENTS.md + SKILL.md régénérés (${sujets.size} sujets, ${INTENTIONS.length} intentions)`);
-console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + DECISIONS-locales ${fmtK(poidsDL)} + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsDL + poidsRouteur)}`);
+console.log(`  socle : routeur ${fmtK(poidsRouteur)} + tokens.yaml ${fmtK(tokensYamlPoids)} + + 5 RULES universels ${fmtK(poidsSocle)} — tout le paquet : ${fmtK(poidsTotal + tokensYamlPoids + poidsRouteur)}`);
 for (const b of bundles) {
-  console.log(`  bundle ${b.intention} : ${fmtK(b.poids + tokensYamlPoids + poidsDL + poidsRouteur + poidsSocle)} chargés`);
+  console.log(`  bundle ${b.intention} : ${fmtK(b.poids + tokensYamlPoids + poidsRouteur + poidsSocle)} chargés`);
 }
 if (extensions.length) {
   console.log(`  ${extensions.length} extension(s) (form-*, creation-compte-*) — poids détaillé dans tools/plugin/reports/RAPPORT-ROUTEUR.md`);

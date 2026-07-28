@@ -13,8 +13,8 @@ Trois familles de fichiers, et elles seules, sont écrites à la main.
 ### `apps/site/content/md/<nature>/<SUJET>-UX.md` et `-UI.md`
 
 **Le corpus.** Une paire par sujet : le UX dit *pourquoi et quoi*, le UI dit *avec quels tokens*.
-36 sujets, rangés par nature — `principles`, `languages`, `foundations`, `components`,
-`patterns`, `flows`. 35 sont compilés : `laws` porte `audience: humans` et reste une
+37 sujets, rangés par nature — `principles`, `languages`, `foundations`, `components`,
+`patterns`, `flows`. 36 sont compilés : `laws` porte `audience: humans` et reste une
 référence de lecture, jamais chargée par une IA au build.
 
 Chaque règle y prend cette forme :
@@ -157,7 +157,8 @@ python3 tools/compile-regles.py --tous
 `compile-regles.py --tous` finit par une ligne du genre :
 
 ```
-35 sujets · 974 règles qualifiées · 0 non qualifiées
+36 sujets · 993 règles qualifiées · 0 non qualifiée — instantané du 2026-07-28 ;
+l'autorité reste la commande elle-même (`python3 tools/compile-regles.py --tous`)
 ```
 
 **Les « non qualifiées » sont le vrai reste-à-faire.** Chacune est une règle que le moteur d'audit

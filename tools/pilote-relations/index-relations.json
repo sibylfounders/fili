@@ -2537,12 +2537,6 @@
     },
     {
       "type": "derive-de",
-      "source": "BUTTON-R23",
-      "cible": "INTERACTION-R15",
-      "preuve": "BUTTON-R23 : l'alternative pèse toujours moins que la dominante — matérialité proportionnelle au besoin de compréhension, pas à l'importance."
-    },
-    {
-      "type": "derive-de",
       "source": "LINK-R01",
       "cible": "INTERACTION-R05",
       "preuve": "LINK-R01 : le Link conduit vers une ressource — la navigation est portée par un lien avec destination."
@@ -2588,12 +2582,6 @@
       "source": "BUTTON-R20",
       "cible": "BUTTON-R19",
       "preuve": "BUTTON-R20 : header persistant et contenu comptent comme deux zones — coexistence permise à l'écran."
-    },
-    {
-      "type": "exception-de",
-      "source": "CARD-R04",
-      "cible": "CARD-R01",
-      "preuve": "CARD-R04 : l'état « sélectionné » d'une carte sélectionnable, seule exception apparente aux axes interaction_mode/density."
     },
     {
       "type": "exception-de",
@@ -2647,12 +2635,6 @@
     },
     {
       "type": "est-declinee-par",
-      "source": "INTERACTION-R15",
-      "cible": "BUTTON-R23",
-      "calculee": true
-    },
-    {
-      "type": "est-declinee-par",
       "source": "INTERACTION-R05",
       "cible": "LINK-R01",
       "calculee": true
@@ -2697,12 +2679,6 @@
       "type": "est-bornee-par",
       "source": "BUTTON-R19",
       "cible": "BUTTON-R20",
-      "calculee": true
-    },
-    {
-      "type": "est-bornee-par",
-      "source": "CARD-R01",
-      "cible": "CARD-R04",
       "calculee": true
     },
     {
@@ -2856,13 +2832,6 @@
         "pourquoi": "CARD-R13 (rattachement nommé) : la Card statique incarne l'intention « consulter » du § Les six intentions."
       }
     ],
-    "INTERACTION-R15": [
-      {
-        "touche": "BUTTON-R23",
-        "via": "derive-de",
-        "pourquoi": "BUTTON-R23 : l'alternative pèse toujours moins que la dominante — matérialité proportionnelle au besoin de compréhension, pas à l'importance."
-      }
-    ],
     "INTERACTION-R12": [
       {
         "touche": "LINK-R04",
@@ -2893,13 +2862,6 @@
         "via": "tension",
         "pole": "b",
         "pourquoi": "pôle b de T-001"
-      }
-    ],
-    "CARD-R01": [
-      {
-        "touche": "CARD-R04",
-        "via": "exception-de",
-        "pourquoi": "CARD-R04 : l'état « sélectionné » d'une carte sélectionnable, seule exception apparente aux axes interaction_mode/density."
       }
     ],
     "FORM-R28": [

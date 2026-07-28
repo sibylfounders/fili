@@ -1,5 +1,5 @@
 {
-  "_statut": "FIXTURE DE PILOTE — représente ce que les lignes LIENS des fiches et les fichiers T-xxx déclareraient. N'est PAS une source éditoriale à faire vivre : à l'implémentation réelle, ces déclarations migrent dans la grammaire des règles (LIENS) et dans content/md/tensions/, et ce fichier disparaît. T-001 resserrée le 2026-07-28 (audit) : pôle hiérarchie = BUTTON-R18/R19/R23, INTERACTION-R10/R15/R17 retirées, pas de tension Card sans usage réel.",
+  "_statut": "FIXTURE DE PILOTE — représente ce que les lignes LIENS des fiches et les fichiers T-xxx déclareraient. N'est PAS une source éditoriale à faire vivre : à l'implémentation réelle, ces déclarations migrent dans la grammaire des règles (LIENS) et dans content/md/tensions/, et ce fichier disparaît. T-001 resserrée le 2026-07-28 (audit) : pôle hiérarchie = BUTTON-R18/R19/R23, INTERACTION-R10/R15/R17 retirées, pas de tension Card sans usage réel. Retraits sémantiques du 2026-07-28 (audit) : BUTTON-R23→INTERACTION-R15 (la hiérarchie dominante/alternative ne dérive pas de la matérialité proportionnelle) et CARD-R04 exception-de CARD-R01 (l'état sélectionné confirme l'axe interaction_mode, il ne le borne pas) — aucune relation de remplacement sans preuve éditoriale.",
   "_tranche": [
     "interaction",
     "button",
@@ -52,12 +52,6 @@
     },
     {
       "type": "derive-de",
-      "source": "BUTTON-R23",
-      "cible": "INTERACTION-R15",
-      "preuve": "BUTTON-R23 : l'alternative pèse toujours moins que la dominante — matérialité proportionnelle au besoin de compréhension, pas à l'importance."
-    },
-    {
-      "type": "derive-de",
       "source": "LINK-R01",
       "cible": "INTERACTION-R05",
       "preuve": "LINK-R01 : le Link conduit vers une ressource — la navigation est portée par un lien avec destination."
@@ -103,12 +97,6 @@
       "source": "BUTTON-R20",
       "cible": "BUTTON-R19",
       "preuve": "BUTTON-R20 : header persistant et contenu comptent comme deux zones — coexistence permise à l'écran."
-    },
-    {
-      "type": "exception-de",
-      "source": "CARD-R04",
-      "cible": "CARD-R01",
-      "preuve": "CARD-R04 : l'état « sélectionné » d'une carte sélectionnable, seule exception apparente aux axes interaction_mode/density."
     },
     {
       "type": "exception-de",

@@ -8,7 +8,7 @@ Date initiale : 2026-07-27. Ce fichier ne sera plus modifié après le premier r
 
 ## Dispositif
 
-3 tâches (A toolbar de collection, B card de collection, C fin de formulaire) × 4 conditions × 2 tirages = 24 sorties. Modèle générateur : sonnet (profil réaliste d'une IA consommatrice), prompt de tâche, contexte technique et consigne de sortie **identiques mot pour mot** entre conditions ; seule la connaissance design varie :
+3 tâches (A toolbar de collection, B groupe d'actions par élément de collection — reformulée le 2026-07-28 pour rester dans la portée de T-001 resserrée, C fin de formulaire) × 4 conditions × 2 tirages = 24 sorties. Modèle générateur : sonnet (profil réaliste d'une IA consommatrice), prompt de tâche, contexte technique et consigne de sortie **identiques mot pour mot** entre conditions ; seule la connaissance design varie :
 
 - C1 : aucune ;
 - C2 : corpus compilé entier (`dist/build/RULES-*`, 36 sujets, ~233 Ko) sans routage ;

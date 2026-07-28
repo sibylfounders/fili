@@ -24,7 +24,7 @@ node tools/pilote-relations/simule-impact.js INTERACTION-R07 mecanique    # cont
 
 ## Instantané daté — 2026-07-28 (l'autorité reste les commandes, jamais ce paragraphe)
 
-- Tranche du pilote : **357 règles** extraites, 18 relations déclarées (11 `derive-de`, 4 `exception-de`, 3 `cede-a`), 18 inverses calculées, 1 tension. Auto-test : **13/13**.
+- Tranche du pilote : **357 règles** extraites, **16 relations** déclarées (10 `derive-de`, 3 `exception-de`, 3 `cede-a`), 16 inverses calculées, 1 tension. Auto-test : **13/13**. (18 → 16 le 2026-07-28 : retrait de `BUTTON-R23 → INTERACTION-R15` — la hiérarchie dominante/alternative ne dérive pas de la matérialité proportionnelle — et de `CARD-R04 exception-de CARD-R01` — l'état sélectionné confirme l'axe `interaction_mode`, il ne le borne pas ; aucune relation de remplacement sans preuve éditoriale.)
 - Corpus entier : **37 sujets éditoriaux**, dont **36 compilés** (`laws`, audience humaine, ne compile jamais) ; **993 règles qualifiées, 0 non qualifiée** (`python3 tools/compile-regles.py --tous`). Le passage de 996 à 993 est la requalification des trois pointeurs de cession (`BUTTON-R65`, `BUTTON-R76`, `FORM-R06`) en `note de méthode` — une note de méthode ne compile pas ; la projection de `BUTTON-R76` était restée en retard d'un jour, rattrapée par `extrait-decisions.py`.
 - Chaîne réelle constatée : fiche MD → `tools/extrait-decisions.py <sujet>` (→ `content/doctrine/<sujet>.json`) → `tools/compile-regles.py` (→ `dist/build` + `dist/audit`) → `tools/plugin/build-plugin.js` (paquet). Oublier la projection `extrait-decisions` laisse `dist/` mentir — c'est précisément la classe d'oubli que la cascade d'impact vise.
 
