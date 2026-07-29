@@ -208,11 +208,13 @@ export function AppLayout({
         onClick={(e) => {
           // L'off-canvas se referme après une NAVIGATION (lien ou bouton de nav) — jamais quand
           // on manipule un contrôle qui reste dans le tiroir : Select (combobox + listbox),
-          // Switch, ou tout déclencheur de popup. Bug corrigé 2026-07-29 : le sélecteur de
-          // section refermait le tiroir au premier clic.
+          // Switch, Dropdown (menu + items), ou tout déclencheur de popup. Bug corrigé
+          // 2026-07-29 : le sélecteur de section refermait le tiroir au premier clic ; complété
+          // le soir même : les items de menu (role="menuitem*" dans role="menu") n'étaient pas
+          // couverts — un clic dans un Dropdown refermait encore le tiroir.
           const t = (e.target as HTMLElement).closest("a,button");
           if (!t) return;
-          if (t.closest('[role="combobox"],[role="listbox"],[role="switch"],[aria-haspopup]')) return;
+          if (t.closest('[role="combobox"],[role="listbox"],[role="switch"],[role="menu"],[aria-haspopup]')) return;
           setMobileOpen(false);
         }}
       >
