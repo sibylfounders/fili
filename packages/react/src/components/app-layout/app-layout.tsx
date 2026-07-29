@@ -112,11 +112,11 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
         {item.icon ? (
           <span className="flex h-4 w-4 shrink-0 items-center justify-center">{item.icon}</span>
         ) : collapsed ? (
-          <span className="h-1.5 w-1.5 rounded-full bg-current opacity-40" />
+          <span className="h-1.5 w-1.5 rounded-pill bg-current opacity-40" />
         ) : null}
         {!collapsed ? <span className="min-w-0 flex-1 truncate">{item.label}</span> : null}
         {!collapsed && item.badge ? (
-          <span className="rounded-full bg-success-subtle px-1.5 py-0.5 text-[10px] font-semibold text-success">{item.badge}</span>
+          <span className="rounded-pill bg-success-subtle px-1.5 py-0.5 text-[10px] font-semibold text-success">{item.badge}</span>
         ) : null}
       </Cmp>
       {kids && !collapsed ? kids.map((c, i) => <NavRow key={i} item={c} collapsed={false} depth={depth + 1} onNavigate={onNavigate} />) : null}
@@ -293,7 +293,7 @@ export function AppLayout({
           aria-label={asideOpen ? `Fermer : ${asideLabel}` : `Ouvrir : ${asideLabel}`}
           aria-expanded={asideOpen}
           className={cn(
-            "sw-shell-fab flex h-[52px] w-[52px] items-center justify-center rounded-full bg-primary text-on-primary shadow-overlay",
+            "sw-shell-fab flex h-[52px] w-[52px] items-center justify-center rounded-pill bg-primary text-on-primary shadow-overlay",
             "transition-colors duration-fast ease-out hover:bg-primary-hover",
             "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
           )}

@@ -26,7 +26,7 @@
   flex-direction: column; /* le plus ancien en haut, le plus récent en bas, près du point d'ancrage */
   align-items: center;
   gap: var(--space-sm);
-  z-index: 60;
+  z-index: var(--z-toast);
   pointer-events: none; /* la région ne capte pas le pointeur ; chaque carte le réactive */
 }
 .ds-toast-region > * {

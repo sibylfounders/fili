@@ -10,8 +10,8 @@
   max-width: 85%;
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: transform var(--duration-base, .25s) var(--ease-out, ease-out),
-              width var(--duration-base, .25s) var(--ease-out, ease-out);
+  transition: transform var(--duration-base) var(--ease-out),
+              width var(--duration-base) var(--ease-out);
 }
 .sw-shell-sidebar[data-open="true"] {
   transform: translateX(0);
@@ -37,7 +37,7 @@
   position: absolute; inset-block: 0; right: 0; z-index: 40;
   max-width: 85%;
   transform: translateX(100%);
-  transition: transform var(--duration-base, .25s) var(--ease-out, ease-out);
+  transition: transform var(--duration-base) var(--ease-out);
   /* dégagement : le FAB ne recouvre pas la dernière rangée du panneau ouvert */
   padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
 }
@@ -48,8 +48,8 @@
 /* FAB : scopé au shell (absolute), comme la sidebar — pas au viewport. */
 .sw-shell-fab {
   position: absolute; z-index: 40;
-  right: var(--space-md, 16px);
-  bottom: calc(var(--space-md, 16px) + env(safe-area-inset-bottom, 0px));
+  right: var(--space-md);
+  bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
 }
 @container sw-shell (min-width: 1280px) {
   .sw-shell-aside {

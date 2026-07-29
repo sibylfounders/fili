@@ -49,7 +49,7 @@
 .ds-theme-toggle input:checked:hover ~ .knob { transform: translateX(var(--tt-shift)) scaleX(1.1); }
 .ds-theme-toggle input:checked:active ~ .knob { transform: translateX(var(--tt-shift)) scaleX(1.2); }
 .ds-theme-toggle input:focus-visible { outline: var(--control-focus-width) solid var(--control-focus-color); outline-offset: var(--control-focus-offset); }
-.ds-theme-toggle__label { margin-left: var(--space-sm, 8px); color: var(--text-primary); font-size: 14px; }
+.ds-theme-toggle__label { margin-left: var(--space-sm); color: var(--text-primary); font-size: 14px; }
 .ds-theme-toggle--lg .ds-theme-toggle__label { font-size: 16px; }
 @media (prefers-reduced-motion: reduce) {
   .ds-theme-toggle input, .ds-theme-toggle .knob { transition: none; }

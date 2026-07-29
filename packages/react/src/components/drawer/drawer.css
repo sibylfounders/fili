@@ -11,10 +11,10 @@
   overflow: hidden;
   /* Largeur du tiroir actif (crans GRID, cf. drawer.tsx SIZE_WIDTH) — le push s'y réfère
      pour décaler le contenu de la largeur RÉELLE du panneau. */
-  --ds-drawer-w: var(--rail-nav, 280px);
+  --ds-drawer-w: var(--rail-nav);
 }
-.ds-drawer-frame[data-size="default"] { --ds-drawer-w: var(--container-narrow, 480px); }
-.ds-drawer-frame[data-size="wide"] { --ds-drawer-w: var(--overlay, 640px); }
+.ds-drawer-frame[data-size="default"] { --ds-drawer-w: var(--container-narrow); }
+.ds-drawer-frame[data-size="wide"] { --ds-drawer-w: var(--overlay); }
 .ds-drawer-frame[data-size="full"] { --ds-drawer-w: 85%; }
 .ds-drawer-frame[data-depth="true"] {
   background: #030712; /* fond noir de la Depth Transition */
@@ -23,14 +23,14 @@
   height: 100%;
   background: var(--background);
   transition:
-    transform var(--duration-slow, 0.3s) var(--ease-out, ease-out),
-    border-radius var(--duration-slow, 0.3s) var(--ease-out, ease-out);
+    transform var(--duration-slow) var(--ease-out),
+    border-radius var(--duration-slow) var(--ease-out);
 }
 
 /* DEPTH — le contenu recule dans une frame arrondie sur le fond noir */
 .ds-drawer-frame[data-open="true"][data-depth="true"] .ds-drawer-frame__content {
   transform: scale(0.92);
-  border-radius: var(--radius-lg, 12px);
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 

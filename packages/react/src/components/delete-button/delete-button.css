@@ -17,8 +17,8 @@
   --span-o: 1; --span-x: 0; --span-y: 0; --span-r: 0deg;
   position: relative; display: inline-flex; align-items: center; outline: none; cursor: pointer; border: 0;
   /* padding X aligné sur le Button classique (12/16/24, symétrique) — l'original (12/20 fixes) décollait l'icône */
-  padding: var(--del-pad-y, 12px) var(--del-pad-x, 24px); border-radius: var(--radius-md, 8px); line-height: 24px;
-  font-family: var(--font-sans, system-ui, sans-serif); font-weight: 600; font-size: var(--del-font, 16px); overflow: hidden;
+  padding: var(--del-pad-y, 12px) var(--del-pad-x, 24px); border-radius: var(--radius-md); line-height: 24px;
+  font-family: var(--font-sans); font-weight: 600; font-size: var(--del-font, 16px); overflow: hidden;
   color: var(--del-on); background: var(--b, var(--del-bg));
   transition: transform .3s, background .4s; transform: scale(var(--dscale, 1)) translateZ(0);
   -webkit-tap-highlight-color: transparent; -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -45,20 +45,20 @@
 
 /* overlay de succès terminal : « ✓ Supprimé » sur danger-subtle, apparaît à la fin et RESTE */
 .dsui-delbtn__done { position: absolute; inset: 0; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  background: var(--danger-subtle); border-radius: var(--radius-md, 8px); color: var(--danger);
-  font: 600 var(--del-font, 16px)/1 var(--font-sans, system-ui, sans-serif); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease-out, ease-out); }
+  background: var(--danger-subtle); border-radius: var(--radius-md); color: var(--danger);
+  font: 600 var(--del-font, 16px)/1 var(--font-sans); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease-out); }
 .dsui-delbtn__done svg { width: 16px; height: 16px; fill: none; stroke: var(--danger); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .dsui-delbtn--done .dsui-delbtn__done { opacity: 1; }
 .dsui-delbtn--done .dsui-delbtn__btn { background: var(--danger-subtle); }
 /* CHARGEMENT : spinner tant que la vraie suppression n'a pas répondu (après l'acte animé) */
-.dsui-delbtn__spin { position: absolute; inset: 0; z-index: 2; display: none; align-items: center; justify-content: center; background: var(--danger); border-radius: var(--radius-md, 8px); color: var(--on-danger); }
+.dsui-delbtn__spin { position: absolute; inset: 0; z-index: 2; display: none; align-items: center; justify-content: center; background: var(--danger); border-radius: var(--radius-md); color: var(--on-danger); }
 .dsui-delbtn--loading .dsui-delbtn__spin { display: inline-flex; }
 .dsui-delbtn__spin i { width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: dsui-del-spin .7s linear infinite; }
 @keyframes dsui-del-spin { to { transform: rotate(360deg); } }
 /* ÉCHEC : « ⚠ Échec » sur fond error + secousse, puis retour à idle (ré-armable) */
-.dsui-delbtn__err { position: absolute; inset: 0; z-index: 3; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--danger); border-radius: var(--radius-md, 8px); color: var(--on-danger); font: 600 var(--del-font, 16px)/1 var(--font-sans, system-ui, sans-serif); opacity: 0; pointer-events: none; transition: opacity .18s; }
+.dsui-delbtn__err { position: absolute; inset: 0; z-index: 3; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--danger); border-radius: var(--radius-md); color: var(--on-danger); font: 600 var(--del-font, 16px)/1 var(--font-sans); opacity: 0; pointer-events: none; transition: opacity .18s; }
 .dsui-delbtn--error .dsui-delbtn__err { opacity: 1; }
-.dsui-delbtn--error .dsui-delbtn__btn { animation: dsui-del-shake .42s var(--ease-out, ease-out); }
+.dsui-delbtn--error .dsui-delbtn__btn { animation: dsui-del-shake .42s var(--ease-out); }
 @keyframes dsui-del-shake { 0%, 100% { transform: translateX(0); } 12% { transform: translateX(-7px); } 26% { transform: translateX(6px); } 40% { transform: translateX(-5px); } 54% { transform: translateX(4px); } 68% { transform: translateX(-2px); } 82% { transform: translateX(1px); } }
 
 .dsui-delbtn__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

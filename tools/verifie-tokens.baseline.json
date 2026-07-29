@@ -5,63 +5,9 @@
     {
       "file": "components/app-layout/app-layout.css",
       "type": "fallback-dupliquant",
-      "motif": "--duration-base",
-      "occurrences": 3,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "fallback-dupliquant",
-      "motif": "--ease-out",
-      "occurrences": 3,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "fallback-dupliquant",
       "motif": "--elevation-overlay",
       "occurrences": 2,
       "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "fallback-dupliquant",
-      "motif": "--space-md",
-      "occurrences": 2,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "dimension-en-dur",
-      "motif": "1024px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "dimension-en-dur",
-      "motif": "1280px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.css",
-      "type": "dimension-en-dur",
-      "motif": "640px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 7 (gabarits)"
     },
@@ -98,15 +44,6 @@
       "motif": "max-w-[880px]",
       "occurrences": 1,
       "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.tsx",
-      "type": "rounded-full",
-      "motif": "rounded-full",
-      "occurrences": 3,
-      "nature": "rounded-full",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 7 (gabarits)"
     },
@@ -186,7 +123,7 @@
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
       "motif": "14px",
-      "occurrences": 2,
+      "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -195,7 +132,7 @@
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
       "motif": "16px",
-      "occurrences": 13,
+      "occurrences": 4,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -205,15 +142,6 @@
       "type": "dimension-en-dur",
       "motif": "18px",
       "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "1px",
-      "occurrences": 10,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -239,26 +167,17 @@
     {
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
-      "motif": "22rem",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
       "motif": "24px",
-      "occurrences": 8,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
+      "justification": "rythme dense compact (2×12px) du média — le 12px hors échelle est la vraie dette (vague 5) ; édition manuelle 2026-07-29 après un update intermédiaire qui avait figé un état transitoire",
       "vague": "vague 5 (CardGroup)"
     },
     {
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
       "motif": "32px",
-      "occurrences": 3,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -275,43 +194,7 @@
     {
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
-      "motif": "34rem",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
       "motif": "3px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "46rem",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "48px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "4px",
       "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
@@ -366,7 +249,7 @@
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
       "motif": "8px",
-      "occurrences": 9,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -439,33 +322,6 @@
       "type": "fallback-dupliquant",
       "motif": "--crump-y",
       "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--ease-out",
-      "occurrences": 2,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--font-sans",
-      "occurrences": 3,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--radius-md",
-      "occurrences": 4,
       "nature": "fallback-dupliquant",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -545,26 +401,8 @@
     {
       "file": "components/delete-button/delete-button.css",
       "type": "dimension-en-dur",
-      "motif": "12px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "dimension-en-dur",
-      "motif": "14px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "dimension-en-dur",
       "motif": "16px",
-      "occurrences": 7,
+      "occurrences": 4,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -590,15 +428,6 @@
     {
       "file": "components/delete-button/delete-button.css",
       "type": "duree-en-dur",
-      "motif": "1s",
-      "occurrences": 1,
-      "nature": "duree-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/delete-button/delete-button.css",
-      "type": "duree-en-dur",
       "motif": "2400ms",
       "occurrences": 2,
       "nature": "duree-en-dur",
@@ -609,7 +438,7 @@
       "file": "components/delete-button/delete-button.css",
       "type": "dimension-en-dur",
       "motif": "24px",
-      "occurrences": 4,
+      "occurrences": 3,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -636,7 +465,7 @@
       "file": "components/delete-button/delete-button.css",
       "type": "dimension-en-dur",
       "motif": "4px",
-      "occurrences": 3,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -654,7 +483,7 @@
       "file": "components/delete-button/delete-button.css",
       "type": "dimension-en-dur",
       "motif": "8px",
-      "occurrences": 3,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -694,69 +523,6 @@
       "nature": "z-index-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--container-narrow",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--duration-slow",
-      "occurrences": 2,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--ease-out",
-      "occurrences": 2,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--overlay",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--radius-lg",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "fallback-dupliquant",
-      "motif": "--rail-nav",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/drawer/drawer.css",
-      "type": "hex-en-dur",
-      "motif": "#030712",
-      "occurrences": 1,
-      "nature": "hex-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
     },
     {
       "file": "components/drawer/drawer.tsx",
@@ -811,33 +577,6 @@
       "nature": "arbitraire",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 2 (Select/Switch)"
-    },
-    {
-      "file": "components/submit-button/submit-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--ease-out",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/submit-button/submit-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--font-sans",
-      "occurrences": 3,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/submit-button/submit-button.css",
-      "type": "fallback-dupliquant",
-      "motif": "--radius-md",
-      "occurrences": 4,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
     },
     {
       "file": "components/submit-button/submit-button.css",
@@ -896,17 +635,8 @@
     {
       "file": "components/submit-button/submit-button.css",
       "type": "dimension-en-dur",
-      "motif": "12px",
-      "occurrences": 3,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (expressifs)"
-    },
-    {
-      "file": "components/submit-button/submit-button.css",
-      "type": "dimension-en-dur",
       "motif": "14px",
-      "occurrences": 3,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -915,7 +645,7 @@
       "file": "components/submit-button/submit-button.css",
       "type": "dimension-en-dur",
       "motif": "16px",
-      "occurrences": 6,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -951,7 +681,7 @@
       "file": "components/submit-button/submit-button.css",
       "type": "dimension-en-dur",
       "motif": "24px",
-      "occurrences": 4,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -996,7 +726,7 @@
       "file": "components/submit-button/submit-button.css",
       "type": "dimension-en-dur",
       "motif": "4px",
-      "occurrences": 2,
+      "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -1041,7 +771,7 @@
       "file": "components/submit-button/submit-button.css",
       "type": "dimension-en-dur",
       "motif": "8px",
-      "occurrences": 3,
+      "occurrences": 2,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (expressifs)"
@@ -1102,36 +832,9 @@
     },
     {
       "file": "components/theme-toggle/theme-toggle.css",
-      "type": "fallback-dupliquant",
-      "motif": "--space-sm",
-      "occurrences": 1,
-      "nature": "fallback-dupliquant",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "10px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "12px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
       "type": "dimension-en-dur",
       "motif": "14px",
-      "occurrences": 2,
+      "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (spécialisés)"
@@ -1140,7 +843,7 @@
       "file": "components/theme-toggle/theme-toggle.css",
       "type": "dimension-en-dur",
       "motif": "16px",
-      "occurrences": 3,
+      "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (spécialisés)"
@@ -1157,108 +860,9 @@
     {
       "file": "components/theme-toggle/theme-toggle.css",
       "type": "dimension-en-dur",
-      "motif": "20px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "22px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "24px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "28px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
       "motif": "2px",
       "occurrences": 2,
       "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "36px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "46px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "56px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "5px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "6px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "dimension-en-dur",
-      "motif": "7px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 8 (spécialisés)"
-    },
-    {
-      "file": "components/theme-toggle/theme-toggle.css",
-      "type": "rgba-en-dur",
-      "motif": "rgba(3, 7, 18, .25)",
-      "occurrences": 1,
-      "nature": "rgba-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 8 (spécialisés)"
     },
@@ -1299,15 +903,6 @@
       "vague": "vague 4 (Alert/Toast)"
     },
     {
-      "file": "components/toast/toast.css",
-      "type": "z-index-en-dur",
-      "motif": "z-index:60",
-      "occurrences": 1,
-      "nature": "z-index-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 4 (Alert/Toast)"
-    },
-    {
       "file": "components/toast/toast.tsx",
       "type": "arbitraire",
       "motif": "max-w-[24rem]",
@@ -1316,5 +911,6 @@
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 4 (Alert/Toast)"
     }
-  ]
+  ],
+  "maj": "verifie-tokens --update-baseline (réductions uniquement)"
 }

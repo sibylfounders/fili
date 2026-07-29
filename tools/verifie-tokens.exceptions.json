@@ -100,5 +100,65 @@
     "motif": "0s",
     "classe": "accessibilité",
     "raison": "prefers-reduced-motion : transition coupée net (0s) — la valeur EST la règle d'accessibilité."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "1px",
+    "classe": "géométrie-filets",
+    "raison": "Filets internes de la collection (séparateurs 1px) et couture des coins joints (calc(radius - 1px)) — épaisseur de trait, pas un espacement."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "34rem",
+    "classe": "requête-conteneur",
+    "raison": "Seuil de container query — var() est INTERDIT par CSS dans une condition de requête, la valeur littérale est structurellement forcée."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "46rem",
+    "classe": "requête-conteneur",
+    "raison": "Idem : seuil de container query, littéral forcé par CSS."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "22rem",
+    "classe": "requête-conteneur",
+    "raison": "Idem : seuil de repli inline→empilé, littéral forcé par CSS."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "56.25%",
+    "classe": "géométrie",
+    "raison": "Ratio 16:9 du média (padding-top hack) — géométrie, pas un espacement."
+  },
+  {
+    "file": "components/app-layout/app-layout.css",
+    "motif": "1024px",
+    "classe": "requête-conteneur",
+    "raison": "Seuil de container query du shell — littéral forcé par CSS (aligné sur breakpoint.tablet, à vérifier à chaque changement de DESIGN.md)."
+  },
+  {
+    "file": "components/app-layout/app-layout.css",
+    "motif": "1280px",
+    "classe": "requête-conteneur",
+    "raison": "Seuil de container query du shell — littéral forcé (aligné sur breakpoint.desktop)."
+  },
+  {
+    "file": "components/app-layout/app-layout.css",
+    "motif": "640px",
+    "classe": "requête-conteneur",
+    "raison": "Seuil de container query — littéral forcé par CSS."
+  },
+  {
+    "file": "components/drawer/drawer.css",
+    "motif": "#030712",
+    "classe": "scène-depth",
+    "raison": "Fond de la Depth Transition (le contenu recule sur fond noir froid) — décor de scène du geste, identique clair/sombre par intention."
+  },
+  {
+    "file": "components/theme-toggle/theme-toggle.css",
+    "motif": "rgba(3, 7, 18, .25)",
+    "classe": "mécanique",
+    "raison": "Ombre du pouce (knob) — micro-relief local du contrôle, sous l'échelle elevation."
   }
 ]

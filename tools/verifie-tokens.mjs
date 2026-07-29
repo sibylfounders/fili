@@ -119,19 +119,32 @@ for (const [file, src] of sources) {
       if (/rounded-full/.test(l)) push(file, n, "rounded-full", "rounded-full", "préférer rounded-pill (token)");
     }
     if (file.endsWith(".css")) {
+      // Une DÉFINITION de variable locale (`--tt-w: 36px`) est la tokenisation locale du
+      // composant — classée « définition-var-locale », jamais comptée en dette (la dette,
+      // c'est la valeur consommée en dur, pas la valeur nommée). On retire ces segments
+      // de la ligne AVANT le balayage (multi-déclarations comprises) en les comptant.
+      let defs = 0;
+      const sansDefs = l.replace(/--[\w-]+\s*:[^;{}]*/g, (seg) => {
+        for (const mm of seg.matchAll(/(?<![\w.-])\d*\.?\d+(?:px|rem|em|ms|s)(?![\w-])|#(?:[0-9a-fA-F]{3}){1,2}\b|(?:rgba?|hsla?)\([^)]+\)/g)) {
+          findings.push({ file, line: n, type: "définition", motif: mm[0], detail: seg.trim().slice(0, 60), exc: "définition-var-locale" });
+          defs++;
+        }
+        return "--def:_";
+      });
+      const pousseDur = (t, m, d) => push(file, n, t, m, d);
       // masque les fallbacks var() déjà comptés, puis cherche les valeurs en dur restantes
-      const hors = l.replace(/var\([^)]*\)/g, "var()");
+      const hors = sansDefs.replace(/var\([^)]*\)/g, "var()");
       for (const m of hors.matchAll(/#(?:[0-9a-fA-F]{3}){1,2}\b/g)) {
         if (m[0] === "#000" && /mask|linear-gradient\(#000/.test(l)) continue; // masque géométrique
-        push(file, n, "hex-en-dur", m[0], l.trim().slice(0, 80));
+        pousseDur("hex-en-dur", m[0], l.trim().slice(0, 80));
       }
-      for (const m of hors.matchAll(/(?:rgba?|hsla?)\([^)]+\)/g)) push(file, n, "rgba-en-dur", m[0], l.trim().slice(0, 60));
+      for (const m of hors.matchAll(/(?:rgba?|hsla?)\([^)]+\)/g)) pousseDur("rgba-en-dur", m[0], l.trim().slice(0, 60));
       for (const m of hors.matchAll(/(?<![\w.-])(\d*\.?\d+)(px|rem|em)(?![\w-])/g)) {
         if (m[1] === "0") continue;
-        push(file, n, "dimension-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 70));
+        pousseDur("dimension-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 70));
       }
-      for (const m of hors.matchAll(/(?<![\w.-])(\d*\.?\d+)(ms|s)(?![\w-])/g)) push(file, n, "duree-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 60));
-      for (const m of hors.matchAll(/z-index\s*:\s*(\d+)/g)) push(file, n, "z-index-en-dur", `z-index:${m[1]}`, "hors échelle --z-*");
+      for (const m of hors.matchAll(/(?<![\w.-])(\d*\.?\d+)(ms|s)(?![\w-])/g)) pousseDur("duree-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 60));
+      for (const m of hors.matchAll(/z-index\s*:\s*(\d+)/g)) pousseDur("z-index-en-dur", `z-index:${m[1]}`, "hors échelle --z-*");
     }
   });
 }
