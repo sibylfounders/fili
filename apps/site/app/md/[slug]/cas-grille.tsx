@@ -92,6 +92,7 @@ export function CasGrille({ famille, cas }: { famille: string; cas: Cas[] }) {
                   <div className="flex flex-wrap gap-sm">
                     {ouvert.regles.map((r, i) =>
                       r.id ? (
+                        /* FILI-MANQUE: chip-renvoi */
                         <button
                           key={i}
                           type="button"

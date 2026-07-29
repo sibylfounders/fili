@@ -195,6 +195,7 @@ export function DecisionsGrille({
                 <Champ titre="Situations qui l'éprouvent">
                   <div className="flex flex-wrap gap-sm">
                     {d.cas.map((x) => (
+                      /* FILI-MANQUE: chip-renvoi */
                       <button
                         key={x.id}
                         type="button"

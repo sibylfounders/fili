@@ -16,7 +16,7 @@
 //   - un composant sans doctrine est status "stable" (dette documentée) ;
 //   - une entrée experimental (jamais proposée aux agents par le catalogue).
 // ─────────────────────────────────────────────────────────────────────────────
-import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -45,7 +45,7 @@ const warn = (m) => { console.warn(`  ⚠ ${m}`); warns++; };
 const byName = Object.fromEntries(MANIFEST.map((e) => [e.name, e]));
 
 // ── 1. Bijection dossiers ↔ manifeste ────────────────────────────────────────
-const dirs = readdirSync(COMPONENTS).filter((d) => !d.startsWith("."));
+const dirs = readdirSync(COMPONENTS).filter((d) => !d.startsWith(".") && !d.startsWith("__"));
 for (const d of dirs) {
   const name = DIR_TO_NAME[d];
   if (!name) { fail(`dossier components/${d} inconnu du mapping du vérificateur`); continue; }
@@ -64,9 +64,50 @@ for (const e of MANIFEST) {
     if (!existsSync(join(MD, ref.split(" ")[0].replace(/ .*/, "")))) fail(`${e.name} : doctrine ${k} introuvable — ${ref}`);
   }
   if (e.rules && !existsSync(join(RULES, e.rules))) fail(`${e.name} : RULES introuvable — dist/build/${e.rules}`);
-  if (!e.doctrine && e.status === "stable") warn(`${e.name} : stable sans doctrine (dette à résorber)`);
+  if (!e.doctrine && e.status === "stable" && !e.dette)
+    fail(`${e.name} : stable sans doctrine NI dette qualifiée — compléter, qualifier (champ dette), ou requalifier experimental/interne`);
   if (e.status === "experimental") warn(`${e.name} : experimental — non proposé aux agents`);
+  // Contrat d'un composant STABLE (fermeture §5) : exemple compilable, accessibilité,
+  // anti-patterns. (Les axes typés sont garantis par tsc via axe<U>() ; l'atelier au §4.)
+  if (e.status === "stable" && e.package === "@fili/react") {
+    if (!e.canonicalExamples?.length) fail(`${e.name} : stable sans exemple canonique compilable`);
+    if (!e.accessibility?.length) fail(`${e.name} : stable sans exigences accessibles minimales`);
+    if (!e.antiPatterns?.length) fail(`${e.name} : stable sans anti-patterns principaux`);
+  }
 }
+
+// ── 2bis. fiches de manque (MISSING-COMPONENT-PROTOCOL) ──────────────────────
+import { readdirSync as rd } from "node:fs";
+const MANQUES = join(ROOT, "apps/site/content/md/inventaires/manques");
+const marqueurs = new Map(); // slug → [files]
+(function scanApps(dir) {
+  for (const en of rd(dir)) {
+    if (en === "node_modules" || en === ".next" || en.startsWith(".")) continue;
+    const p = join(dir, en);
+    const st = require0(p);
+    if (st.isDirectory()) scanApps(p);
+    else if (/\.(tsx|jsx)$/.test(en))
+      for (const m of readFileSync(p, "utf8").matchAll(/FILI-MANQUE:\s*([\w-]+)/g))
+        marqueurs.set(m[1], [...(marqueurs.get(m[1]) ?? []), p]);
+  }
+})(join(ROOT, "apps"));
+function require0(p) { return statSync(p); }
+if (existsSync(MANQUES)) {
+  for (const f of rd(MANQUES).filter((x) => x.endsWith(".md"))) {
+    const slug = f.replace(/\.md$/, "");
+    const corps = readFileSync(join(MANQUES, f), "utf8");
+    const statut = corps.match(/-\s*Statut\s*:\s*(\S+)/)?.[1];
+    if (!statut || !["proposé", "validé", "refusé", "résolu"].includes(statut))
+      fail(`manque ${slug} : Statut absent ou invalide (proposé | validé | refusé | résolu)`);
+    if (statut === "résolu" && marqueurs.has(slug))
+      fail(`manque ${slug} : marqué résolu mais des implémentations locales FILI-MANQUE subsistent (${marqueurs.get(slug).length})`);
+    const promo = corps.match(/-\s*Promotion\s*:\s*(\w+)/)?.[1];
+    if (promo && !byName[promo]) fail(`manque ${slug} : annonce une promotion « ${promo} » absente du manifeste`);
+  }
+}
+for (const [slug, fichiers] of marqueurs)
+  if (!existsSync(join(MANQUES, `${slug}.md`)))
+    fail(`FILI-MANQUE: ${slug} sans fiche (${fichiers.length} marqueur(s)) — créer content/md/inventaires/manques/${slug}.md`);
 
 // ── 3. Fraîcheur des RULES vs sources ────────────────────────────────────────
 for (const e of MANIFEST) {

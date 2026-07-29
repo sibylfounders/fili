@@ -24,6 +24,7 @@
     "react-dom": ">=18"
   },
   "scripts": {
-    "manifeste": "node build/genere-manifeste.mjs"
+    "manifeste": "node build/genere-manifeste.mjs",
+    "test": "vitest run"
   }
 }

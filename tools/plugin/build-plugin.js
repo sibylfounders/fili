@@ -56,6 +56,53 @@ const { genere: genereCatalogue } = require('./genere-catalogue.js');
 const cat = genereCatalogue(SKILL_DIR);
 console.log(`  KIT-socle + ${cat.fichiers - 1} contrats d'intention @fili/react (${cat.composants} composants du manifeste)`);
 
+// 2ter. livrables du contrat : tout ce que les KIT référencent DOIT être dans le paquet
+const LIVRABLES = [
+  [path.join(RACINE, 'FILI-COMPONENT-CONTRACT.md'), path.join(SKILL_DIR, 'FILI-COMPONENT-CONTRACT.md')],
+  [path.join(RACINE, 'MISSING-COMPONENT-PROTOCOL.md'), path.join(SKILL_DIR, 'MISSING-COMPONENT-PROTOCOL.md')],
+  [path.join(RACINE, 'tools', 'fili-check.mjs'), path.join(BUILD, 'fili-check.mjs')],
+  [path.join(PLUGIN_SRC, 'fili-check.config.example.json'), path.join(BUILD, 'fili-check.config.example.json')],
+  [path.join(PLUGIN_SRC, 'modele-fiche-manque.md'), path.join(BUILD, 'modele-fiche-manque.md')],
+  [path.join(RACINE, 'packages', 'react', 'manifest.json'), path.join(BUILD, 'manifest.json')],
+];
+for (const [src, dst] of LIVRABLES) {
+  if (!fs.existsSync(src)) { console.error(`✗ livrable manquant : ${path.relative(RACINE, src)}`); process.exit(1); }
+  fs.copyFileSync(src, dst);
+}
+console.log(`  ${LIVRABLES.length} livrables du contrat (Contract, Protocol, fili-check + config, modèle de fiche, manifest.json)`);
+
+// 2quater. AUTO-TEST du validateur livré : le paquet ne part jamais avec un
+// fili-check qui ne détecte plus ses cas de référence (fixtures ±).
+try {
+  execFileSync(process.execPath, [path.join(RACINE, 'tools', 'teste-fili-check.mjs')], { stdio: 'inherit' });
+} catch (e) {
+  console.error('✗ auto-test de fili-check en échec — paquet NON produit');
+  process.exit(1);
+}
+
+// 2quinquies. LIENS : tout fichier référencé par un KIT-* doit exister dans le paquet.
+const inventaireBuild = new Set();
+(function liste(d) {
+  for (const f of fs.readdirSync(d)) {
+    const p = path.join(d, f);
+    if (fs.statSync(p).isDirectory()) liste(p); else inventaireBuild.add(f);
+  }
+})(BUILD);
+let liensMorts = 0;
+for (const kit of fs.readdirSync(SKILL_DIR).filter((f) => f.startsWith('KIT-'))) {
+  const corps = fs.readFileSync(path.join(SKILL_DIR, kit), 'utf8');
+  for (const m of corps.matchAll(/([\w][\w.-]*\.(?:md|mjs|json))\b/g)) {
+    const ref = m[1];
+    if (/^(tokens\.yaml|tokens\.css|package\.json)$/.test(ref)) continue; // génériques
+    if (ref.endsWith('.md') && ref.startsWith('RULES-')) { if (!inventaireBuild.has(ref)) { console.error(`✗ ${kit} référence ${ref}, absent du paquet`); liensMorts++; } continue; }
+    if (['FILI-COMPONENT-CONTRACT.md','MISSING-COMPONENT-PROTOCOL.md','fili-check.mjs','fili-check.config.example.json','modele-fiche-manque.md','manifest.json','KIT-socle.md'].includes(ref) || ref.startsWith('KIT-')) {
+      if (!inventaireBuild.has(ref)) { console.error(`✗ ${kit} référence ${ref}, absent du paquet`); liensMorts++; }
+    }
+  }
+}
+if (liensMorts) { console.error(`✗ ${liensMorts} lien(s) documentaire(s) mort(s) — paquet NON produit`); process.exit(1); }
+console.log('  liens documentaires des KIT vérifiés (0 mort)');
+
 // 3. tokens ------------------------------------------------------------------
 const { version: versionDesign } = require('./genere-tokens.js');
 

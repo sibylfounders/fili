@@ -75,22 +75,28 @@ resume: Contrat d'implémentation @fili/react — inventaire réel du kit et rè
 
 1. **Ne recrée jamais ce que le kit fournit** : pas de \`<button>\`/\`<input>\`/\`<select>\`
    natifs stylés à la main, pas de \`<div onClick>\`, pas de carte en div+border+shadow.
-   Le validateur \`tools/verifie-consommation.mjs\` le détecte.
+   Le validateur LIVRÉ DANS CE PAQUET le détecte (AST TypeScript, fichier complet) :
+   \`node fili-check.mjs . --manifest manifest.json\` depuis la racine du projet —
+   à brancher avant toute publication. Configuration : copier
+   \`fili-check.config.example.json\` vers \`.fili/fili-check.config.json\`.
 2. **N'utilise jamais** les composants au statut \`interne\`${internes.length ? ` (${internes.map((e) => e.name).join(', ')})` : ''} ;
    les \`experimental\`${experimentaux.length ? ` (${experimentaux.map((e) => e.name).join(', ')})` : ' (aucun aujourd\'hui)'} ne sont pas proposés par défaut.
-3. **Composant manquant** : suis MISSING-COMPONENT-PROTOCOL.md — réutiliser → composer →
-   qualifier → produire une fiche de manque → faire valider. En attendant la validation,
-   marque toute implémentation locale \`/* FILI-MANQUE: <slug> */\`. N'ajoute JAMAIS une
-   API publique silencieusement.
-4. **Axes** : mêmes mots, mêmes sens partout (FILI-COMPONENT-CONTRACT.md) — \`variant\`
+3. **Composant manquant** : suis MISSING-COMPONENT-PROTOCOL.md (livré dans ce paquet) —
+   réutiliser → composer → qualifier → produire une fiche de manque (modèle :
+   \`modele-fiche-manque.md\`, à déposer dans \`.fili/manques/<slug>.md\` de TON projet) →
+   faire valider. En attendant, marque l'implémentation locale \`/* FILI-MANQUE: <slug> */\`
+   (fili-check la recense au lieu de la sanctionner — sans fiche, il échoue). N'ajoute
+   JAMAIS une API publique silencieusement.
+4. **Axes** : mêmes mots, mêmes sens partout (FILI-COMPONENT-CONTRACT.md, livré dans ce paquet) — \`variant\`
    (facture), \`tone\` (registre), \`size\` (échelle sm/md/lg), \`status\` (état subi),
    \`mode\` (interaction des surfaces), \`density\`, \`context\`. Largeurs de contenu :
    narrow/default/wide/full. Directions : start/end. Sur Button/CompactButton, \`style\`
    est un alias DÉPRÉCIÉ de \`variant\`.
 5. **Tokens** : jamais de valeur en dur si un rôle existe ; les rôles transversaux
    (\`--control-*\`, \`--field-*\`, \`--surface-*\`, \`--overlay-*\`) et les alias de
-   composant (\`--button-radius\`…) portent la cascade. Le focus est UNIQUE :
-   \`.ds-focus-ring\` (outline accent) — n'invente jamais un anneau.
+   composant (\`--button-radius\`…) portent la cascade. Le focus a UNE géométrie
+   (\`.ds-focus-ring\`, outline 2px) et une couleur en cran SUBTIL accordé à la
+   bordure/état (\`--control-focus-*\`, défaut primary éclairci) — n'invente jamais un anneau.
 
 ## Inventaire (${manifest.length} composants)
 

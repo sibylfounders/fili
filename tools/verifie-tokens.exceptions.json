@@ -58,5 +58,47 @@
     "motif": "--ds-drawer-w",
     "classe": "var-locale",
     "raison": "Largeur réelle du cran courant, posée par le composant pour le push du Frame."
+  },
+  {
+    "file": "components/button/relief.css",
+    "motif": "1px",
+    "classe": "mécanique-relief",
+    "raison": "Facettes du relief : liseré haut inset 1px et filet 0 0 0 1px — géométrie de la grammaire posé/creusé (Figma 128:136), pas des espacements."
+  },
+  {
+    "file": "components/button/relief.css",
+    "motif": "0.5px",
+    "classe": "mécanique-relief",
+    "raison": "Course d'enfoncement du pressé (translateY 0.5px) — géométrie du geste, sous le pas minimal de l'échelle spacing."
+  },
+  {
+    "file": "components/card/card.css",
+    "motif": "24rem",
+    "classe": "géométrie-adaptive",
+    "raison": "Seuil de la container query dérivé du CONTENU RÉEL de la Card (média+titre+description côte à côte), jamais un breakpoint partagé — documenté dans le fichier (ADAPTIVE-UI)."
+  },
+  {
+    "file": "components/nav/nav.tsx",
+    "motif": "text-[11px]",
+    "classe": "typo-overline",
+    "raison": "Cran micro des têtes de groupe (overline), hors échelle typo actuelle — hérité de la facture AppLayout validée ; candidat token caption/overline (décision ouverte, cf. rapport)."
+  },
+  {
+    "file": "components/skeleton/skeleton.css",
+    "motif": "1.4s",
+    "classe": "mécanique-emotion",
+    "raison": "Pulsation du squelette — rythme d'attente propre au composant, hors des durées d'interaction (fast/base/slow) qui plafonnent à 400ms."
+  },
+  {
+    "file": "lib/interaction.css",
+    "motif": "z-index:0",
+    "classe": "géométrie",
+    "raison": "Empilement LOCAL sous isolation:isolate (ombre pré-rendue derrière la surface) — pas une couche du système --z-*."
+  },
+  {
+    "file": "lib/interaction.css",
+    "motif": "0s",
+    "classe": "accessibilité",
+    "raison": "prefers-reduced-motion : transition coupée net (0s) — la valeur EST la règle d'accessibilité."
   }
 ]

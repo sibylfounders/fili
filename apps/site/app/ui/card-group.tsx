@@ -13,7 +13,7 @@ export interface CardState {
   description: boolean;
   buttons: boolean;
   density: "comfortable" | "compact" | string;
-  orientation: "défaut" | "inline" | string;
+  orientation: "stacked" | "inline" | string;
   cols: "1" | "2" | "3" | string;
   separated: boolean;
   mode: "static" | "clickable" | "selectable" | string;

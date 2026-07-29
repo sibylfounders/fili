@@ -1,0 +1,15 @@
+{
+  "note": "Configuration MONOREPO de fili-check (consommée par tools/verifie-consommation.mjs). Aucune exclusion implicite : chaque entrée est justifiée ici.",
+  "roots": ["apps/site/app"],
+  "exclude": [
+    {
+      "path": "apps/site/app/ui",
+      "raison": "Atelier : infrastructure du playground (poignée de redimensionnement, boutons de sélection d'entrée) et démonstrations VOLONTAIRES de l'API — les cartes recréées y sont couvertes par verifie-kit.py ; l'invariant @sibyl y reste contrôlé par le balayage global de verifie-consommation."
+    },
+    {
+      "path": "apps/site/app/test",
+      "raison": "Pages de test internes (cas d'usage) — hors produit, jamais publiées en navigation."
+    }
+  ],
+  "allow": []
+}

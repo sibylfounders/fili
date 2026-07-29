@@ -3,7 +3,7 @@
  * Les axes sont vérifiés à la compilation contre les unions réelles des composants
  * (inline `import type` : aucune dépendance runtime, le JSON se génère sans bundler).
  */
-import { axe, type Entree } from "./schema";
+import { axe, propsDe, anatomie, type Entree } from "./schema";
 import type { VariantProps } from "class-variance-authority";
 
 type ButtonVariants = VariantProps<typeof import("../components/button/button").buttonVariants>;
@@ -21,6 +21,15 @@ type InputSize = NonNullable<InputVariants["size"]>;
 type CardMode = import("../lib/interaction").InteractionMode;
 type CardVariants = VariantProps<typeof import("../components/card/card").cardRootVariants>;
 type CardDensity = NonNullable<CardVariants["density"]>;
+
+type ButtonP = import("../components/button/button").ButtonProps;
+type CompactButtonP = import("../components/compact-button/compact-button").CompactButtonProps;
+type InputP = import("../components/input/input").InputRootProps & import("../components/input/input").InputFieldProps;
+type CardP = import("../components/card/card").CardRootProps;
+type ButtonC = typeof import("../components/button/button").Button;
+type CompactButtonC = typeof import("../components/compact-button/compact-button").CompactButton;
+type InputC = typeof import("../components/input/input").Input;
+type CardC = typeof import("../components/card/card").Card;
 
 const VARIANT_BOUTON = {
   filled: "fond plein + texte on-* — l'action qui doit se voir",
@@ -44,7 +53,7 @@ export const button: Entree = {
   purpose: "Déclencher une action. Jamais une navigation (→ Link) ni un avertissement (→ Alert).",
   doctrine: { ux: "components/BUTTON-UX.md", ui: "components/BUTTON-UI.md" },
   rules: "RULES-button.md",
-  anatomy: ["Button.Root", "Button.Icon"],
+  anatomy: anatomie<ButtonC>("Button", ["Root", "Icon"]),
   axes: {
     variant: axe<ButtonVariant>({
       kind: "variant",
@@ -66,7 +75,7 @@ export const button: Entree = {
       default: "md",
     }),
   },
-  props: {
+  props: propsDe<ButtonP>()({
     style: {
       type: "ButtonVariant",
       description: "Ancien nom de variant.",
@@ -75,17 +84,17 @@ export const button: Entree = {
     iconOnly: { type: "boolean", default: "false", description: "Bouton carré (largeur = hauteur) — exige un aria-label." },
     asChild: { type: "boolean", default: "false", description: "Rend l'enfant à la place du <button> (Radix Slot)." },
     loading: { type: "boolean", default: "false", description: "Squelette de chargement aux mêmes dimensions (aria-busy, désactivé)." },
-  },
+  }),
   tokens: [
     "--button-radius → --control-radius",
-    "--control-focus-* (anneau unique BORDER via .ds-focus-ring)",
+    "--control-focus-* (géométrie unique .ds-focus-ring ; couleur = cran subtil accordé au tone, défaut primary éclairci)",
     "--control-raised-shadow / --control-hover-shadow / --control-pressed-shadow (relief posé)",
     "familles primary / neutral·surface-inverse / danger selon le tone",
   ],
   states: ["default", "hover", "focus-visible", "active/pressed (relief s'enfonce)", "disabled", "loading"],
   accessibility: [
     "type=button par défaut (jamais submit implicite)",
-    "focus ring accent ≥ 3:1 sur fond de page",
+    "focus ring v2 : cran subtil accordé au tone (primary/neutral/danger), géométrie BORDER unique",
     "disabled garde le curseur not-allowed (cause à exposer en usage)",
     "iconOnly exige aria-label",
   ],
@@ -122,7 +131,7 @@ export const compactButton: Entree = {
   purpose: "Bouton icon-only pour les espaces contraints (fermer, développer, action en ligne).",
   doctrine: { ux: "components/BUTTON-UX.md", ui: "components/BUTTON-UI.md" },
   rules: "RULES-button.md",
-  anatomy: ["CompactButton.Root", "CompactButton.Icon"],
+  anatomy: anatomie<CompactButtonC>("CompactButton", ["Root", "Icon"]),
   axes: {
     variant: axe<ButtonVariant>({
       kind: "variant",
@@ -143,15 +152,15 @@ export const compactButton: Entree = {
       default: "md",
     }),
   },
-  props: {
+  props: propsDe<CompactButtonP>()({
     style: { type: "ButtonVariant", description: "Ancien nom de variant.", deprecated: "Utiliser `variant`." },
     fullRadius: { type: "boolean", default: "false", description: "Cercle (true) vs arrondi --button-radius (false)." },
     "aria-label": { type: "string", required: true, description: "OBLIGATOIRE — icône seule, sans exception WCAG." },
     loading: { type: "boolean", default: "false", description: "Squelette de chargement." },
-  },
+  }),
   tokens: ["--button-radius", "--control-focus-*", "mêmes familles de tone que Button"],
   states: ["default", "hover", "focus-visible", "disabled", "loading"],
-  accessibility: ["aria-label requis par le type", "focus ring accent unique"],
+  accessibility: ["aria-label requis par le type", "focus ring v2 accordé au tone"],
   antiPatterns: ["S'en servir pour une action principale libellée (→ Button)"],
   canonicalExamples: [
     {
@@ -173,10 +182,10 @@ export const input: Entree = {
     "La zone réceptive du formulaire (relief creusé). API compound Root > Wrapper > (Icon · Input · InlineAffix) + Affix ; sous-composants Password / Search / Number / Textarea.",
   doctrine: { ux: "components/INPUT-UX.md", ui: "components/INPUT-UI.md", pattern: "patterns/FORM" },
   rules: "RULES-input.md",
-  anatomy: [
-    "Input.Root", "Input.Wrapper", "Input.Icon", "Input.Input", "Input.InlineAffix", "Input.Affix",
-    "Input.Password", "Input.Search", "Input.Number", "Input.Textarea",
-  ],
+  anatomy: anatomie<InputC>("Input", [
+    "Root", "Wrapper", "Icon", "Input", "InlineAffix", "Affix",
+    "Password", "Search", "Number", "Textarea",
+  ]),
   axes: {
     status: axe<InputStatus>({
       kind: "status",
@@ -197,11 +206,11 @@ export const input: Entree = {
       default: "md",
     }),
   },
-  props: {
+  props: propsDe<InputP>()({
     clearable: { type: "boolean", default: "false", description: "Croix d'effacement standard (Input.Input)." },
     loading: { type: "boolean", default: "false", description: "Squelette de chargement (Root)." },
     asChild: { type: "boolean", default: "false", description: "Slot Radix sur Root." },
-  },
+  }),
   tokens: [
     "--input-radius → --control-radius (md/lg ; sm garde radius-sm)",
     "--input-border → --field-border ; --field-inset-shadow (relief creusé)",
@@ -251,10 +260,10 @@ export const card: Entree = {
     "La surface de contenu autonome, adaptée à SON conteneur (container query, jamais le viewport). Identité fixe (outlined, relief au survol si interactive) — pas de tone.",
   doctrine: { ux: "components/CARD-UX.md", ui: "components/CARD-UI.md", pattern: "patterns/COLLECTION" },
   rules: "RULES-card.md",
-  anatomy: [
-    "Card.Root", "Card.Media", "Card.Header", "Card.Body", "Card.Title",
-    "Card.TitleLink", "Card.Description", "Card.Actions", "Card.Chevron", "Card.Skeleton",
-  ],
+  anatomy: anatomie<CardC>("Card", [
+    "Root", "Media", "Header", "Body", "Title",
+    "TitleLink", "Description", "Actions", "Chevron", "Skeleton",
+  ]),
   axes: {
     mode: axe<CardMode>({
       kind: "mode",
@@ -275,11 +284,11 @@ export const card: Entree = {
       default: "comfortable",
     }),
   },
-  props: {
+  props: propsDe<CardP>()({
     selected: { type: "boolean", description: "État sélectionné (mode selectable)." },
     adaptiveMedia: { type: "boolean", default: "true", description: "Media passe à côté du contenu dès ~24rem de largeur RÉELLE." },
     loading: { type: "boolean", default: "false", description: "Rend Card.Skeleton aux mêmes proportions." },
-  },
+  }),
   tokens: [
     "--card-radius → --surface-radius (cran lg des surfaces conteneur)",
     ".ds-interactive / .ds-interactive-target (langage INTERACTION : relief hover, lien étendu)",

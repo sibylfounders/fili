@@ -56,8 +56,11 @@ export interface Entree {
   category: Categorie;
   /** L'intention UX en une phrase — ce que le composant EST, pas comment il est fait. */
   purpose: string;
-  /** Sources doctrinales (fichiers content/md) — null = dette documentée. */
+  /** Sources doctrinales (fichiers content/md) — null EXIGE le champ `dette`. */
   doctrine: { ux?: string; ui?: string; pattern?: string } | null;
+  /** Qualification EXPLICITE de la dette doctrinale d'un composant stable sans doctrine
+      (le vérificateur refuse un stable sans doctrine NI dette — pas d'avertissement permanent). */
+  dette?: string;
   /** Fiche RULES compilée correspondante (dist/build/RULES-<x>.md), si elle existe. */
   rules: string | null;
   /** Sous-composants de l'API compound, dans l'ordre d'imbrication. */
@@ -93,4 +96,23 @@ export function axe<U extends string>(def: {
   default: U | null;
 }): Axe {
   return def as Axe;
+}
+
+/**
+ * Constructeur de PROPS VÉRIFIÉ : `propsDe<P>()` refuse toute clé absente de l'API
+ * publique réelle P (une prop inventée ou une dépréciée disparue casse tsc).
+ * Limite honnête : P étend les attributs HTML — une invention qui collisionne avec un
+ * attribut DOM passe ; tout nom métier inventé (clearable sur Button…) casse.
+ */
+export function propsDe<P>() {
+  return <K extends { [k in keyof K]: k extends keyof P ? Prop : never }>(props: K): Record<string, Prop> =>
+    props as unknown as Record<string, Prop>;
+}
+
+/**
+ * Anatomie VÉRIFIÉE d'une API compound : chaque sous-nom doit être une clé réelle de
+ * l'objet exporté (Card.Media inventé ne compile pas).
+ */
+export function anatomie<T>(root: string, subs: readonly (keyof T & string)[]): string[] {
+  return [root, ...subs.map((s) => `${root}.${s}`)];
 }

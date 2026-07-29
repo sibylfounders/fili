@@ -268,7 +268,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     return (
       <AppLayout
         variant="docs"
-        brand={shellBrand("Sibyl Docs")}
+        brand={shellBrand("Fili Docs")}
         brandMark={shellMark}
         nav={[
           { label: "Démarrer", items: [{ label: "Introduction", active: true }, { label: "Installation" }, { label: "Structure du projet" }] },
@@ -287,7 +287,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
       >
         <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-muted">Démarrer</span>
         <h1 className="m-0 mt-1 text-3xl font-semibold text-text-primary">Introduction</h1>
-        <p className="mt-3 text-text-secondary">Sibyl est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
+        <p className="mt-3 text-text-secondary">Fili est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
         <h2 className="mb-2 mt-lg text-lg font-semibold text-text-primary">Fonctionnalités</h2>
         <ul className="flex list-disc flex-col gap-1 pl-5 text-text-secondary"><li>Accessibles par défaut</li><li>Tokens de design</li><li>Mode sombre</li><li>Server Components</li></ul>
       </AppLayout>
@@ -296,7 +296,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
   return (
     <AppLayout
       variant="default"
-      brand={shellBrand("Sibyl")}
+      brand={shellBrand("Fili")}
       brandMark={shellMark}
       nav={[
         { label: "Tableau de bord", icon: ICO.home, active: true },
@@ -362,7 +362,7 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "container", name: "Container",
-        controls: [{ k: "size", type: "seg", opts: ["narrow", "default", "wide", "full"] }],
+        controls: [{ k: "size", type: "seg", opts: axisOpts("Container", "size") }],
         initial: { size: "default" },
         render: (s) => (
           <Container size={s.size}>
@@ -376,10 +376,10 @@ export const GROUPS: Group[] = [
         render: () => (
           <Brand.Root>
             <Brand.Logo><svg viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 12h14M5 18h9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg></Brand.Logo>
-            <Brand.Text>Sibyl DS</Brand.Text>
+            <Brand.Text>Fili</Brand.Text>
           </Brand.Root>
         ),
-        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Sibyl DS</Brand.Text>\n</Brand.Root>`,
+        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Fili</Brand.Text>\n</Brand.Root>`,
       },
       {
         key: "divider", name: "Divider",
@@ -473,8 +473,8 @@ export const GROUPS: Group[] = [
       {
         key: "tabs", name: "Tabs",
         controls: [
-          { k: "variant", type: "seg", label: "Facture", opts: ["line", "pill"] },
-          { k: "activation", type: "seg", label: "Activation", opts: ["auto", "manual"] },
+          { k: "variant", type: "seg", label: "Facture", opts: axisOpts("Tabs", "variant") },
+          { k: "activation", type: "seg", label: "Activation", opts: axisOpts("Tabs", "activation") },
         ],
         initial: { variant: "line", activation: "auto" },
         render: (s) => <TabsDemo variant={s.variant} activation={s.activation} />,
@@ -524,9 +524,9 @@ export const GROUPS: Group[] = [
         key: "drawer", name: "Drawer",
         fill: true, // comme AppLayout : le Frame remplit la case démo et l'aperçu plein écran
         controls: [
-          { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "top", "bottom"] },
-          { k: "size", type: "seg", label: "Taille", opts: ["narrow", "default", "wide", "full"] },
-          { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push"], disabled: (s) => s.side === "top" || s.side === "bottom" },
+          { k: "side", type: "seg", label: "Côté", opts: axisOpts("Drawer", "side") },
+          { k: "size", type: "seg", label: "Taille", opts: axisOpts("Drawer", "size") },
+          { k: "effect", type: "seg", label: "Effet", opts: axisOpts("Drawer", "effect"), disabled: (s) => s.side === "top" || s.side === "bottom" },
           { k: "depth", type: "bool", label: "Depth" },
         ],
         initial: { side: "start", size: "narrow", effect: "overlay", depth: false },
@@ -539,9 +539,9 @@ export const GROUPS: Group[] = [
       {
         key: "modal", name: "Modal",
         controls: [
-          { k: "size", type: "seg", label: "Largeur", opts: ["narrow", "default", "wide"] },
-          { k: "placement", type: "seg", label: "Position", opts: ["center", "top", "bottom"] },
-          { k: "enterFrom", type: "seg", label: "Apparition", opts: ["bottom", "top", "center"] },
+          { k: "size", type: "seg", label: "Largeur", opts: axisOpts("Modal", "size") },
+          { k: "placement", type: "seg", label: "Position", opts: axisOpts("Modal", "placement") },
+          { k: "enterFrom", type: "seg", label: "Apparition", opts: axisOpts("Modal", "enterFrom") },
           { k: "scrim", type: "bool", label: "Clic sur le voile ferme" },
         ],
         initial: { size: "narrow", placement: "center", enterFrom: "bottom", scrim: true },
@@ -552,8 +552,8 @@ export const GROUPS: Group[] = [
       {
         key: "dropdown", name: "Dropdown",
         controls: [
-          { k: "side", type: "seg", label: "Côté", opts: ["auto", "bottom", "top"] },
-          { k: "align", type: "seg", label: "Alignement", opts: ["auto", "start", "center", "end"] },
+          { k: "side", type: "seg", label: "Côté", opts: axisOpts("Dropdown", "side") },
+          { k: "align", type: "seg", label: "Alignement", opts: axisOpts("Dropdown", "align") },
           { k: "icons", type: "bool", label: "Icônes" },
         ],
         initial: { side: "auto", align: "auto", icons: true },
@@ -582,8 +582,8 @@ export const GROUPS: Group[] = [
       {
         key: "select", name: "Select",
         controls: [
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
-          { k: "variant", type: "seg", opts: ["default", "ghost"] },
+          { k: "size", type: "seg", opts: axisOpts("Select", "size") },
+          { k: "variant", type: "seg", opts: axisOpts("Select", "variant") },
           { k: "native", type: "bool", label: "Liste native (navigateur)" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
@@ -608,7 +608,7 @@ export const GROUPS: Group[] = [
       {
         key: "switch", name: "Switch",
         controls: [
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "size", type: "seg", opts: axisOpts("Switch", "size") },
           { k: "checked", type: "bool", label: "Activé" },
           { k: "text", type: "bool", label: "Texte" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
@@ -671,7 +671,7 @@ export const GROUPS: Group[] = [
       {
         key: "link", name: "Link",
         controls: [
-          { k: "context", type: "seg", opts: ["inline", "standalone", "navigation"] },
+          { k: "context", type: "seg", opts: axisOpts("Link", "context") },
           { k: "icon", type: "seg", label: "Icône", opts: ["none", "leading", "trailing"] },
           { k: "label", type: "text", label: "Label" },
           { k: "current", type: "bool", label: "Courant (navigation)" },
@@ -703,7 +703,7 @@ export const GROUPS: Group[] = [
       {
         key: "delete", name: "DeleteButton", replay: true,
         controls: [
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "size", type: "seg", opts: axisOpts("DeleteButton", "size") },
           { k: "text", type: "text", label: "Label" },
           { k: "async", type: "seg", label: "Opération", opts: ["instant", "lent", "échec"] },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
@@ -718,7 +718,7 @@ export const GROUPS: Group[] = [
       {
         key: "submit", name: "SubmitButton", replay: true,
         controls: [
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "size", type: "seg", opts: axisOpts("SubmitButton", "size") },
           { k: "text", type: "text", label: "Label" },
           { k: "async", type: "seg", label: "Opération", opts: ["instant", "lent", "échec"] },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
@@ -740,7 +740,7 @@ export const GROUPS: Group[] = [
         // Pas d'option « Sombre » dans le Playground : le thème appartient au panneau Theming ;
         // la bascule de la démo se manipule directement dans l'aperçu.
         controls: [
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "size", type: "seg", opts: axisOpts("ThemeToggle", "size") },
           { k: "text", type: "bool", label: "Texte" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
@@ -786,13 +786,13 @@ export const GROUPS: Group[] = [
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="sibyl.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
+                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
               </>
             ) : (
               <Input.Input
                 key={s.type} // le defaultValue suit le type (champ non contrôlé)
                 type={s.type}
-                defaultValue={s.type === "email" ? "aurelien@sibyl.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
+                defaultValue={s.type === "email" ? "aurelien@fili.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
                 placeholder={s.type === "email" ? "nom@domaine.fr" : s.type === "tel" ? "06 12 34 56 78" : "Votre texte"}
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
                 clearable={s.clearable}
@@ -850,21 +850,52 @@ export const GROUPS: Group[] = [
     label: "Contenu & feedback",
     items: [
       {
+        // Card SEULE — dérivée du manifeste Card (mode inclut expandable). La collection
+        // vit dans l'entrée CardGroup ci-dessous : les deux ne sont plus confondues.
         key: "card", name: "Card",
+        controls: [
+          { k: "mode", type: "seg", label: "Mode", opts: axisOpts("Card", "mode") },
+          { k: "density", type: "seg", label: "Densité", opts: axisOpts("Card", "density") },
+          { k: "media", type: "bool", label: "Media" },
+          { k: "selected", type: "bool", label: "Selected", disabled: (s) => s.mode !== "selectable" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { mode: axisDefault("Card", "mode"), density: axisDefault("Card", "density"), media: false, selected: false, skeleton: false },
+        render: (s) => (
+          <div className="w-80">
+            <Card.Root mode={s.mode} density={s.density} selected={s.mode === "selectable" ? s.selected : undefined} loading={s.skeleton}>
+              {s.media ? <Card.Media ratio="landscape"><div className="h-full w-full bg-surface-hover" /></Card.Media> : null}
+              <Card.Body>
+                <Card.Header>
+                  <Card.Title>
+                    {s.mode === "clickable" ? <Card.TitleLink href="#">Titre de la carte</Card.TitleLink> : "Titre de la carte"}
+                  </Card.Title>
+                  {s.mode === "expandable" ? <Card.Chevron expanded={false} /> : null}
+                </Card.Header>
+                <Card.Description>Une description en une ou deux phrases.</Card.Description>
+              </Card.Body>
+            </Card.Root>
+          </div>
+        ),
+        code: (s) =>
+          `<Card.Root mode="${s.mode}"${s.density !== "comfortable" ? ` density="${s.density}"` : ""}${s.mode === "selectable" && s.selected ? " selected" : ""}>\n  <Card.Body>\n    <Card.Header><Card.Title>${s.mode === "clickable" ? '<Card.TitleLink href="…">Titre</Card.TitleLink>' : "Titre"}</Card.Title></Card.Header>\n    <Card.Description>…</Card.Description>\n  </Card.Body>\n</Card.Root>`,
+      },
+      {
+        key: "card-group", name: "CardGroup",
         controls: [
           { sec: "Card", k: "media", type: "seg", label: "Media", opts: ["icône", "image", "aucun"] },
           { sec: "Card", k: "description", type: "bool", label: "Description" },
           { sec: "Card", k: "buttons", type: "bool", label: "Boutons" },
-          { sec: "Card", k: "density", type: "seg", label: "Densité", opts: ["spacious", "comfortable", "compact"] },
-          { sec: "Groupe", k: "orientation", type: "seg", label: "Orientation", opts: ["défaut", "inline"] },
+          { sec: "Groupe", k: "density", type: "seg", label: "Densité", opts: axisOpts("CardGroup", "density") },
+          { sec: "Groupe", k: "orientation", type: "seg", label: "Orientation", opts: axisOpts("CardGroup", "orientation") },
           { sec: "Groupe", k: "cols", type: "seg", label: "Colonnes", opts: ["1", "2", "3"], disabled: (s) => s.orientation === "inline" },
           { sec: "Groupe", k: "separated", type: "bool", label: "Séparées" },
-          { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: ["static", "clickable", "selectable"] },
+          { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: axisOpts("CardGroup", "mode") },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { media: "icône", description: true, buttons: false, density: "comfortable", orientation: "défaut", cols: "2", separated: true, mode: "selectable", skeleton: false },
+        initial: { media: "icône", description: true, buttons: false, density: axisDefault("CardGroup", "density"), orientation: "stacked", cols: "2", separated: true, mode: "selectable", skeleton: false },
         blocks: [
-          { title: "Card", render: (s) => <CardGroup solo s={s as any} />, code: (s) => codeCardSolo(s as any) },
+          { title: "Card solo (dans la collection)", render: (s) => <CardGroup solo s={s as any} />, code: (s) => codeCardSolo(s as any) },
           { title: "Card group", render: (s) => <CardGroup s={s as any} />, code: (s) => codeCardGrp(s as any) },
         ],
         render: (s) => <CardGroup s={s as any} />,
@@ -873,7 +904,7 @@ export const GROUPS: Group[] = [
       {
         key: "skeleton", name: "Skeleton",
         controls: [
-          { k: "variant", type: "seg", opts: ["block", "text", "circle"] },
+          { k: "variant", type: "seg", opts: axisOpts("Skeleton", "variant") },
           { k: "lines", type: "range", label: "Lignes (text)", min: 1, max: 6, disabled: (s) => s.variant !== "text" },
         ],
         initial: { variant: "block", lines: 3 },
@@ -920,7 +951,7 @@ export const GROUPS: Group[] = [
       {
         key: "alert", name: "Alert",
         controls: [
-          { k: "tone", type: "seg", opts: ["info", "success", "warning", "danger"] },
+          { k: "tone", type: "seg", opts: axisOpts("Alert", "tone") },
           { k: "title", type: "text", label: "Titre" },
           { k: "description", type: "text", label: "Description" },
           { k: "dismissible", type: "bool", label: "Dismissible" },
@@ -948,7 +979,7 @@ export const GROUPS: Group[] = [
       {
         key: "toast", name: "Toast",
         controls: [
-          { k: "tone", type: "seg", opts: ["neutral", "info", "success", "warning", "danger"] },
+          { k: "tone", type: "seg", opts: axisOpts("Toast", "tone") },
           { k: "placement", type: "seg", label: "Emplacement", opts: ["bottom", "bottom-start", "bottom-end", "top", "top-start", "top-end"] },
           { k: "title", type: "text", label: "Titre" },
           { k: "description", type: "text", label: "Description" },

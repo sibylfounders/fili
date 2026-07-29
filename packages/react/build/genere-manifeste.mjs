@@ -4,7 +4,10 @@
 // @fili/react/manifest) — ici on ne fait qu'ÉMETTRE le JSON pour les outils Node
 // (catalogue agents, validateurs) sans bundler.
 //
-// Usage : node packages/react/build/genere-manifeste.mjs
+// Usage : node packages/react/build/genere-manifeste.mjs           (écrit manifest.json)
+//         node packages/react/build/genere-manifeste.mjs --check   (fraîcheur : compare
+//         la génération en mémoire au manifest.json COMMITÉ, échoue s'ils diffèrent,
+//         n'écrit RIEN — une simple vérification ne modifie jamais le dépôt)
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, mkdtempSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -42,12 +45,22 @@ const { manifest } = await import(pathToFileURL(join(tmp, "index.mjs")).href);
 try { rmSync(tmp, { recursive: true, force: true }); } catch { /* bac à sable sans unlink */ }
 
 const outPath = join(pkgRoot, "manifest.json");
-writeFileSync(
-  outPath,
+const contenu = 
   JSON.stringify(
     { $schema: "./src/manifest/schema.ts", generated: "genere-manifeste.mjs — NE PAS ÉDITER", entries: manifest },
     null,
     2,
-  ) + "\n",
-);
-console.log(`manifest.json : ${manifest.length} composants (${manifest.filter((e) => e.status === "stable").length} stables).`);
+  ) + "\n";
+
+if (process.argv.includes("--check")) {
+  const commite = readFileSync(outPath, "utf8");
+  if (commite !== contenu) {
+    console.error("❌ manifest.json est PÉRIMÉ par rapport à la source src/manifest/.");
+    console.error("   Régénérer puis committer : npm run manifeste:build");
+    process.exit(1);
+  }
+  console.log(`✅ manifest.json à jour (${manifest.length} composants).`);
+} else {
+  writeFileSync(outPath, contenu);
+  console.log(`manifest.json : ${manifest.length} composants (${manifest.filter((e) => e.status === "stable").length} stables).`);
+}
