@@ -12,4 +12,4 @@ export {
   InputTextarea,
   inputRootVariants,
 } from "./input";
-export type { InputRootProps, InputFieldProps, InputPasswordProps, InputTextareaProps } from "./input";
+export type { InputRootProps, InputFieldProps, InputPasswordProps, InputTextareaProps, InputStatus } from "./input";

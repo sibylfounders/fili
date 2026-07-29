@@ -85,8 +85,29 @@ export function Select({
   const [active, setActive] = React.useState(0);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const listRef = React.useRef<HTMLUListElement>(null);
+  // Signal de débordement : la liste plafonnée peut cacher des options — des voiles dégradés
+  // (haut/bas) le disent à l'œil, recalculés au scroll (rapport utilisateur 2026-07-29).
+  const [overflow, setOverflow] = React.useState({ top: false, bottom: false });
   const listId = React.useId();
   const typed = React.useRef({ str: "", t: 0 });
+
+  const updateOverflow = React.useCallback(() => {
+    const el = listRef.current;
+    if (!el) return;
+    setOverflow({
+      top: el.scrollTop > 2,
+      bottom: el.scrollTop + el.clientHeight < el.scrollHeight - 2,
+    });
+  }, []);
+  React.useEffect(() => {
+    if (open) updateOverflow();
+  }, [open, options, updateOverflow]);
+  // L'option active suit le clavier jusque dans une liste qui défile.
+  React.useEffect(() => {
+    if (!open) return;
+    document.getElementById(`${listId}-opt-${active}`)?.scrollIntoView({ block: "nearest" });
+  }, [open, active, listId]);
 
   const selectedIndex = options.findIndex((o) => o.value === value);
   const selected = selectedIndex >= 0 ? options[selectedIndex] : null;
@@ -193,17 +214,33 @@ export function Select({
       </button>
 
       {open && (
-        <ul
-          role="listbox"
-          id={listId}
-          tabIndex={-1}
+        <div
           className={cn(
             // au moins la largeur du déclencheur, mais JAMAIS tronqué : la liste s'élargit
             // au mot le plus long (w-max), plafond raisonnable pour rester un popover
-            "absolute top-full z-popover mt-1 max-h-64 w-max min-w-full max-w-[18rem] overflow-auto rounded-md border border-border bg-background py-1 shadow-overlay outline-none",
+            "absolute top-full z-popover mt-1 w-max min-w-full max-w-[18rem] overflow-hidden rounded-md border border-border bg-background shadow-overlay",
             variant === "ghost" ? "right-0" : "left-0",
           )}
         >
+          {/* voiles de débordement — pointer-events-none, purement informatifs */}
+          {overflow.top ? (
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-6 bg-gradient-to-b from-background to-transparent" />
+          ) : null}
+          {overflow.bottom ? (
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] flex h-7 items-end justify-center bg-gradient-to-t from-background to-transparent pb-0.5">
+              <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted">
+                <path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          ) : null}
+          <ul
+            role="listbox"
+            id={listId}
+            ref={listRef}
+            tabIndex={-1}
+            onScroll={updateOverflow}
+            className="max-h-64 w-full overflow-auto py-1 outline-none"
+          >
           {options.map((o, i) => {
             const isSel = o.value === value;
             return (
@@ -227,7 +264,8 @@ export function Select({
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       )}
     </div>
   );

@@ -676,12 +676,13 @@ export const GROUPS: Group[] = [
         controls: [
           { k: "type", type: "seg", label: "field_type", opts: ["text", "email", "password", "search", "tel", "number", "url", "textarea"] },
           { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
-          { k: "tone", type: "seg", opts: ["neutral", "error", "success", "warning"] },
+          { k: "status", type: "seg", label: "Statut", opts: ["default", "error", "success", "warning"] },
           { k: "icon", type: "bool", label: "Icône (leading)", disabled: (s) => !["text", "email", "tel"].includes(s.type) },
+          { k: "clearable", type: "bool", label: "Effaçable", disabled: (s) => !["text", "email", "tel", "url"].includes(s.type) },
           { k: "disabled", type: "bool", label: "Disabled" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { type: "text", size: "md", tone: "neutral", icon: false, disabled: false, skeleton: false },
+        initial: { type: "text", size: "md", status: "default", icon: false, clearable: true, disabled: false, skeleton: false },
         render: (s) => {
           const icon = s.icon && ["text", "email", "tel"].includes(s.type) ? <Input.Icon>{IC_MAIL}</Input.Icon> : null;
           const field =
@@ -694,20 +695,23 @@ export const GROUPS: Group[] = [
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="sibyl.fr" disabled={s.disabled} aria-label="Adresse" />
+                <Input.Input type="url" placeholder="sibyl.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
               </>
             ) : (
               <Input.Input
+                key={s.type} // le defaultValue suit le type (champ non contrôlé)
                 type={s.type}
+                defaultValue={s.type === "email" ? "aurelien@sibyl.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
                 placeholder={s.type === "email" ? "nom@domaine.fr" : s.type === "tel" ? "06 12 34 56 78" : "Votre texte"}
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
+                clearable={s.clearable}
                 disabled={s.disabled}
                 aria-label="Champ"
               />
             );
           return (
             <div className="w-72">
-              <Input.Root size={s.size} tone={s.tone} loading={s.skeleton}>
+              <Input.Root size={s.size} status={s.status} loading={s.skeleton}>
                 {s.type === "textarea" ? (
                   <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label="Message" />
                 ) : (
@@ -721,14 +725,14 @@ export const GROUPS: Group[] = [
           );
         },
         code: (s) => {
-          const root = (inner: string) => `<Input.Root size="${s.size}" tone="${s.tone}">${inner}</Input.Root>`;
+          const root = (inner: string) => `<Input.Root size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}>${inner}</Input.Root>`;
           if (s.type === "textarea") return root(`<Input.Textarea placeholder="\u2026" rows={3} />`);
           const wrap = (inner: string) => root(`<Input.Wrapper>${inner}</Input.Wrapper>`);
           if (s.type === "password") return wrap(`<Input.Password aria-label="Mot de passe" />`);
           if (s.type === "search") return wrap(`<Input.Search placeholder="Rechercher\u2026" aria-label="Rechercher" />`);
           if (s.type === "number") return wrap(`<Input.Number min={0} max={99} aria-label="Quantité" />`);
-          if (s.type === "url") return wrap(`<Input.InlineAffix>https://</Input.InlineAffix><Input.Input type="url" />`);
-          return wrap(`${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input type="${s.type}"${s.type === "email" ? ' autoComplete="email"' : s.type === "tel" ? ' autoComplete="tel"' : ""}${s.disabled ? " disabled" : ""} />`);
+          if (s.type === "url") return wrap(`<Input.InlineAffix>https://</Input.InlineAffix><Input.Input type="url"${s.clearable ? " clearable" : ""} />`);
+          return wrap(`${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input type="${s.type}"${s.type === "email" ? ' autoComplete="email"' : s.type === "tel" ? ' autoComplete="tel"' : ""}${s.clearable ? " clearable" : ""}${s.disabled ? " disabled" : ""} />`);
         },
       },
       {

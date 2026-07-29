@@ -52,8 +52,8 @@
 [data-relief] :is([data-style="filled"], [data-style="lighter"], [data-style="stroke"]):active { transform: translateY(0.5px); }
 
 /* CREUSÉ — input */
-[data-relief] [data-slot="input"]:not([data-tone="error"]):not([data-tone="success"]):not([data-tone="warning"]) { border-color: var(--border); box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
-[data-relief] [data-slot="input"][data-tone="error"], [data-relief] [data-slot="input"][data-tone="success"], [data-relief] [data-slot="input"][data-tone="warning"] { box-shadow: inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
+[data-relief] [data-slot="input"]:not([data-status="error"]):not([data-status="success"]):not([data-status="warning"]) { border-color: var(--border); box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
+[data-relief] [data-slot="input"][data-status="error"], [data-relief] [data-slot="input"][data-status="success"], [data-relief] [data-slot="input"][data-status="warning"] { box-shadow: inset 0 4px 4px -1px rgba(12, 12, 13, 0.05); }
 
 /* THÈME SOMBRE */
 [data-theme="dark"][data-relief] { --rl-press: inset 0 4px 4px rgba(0, 0, 0, 0.45); }
@@ -64,4 +64,4 @@
 [data-theme="dark"][data-relief] [data-style="lighter"][data-tone="primary"] { --rl-ring: color-mix(in srgb, var(--secondary), #fff 40%); }
 [data-theme="dark"][data-relief] [data-style="lighter"][data-tone="neutral"] { --rl-ring: color-mix(in srgb, var(--surface), #fff 35%); }
 [data-theme="dark"][data-relief] [data-style="lighter"][data-tone="destructive"] { --rl-ring: color-mix(in srgb, var(--danger-subtle), #fff 35%); }
-[data-theme="dark"][data-relief] [data-slot="input"]:not([data-tone="error"]):not([data-tone="success"]):not([data-tone="warning"]) { box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(0, 0, 0, 0.4); }
+[data-theme="dark"][data-relief] [data-slot="input"]:not([data-status="error"]):not([data-status="success"]):not([data-status="warning"]) { box-shadow: inset 0 0 0 1px var(--border), inset 0 4px 4px -1px rgba(0, 0, 0, 0.4); }

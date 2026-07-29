@@ -13,7 +13,10 @@ import "./input.css";
  * habillé par les tokens @sibyl/tokens. API compound inspirée de la LOGIQUE
  * de référence : Root > Wrapper > (Icon · Input · InlineAffix) + Affix.
  *
- * Axes DS-MD, ORTHOGONAUX : tone × size × field_type (le type HTML natif).
+ * Axes DS-MD, ORTHOGONAUX : status × size × field_type (le type HTML natif).
+ *   - `status` (renommé depuis `tone`, arbitrage 2026-07-29) : un STATUT de validation
+ *     (default / error / success / warning), pas une couleur — le nom suit la fonction.
+ *     En erreur, le champ porte aria-invalid automatiquement.
  *   - Pas d'emphasis : « l'input principal de l'écran » n'existe pas — le type de
  *     champ (nature du contenu) remplace le poids visuel.
  *   - Réconciliation référence : la référence n'expose qu'un booléen `hasError`.
@@ -32,11 +35,11 @@ import "./input.css";
  */
 
 type InputSize = "sm" | "md" | "lg";
-type InputTone = "neutral" | "error" | "success" | "warning";
+export type InputStatus = "default" | "error" | "success" | "warning";
 
-const InputContext = React.createContext<{ size: InputSize; tone: InputTone }>({
+const InputContext = React.createContext<{ size: InputSize; status: InputStatus }>({
   size: "md",
-  tone: "neutral",
+  status: "default",
 });
 
 const rootVariants = cva(
@@ -52,15 +55,15 @@ const rootVariants = cva(
     variants: {
       // Le rayon suit la taille (RULES-radius) ; md et lg partagent radius.md.
       size: { sm: "rounded-sm", md: "rounded-md", lg: "rounded-md" },
-      // Bordure : neutre délimitante (3:1) ; error/success/warning = bordure sémantique d'état.
-      tone: {
-        neutral: "border-border-strong",
+      // Bordure : neutre délimitante (3:1) ; error/success/warning = bordure de STATUT.
+      status: {
+        default: "border-border-strong",
         error: "border-danger",
         success: "border-success",
         warning: "border-warning",
       },
     },
-    defaultVariants: { size: "md", tone: "neutral" },
+    defaultVariants: { size: "md", status: "default" },
   },
 );
 
@@ -95,16 +98,16 @@ export interface InputRootProps
 }
 
 const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
-  ({ className, size = "md", tone = "neutral", asChild = false, loading = false, children, ...props }, ref) => {
+  ({ className, size = "md", status = "default", asChild = false, loading = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "div";
     return (
-      <InputContext.Provider value={{ size: size ?? "md", tone: tone ?? "neutral" }}>
+      <InputContext.Provider value={{ size: size ?? "md", status: status ?? "default" }}>
         <Comp
           ref={ref}
           data-slot={loading ? undefined : "input"}
-          data-tone={tone ?? "neutral"}
+          data-status={status ?? "default"}
           aria-busy={loading || undefined}
-          className={cn(rootVariants({ size, tone }), loading && "ds-skeleton divide-transparent", className)}
+          className={cn(rootVariants({ size, status }), loading && "ds-skeleton divide-transparent", className)}
           {...props}
         >
           {children}
@@ -128,14 +131,30 @@ InputWrapper.displayName = "Input.Wrapper";
 /* ── Input (le champ natif) ───────────────────────────────────────────────── */
 export interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   asChild?: boolean;
+  /** Croix d'effacement quand le champ est non vide — remet le texte à vide (retour au placeholder). */
+  clearable?: boolean;
 }
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
-  ({ className, type = "text", asChild = false, ...props }, ref) => {
+  ({ className, type = "text", asChild = false, clearable = false, onChange, ...props }, forwardedRef) => {
     const Comp = asChild ? Slot : "input";
-    return (
+    const { status } = React.useContext(InputContext);
+    // mécanique clearable — hooks inconditionnels, inactifs si !clearable
+    const innerRef = React.useRef<HTMLInputElement | null>(null);
+    const [hasValue, setHasValue] = React.useState(!!(props.value ?? props.defaultValue));
+    React.useEffect(() => {
+      if (props.value !== undefined) setHasValue(String(props.value) !== "");
+    }, [props.value]);
+    const setRefs = (el: HTMLInputElement | null) => {
+      innerRef.current = el;
+      if (typeof forwardedRef === "function") forwardedRef(el);
+      else if (forwardedRef) forwardedRef.current = el;
+    };
+    const field = (
       <Comp
-        ref={ref}
+        ref={clearable && !asChild ? setRefs : forwardedRef}
         type={type}
+        // le statut est porté par la sémantique, pas seulement la couleur (INTERACTION-R12)
+        aria-invalid={status === "error" || undefined}
         className={cn(
           // Valeur = typography.body (16px). JAMAIS en dessous : sous 16px, iOS Safari zoome au focus.
           "w-full bg-transparent text-base text-text-primary outline-none",
@@ -143,8 +162,35 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
           "disabled:cursor-not-allowed disabled:text-text-disabled disabled:placeholder:text-text-disabled",
           className,
         )}
+        onChange={
+          clearable && !asChild
+            ? (e: React.ChangeEvent<HTMLInputElement>) => {
+                setHasValue(e.currentTarget.value !== "");
+                onChange?.(e);
+              }
+            : onChange
+        }
         {...props}
       />
+    );
+    if (!clearable || asChild) return field;
+    return (
+      <>
+        {field}
+        {hasValue && !props.disabled ? (
+          <FieldButton
+            aria-label="Effacer le champ"
+            onClick={() => {
+              const el = innerRef.current;
+              if (!el) return;
+              setNativeValue(el, ""); // remonte par onChange — vaut aussi pour un champ contrôlé
+              el.focus();
+            }}
+          >
+            {IconX}
+          </FieldButton>
+        ) : null}
+      </>
     );
   },
 );
