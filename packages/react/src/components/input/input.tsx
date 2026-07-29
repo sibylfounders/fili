@@ -1,16 +1,17 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @fili/react casse
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import { CompactButton } from "../compact-button/compact-button";
 import "./input.css";
 
 /**
  * Input — construit sur les RÈGLES de Design System MD (autorité UX),
- * habillé par les tokens @fili/tokens. API compound inspirée de la LOGIQUE
+ * habillé par les tokens @sibyl/tokens. API compound inspirée de la LOGIQUE
  * de référence : Root > Wrapper > (Icon · Input · InlineAffix) + Affix.
  *
  * Axes DS-MD, ORTHOGONAUX : status × size × field_type (le type HTML natif).
@@ -250,24 +251,23 @@ const IconX = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
 );
 
-/** Petit bouton utilitaire interne au champ (toggle, clear, steppers) — jamais dans l'ordre
- *  de lecture avant le champ, focus ring du système, mousedown neutralisé pour ne pas voler
- *  le focus au champ. */
-function FieldButton({ className, onMouseDown, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+/** Bouton utilitaire interne au champ (toggle, clear, steppers) = le CompactButton du
+ *  système (ghost neutral sm) — jamais un bouton ad hoc. Seul ajout : mousedown neutralisé
+ *  pour que le focus reste dans le champ. */
+function FieldButton({
+  onMouseDown,
+  ...props
+}: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "style"> & { "aria-label": string }) {
   return (
-    <button
-      type="button"
+    <CompactButton
+      style="ghost"
+      tone="neutral"
+      size="sm"
+      className="shrink-0"
       onMouseDown={(e) => {
         e.preventDefault(); // le focus reste dans le champ
         onMouseDown?.(e);
       }}
-      className={cn(
-        "flex size-6 shrink-0 items-center justify-center rounded-sm text-text-secondary transition-colors duration-fast ease-out",
-        "hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50",
-        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-        "[&>svg]:size-4",
-        className,
-      )}
       {...props}
     />
   );
