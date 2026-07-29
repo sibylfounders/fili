@@ -461,14 +461,16 @@ export const GROUPS: Group[] = [
         fill: true, // comme AppLayout : le Frame remplit la case démo et l'aperçu plein écran
         controls: [
           { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "top", "bottom"] },
-          { k: "size", type: "seg", label: "Taille", opts: ["sm", "md", "lg"], disabled: (s) => s.side === "top" || s.side === "bottom" },
+          { k: "size", type: "seg", label: "Taille", opts: ["sm", "md", "lg", "full"] },
           { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push"], disabled: (s) => s.side === "top" || s.side === "bottom" },
           { k: "depth", type: "bool", label: "Depth" },
         ],
         initial: { side: "start", size: "sm", effect: "overlay", depth: false },
         render: (s) => <DrawerDemo side={s.side} size={s.size} effect={s.effect} depth={s.depth} />,
-        code: (s) =>
-          `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.size !== "sm" ? ` size="${s.size}"` : ""}${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""}${s.depth ? " depth" : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`,
+        code: (s) => {
+          const defSize = s.side === "top" || s.side === "bottom" ? "full" : "sm";
+          return `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.size !== defSize ? ` size="${s.size}"` : ""}${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""}${s.depth ? " depth" : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`;
+        },
       },
       {
         key: "modal", name: "Modal",

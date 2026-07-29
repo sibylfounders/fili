@@ -30,11 +30,13 @@ import "./drawer.css";
  * Dans un Frame, le tiroir est PORTÉ DANS le Frame (positionnement absolu, contenu dans son
  * cadre) ; sans Frame il est porté vers document.body (fixe, plein viewport).
  *
- * LARGEUR (`size`, côtés start/end uniquement) : trois crans GRID, pas un de plus —
- * sm = rail-nav (280, le rail de nav, défaut) · md = container-narrow (480, le formulaire
- * focalisé) · lg = overlay (640, le panneau de travail). Au-delà de 640 le contenu appelle une
- * page, pas un tiroir (même règle que Modal). Ignorée en top/bottom (hauteur = contenu,
- * plafond 85%). Le push se décale de la largeur RÉELLE du cran choisi.
+ * TAILLE (`size`) : crans GRID, pas un de plus — la même prop pilote les deux orientations.
+ *  - start/end (largeur du panneau) : sm = rail-nav (280, défaut) · md = container-narrow (480)
+ *    · lg = overlay (640) · full = toute la largeur disponible (plafond 85%). Au-delà de 640 le
+ *    contenu appelle une page (même règle que Modal). Le push se décale de la largeur réelle.
+ *  - top/bottom (largeur de la FEUILLE, centrée — un sheet desktop n'a aucune raison d'être
+ *    full-width) : sm = container-narrow (480) · md = overlay (640) · lg = container-default
+ *    (1024) · full = pleine largeur (défaut). La hauteur reste au contenu, plafond 85%.
  *
  * Limite assumée (v1) : le fond n'est pas mis `inert` (il faudrait une référence à la racine
  * applicative) ; l'inertie est approchée par le scrim + le piège de focus + aria-modal. À durcir
@@ -43,14 +45,22 @@ import "./drawer.css";
 
 export type DrawerSide = "start" | "end" | "top" | "bottom";
 export type DrawerEffect = "overlay" | "push";
-export type DrawerSize = "sm" | "md" | "lg";
+export type DrawerSize = "sm" | "md" | "lg" | "full";
 
-/* Largeur du panneau (start/end) — crans GRID via var() ; le Frame reprend le même cran
-   (data-size → --ds-drawer-w, drawer.css) pour que le push décale de la largeur réelle. */
-const SIZE_WIDTH: Record<DrawerSize, string> = {
+/* Crans GRID via var()/utilitaires ; le Frame reprend le même cran (data-size → --ds-drawer-w,
+   drawer.css) pour que le push décale de la largeur réelle. */
+const SIZE_HORIZONTAL: Record<DrawerSize, string> = {
   sm: "w-rail-nav",
   md: "w-[var(--container-narrow,480px)]",
   lg: "w-[var(--overlay,640px)]",
+  full: "w-full",
+};
+/* top/bottom : la feuille se centre (inset-x-0 + mx-auto) et plafonne sa largeur. */
+const SIZE_VERTICAL: Record<DrawerSize, string> = {
+  sm: "mx-auto max-w-container-narrow border-x border-border",
+  md: "mx-auto max-w-overlay border-x border-border",
+  lg: "mx-auto max-w-container-default border-x border-border",
+  full: "",
 };
 
 const panelVariants = cva(
@@ -118,7 +128,8 @@ export interface DrawerProps
   effect?: DrawerEffect;
   /** Depth Transition (iOS) : le contenu recule dans une frame arrondie sur fond noir — combinable avec overlay ET push. */
   depth?: boolean;
-  /** Largeur du panneau (start/end) : sm = 280 (défaut) | md = 480 | lg = 640. Ignorée en top/bottom. */
+  /** Taille — start/end : largeur du panneau (sm 280 défaut · md 480 · lg 640 · full) ;
+   *  top/bottom : largeur de la feuille centrée (sm 480 · md 640 · lg 1024 · full défaut). */
   size?: DrawerSize;
 }
 
@@ -128,7 +139,7 @@ export function DrawerRoot({
   side = "start",
   effect = "overlay",
   depth = false,
-  size = "sm",
+  size,
   className,
   children,
   ...props
@@ -141,6 +152,8 @@ export function DrawerRoot({
   // push vertical impossible (pas de largeur de référence) → overlay.
   const vertical = side === "top" || side === "bottom";
   const effectiveEffect: DrawerEffect = vertical && effect === "push" ? "overlay" : effect;
+  // Défaut par orientation : rail sm à l'horizontale, pleine largeur à la verticale.
+  const resolvedSize: DrawerSize = size ?? (vertical ? "full" : "sm");
 
   React.useEffect(() => {
     if (!open) return;
@@ -168,9 +181,9 @@ export function DrawerRoot({
   const setFrame = frame?.set;
   React.useEffect(() => {
     if (!setFrame) return;
-    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect, depth, size });
+    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect, depth, size: resolvedSize });
     return () => setFrame(null);
-  }, [open, side, effectiveEffect, depth, size, setFrame]);
+  }, [open, side, effectiveEffect, depth, resolvedSize, setFrame]);
 
   if (!open || typeof document === "undefined") return null;
 
@@ -233,7 +246,7 @@ export function DrawerRoot({
         className={cn(
           positionClass,
           panelVariants({ side }),
-          !vertical && SIZE_WIDTH[size],
+          vertical ? SIZE_VERTICAL[resolvedSize] : SIZE_HORIZONTAL[resolvedSize],
           shown ? openTransform : closedTransform,
           className,
         )}
