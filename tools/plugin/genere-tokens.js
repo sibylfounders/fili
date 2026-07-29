@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * tools/plugin/genere-tokens.js — génère tokens.css + tokens.yaml depuis le frontmatter
- * de apps/site/content/md/core/DESIGN.md (source de vérité unique du monorepo Sibyl DS).
+ * de apps/site/content/md/core/DESIGN.md (source de vérité unique du monorepo Fili).
  *
  * Usage :  node tools/plugin/genere-tokens.js [dossier-de-sortie]
  * Défaut du dossier de sortie : build/plugin/skills/design-system-md/

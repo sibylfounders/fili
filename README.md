@@ -1,6 +1,6 @@
-# Sibyl DS — monorepo
+# Fili — monorepo
 
-Les sites de la constellation Sibyl sur **une même stack** : Next.js + npm workspaces,
+Les sites de la constellation Fili sur **une même stack** : Next.js + npm workspaces,
 avec des packages partagés. Un dev apprend l'organisation une fois, elle vaut pour tous.
 
 Pour savoir quel fichier s'écrit à la main et lequel se régénère, lire `OU-EST-QUOI.md`.
@@ -15,11 +15,11 @@ Le serveur recharge à chaud : à chaque modif de fichier, la page se met à jou
 ## Structure
 ```
 packages/
-  tokens/      @sibyl/tokens — source des tokens (dist servie : /css, /tailwind, /figma)
-  react/       @sibyl/react  — composants ; le site les consomme, jamais une copie locale
-  charts/      @sibyl/charts — primitives de visualisation
+  tokens/      @fili/tokens — source des tokens (dist servie : /css, /tailwind, /figma)
+  react/       @fili/react  — composants ; le site les consomme, jamais une copie locale
+  charts/      @fili/charts — primitives de visualisation
 apps/
-  site/        @sibyl/site — Next 14 (app router), export statique
+  site/        @fili/site — Next 14 (app router), export statique
                /md doctrine · /ui atelier et catalogue · /audit
 tools/
   compile-regles.py    doctrine -> dist/build et dist/audit (étape 9 de la méthode)
@@ -33,15 +33,15 @@ dist/
 npm run dev                                  # serveur de dev (apps/site)
 npm run build                                # tous les workspaces
 npm run tokens:build                         # tokens + garde de fidélité + contrastes
-npm run build --workspace @sibyl/site        # export statique -> apps/site/out/
+npm run build --workspace @fili/site        # export statique -> apps/site/out/
 python3 tools/compile-regles.py --tous       # recompile dist/build et dist/audit
 node tools/plugin/build-plugin.js            # paquet Cowork -> build/design-system-md.plugin
 ```
 
 ## Conventions (identiques par app)
 - `app/` (App Router), `content/` (markdown et doctrine), `components/`, `lib/`.
-- Les tokens viennent de `@sibyl/tokens` ; aucune valeur en dur.
-- Les composants viennent de `@sibyl/react` ; avant d'en composer un dans `apps/site`,
+- Les tokens viennent de `@fili/tokens` ; aucune valeur en dur.
+- Les composants viennent de `@fili/react` ; avant d'en composer un dans `apps/site`,
   vérifier qu'il vient du package — sinon le promouvoir d'abord.
 - `npm run tokens:build` échoue si une valeur DS-UI s'écarte de `DESIGN.md` sans
   arbitrage déclaré dans `packages/tokens/src/ds-md.map.mjs`.

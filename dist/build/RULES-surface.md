@@ -3,8 +3,8 @@ sujet: surface
 nature: foundations
 resume: "Ce fichier contient le raisonnement : ce qu'est un plan, quand il mérite d'exister, ce qui le distingue et ce qui survit quand un canal tombe."
 selon-contexte: [button, card, collection, color, elevation, input, modal, overlay, spacing, typography]
-source: SURFACE-UX.md v1.0.0 + SURFACE-UI.md v1.0.0
-empreinte: sha256:25cdf30aa5a01b17
+source: SURFACE-UX.md v1.0.1 + SURFACE-UI.md v1.0.0
+empreinte: sha256:0e4a87225d233649
 regles: {loi: 6, preference: 15, non_qualifie: 0}
 ---
 # RULES — surface (compilé, mode build)

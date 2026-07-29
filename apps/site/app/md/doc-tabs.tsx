@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Tabs } from "@sibyl/react";
+import { Tabs } from "@fili/react";
 
 /** Demande d'ouvrir un volet et d'aller à une ancre (une règle citée depuis une situation). */
 export const EVENEMENT_VOLET = "doctrine:volet";

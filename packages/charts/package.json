@@ -1,5 +1,5 @@
 {
-  "name": "@sibyl/charts",
+  "name": "@fili/charts",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@sibyl/tokens": "*",
+    "@fili/tokens": "*",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4"

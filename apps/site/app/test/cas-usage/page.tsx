@@ -1,11 +1,11 @@
 "use client";
 import * as React from "react";
-import { CardGroup } from "@sibyl/react";
+import { CardGroup } from "@fili/react";
 
 /* TEST autonome (hors shell atelier) : le contenu « quand utiliser quoi » de la page
    Cas d'usage (Button), passé dans le groupe de cartes DU PACKAGE — séparées + cliquables,
    donc highlight de proximité réel : la teinte --surface glisse vers la carte visée.
-   Depuis le 2026-07-26, ce test consomme `CardGroup` de @sibyl/react (avant : une copie
+   Depuis le 2026-07-26, ce test consomme `CardGroup` de @fili/react (avant : une copie
    locale du groupe, qui vivait dans apps/site). */
 
 const CASES = [

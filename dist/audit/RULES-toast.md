@@ -3,8 +3,8 @@ sujet: toast
 nature: components
 resume: "Ce fichier contient le raisonnement : tone, timing, actions, empilement, position, instrument"
 selon-contexte: [adaptive, alert, button, emotion, motion, voice]
-source: TOAST-UX.md v1.0.0 + TOAST-UI.md v1.1.0
-empreinte: sha256:db75eae28a834e4b
+source: TOAST-UX.md v1.0.1 + TOAST-UI.md v1.1.0
+empreinte: sha256:db30391839ac95b9
 regles: {loi: 7, preference: 23, non_qualifie: 0}
 ---
 # RULES — toast (compilé, mode audit)

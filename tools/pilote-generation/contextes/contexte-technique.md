@@ -1,8 +1,8 @@
 # Contexte technique (identique dans toutes les conditions)
 
-Tu produis un fichier React (.jsx) utilisant le package `@sibyl/react`. Informations strictement techniques :
+Tu produis un fichier React (.jsx) utilisant le package `@fili/react`. Informations strictement techniques :
 
-## Composants disponibles (import nommé depuis '@sibyl/react')
+## Composants disponibles (import nommé depuis '@fili/react')
 
 Accordion, Alert, AppLayout, AppShell, Button, Card, CardGroup, CompactButton, Container, DeleteButton, Divider, Drawer, Input, Link, Modal, Nav, SkipLink, Select, SubmitButton, Switch, Tabs, Toast.
 
@@ -22,6 +22,6 @@ Accordion, Alert, AppLayout, AppShell, Button, Card, CardGroup, CompactButton, C
 ## Contraintes techniques
 
 - Un seul fichier, JSX valide, un composant exporté par défaut.
-- Icônes : `import { NomIcone } from '@sibyl/react/icons'` (noms libres plausibles).
+- Icônes : `import { NomIcone } from '@fili/react/icons'` (noms libres plausibles).
 - Le style visuel est porté par les composants du package ; classes utilitaires possibles pour la mise en page (`flex`, `grid`, `gap-*`, `p-*`…).
 - Les handlers peuvent être des stubs (`() => {}` ou `console.log`).

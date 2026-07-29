@@ -1,4 +1,4 @@
-const theme = require("@sibyl/tokens/tailwind");
+const theme = require("@fili/tokens/tailwind");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{ts,tsx}", "../../packages/react/src/**/*.{ts,tsx}", "../../packages/charts/src/**/*.{ts,tsx}"],

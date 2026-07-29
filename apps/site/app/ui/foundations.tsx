@@ -3,7 +3,7 @@ import * as React from "react";
 
 /* ══ Fondations — transcription fidèle d'atelier.html.
    « tokens live » : chaque échantillon est piloté par une var() RÉELLE du système
-   (@sibyl/tokens). Aucune valeur en dur pour la couleur / le rayon / l'espacement /
+   (@fili/tokens). Aucune valeur en dur pour la couleur / le rayon / l'espacement /
    la typo / les icônes / le motion — tout suit la bascule de thème. ══ */
 
 const ICONS: Record<string, string> = {

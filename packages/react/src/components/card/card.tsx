@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// Sans cette directive, une page serveur qui importe le baril @fili/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -14,7 +14,7 @@ import "./card.css";
  * d'action lui-même (Button) et ne navigue jamais sans un vrai lien (Link, Card.TitleLink).
  * Construit sur les RÈGLES de Design System MD — langage **Interaction** (relief = signal,
  * jamais décor) + principe **Adaptive** (le conteneur pilote le composant) — habillé par les
- * tokens @sibyl/tokens. Cf. `foundations/relief-adaptive.md` pour le contexte de ces deux
+ * tokens @fili/tokens. Cf. `foundations/relief-adaptive.md` pour le contexte de ces deux
  * autorités (évolution DS-MD du 2026-07-20).
  *
  * AXES DS-MD, volontairement différents de Button/Input : `mode` (interaction_mode) ×

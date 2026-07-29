@@ -40,6 +40,6 @@ Tout le reste ne se modifie pas.
 
 ## Provenance
 
-Généré depuis le monorepo **Sibyl DS** (`node tools/plugin/build-plugin.js`) : la prose et
+Généré depuis le monorepo **Fili** (`node tools/plugin/build-plugin.js`) : la prose et
 les tokens viennent de `apps/site/content/md/`, les fiches condensées de `tools/plugin/rules/`.
 Ne pas éditer les fichiers du paquet à la main — ils sont régénérés à chaque build.

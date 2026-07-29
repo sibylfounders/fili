@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// Sans cette directive, une page serveur qui importe le baril @fili/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import gsap from "gsap";

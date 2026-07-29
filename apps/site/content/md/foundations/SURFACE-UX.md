@@ -2,7 +2,7 @@
 component: surface
 layer: ux
 type: foundation
-version: 1.0.0 # 1.0.0 : première rédaction (2026-07-27) — la notion existait dans les jetons et dans cinq sujets sans avoir de propriétaire.
+version: 1.0.1 # 1.0.1 : mention de marque Sibyl → Fili en prose (migration 2026-07-29), aucune règle modifiée. 1.0.0 : première rédaction (2026-07-27) — la notion existait dans les jetons et dans cinq sujets sans avoir de propriétaire.
 last_updated: 2026-07-27
 companion: SURFACE-UI.md
 confidence: mixed # la définition du plan, le seuil 3:1 quand il identifie seul et le comportement en couleurs forcées sont sourcés sur norme ou convergence ; le cran unique, la séparation surface/relief et l'ordre espace-fond-trait sont des partis pris d'identité, minoritaires et déclarés comme tels
@@ -220,7 +220,7 @@ MESURE : aucun plan non actionnable ne se distingue par un canal réservé aux �
 | Atlassian | 4 | `elevation.surface.sunken` / défaut / `.raised` / `.overlay` | atlassian.design/foundations/elevation |
 | Polaris | 3 | `bg-surface` / `-secondary` / `-tertiary` + variantes spécialisées | polaris-react.shopify.com/tokens/color |
 | Primer | 3 | `bgColor-default` / `-muted` / `-inset` (+ `-emphasis`, `overlay-bgColor`) | primer.style/foundations/primitives/color |
-| **Sibyl DS** | **1** | `background` → `surface`, un seul cran, + son survol et son inversion | `packages/tokens/src/tokens.source.mjs` |
+| **Fili** | **1** | `background` → `surface`, un seul cran, + son survol et son inversion | `packages/tokens/src/tokens.source.mjs` |
 | Material 3 (site) | — | **non vérifiable** — `m3.material.io/styles/color/roles` est rendu en JavaScript et ne renvoie aucun contenu lisible en texte ; remplacé par le dépôt `material-web`, source primaire | — |
 
 **Un survol par niveau de plan — 3 systèmes sur 6**

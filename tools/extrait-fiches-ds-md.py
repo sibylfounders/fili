@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Extrait un sujet du site DS-MD généré (public/sujets/<slug>.html) en JSON structuré.
-Le chrome (onglets, cartes, modales, accordéons) sera reconstruit avec les composants Sibyl DS ;
+Le chrome (onglets, cartes, modales, accordéons) sera reconstruit avec les composants Fili ;
 seules les illustrations (SVG) et les spécimens générés restent du balisage tel quel."""
 import re, json, html, sys, os
 

@@ -1,5 +1,5 @@
 // Sortie témoin — 3 violations injectées volontairement (contrôle § 7.4)
-import { Button, Card } from '@sibyl/react';
+import { Button, Card } from '@fili/react';
 
 export default function Temoin() {
   return (

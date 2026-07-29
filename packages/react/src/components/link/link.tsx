@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// Sans cette directive, une page serveur qui importe le baril @fili/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
@@ -10,7 +10,7 @@ import { cn } from "../../lib/cn";
 /**
  * Link — PROMET UNE DESTINATION (Button promet une action). Nouveau composant issu de
  * l'évolution DS-MD du 2026-07-20 (langage Interaction, DECISIONS.md « Interaction Language,
- * Adaptive Architecture et Link »), habillé par les tokens @sibyl/tokens existants — AUCUN
+ * Adaptive Architecture et Link »), habillé par les tokens @fili/tokens existants — AUCUN
  * nouveau token (décision explicite de LINK-UI.md : couleur/focus/icône/motion suffisent).
  *
  * AXE : `context` = inline / standalone / navigation.

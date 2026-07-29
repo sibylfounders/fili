@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   @sibyl/charts — styles des graphes SVG (sur tokens). Trace + grille + axes,
+   @fili/charts — styles des graphes SVG (sur tokens). Trace + grille + axes,
    couche d'interaction (crosshair, point actif, infobulle), animations d'entree.
    Les graphes sont dessines en pixels reels (mesure ResizeObserver) : pas de
    distorsion, trait a epaisseur constante.

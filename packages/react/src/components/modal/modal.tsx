@@ -224,7 +224,7 @@ export function ModalHeader({ kicker, closable = true, level = 2, className, chi
 ModalHeader.displayName = "Modal.Header";
 
 export function ModalBody({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("min-h-0 flex-1 overflow-y-auto px-lg py-sm text-sm text-text-secondary", className)} {...props} />;
+  return <div className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain px-lg py-sm text-sm text-text-secondary", className)} {...props} />;
 }
 ModalBody.displayName = "Modal.Body";
 

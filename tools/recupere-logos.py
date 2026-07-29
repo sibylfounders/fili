@@ -5,7 +5,7 @@
 À lancer **depuis ta machine** : la session Cowork n'a pas d'accès réseau, ni côté conteneur
 ni côté pont. C'est pour ça que ce script existe plutôt qu'un dossier déjà rempli.
 
-    cd "/Users/aureliennougier/Claude/Projects/Sibyl DS"
+    cd "/Users/aureliennougier/Claude/Projects/Fili"
     python3 tools/recupere-logos.py
 
 Source utilisée : Simple Icons (CC0, domaine public), qui publie les marques sous forme de
@@ -67,7 +67,7 @@ def recupere(nom, slug):
     if os.path.exists(chemin):
         return "déjà là"
     url = CDN.format(slug=slug)
-    req = urllib.request.Request(url, headers={"User-Agent": "sibyl-ds/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "fili/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             data = r.read()

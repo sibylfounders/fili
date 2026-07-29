@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { CardGroup } from "@sibyl/react";
+import { CardGroup } from "@fili/react";
 import type { Entree, Sources } from "./page";
 
 /**

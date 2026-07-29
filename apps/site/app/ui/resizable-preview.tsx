@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { breakpoint } from "@sibyl/tokens";
+import { breakpoint } from "@fili/tokens";
 
 /** Fond damier thème-aware (tuiles var(--surface) sur var(--background)). */
 const CHECKER: React.CSSProperties = {

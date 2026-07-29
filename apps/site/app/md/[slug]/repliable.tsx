@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Accordion } from "@sibyl/react";
+import { Accordion } from "@fili/react";
 
 /** Frontière client pour un Accordion du DS dont le contenu est rendu côté serveur. */
 export function Repliable({

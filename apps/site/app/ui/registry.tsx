@@ -5,16 +5,16 @@ import {
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
   type ModalPlacement, type ModalEnterFrom, type DropdownSide, type DropdownAlign,
-} from "@sibyl/react";
+} from "@fili/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
   StatCard, ChartCard, KpiGroup,
   AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
   fmtEur, fmtInt, fmtCompact,
   type ComposedPoint, type DonutDatum, type KpiItem, type LineSeries,
-} from "@sibyl/charts";
+} from "@fili/charts";
 
-/* ── données atelier « adacard » : dogfooding de @sibyl/charts ── */
+/* ── données atelier « adacard » : dogfooding de @fili/charts ── */
 const ADA_SPARK = [1420, 1560, 1490, 1720, 1640, 1580, 1810, 1750, 1930, 1880, 2050, 1990, 2180, 2310];
 const ADA_MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const ADA_CA = [32, 40, 36, 52, 47, 61, 55, 68, 63, 79, 73, 88];
@@ -239,7 +239,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     return (
       <AppLayout
         variant="docs"
-        brand={shellBrand("Sibyl Docs")}
+        brand={shellBrand("Fili Docs")}
         brandMark={shellMark}
         nav={[
           { label: "Démarrer", items: [{ label: "Introduction", active: true }, { label: "Installation" }, { label: "Structure du projet" }] },
@@ -258,7 +258,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
       >
         <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-muted">Démarrer</span>
         <h1 className="m-0 mt-1 text-3xl font-semibold text-text-primary">Introduction</h1>
-        <p className="mt-3 text-text-secondary">Sibyl est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
+        <p className="mt-3 text-text-secondary">Fili est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
         <h2 className="mb-2 mt-lg text-lg font-semibold text-text-primary">Fonctionnalités</h2>
         <ul className="flex list-disc flex-col gap-1 pl-5 text-text-secondary"><li>Accessibles par défaut</li><li>Tokens de design</li><li>Mode sombre</li><li>Server Components</li></ul>
       </AppLayout>
@@ -267,7 +267,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
   return (
     <AppLayout
       variant="default"
-      brand={shellBrand("Sibyl")}
+      brand={shellBrand("Fili")}
       brandMark={shellMark}
       nav={[
         { label: "Tableau de bord", icon: ICO.home, active: true },
@@ -347,10 +347,10 @@ export const GROUPS: Group[] = [
         render: () => (
           <Brand.Root>
             <Brand.Logo><svg viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 12h14M5 18h9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg></Brand.Logo>
-            <Brand.Text>Sibyl DS</Brand.Text>
+            <Brand.Text>Fili</Brand.Text>
           </Brand.Root>
         ),
-        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Sibyl DS</Brand.Text>\n</Brand.Root>`,
+        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Fili</Brand.Text>\n</Brand.Root>`,
       },
       {
         key: "divider", name: "Divider",
@@ -742,13 +742,13 @@ export const GROUPS: Group[] = [
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="sibyl.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
+                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
               </>
             ) : (
               <Input.Input
                 key={s.type} // le defaultValue suit le type (champ non contrôlé)
                 type={s.type}
-                defaultValue={s.type === "email" ? "aurelien@sibyl.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
+                defaultValue={s.type === "email" ? "aurelien@fili.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
                 placeholder={s.type === "email" ? "nom@domaine.fr" : s.type === "tel" ? "06 12 34 56 78" : "Votre texte"}
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
                 clearable={s.clearable}

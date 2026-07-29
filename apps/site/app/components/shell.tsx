@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppLayout, Brand, ThemeToggle, Divider, Select, Switch } from "@sibyl/react";
+import { AppLayout, Brand, ThemeToggle, Divider, Select, Switch } from "@fili/react";
 import { ThemingContext } from "../theming-context";
 
 const SECTIONS = [
@@ -72,7 +72,7 @@ export function Shell({
   const sidebar = (
     <div className="flex h-full flex-col gap-lg p-lg">
       <Link href="/" className="no-underline">
-        <Brand.Root><Brand.Text>Sibyl DS</Brand.Text></Brand.Root>
+        <Brand.Root><Brand.Text>Fili</Brand.Text></Brand.Root>
       </Link>
       <Select options={SECTIONS} value={section} onValueChange={(v) => router.push(`/${v}`)} aria-label="Section" />
       <div id="section-nav" className="min-h-0 flex-1 overflow-y-auto" />

@@ -49,7 +49,7 @@ BLANCHE = {
 
 
 def tokens_couleur():
-    """Noms de couleurs réellement exposés par @sibyl/tokens."""
+    """Noms de couleurs réellement exposés par @fili/tokens."""
     if not os.path.exists(TOKENS_CSS):
         return None
     src = open(TOKENS_CSS, encoding="utf-8").read()

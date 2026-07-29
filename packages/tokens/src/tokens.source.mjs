@@ -256,7 +256,7 @@ export const overlay = {
 };
 
 export const meta = {
-  name: "@sibyl/tokens",
+  name: "@fili/tokens",
   modes: ["light", "dark"],
   note: "DS-UI consomme DS-MD. Valeurs = DS-MD ; organisation 3 étages + modes.",
 };

@@ -1,4 +1,4 @@
-// @sibyl/charts — briques dataviz (SVG sur tokens @sibyl/tokens, interactions maison).
+// @fili/charts — briques dataviz (SVG sur tokens @fili/tokens, interactions maison).
 // Graphes responsives & animes avec survol/tactile (crosshair + infobulle), et widgets
 // de reporting (StatCard adaptative, KpiGroup, ProgressCircle, UsageSummary).
 

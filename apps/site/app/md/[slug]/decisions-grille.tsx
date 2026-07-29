@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { CardGroup, Modal } from "@sibyl/react";
+import { CardGroup, Modal } from "@fili/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Decision } from "@/lib/doctrine";
 

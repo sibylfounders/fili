@@ -1,5 +1,5 @@
 {
-  "name": "@sibyl/site",
+  "name": "@fili/site",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,9 +8,9 @@
     "start": "next start -p 3000"
   },
   "dependencies": {
-    "@sibyl/react": "*",
-    "@sibyl/tokens": "*",
-    "@sibyl/charts": "*",
+    "@fili/react": "*",
+    "@fili/tokens": "*",
+    "@fili/charts": "*",
     "next": "^14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

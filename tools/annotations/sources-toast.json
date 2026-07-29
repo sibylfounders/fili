@@ -116,7 +116,7 @@
   "ref": "S25",
   "affirmation": "Intelligence Community Design System (Toast, accessibilité) : composant testé contre WCAG 2.2 AA ; « A user can also hover over the toast with their mouse to pause the timer. » ; « If any actions are included within a toast, then it can't be set to auto-dismiss. » ; un toast auto-fermant porte role=\"alert\", un toast persistant porte role=\"dialog\" et reçoit le focus.",
   "source_markdown": "[ICDS — Toast, accessibility](https://design.sis.gov.uk/components/feedback-progress/toast/accessibility)",
-  "confiance": "Établi — design system public vérifié. **Contredit frontalement R13/R14/U03** : ce système interdit purement et simplement l'auto-fermeture dès qu'une action est présente, là où Sibyl se contente d'ajouter 2 000 ms et une pause au survol."
+  "confiance": "Établi — design system public vérifié. **Contredit frontalement R13/R14/U03** : ce système interdit purement et simplement l'auto-fermeture dès qu'une action est présente, là où Fili se contente d'ajouter 2 000 ms et une pause au survol."
  },
  {
   "couche": "ui",

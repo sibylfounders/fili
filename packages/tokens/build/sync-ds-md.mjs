@@ -6,7 +6,7 @@
 // avec le contrat précédent. C'est le SEUL point d'entrée des valeurs DS-MD dans DS-UI :
 // on ne recopie plus une couleur à la main.
 //
-// Depuis la migration vers Sibyl DS, la doctrine vit DANS le monorepo : plus aucun
+// Depuis la migration vers le monorepo Fili, la doctrine vit DANS le monorepo : plus aucun
 // chemin vers l'ancien dépôt « Design System MD », gelé et en lecture seule. Le
 // tokens.yaml du paquet Cowork est, lui aussi, dérivé de ce même DESIGN.md
 // (tools/plugin/genere-tokens.js) — une seule source, deux consommateurs.

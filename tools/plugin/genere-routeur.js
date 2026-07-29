@@ -243,7 +243,7 @@ function tableSujets() {
 function genereRouteur(poidsSocle) {
   return `# Design System MD — routeur de consommation IA
 
-> Généré par \`tools/plugin/genere-routeur.js\` (monorepo Sibyl DS) — ne pas éditer à la main (frontmatters des RULES-* + table INTENTIONS du script font foi).
+> Généré par \`tools/plugin/genere-routeur.js\` (monorepo Fili) — ne pas éditer à la main (frontmatters des RULES-* + table INTENTIONS du script font foi).
 > Deux modes : **build** (générer ou modifier de l'UI conforme — § Protocole) et **audit** (confronter une interface existante aux règles — § Mode audit).
 > Socle toujours chargé (les deux modes) : ce fichier + RULES-accessibility + RULES-interaction + RULES-adaptive + RULES-cognitive-load + RULES-performance. Tout le reste se charge à la demande, via les deux tables ci-dessous.
 
@@ -257,7 +257,7 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 4. Retouche d'une fondation (« resserre les espacements »), d'un langage (« change la manière dont les actions se signalent ») ou d'un principe (« change la stratégie adaptative ») : charge le RULES concerné.
 5. Sujet non couvert par le système (${HORS_PERIMETRE}…) : **stoppe et remonte** — ne l'improvise pas à partir des règles voisines.
 6. Jamais de valeur codée en dur : toute propriété visuelle référence un token de \`tokens.yaml\`. Token manquant → remonte.
-7. Si la couche source (\`apps/site/content/md/\` du dépôt Sibyl DS) est présente, ne la lis JAMAIS pendant un build — ce dossier en est la compilation à jour. N'édite jamais les fichiers de ce dossier à la main (exception consommateur : les valeurs de \`tokens.yaml\`, jamais ses noms).
+7. Si la couche source (\`apps/site/content/md/\` du dépôt Fili) est présente, ne la lis JAMAIS pendant un build — ce dossier en est la compilation à jour. N'édite jamais les fichiers de ce dossier à la main (exception consommateur : les valeurs de \`tokens.yaml\`, jamais ses noms).
 8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : **stoppe et remonte la question en exposant les options** (2 à 4, chacune avec sa conséquence). Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
 9. Une extension (type « extension » dans la table des sujets, ex. \`form-multi-step\`) ne se charge **jamais** par défaut avec son sujet parent — uniquement quand la situation qu'elle nomme se présente réellement dans la demande (étapes, validation asynchrone, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel). Charge le sujet parent en premier, l'extension en complément ciblé.
 10. **Socle universel** : \`RULES-accessibility\`, \`RULES-interaction\`, \`RULES-adaptive\`, \`RULES-cognitive-load\` et \`RULES-performance\` sont déjà chargés pour toute intention. Ils posent respectivement le principe d'accessibilité, le langage d'interaction, le principe adaptatif, le contrat de charge cognitive et le contrat des attentes (performance perçue). Ne jamais les retirer.
@@ -298,7 +298,7 @@ description: À utiliser avant de créer ou modifier de l'UI ou un parcours docu
 
 # Design System MD — compétence de consommation
 
-> Généré par \`tools/plugin/genere-routeur.js\` (monorepo Sibyl DS) — ne pas éditer à la main.
+> Généré par \`tools/plugin/genere-routeur.js\` (monorepo Fili) — ne pas éditer à la main.
 > Cette compétence **n'ajoute aucune règle** : elle branche l'agent sur la distribution
 > déjà présente dans ce dossier. Le routeur (\`AGENTS.md\`/\`CLAUDE.md\`), les \`RULES-*.md\`
 > et \`tokens.yaml\` font foi.
@@ -319,7 +319,7 @@ ${declencheurs}
    correspondant, résous les \`requires\`, n'ajoute une extension que si son contexte se
    présente réellement dans la demande.
 3. Toute valeur visuelle vient de **\`tokens.yaml\`** — jamais de valeur codée en dur.
-4. Ne lis **pas** la couche source (\`apps/site/content/md/\` du dépôt Sibyl DS : sujets, inventaires et noyau)
+4. Ne lis **pas** la couche source (\`apps/site/content/md/\` du dépôt Fili : sujets, inventaires et noyau)
    pendant un build : ce paquet en est la compilation à jour.
 
 ## Mode audit
@@ -346,7 +346,7 @@ Tout le reste ne se modifie pas.
 
 ## Version
 
-Paquet ${VERSION_PAQUET}, tokens DESIGN ${VERSION_DESIGN}. Régénéré par \`node tools/plugin/build-plugin.js\` depuis le monorepo Sibyl DS.
+Paquet ${VERSION_PAQUET}, tokens DESIGN ${VERSION_DESIGN}. Régénéré par \`node tools/plugin/build-plugin.js\` depuis le monorepo Fili.
 
 ## Test d'installation
 

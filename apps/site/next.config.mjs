@@ -3,6 +3,6 @@ const nextConfig = {
   output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
-  transpilePackages: ["@sibyl/react", "@sibyl/charts", "@sibyl/tokens"],
+  transpilePackages: ["@fili/react", "@fili/charts", "@fili/tokens"],
 };
 export default nextConfig;

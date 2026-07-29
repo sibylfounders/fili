@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
+// Sans cette directive, une page serveur qui importe le baril @fili/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -66,7 +66,7 @@ const SIZE_VERTICAL: Record<DrawerSize, string> = {
 const panelVariants = cva(
   [
     "z-overlay bg-surface shadow-overlay",
-    "overflow-y-auto outline-none flex flex-col",
+    "overflow-y-auto overscroll-contain outline-none flex flex-col",
     "transition-transform duration-slow ease-out motion-reduce:transition-none",
   ].join(" "),
   {

@@ -2,7 +2,7 @@
 
 Produis **un seul fichier .jsx complet** :
 
-1. les imports depuis `'@sibyl/react'` (et `'@sibyl/react/icons'` si besoin) ;
+1. les imports depuis `'@fili/react'` (et `'@fili/react/icons'` si besoin) ;
 2. un composant React exporté par défaut qui implémente la tâche demandée ;
 3. **en fin de fichier**, un bloc de commentaire :
 

@@ -8,7 +8,7 @@ export interface ChartCardProps {
   title: string;
   sub?: string;
   delta?: StatDelta;
-  children: React.ReactNode;   // un graphe @sibyl/charts
+  children: React.ReactNode;   // un graphe @fili/charts
   className?: string;
 }
 

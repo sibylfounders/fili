@@ -42,7 +42,7 @@ jobs:
       # Régénère les tokens + garde de fidélité DS-MD + contrôle de contraste.
       - run: npm run tokens:build
 
-      - run: npm run build --workspace @sibyl/site
+      - run: npm run build --workspace @fili/site
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Select, Switch } from "@sibyl/react";
+import { Select, Switch } from "@fili/react";
 import type { Control } from "./registry";
 
 /** Panneau de contrôles façon Figma : rangées label→contrôle, sections explicites

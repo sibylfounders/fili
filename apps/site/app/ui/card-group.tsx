@@ -1,10 +1,10 @@
 "use client";
 import * as React from "react";
-import { Button, CardGroup as Kit, CompactButton } from "@sibyl/react";
+import { Button, CardGroup as Kit, CompactButton } from "@fili/react";
 import { CARD_IMGS } from "./card-imgs";
 
 /* ══ Démo « Card group » de l'atelier — pilote le VRAI composant du package
-   (`CardGroup` de @sibyl/react, promu le 2026-07-26). Ce fichier ne porte plus que
+   (`CardGroup` de @fili/react, promu le 2026-07-26). Ce fichier ne porte plus que
    les données de démonstration, la traduction des réglages du playground et le
    squelette de chargement. Les actions dogfoodent Button/CompactButton. ══ */
 

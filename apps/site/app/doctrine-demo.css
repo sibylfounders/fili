@@ -3,7 +3,7 @@
    Ce sont des PREUVES VISUELLES (spécimens, matrices, échantillons), au même titre
    que les illustrations SVG : leur balisage vient du générateur, il n'est pas
    reconstruit en composants. Le chrome autour (onglets, cartes, modales, accordéons)
-   vient, lui, strictement de @sibyl/react.
+   vient, lui, strictement de @fili/react.
 
    Les règles ci-dessous sont extraites de public/assets/site.css et RE-CÂBLÉES sur les
    tokens du monorepo : le pont de variables ci-dessous fait que les démos suivent le

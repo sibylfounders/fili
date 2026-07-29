@@ -3,7 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
-import { Accordion, Nav } from "@sibyl/react";
+import { Accordion, Nav } from "@fili/react";
 import type { NavGroupe } from "@/lib/md";
 
 /**

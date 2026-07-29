@@ -1,5 +1,5 @@
 "use client";
-import { CardGroup } from "@sibyl/react";
+import { CardGroup } from "@fili/react";
 
 /**
  * Les règles fondamentales d'un sujet — CLIENT.
