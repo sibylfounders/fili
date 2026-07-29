@@ -19,7 +19,11 @@
 }
 @container sw-shell (min-width: 1024px) {
   .sw-shell-sidebar {
-    position: sticky; top: 0; height: 100%; max-height: 100vh;
+    /* TOUJOURS pleine hauteur : c'est l'étirement flex (align-self: stretch + height auto)
+       qui remplit la colonne — height: 100% ne résolvait RIEN quand le shell n'a qu'une
+       min-height (le fond de la nav s'arrêtait au dernier lien). max-height borne le cas
+       d'un shell plus haut que la fenêtre (le défilement vit dans le main, pas la page). */
+    position: sticky; top: 0; align-self: stretch; height: auto; max-height: 100vh;
     z-index: auto; max-width: none; transform: none; box-shadow: none;
   }
   .sw-shell-scrim { display: none; }

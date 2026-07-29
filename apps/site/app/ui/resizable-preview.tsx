@@ -211,7 +211,9 @@ export function ResizablePreview({ children, fill = false }: { children: React.R
         {barre}
         <button
           type="button"
-          onClick={() => setFull(true)}
+          // Le plein écran s'ouvre TOUJOURS en pleine largeur — la largeur de test en cours
+          // appartient à l'atelier, pas à l'aperçu plein écran (on y re-choisit un palier).
+          onClick={() => { setW(null); setFull(true); }}
           title="Plein écran"
           aria-label="Aperçu plein écran"
           className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background text-text-secondary hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
