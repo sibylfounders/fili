@@ -82,7 +82,10 @@ const theme = {
   fontFamily: { sans: ["Geist", "system-ui", "sans-serif"], mono: ["JetBrains Mono", "monospace"], label: ["Inter", "system-ui", "sans-serif"] },
   fontSize: Object.fromEntries(Object.entries(typography.heading).map(([k, v]) => [k, v])),
   spacing: Object.fromEntries(Object.entries(spacing).map(([k, v]) => [k, v])),
-  borderRadius: { ...radius },
+  // Rayon THÉMABLE de bout en bout : les classes rounded-* pointent vers var(--radius-*)
+  // (le réglage « Rayon » du panneau Theming surcharge ces vars — avant, les classes Tailwind
+  // étaient compilées en px durs et seuls les consommateurs CSS suivaient. Fix 2026-07-29).
+  borderRadius: Object.fromEntries(Object.entries(radius).map(([k]) => [k, `var(--radius-${k})`])),
   boxShadow: { ...elevation },
   transitionDuration: Object.fromEntries(Object.entries(motion.duration).map(([k, v]) => [k, v])),
   transitionTimingFunction: Object.fromEntries(

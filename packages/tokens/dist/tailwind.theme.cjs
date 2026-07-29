@@ -198,13 +198,13 @@ module.exports = {
     "section": "80px"
   },
   "borderRadius": {
-    "none": "0px",
-    "xs": "2px",
-    "sm": "4px",
-    "md": "8px",
-    "lg": "12px",
-    "2xl": "20px",
-    "pill": "9999px"
+    "none": "var(--radius-none)",
+    "xs": "var(--radius-xs)",
+    "sm": "var(--radius-sm)",
+    "md": "var(--radius-md)",
+    "lg": "var(--radius-lg)",
+    "2xl": "var(--radius-2xl)",
+    "pill": "var(--radius-pill)"
   },
   "boxShadow": {
     "none": "none",
