@@ -84,7 +84,7 @@ export function Shell({
   const aside = (
     <div className="flex flex-col gap-md p-lg">
       <div className="flex items-baseline justify-between">
-        <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Theming</span>
+        <span className="font-label text-sm font-semibold text-text-primary">Theming</span>
         <span className="font-mono text-[11px] text-text-muted">tokens live</span>
       </div>
       <Row label="Thème"><ThemeToggle checked={dark} onCheckedChange={setDark} aria-label="Thème sombre" /></Row>
