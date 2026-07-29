@@ -197,7 +197,12 @@ export function Select({
           role="listbox"
           id={listId}
           tabIndex={-1}
-          className="absolute left-0 top-full z-popover mt-1 max-h-64 w-full min-w-full overflow-auto rounded-md border border-border bg-background py-1 shadow-overlay outline-none"
+          className={cn(
+            // au moins la largeur du déclencheur, mais JAMAIS tronqué : la liste s'élargit
+            // au mot le plus long (w-max), plafond raisonnable pour rester un popover
+            "absolute top-full z-popover mt-1 max-h-64 w-max min-w-full max-w-[18rem] overflow-auto rounded-md border border-border bg-background py-1 shadow-overlay outline-none",
+            variant === "ghost" ? "right-0" : "left-0",
+          )}
         >
           {options.map((o, i) => {
             const isSel = o.value === value;
