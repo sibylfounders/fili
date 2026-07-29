@@ -67,22 +67,51 @@ export function Atelier() {
     </button>
   );
 
+  // Fondations et Layout : en tête, REPLIABLES (fermées par défaut) — le socle est là sans
+  // manger la liste. Le reste : catégories ET liens en ordre alphabétique.
+  const [openGroups, setOpenGroups] = React.useState<Record<string, boolean>>({
+    Fondations: false,
+    Layout: false,
+  });
+  const groupSection = (label: string, collapsible: boolean, children: React.ReactNode) => {
+    const open = collapsible ? (openGroups[label] ?? false) : true;
+    return (
+      <div key={label}>
+        {collapsible ? (
+          <button
+            type="button"
+            aria-expanded={open}
+            onClick={() => setOpenGroups((p) => ({ ...p, [label]: !(p[label] ?? false) }))}
+            className="mb-2 flex w-full items-center justify-between rounded-sm font-label text-xs font-semibold uppercase tracking-wide text-text-secondary transition-colors hover:text-text-primary"
+          >
+            {label}
+            <svg viewBox="0 0 20 20" className={"size-3.5 shrink-0 transition-transform duration-fast " + (open ? "" : "-rotate-90")} aria-hidden="true">
+              <path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        ) : (
+          <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">{label}</p>
+        )}
+        {open ? <div className="flex flex-col gap-1">{children}</div> : null}
+      </div>
+    );
+  };
+  const layoutGroup = GROUPS.find((g) => g.label === "Layout");
+  const otherGroups = GROUPS.filter((g) => g.label !== "Layout")
+    .slice()
+    .sort((a, b) => a.label.localeCompare(b.label, "fr"));
+  const sortedItems = (items: typeof ALL) =>
+    items.slice().sort((a, b) => a.name.localeCompare(b.name, "fr"));
+
   const list = (
     <div className="flex flex-col gap-lg">
-      <div>
-        <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Fondations</p>
-        <div className="flex flex-col gap-1">
-          {FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key))}
-        </div>
-      </div>
-      {GROUPS.map((g) => (
-        <div key={g.label}>
-          <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">{g.label}</p>
-          <div className="flex flex-col gap-1">
-            {g.items.map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))}
-          </div>
-        </div>
-      ))}
+      {groupSection("Fondations", true, FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key)))}
+      {layoutGroup
+        ? groupSection("Layout", true, sortedItems(layoutGroup.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key)))
+        : null}
+      {otherGroups.map((g) =>
+        groupSection(g.label, false, sortedItems(g.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))),
+      )}
     </div>
   );
 
