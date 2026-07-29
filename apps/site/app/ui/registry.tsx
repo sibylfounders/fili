@@ -166,7 +166,7 @@ const DropdownDemo: React.FC<{ side: DropdownSide; align: DropdownAlign; icons: 
       {last ? <p className="m-0 text-xs text-text-muted">Action : {last}</p> : null}
       <Dropdown.Root>
         <Dropdown.Trigger asChild>
-          <Button.Root style="lighter" tone="neutral">
+          <Button.Root>
             Options
             {/* drop-up : la flèche pointe vers le haut, dans le sens d'ouverture du menu */}
             <Button.Icon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={side === "top" ? "m6 15 6-6 6 6" : "m6 9 6 6 6-6"} /></svg></Button.Icon>
@@ -552,7 +552,7 @@ export const GROUPS: Group[] = [
             title: "Ancré — un déclencheur ouvre le menu (motif menu button)",
             render: (s) => <DropdownDemo side={s.side} align={s.align} icons={s.icons} />,
             code: (s) =>
-              `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root style="lighter" tone="neutral">Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
+              `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root>Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
           },
           {
             title: "En ligne — sans déclencheur, le panneau vit dans la page",
