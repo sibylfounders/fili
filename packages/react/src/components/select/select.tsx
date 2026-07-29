@@ -5,6 +5,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../../lib/no-scrollbar.css";
 
 /**
  * Select — choix unique parmi des options prédéfinies (DS-MD RULES-select). Motif ARIA APG
@@ -243,7 +244,7 @@ export function Select({
             ref={listRef}
             tabIndex={-1}
             onScroll={updateOverflow}
-            className="max-h-64 w-full overflow-auto py-1 outline-none"
+            className="ds-no-scrollbar max-h-64 w-full overflow-auto py-1 outline-none"
           >
           {options.map((o, i) => {
             const isSel = o.value === value;

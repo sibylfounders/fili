@@ -2,6 +2,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../../lib/no-scrollbar.css";
 
 /**
  * Tabs — un seul jeu de contenus, plusieurs volets, un seul visible. Ce n'est PAS un superposé
@@ -117,6 +118,26 @@ export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
 export function TabsList({ label, className, children, ...props }: TabsListProps) {
   const { variant, value, setValue, values, activation } = useTabs();
   const ref = React.useRef<HTMLDivElement>(null);
+  // Signal de débordement horizontal : selon la largeur reçue, des onglets peuvent être hors
+  // champ — voiles dégradés + chevrons gauche/droite (même mécanique que la listbox du Select,
+  // rapport utilisateur 2026-07-29). Barre de scroll masquée : le voile est le signal.
+  const [ov, setOv] = React.useState({ start: false, end: false });
+  const updateOverflow = React.useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    setOv({
+      start: el.scrollLeft > 2,
+      end: el.scrollLeft + el.clientWidth < el.scrollWidth - 2,
+    });
+  }, []);
+  React.useEffect(() => {
+    updateOverflow();
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(updateOverflow);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [updateOverflow]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const dispo = values.current;
@@ -134,24 +155,59 @@ export function TabsList({ label, className, children, ...props }: TabsListProps
     ref.current?.querySelector<HTMLElement>(`[data-valeur="${cible}"]`)?.focus();
   };
 
+  const veilChevron = (d: "left" | "right") => (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 shrink-0 text-text-muted">
+      <path d={d === "left" ? "M12 6l-4 4 4 4" : "M8 6l4 4-4 4"} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+
   return (
     <div
-      ref={ref}
-      role="tablist"
-      aria-label={label}
-      aria-orientation="horizontal"
-      onKeyDown={onKeyDown}
       className={cn(
-        "flex items-center overflow-x-auto",
-        variant === "line"
-          ? "gap-lg border-b border-border"
-          : // pill : le contenant s'ajuste à la largeur des pastilles, jamais full-width
-            "w-fit max-w-full gap-0.5 self-start rounded-pill border border-border bg-background p-[3px]",
-        className,
+        "relative",
+        // pill : le contenant s'ajuste à la largeur des pastilles, jamais full-width
+        variant === "pill" && "w-fit max-w-full self-start rounded-pill border border-border bg-background",
       )}
-      {...props}
     >
-      {children}
+      <div
+        ref={ref}
+        role="tablist"
+        aria-label={label}
+        aria-orientation="horizontal"
+        onKeyDown={onKeyDown}
+        onScroll={updateOverflow}
+        className={cn(
+          "ds-no-scrollbar flex items-center overflow-x-auto",
+          variant === "line" ? "gap-lg border-b border-border" : "gap-0.5 p-[3px]",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+      {/* voiles de débordement — pointer-events-none, purement informatifs */}
+      {ov.start ? (
+        <div
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-y-0 left-0 z-[1] flex w-8 items-center justify-start bg-gradient-to-r from-background to-transparent pl-0.5",
+            variant === "pill" && "rounded-l-pill",
+          )}
+        >
+          {veilChevron("left")}
+        </div>
+      ) : null}
+      {ov.end ? (
+        <div
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-y-0 right-0 z-[1] flex w-8 items-center justify-end bg-gradient-to-l from-background to-transparent pr-0.5",
+            variant === "pill" && "rounded-r-pill",
+          )}
+        >
+          {veilChevron("right")}
+        </div>
+      ) : null}
     </div>
   );
 }

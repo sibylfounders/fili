@@ -13,6 +13,7 @@ export * from "./components/drawer";
 export * from "./components/modal";
 export * from "./components/tabs";
 export * from "./components/select";
+export * from "./components/dropdown";
 export * from "./components/accordion";
 export * from "./components/nav";
 export * from "./components/toc";

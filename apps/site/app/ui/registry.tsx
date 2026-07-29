@@ -2,9 +2,9 @@ import * as React from "react";
 import {
   Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, Modal, Tabs, DeleteButton, SubmitButton, ThemeToggle,
-  Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton,
+  Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
-  type ModalPlacement, type ModalEnterFrom,
+  type ModalPlacement, type ModalEnterFrom, type DropdownSide, type DropdownAlign,
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
@@ -156,6 +156,41 @@ const TabsDemo: React.FC<{ variant: "line" | "pill"; activation: "auto" | "manua
     <Tabs.Panel value="evolution"><p className="m-0 text-sm text-text-secondary">Les arbitrages datés.</p></Tabs.Panel>
   </Tabs.Root>
 );
+
+const DropdownDemo: React.FC<{ side: DropdownSide; align: DropdownAlign; icons: boolean }> = ({ side, align, icons }) => {
+  const [tri, setTri] = React.useState("recent");
+  const [last, setLast] = React.useState<string | null>(null);
+  const ic = (d: React.ReactNode) => (icons ? svg(d) : undefined);
+  return (
+    <div className={cn2("flex min-h-[320px] w-full flex-col items-center gap-sm", side === "top" ? "justify-end pb-lg" : "justify-start pt-md")}>
+      {last ? <p className="m-0 text-xs text-text-muted">Action : {last}</p> : null}
+      <Dropdown.Root>
+        <Dropdown.Trigger asChild>
+          <Button.Root style="lighter" tone="neutral">
+            Options
+            <Button.Icon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg></Button.Icon>
+          </Button.Root>
+        </Dropdown.Trigger>
+        <Dropdown.Content side={side} align={align} aria-label="Options">
+          <Dropdown.Label>Compte</Dropdown.Label>
+          <Dropdown.Item icon={ic(<><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></>)} onSelect={() => setLast("Profil")}>Profil</Dropdown.Item>
+          <Dropdown.Item icon={ic(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" /></>)} onSelect={() => setLast("Réglages")}>Réglages</Dropdown.Item>
+          <Dropdown.Item icon={ic(<><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M14 2v5h5" /></>)} disabled>Facturation</Dropdown.Item>
+          <Dropdown.Separator />
+          <Dropdown.Label>Tri</Dropdown.Label>
+          {[["recent", "Plus récent"], ["ancien", "Plus ancien"], ["az", "A → Z"]].map(([v, l]) => (
+            <Dropdown.Item key={v} checked={tri === v} closeOnClick={false} onSelect={() => setTri(v)}>{l}</Dropdown.Item>
+          ))}
+          <Dropdown.Separator />
+          <Dropdown.Item className="text-danger" icon={ic(<><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /></>)} onSelect={() => setLast("Déconnexion")}>
+            Se déconnecter
+          </Dropdown.Item>
+        </Dropdown.Content>
+      </Dropdown.Root>
+    </div>
+  );
+};
+const cn2 = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
 const SITE_OPTS: SelectOption[] = [
   { value: "md", label: "Design System MD" },
@@ -484,6 +519,18 @@ export const GROUPS: Group[] = [
         render: (s) => <ModalDemo size={s.size} scrim={s.scrim} placement={s.placement} enterFrom={s.enterFrom} />,
         code: (s) =>
           `<Modal open={open} onClose={close} size="${s.size}"${s.placement !== "center" ? ` placement="${s.placement}"` : ""}${s.enterFrom !== "bottom" ? ` enterFrom="${s.enterFrom}"` : ""}${s.scrim ? "" : " dismissOnScrim={false}"}>\n  <Modal.Header kicker="…">Titre</Modal.Header>\n  <Modal.Body>…</Modal.Body>\n  <Modal.Footer>…</Modal.Footer>\n</Modal>`,
+      },
+      {
+        key: "dropdown", name: "Dropdown",
+        controls: [
+          { k: "side", type: "seg", label: "Côté", opts: ["bottom", "top"] },
+          { k: "align", type: "seg", label: "Alignement", opts: ["start", "center", "end"] },
+          { k: "icons", type: "bool", label: "Icônes" },
+        ],
+        initial: { side: "bottom", align: "start", icons: true },
+        render: (s) => <DropdownDemo side={s.side} align={s.align} icons={s.icons} />,
+        code: (s) =>
+          `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root style="lighter" tone="neutral">Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
       },
     ],
   },
