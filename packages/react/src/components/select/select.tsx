@@ -28,7 +28,7 @@ export interface SelectOption {
 const triggerVariants = cva(
   [
     "inline-flex items-center gap-sm rounded-md text-text-primary transition-colors duration-fast ease-out",
-    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
     "disabled:opacity-50 disabled:cursor-not-allowed",
   ].join(" "),
   {

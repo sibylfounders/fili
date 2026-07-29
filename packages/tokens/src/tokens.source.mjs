@@ -275,9 +275,18 @@ export const transversal = {
   // Un CONTRÔLE : l'objet qu'on presse (Button, CompactButton, déclencheur Select,
   // Switch, ThemeToggle, boutons expressifs).
   control: {
-    // Focus unifié de la fondation BORDER (R06/U02) : outline accent, jamais un ring accordé
-    // au ton (décision BUTTON-UI abrogée — arbitrage Aurélien 2026-07-29, cf. DECISIONS.md).
-    "focus-color":  "var(--accent)",
+    // FOCUS v2 (arbitrage Aurélien 2026-07-29 après-midi, remplace l'essai accent du matin) :
+    // UNE définition (largeur/écart/mécanique outline), mais la COULEUR est un anneau SUBTIL
+    // (teinte éclaircie « à la Tailwind », 2px) ACCORDÉ à la bordure/état du composant.
+    // Défaut = primary éclairci ; un composant surcharge --control-focus-color avec le cran
+    // de sa famille (Input en erreur → focus-danger, Button destructive → focus-danger…).
+    "focus-primary": "color-mix(in srgb, var(--primary), var(--static-white) 28%)",
+    "focus-neutral": "color-mix(in srgb, var(--neutral), var(--static-white) 45%)",
+    "focus-danger":  "color-mix(in srgb, var(--danger), var(--static-white) 20%)",
+    "focus-success": "color-mix(in srgb, var(--success), var(--static-white) 20%)",
+    "focus-warning": "color-mix(in srgb, var(--warning), var(--static-white) 20%)",
+    "focus-info":    "color-mix(in srgb, var(--info), var(--static-white) 20%)",
+    "focus-color":  "var(--control-focus-primary)",
     "focus-width":  "var(--focus-width)",
     "focus-offset": "var(--focus-offset)",
     radius: "var(--radius-md)",

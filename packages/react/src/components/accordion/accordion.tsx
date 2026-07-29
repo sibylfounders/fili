@@ -90,7 +90,7 @@ export function AccordionHeader({ level = 3, className, children, ...props }: Ac
         className={cn(
           "flex w-full items-center justify-between gap-sm rounded-md px-sm py-2 text-left text-sm font-medium text-text-primary",
           "hover:bg-surface-hover transition-colors duration-fast ease-out",
-          "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
           className,
         )}
         {...props}

@@ -1,7 +1,7 @@
 ---
 component: button
 layer: ui
-version: 1.7.0 # 1.7.0 : (a) axe `style` renommé `variant` (Fili Component Contract 1.0.0 — `style` masquait l'attribut DOM React ; alias déprécié conservé dans @fili/react jusqu'à la prochaine majeure) ; (b) RETRAIT du tone warning (arbitrage 2026-07-29 — l'avertissement est un message, la famille chromatique warning reste aux messages/statuts) ; (c) focus ring : retour à l'anneau UNIQUE color.accent de la fondation BORDER via les rôles control.focus-* — abroge l'anneau « accordé au ton » (1.4.1), résout la contradiction croisée avec BORDER-UI ; (d) le contraste des couples est couvert par validate-contrast.mjs (test-rendu.js jamais porté — trou documenté). Cf. DECISIONS.md 2026-07-29. 1.6.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
+version: 1.8.0 # 1.8.0 : focus v2 — l'anneau garde la géométrie unique de BORDER mais sa couleur devient un cran SUBTIL ACCORDÉ AU TONE (control.focus-*, défaut primary éclairci) ; remplace l'essai accent de la 1.7.0 (arbitrage Aurélien 2026-07-29 après-midi, cf. DECISIONS.md). 1.7.0 : 1.7.0 : (a) axe `style` renommé `variant` (Fili Component Contract 1.0.0 — `style` masquait l'attribut DOM React ; alias déprécié conservé dans @fili/react jusqu'à la prochaine majeure) ; (b) RETRAIT du tone warning (arbitrage 2026-07-29 — l'avertissement est un message, la famille chromatique warning reste aux messages/statuts) ; (c) focus ring : retour à l'anneau UNIQUE color.accent de la fondation BORDER via les rôles control.focus-* — abroge l'anneau « accordé au ton » (1.4.1), résout la contradiction croisée avec BORDER-UI ; (d) le contraste des couples est couvert par validate-contrast.mjs (test-rendu.js jamais porté — trou documenté). Cf. DECISIONS.md 2026-07-29. 1.6.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
 last_updated: 2026-07-29
 companion: BUTTON-UX.md
 tokens:
@@ -69,12 +69,13 @@ tokens:
       subtle: color.danger-subtle
       on_subtle: color.danger
       subtle_hover: color.danger-subtle-hover
-  # Anneau de focus UNIQUE de la fondation BORDER (1.7.0, arbitrage 2026-07-29) : couleur
-  # `color.accent` (fuchsia 1.33.0, choisi pour rester visible sur TOUT fond, règle des 30°),
-  # largeur/écart `focus_ring_style`, outline extérieur sur :focus-visible. ABROGE l'anneau
-  # « accordé au ton » (1.4.1) : la refonte couleur 1.33.0 a précisément doté le système d'un
-  # accent dédié au focus, et BORDER-R06 exige UNE définition (rôle --control-focus-*).
-  focus_ring: color.accent (via control.focus-* — lib/focus.css, .ds-focus-ring)
+  # Anneau de focus v2 (1.8.0, arbitrage 2026-07-29 après-midi) : géométrie UNIQUE de la
+  # fondation BORDER (focus_ring_style, outline extérieur, :focus-visible via .ds-focus-ring),
+  # couleur SUBTILE ACCORDÉE AU TONE en crans tokenisés — primary → control.focus-primary
+  # (défaut), neutral → control.focus-neutral, destructive → control.focus-danger.
+  # Remplace l'essai `color.accent` du matin ; diffère du per-tone historique (1.4.1) par
+  # la teinte subtile « à la Tailwind » et par des CRANS TOKENISÉS (zéro déduction locale).
+  focus_ring: control.focus-<tone> (défaut control.focus-primary — lib/focus.css, .ds-focus-ring)
   states: [default, hover, focus, active, disabled, loading]
 confidence: mixed
 ---
@@ -166,7 +167,7 @@ La compatibilité (façon caniuse) et le budget de poids de ce moment signature 
 
 ## Accessibilité — spécifications techniques
 - Contraste minimum 3:1 sur tous les états visibles
-- Focus visible obligatoire, jamais supprimé sans remplacement équivalent. **Anneau unique de la fondation BORDER** : outline `color.accent`, largeur `border.focus-width`, écart `border.focus-offset`, sur `:focus-visible` — défini une seule fois (`lib/focus.css`, rôles `control.focus-*`) et consommé par tous les contrôles. L'accent (fuchsia, ≥ 3:1 sur les fonds du système) rend l'anneau visible sur tout, y compris un fond primary.
+- Focus visible obligatoire, jamais supprimé sans remplacement équivalent. **Géométrie unique de la fondation BORDER** (outline, `border.focus-width`/`border.focus-offset`, `:focus-visible`, défini une fois — `lib/focus.css`), **couleur subtile accordée au tone** en crans tokenisés `control.focus-*` (primary éclairci par défaut). L'anneau s'ajoute à la bordure d'état et reste discernable sur les fonds d'usage.
 - Bouton icône seule → `aria-label` systématique, sans exception
 - Zone tactile minimum 44px, y compris quand la taille visuelle est `sm` — la zone de clic peut s'étendre au-delà des limites visuelles du bouton plutôt que de descendre sous ce seuil
 

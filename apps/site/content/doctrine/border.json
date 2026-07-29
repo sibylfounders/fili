@@ -1100,8 +1100,8 @@
   {
    "id": "BORDER-R06",
    "couche": "ux",
-   "solution": "le focus ring est **unifié pour tout le système** : couleur `accent` (≥ 3:1 sur les fonds d'usage, recalibrée pour ça en 1.3.0), largeur et écart tokenisés (`border.focus-width`, `border.focus-offset` — créés par cette fondation : trois composants déclaraient la couleur du ring et laissaient largeur/écart en déduction silencieuse, le travers exact que le système combat depuis tone.destructive_text).",
-   "enonce": "Notre anneau de focus est le même partout : une couleur, une largeur, un écart, définis une seule fois.",
+   "solution": "le focus ring est **unifié pour tout le système** dans sa GÉOMÉTRIE et son MÉCANISME : largeur et écart tokenisés (`border.focus-width`, `border.focus-offset`), outline extérieur, définis une seule fois. Sa COULEUR est un anneau **subtil accordé à la bordure/état du composant** (crans `control.focus-*` : défaut primary éclairci ; error→danger, destructive→danger, success/warning/info/neutral idem — arbitrage 2026-07-29, remplace la couleur unique `accent` de la 1.3.0). Trois composants déclaraient la couleur du ring et laissaient largeur/écart en déduction silencieuse — la déduction silencieuse reste interdite : chaque cran de couleur est un token.",
+   "enonce": "Notre anneau de focus partage partout la même géométrie et le même mécanisme, définis une seule fois ; sa couleur est un cran subtil tokenisé, accordé à la bordure ou à l'état du composant, avec le primary éclairci pour défaut.",
    "mesure": "",
    "contre": "",
    "probleme": "un ring déduit composant par composant dérive — trois largeurs, trois écarts, et plus aucun moyen de le vérifier mécaniquement.",
@@ -1159,13 +1159,7 @@
     "confiance": "Établi, standard (AAA) — ajoutée le 2026-07-27 : nos règles de focus s'appuyaient sur une convergence de systèmes alors qu'une norme quantitative existait"
    },
    "confiance": "",
-   "cas": [
-    {
-     "id": "cas-0-4",
-     "titre": "Focus ring",
-     "famille": "Rôle de bordure"
-    }
-   ]
+   "cas": []
   },
   {
    "id": "BORDER-R07",
@@ -1614,7 +1608,7 @@
   {
    "id": "BORDER-U02",
    "couche": "ui",
-   "solution": "`outline` de largeur `border.focus-width` en `color.accent`, décalé de `border.focus-offset` **à l'extérieur** du composant (`outline-offset`) — jamais `border` : le ring ne participe pas à la boîte, donc pas de layout shift et coexistence avec la bordure d'état.",
+   "solution": "`outline` de largeur `border.focus-width` en `control.focus-color` (cran subtil accordé à la bordure/état ; défaut primary éclairci), décalé de `border.focus-offset` **à l'extérieur** du composant (`outline-offset`) — jamais `border` : le ring ne participe pas à la boîte, donc pas de layout shift et coexistence avec la bordure d'état.",
    "enonce": "L'anneau de focus se pose en `outline` avec un décalage extérieur, jamais en `border`.",
    "mesure": "outline + outline-offset, aucune border ajoutée au focus",
    "contre": "aucune technique ne fait consensus (relevé du 2026-07-27) — `outline` + décalage chez Carbon et Spectrum, `box-shadow` chez Primer et Salesforce, hybride chez GOV.UK, `border` animée chez Fluent 2. Nous choisissons `outline` parce qu'il ne participe pas à la boîte ; ce n'est pas la pratique dominante, il n'y en a pas.",

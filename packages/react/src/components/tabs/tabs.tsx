@@ -42,7 +42,7 @@ const tabVariants = cva(
   [
     "relative inline-flex shrink-0 items-center gap-2 whitespace-nowrap font-medium",
     "transition-colors duration-fast ease-out",
-    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
     "disabled:cursor-not-allowed disabled:text-text-disabled",
   ].join(" "),
   {
@@ -257,7 +257,7 @@ export function TabsPanel({ value: v, keepMounted = false, className, children, 
       aria-labelledby={`${baseId}-tab-${v}`}
       hidden={!current}
       tabIndex={0}
-      className={cn("outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent", className)}
+      className={cn("outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]", className)}
       {...props}
     >
       {children}

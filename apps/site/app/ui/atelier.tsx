@@ -7,6 +7,7 @@ import { ResizablePreview } from "./resizable-preview";
 import { CodeBlock } from "./code-block";
 import { Foundations, FOUNDATIONS } from "./foundations";
 import { useTheming } from "../theming-context";
+import { Nav, navGroupLabelTextClass } from "@fili/react";
 
 const ALL = GROUPS.flatMap((g) => g.items);
 
@@ -57,14 +58,13 @@ export function Atelier() {
   };
   const reset = () => setStates((prev) => ({ ...prev, [entry.key]: { ...(entry.initial ?? {}) } }));
 
+  // Facture unique du kit (Nav.Link) — le bouton de sélection garde sa sémantique via asChild.
   const navBtn = (k: string, name: string, active: boolean) => (
-    <button
-      key={k}
-      onClick={() => setKey(k)}
-      className={"rounded-sm px-md py-1.5 text-left text-sm " + (active ? "bg-surface font-semibold text-primary" : "text-text-secondary")}
-    >
-      {name}
-    </button>
+    <Nav.Link asChild current={active} key={k}>
+      <button type="button" onClick={() => setKey(k)}>
+        <span className="min-w-0 flex-1 truncate">{name}</span>
+      </button>
+    </Nav.Link>
   );
 
   // Fondations et Layout : en tête, REPLIABLES (fermées par défaut) — le socle est là sans
@@ -82,7 +82,7 @@ export function Atelier() {
             type="button"
             aria-expanded={open}
             onClick={() => setOpenGroups((p) => ({ ...p, [label]: !(p[label] ?? false) }))}
-            className="mb-2 flex w-full items-center justify-between rounded-sm font-label text-xs font-semibold uppercase tracking-wide text-text-secondary transition-colors hover:text-text-primary"
+            className={"mb-2 flex w-full items-center justify-between rounded-sm px-sm transition-colors hover:text-text-primary " + navGroupLabelTextClass}
           >
             {label}
             <svg viewBox="0 0 20 20" className={"size-3.5 shrink-0 transition-transform duration-fast " + (open ? "" : "-rotate-90")} aria-hidden="true">
@@ -90,9 +90,9 @@ export function Atelier() {
             </svg>
           </button>
         ) : (
-          <p className="mb-2 font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">{label}</p>
+          <p className={"mb-2 px-sm " + navGroupLabelTextClass}>{label}</p>
         )}
-        {open ? <div className="flex flex-col gap-1">{children}</div> : null}
+        {open ? <Nav.List className="gap-1">{children}</Nav.List> : null}
       </div>
     );
   };
@@ -104,7 +104,7 @@ export function Atelier() {
     items.slice().sort((a, b) => a.name.localeCompare(b.name, "fr"));
 
   const list = (
-    <div className="flex flex-col gap-lg">
+    <Nav.Root label="Composants de l'atelier" className="flex flex-col gap-lg">
       {groupSection("Fondations", true, FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key)))}
       {layoutGroup
         ? groupSection("Layout", true, sortedItems(layoutGroup.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key)))
@@ -112,7 +112,7 @@ export function Atelier() {
       {otherGroups.map((g) =>
         groupSection(g.label, false, sortedItems(g.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))),
       )}
-    </div>
+    </Nav.Root>
   );
 
   const iconBtn = "rounded-sm p-1 text-text-secondary transition-colors hover:text-text-primary";

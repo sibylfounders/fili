@@ -182,12 +182,13 @@ const toastCardVariants = cva(
   "ds-toast-card relative flex w-full max-w-[24rem] gap-sm rounded-lg border p-md text-base shadow-overlay",
   {
     variants: {
+      // Focus v2 : l'anneau des contrôles internes (action, croix) suit le tone du toast.
       tone: {
-        info: "border-info bg-info-subtle text-info",
-        success: "border-success bg-success-subtle text-success",
-        warning: "border-warning bg-warning-subtle text-warning",
-        danger: "border-danger bg-danger-subtle text-danger",
-        neutral: "border-neutral bg-neutral text-on-neutral",
+        info: "border-info bg-info-subtle text-info [--control-focus-color:var(--control-focus-info)]",
+        success: "border-success bg-success-subtle text-success [--control-focus-color:var(--control-focus-success)]",
+        warning: "border-warning bg-warning-subtle text-warning [--control-focus-color:var(--control-focus-warning)]",
+        danger: "border-danger bg-danger-subtle text-danger [--control-focus-color:var(--control-focus-danger)]",
+        neutral: "border-neutral bg-neutral text-on-neutral [--control-focus-color:var(--control-focus-neutral)]",
       },
     },
     defaultVariants: { tone: "info" },
@@ -342,7 +343,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
               type="button"
               className={cn(
                 "-ml-1 flex min-h-11 items-center rounded-sm px-1 text-sm font-medium underline-offset-2 hover:underline",
-                "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
               )}
               onClick={handleActionClick}
             >
@@ -356,7 +357,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
           type="button"
           aria-label="Fermer"
           onClick={requestExit}
-          className="-mr-1 -mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-60 transition-opacity hover:opacity-100 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="-mr-1 -mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-60 transition-opacity hover:opacity-100 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]"
         >
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className="size-4">
             <path d="m5.5 5.5 9 9M14.5 5.5l-9 9" />

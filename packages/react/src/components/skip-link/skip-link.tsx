@@ -32,7 +32,7 @@ export function SkipLink({ href = "#main", className, children = "Aller au conte
         "focus:not-sr-only focus:fixed focus:left-md focus:top-md focus:z-sticky",
         "focus:rounded-md focus:border focus:border-border-strong focus:bg-background focus:px-md focus:py-2",
         "focus:text-sm focus:font-medium focus:text-text-primary focus:shadow-overlay",
-        "focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-accent",
+        "focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--control-focus-color)]",
         className,
       )}
       {...props}

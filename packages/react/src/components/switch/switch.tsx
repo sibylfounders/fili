@@ -23,7 +23,7 @@ const trackVariants = cva(
   [
     "relative inline-flex shrink-0 items-center rounded-pill align-middle",
     "transition-colors duration-base ease-in-out motion-reduce:transition-none",
-    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
     "disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
   ].join(" "),
   {

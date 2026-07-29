@@ -3,8 +3,8 @@ sujet: button
 nature: components
 resume: "Ce fichier contient le raisonnement : quand utiliser quoi, pourquoi, quel wording, quel risque."
 selon-contexte: [accessibility, adaptive, border, card, consentement, elevation, emotion, form, iconography, interaction, link, motion, toast, typography, voice]
-source: BUTTON-UX.md v1.10.0 + BUTTON-UI.md v1.7.0
-empreinte: sha256:a1193e66551d03f7
+source: BUTTON-UX.md v1.10.0 + BUTTON-UI.md v1.8.0
+empreinte: sha256:df6b963bb223d8e8
 regles: {loi: 10, preference: 80, non_qualifie: 0}
 ---
 # RULES — button (compilé, mode audit)

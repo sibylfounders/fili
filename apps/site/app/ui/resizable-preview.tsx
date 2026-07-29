@@ -47,7 +47,7 @@ const PALIERS: { label: string; w: number | null }[] = [
 const BTN =
   "rounded-md border border-border bg-background px-2 py-1 text-[11px] font-medium text-text-secondary " +
   "transition-colors hover:border-primary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 " +
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]";
 
 /** Aperçu redimensionnable : poignée au pointeur ou au clavier (flèches, Origine/Fin),
  *  paliers cliquables pour la même fonction sans glisser, double-clic pour réinitialiser.
@@ -173,7 +173,7 @@ export function ResizablePreview({ children, fill = false }: { children: React.R
         onDoubleClick={() => setW(null)}
         title="Glisser ou flèches gauche/droite pour redimensionner · double-clic pour réinitialiser"
         style={{ left: w ? `${w}px` : "100%", transform: "translateX(-50%)" }}
-        className="group absolute top-0 flex h-full w-6 cursor-ew-resize touch-none items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="group absolute top-0 flex h-full w-6 cursor-ew-resize touch-none items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]"
       >
         <span className={"w-1.5 rounded-full transition-all " + (drag ? "h-11 bg-primary" : "h-8 bg-border-strong group-hover:h-11 group-hover:bg-primary group-focus-visible:h-11 group-focus-visible:bg-primary")} />
       </div>
@@ -192,7 +192,7 @@ export function ResizablePreview({ children, fill = false }: { children: React.R
             <button
               type="button"
               onClick={() => setFull(false)}
-              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-text-primary hover:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-text-primary hover:border-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]"
             >
               {IconClose} Fermer
             </button>
@@ -216,7 +216,7 @@ export function ResizablePreview({ children, fill = false }: { children: React.R
           onClick={() => { setW(null); setFull(true); }}
           title="Plein écran"
           aria-label="Aperçu plein écran"
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background text-text-secondary hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background text-text-secondary hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]"
         >
           {IconExpand}
         </button>

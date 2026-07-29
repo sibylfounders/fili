@@ -26,9 +26,9 @@ import "../../lib/focus.css";
  * si les deux sont fournis), supprimé à la prochaine majeure. Tant qu'il vit,
  * l'attribut DOM `style` reste masqué : passer par `className` pour tout style ad hoc.
  *
- * Focus ring : l'anneau UNIQUE de la fondation BORDER — outline `accent`,
- * largeur/écart tokenisés, via .ds-focus-ring (lib/focus.css, --control-focus-*).
- * Abroge l'anneau « accordé au ton » (arbitrage 2026-07-29, cf. DECISIONS.md).
+ * Focus ring (v2) : géométrie unique de la fondation BORDER via .ds-focus-ring,
+ * couleur SUBTILE accordée au tone — primary éclairci par défaut, neutral/destructive
+ * surchargent --control-focus-color (arbitrage 2026-07-29 après-midi, cf. DECISIONS.md).
  * Rayon : `rounded-button` → --button-radius → --control-radius (cascade étage 3→2).
  */
 const buttonVariants = cva(
@@ -48,10 +48,12 @@ const buttonVariants = cva(
         lighter: "",
         ghost: "",
       },
+      // Anneau de focus ACCORDÉ à la couleur de l'objet, en teinte subtile (focus v2,
+      // arbitrage 2026-07-29 après-midi) — la géométrie reste celle de .ds-focus-ring.
       tone: {
         primary: "",
-        neutral: "",
-        destructive: "",
+        neutral: "[--control-focus-color:var(--control-focus-neutral)]",
+        destructive: "[--control-focus-color:var(--control-focus-danger)]",
       },
       size: {
         sm: "min-h-8 gap-1.5 rounded-button px-sm py-xs text-sm",

@@ -5,6 +5,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../button/relief.css";
 
 /**
  * Alert — messages d'état DANS le flux de la page. Construit sur les RÈGLES de
@@ -38,11 +39,13 @@ const rootVariants = cva(
   {
     variants: {
       // Rendu unique par tone : fond {tone}-lighter, bordure/texte/icône {tone}-base (≥ 4.5:1).
+      // L'anneau de focus des contrôles internes (Close, actions) suit le tone du message
+      // (focus v2 : surcharge héritée de --control-focus-color).
       tone: {
-        info: "border-info bg-info-subtle text-info",
-        success: "border-success bg-success-subtle text-success",
-        warning: "border-warning bg-warning-subtle text-warning",
-        danger: "border-danger bg-danger-subtle text-danger",
+        info: "border-info bg-info-subtle text-info [--control-focus-color:var(--control-focus-info)]",
+        success: "border-success bg-success-subtle text-success [--control-focus-color:var(--control-focus-success)]",
+        warning: "border-warning bg-warning-subtle text-warning [--control-focus-color:var(--control-focus-warning)]",
+        danger: "border-danger bg-danger-subtle text-danger [--control-focus-color:var(--control-focus-danger)]",
       },
     },
     defaultVariants: { tone: "info" },
@@ -114,6 +117,7 @@ const AlertRoot = React.forwardRef<HTMLDivElement, AlertRootProps>(
           ref={ref}
           role={role ?? liveRole}
           data-tone={resolvedTone}
+          data-slot="alert"
           className={cn(rootVariants({ tone }), className)}
           {...props}
         >
@@ -173,7 +177,7 @@ const AlertClose = React.forwardRef<HTMLButtonElement, AlertCloseProps>(
       // Cible tactile 44px (size-11) même si le glyphe est petit ; marges négatives = pas d'inflation.
       className={cn(
         "-my-2 -mr-2 ml-auto flex size-11 shrink-0 items-center justify-center rounded-sm text-text-secondary",
-        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
         className,
       )}
       {...props}

@@ -28,7 +28,7 @@ selon-contexte: ["radius (rayon perçu du focus ring)"]
 - **L'état change la couleur du trait, JAMAIS son épaisseur** (pas de layout shift, le focus n'est pas un état du trait). Pas de 0.5px physique.
 
 ## Focus ring — spécification unifiée (tous composants focalisables)
-- `outline` : couleur `accent`, largeur `border.focus-width`, écart `border.focus-offset` (outline-offset) — **jamais `border`**.
+- `outline` : couleur `control.focus-color` (cran subtil accordé à la bordure/état, défaut primary éclairci — focus v2, 2026-07-29), largeur `border.focus-width`, écart `border.focus-offset` (outline-offset) — **jamais `border`**.
 - Le ring **s'ajoute** à la bordure d'état (error focalisé = ring dehors + bordure danger dedans, les deux visibles).
 - Rayon perçu du ring = rayon du composant + offset (cf. RULES-radius).
 - **Apparition instantanée** — jamais de transition sur le focus. `:focus-visible` de préférence.

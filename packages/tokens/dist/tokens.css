@@ -237,7 +237,13 @@
   --focus-offset: 2px;
 
   /* étage 2 — rôles transversaux (cascade mécanique) */
-  --control-focus-color: var(--accent);
+  --control-focus-primary: color-mix(in srgb, var(--primary), var(--static-white) 28%);
+  --control-focus-neutral: color-mix(in srgb, var(--neutral), var(--static-white) 45%);
+  --control-focus-danger: color-mix(in srgb, var(--danger), var(--static-white) 20%);
+  --control-focus-success: color-mix(in srgb, var(--success), var(--static-white) 20%);
+  --control-focus-warning: color-mix(in srgb, var(--warning), var(--static-white) 20%);
+  --control-focus-info: color-mix(in srgb, var(--info), var(--static-white) 20%);
+  --control-focus-color: var(--control-focus-primary);
   --control-focus-width: var(--focus-width);
   --control-focus-offset: var(--focus-offset);
   --control-radius: var(--radius-md);

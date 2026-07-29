@@ -3,8 +3,8 @@ sujet: border
 nature: foundations
 resume: "Ce fichier contient le raisonnement : les rôles du trait, le critère délimitant/décoratif, le focus ring."
 selon-contexte: [alert, button, card, color, input, motion, overlay, radius, spacing]
-source: BORDER-UX.md v1.3.0 + BORDER-UI.md v1.3.0
-empreinte: sha256:f2f5033a84470302
+source: BORDER-UX.md v1.4.0 + BORDER-UI.md v1.4.0
+empreinte: sha256:cd4c6fc6cbe5c218
 regles: {loi: 8, preference: 14, non_qualifie: 0}
 ---
 # RULES — border (compilé, mode audit)
@@ -30,7 +30,7 @@ regles: {loi: 8, preference: 14, non_qualifie: 0}
 - **[préférence]** Nous ne changeons jamais l'épaisseur d'un trait pour signaler un état : la couleur s'en charge, et le contenu ne bouge pas. `BORDER-R05`
   - vérifiable : épaisseur identique au repos et à l'état
   - le secteur : six systèmes sur neuf relevés font l'inverse et épaississent le trait à l'état.
-- **[préférence]** Notre anneau de focus est le même partout : une couleur, une largeur, un écart, définis une seule fois. `BORDER-R06`
+- **[préférence]** Notre anneau de focus partage partout la même géométrie et le même mécanisme, définis une seule fois ; sa couleur est un cran subtil tokenisé, accordé à la bordure ou à l'état du composant, avec le primary éclairci pour défaut. `BORDER-R06`
 - **[préférence]** Chez nous, l'anneau de focus s'ajoute à la bordure existante plutôt que de la remplacer — les deux restent lisibles ensemble. `BORDER-R07`
   - le secteur : le relevé du 2026-07-27 donne le terrain **partagé, et plutôt contre nous** — quatre systèmes remplacent la bordure d'état par l'anneau au focus (Carbon, Primer, GOV.
 - **[loi]** L'indicateur de focus ne doit jamais être supprimé sans un remplacement au moins aussi visible. `BORDER-R08`

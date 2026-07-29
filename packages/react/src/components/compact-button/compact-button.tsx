@@ -8,6 +8,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 import { warnStyleAlias, type ButtonVariant } from "../button/button";
 import "../../lib/focus.css";
+import "../button/relief.css";
 
 /**
  * CompactButton — bouton ICON-ONLY pour les espaces contraints (fermer, développer,
@@ -32,7 +33,12 @@ const compactButtonVariants = cva(
   {
     variants: {
       variant: { filled: "", stroke: "border", lighter: "", ghost: "" },
-      tone: { primary: "", neutral: "", destructive: "" },
+      // Anneau de focus accordé au tone en teinte subtile (focus v2) — géométrie ds-focus-ring.
+      tone: {
+        primary: "",
+        neutral: "[--control-focus-color:var(--control-focus-neutral)]",
+        destructive: "[--control-focus-color:var(--control-focus-danger)]",
+      },
       size: { sm: "size-5 [&_svg]:size-4", md: "size-6 [&_svg]:size-5" },
       fullRadius: { true: "rounded-pill", false: "rounded-button" },
     },
@@ -81,6 +87,10 @@ const CompactButtonRoot = React.forwardRef<HTMLButtonElement, CompactButtonProps
       <Comp
         ref={ref}
         type={asChild ? undefined : (type ?? "button")}
+        // Entrée dans la grammaire du relief posé (relief.css cible [data-style]/[data-tone]) —
+        // le CompactButton n'émettait pas ses attributs et restait plat sous [data-relief].
+        data-style={loading ? undefined : (fill ?? "lighter")}
+        data-tone={loading ? undefined : (tone ?? "neutral")}
         aria-busy={loading || undefined}
         disabled={disabled || loading}
         className={cn(compactButtonVariants({ variant: fill, tone, size, fullRadius }), loading && "ds-skeleton", className)}

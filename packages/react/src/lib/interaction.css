@@ -41,3 +41,13 @@
     transition-duration: 0s;
   }
 }
+
+/* REGISTRE RELIEF ACTIF ([data-relief]) : le survol/focus signale AUSSI les surfaces
+   selectable/expandable — demande Aurélien 2026-07-29 (hors relief, le signal de survol
+   reste réservé au clickable, conformément au langage Interaction). */
+[data-relief] .ds-interactive[data-mode="selectable"]:hover::before,
+[data-relief] .ds-interactive[data-mode="selectable"]:focus-within::before,
+[data-relief] .ds-interactive[data-mode="expandable"]:hover::before,
+[data-relief] .ds-interactive[data-mode="expandable"]:focus-within::before {
+  opacity: 1;
+}

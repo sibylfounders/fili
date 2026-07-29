@@ -349,7 +349,7 @@ function DropdownInline({ className, children, onKeyDown, ...props }: DropdownIn
         }}
         onScroll={updateOverflow}
         onMouseLeave={highlight.clear}
-        className="ds-no-scrollbar relative max-h-72 w-full overflow-auto p-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="ds-no-scrollbar relative max-h-72 w-full overflow-auto p-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]"
         {...props}
       >
         {highlight.node}

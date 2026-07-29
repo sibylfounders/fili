@@ -3,6 +3,7 @@ import * as React from "react";
 import { cn } from "../../lib/cn";
 import { InputRoot, InputWrapper, InputSearch } from "../input/input";
 import "./app-layout.css";
+import { navRowClass, navGroupLabelClass } from "../nav/nav";
 
 /**
  * AppLayout — FAÇADE à options du shell applicatif (DS-MD « Shell applicatif »).
@@ -103,14 +104,9 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
         onClick={() => { item.onSelect?.(); onNavigate?.(); }}
         aria-current={item.active ? "page" : undefined}
         title={collapsed ? item.label : undefined}
-        className={cn(
-          "group flex w-full items-center gap-2.5 rounded-md px-sm py-1.5 text-left text-sm no-underline transition-colors duration-fast ease-out",
-          "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-          item.active
-            ? "bg-primary-subtle font-medium text-on-primary-subtle"
-            : "text-text-secondary hover:bg-surface-hover hover:text-text-primary",
-          collapsed && "justify-center px-0",
-          !collapsed && depth > 0 && "ml-3 border-l border-border pl-3 text-[13px]",
+        className={/* facture UNIQUE de la rangée de nav (nav/navRowClass) — plus de recopie locale */ navRowClass(
+          item.active,
+          cn(collapsed && "justify-center px-0", !collapsed && depth > 0 && "ml-3 border-l border-border pl-3 text-[13px]"),
         )}
       >
         {item.icon ? (
@@ -140,7 +136,7 @@ function SidebarBody({ brand, brandMark, groups, collapsed, footer, onNavigate }
         {groups.map((g, gi) => (
           <div key={gi} className="flex flex-col gap-0.5">
             {g.label && !collapsed ? (
-              <p className="mb-1 px-sm font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">{g.label}</p>
+              <p className={navGroupLabelClass}>{g.label}</p>
             ) : null}
             {g.items.map((it, ii) => <NavRow key={ii} item={it} collapsed={collapsed} onNavigate={onNavigate} />)}
           </div>
@@ -299,7 +295,7 @@ export function AppLayout({
           className={cn(
             "sw-shell-fab flex h-[52px] w-[52px] items-center justify-center rounded-full bg-primary text-on-primary shadow-overlay",
             "transition-colors duration-fast ease-out hover:bg-primary-hover",
-            "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+            "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
           )}
         >
           {asideOpen ? IconClose : IconSliders}

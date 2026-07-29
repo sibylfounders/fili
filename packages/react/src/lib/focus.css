@@ -1,9 +1,10 @@
-/* Focus — L'ANNEAU UNIQUE de la fondation BORDER (BORDER-R06/U02), défini UNE fois.
-   Couleur accent, largeur/écart tokenisés, outline EXTÉRIEUR (zéro layout shift),
-   :focus-visible seulement (BORDER-U05). L'anneau s'AJOUTE à la bordure d'état
-   (BORDER-R07) : un Input en erreur focalisé garde sa bordure danger dedans.
-   Arbitrage 2026-07-29 : abroge l'anneau « accordé au ton » de BUTTON-UI —
-   toute la cascade passe par --control-focus-* (étage 2). */
+/* Focus v2 — L'ANNEAU UNIQUE de la fondation BORDER (BORDER-R06/U02) : UNE géométrie
+   (outline EXTÉRIEUR, largeur/écart tokenisés, :focus-visible — zéro layout shift),
+   et une COULEUR SUBTILE accordée à la bordure/état du composant (arbitrage Aurélien
+   2026-07-29 après-midi, remplace l'essai accent) : défaut = primary éclairci
+   (--control-focus-primary), un composant surcharge --control-focus-color avec le cran
+   de sa famille (--control-focus-danger/success/warning/info/neutral). L'anneau
+   s'AJOUTE à la bordure d'état (BORDER-R07). Toute la cascade passe par l'étage 2. */
 
 /* Contrôle focalisable directement (Button, CompactButton…). */
 .ds-focus-ring:focus-visible {

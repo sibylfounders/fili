@@ -43,7 +43,7 @@ export function TableOfContents({ items, label = "Sur cette page", className, ..
             aria-current={isActive ? "location" : undefined}
             className={cn(
               "border-l-2 px-sm py-1 text-sm no-underline transition-colors duration-fast ease-out",
-              "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+              "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
               isActive
                 ? "border-primary font-medium text-text-primary"
                 : "border-transparent text-text-muted hover:text-text-primary",

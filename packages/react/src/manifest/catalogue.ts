@@ -246,10 +246,17 @@ export const catalogue: Entree[] = [
     import: 'import { Nav } from "@fili/react";',
     status: "stable",
     category: "navigation",
-    purpose: "Landmark de navigation (Root label requis) ; NavLink current = aria-current.",
+    purpose:
+      "Landmark de navigation (Root label requis) — porte LA facture unique de rangée de nav (navRowClass), consommée aussi par la nav intégrée d'AppLayout. Regroupement repliable = Accordion ; tête simple = Nav.GroupLabel.",
     doctrine: { pattern: "patterns/NAVIGATION" },
     rules: null,
-    anatomy: ["Nav.Root", "Nav.List", "Nav.Link"],
+    anatomy: ["Nav.Root", "Nav.List", "Nav.Link", "Nav.GroupLabel"],
+    props: {
+      current: { type: "boolean", description: "Page courante — aria-current=page + lavis primary-subtle + poids (un seul à la fois)." },
+      asChild: { type: "boolean", default: "false", description: "Rend l'enfant à la place du <a> (next/link, bouton de sélection) — l'enfant compose icône + libellé tronqué." },
+      icon: { type: "ReactNode", description: "Slot 16px avant le libellé (hors asChild)." },
+    },
+    antiPatterns: ["Recopier les classes de la rangée à la main (navRowClass est la seule définition)"],
   },
   {
     name: "Select",

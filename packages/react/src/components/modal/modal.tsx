@@ -246,7 +246,7 @@ export function ModalClose({ className, children, ...props }: React.ButtonHTMLAt
       className={cn(
         "flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-text-secondary transition-colors duration-fast ease-out",
         "hover:bg-surface-hover hover:text-text-primary",
-        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
         className,
       )}
       {...props}

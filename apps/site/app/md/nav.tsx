@@ -3,7 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
-import { Accordion, Nav } from "@fili/react";
+import { Accordion, Nav, navGroupLabelTextClass } from "@fili/react";
 import type { NavGroupe } from "@/lib/md";
 
 /**
@@ -11,28 +11,24 @@ import type { NavGroupe } from "@/lib/md";
  * Repère <nav> étiqueté + regroupement en Accordion (pattern navigation du DS).
  * Les liens reprennent la facture de Nav.Link mais passent par next/link (navigation client).
  */
-const LIEN =
-  "block rounded-sm px-sm py-1.5 text-sm no-underline transition-colors duration-fast ease-out " +
-  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-const LIEN_COURANT = "bg-primary-subtle font-medium text-on-primary-subtle";
-const LIEN_REPOS = "text-text-secondary hover:bg-surface-hover hover:text-text-primary";
-
+/** La facture vient de Nav.Link (facture unique du kit) — ici seulement la composition
+    next/link (navigation client) + emblème, via asChild. Plus aucune classe recopiée. */
 function Lien({
   href, current, children, className = "", embleme,
 }: { href: string; current: boolean; children: React.ReactNode; className?: string; embleme?: string }) {
   return (
-    <li className="list-none">
-      <Link
-        href={href}
-        aria-current={current ? "page" : undefined}
-        className={`${LIEN} ${current ? LIEN_COURANT : LIEN_REPOS} ${className} flex items-center gap-sm`}
-      >
+    <Nav.Link asChild current={current} className={className}>
+      <Link href={href}>
         {embleme ? (
-          <span aria-hidden="true" className="shrink-0 [&_svg]:h-4 [&_svg]:w-4" dangerouslySetInnerHTML={{ __html: embleme }} />
+          <span
+            aria-hidden="true"
+            className="flex h-4 w-4 shrink-0 items-center justify-center [&_svg]:h-4 [&_svg]:w-4"
+            dangerouslySetInnerHTML={{ __html: embleme }}
+          />
         ) : null}
-        <span className="min-w-0 truncate">{children}</span>
+        <span className="min-w-0 flex-1 truncate">{children}</span>
       </Link>
-    </li>
+    </Nav.Link>
   );
 }
 
@@ -59,7 +55,7 @@ export function MdNav({ groupes }: { groupes: NavGroupe[] }) {
         {groupes.map((g) => (
           <Accordion.Item key={g.label} value={g.label}>
             <Accordion.Header level={2} className="px-sm">
-              <span className="font-label text-[11px] font-semibold uppercase tracking-wider text-text-secondary">
+              <span className={navGroupLabelTextClass}>
                 {g.label}
               </span>
             </Accordion.Header>

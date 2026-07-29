@@ -146,7 +146,7 @@ tones:
   destructive: { solid: color.danger,          on_solid: color.on-primary, solid_hover: color.danger-hover,
                  fg: color.danger,              border: color.danger,
                  subtle: color.danger-subtle,   on_subtle: color.danger,       subtle_hover: color.danger-subtle-hover }
-focus_ring: color.accent  # anneau UNIQUE de la fondation BORDER (outline, focus-width/offset, :focus-visible) — abroge le per-tone (arbitrage 2026-07-29)
+focus_ring: control.focus-<tone>  # géométrie unique BORDER (outline, focus-width/offset, :focus-visible) ; couleur = cran SUBTIL accordé au tone (défaut control.focus-primary — focus v2, 2026-07-29)
 sizing:
   sm: { height: scale.compact, padding_x: spacing.sm, padding_y: spacing.xs, radius: radius.sm }
   md: { height: scale.base, padding_x: spacing.md, padding_y: spacing.sm, radius: radius.md }

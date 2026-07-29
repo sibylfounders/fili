@@ -2,7 +2,7 @@
 component: border
 layer: ui
 type: foundation
-version: 1.3.0 # 1.3.0 : U02 corrigée — la technique de l'anneau était annoncée « établie par convergence », le relevé du 2026-07-27 montre qu'aucune technique ne fait consensus (source T4). 1.2.0 : PILOTE « décisions sourcées », couche technique — les règles d'implémentation deviennent adressables (BORDER-Unn), avec statut et source. Aucune spécification modifiée. Cf. DECISIONS.md 2026-07-26. 1.1.0 : exception « outline:none » sur une cible de focus programmatique (tabindex=-1, annonce d'un changement de vue) — bug d'anneau au chargement, 2026-07-16. Première version : 1.0.0.
+version: 1.4.0 # 1.4.0 : U02/ring_color — couleur du ring = control.focus-color (cran subtil accordé à la bordure/état, défaut primary éclairci ; focus v2 du 2026-07-29 après-midi, remplace l'essai accent du matin) ; géométrie inchangée. 1.3.0 : 1.3.0 : U02 corrigée — la technique de l'anneau était annoncée « établie par convergence », le relevé du 2026-07-27 montre qu'aucune technique ne fait consensus (source T4). 1.2.0 : PILOTE « décisions sourcées », couche technique — les règles d'implémentation deviennent adressables (BORDER-Unn), avec statut et source. Aucune spécification modifiée. Cf. DECISIONS.md 2026-07-26. 1.1.0 : exception « outline:none » sur une cible de focus programmatique (tabindex=-1, annonce d'un changement de vue) — bug d'anneau au chargement, 2026-07-16. Première version : 1.0.0.
 last_updated: 2026-07-27
 companion: BORDER-UX.md
 tokens:
@@ -10,7 +10,7 @@ tokens:
     delimitante: color.border-strong # seul signal d'un composant interactif au repos — 3:1 obligatoire
     decorative: color.border # groupement et séparation — exemptée du seuil
   focus:
-    ring_color: color.accent
+    ring_color: control.focus-color # défaut primary éclairci ; crans accordés control.focus-{danger,success,warning,info,neutral} (focus v2, 2026-07-29)
     ring_width: border.focus-width # créés par cette fondation (DESIGN.md 1.9.0) — largeur et écart étaient des déductions silencieuses
     ring_offset: border.focus-offset
   epaisseur:
@@ -40,7 +40,7 @@ MESURE : border-width = 1px
 
 ## Focus ring — spécification unifiée
 
-RÈGLE [BORDER-U02] : `outline` de largeur `border.focus-width` en `color.accent`, décalé de `border.focus-offset` **à l'extérieur** du composant (`outline-offset`) — jamais `border` : le ring ne participe pas à la boîte, donc pas de layout shift et coexistence avec la bordure d'état.
+RÈGLE [BORDER-U02] : `outline` de largeur `border.focus-width` en `control.focus-color` (cran subtil accordé à la bordure/état ; défaut primary éclairci), décalé de `border.focus-offset` **à l'extérieur** du composant (`outline-offset`) — jamais `border` : le ring ne participe pas à la boîte, donc pas de layout shift et coexistence avec la bordure d'état.
 STATUT : implémentation de référence
 SOURCE : T4, T1
 CONTRE : aucune technique ne fait consensus (relevé du 2026-07-27) — `outline` + décalage chez Carbon et Spectrum, `box-shadow` chez Primer et Salesforce, hybride chez GOV.UK, `border` animée chez Fluent 2. Nous choisissons `outline` parce qu'il ne participe pas à la boîte ; ce n'est pas la pratique dominante, il n'y en a pas.
@@ -81,7 +81,7 @@ POURQUOI : sans cette exception, un anneau parasite apparaît au chargement — 
 
 | Consommateur | Délimitante | Sémantique | Ring |
 |---|---|---|---|
-| Bouton (BUTTON-UI.md) | secondary : `border-strong` | tone `_fg` sur la bordure secondary | `focus_ring` = accent + largeur/écart d'ici |
+| Bouton (BUTTON-UI.md) | secondary : `border-strong` | tone `_fg` sur la bordure secondary | `focus_ring` = cran control.focus-* accordé au tone + largeur/écart d'ici |
 | Input (INPUT-UI.md) | neutral : `border-strong` | error/success/warning | idem |
 | Card (CARD-UI.md) | — (outlined = groupement, `border`) | selected : `primary` (+ coche) | idem |
 | Alert (ALERT-UI.md) | — | bordure `{tone}` 1px | — (non focalisable en surface) |

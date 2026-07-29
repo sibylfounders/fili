@@ -25,6 +25,7 @@
 }
 .dsui-delbtn__btn:active { --dscale: .95; }
 .dsui-delbtn[data-state="idle"] .dsui-delbtn__btn:hover { --b: var(--del-bg-hover); }
+.dsui-delbtn__btn { --control-focus-color: var(--control-focus-danger); }
 .dsui-delbtn__btn:focus-visible { outline: var(--control-focus-width) solid var(--control-focus-color); outline-offset: var(--control-focus-offset); }
 
 .dsui-delbtn__icon { width: 24px; height: 24px; position: relative; z-index: 1; margin-right: 8px; display: inline-block; vertical-align: top; color: var(--del-on); transform: translateZ(0); }

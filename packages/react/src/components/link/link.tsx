@@ -31,7 +31,7 @@ import { cn } from "../../lib/cn";
 const linkVariants = cva(
   [
     "inline-flex items-center gap-1.5 font-sans transition-colors duration-fast ease-out",
-    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
   ].join(" "),
   {
     variants: {

@@ -36,3 +36,9 @@
    Interaction (lib/interaction.css — .ds-interactive / .ds-interactive-target), dont Card
    est le premier consommateur (arbitrage 2026-07-29, INTERACTION-R26…R28 / U09…U11).
    Ce fichier ne garde que ce qui est PROPRE à Card : le conteneur de requête Adaptive. */
+
+/* ── Registre relief actif : une carte SÉLECTIONNÉE est posée (raised permanent, en plus
+   de sa bordure primary) — demande Aurélien 2026-07-29. Hors relief : bordure seule. */
+[data-relief] .ds-card[data-selected] > .ds-card-surface {
+  box-shadow: var(--control-raised-shadow);
+}

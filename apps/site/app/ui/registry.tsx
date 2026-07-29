@@ -507,7 +507,7 @@ export const GROUPS: Group[] = [
             <div
               id="skiplink-demo-main"
               tabIndex={-1}
-              className="mt-sm rounded-md border border-dashed border-border p-md text-sm text-text-secondary outline-none focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-accent"
+              className="mt-sm rounded-md border border-dashed border-border p-md text-sm text-text-secondary outline-none focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--control-focus-color)]"
             >
               Contenu principal — le focus arrive ici, en sautant la nav.
             </div>
