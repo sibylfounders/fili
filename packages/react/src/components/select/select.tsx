@@ -34,8 +34,10 @@ const triggerVariants = cva(
     variants: {
       size: { sm: "h-8 px-sm text-sm min-w-40", md: "h-10 px-md min-w-48", lg: "h-12 px-lg min-w-48" },
       // `ghost` : sans fond ni bordure (esprit panneau de propriétés Figma), largeur au contenu.
+      // `default` : bordure délimitante VISIBLE même sans relief (le relief, quand il est actif,
+      // reprend la main sur border-color via [data-relief] — spécificité supérieure).
       variant: {
-        default: "w-full justify-between border border-transparent bg-surface text-text-primary hover:bg-surface-hover",
+        default: "w-full justify-between border border-border-strong bg-surface text-text-primary hover:bg-surface-hover",
         ghost: "w-auto min-w-0 justify-end border border-transparent bg-transparent hover:bg-surface",
       },
     },
@@ -60,6 +62,8 @@ export interface SelectProps extends VariantProps<typeof triggerVariants> {
   onValueChange: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  /** Rend le déclencheur en squelette de chargement, aux dimensions de sa taille. */
+  loading?: boolean;
   className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
@@ -71,6 +75,7 @@ export function Select({
   onValueChange,
   placeholder = "Sélectionner…",
   disabled,
+  loading = false,
   size = "md",
   variant,
   className,
@@ -172,12 +177,13 @@ export function Select({
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-activedescendant={open ? `${listId}-opt-${active}` : undefined}
-        disabled={disabled}
+        disabled={disabled || loading}
+        aria-busy={loading || undefined}
         onClick={() => (open ? close() : openList())}
         onKeyDown={onKeyDown}
-        data-style={variant === "ghost" ? undefined : "lighter"}
-        data-tone={variant === "ghost" ? undefined : "neutral"}
-        className={triggerVariants({ size, variant })}
+        data-style={variant === "ghost" || loading ? undefined : "lighter"}
+        data-tone={variant === "ghost" || loading ? undefined : "neutral"}
+        className={cn(triggerVariants({ size, variant }), loading && "ds-skeleton")}
         {...aria}
       >
         <span className={cn("truncate", !selected && "text-text-muted")}>

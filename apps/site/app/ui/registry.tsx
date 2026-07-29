@@ -2,8 +2,9 @@ import * as React from "react";
 import {
   Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, Modal, Tabs, DeleteButton, SubmitButton, ThemeToggle,
-  Input, Alert, Toast, Card, CompactButton, useToast, AppLayout,
-  type SelectOption,
+  Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton,
+  type SelectOption, type DrawerSide, type DrawerEffect, type ToastPlacement,
+  type ModalPlacement, type ModalEnterFrom,
 } from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
@@ -52,7 +53,7 @@ const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const IC_CLOSE = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>);
 const IC_ARROW = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>);
 const Sk = ({ w, h, r = "var(--radius-sm)" }: { w: string | number; h: string | number; r?: string }) => (
-  <span className="sk" style={{ display: "inline-block", width: w, height: h, borderRadius: r }} />
+  <Skeleton width={w} height={h} style={{ borderRadius: r }} />
 );
 const asyncOp = (mode: string) =>
   mode === "instant"
@@ -91,28 +92,42 @@ export interface Entry {
 export interface Group { label: string; items: Entry[]; }
 
 /* ---------- démos à état interne ---------- */
-const DrawerDemo: React.FC = () => {
+const DrawerDemo: React.FC<{ side: DrawerSide; effect: DrawerEffect }> = ({ side, effect }) => {
   const [open, setOpen] = React.useState(false);
   return (
-    <>
-      <Button.Root onClick={() => setOpen(true)}>Ouvrir le tiroir</Button.Root>
-      <Drawer open={open} onClose={() => setOpen(false)} side="start" aria-label="Tiroir de démonstration">
+    <Drawer.Frame className="h-[380px] w-full max-w-xl rounded-lg border border-border">
+      <div className="flex h-full flex-col gap-sm bg-background p-lg">
+        <b className="text-text-primary">La page derrière</b>
+        <p className="m-0 text-sm text-text-secondary">
+          overlay : le tiroir glisse au-dessus · push : le contenu se décale (start/end) ·
+          depth : le contenu recule dans une frame sur fond noir (Depth Transition).
+        </p>
+        <div className="mt-auto">
+          <Button.Root onClick={() => setOpen(true)}>Ouvrir le tiroir</Button.Root>
+        </div>
+      </div>
+      <Drawer open={open} onClose={() => setOpen(false)} side={side} effect={effect} aria-label="Tiroir de démonstration">
         <div className="flex flex-col gap-sm p-lg">
           <b className="text-text-primary">Tiroir modal</b>
           <p className="m-0 text-sm text-text-secondary">Voile · focus piégé · Échap ferme · retour du focus.</p>
           <Button.Root style="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
         </div>
       </Drawer>
-    </>
+    </Drawer.Frame>
   );
 };
 
-const ModalDemo: React.FC<{ size: "narrow" | "default"; scrim: boolean }> = ({ size, scrim }) => {
+const ModalDemo: React.FC<{
+  size: "narrow" | "default" | "wide";
+  scrim: boolean;
+  placement: ModalPlacement;
+  enterFrom: ModalEnterFrom;
+}> = ({ size, scrim, placement, enterFrom }) => {
   const [open, setOpen] = React.useState(false);
   return (
     <>
       <Button.Root onClick={() => setOpen(true)}>Ouvrir la modale</Button.Root>
-      <Modal open={open} onClose={() => setOpen(false)} size={size} dismissOnScrim={scrim}>
+      <Modal open={open} onClose={() => setOpen(false)} size={size} dismissOnScrim={scrim} placement={placement} enterFrom={enterFrom}>
         <Modal.Header kicker="01 · Rôle de bordure">Bordure délimitante</Modal.Header>
         <Modal.Body>
           <p className="m-0"><b className="text-text-primary">Quand ?</b> Un composant interactif n'a que sa bordure au repos.</p>
@@ -157,7 +172,7 @@ const ToastTrigger: React.FC<{ s: Record<string, any> }> = ({ s }) => {
   );
 };
 const ToastDemo: React.FC<{ s: Record<string, any> }> = ({ s }) => (
-  <Toast.Provider>
+  <Toast.Provider placement={(s.placement as ToastPlacement) ?? "bottom"}>
     <ToastTrigger s={s} />
   </Toast.Provider>
 );
@@ -239,13 +254,36 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     >
       <h1 className="m-0 text-2xl font-semibold text-text-primary">Tableau de bord</h1>
       <p className="mt-1 text-text-secondary">La sidebar occupe toute la hauteur ; topbar et contenu vivent dans la colonne de droite. Le bouton en haut à gauche replie la sidebar en rail d'icônes (off-canvas sous desktop).</p>
+      {/* Vraies Cards du système (jamais des placeholders ad hoc) */}
       <div className="mt-lg grid grid-cols-1 gap-md tablet:grid-cols-3">
-        {["Revenu net", "Commandes", "Conversion"].map((t, i) => (
-          <div key={i} className="rounded-lg border border-border bg-surface p-md">
-            <p className="m-0 text-sm text-text-muted">{t}</p>
-            <p className="m-0 mt-1 text-xl font-bold text-text-primary">{["48 210 €", "1 284", "3,7 %"][i]}</p>
-          </div>
+        {[
+          ["Revenu net", "48 210 €", "+6,4 % vs mois dernier"],
+          ["Commandes", "1 284", "+8,1 % vs mois dernier"],
+          ["Conversion", "3,7 %", "−1,2 % vs mois dernier"],
+        ].map(([t, v, d]) => (
+          <Card.Root key={t}>
+            <Card.Body>
+              <Card.Description>{t}</Card.Description>
+              <p className="m-0 text-xl font-bold text-text-primary">{v}</p>
+              <Card.Description className="text-xs text-text-muted">{d}</Card.Description>
+            </Card.Body>
+          </Card.Root>
         ))}
+      </div>
+      <div className="mt-md">
+        <Card.Root mode="clickable">
+          <Card.Body>
+            <Card.Header>
+              <Card.Title as="h2">Dernières factures</Card.Title>
+            </Card.Header>
+            <Card.Description>
+              12 factures émises cette semaine — 3 en attente de règlement, 9 soldées.
+            </Card.Description>
+            <Card.Actions>
+              <Button.Root style="lighter" tone="neutral" size="sm">Tout voir</Button.Root>
+            </Card.Actions>
+          </Card.Body>
+        </Card.Root>
       </div>
     </AppLayout>
   );
@@ -386,25 +424,59 @@ export const GROUPS: Group[] = [
       {
         key: "skiplink", name: "SkipLink",
         render: () => (
-          <div className="text-sm text-text-secondary"><SkipLink href="#main">Aller au contenu</SkipLink><p className="mt-0">Appuie sur <b>Tab</b> : le lien apparaît en haut à gauche.</p></div>
+          <div className="relative w-full max-w-md overflow-hidden rounded-md border border-border bg-background p-md">
+            {/* Le lien est le PREMIER focalisable du cadre — masqué jusqu'au focus, il apparaît
+                en haut à gauche DU CADRE (focus:absolute surclasse le focus:fixed du composant). */}
+            <SkipLink href="#skiplink-demo-main" className="focus:absolute focus:left-sm focus:top-sm" />
+            <p className="m-0 text-sm text-text-secondary">
+              1 · Clique ici puis appuie sur <b className="text-text-primary">Tab</b> : le lien
+              « Aller au contenu » apparaît. 2 · <b className="text-text-primary">Entrée</b> :
+              le focus saute la nav et atterrit sur le contenu, encadré ci-dessous.
+            </p>
+            <nav aria-label="Nav factice" className="mt-sm flex gap-md text-sm">
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Produits</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Tarifs</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Contact</a>
+            </nav>
+            <div
+              id="skiplink-demo-main"
+              tabIndex={-1}
+              className="mt-sm rounded-md border border-dashed border-border p-md text-sm text-text-secondary outline-none focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-accent"
+            >
+              Contenu principal — le focus arrive ici, en sautant la nav.
+            </div>
+          </div>
         ),
-        code: () => `<SkipLink href="#main">Aller au contenu</SkipLink>`,
+        code: () => `<SkipLink href="#main">Aller au contenu</SkipLink>\n{/* … nav … */}\n<main id="main" tabIndex={-1}>…</main>`,
       },
     ],
   },
   {
     label: "Overlays",
     items: [
-      { key: "drawer", name: "Drawer", render: () => <DrawerDemo />, code: () => `<Drawer open={open} onClose={() => setOpen(false)} side="start" aria-label="…">…</Drawer>` },
+      {
+        key: "drawer", name: "Drawer",
+        controls: [
+          { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "bottom"] },
+          { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push", "depth"] },
+        ],
+        initial: { side: "start", effect: "overlay" },
+        render: (s) => <DrawerDemo side={s.side} effect={s.effect} />,
+        code: (s) =>
+          `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`,
+      },
       {
         key: "modal", name: "Modal",
         controls: [
-          { k: "size", type: "seg", label: "Largeur", opts: ["narrow", "default"] },
+          { k: "size", type: "seg", label: "Largeur", opts: ["narrow", "default", "wide"] },
+          { k: "placement", type: "seg", label: "Position", opts: ["center", "top", "bottom"] },
+          { k: "enterFrom", type: "seg", label: "Apparition", opts: ["bottom", "top", "center"] },
           { k: "scrim", type: "bool", label: "Clic sur le voile ferme" },
         ],
-        initial: { size: "narrow", scrim: true },
-        render: (s) => <ModalDemo size={s.size} scrim={s.scrim} />,
-        code: (s) => `<Modal open={open} onClose={close} size="${s.size}"${s.scrim ? "" : " dismissOnScrim={false}"}>\n  <Modal.Header kicker="…">Titre</Modal.Header>\n  <Modal.Body>…</Modal.Body>\n  <Modal.Footer>…</Modal.Footer>\n</Modal>`,
+        initial: { size: "narrow", placement: "center", enterFrom: "bottom", scrim: true },
+        render: (s) => <ModalDemo size={s.size} scrim={s.scrim} placement={s.placement} enterFrom={s.enterFrom} />,
+        code: (s) =>
+          `<Modal open={open} onClose={close} size="${s.size}"${s.placement !== "center" ? ` placement="${s.placement}"` : ""}${s.enterFrom !== "bottom" ? ` enterFrom="${s.enterFrom}"` : ""}${s.scrim ? "" : " dismissOnScrim={false}"}>\n  <Modal.Header kicker="…">Titre</Modal.Header>\n  <Modal.Body>…</Modal.Body>\n  <Modal.Footer>…</Modal.Footer>\n</Modal>`,
       },
     ],
   },
@@ -413,23 +485,48 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "select", name: "Select",
-        initial: { value: "md" },
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "variant", type: "seg", opts: ["default", "ghost"] },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { value: "md", size: "md", variant: "default", skeleton: false },
         render: (s, set) => (
-          <Select options={SITE_OPTS} value={s.value} onValueChange={(v) => set("value", v)} aria-label="Site" />
+          // hauteur réservée : la listbox ouverte doit tenir dans la fenêtre de démo
+          <div className="flex min-h-[280px] w-64 items-start justify-center pt-md">
+            <Select
+              options={SITE_OPTS}
+              value={s.value}
+              onValueChange={(v) => set("value", v)}
+              size={s.size}
+              variant={s.variant}
+              loading={s.skeleton}
+              aria-label="Site"
+            />
+          </div>
         ),
-        code: (s) => `<Select options={OPTS} value="${s.value}" onValueChange={setV} aria-label="Site" />`,
+        code: (s) => `<Select options={OPTS} value="${s.value}" onValueChange={setV}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.variant === "ghost" ? ' variant="ghost"' : ""} aria-label="Site" />`,
       },
       {
         key: "switch", name: "Switch",
-        controls: [{ k: "checked", type: "bool", label: "Activé" }],
-        initial: { checked: true },
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "checked", type: "bool", label: "Activé" },
+          { k: "text", type: "bool", label: "Texte" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { size: "md", checked: true, text: true, skeleton: false },
         render: (s, set) => (
-          <label className="flex items-center gap-md text-sm text-text-primary">
-            <Switch checked={s.checked} onCheckedChange={(v) => set("checked", v)} aria-label="Exemple" />
-            <span>{s.checked ? "Activé" : "Désactivé"}</span>
-          </label>
+          <Switch
+            checked={s.checked}
+            onCheckedChange={(v) => set("checked", v)}
+            size={s.size}
+            label={s.text ? (s.checked ? "Activé" : "Désactivé") : undefined}
+            aria-label={s.text ? undefined : "Exemple"}
+            loading={s.skeleton}
+          />
         ),
-        code: (s) => `<Switch checked={${s.checked}} onCheckedChange={setOn} aria-label="…" />`,
+        code: (s) => `<Switch checked={${s.checked}} onCheckedChange={setOn}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.text ? ' label="Activé"' : ' aria-label="…"'} />`,
       },
     ],
   },
@@ -449,7 +546,6 @@ export const GROUPS: Group[] = [
         ],
         initial: { style: "filled", tone: "primary", size: "md", icon: "none", label: "Enregistrer", disabled: false, skeleton: false },
         render: (s) => {
-          if (s.skeleton) return <div className="h-10 w-28 animate-pulse rounded-md bg-surface" />;
           const ic = (
             <Button.Icon>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
@@ -459,7 +555,7 @@ export const GROUPS: Group[] = [
           const lead = s.icon === "leading" || s.icon === "both" || only;
           const trail = s.icon === "trailing" || s.icon === "both";
           return (
-            <Button.Root style={s.style} tone={s.tone} size={s.size} iconOnly={only} disabled={s.disabled} aria-label={only ? s.label || "Action" : undefined}>
+            <Button.Root style={s.style} tone={s.tone} size={s.size} iconOnly={only} disabled={s.disabled} loading={s.skeleton} aria-label={only ? s.label || "Action" : undefined}>
               {lead ? ic : null}
               {!only ? s.label || "Bouton" : null}
               {trail ? ic : null}
@@ -543,15 +639,24 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "themetoggle", name: "ThemeToggle",
-        controls: [{ k: "checked", type: "bool", label: "Sombre" }],
-        initial: { checked: false },
+        controls: [
+          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "checked", type: "bool", label: "Sombre" },
+          { k: "text", type: "bool", label: "Texte" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { size: "md", checked: false, text: true, skeleton: false },
         render: (s, set) => (
-          <label className="flex items-center gap-md text-sm text-text-primary">
-            <ThemeToggle checked={s.checked} onCheckedChange={(v) => set("checked", v)} aria-label="Thème sombre" />
-            <span>{s.checked ? "Sombre" : "Clair"}</span>
-          </label>
+          <ThemeToggle
+            checked={s.checked}
+            onCheckedChange={(v) => set("checked", v)}
+            size={s.size}
+            label={s.text ? (s.checked ? "Sombre" : "Clair") : undefined}
+            aria-label={s.text ? undefined : "Thème sombre"}
+            loading={s.skeleton}
+          />
         ),
-        code: (s) => `<ThemeToggle checked={${s.checked}} onCheckedChange={setDark} aria-label="Thème sombre" />`,
+        code: (s) => `<ThemeToggle checked={${s.checked}} onCheckedChange={setDark}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.text ? ' label="Sombre"' : ' aria-label="Thème sombre"'} />`,
       },
     ],
   },
@@ -571,16 +676,12 @@ export const GROUPS: Group[] = [
         initial: { size: "md", tone: "neutral", icon: false, placeholder: "nom@domaine.fr", disabled: false, skeleton: false },
         render: (s) => (
           <div className="w-72">
-            {s.skeleton ? (
-              <Sk w="100%" h={s.size === "sm" ? 32 : s.size === "lg" ? 48 : 40} r="var(--radius-md)" />
-            ) : (
-              <Input.Root size={s.size} tone={s.tone}>
-                <Input.Wrapper>
-                  {s.icon ? <Input.Icon>{IC_MAIL}</Input.Icon> : null}
-                  <Input.Input placeholder={s.placeholder} disabled={s.disabled} aria-label="Champ" />
-                </Input.Wrapper>
-              </Input.Root>
-            )}
+            <Input.Root size={s.size} tone={s.tone} loading={s.skeleton}>
+              <Input.Wrapper>
+                {s.icon ? <Input.Icon>{IC_MAIL}</Input.Icon> : null}
+                <Input.Input placeholder={s.placeholder} disabled={s.disabled} aria-label="Champ" />
+              </Input.Wrapper>
+            </Input.Root>
           </div>
         ),
         code: (s) => `<Input.Root size="${s.size}" tone="${s.tone}"><Input.Wrapper>${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input placeholder="${s.placeholder}"${s.disabled ? " disabled" : ""} /></Input.Wrapper></Input.Root>`,
@@ -595,15 +696,12 @@ export const GROUPS: Group[] = [
           { k: "disabled", type: "bool", label: "Disabled" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { style: "filled", tone: "primary", size: "md", fullRadius: false, disabled: false, skeleton: false },
-        render: (s) =>
-          s.skeleton ? (
-            <Sk w={s.size === "sm" ? 20 : 24} h={s.size === "sm" ? 20 : 24} r={s.fullRadius ? "9999px" : "var(--radius-md)"} />
-          ) : (
-            <CompactButton style={s.style} tone={s.tone} size={s.size} fullRadius={s.fullRadius} disabled={s.disabled} aria-label="Fermer">
-              {IC_CLOSE}
-            </CompactButton>
-          ),
+        initial: { style: "lighter", tone: "neutral", size: "md", fullRadius: false, disabled: false, skeleton: false },
+        render: (s) => (
+          <CompactButton style={s.style} tone={s.tone} size={s.size} fullRadius={s.fullRadius} disabled={s.disabled} loading={s.skeleton} aria-label="Fermer">
+            {IC_CLOSE}
+          </CompactButton>
+        ),
         code: (s) => `<CompactButton style="${s.style}" tone="${s.tone}" size="${s.size}"${s.fullRadius ? " fullRadius" : ""} aria-label="Fermer"><CloseIcon /></CompactButton>`,
       },
     ],
@@ -631,6 +729,53 @@ export const GROUPS: Group[] = [
         ],
         render: (s) => <CardGroup s={s as any} />,
         code: (s) => codeCardGrp(s as any),
+      },
+      {
+        key: "skeleton", name: "Skeleton",
+        controls: [
+          { k: "variant", type: "seg", opts: ["block", "text", "circle"] },
+          { k: "lines", type: "range", label: "Lignes (text)", min: 1, max: 6, disabled: (s) => s.variant !== "text" },
+        ],
+        initial: { variant: "block", lines: 3 },
+        blocks: [
+          {
+            title: "Variantes — block / text / circle",
+            render: (s) =>
+              s.variant === "text" ? (
+                <Skeleton variant="text" lines={s.lines} className="w-64" />
+              ) : s.variant === "circle" ? (
+                <Skeleton variant="circle" width={48} height={48} />
+              ) : (
+                <Skeleton width={224} height={96} />
+              ),
+            code: (s) =>
+              s.variant === "text"
+                ? `<Skeleton variant="text" lines={${s.lines}} />`
+                : s.variant === "circle"
+                  ? `<Skeleton variant="circle" width={48} height={48} />`
+                  : `<Skeleton width={224} height={96} />`,
+          },
+          {
+            title: "Composition — et la prop loading des composants",
+            render: () => (
+              <div className="flex w-full max-w-sm flex-col gap-md">
+                <div className="flex items-center gap-md">
+                  <Skeleton variant="circle" width={40} height={40} />
+                  <div className="flex-1"><Skeleton variant="text" lines={2} /></div>
+                </div>
+                <Input.Root loading><Input.Wrapper><Input.Input aria-label="Champ" /></Input.Wrapper></Input.Root>
+                <div className="flex items-center gap-sm">
+                  <Button.Root loading>Enregistrer</Button.Root>
+                  <Button.Root style="stroke" tone="neutral" loading>Annuler</Button.Root>
+                  <Switch checked loading aria-label="Option" />
+                </div>
+              </div>
+            ),
+            code: () => `{/* chaque composant expose loading — squelette à SES dimensions */}\n<Button.Root loading>Enregistrer</Button.Root>\n<Input.Root loading>…</Input.Root>\n<Select options={OPTS} loading … />\n<Switch checked loading aria-label="…" />\n<Card.Root loading />`,
+          },
+        ],
+        render: () => <Skeleton width={224} height={96} />,
+        code: () => `<Skeleton width={224} height={96} />`,
       },
       {
         key: "alert", name: "Alert",
@@ -664,12 +809,13 @@ export const GROUPS: Group[] = [
         key: "toast", name: "Toast",
         controls: [
           { k: "tone", type: "seg", opts: ["reverse", "info", "success", "warning", "danger"] },
+          { k: "placement", type: "seg", label: "Emplacement", opts: ["bottom", "bottom-start", "bottom-end", "top", "top-start", "top-end"] },
           { k: "title", type: "text", label: "Titre" },
           { k: "description", type: "text", label: "Description" },
           { k: "closing", type: "seg", label: "Fermeture", opts: ["défaut", "croix", "timer"] },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { tone: "success", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "défaut", skeleton: false },
+        initial: { tone: "reverse", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "défaut", skeleton: false },
         render: (s) =>
           s.skeleton ? (
             <div className="flex w-80 items-start gap-md rounded-lg border border-border p-md">
@@ -679,7 +825,7 @@ export const GROUPS: Group[] = [
           ) : (
             <ToastDemo s={s} />
           ),
-        code: (s) => `const { toast } = useToast();\ntoast({ tone: "${s.tone}", title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "défaut" ? `, closing: "${s.closing}"` : ""} });`,
+        code: (s) => `${s.placement !== "bottom" ? `<Toast.Provider placement="${s.placement}">\u2026</Toast.Provider>\n` : ""}const { toast } = useToast();\ntoast({${s.tone !== "reverse" ? ` tone: "${s.tone}",` : ""} title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "défaut" ? `, closing: "${s.closing}"` : ""} });`,
       },
       {
         key: "adacard", name: "StatCard",

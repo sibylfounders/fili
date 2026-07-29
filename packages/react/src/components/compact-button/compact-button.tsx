@@ -54,7 +54,9 @@ const compactButtonVariants = cva(
       { style: "ghost", tone: "neutral", class: "text-text-secondary hover:bg-surface" },
       { style: "ghost", tone: "destructive", class: "text-danger hover:bg-danger-subtle" },
     ],
-    defaultVariants: { style: "filled", tone: "primary", size: "md", fullRadius: false },
+    // Défauts lighter + neutral (arbitrage 2026-07-29) : l'usage majoritaire du CompactButton
+    // est utilitaire (fermer, développer) — le filled primary criait plus fort que l'action.
+    defaultVariants: { style: "lighter", tone: "neutral", size: "md", fullRadius: false },
   },
 );
 
@@ -62,18 +64,22 @@ export interface CompactButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "style">,
     VariantProps<typeof compactButtonVariants> {
   asChild?: boolean;
+  /** Rend le bouton en squelette de chargement — mêmes dimensions, contenu masqué. */
+  loading?: boolean;
   /** Obligatoire : le bouton n'a que l'icône (WCAG — icône seule sans exception). */
   "aria-label": string;
 }
 
 const CompactButtonRoot = React.forwardRef<HTMLButtonElement, CompactButtonProps>(
-  ({ className, style, tone, size, fullRadius, asChild = false, type, ...props }, ref) => {
+  ({ className, style, tone, size, fullRadius, asChild = false, loading = false, type, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         ref={ref}
         type={asChild ? undefined : (type ?? "button")}
-        className={cn(compactButtonVariants({ style, tone, size, fullRadius }), className)}
+        aria-busy={loading || undefined}
+        disabled={disabled || loading}
+        className={cn(compactButtonVariants({ style, tone, size, fullRadius }), loading && "ds-skeleton", className)}
         {...props}
       />
     );

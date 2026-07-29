@@ -77,3 +77,27 @@
 .dsui-pplane--instant { --pp-text-o: 0; }
 .dsui-pplane--instant .dsui-pplane__spin i { animation: none; }
 
+
+/* ── Relief « posé » (langage Interaction, cf. button/relief.css) — le bouton animé porte le
+   même signal que le Button filled : liseré haut clair, contour sombre, elevation-raised, et
+   il s'ENFONCE au clic. En box-shadow uniquement (border-width reste 0 : la géométrie des
+   facettes de l'avion ne bouge pas). Limité à l'état idle — dès l'acte, la surface se
+   redécoupe et le relief s'éteint avec elle. */
+[data-relief] .dsui-pplane[data-state="idle"] .dsui-pplane__btn {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--primary), #fff 42%),
+    0 0 0 1px color-mix(in srgb, var(--primary), #030712 38%),
+    var(--elevation-raised);
+}
+[data-relief] .dsui-pplane[data-state="idle"] .dsui-pplane__btn:hover {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--primary), #fff 55%),
+    0 0 0 1px color-mix(in srgb, var(--primary), #030712 38%),
+    var(--elevation-overlay);
+}
+[data-relief] .dsui-pplane[data-state="idle"] .dsui-pplane__btn:active {
+  transform: translateY(0.5px);
+  box-shadow:
+    inset 0 4px 4px rgba(12, 12, 13, 0.15),
+    0 0 0 1px color-mix(in srgb, var(--primary), #030712 38%);
+}

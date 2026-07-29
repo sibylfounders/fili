@@ -63,7 +63,7 @@ export interface ToastAction {
 }
 
 export interface ToastOptions {
-  /** Défaut « info » — même valeur minimale qu'Alert (porter une charge sémantique est la fonction du composant). */
+  /** Défaut « reverse » (arbitrage 2026-07-29) : la confirmation neutre, haut contraste, est le cas majoritaire — les tones sémantiques restent explicites. */
   tone?: ToastTone;
   title: React.ReactNode;
   /** 1 phrase max — le toast est trop éphémère pour un paragraphe. */
@@ -368,7 +368,11 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
           <style>{`@keyframes dsui-toast-timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}`}</style>
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-current opacity-25"
+            className={cn(
+              "pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left bg-current",
+              // reverse : le trait courant (texte inverse) se noie sur la surface sombre → plus opaque
+              tone === "reverse" ? "opacity-60" : "opacity-30",
+            )}
             style={{ animation: `dsui-toast-timer ${duration}ms linear forwards`, animationPlayState: barRunning ? "running" : "paused" }}
           />
         </>
@@ -379,18 +383,28 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
 
 /* ── Viewport : conteneur de requête (Adaptive), porté via createPortal ─────────────────────
    pour échapper à tout overflow/contexte d'empilement ancestral — cf. docstring. */
+export type ToastPlacement =
+  | "bottom"
+  | "bottom-start"
+  | "bottom-end"
+  | "top"
+  | "top-start"
+  | "top-end";
+
 function ToastViewport({
   items,
   onRemove,
+  placement = "bottom",
 }: {
   items: ToastItem[];
   onRemove: (id: string) => void;
+  placement?: ToastPlacement;
 }) {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => setMounted(true), []);
   if (!mounted || typeof document === "undefined") return null;
   return createPortal(
-    <div className="ds-toast-region">
+    <div className={cn("ds-toast-region", placement !== "bottom" && `ds-toast-region--${placement}`)}>
       {items.map((item) => (
         <ToastCard key={item.id} item={item} onRemove={onRemove} />
       ))}
@@ -433,9 +447,11 @@ export function useToast(): ToastContextValue {
 
 export interface ToastProviderProps {
   children: React.ReactNode;
+  /** Point d'ancrage de la pile — bas centré par défaut (arbitrage 2026-07-21) ; variantes start/end et top. */
+  placement?: ToastPlacement;
 }
 
-function ToastProvider({ children }: ToastProviderProps) {
+function ToastProvider({ children, placement = "bottom" }: ToastProviderProps) {
   const [items, dispatch] = React.useReducer(reducer, [] as ToastItem[]);
   const itemsRef = React.useRef<ToastItem[]>(items);
   React.useEffect(() => {
@@ -446,7 +462,7 @@ function ToastProvider({ children }: ToastProviderProps) {
 
   const toast = React.useCallback((options: ToastOptions): string => {
     const id = nextId();
-    const tone = options.tone ?? "info";
+    const tone = options.tone ?? "reverse";
     const duration = computeDuration(options);
     dispatch({
       type: "push",
@@ -469,7 +485,7 @@ function ToastProvider({ children }: ToastProviderProps) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <ToastViewport items={items} onRemove={dismiss} />
+      <ToastViewport items={items} onRemove={dismiss} placement={placement} />
     </ToastContext.Provider>
   );
 }

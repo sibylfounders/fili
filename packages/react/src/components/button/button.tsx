@@ -93,18 +93,22 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   /** Rend l'élément enfant à la place du <button> (Radix Slot). */
   asChild?: boolean;
+  /** Rend le bouton en squelette de chargement — mêmes dimensions, contenu masqué, relief éteint. */
+  loading?: boolean;
 }
 
 const ButtonRoot = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, style, tone, size, iconOnly, asChild = false, type, ...props }, ref) => {
+  ({ className, style, tone, size, iconOnly, asChild = false, loading = false, type, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         ref={ref}
         type={asChild ? undefined : (type ?? "button")}
-        data-style={style ?? "filled"}
-        data-tone={tone ?? "primary"}
-        className={cn(buttonVariants({ style, tone, size, iconOnly }), className)}
+        data-style={loading ? undefined : (style ?? "filled")}
+        data-tone={loading ? undefined : (tone ?? "primary")}
+        aria-busy={loading || undefined}
+        disabled={disabled || loading}
+        className={cn(buttonVariants({ style, tone, size, iconOnly }), loading && "ds-skeleton", className)}
         {...props}
       />
     );

@@ -90,18 +90,21 @@ export interface InputRootProps
     VariantProps<typeof rootVariants> {
   /** Rend l'élément enfant à la place du <div> (Radix Slot). */
   asChild?: boolean;
+  /** Rend le champ en squelette de chargement — mêmes dimensions, contenu masqué, relief éteint. */
+  loading?: boolean;
 }
 
 const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
-  ({ className, size = "md", tone = "neutral", asChild = false, children, ...props }, ref) => {
+  ({ className, size = "md", tone = "neutral", asChild = false, loading = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "div";
     return (
       <InputContext.Provider value={{ size: size ?? "md", tone: tone ?? "neutral" }}>
         <Comp
           ref={ref}
-          data-slot="input"
+          data-slot={loading ? undefined : "input"}
           data-tone={tone ?? "neutral"}
-          className={cn(rootVariants({ size, tone }), className)}
+          aria-busy={loading || undefined}
+          className={cn(rootVariants({ size, tone }), loading && "ds-skeleton divide-transparent", className)}
           {...props}
         >
           {children}

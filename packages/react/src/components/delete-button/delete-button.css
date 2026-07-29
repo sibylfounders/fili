@@ -85,3 +85,24 @@
   71% { opacity: 0; }
   72%, 100% { opacity: 0; transform: translateZ(0); }
 }
+
+/* ── Relief « posé » (langage Interaction, cf. button/relief.css) — même signal que le Button
+   filled destructive : liseré haut clair, contour sombre, elevation-raised, enfoncement au clic.
+   En box-shadow uniquement (border-width reste 0). Limité à l'état idle. */
+[data-relief] .dsui-delbtn[data-state="idle"] .dsui-delbtn__btn {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--del-bg, var(--danger)), #fff 38%),
+    0 0 0 1px color-mix(in srgb, var(--del-bg, var(--danger)), #030712 38%),
+    var(--elevation-raised);
+}
+[data-relief] .dsui-delbtn[data-state="idle"] .dsui-delbtn__btn:hover {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--del-bg, var(--danger)), #fff 50%),
+    0 0 0 1px color-mix(in srgb, var(--del-bg, var(--danger)), #030712 38%),
+    var(--elevation-overlay);
+}
+[data-relief] .dsui-delbtn[data-state="idle"] .dsui-delbtn__btn:active {
+  box-shadow:
+    inset 0 4px 4px rgba(12, 12, 13, 0.2),
+    0 0 0 1px color-mix(in srgb, var(--del-bg, var(--danger)), #030712 38%);
+}

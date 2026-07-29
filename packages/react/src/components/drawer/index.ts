@@ -1,2 +1,2 @@
-export { Drawer, drawerPanelVariants } from "./drawer";
-export type { DrawerProps } from "./drawer";
+export { Drawer, DrawerRoot, DrawerFrame, drawerPanelVariants } from "./drawer";
+export type { DrawerProps, DrawerFrameProps, DrawerSide, DrawerEffect } from "./drawer";

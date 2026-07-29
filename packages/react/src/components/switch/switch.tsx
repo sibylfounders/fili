@@ -12,8 +12,10 @@ import { cn } from "../../lib/cn";
  * role="switch" + aria-checked ; Espace/Entrée basculent (comportement natif du <button>).
  *
  * Contrôlé : `checked` + `onCheckedChange`. L'état se lit à la POSITION du pouce autant qu'à la
- * couleur (jamais la seule couleur). Un nom accessible est requis (`aria-label`/`aria-labelledby`,
- * ou un <label> lié) ; joindre au besoin un libellé d'état « Activé/Désactivé ».
+ * couleur (jamais la seule couleur). Nom accessible requis : `label` (libellé VISIBLE, cliquable,
+ * relié par aria-labelledby) OU `aria-label`/`aria-labelledby` pour la version sans texte.
+ *
+ * Tailles alignées sur Button : sm / md / lg. `loading` rend la piste en squelette.
  *
  * L'état asynchrone (bascule qui appelle le serveur) est hors périmètre v1 (extension différée).
  */
@@ -25,45 +27,78 @@ const trackVariants = cva(
     "disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
   ].join(" "),
   {
-    variants: { size: { sm: "h-5 w-9", md: "h-6 w-11" } },
+    variants: { size: { sm: "h-5 w-9", md: "h-6 w-11", lg: "h-7 w-14" } },
     defaultVariants: { size: "md" },
   },
 );
+
+const THUMB = {
+  sm: { size: "size-4", on: "translate-x-4" },
+  md: { size: "size-5", on: "translate-x-5" },
+  lg: { size: "size-6", on: "translate-x-7" },
+} as const;
 
 export interface SwitchProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange" | "type">,
     VariantProps<typeof trackVariants> {
   checked: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  /** Libellé visible, cliquable, relié au switch (aria-labelledby). Sans lui : aria-label requis. */
+  label?: React.ReactNode;
+  /** Rend la piste en squelette de chargement, aux dimensions de sa taille. */
+  loading?: boolean;
 }
 
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
-  ({ checked, onCheckedChange, size = "md", className, disabled, ...props }, ref) => (
-    <button
-      ref={ref}
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      disabled={disabled}
-      onClick={() => onCheckedChange?.(!checked)}
-      className={cn(
-        trackVariants({ size }),
-        checked ? "bg-primary" : "bg-neutral-200",
-        className,
-      )}
-      {...props}
-    >
-      <span
-        aria-hidden="true"
+  ({ checked, onCheckedChange, size = "md", label, loading = false, className, disabled, ...props }, ref) => {
+    const labelId = React.useId();
+    const thumb = THUMB[size ?? "md"];
+    const btn = (
+      <button
+        ref={ref}
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-labelledby={label != null ? labelId : undefined}
+        aria-busy={loading || undefined}
+        disabled={disabled || loading}
+        onClick={() => onCheckedChange?.(!checked)}
         className={cn(
-          "pointer-events-none inline-block rounded-pill bg-background shadow-raised",
-          "transition-transform duration-base ease-in-out motion-reduce:transition-none",
-          size === "md" ? "size-5" : "size-4",
-          checked ? (size === "md" ? "translate-x-5" : "translate-x-4") : "translate-x-0.5",
+          trackVariants({ size }),
+          checked ? "bg-primary" : "bg-neutral-200",
+          loading && "ds-skeleton",
+          className,
         )}
-      />
-    </button>
-  ),
+        {...props}
+      >
+        <span
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none inline-block rounded-pill bg-background shadow-raised",
+            "transition-transform duration-base ease-in-out motion-reduce:transition-none",
+            thumb.size,
+            checked ? thumb.on : "translate-x-0.5",
+          )}
+        />
+      </button>
+    );
+    if (label == null) return btn;
+    return (
+      <label className="inline-flex cursor-pointer select-none items-center gap-sm">
+        {btn}
+        <span
+          id={labelId}
+          className={cn(
+            "text-text-primary",
+            size === "sm" ? "text-sm" : "text-base",
+            loading && "ds-skeleton rounded-sm",
+          )}
+        >
+          {label}
+        </span>
+      </label>
+    );
+  },
 );
 Switch.displayName = "Switch";
 

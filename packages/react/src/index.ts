@@ -18,6 +18,7 @@ export * from "./components/nav";
 export * from "./components/toc";
 export * from "./components/skip-link";
 export * from "./components/switch";
+export * from "./components/skeleton";
 export * from "./components/theme-toggle";
 export * from "./components/container";
 export * from "./components/brand";

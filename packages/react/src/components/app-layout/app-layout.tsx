@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { cn } from "../../lib/cn";
+import { InputRoot, InputWrapper, InputField, InputIcon } from "../input/input";
 import "./app-layout.css";
 
 /**
@@ -182,13 +183,22 @@ export function AppLayout({
   const sidebarNode = (rail: boolean) =>
     sidebar ?? <SidebarBody brand={brand} brandMark={brandMark} groups={groups} collapsed={rail} footer={sidebarFooter} />;
 
+  // La barre de recherche est l'INPUT DU SYSTÈME (Input compound, type search) — jamais un
+  // champ ad hoc : elle hérite bordure délimitante, tailles, focus ring et relief « creusé ».
   const searchNode =
     topbar?.search === true ? (
-      <button type="button" className="flex w-full items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-text-muted transition-colors hover:text-text-secondary">
-        {IconSearch}
-        <span className="flex-1 text-left">Rechercher{docs ? " la doc" : ""}…</span>
-        <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] text-text-secondary">⌘K</kbd>
-      </button>
+      <InputRoot size="sm" className="w-full">
+        <InputWrapper>
+          <InputIcon>{IconSearch}</InputIcon>
+          <InputField
+            type="search"
+            placeholder={`Rechercher${docs ? " la doc" : ""}…`}
+            aria-label="Rechercher"
+            className="text-sm"
+          />
+          <kbd className="shrink-0 rounded border border-border bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-secondary">⌘K</kbd>
+        </InputWrapper>
+      </InputRoot>
     ) : topbar?.search ? (
       topbar.search
     ) : null;
@@ -202,7 +212,16 @@ export function AppLayout({
         data-open={mobileOpen ? "true" : "false"}
         aria-label="Navigation"
         className={cn("sw-shell-sidebar shrink-0 border-r border-border bg-surface", railCollapsed ? "w-16" : "w-rail-nav")}
-        onClick={(e) => { if ((e.target as HTMLElement).closest("a,button")) setMobileOpen(false); }}
+        onClick={(e) => {
+          // L'off-canvas se referme après une NAVIGATION (lien ou bouton de nav) — jamais quand
+          // on manipule un contrôle qui reste dans le tiroir : Select (combobox + listbox),
+          // Switch, ou tout déclencheur de popup. Bug corrigé 2026-07-29 : le sélecteur de
+          // section refermait le tiroir au premier clic.
+          const t = (e.target as HTMLElement).closest("a,button");
+          if (!t) return;
+          if (t.closest('[role="combobox"],[role="listbox"],[role="switch"],[aria-haspopup]')) return;
+          setMobileOpen(false);
+        }}
       >
         {sidebarNode(railCollapsed)}
       </aside>

@@ -81,6 +81,8 @@ export interface CardRootProps
    * pour une carte qui doit rester empilée quelle que soit la largeur reçue. Défaut : true.
    */
   adaptiveMedia?: boolean;
+  /** Rend la carte en squelette (Card.Skeleton) — mêmes dimensions de collection. */
+  loading?: boolean;
 }
 
 const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
@@ -91,11 +93,13 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
       density = "comfortable",
       selected,
       adaptiveMedia = true,
+      loading = false,
       children,
       ...props
     },
     ref,
   ) => {
+    if (loading) return <CardSkeleton className={className} />;
     const resolvedMode = mode ?? "static";
     const resolvedDensity = density ?? "comfortable";
     return (

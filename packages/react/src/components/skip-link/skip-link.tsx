@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { cn } from "../../lib/cn";
 
@@ -5,12 +6,27 @@ import { cn } from "../../lib/cn";
  * SkipLink — « Aller au contenu » (DS-MD pattern navigation, WCAG 2.4.1). Premier élément focalisable de
  * la page, MASQUÉ visuellement jusqu'au focus, puis visible ; déplace le focus vers le <main> (cible `href`).
  * À placer tout en haut de l'AppShell, avant la nav.
+ *
+ * À l'activation, le FOCUS est déplacé PROGRAMMATIQUEMENT sur la cible (tabIndex -1 posé au besoin) —
+ * le saut d'ancre seul ne suffit pas : sans focus déplacé, le Tab suivant repartait du haut de la page,
+ * ce qui annulait le bénéfice du lien (correctif 2026-07-29).
  */
 export interface SkipLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
-export function SkipLink({ href = "#main", className, children = "Aller au contenu", ...props }: SkipLinkProps) {
+export function SkipLink({ href = "#main", className, children = "Aller au contenu", onClick, ...props }: SkipLinkProps) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(e);
+    if (e.defaultPrevented || !href.startsWith("#")) return;
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+    e.preventDefault();
+    if (!target.hasAttribute("tabindex") && target.tabIndex < 0) target.tabIndex = -1;
+    target.focus();
+    target.scrollIntoView({ block: "start" });
+  };
   return (
     <a
       href={href}
+      onClick={handleClick}
       className={cn(
         "sr-only",
         "focus:not-sr-only focus:fixed focus:left-md focus:top-md focus:z-sticky",

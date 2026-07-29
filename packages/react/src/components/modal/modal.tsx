@@ -24,10 +24,15 @@ import { verrouilleDefilement } from "../../lib/scroll-lock";
  * Limite assumée (v1, identique au Drawer) : le fond n'est pas mis `inert` faute de référence à la
  * racine applicative — l'inertie est approchée par scrim + piège de focus + aria-modal.
  *
- * Largeur : deux crans GRID, pas un de plus — `narrow` = `container-narrow` (480, la modale de
- * confirmation, même gabarit qu'un formulaire focalisé) et `default` = `grid.overlay` (640, la
- * modale qui porte une illustration ou un tableau court). Token créé le 2026-07-26 pour ce besoin
- * réel, cf. DECISIONS.md ; au-delà de 640 le contenu appelle une page, pas un superposé.
+ * Largeur : trois crans GRID — `narrow` = `container-narrow` (480, la modale de confirmation,
+ * même gabarit qu'un formulaire focalisé), `default` = `grid.overlay` (640, la modale qui porte
+ * une illustration ou un tableau court) et `wide` = `container-default` (1024, la modale de
+ * travail : comparateur, galerie, tableau — arbitrage 2026-07-29, assouplit la limite « au-delà
+ * de 640 le contenu appelle une page » pour les cas où quitter le contexte coûterait plus cher).
+ *
+ * Position (`placement`) : `center` (défaut) | `top` | `bottom` — haut/bas gardent un retrait de
+ * 6vh (jamais collé au bord de la fenêtre). Apparition (`enterFrom`) : `bottom` (défaut, monte
+ * légèrement) | `top` (descend) | `center` (zoom depuis le centre, scale 95 → 100).
  */
 
 const surfaceVariants = cva(
@@ -41,11 +46,15 @@ const surfaceVariants = cva(
       size: {
         narrow: "max-w-container-narrow",
         default: "max-w-overlay",
+        wide: "max-w-container-default",
       },
     },
     defaultVariants: { size: "narrow" },
   },
 );
+
+export type ModalPlacement = "center" | "top" | "bottom";
+export type ModalEnterFrom = "bottom" | "top" | "center";
 
 const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
@@ -60,6 +69,10 @@ export interface ModalProps
   onClose: () => void;
   /** Fermeture au clic sur le voile (défaut : true — OVERLAY-UX « clic sur le voile = annulation »). */
   dismissOnScrim?: boolean;
+  /** Position verticale de la surface : center (défaut) | top | bottom — haut/bas avec retrait de 6vh. */
+  placement?: ModalPlacement;
+  /** Direction d'apparition : bottom (défaut, monte) | top (descend) | center (zoom). */
+  enterFrom?: ModalEnterFrom;
 }
 
 export function ModalRoot({
@@ -67,6 +80,8 @@ export function ModalRoot({
   onClose,
   size = "narrow",
   dismissOnScrim = true,
+  placement = "center",
+  enterFrom = "bottom",
   className,
   children,
   ...props
@@ -134,7 +149,12 @@ export function ModalRoot({
         )}
       />
       {/* Zone de centrage — ne capte pas le clic, le voile en dessous s'en charge */}
-      <div className="pointer-events-none fixed inset-0 z-overlay flex items-center justify-center p-lg">
+      <div
+        className={cn(
+          "pointer-events-none fixed inset-0 z-overlay flex justify-center p-lg",
+          placement === "top" ? "items-start pt-[6vh]" : placement === "bottom" ? "items-end pb-[6vh]" : "items-center",
+        )}
+      >
         <div
           ref={surfaceRef}
           role="dialog"
@@ -145,7 +165,13 @@ export function ModalRoot({
           className={cn(
             surfaceVariants({ size }),
             "pointer-events-auto",
-            shown ? "translate-y-0 opacity-100" : "translate-y-sm opacity-0",
+            shown
+              ? "translate-y-0 scale-100 opacity-100"
+              : enterFrom === "top"
+                ? "-translate-y-sm opacity-0"
+                : enterFrom === "center"
+                  ? "scale-95 opacity-0"
+                  : "translate-y-sm opacity-0",
             className,
           )}
           {...props}

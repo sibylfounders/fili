@@ -143,7 +143,10 @@ export function TabsList({ label, className, children, ...props }: TabsListProps
       onKeyDown={onKeyDown}
       className={cn(
         "flex items-center overflow-x-auto",
-        variant === "line" ? "gap-lg border-b border-border" : "gap-0.5 rounded-pill border border-border bg-background p-[3px]",
+        variant === "line"
+          ? "gap-lg border-b border-border"
+          : // pill : le contenant s'ajuste à la largeur des pastilles, jamais full-width
+            "w-fit max-w-full gap-0.5 self-start rounded-pill border border-border bg-background p-[3px]",
         className,
       )}
       {...props}

@@ -48,6 +48,30 @@
   }
 }
 
+/* ── Emplacements — variantes de l'ancrage bas-centré par défaut ────────────────────────────
+   start/end : coin au lieu du centre (plus de translateX). top : ancrage haut ; la colonne
+   s'inverse (column-reverse) pour que le plus récent reste près du point d'ancrage. */
+.ds-toast-region--bottom-start,
+.ds-toast-region--top-start {
+  inset-inline-start: var(--space-lg);
+  transform: none;
+  align-items: flex-start;
+}
+.ds-toast-region--bottom-end,
+.ds-toast-region--top-end {
+  inset-inline-start: auto;
+  inset-inline-end: var(--space-lg);
+  transform: none;
+  align-items: flex-end;
+}
+.ds-toast-region--top,
+.ds-toast-region--top-start,
+.ds-toast-region--top-end {
+  inset-block-end: auto;
+  inset-block-start: var(--space-lg);
+  flex-direction: column-reverse;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ds-toast-region {
     transition: none;
