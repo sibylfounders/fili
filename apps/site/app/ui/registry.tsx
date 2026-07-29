@@ -639,9 +639,10 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "themetoggle", name: "ThemeToggle",
+        // Pas d'option « Sombre » dans le Playground : le thème appartient au panneau Theming ;
+        // la bascule de la démo se manipule directement dans l'aperçu.
         controls: [
           { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
-          { k: "checked", type: "bool", label: "Sombre" },
           { k: "text", type: "bool", label: "Texte" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],

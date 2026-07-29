@@ -20,6 +20,9 @@
 }
 .ds-theme-toggle--sm { --tt-w: 36px; --tt-h: 20px; --tt-knob: 16px; --tt-shift: 16px; --tt-ic: 10px; --tt-ic-off: 5px; }
 .ds-theme-toggle--lg { --tt-w: 56px; --tt-h: 28px; --tt-knob: 24px; --tt-shift: 28px; --tt-ic: 14px; --tt-ic-off: 7px; }
+/* Conteneur positionné de la piste : icônes et knob s'ancrent ICI, jamais sur le label entier
+   (avec un libellé texte, un ancrage droit sur le label posait la lune sur le mot). */
+.ds-theme-toggle__control { position: relative; display: inline-flex; align-items: center; }
 .ds-theme-toggle input {
   width: var(--tt-w); height: var(--tt-h); appearance: none; -webkit-appearance: none;
   background: var(--border); border-radius: 9999px; cursor: pointer; margin: 0;

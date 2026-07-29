@@ -47,20 +47,24 @@ export const ThemeToggle = React.forwardRef<HTMLInputElement, ThemeToggleProps>(
           .filter(Boolean)
           .join(" ")}
       >
-        <input
-          ref={ref}
-          type="checkbox"
-          checked={checked}
-          onChange={(e) => onCheckedChange(e.currentTarget.checked)}
-          {...props}
-        />
-        <svg className="tr tr-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" />
-        </svg>
-        <svg className="tr tr-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-        </svg>
-        <span className="knob" aria-hidden="true" />
+        {/* Le conteneur positionné des icônes/knob : ils s'ancrent sur LA PISTE, jamais sur le
+            label entier — sinon la lune (right) atterrit sur le texte (bug corrigé 2026-07-29). */}
+        <span className="ds-theme-toggle__control">
+          <input
+            ref={ref}
+            type="checkbox"
+            checked={checked}
+            onChange={(e) => onCheckedChange(e.currentTarget.checked)}
+            {...props}
+          />
+          <svg className="tr tr-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.9 4.9 1.4 1.4" /><path d="m17.7 17.7 1.4 1.4" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.3 17.7-1.4 1.4" /><path d="m19.1 4.9-1.4 1.4" />
+          </svg>
+          <svg className="tr tr-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          </svg>
+          <span className="knob" aria-hidden="true" />
+        </span>
         {label != null ? <span className="ds-theme-toggle__label">{label}</span> : null}
       </label>
     );
