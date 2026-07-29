@@ -87,6 +87,10 @@ function useFluidHighlight(menuRef: React.RefObject<HTMLElement>) {
     else setHl(null);
   }, [menuRef]);
   const value = React.useMemo(() => ({ report, clear }), [report, clear]);
+  // IDENTITÉ STABLE obligatoire : reset est une dépendance de l'effet d'ouverture du Content —
+  // une lambda recréée à chaque rendu relançait l'effet en boucle (cleanup → shown=false →
+  // rAF → shown=true → rendu → …) et le menu restait invisible (bug corrigé 2026-07-29).
+  const reset = React.useCallback(() => setHl(null), []);
   const node = (
     <div
       aria-hidden="true"
@@ -98,7 +102,7 @@ function useFluidHighlight(menuRef: React.RefObject<HTMLElement>) {
       style={{ transform: `translateY(${hl?.top ?? 0}px)`, height: hl?.height ?? 0 }}
     />
   );
-  return { value, clear, node, reset: () => setHl(null) };
+  return { value, clear, node, reset };
 }
 
 /** Flèches / Origine / Fin dans un menu — renvoie true si la touche a été consommée. */
