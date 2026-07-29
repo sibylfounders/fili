@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @fili/react casse
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -65,6 +65,10 @@ export interface SelectProps extends VariantProps<typeof triggerVariants> {
   disabled?: boolean;
   /** Rend le déclencheur en squelette de chargement, aux dimensions de sa taille. */
   loading?: boolean;
+  /** Liste NATIVE du navigateur (<select>) : même déclencheur stylé, menu rendu par l'OS —
+   *  clavier/mobile/lecteurs d'écran natifs gratuits ; à préférer quand le menu n'a pas
+   *  besoin d'être dessiné par le système. */
+  native?: boolean;
   className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
@@ -77,6 +81,7 @@ export function Select({
   placeholder = "Sélectionner…",
   disabled,
   loading = false,
+  native = false,
   size = "md",
   variant,
   className,
@@ -188,6 +193,44 @@ export function Select({
       typeahead(k);
     }
   };
+
+  // ── Forme native : le déclencheur du système, le menu de l'OS ──────────────────────────
+  if (native) {
+    return (
+      <div className={cn("relative inline-block", className)}>
+        <select
+          value={value ?? ""}
+          onChange={(e) => onValueChange(e.target.value)}
+          disabled={disabled || loading}
+          aria-busy={loading || undefined}
+          data-style={variant === "ghost" || loading ? undefined : "lighter"}
+          data-tone={variant === "ghost" || loading ? undefined : "neutral"}
+          className={cn(
+            triggerVariants({ size, variant }),
+            "appearance-none",
+            variant === "ghost" ? "pr-7" : "pr-9",
+            !selected && "text-text-muted",
+            loading && "ds-skeleton",
+          )}
+          {...aria}
+        >
+          {value == null ? (
+            <option value="" disabled hidden>
+              {placeholder}
+            </option>
+          ) : null}
+          {options.map((o) => (
+            <option key={o.value} value={o.value} disabled={o.disabled}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
+          <Chevron />
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div ref={rootRef} className={cn("relative inline-block", className)}>

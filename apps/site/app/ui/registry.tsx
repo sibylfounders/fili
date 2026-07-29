@@ -5,16 +5,16 @@ import {
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
   type ModalPlacement, type ModalEnterFrom, type DropdownSide, type DropdownAlign,
-} from "@fili/react";
+} from "@sibyl/react";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
   StatCard, ChartCard, KpiGroup,
   AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
   fmtEur, fmtInt, fmtCompact,
   type ComposedPoint, type DonutDatum, type KpiItem, type LineSeries,
-} from "@fili/charts";
+} from "@sibyl/charts";
 
-/* ── données atelier « adacard » : dogfooding de @fili/charts ── */
+/* ── données atelier « adacard » : dogfooding de @sibyl/charts ── */
 const ADA_SPARK = [1420, 1560, 1490, 1720, 1640, 1580, 1810, 1750, 1930, 1880, 2050, 1990, 2180, 2310];
 const ADA_MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const ADA_CA = [32, 40, 36, 52, 47, 61, 55, 68, 63, 79, 73, 88];
@@ -192,6 +192,24 @@ const DropdownDemo: React.FC<{ side: DropdownSide; align: DropdownAlign; icons: 
 };
 const cn2 = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
+const DropdownInlineDemo: React.FC<{ icons: boolean }> = ({ icons }) => {
+  const [tri, setTri] = React.useState("recent");
+  const ic = (d: React.ReactNode) => (icons ? svg(d) : undefined);
+  return (
+    <Dropdown.Inline aria-label="Options" className="max-w-56">
+      <Dropdown.Label>Compte</Dropdown.Label>
+      <Dropdown.Item icon={ic(<><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></>)}>Profil</Dropdown.Item>
+      <Dropdown.Item icon={ic(<><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1" /></>)}>Réglages</Dropdown.Item>
+      <Dropdown.Item icon={ic(<><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><path d="M14 2v5h5" /></>)} disabled>Facturation</Dropdown.Item>
+      <Dropdown.Separator />
+      <Dropdown.Label>Tri</Dropdown.Label>
+      {[["recent", "Plus récent"], ["ancien", "Plus ancien"], ["az", "A → Z"]].map(([v, l]) => (
+        <Dropdown.Item key={v} checked={tri === v} onSelect={() => setTri(v)}>{l}</Dropdown.Item>
+      ))}
+    </Dropdown.Inline>
+  );
+};
+
 const SITE_OPTS: SelectOption[] = [
   { value: "md", label: "Design System MD" },
   { value: "ui", label: "Design System UI" },
@@ -239,7 +257,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     return (
       <AppLayout
         variant="docs"
-        brand={shellBrand("Fili Docs")}
+        brand={shellBrand("Sibyl Docs")}
         brandMark={shellMark}
         nav={[
           { label: "Démarrer", items: [{ label: "Introduction", active: true }, { label: "Installation" }, { label: "Structure du projet" }] },
@@ -258,7 +276,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
       >
         <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-muted">Démarrer</span>
         <h1 className="m-0 mt-1 text-3xl font-semibold text-text-primary">Introduction</h1>
-        <p className="mt-3 text-text-secondary">Fili est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
+        <p className="mt-3 text-text-secondary">Sibyl est une bibliothèque de composants React construite sur des tokens de design : accessible, thème clair/sombre, patterns compositionnels.</p>
         <h2 className="mb-2 mt-lg text-lg font-semibold text-text-primary">Fonctionnalités</h2>
         <ul className="flex list-disc flex-col gap-1 pl-5 text-text-secondary"><li>Accessibles par défaut</li><li>Tokens de design</li><li>Mode sombre</li><li>Server Components</li></ul>
       </AppLayout>
@@ -267,7 +285,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
   return (
     <AppLayout
       variant="default"
-      brand={shellBrand("Fili")}
+      brand={shellBrand("Sibyl")}
       brandMark={shellMark}
       nav={[
         { label: "Tableau de bord", icon: ICO.home, active: true },
@@ -347,10 +365,10 @@ export const GROUPS: Group[] = [
         render: () => (
           <Brand.Root>
             <Brand.Logo><svg viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 12h14M5 18h9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg></Brand.Logo>
-            <Brand.Text>Fili</Brand.Text>
+            <Brand.Text>Sibyl DS</Brand.Text>
           </Brand.Root>
         ),
-        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Fili</Brand.Text>\n</Brand.Root>`,
+        code: () => `<Brand.Root>\n  <Brand.Logo><Logo/></Brand.Logo>\n  <Brand.Text>Sibyl DS</Brand.Text>\n</Brand.Root>`,
       },
       {
         key: "divider", name: "Divider",
@@ -528,9 +546,22 @@ export const GROUPS: Group[] = [
           { k: "icons", type: "bool", label: "Icônes" },
         ],
         initial: { side: "bottom", align: "start", icons: true },
+        blocks: [
+          {
+            title: "Ancré — un déclencheur ouvre le menu (motif menu button)",
+            render: (s) => <DropdownDemo side={s.side} align={s.align} icons={s.icons} />,
+            code: (s) =>
+              `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root style="lighter" tone="neutral">Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
+          },
+          {
+            title: "En ligne — sans déclencheur, le panneau vit dans la page",
+            render: (s) => <DropdownInlineDemo icons={s.icons} />,
+            code: () =>
+              `<Dropdown.Inline aria-label="Options">\n  <Dropdown.Label>Compte</Dropdown.Label>\n  <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n  <Dropdown.Separator />\n  <Dropdown.Item checked onSelect={fn}>Plus récent</Dropdown.Item>\n</Dropdown.Inline>`,
+          },
+        ],
         render: (s) => <DropdownDemo side={s.side} align={s.align} icons={s.icons} />,
-        code: (s) =>
-          `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root style="lighter" tone="neutral">Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
+        code: () => `<Dropdown.Root>…</Dropdown.Root>`,
       },
     ],
   },
@@ -542,9 +573,10 @@ export const GROUPS: Group[] = [
         controls: [
           { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
           { k: "variant", type: "seg", opts: ["default", "ghost"] },
+          { k: "native", type: "bool", label: "Liste native (navigateur)" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { value: "md", size: "md", variant: "default", skeleton: false },
+        initial: { value: "md", size: "md", variant: "default", native: false, skeleton: false },
         render: (s, set) => (
           // hauteur réservée : la listbox ouverte doit tenir dans la fenêtre de démo
           <div className="flex min-h-[280px] w-64 items-start justify-center pt-md">
@@ -554,12 +586,13 @@ export const GROUPS: Group[] = [
               onValueChange={(v) => set("value", v)}
               size={s.size}
               variant={s.variant}
+              native={s.native}
               loading={s.skeleton}
               aria-label="Site"
             />
           </div>
         ),
-        code: (s) => `<Select options={OPTS} value="${s.value}" onValueChange={setV}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.variant === "ghost" ? ' variant="ghost"' : ""} aria-label="Site" />`,
+        code: (s) => `<Select options={OPTS} value="${s.value}" onValueChange={setV}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.variant === "ghost" ? ' variant="ghost"' : ""}${s.native ? " native" : ""} aria-label="Site" />`,
       },
       {
         key: "switch", name: "Switch",
@@ -742,13 +775,13 @@ export const GROUPS: Group[] = [
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
+                <Input.Input type="url" placeholder="sibyl.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
               </>
             ) : (
               <Input.Input
                 key={s.type} // le defaultValue suit le type (champ non contrôlé)
                 type={s.type}
-                defaultValue={s.type === "email" ? "aurelien@fili.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
+                defaultValue={s.type === "email" ? "aurelien@sibyl.fr" : s.type === "tel" ? "06 12 34 56 78" : "Texte saisi"}
                 placeholder={s.type === "email" ? "nom@domaine.fr" : s.type === "tel" ? "06 12 34 56 78" : "Votre texte"}
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
                 clearable={s.clearable}

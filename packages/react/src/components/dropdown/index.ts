@@ -3,6 +3,7 @@ export type {
   DropdownRootProps,
   DropdownTriggerProps,
   DropdownContentProps,
+  DropdownInlineProps,
   DropdownItemProps,
   DropdownSide,
   DropdownAlign,

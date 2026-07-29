@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @fili/react casse
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
@@ -8,22 +8,21 @@ import { cn } from "../../lib/cn";
 import "../../lib/no-scrollbar.css";
 
 /**
- * Dropdown — menu d'ACTIONS ancré à un déclencheur (intention « Agir », jamais un choix de
- * valeur : ça, c'est Select). Motif ARIA APG « Menu Button » : le déclencheur porte
- * aria-haspopup="menu" + aria-expanded, le menu est un popover NON-MODAL (fondation overlay :
- * ancré, sans voile, light-dismiss, `z-index.popover`), le focus VIT dans les items
- * (roving), Échap ferme et rend le focus au déclencheur.
+ * Dropdown — menu d'ACTIONS (intention « Agir », jamais un choix de valeur : ça, c'est
+ * Select). DEUX formes, même contenu (Item / Label / Separator) :
+ *  - ANCRÉE (Dropdown.Root + .Trigger + .Content) : motif ARIA APG « Menu Button » — le
+ *    déclencheur porte aria-haspopup + aria-expanded, le menu est un popover NON-MODAL
+ *    (fondation overlay : ancré, sans voile, light-dismiss, z-index.popover), le focus VIT
+ *    dans les items, Échap ferme et rend le focus au déclencheur ;
+ *  - EN LIGNE (Dropdown.Inline) : le même panneau, SANS déclencheur, posé dans le flux de la
+ *    page (palette d'actions, panneau latéral) — à plat (pas d'élévation : le relief signale
+ *    une couche, un panneau en flux n'en est pas une), navigation aux flèches identique.
  *
  * Inspiration assumée (fluidfunctionalism.com/docs/dropdown, relevé 2026-07-29), transposée
  * dans le langage fluide du système : le surlignage de survol/focus est UN SEUL fond animé
- * qui GLISSE d'un item à l'autre (translateY + height, motion.fast) au lieu d'apparaître et
- * disparaître item par item — même famille de mouvement que le pouce du ThemeToggle.
- * `prefers-reduced-motion` : le fond saute sans glisser, le signal reste.
- *
- * Compound : Dropdown.Root (open contrôlé ou non) / .Trigger (asChild possible) / .Content
- * (side top|bottom × align start|center|end + sideOffset) / .Item (icon, checked radio-style,
- * closeOnClick) / .Label / .Separator. Débordement : mêmes voiles dégradés + chevrons que la
- * listbox du Select, barre de scroll masquée (le voile est le signal).
+ * qui GLISSE d'un item à l'autre (translateY + height, motion.fast) — même famille de
+ * mouvement que le pouce du ThemeToggle. `prefers-reduced-motion` : le fond saute, le signal
+ * reste. Débordement : voiles dégradés + chevrons (convention Select/Tabs), barre masquée.
  */
 
 type DropdownCtx = {
@@ -36,9 +35,85 @@ type DropdownCtx = {
 const Ctx = React.createContext<DropdownCtx | null>(null);
 const useDropdown = (): DropdownCtx => {
   const c = React.useContext(Ctx);
-  if (!c) throw new Error("Dropdown.* doit vivre dans <Dropdown.Root>");
+  if (!c) throw new Error("Dropdown.Trigger/Content doivent vivre dans <Dropdown.Root>");
   return c;
 };
+
+/* ── mécanique partagée : voiles de débordement + surlignage glissant + flèches ─────────── */
+const FOCUSABLE_ITEM = '[role^="menuitem"]:not([data-disabled])';
+
+function useOverflowVeils(ref: React.RefObject<HTMLElement>) {
+  const [overflow, setOverflow] = React.useState({ top: false, bottom: false });
+  const update = React.useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    setOverflow({
+      top: el.scrollTop > 2,
+      bottom: el.scrollTop + el.clientHeight < el.scrollHeight - 2,
+    });
+  }, [ref]);
+  return { overflow, update };
+}
+
+function Veils({ overflow }: { overflow: { top: boolean; bottom: boolean } }) {
+  return (
+    <>
+      {overflow.top ? (
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-[2] flex h-7 items-start justify-center bg-gradient-to-b from-background to-transparent pt-0.5">
+          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted"><path d="M6 12l4-4 4 4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </div>
+      ) : null}
+      {overflow.bottom ? (
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] flex h-7 items-end justify-center bg-gradient-to-t from-background to-transparent pb-0.5">
+          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+type Highlight = { top: number; height: number } | null;
+const HighlightCtx = React.createContext<{ report: (el: HTMLElement) => void; clear: () => void } | null>(null);
+
+function useFluidHighlight(menuRef: React.RefObject<HTMLElement>) {
+  const [hl, setHl] = React.useState<Highlight>(null);
+  const report = React.useCallback((el: HTMLElement) => {
+    setHl({ top: el.offsetTop, height: el.offsetHeight });
+  }, []);
+  const clear = React.useCallback(() => {
+    // le fond suit le focus s'il est encore dans le menu, sinon il s'éteint
+    const focused = menuRef.current?.querySelector<HTMLElement>('[role^="menuitem"]:focus');
+    if (focused) setHl({ top: focused.offsetTop, height: focused.offsetHeight });
+    else setHl(null);
+  }, [menuRef]);
+  const value = React.useMemo(() => ({ report, clear }), [report, clear]);
+  const node = (
+    <div
+      aria-hidden="true"
+      className={cn(
+        "pointer-events-none absolute inset-x-1 top-0 z-0 rounded-sm bg-surface-hover",
+        "transition-[transform,height,opacity] duration-fast ease-out motion-reduce:transition-none",
+        hl ? "opacity-100" : "opacity-0",
+      )}
+      style={{ transform: `translateY(${hl?.top ?? 0}px)`, height: hl?.height ?? 0 }}
+    />
+  );
+  return { value, clear, node, reset: () => setHl(null) };
+}
+
+/** Flèches / Origine / Fin dans un menu — renvoie true si la touche a été consommée. */
+function navigateMenu(menuRef: React.RefObject<HTMLElement>, e: React.KeyboardEvent): boolean {
+  const list = Array.from(menuRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_ITEM) ?? []);
+  if (list.length === 0) return false;
+  const i = list.indexOf(document.activeElement as HTMLElement);
+  if (e.key === "ArrowDown") list[(i + 1) % list.length]?.focus();
+  else if (e.key === "ArrowUp") list[(i - 1 + list.length) % list.length]?.focus();
+  else if (e.key === "Home") list[0]?.focus();
+  else if (e.key === "End") list[list.length - 1]?.focus();
+  else return false;
+  e.preventDefault();
+  return true;
+}
 
 /* ── Root ─────────────────────────────────────────────────────────────────── */
 export interface DropdownRootProps {
@@ -124,7 +199,7 @@ function DropdownTrigger({ asChild = false, onClick, onKeyDown, ...props }: Drop
 }
 DropdownTrigger.displayName = "Dropdown.Trigger";
 
-/* ── Content : le menu ancré ──────────────────────────────────────────────── */
+/* ── Content : le menu ancré (popover) ────────────────────────────────────── */
 export type DropdownSide = "top" | "bottom";
 export type DropdownAlign = "start" | "center" | "end";
 
@@ -135,26 +210,13 @@ export interface DropdownContentProps extends React.HTMLAttributes<HTMLDivElemen
   sideOffset?: number;
 }
 
-const FOCUSABLE_ITEM = '[role^="menuitem"]:not([data-disabled])';
-
-type Highlight = { top: number; height: number } | null;
-const HighlightCtx = React.createContext<{ report: (el: HTMLElement) => void; clear: () => void } | null>(null);
-
 function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, className, children, ...props }: DropdownContentProps) {
-  const { open, setOpen, triggerRef, menuId, triggerId } = useDropdown();
+  const { open, setOpen, menuId, triggerId } = useDropdown();
   const menuRef = React.useRef<HTMLDivElement>(null);
   const [shown, setShown] = React.useState(false);
-  const [hl, setHl] = React.useState<Highlight>(null);
-  const [overflow, setOverflow] = React.useState({ top: false, bottom: false });
-
-  const updateOverflow = React.useCallback(() => {
-    const el = menuRef.current;
-    if (!el) return;
-    setOverflow({
-      top: el.scrollTop > 2,
-      bottom: el.scrollTop + el.clientHeight < el.scrollHeight - 2,
-    });
-  }, []);
+  const { overflow, update: updateOverflow } = useOverflowVeils(menuRef);
+  const highlight = useFluidHighlight(menuRef);
+  const { reset: resetHighlight } = highlight;
 
   // à l'ouverture : transition d'entrée + focus sur le premier item (le focus vit dans le menu)
   React.useEffect(() => {
@@ -167,40 +229,15 @@ function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, cla
     return () => {
       cancelAnimationFrame(raf);
       setShown(false);
-      setHl(null);
+      resetHighlight();
     };
-  }, [open, updateOverflow]);
-
-  const report = React.useCallback((el: HTMLElement) => {
-    setHl({ top: el.offsetTop, height: el.offsetHeight });
-  }, []);
-  const clear = React.useCallback(() => {
-    // le fond suit le focus s'il est encore dans le menu, sinon il s'éteint
-    const focused = menuRef.current?.querySelector<HTMLElement>('[role^="menuitem"]:focus');
-    if (focused) setHl({ top: focused.offsetTop, height: focused.offsetHeight });
-    else setHl(null);
-  }, []);
-  const highlightValue = React.useMemo(() => ({ report, clear }), [report, clear]);
+  }, [open, updateOverflow, resetHighlight]);
 
   if (!open) return null;
 
-  const items = () => Array.from(menuRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_ITEM) ?? []);
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    const list = items();
-    const i = list.indexOf(document.activeElement as HTMLElement);
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      list[(i + 1) % list.length]?.focus();
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      list[(i - 1 + list.length) % list.length]?.focus();
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      list[0]?.focus();
-    } else if (e.key === "End") {
-      e.preventDefault();
-      list[list.length - 1]?.focus();
-    } else if (e.key === "Escape") {
+    if (navigateMenu(menuRef, e)) return;
+    if (e.key === "Escape") {
       e.preventDefault();
       setOpen(false, true);
     } else if (e.key === "Tab") {
@@ -221,17 +258,7 @@ function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, cla
       style={{ [side === "bottom" ? "marginTop" : "marginBottom"]: sideOffset }}
       {...props}
     >
-      {/* voiles de débordement — mêmes signaux que la listbox du Select */}
-      {overflow.top ? (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-[2] flex h-7 items-start justify-center bg-gradient-to-b from-background to-transparent pt-0.5">
-          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted"><path d="M6 12l4-4 4 4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </div>
-      ) : null}
-      {overflow.bottom ? (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] flex h-7 items-end justify-center bg-gradient-to-t from-background to-transparent pb-0.5">
-          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </div>
-      ) : null}
+      <Veils overflow={overflow} />
       <div
         ref={menuRef}
         role="menu"
@@ -239,25 +266,63 @@ function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, cla
         aria-labelledby={triggerId}
         onKeyDown={onKeyDown}
         onScroll={updateOverflow}
-        onMouseLeave={clear}
+        onMouseLeave={highlight.clear}
         className="ds-no-scrollbar relative max-h-72 w-full overflow-auto p-1 outline-none"
       >
-        {/* LE fond de survol/focus — un seul, il GLISSE entre les items (langage fluide) */}
-        <div
-          aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute inset-x-1 top-0 z-0 rounded-sm bg-surface-hover",
-            "transition-[transform,height,opacity] duration-fast ease-out motion-reduce:transition-none",
-            hl ? "opacity-100" : "opacity-0",
-          )}
-          style={{ transform: `translateY(${hl?.top ?? 0}px)`, height: hl?.height ?? 0 }}
-        />
-        <HighlightCtx.Provider value={highlightValue}>{children}</HighlightCtx.Provider>
+        {highlight.node}
+        <HighlightCtx.Provider value={highlight.value}>{children}</HighlightCtx.Provider>
       </div>
     </div>
   );
 }
 DropdownContent.displayName = "Dropdown.Content";
+
+/* ── Inline : le même panneau, SANS déclencheur, posé dans le flux ────────── */
+export interface DropdownInlineProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DropdownInline({ className, children, onKeyDown, ...props }: DropdownInlineProps) {
+  const menuRef = React.useRef<HTMLDivElement>(null);
+  const { overflow, update: updateOverflow } = useOverflowVeils(menuRef);
+  const highlight = useFluidHighlight(menuRef);
+  React.useEffect(() => {
+    updateOverflow();
+  }, [updateOverflow]);
+
+  return (
+    <div
+      className={cn(
+        // en flux : à plat — bordure délimitante, PAS d'élévation (le relief signale une
+        // couche flottante ; ce panneau appartient à la page)
+        "relative w-full min-w-40 max-w-[18rem] overflow-hidden rounded-md border border-border bg-background",
+        className,
+      )}
+    >
+      <Veils overflow={overflow} />
+      <div
+        ref={menuRef}
+        role="menu"
+        tabIndex={0}
+        onFocus={(e) => {
+          // le conteneur reçoit le Tab puis passe la main au premier item (roving interne)
+          if (e.target === e.currentTarget)
+            menuRef.current?.querySelector<HTMLElement>(FOCUSABLE_ITEM)?.focus();
+        }}
+        onKeyDown={(e) => {
+          onKeyDown?.(e);
+          if (!e.defaultPrevented) navigateMenu(menuRef, e);
+        }}
+        onScroll={updateOverflow}
+        onMouseLeave={highlight.clear}
+        className="ds-no-scrollbar relative max-h-72 w-full overflow-auto p-1 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        {...props}
+      >
+        {highlight.node}
+        <HighlightCtx.Provider value={highlight.value}>{children}</HighlightCtx.Provider>
+      </div>
+    </div>
+  );
+}
+DropdownInline.displayName = "Dropdown.Inline";
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 const Check = () => (
@@ -273,12 +338,13 @@ export interface DropdownItemProps extends Omit<React.ButtonHTMLAttributes<HTMLB
   onSelect?: () => void;
   /** Radio-style : coche à droite + aria-checked (menuitemradio). Laisser undefined pour une action simple. */
   checked?: boolean;
-  /** La sélection referme le menu (défaut : true). */
+  /** La sélection referme le menu ancré (défaut : true). Sans effet en Inline. */
   closeOnClick?: boolean;
 }
 
 function DropdownItem({ icon, checked, onSelect, closeOnClick = true, disabled, className, children, ...props }: DropdownItemProps) {
-  const { setOpen } = useDropdown();
+  // ctx nullable : un Item vit aussi dans Dropdown.Inline, hors de tout Root
+  const ctx = React.useContext(Ctx);
   const hl = React.useContext(HighlightCtx);
   const ref = React.useRef<HTMLButtonElement>(null);
   return (
@@ -300,10 +366,10 @@ function DropdownItem({ icon, checked, onSelect, closeOnClick = true, disabled, 
       onClick={() => {
         if (disabled) return;
         onSelect?.();
-        if (closeOnClick) setOpen(false, true);
+        if (closeOnClick) ctx?.setOpen(false, true);
       }}
       className={cn(
-        // pas de bg de survol propre : LE fond glissant du Content s'en charge
+        // pas de bg de survol propre : LE fond glissant du menu s'en charge
         "relative z-[1] flex w-full items-center gap-sm rounded-sm px-sm py-1.5 text-left text-sm text-text-primary",
         "outline-none disabled:cursor-not-allowed disabled:text-text-disabled",
         className,
@@ -338,6 +404,7 @@ export const Dropdown = Object.assign(DropdownRoot, {
   Root: DropdownRoot,
   Trigger: DropdownTrigger,
   Content: DropdownContent,
+  Inline: DropdownInline,
   Item: DropdownItem,
   Label: DropdownLabel,
   Separator: DropdownSeparator,
