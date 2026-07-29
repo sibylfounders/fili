@@ -117,10 +117,8 @@ function Couleur() {
           {chip("var(--surface)", "var(--text-primary)", undefined, "Neutral")}
           {chip("transparent", "var(--text-primary)", "1px solid var(--border-strong)", "Neutral")}
         </div>
-        <div className="chiprow">
-          <span className="rl">accent</span>
-          <span className="chip" style={{ background: "var(--accent)", width: 60 }} title="accent (focus ring)" />
-        </div>
+        {/* Pas de rangée isolée ici : secondary vit dans COL_FAM (boucle des rôles) et
+            accent est SORTI des tokens (DESIGN 1.34.0, arbitrage 2026-07-29 — focus v2). */}
       </div>
 
       <div>
