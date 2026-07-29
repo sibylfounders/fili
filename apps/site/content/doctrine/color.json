@@ -1381,7 +1381,7 @@
   {
    "id": "COLOR-R04",
    "couche": "ux",
-   "solution": "**aucune couleur ne change de registre selon le contexte.** Jamais `primary` ou `accent` pour un état sémantique (guardrail fondateur de DESIGN.md) ; jamais `danger` pour \"du rouge décoratif\" ; l'inverse aussi — le tone info de l'alert a reçu son propre `info` plutôt que d'emprunter `accent`, alors que les deux sont des bleus.",
+   "solution": "**aucune couleur ne change de registre selon le contexte.** Jamais `primary` ou `secondary` pour un état sémantique (guardrail fondateur de DESIGN.md) ; jamais `danger` pour \"du rouge décoratif\" ; l'inverse aussi — le tone info de l'alert a reçu son propre `info` plutôt que d'emprunter la marque, alors que primary et info étaient deux bleus.",
    "enonce": "Une couleur ne change jamais de registre selon le contexte : un token de marque ne porte jamais un état, un token sémantique ne sert jamais de décor.",
    "mesure": "aucun token de marque employé pour un tone sémantique, et réciproquement",
    "contre": "",
@@ -1449,7 +1449,7 @@
   {
    "id": "COLOR-R05",
    "couche": "ux",
-   "solution": "**le registre marque tient en trois rôles fonctionnels — `primary`, `secondary`, `accent` — et pas un de plus par simple envie de décor.** Une identité traversée d'une teinte supplémentaire purement décorative (le magenta d'une maquette, sans rôle d'action ni de focus) n'a **pas** de slot, et n'en reçoit pas un : un token naît d'un besoin réel, jamais d'une couleur « à caser » (ce serait la porte ouverte au « primary partout » que le système s'interdit). **Position (1.1.0) : les identités multi-teintes décoratives sortent du périmètre.** Le jour où une teinte de marque supplémentaire porte un vrai rôle fonctionnel récurrent, elle entrera comme rôle nommé (avec son couple on-*), pas comme aplat libre.",
+   "solution": "**le registre marque tient en deux rôles fonctionnels — `primary`, `secondary` — et pas un de plus par simple envie de décor.** (La règle a été APPLIQUÉE à la sortie autant qu'à l'entrée : `accent`, né en 1.33.0 pour le focus ring, est sorti en 1.34.0 le jour où le focus v2 lui a repris sa mission — un rôle sans consommateur ne reste pas.) Une identité traversée d'une teinte supplémentaire purement décorative (le magenta d'une maquette, sans rôle d'action ni de focus) n'a **pas** de slot, et n'en reçoit pas un : un token naît d'un besoin réel, jamais d'une couleur « à caser » (ce serait la porte ouverte au « primary partout » que le système s'interdit). **Position (1.1.0) : les identités multi-teintes décoratives sortent du périmètre.** Le jour où une teinte de marque supplémentaire porte un vrai rôle fonctionnel récurrent, elle entrera comme rôle nommé (avec son couple on-*), pas comme aplat libre.",
    "enonce": "Le registre marque se limite aux rôles fonctionnels existants : une teinte purement décorative ne reçoit pas de token.",
    "mesure": "tout token de marque est référencé par au moins un rôle fonctionnel documenté",
    "contre": "",
@@ -1460,28 +1460,7 @@
    "sources": [],
    "principale": null,
    "confiance": "décision interne datée (2026-07-17) — cohérente avec « un token naît d'un besoin réel » et l'interdit du décor par token de marque.",
-   "cas": [
-    {
-     "id": "cas-0-0",
-     "titre": "Action de marque (primary)",
-     "famille": "Rôle de couleur"
-    },
-    {
-     "id": "cas-0-1",
-     "titre": "Accent (focus, touches secondaires)",
-     "famille": "Rôle de couleur"
-    },
-    {
-     "id": "cas-2-1",
-     "titre": "Focus",
-     "famille": "État / comportement dans le temps"
-    },
-    {
-     "id": "cas-4-3",
-     "titre": "Marque utilisée comme sémantique",
-     "famille": "Enjeu / risque"
-    }
-   ]
+   "cas": []
   },
   {
    "id": "COLOR-R06",

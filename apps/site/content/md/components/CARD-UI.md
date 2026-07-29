@@ -1,8 +1,8 @@
 ---
 component: card
 layer: ui
-version: 1.5.2 # 1.5.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.5.1 (2026-07-21) : grid_gap devient un alias de compatibilité — l'autorité du gap de grille est transférée au pattern collection (COLLECTION-UI.md, mapping par densité), cf. DECISIONS.md. 1.5.0 (2026-07-21) : rattachement nommé Interaction/Motion/Voice, contrat reduced-motion chevron/dépliage, E-motion sans objet raisonné. 1.4.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI — surface statique sans faux feedback ; disposition pilotée par le conteneur, grille de page propriétaire de ses colonnes. 1.3.1 : conteneur en radius.lg.
-last_updated: 2026-07-21
+version: 1.6.0 # 1.6.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — `focus_ring` pointe désormais les rôles `control.focus-*` (cran subtil accordé à l'état, géométrie BORDER inchangée) ; aucune autre règle modifiée. 1.5.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.5.1 (2026-07-21) : grid_gap devient un alias de compatibilité — l'autorité du gap de grille est transférée au pattern collection (COLLECTION-UI.md, mapping par densité), cf. DECISIONS.md. 1.5.0 (2026-07-21) : rattachement nommé Interaction/Motion/Voice, contrat reduced-motion chevron/dépliage, E-motion sans objet raisonné. 1.4.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI — surface statique sans faux feedback ; disposition pilotée par le conteneur, grille de page propriétaire de ses colonnes. 1.3.1 : conteneur en radius.lg.
+last_updated: 2026-07-29
 companion: CARD-UX.md
 tokens:
   containment:
@@ -25,7 +25,7 @@ tokens:
     fallback: typography.fallback.sans
   states:
     hover_shadow: elevation.raised # cartes cliquables uniquement
-    focus_ring: color.accent
+    focus_ring: control.focus-color # focus v2 (2026-07-29) — cran subtil accordé à l'état (sélection → control.focus-primary) ; géométrie BORDER inchangée
     selected_border: color.primary
     skeleton_background: color.surface
     expand_chevron: color.text-secondary # le mode expandable doit être discernable de static au repos
@@ -95,7 +95,7 @@ La cliquabilité de toute la surface vient d'un vrai lien étendu en CSS, pas d'
 
 - Collection de cartes = balisage de liste (`ul`/`li` ou `role="list"`) — le lecteur d'écran annonce le nombre d'items et la position.
 - Titre de carte = élément de titre réel (`h2`...`h4`), même niveau sur toute la collection — le niveau suit la structure de la page qui accueille la collection, la taille reste `title_size` (règle "niveau ≠ taille", cf. content/md/foundations/TYPOGRAPHY-UX.md).
-- Focus visible sur la carte cliquable/sélectionnable : `focus_ring` (token `color.accent`), jamais supprimé.
+- Focus visible sur la carte cliquable/sélectionnable : `focus_ring` (rôles `control.focus-*`, focus v2), jamais supprimé.
 - État sélectionné : `selected_border` (`color.primary`) **plus** un indicateur non chromatique (coche), et l'état exposé techniquement (`aria-pressed` ou input `checkbox`/`radio` réel selon le cas).
 - Cibles internes (icônes d'action) : zone tactile minimum 44px, comme partout.
 - Ordre DOM = ordre visuel : media avant header avant corps — pas de réordonnancement purement CSS qui désynchroniserait la lecture d'écran.

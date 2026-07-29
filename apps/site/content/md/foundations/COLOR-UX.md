@@ -2,7 +2,7 @@
 component: color
 layer: ux
 type: foundation
-version: 1.2.0 # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
+version: 1.3.0 # 1.3.0 : le registre marque passe à DEUX rôles (primary, secondary) — retrait d'`accent` (focus v2 1.34.0 : l'anneau = cran subtil control.focus-* accordé à la bordure/état ; arbitrage Aurélien 2026-07-29 soir, cf. DECISIONS.md) ; R04/R05/R13 reformulées, R05 gagne le précédent « la règle vaut à la sortie ». 1.2.0 : # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
 last_updated: 2026-07-20
 companion: COLOR-UI.md
 confidence: mixed # la structure par rôles, 1.4.1 et les seuils de contraste sont établis ; les positions dark mode / forced-colors sont des décisions internes datées, marquées comme telles
@@ -38,17 +38,17 @@ STATUT : propriété universelle
 SOURCE : S7, S5, S3
 ÉNONCÉ : La palette se répartit en trois registres étanches — marque, sémantique, neutres — et chaque token appartient à un seul d'entre eux.
 MESURE : chaque token couleur est rattaché à exactement un registre
-  1. **Marque** — `primary` (l'action), `accent` (le focus et les touches secondaires). Porte l'identité, jamais un état.
+  1. **Marque** — `primary` (l'action) et `secondary` (la seconde voix). Porte l'identité, jamais un état. (Le focus n'est plus un rôle de marque : focus v2 1.34.0 : l'anneau est un cran subtil accordé à la bordure/état (control.focus-*, défaut primary éclairci).)
   2. **Sémantique** — `danger`, `success`, `warning`, `info`, chacun en couple texte/`-subtle`. Porte un état, jamais l'identité.
   3. **Neutres** — textes (`text-*`), surfaces (`background`, `surface*`), bordures (`border*`). Structure la page, ne porte ni identité ni état.
 
-RÈGLE [COLOR-R04] : **aucune couleur ne change de registre selon le contexte.** Jamais `primary` ou `accent` pour un état sémantique (guardrail fondateur de DESIGN.md) ; jamais `danger` pour "du rouge décoratif" ; l'inverse aussi — le tone info de l'alert a reçu son propre `info` plutôt que d'emprunter `accent`, alors que les deux sont des bleus.
+RÈGLE [COLOR-R04] : **aucune couleur ne change de registre selon le contexte.** Jamais `primary` ou `secondary` pour un état sémantique (guardrail fondateur de DESIGN.md) ; jamais `danger` pour "du rouge décoratif" ; l'inverse aussi — le tone info de l'alert a reçu son propre `info` plutôt que d'emprunter la marque, alors que primary et info étaient deux bleus.
 STATUT : propriété universelle
 SOURCE : S5, S7
 ÉNONCÉ : Une couleur ne change jamais de registre selon le contexte : un token de marque ne porte jamais un état, un token sémantique ne sert jamais de décor.
 MESURE : aucun token de marque employé pour un tone sémantique, et réciproquement
 
-RÈGLE [COLOR-R05] : **le registre marque tient en trois rôles fonctionnels — `primary`, `secondary`, `accent` — et pas un de plus par simple envie de décor.** Une identité traversée d'une teinte supplémentaire purement décorative (le magenta d'une maquette, sans rôle d'action ni de focus) n'a **pas** de slot, et n'en reçoit pas un : un token naît d'un besoin réel, jamais d'une couleur « à caser » (ce serait la porte ouverte au « primary partout » que le système s'interdit). **Position (1.1.0) : les identités multi-teintes décoratives sortent du périmètre.** Le jour où une teinte de marque supplémentaire porte un vrai rôle fonctionnel récurrent, elle entrera comme rôle nommé (avec son couple on-*), pas comme aplat libre.
+RÈGLE [COLOR-R05] : **le registre marque tient en deux rôles fonctionnels — `primary`, `secondary` — et pas un de plus par simple envie de décor.** (La règle a été APPLIQUÉE à la sortie autant qu'à l'entrée : `accent`, né en 1.33.0 pour le focus ring, est sorti en 1.34.0 le jour où le focus v2 lui a repris sa mission — un rôle sans consommateur ne reste pas.) Une identité traversée d'une teinte supplémentaire purement décorative (le magenta d'une maquette, sans rôle d'action ni de focus) n'a **pas** de slot, et n'en reçoit pas un : un token naît d'un besoin réel, jamais d'une couleur « à caser » (ce serait la porte ouverte au « primary partout » que le système s'interdit). **Position (1.1.0) : les identités multi-teintes décoratives sortent du périmètre.** Le jour où une teinte de marque supplémentaire porte un vrai rôle fonctionnel récurrent, elle entrera comme rôle nommé (avec son couple on-*), pas comme aplat libre.
 STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Le registre marque se limite aux rôles fonctionnels existants : une teinte purement décorative ne reçoit pas de token.

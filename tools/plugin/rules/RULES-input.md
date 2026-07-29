@@ -7,7 +7,7 @@ selon-contexte: ["form (convention requis et validation décidées au niveau du 
 ---
 # RULES — Input (compilé, condensé)
 
-> Généré depuis `components/input/INPUT-UX.md` (v1.6.0) et `INPUT-UI.md` (v1.5.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/INPUT-UX.md` (v1.7.1) et `INPUT-UI.md` (v1.7.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
 - Trois axes : **status** (default/error/success/warning — ex-`tone`, renommé 2026-07-29 : un statut de validation SUBI, jamais décoratif ; aria-invalid auto en error) × **size** (sm/md/lg) × **field_type** (text/email/password/number/search/tel/url/textarea).
@@ -101,7 +101,7 @@ colors:
   status.error_text: color.danger
   status.success_border: color.success
   status.warning_border: color.warning
-  focus_ring: color.accent
+  focus_ring: control.focus-color # focus v2 — cran subtil accordé au statut (error → control.focus-danger…)
 content_elements:
   helper_text: color.text-secondary
   character_counter: color.text-secondary

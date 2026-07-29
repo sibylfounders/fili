@@ -7,7 +7,7 @@ selon-contexte: ["voice (libellé nominal, jamais un verbe d'action)", "form (fo
 ---
 # RULES — Tabs (compilé, condensé)
 
-> Généré depuis `components/TABS-UX.md` (v1.0.0) et `TABS-UI.md` (v1.0.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/TABS-UX.md` (v1.0.0) et `TABS-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Découpe un **même objet** en **vues exclusives** (un seul volet visible), jamais des sujets distincts. Test : « le même [X] vu sous l'angle A, B, C » ?
@@ -33,7 +33,7 @@ selon-contexte: ["voice (libellé nominal, jamais un verbe d'action)", "form (fo
 
 ## UI (tokens)
 - Tablist : `overflow-x-auto` ; `line` : séparateur `color.border`, écart `spacing.lg` ; `pill` : piste `color.background`, bordure `color.border`, `radius.pill`, écart `spacing.xs`.
-- Onglet : texte `typography.body` ; repos `color.text-secondary` ; survol `color.text-primary` + trait `color.border-strong` ; courant `color.text-primary` + `typography.display.fontWeight` + trait `color.primary` (`line`) ou fond `color.surface` + `elevation.raised` (`pill`). Focus : `border.focus-width`/`border.focus-offset` en `color.accent`, jamais animé ; transitions `motion.fast`/`motion.ease-out`.
+- Onglet : texte `typography.body` ; repos `color.text-secondary` ; survol `color.text-primary` + trait `color.border-strong` ; courant `color.text-primary` + `typography.display.fontWeight` + trait `color.primary` (`line`) ou fond `color.surface` + `elevation.raised` (`pill`). Focus : `border.focus-width`/`border.focus-offset` en `control.focus-color` (focus v2), jamais animé ; transitions `motion.fast`/`motion.ease-out`.
 - `Tabs.Root` : `value`/`onValueChange` ou `defaultValue` (jamais mélangés) ; `variant` `line`/`pill` ; `activation` `auto`/`manual`.
 
 ## Frontières

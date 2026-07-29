@@ -1,5 +1,6 @@
 # Manque : chip-renvoi
-- Statut : proposé
+- Statut : résolu
+- Promotion : Chip  <!-- tranche verticale livrée le 2026-07-29 soir : CHIP-UX/UI 1.0.0, composant, manifeste, atelier, catalogue, tests — les deux implémentations locales des grilles consomment Chip -->
 - Besoin rencontré : renvoi compact et cliquable vers une règle (`BUTTON-R12 →`) ou un cas d'usage, en nuée dense dans les volets de la Doctrine.
 - Contexte réel : apps/site/app/md/[slug]/cas-grille.tsx et decisions-grille.tsx (volets « Règle qui tranche ce cas », « Situations qui l'éprouvent »).
 - Fréquence prévisible : élevée dans les surfaces documentaires ; probable dans Fili Audit (renvois de constats vers les règles).
@@ -16,4 +17,4 @@
 - Comportement adaptatif : flex-wrap naturel, troncature interdite sur les IDs.
 - Coût de maintenance estimé : faible (composant feuille).
 - Risque de doublon : futur Badge (affichage pur) — frontière à écrire dans la fiche UX.
-- Recommandation : nouveau composant (après validation d'Aurélien) ; en attendant, implémentation locale marquée FILI-MANQUE dans les deux grilles.
+- Recommandation : nouveau composant — VALIDÉE le 2026-07-29 (arbitrage Aurélien). Tranche verticale en cours ; les implémentations locales des deux grilles seront remplacées à la livraison, puis Statut → résolu avec `- Promotion : Chip`.

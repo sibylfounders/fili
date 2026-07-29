@@ -7,7 +7,7 @@ selon-contexte: ["radius (rayon perçu du focus ring)"]
 ---
 # RULES — Border (compilé, condensé)
 
-> Généré depuis `foundations/border/BORDER-UX.md` (v1.1.0) et `BORDER-UI.md` (v1.0.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/BORDER-UX.md` (v1.4.0) et `BORDER-UI.md` (v1.4.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Fondation née du guardrail "délimitante vs décorative" (toujours actif dans les tokens/guardrails).

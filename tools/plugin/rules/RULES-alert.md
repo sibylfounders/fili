@@ -7,7 +7,7 @@ selon-contexte: ["button (si l'alert porte une action)", "form (résumé d'erreu
 ---
 # RULES — Alert (compilé, condensé)
 
-> Généré depuis `components/alert/ALERT-UX.md` (v1.3.0) et `ALERT-UI.md` (v1.1.3). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/ALERT-UX.md` (v1.4.0) et `ALERT-UI.md` (v1.4.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
 - Deux axes : **tone** (info/success/warning/danger) × **persistance** (permanent/dismissible).

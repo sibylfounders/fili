@@ -53,7 +53,6 @@ export const colorMap = {
   "text-muted":           { role: "text-muted" },      // neutral.400
   border:                 { role: "border" },          // neutral.200
   "border-strong":        { role: "border-strong" },   // neutral.500
-  accent:                 { role: "accent" },          // fuchsia.600 = #C026D3 (focus ring, 1.33.0)
 };
 
 // fondations non-couleur : token DS-MD → clé de la fondation DS-UI (même nom)

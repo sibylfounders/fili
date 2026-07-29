@@ -2,8 +2,8 @@
 component: tabs
 layer: ui
 type: component
-version: 1.0.0 # 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : trait courant `color.primary`, poids `typography.display.fontWeight`, pastille `radius.pill` + `elevation.raised`, transitions `motion.fast`/`motion.ease-out`, anneau de focus = BORDER. Cf. TABS-UX.md et packages/react/src/components/tabs/tabs.tsx.
-last_updated: 2026-07-26
+version: 1.1.0 # 1.1.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — l'anneau passe aux rôles `control.focus-*` ; aucune autre règle modifiée. 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : trait courant `color.primary`, poids `typography.display.fontWeight`, pastille `radius.pill` + `elevation.raised`, transitions `motion.fast`/`motion.ease-out`, anneau de focus = BORDER. Cf. TABS-UX.md et packages/react/src/components/tabs/tabs.tsx.
+last_updated: 2026-07-29
 companion: TABS-UX.md
 confidence: mixed # le mapping suit les tokens déjà établis par BUTTON/LINK/ACCORDION ; l'état disabled n'a pas de token de couleur dédié (dette assumée, cf. BUTTON-UI.md).
 ---
@@ -60,7 +60,7 @@ délimitante douce, pas de seuil de contraste requis — groupement), espacement
 | Repos | `color.text-secondary` | `line` : trait bas transparent · `pill` : aucun fond | normal |
 | Survol | `color.text-primary` | `line` : trait bas `color.border-strong` (hover) | normal |
 | Courant | `color.text-primary` | `line` : trait bas `color.primary` · `pill` : fond `color.surface` + `elevation.raised` | `typography.display.fontWeight` (renforcé) |
-| Focus (clavier) | inchangé | anneau `border.focus-width` / `border.focus-offset` en `color.accent`, extérieur à la boîte (BORDER-UI) | inchangé |
+| Focus (clavier) | inchangé | anneau `border.focus-width` / `border.focus-offset` en `control.focus-color` (focus v2), extérieur à la boîte (BORDER-UI) | inchangé |
 | Désactivé | CONFIANCE : non formalisé — arbitrage à remonter (aucun token `text-disabled` dans DESIGN.md ; dette assumée comme `disabled` de BUTTON-UI.md) | — | — |
 
 RÈGLE [TABS-U05] : le texte de l'onglet suit `typography.body` ; la variante `line` compose en corps réduit
@@ -108,7 +108,7 @@ SOURCE : interne
 ÉNONCÉ : Toute valeur de couleur, d'espacement, de rayon, de relief, de mouvement, de focus et de typographie du composant référence un token existant, aucune valeur brute n'étant écrite dans le composant.
 MESURE : aucune valeur littérale de couleur, de durée, de rayon ou d'espacement n'apparaît dans le code du composant
 `color.text-primary`, `color.primary`, `color.border`, `color.border-strong`, `color.surface`,
-`color.background`, `color.accent`), espacement (`spacing.xs`, `spacing.sm`, `spacing.md`,
+`color.background`, `control.focus-color`), espacement (`spacing.xs`, `spacing.sm`, `spacing.md`,
 `spacing.lg`), rayon (`radius.pill`), relief (`elevation.raised`), mouvement (`motion.fast`,
 `motion.ease-out`), focus (`border.focus-width`, `border.focus-offset`), typographie
 (`typography.body`, `typography.display.fontWeight`). Aucune couleur, durée ou rayon n'est écrit en

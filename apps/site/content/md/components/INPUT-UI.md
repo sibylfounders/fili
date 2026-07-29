@@ -1,8 +1,8 @@
 ---
 component: input
 layer: ui
-version: 1.6.0 # 1.6.0 : rattachement nommé Motion/Voice, contrat reduced-motion de la bordure d'état, absence E-motion raisonnée (2026-07-21). 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI — zone réceptive sans élévation, adaptation locale sans masquer label/aide requise/erreur. 1.4.2 : vocabulaire aligné sur le modèle style × tone du bouton.
-last_updated: 2026-07-21
+version: 1.7.0 # 1.7.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — `focus_ring` pointe les rôles `control.focus-*` (cran subtil accordé au statut : error → control.focus-danger, etc.) ; aucune autre règle modifiée. 1.6.0 : rattachement nommé Motion/Voice, contrat reduced-motion de la bordure d'état, absence E-motion raisonnée (2026-07-21). 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI — zone réceptive sans élévation, adaptation locale sans masquer label/aide requise/erreur. 1.4.2 : vocabulaire aligné sur le modèle style × tone du bouton.
+last_updated: 2026-07-29
 companion: INPUT-UX.md
 tokens:
   sizing:
@@ -25,7 +25,7 @@ tokens:
     tone.error_text: color.danger
     tone.success_border: color.success
     tone.warning_border: color.warning
-    focus_ring: color.accent
+    focus_ring: control.focus-color # focus v2 (2026-07-29) — cran subtil accordé au statut de la bordure (error → control.focus-danger…)
   icon: # ajouté en 1.4.0 — relié à la fondation (foundations/iconography/)
     size: icon.md # clear, prefix/suffix, œil password — couleur héritée de content_elements (text-secondary)
   motion: # ajouté en 1.4.0 — relié au langage (languages/motion/)

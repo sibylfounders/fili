@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { CardGroup, Modal } from "@fili/react";
+import { CardGroup, Chip, Modal } from "@fili/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Decision } from "@/lib/doctrine";
 
@@ -195,18 +195,16 @@ export function DecisionsGrille({
                 <Champ titre="Situations qui l'éprouvent">
                   <div className="flex flex-wrap gap-sm">
                     {d.cas.map((x) => (
-                      /* FILI-MANQUE: chip-renvoi */
-                      <button
+                      <Chip
                         key={x.id}
-                        type="button"
+                        variant="subtle"
                         onClick={() => {
                           setOuvert(null);
                           allerAuVolet("cas", x.id);
                         }}
-                        className="rounded-md border border-border bg-surface px-sm py-1 text-xs text-text-secondary transition-colors hover:border-primary hover:text-text-primary"
                       >
                         {x.titre} →
-                      </button>
+                      </Chip>
                     ))}
                   </div>
                 </Champ>

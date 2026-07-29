@@ -3,8 +3,8 @@ sujet: link
 nature: components
 resume: "Un lien promet une destination."
 selon-contexte: [border, card, emotion, iconography, interaction, motion, voice]
-source: LINK-UX.md v1.1.0 + LINK-UI.md v1.1.0
-empreinte: sha256:709a7c8e5cbb6976
+source: LINK-UX.md v1.1.0 + LINK-UI.md v1.2.0
+empreinte: sha256:eebefa37740b84fe
 regles: {loi: 19, preference: 11, non_qualifie: 0}
 ---
 # RULES — link (compilé, mode build)

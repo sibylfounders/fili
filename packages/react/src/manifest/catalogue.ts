@@ -36,6 +36,8 @@ type CardGroupMode = import("../components/card-group/card-group").CardGroupMode
 type CardGroupDensity = import("../components/card-group/card-group").CardGroupDensity;
 type CardGroupOrientation = NonNullable<import("../components/card-group/card-group").CardGroupProps["orientation"]>;
 type DeleteButtonSize = NonNullable<import("../components/delete-button/delete-button").DeleteButtonProps["size"]>;
+type ChipVariant = NonNullable<VariantProps<typeof import("../components/chip/chip").chipVariants>["variant"]>;
+type ChipP = import("../components/chip/chip").ChipProps;
 type SubmitButtonSize = NonNullable<import("../components/submit-button/submit-button").SubmitButtonProps["size"]>;
 type DropdownContentProps = React.ComponentProps<(typeof import("../components/dropdown/dropdown").Dropdown)["Content"]>;
 type DropdownSide = NonNullable<DropdownContentProps["side"]>;
@@ -273,6 +275,46 @@ export const catalogue: Entree[] = [
   <CardGroup.Card title="Commencer" description="Installer et brancher le kit." href="/guides/commencer" />
   <CardGroup.Card title="Theming" description="Rayons, relief, sombre." href="/guides/theming" />
 </CardGroup.Root>`,
+      },
+    ],
+  },
+  {
+    name: "Chip",
+    package: "@fili/react",
+    import: 'import { Chip } from "@fili/react";',
+    status: "stable",
+    category: "navigation",
+    purpose:
+      "Le RENVOI COMPACT en nuée : pointe vers une entité du système (règle, cas, constat) depuis un contexte dense. Destination ou déplacement de vue — jamais une mutation. Premier composant entré par la tranche verticale du MISSING-COMPONENT-PROTOCOL (2026-07-29).",
+    doctrine: { ux: "components/CHIP-UX.md", ui: "components/CHIP-UI.md" },
+    rules: "RULES-chip.md",
+    axes: {
+      variant: axe<ChipVariant>({
+        kind: "variant",
+        description: "Facture contenue, calme — pas de relief (un renvoi, pas un objet pressé).",
+        values: { outline: "fond de page + filet border (défaut)", subtle: "fond surface, sans filet — sur zone déjà bordée" },
+        default: "outline",
+      }),
+    },
+    props: propsDe<ChipP>()({
+      mono: { type: "boolean", default: "false", description: "Identifiant technique en chasse fixe (CHIP-R05)." },
+      asChild: { type: "boolean", default: "false", description: "Porte un <a> si la chip NAVIGUE ; sans asChild, <button type=button> (déplacement de vue)." },
+    }),
+    tokens: ["radius-md", "border / surface / surface-hover / primary (survol)", ".ds-focus-ring (--control-focus-color)"],
+    accessibility: ["sémantique native suivant la cible (a href / button — CHIP-R06)", "nom accessible = texte visible, flèche comprise", "cible effective ≥ touch.target-min dans la nuée"],
+    antiPatterns: [
+      "Porter une mutation (créer/supprimer → Button)",
+      "Servir de filtre à facettes (autre besoin, hors périmètre — CHIP-R03)",
+      "Recomposer la facture en local (c'est exactement la dérive qui a fait naître ce composant)",
+    ],
+    canonicalExamples: [
+      {
+        title: "Nuée de renvois vers des règles",
+        code: `<div className="flex flex-wrap gap-sm">
+  <Chip mono onClick={() => {}}>BUTTON-R12 →</Chip>
+  <Chip mono onClick={() => {}}>BUTTON-R30 →</Chip>
+  <Chip variant="subtle" onClick={() => {}}>Situations qui l'éprouvent →</Chip>
+</div>`,
       },
     ],
   },

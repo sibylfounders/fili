@@ -23,6 +23,13 @@ DOCTRINE = os.path.join(ICI, "apps/site/content/doctrine")
 DIST = os.path.join(ICI, "dist")
 NATURES = ["principles", "languages", "foundations", "components", "patterns", "flows"]
 MOT = {"universelle": "loi", "identite": "préférence", "implementation": "préférence"}
+# statuts tels qu'annotés dans le markdown (mêmes clés qu'extrait-decisions.py)
+STATUTS_MD = {
+    "propriété universelle": "universelle",
+    "parti pris d'identité": "identite",
+    "implémentation de référence": "implementation",
+    "note de méthode": "methode",
+}
 
 
 def fichiers(slug):
@@ -60,17 +67,37 @@ def entete(src):
     return (v.group(1) if v else "?", phrase)
 
 
-def regles_brutes(src, couche):
-    """Extraction mécanique des règles non annotées : la ligne RÈGLE, sans plus."""
+def regles_brutes(src, couche, deja_portees=frozenset()):
+    """Extraction mécanique des règles non portées par les décisions de la fiche site.
+
+    Une règle identifiée `[ID]` n'est sautée QUE si les décisions de la fiche site la
+    portent déjà (`deja_portees`) : un sujet dont la fiche site n'existe pas encore (né
+    par la tranche verticale du protocole, ex. chip 2026-07-29) garde ainsi toutes ses
+    règles dans la distribution au lieu de sortir VIDE en silence. Pour ces règles, le
+    STATUT annoté dans le markdown qualifie loi/préférence ; la MESURE suit si elle existe.
+    Les notes de méthode restent hors distribution (même frontière qu'`extrait-decisions`).
+    """
     out = []
-    for m in re.finditer(r"^RÈGLE(?: \[([A-Z0-9-]+)\])? ?: (.+)$", src, re.M):
-        if m.group(1):
-            continue  # déjà porté par les décisions annotées
+    blocs = re.split(r"(?=^RÈGLE )", src, flags=re.M)[1:]
+    for b in blocs:
+        m = re.match(r"^RÈGLE(?: \[([A-Z0-9-]+)\])? ?: (.+)$", b, re.M)
+        if not m:
+            continue
+        ident = m.group(1)
+        if ident and ident in deja_portees:
+            continue  # déjà porté par les décisions annotées de la fiche site
         txt = re.sub(r"\s+", " ", m.group(2)).strip()
         if len(txt) < 12 or txt.lower().startswith("table ci-dessous"):
             continue
-        out.append({"couche": couche, "texte": txt, "mot": "non qualifié", "id": None,
-                    "mesure": "", "contre": "", "url": None})
+        sm = re.search(r"^STATUT : (.+)$", b, re.M)
+        statut = STATUTS_MD.get(sm.group(1).strip()) if sm else None
+        if ident and statut == "methode":
+            continue
+        mm = re.search(r"^MESURE : (.+)$", b, re.M) if ident else None
+        out.append({"couche": couche, "texte": txt,
+                    "mot": MOT.get(statut, "non qualifié"),
+                    "id": ident, "mesure": mm.group(1).strip() if mm else "",
+                    "contre": "", "url": None})
     return out
 
 
@@ -131,7 +158,10 @@ def compile_sujet(slug, mode="audit"):
     fiche = json.load(open(pj, encoding="utf-8")) if os.path.exists(pj) else {}
     # Les règles annotées d'abord ; celles qui n'ont pas encore d'identifiant suivent en brut.
     # Rien ne disparaît en silence : une règle non qualifiée reste dans le paquet, marquée comme telle.
-    regles = regles_annotees(fiche) + regles_brutes(sux, "ux") + regles_brutes(sui, "ui")
+    annotees = regles_annotees(fiche)
+    portees = frozenset(r["id"] for r in annotees if r["id"]) | frozenset(
+        d["id"] for d in fiche.get("decisions", []))  # inclut les notes de méthode déjà jugées
+    regles = annotees + regles_brutes(sux, "ux", portees) + regles_brutes(sui, "ui", portees)
 
     empreinte = hashlib.sha256((sux + sui).encode("utf-8")).hexdigest()[:16]
     deps = [d for d in dependances(sux, sui) if d != slug]

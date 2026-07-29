@@ -48,8 +48,8 @@ for (const mode of ["light", "dark"]) {
   add(`${M} on-primary-subtle / primary-subtle`, role("on-primary-subtle", mode), role("primary-subtle", mode), 4.5);
   add(`${M} primary / background`, role("primary", mode), background, 4.5);
 
-  // accent (focus ring) : 3:1 sur le fond de page (WCAG 1.4.11)
-  add(`${M} accent / background (ring)`, role("accent", mode), background, 3);
+  // accent : RETIRÉ en 1.34.0 (focus v2 = crans control.focus-*, color-mix hors paires hex —
+  // la visibilité du ring reste garantie par la teinte de base de chaque famille, testée ci-dessous).
 
   // neutral (famille du tone neutre — achromatique, hors stateFamilies)
   add(`${M} on-neutral / neutral`, role("on-neutral", mode), role("neutral", mode), 4.5);

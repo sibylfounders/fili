@@ -935,6 +935,24 @@
 
 Après essai visuel, l'anneau `accent` unique (arbitrage du matin) ne convient pas. Nouveau modèle (arbitrage Aurélien, après-midi) : la fondation BORDER garde **une seule définition de géométrie** (outline extérieur, `--focus-width`/`--focus-offset` 2px, `:focus-visible`, `.ds-focus-ring`) ; la **couleur** devient un **cran subtil accordé à la bordure/état du composant** — teinte éclaircie « à la Tailwind », tokenisée en étage 2 : `control.focus-primary` (défaut = primary +28% blanc), `-neutral`, `-danger`, `-success`, `-warning`, `-info`. Les composants surchargent `--control-focus-color` : Button/CompactButton par tone, Input par status (retrouve l'esprit de son ancien anneau adapté, désormais tokenisé), Alert/Toast par tone (hérité aux contrôles internes), DeleteButton → danger. Diffère du per-tone historique (BUTTON-UI 1.4.1) par la teinte subtile et par des crans tokenisés — zéro déduction locale, la cascade reste mécanique. BORDER-UX/UI 1.4.0, BUTTON-UI 1.8.0. Le token `accent` reste défini (candidat à d'autres usages ou au retrait — décision ouverte).
 
+## 2026-07-29 — Ronde d'arbitrages de fermeture : sept décisions tranchées une à une (Aurélien, soir)
+
+Méthode : une question à la fois, application immédiate. Les sept, dans l'ordre :
+
+**1. Chip entre au kit (fiche chip-renvoi VALIDÉE — première tranche verticale du MISSING-COMPONENT-PROTOCOL).** Le renvoi compact en nuée, né de deux implémentations locales des grilles Doctrine révélées par fili-check. Tranche complète : doctrine CHIP-UX/UI 1.0.0 (7 règles UX, 4 UI), composant `Chip` (`variant` outline/subtle, `mono`, `asChild` — `<button type=button>` par défaut, PAS de relief), entrée manifeste typée, atelier, condensé RULES-chip (intention « Page de contenu »), tests, grilles cas/décisions migrées dessus (marqueurs FILI-MANQUE retirés), fiche de manque passée `résolu · Promotion : Chip`. Reste éditorial : la fiche site `content/doctrine/chip.json` (vague 5). Au passage, `compile-regles.py` corrigé : un sujet sans fiche site perdait ses règles identifiées (RULES-chip serait sorti VIDE en silence) — les règles `[ID]` non portées par une fiche sont désormais extraites avec leur STATUT.
+
+**2. `accent` est RETIRÉ proprement (DESIGN 1.34.0).** Né en 1.33.0 pour le focus, sa mission lui a été reprise le jour même par le focus v2 : un token sans propriétaire n'a pas de place — la règle « un token naît d'un besoin réel » vaut à la sortie. Primitives fuchsia supprimées, rôle sémantique supprimé, paire de contraste retirée du validateur, mapping ds-md purgé, COLOR-UX/UI 1.3.0 (marque = DEUX rôles), consommateurs site nettoyés. Les références VIVANTES `color.accent` restantes (focus_ring de CARD/INPUT/LINK/TABS-UI, wording Von Restorff de LAWS, inventaires) sont repointées vers `control.focus-*` / reformulées — les historiques et changelogs restent intacts.
+
+**3. Cran micro-typo `2xs` = 11px.** Les `text-[11px]`/`text-[10px]`/`text-[13px]` de nav/app-layout/modal deviennent `text-2xs` (et `card-group.css` 13px → `var(--size-sm)`, décision « 13 → sm ») ; l'exception nav du vérificateur de tokens tombe.
+
+**4. Rôle `overlay.menu-max` = 18rem.** Le plafond de largeur des menus flottants (Select, Dropdown) était un `max-w-[18rem]` dupliqué en dur — il devient un rôle d'étage 2 consommé en `max-w-menu`.
+
+**5. AppShell sort du baril MAINTENANT (@fili/react 0.2.0) ; le retrait de l'alias `style` attendra une majeure.** Le composant interne ne doit pas être consommable par accident ; l'alias déprécié, lui, est un contrat public encore honoré.
+
+**6. Garde de fraîcheur des condensés (build-plugin).** Chaque fiche `RULES-*` cite sa source (« Généré depuis … (vX) ») ; le build du paquet échoue désormais si la source doctrine porte une autre version — sauf dérive PRÉCISE assumée dans `tools/plugin/fraicheur.derives.json` (fiche + source + versions + justification + vague de résorption), et une dérive assumée qui GRANDIT échoue aussi. État initial : 67 citations, 53 à jour (button/card/input/alert/link/toast/border/color/tabs resynchronisés ou re-cités ce jour), 14 dérives assumées (form 2.1.0→2.4.0 la plus large, grid documentée dans sa fiche, le reste en bumps patch) — résorption vague 5.
+
+**7. Le `12px` de CardGroup est renvoyé à la vague 5** (avec la résorption des dérives ci-dessus) plutôt que tranché à chaud.
+
 ## Fil rouge méthodologique (transversal, non daté)
 
 - **Le biais "état transitoire"** : loading (bouton) → validation asynchrone (input) → skeleton (card) → résolution/disparition (callout) → et, à l'échelle du système, la fondation motion elle-même (5e occurrence — le vocabulaire des transitions manquait en entier). La première rédaction documente l'état final, jamais la transition. Depuis le callout : écrire la section "sortie de scène / état d'attente" *avant* le test de couverture — le prédicteur a fonctionné en amont sur typographie (chargement de police), iconographie (spinner) et motion (interruption).

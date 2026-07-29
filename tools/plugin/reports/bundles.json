@@ -43,8 +43,10 @@
       "typography"
     ],
     "Page de contenu": [
+      "chip",
       "color",
       "grid",
+      "interaction",
       "spacing",
       "tabs",
       "typography",

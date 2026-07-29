@@ -7,7 +7,7 @@ selon-contexte: ["form (si bouton de soumission d'un formulaire)", "voice (wordi
 ---
 # RULES — Button (compilé, condensé)
 
-> Généré depuis `components/button/BUTTON-UX.md` (v1.6.0) et `BUTTON-UI.md` (v1.5.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/BUTTON-UX.md` (v1.10.0) et `BUTTON-UI.md` (v1.8.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Usage
 - Bouton = action qui modifie un état, soumet une donnée, ou déclenche un processus. Navigation simple → lien, pas bouton.

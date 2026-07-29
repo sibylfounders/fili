@@ -106,7 +106,7 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
         title={collapsed ? item.label : undefined}
         className={/* facture UNIQUE de la rangée de nav (nav/navRowClass) — plus de recopie locale */ navRowClass(
           item.active,
-          cn(collapsed && "justify-center px-0", !collapsed && depth > 0 && "ml-3 border-l border-border pl-3 text-[13px]"),
+          cn(collapsed && "justify-center px-0", !collapsed && depth > 0 && "ml-3 border-l border-border pl-3 text-sm"),
         )}
       >
         {item.icon ? (
@@ -116,7 +116,7 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
         ) : null}
         {!collapsed ? <span className="min-w-0 flex-1 truncate">{item.label}</span> : null}
         {!collapsed && item.badge ? (
-          <span className="rounded-pill bg-success-subtle px-1.5 py-0.5 text-[10px] font-semibold text-success">{item.badge}</span>
+          <span className="rounded-pill bg-success-subtle px-1.5 py-0.5 text-2xs font-semibold text-success">{item.badge}</span>
         ) : null}
       </Cmp>
       {kids && !collapsed ? kids.map((c, i) => <NavRow key={i} item={c} collapsed={false} depth={depth + 1} onNavigate={onNavigate} />) : null}
@@ -206,7 +206,7 @@ export function AppLayout({
             aria-label="Rechercher"
             className="text-sm"
           />
-          <kbd className="shrink-0 rounded border border-border bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-secondary">⌘K</kbd>
+          <kbd className="shrink-0 rounded border border-border bg-surface px-1.5 py-0.5 font-mono text-2xs text-text-secondary">⌘K</kbd>
         </InputWrapper>
       </InputRoot>
     ) : topbar?.search ? (

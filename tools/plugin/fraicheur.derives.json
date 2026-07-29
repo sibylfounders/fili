@@ -1,0 +1,117 @@
+{
+  "_note": "Dérives de fraîcheur ASSUMÉES entre une fiche condensée (tools/plugin/rules) et sa source doctrine (apps/site/content/md). Chaque entrée est PRÉCISE : fiche, source, version citée, version réelle constatée, justification, vague de résorption. La garde de build-plugin échoue sur toute dérive absente d'ici, et sur toute entrée dont la source a encore bougé depuis (actuelle ≠ version réelle) — une dérive ne peut donc jamais grandir en silence. Résorber = resynchroniser le condensé, mettre à jour sa citation, supprimer l'entrée.",
+  "derives": [
+    {
+      "fiche": "RULES-accessibility.md",
+      "source": "ACCESSIBILITY-UX.md",
+      "citee": "1.1.0",
+      "actuelle": "1.1.1",
+      "justification": "Bump patch de la source (wording/biblio) postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-cognitive-load.md",
+      "source": "COGNITIVE-LOAD-UX.md",
+      "citee": "1.0.0",
+      "actuelle": "1.0.1",
+      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-collection.md",
+      "source": "COLLECTION-UX.md",
+      "citee": "1.0.0",
+      "actuelle": "1.0.1",
+      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-form.md",
+      "source": "FORM-UX.md",
+      "citee": "2.1.0",
+      "actuelle": "2.4.0",
+      "justification": "Trois minor de la source (2.2.0–2.4.0) non condensés — la dérive la plus large du corpus. Le socle + les sept extensions restent le contrat servi ; resynchronisation PRIORITAIRE.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-form.md",
+      "source": "FORM-UI.md",
+      "citee": "1.2.0",
+      "actuelle": "1.3.0",
+      "justification": "Minor de la source non condensé — à resynchroniser avec FORM-UX (même passe).",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-grid.md",
+      "source": "GRID-UX.md",
+      "citee": "1.0.0",
+      "actuelle": "1.2.0",
+      "justification": "Dérive déjà documentée DANS la fiche : section « Shell applicatif » alignée sur GRID 1.2.0 (2026-07-24), le reste du cadre de page reste à resynchroniser (item-min 1.27.0, clause collection 1.1.0).",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-grid.md",
+      "source": "GRID-UI.md",
+      "citee": "1.0.0",
+      "actuelle": "1.2.0",
+      "justification": "Même dérive documentée que GRID-UX — resynchronisation en une seule passe.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-interaction.md",
+      "source": "INTERACTION-UX.md",
+      "citee": "1.1.0",
+      "actuelle": "1.2.0",
+      "justification": "Minor de la source non condensé. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-interaction.md",
+      "source": "INTERACTION-UI.md",
+      "citee": "1.1.0",
+      "actuelle": "1.2.0",
+      "justification": "Minor de la source non condensé. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-motion.md",
+      "source": "MOTION-UX.md",
+      "citee": "1.3.0",
+      "actuelle": "1.3.2",
+      "justification": "Deux bumps patch de la source ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-performance.md",
+      "source": "PERFORMANCE-UX.md",
+      "citee": "1.0.0",
+      "actuelle": "1.0.1",
+      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-spacing.md",
+      "source": "SPACING-UX.md",
+      "citee": "1.2.0",
+      "actuelle": "1.2.1",
+      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-typography.md",
+      "source": "TYPOGRAPHY-UX.md",
+      "citee": "1.1.1",
+      "actuelle": "1.1.3",
+      "justification": "Deux bumps patch de la source ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    },
+    {
+      "fiche": "RULES-voice.md",
+      "source": "VOICE-UX.md",
+      "citee": "1.3.0",
+      "actuelle": "1.3.1",
+      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "vague": 5
+    }
+  ]
+}

@@ -46,10 +46,11 @@ const INTENTIONS = [
   {
     intention: 'Page de contenu',
     // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
-    kit: 'contenu', kitComposants: ['Container', 'Tabs', 'Link', 'Card', 'Accordion', 'Divider'],
+    kit: 'contenu', kitComposants: ['Container', 'Tabs', 'Link', 'Chip', 'Card', 'Accordion', 'Divider'],
     declencheurs: 'article, landing, page marketing, documentation, à-propos',
     // tabs : une page documentaire découpe régulièrement un même objet en vues exclusives.
-    sujets: ['tabs'],
+    // chip : le renvoi compact en nuée des contextes denses (promotion 2026-07-29, protocole).
+    sujets: ['tabs', 'chip'],
     fondations: ['typography', 'color', 'spacing', 'grid'],
     langages: ['voice'],
     principes: [],

@@ -7,7 +7,9 @@ export * from "./components/toast";
 export * from "./components/card";
 export * from "./components/card-group";
 export * from "./components/link";
-export * from "./components/app-shell";
+// AppShell RETIRÉ du baril (arbitrage 2026-07-29 soir, @fili/react 0.2.0) : primitive
+// interne sous AppLayout, zéro consommateur public — le dossier reste, AppLayout s'en sert.
+export * from "./components/chip";
 export * from "./components/app-layout";
 export * from "./components/drawer";
 export * from "./components/modal";

@@ -7,7 +7,7 @@ selon-contexte: ["button (si la carte porte des actions)", "link (si la carte na
 ---
 # RULES — Card (compilé, condensé)
 
-> Généré depuis `components/card/CARD-UX.md` (v1.3.0) et `CARD-UI.md` (v1.4.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/CARD-UX.md` (v1.4.1) et `CARD-UI.md` (v1.6.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
 - Deux axes : **interaction_mode** (static/clickable/selectable/expandable) × **density** (comfortable/compact).
@@ -102,7 +102,7 @@ collection: { grid_gap: spacing.md }
 typography: { title_size: typography.headings.h4, body_font: typography.body, fallback: typography.fallback.sans }
 states:
   hover_shadow: elevation.raised # cliquables uniquement
-  focus_ring: color.accent
+  focus_ring: control.focus-color # focus v2 — cran subtil accordé à l'état (sélection → control.focus-primary)
   selected_border: color.primary
   skeleton_background: color.surface
   expand_chevron: color.text-secondary

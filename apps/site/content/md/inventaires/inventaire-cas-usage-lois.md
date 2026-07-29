@@ -41,7 +41,7 @@
 | **Law of Similarity** | Les éléments semblables sont perçus comme d'une même famille | Couvert par renvoi — registres COLOR, cohérence des tones, familles de tokens |
 | **Law of Uniform Connectedness** | Ce qui est relié visuellement (trait, fond) est le lien le plus fort | Couvert par renvoi — BORDER (séparateur/regroupement), fonds `*-subtle` de l'alert |
 | **Law of Prägnanz / Simplicity** | L'œil réduit le complexe à sa forme la plus simple | Couvert par convergence — iconographie à trait constant (ICONOGRAPHY), formes distinctes des tones |
-| **Von Restorff Effect** (isolation) | L'élément qui se distingue est mémorisé | Couvert par renvoi — le primary unique (BUTTON), l'accent parcimonieux (COLOR) ; **frontière** : l'isolation perd son effet si tout crie |
+| **Von Restorff Effect** (isolation) | L'élément qui se distingue est mémorisé | Couvert par renvoi — le primary unique (BUTTON), la marque parcimonieuse (COLOR) ; **frontière** : l'isolation perd son effet si tout crie |
 | **Serial Position Effect** | On retient mieux le début et la fin d'une liste | **Partiellement couvert** — implicite dans l'ordre des actions ; **trou** : pas de règle explicite pour la navigation/les listes (composant à naître) |
 
 ## 4. Temps, effort perçu et confiance

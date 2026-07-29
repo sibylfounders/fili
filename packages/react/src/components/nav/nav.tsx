@@ -32,7 +32,7 @@ export const navRowClass = (current?: boolean, className?: string) =>
 
 /** La typographie de tête de groupe seule (pour un conteneur qui gère déjà marges/padding). */
 export const navGroupLabelTextClass =
-  "font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted";
+  "font-label text-2xs font-semibold uppercase tracking-wider text-text-muted";
 /** LA tête de groupe de navigation — consommée par AppLayout et les sites. */
 export const navGroupLabelClass = "mb-1 px-sm " + navGroupLabelTextClass;
 

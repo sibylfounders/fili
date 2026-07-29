@@ -102,7 +102,12 @@ colors.scrim = "var(--scrim)";
 const theme = {
   colors,
   fontFamily: { sans: ["Geist", "system-ui", "sans-serif"], mono: ["JetBrains Mono", "monospace"], label: ["Inter", "system-ui", "sans-serif"] },
-  fontSize: Object.fromEntries(Object.entries(typography.heading).map(([k, v]) => [k, v])),
+  fontSize: {
+    ...Object.fromEntries(Object.entries(typography.heading).map(([k, v]) => [k, v])),
+    // le cran micro rejoint les classes texte (text-2xs) — les autres crans (xs..xl)
+    // coïncident avec l'échelle Tailwind par défaut, 2xs est une extension.
+    "2xs": "var(--size-2xs)",
+  },
   spacing: Object.fromEntries(Object.entries(spacing).map(([k, v]) => [k, v])),
   // Rayon THÉMABLE de bout en bout : les classes rounded-* pointent vers var(--radius-*)
   // (le réglage « Rayon » du panneau Theming surcharge ces vars — avant, les classes Tailwind
@@ -120,7 +125,10 @@ const theme = {
   transitionDuration: Object.fromEntries(Object.entries(motion.duration).map(([k, v]) => [k, v])),
   transitionTimingFunction: Object.fromEntries(
     Object.entries(motion.easing).map(([k, v]) => [k.replace(/^ease-/, ""), v])),
-  maxWidth: Object.fromEntries(Object.entries(grid).filter(([k]) => !k.startsWith("rail-"))),
+  maxWidth: {
+    ...Object.fromEntries(Object.entries(grid).filter(([k]) => !k.startsWith("rail-"))),
+    menu: "var(--overlay-menu-max)", // max-w-menu — largeur des menus ancrés
+  },
   screens: { ...breakpoint },
   width: Object.fromEntries(Object.entries(grid).filter(([k]) => k.startsWith("rail-"))),
   minWidth: Object.fromEntries(Object.entries(grid).filter(([k]) => k.startsWith("rail-"))),

@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { CardGroup, Modal } from "@fili/react";
+import { CardGroup, Chip, Modal } from "@fili/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Cas } from "@/lib/doctrine";
 
@@ -92,18 +92,16 @@ export function CasGrille({ famille, cas }: { famille: string; cas: Cas[] }) {
                   <div className="flex flex-wrap gap-sm">
                     {ouvert.regles.map((r, i) =>
                       r.id ? (
-                        /* FILI-MANQUE: chip-renvoi */
-                        <button
+                        <Chip
                           key={i}
-                          type="button"
+                          mono
                           onClick={() => {
                             setOuvert(null);
                             allerAuVolet("regles", r.id);
                           }}
-                          className="rounded-md border border-border bg-background px-sm py-1 font-mono text-xs text-primary transition-colors hover:border-primary"
                         >
                           {r.id} →
-                        </button>
+                        </Chip>
                       ) : (
                         <span key={i} className="text-xs text-text-secondary">{r.tag}</span>
                       ),

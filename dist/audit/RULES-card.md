@@ -3,8 +3,8 @@ sujet: card
 nature: components
 resume: "Ce fichier contient le raisonnement : modes d'interaction, composition, empty state, risques."
 selon-contexte: [adaptive, border, button, collection, emotion, input, interaction, link, motion, toast, typography, voice]
-source: CARD-UX.md v1.4.1 + CARD-UI.md v1.5.2
-empreinte: sha256:1ae75e2f2b6bcf0b
+source: CARD-UX.md v1.4.1 + CARD-UI.md v1.6.0
+empreinte: sha256:378a84801b2193f4
 regles: {loi: 8, preference: 42, non_qualifie: 0}
 ---
 # RULES — card (compilé, mode audit)

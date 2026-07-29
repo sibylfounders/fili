@@ -131,7 +131,7 @@ body { margin: 0; }
 /* ══════════════════════════════════════════════════════════════════════════
    DOCTRINE — manifeste de fiche (bandeau « la question UX »), repris du site
    DS-MD avec son animation (orbites + pilules qui flottent, emblème qui respire).
-   Re-câblé sur les tokens : bande `surface-inverse`, dégradé primary→accent.
+   Re-câblé sur les tokens : bande `surface-inverse`, dégradé primary→secondary.
    Ajout maison : l'animation s'éteint sous prefers-reduced-motion (MOTION-UX).
    ══════════════════════════════════════════════════════════════════════════ */
 .doctrine-manifeste {
@@ -140,15 +140,15 @@ body { margin: 0; }
   background: var(--surface-inverse); color: var(--text-inverse);
 }
 .dm-texte { position: relative; z-index: 2; width: min(64%, 680px); }
-.dm-kicker { margin: 0; font-family: var(--font-label); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.dm-kicker { margin: 0; font-family: var(--font-label); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--secondary); }
 .dm-question { margin: var(--space-sm) 0 0; font-size: var(--text-h3, 1.5rem); font-weight: 600; line-height: 1.25; letter-spacing: -.01em; }
 .dm-detail { margin: var(--space-sm) 0 0; font-size: 15px; line-height: 1.6; opacity: .78; }
 .dm-anim { position: absolute; z-index: 1; right: -35px; top: 50%; width: 430px; height: 430px; transform: translateY(-50%); opacity: .9; }
-.dm-orbite { position: absolute; inset: 45px; border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent); border-radius: 50%; }
+.dm-orbite { position: absolute; inset: 45px; border: 1px solid color-mix(in srgb, var(--secondary) 26%, transparent); border-radius: 50%; }
 .dm-orbite-b { inset: 105px; border-color: color-mix(in srgb, var(--primary) 34%, transparent); }
 .dm-pilule {
   position: absolute; width: 72px; height: 24px; border-radius: var(--radius-pill, 9999px);
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   box-shadow: 0 0 28px color-mix(in srgb, var(--primary) 42%, transparent);
   animation: dmFlotte 7s var(--ease-in-out) infinite;
 }
@@ -174,5 +174,5 @@ body { margin: 0; }
 
 /* Cible visée depuis une autre vue (une situation qui renvoie à sa règle) : un halo bref,
    non chromatique au sens sémantique — c'est un repère de position, pas un état. */
-.cible-visee { box-shadow: 0 0 0 2px var(--accent); transition: box-shadow var(--duration-slow) var(--ease-out); }
+.cible-visee { box-shadow: 0 0 0 2px var(--secondary); transition: box-shadow var(--duration-slow) var(--ease-out); }
 @media (prefers-reduced-motion: reduce) { .cible-visee { transition: none; } }

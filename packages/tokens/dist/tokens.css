@@ -80,17 +80,6 @@
   --teal-800: #115E59;
   --teal-900: #134E4A;
   --teal-950: #042F2E;
-  --fuchsia-50: #FDF4FF;
-  --fuchsia-100: #FAE8FF;
-  --fuchsia-200: #F5D0FE;
-  --fuchsia-300: #F0ABFC;
-  --fuchsia-400: #E879F9;
-  --fuchsia-500: #D946EF;
-  --fuchsia-600: #C026D3;
-  --fuchsia-700: #A21CAF;
-  --fuchsia-800: #86198F;
-  --fuchsia-900: #701A75;
-  --fuchsia-950: #4A044E;
   --static-black: #000000;
   --static-white: #FFFFFF;
   --neutral-alpha-10: rgba(3, 7, 18, 0.10);
@@ -127,7 +116,6 @@
   --neutral: #111827;
   --neutral-hover: #1F2937;
   --on-neutral: #FFFFFF;
-  --accent: #C026D3;
   --danger: #B91C1C;
   --danger-hover: #991B1B;
   --danger-subtle: #FEE2E2;
@@ -164,6 +152,7 @@
   --size-md: 16px;
   --size-sm: 14px;
   --size-xs: 12px;
+  --size-2xs: 11px;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
@@ -257,6 +246,7 @@
   --surface-radius: var(--radius-lg);
   --overlay-radius: var(--radius-lg);
   --overlay-elevation: var(--elevation-overlay);
+  --overlay-menu-max: 18rem;
 
   /* étage 3 — alias de composant → rôles transversaux */
   --button-radius: var(--control-radius);
@@ -297,7 +287,6 @@
   --neutral: #FFFFFF;
   --neutral-hover: #F3F4F6;
   --on-neutral: #111827;
-  --accent: #E879F9;
   --danger: #F87171;
   --danger-hover: #FCA5A5;
   --danger-subtle: #450A0A;
@@ -353,7 +342,6 @@
     --neutral: #FFFFFF;
     --neutral-hover: #F3F4F6;
     --on-neutral: #111827;
-    --accent: #E879F9;
     --danger: #F87171;
     --danger-hover: #FCA5A5;
     --danger-subtle: #450A0A;

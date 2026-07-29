@@ -33,7 +33,6 @@ module.exports = {
     "neutral": "var(--neutral)",
     "neutral-hover": "var(--neutral-hover)",
     "on-neutral": "var(--on-neutral)",
-    "accent": "var(--accent)",
     "danger": "var(--danger)",
     "danger-hover": "var(--danger-hover)",
     "danger-subtle": "var(--danger-subtle)",
@@ -147,19 +146,6 @@ module.exports = {
       "900": "var(--teal-900)",
       "950": "var(--teal-950)"
     },
-    "p-fuchsia": {
-      "50": "var(--fuchsia-50)",
-      "100": "var(--fuchsia-100)",
-      "200": "var(--fuchsia-200)",
-      "300": "var(--fuchsia-300)",
-      "400": "var(--fuchsia-400)",
-      "500": "var(--fuchsia-500)",
-      "600": "var(--fuchsia-600)",
-      "700": "var(--fuchsia-700)",
-      "800": "var(--fuchsia-800)",
-      "900": "var(--fuchsia-900)",
-      "950": "var(--fuchsia-950)"
-    },
     "scrim": "var(--scrim)"
   },
   "fontFamily": {
@@ -184,7 +170,8 @@ module.exports = {
     "h3": "clamp(1.25rem, 1.17rem + 0.42vw, 1.5rem)",
     "h4": "clamp(1.125rem, 1.08rem + 0.21vw, 1.25rem)",
     "h5": "clamp(1rem, 0.96rem + 0.21vw, 1.125rem)",
-    "h6": "clamp(0.875rem, 0.83rem + 0.21vw, 1rem)"
+    "h6": "clamp(0.875rem, 0.83rem + 0.21vw, 1rem)",
+    "2xs": "var(--size-2xs)"
   },
   "spacing": {
     "0": "0px",
@@ -236,7 +223,8 @@ module.exports = {
     "container-default": "1024px",
     "container-wide": "1440px",
     "item-min": "256px",
-    "overlay": "640px"
+    "overlay": "640px",
+    "menu": "var(--overlay-menu-max)"
   },
   "screens": {
     "mobile": "480px",

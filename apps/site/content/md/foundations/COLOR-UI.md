@@ -2,14 +2,14 @@
 component: color
 layer: ui
 type: foundation
-version: 1.2.0 # 1.2.0 : ajout de Link à la table des consommateurs ; il réutilise primary/primary-hover et ne crée aucun token. 1.1.0 : alignement sur le modèle style × tone (DESIGN.md 1.21.0, DECISIONS 2026-07-18) — paires garanties étendues (on-primary sur neutral-strong/-hover et warning/-hover ; danger sur danger-subtle-hover), « warning jamais un fond plein » levé, table de consommation du bouton réécrite en rôles par tone. Aucun hex ici (les valeurs vivent dans DESIGN.md). 1.0.1 : note d'hypothèse « thème clair » sur la paire surface-contrast (stress-test 2026-07-17) — aucune valeur changée
+version: 1.3.0 # 1.3.0 : retrait d'`accent` du registre marque et de la table des consommateurs — le focus ring passe aux crans control.focus-* accordés (focus v2, DESIGN 1.34.0, arbitrage 2026-07-29 soir). 1.2.0 : # 1.2.0 : ajout de Link à la table des consommateurs ; il réutilise primary/primary-hover et ne crée aucun token. 1.1.0 : alignement sur le modèle style × tone (DESIGN.md 1.21.0, DECISIONS 2026-07-18) — paires garanties étendues (on-primary sur neutral-strong/-hover et warning/-hover ; danger sur danger-subtle-hover), « warning jamais un fond plein » levé, table de consommation du bouton réécrite en rôles par tone. Aucun hex ici (les valeurs vivent dans DESIGN.md). 1.0.1 : note d'hypothèse « thème clair » sur la paire surface-contrast (stress-test 2026-07-17) — aucune valeur changée
 last_updated: 2026-07-20
 companion: COLOR-UX.md
 tokens:
   # Cette couche ne définit AUCUNE valeur — elle organise les tokens de DESIGN.md par registre
   # et fixe les paires texte/fond garanties. Les valeurs vivent dans DESIGN.md, seule source.
   registres:
-    marque: [color.primary, color.primary-hover, color.on-primary, color.accent]
+    marque: [color.primary, color.primary-hover, color.on-primary, color.secondary]
     semantique: [color.danger, color.danger-hover, color.danger-subtle, color.success, color.success-subtle, color.warning, color.warning-subtle, color.warning-subtle-hover, color.info, color.info-subtle]
     neutres_texte: [color.text-primary, color.text-secondary, color.text-muted]
     neutres_surfaces: [color.background, color.surface, color.surface-hover, color.surface-contrast]
@@ -37,23 +37,23 @@ Un token de texte n'est conforme que *sur un fond donné* (COLOR-UX). Les paires
 | `color.info` | `background`, `info-subtle` | 6.70:1 / 5.49:1 |
 | `color.background` / `color.on-primary` | `surface-contrast` | seuls textes admis sur le panneau sombre (+ `text-muted`) ; **hypothèse de thème clair** : ce couple n'est satisfiable que si `background` et `on-primary` tombent du même côté de la luminance — en thème sombre, cela force `primary` clair (règle dérivée, COLOR-UX § Theming) |
 
-Au seuil **3:1 (non-texte)** : `color.accent` (focus ring) et `color.border-strong` (bordure délimitante) sur `background`/`surface` — les deux recalibrages fondateurs de 1.3.0.
+Au seuil **3:1 (non-texte)** : `color.border-strong` (bordure délimitante) sur `background`/`surface` — recalibrage fondateur de 1.3.0. (Le focus ring, désormais en crans `control.focus-*` dérivés par color-mix, tient sa visibilité de la teinte de base de chaque famille, elle-même sous contrôle de contraste.)
 
 ## Combinaisons interdites (rappel outillé)
 
 - Tout texte fonctionnel sur un fond non listé ci-dessus → re-passer par `test-rendu.js` avant usage.
 - Les tokens de texte `text-*` (pensés pour fond clair) sur `surface-contrast` — hors `text-muted` en métadonnée.
-- `primary`/`accent` pour porter un état sémantique, `danger`/`success`/`warning`/`info` pour décorer — les registres sont étanches (COLOR-UX).
+- `primary`/`secondary` pour porter un état sémantique, `danger`/`success`/`warning`/`info` pour décorer — les registres sont étanches (COLOR-UX).
 - Un hex nouveau dans un `*-UI.md` — il passe d'abord par DESIGN.md (guardrail existant, appliqué par `valide-dossier.js`).
 
 ## Consommation par les composants
 
 | Consommateur | Registre marque | Registre sémantique | Neutres |
 |---|---|---|---|
-| Bouton (BUTTON-UI.md) | primary/on-primary (tone `primary`), accent (focus) | destructive→danger, warning — chaque tone porte ses rôles `solid`/`on_solid`/`fg`/`border`/`subtle` (modèle style × tone) | neutral-strong(-hover), border-strong, text-*, surface-hover |
-| Link (LINK-UI.md) | primary (repos), primary-hover (survol), accent (focus) | — | text-secondary pour l'état visité quand le contexte le demande ; le soulignement reste le signal non chromatique |
-| Input (INPUT-UI.md) | accent (focus) | error→danger, success, warning (bordures) | border-strong (délimitante), text-* |
-| Card (CARD-UI.md) | primary (selected), accent (focus) | — (le conteneur n'a pas de sémantique) | background/surface, border, text-* |
+| Bouton (BUTTON-UI.md) | primary/on-primary (tone `primary`), control.focus-* accordé au tone (focus) | destructive→danger, warning — chaque tone porte ses rôles `solid`/`on_solid`/`fg`/`border`/`subtle` (modèle style × tone) | neutral-strong(-hover), border-strong, text-*, surface-hover |
+| Link (LINK-UI.md) | primary (repos), primary-hover (survol), control.focus-primary (focus) | — | text-secondary pour l'état visité quand le contexte le demande ; le soulignement reste le signal non chromatique |
+| Input (INPUT-UI.md) | control.focus-* accordé au status (focus) | error→danger, success, warning (bordures) | border-strong (délimitante), text-* |
+| Card (CARD-UI.md) | primary (selected), control.focus-primary (focus) | — (le conteneur n'a pas de sémantique) | background/surface, border, text-* |
 | Alert (ALERT-UI.md) | — | les 4 tones en couples complets | text-secondary (croix) |
 | Form (FORM-UI.md) | — | hérite de l'alert danger | — |
 

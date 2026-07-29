@@ -3,8 +3,8 @@ sujet: color
 nature: foundations
 resume: "Ce fichier contient le raisonnement : rôles, registres, redondance, contraste, theming."
 selon-contexte: [alert, button, card, elevation, form, input, link]
-source: COLOR-UX.md v1.2.0 + COLOR-UI.md v1.2.0
-empreinte: sha256:115abe39bbc5881d
+source: COLOR-UX.md v1.3.0 + COLOR-UI.md v1.3.0
+empreinte: sha256:263c2fd9676186c7
 regles: {loi: 13, preference: 10, non_qualifie: 0}
 ---
 # RULES — color (compilé, mode build)

@@ -12,7 +12,7 @@
 | Bordure décorative / de groupement | Carte outlined, encadrés | Couvert — border, exemptée du seuil (le contenu identifie le composant) |
 | Séparateur (divider) | Trait entre deux zones, lignes de table | Couvert après test — le séparateur est un 3e rôle : ni délimitant ni groupant, candidat au retrait (l'espace suffit souvent) |
 | Bordure sémantique | Bordure danger de l'input error, bordures des tones de l'alert | Couvert — la couleur vient du tone, l'épaisseur reste hairline |
-| Focus ring | Anneau accent partagé bouton/input/card | Couvert — style unifié tokenisé (largeur/écart), c'était la déduction silencieuse de 3 composants |
+| Focus ring | Anneau partagé bouton/input/card (control.focus-* depuis le focus v2) | Couvert — style unifié tokenisé (largeur/écart), c'était la déduction silencieuse de 3 composants |
 | Bordure de sélection | selected_border primary de la card | Couvert — toujours accompagnée d'un indicateur non chromatique |
 
 ## 2. Par propriété du trait
@@ -48,7 +48,7 @@
 |---|---|---|
 | Bordure délimitante sous 3:1 | Composant interactif invisible (cas border-strong 1.3.0, input F02) | Couvert — deux précédents journalisés, testé par test-rendu.js |
 | Focus supprimé sans remplacement | outline: none — exclusion clavier | Couvert — "jamais supprimé", règle des 3 composants, la fondation la centralise |
-| Ring identique à la bordure d'état | Focus accent vs bordure error danger : discernables ? | Couvert après test — le ring s'ajoute *en plus* de la bordure d'état (offset), les deux restent visibles simultanément |
+| Ring identique à la bordure d'état | Anneau de focus vs bordure error danger : discernables ? | Couvert après test — le ring s'ajoute *en plus* de la bordure d'état (offset), les deux restent visibles simultanément |
 | Sur-bordage | Des traits partout, bruit visuel | Couvert — hiérarchie : espace d'abord, fond ensuite, trait en dernier |
 | Épaisseur variable entre états | 1px → 2px au focus/error : le contenu saute | Couvert — layout shift interdit, l'état passe par la couleur ou le ring |
 

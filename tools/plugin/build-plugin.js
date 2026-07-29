@@ -51,6 +51,57 @@ if (!rules.length) { console.error('✗ tools/plugin/rules/ ne contient aucune f
 for (const f of rules) fs.copyFileSync(path.join(PLUGIN_SRC, 'rules', f), path.join(SKILL_DIR, f));
 console.log(`  ${rules.length} fiches RULES-* copiées`);
 
+// 2a. GARDE DE FRAÎCHEUR (arbitrage 2026-07-29) : une fiche condensée cite sa source
+// (« Généré depuis `…-UX.md` (vX) et `…-UI.md` (vY) ») ; si la source doctrine porte
+// aujourd'hui une autre version, le condensé est périmé et le paquet NE PART PAS —
+// sauf dérive PRÉCISE assumée dans fraicheur.derives.json (fiche+source+versions+
+// justification+vague). Une entrée dont la source a encore bougé depuis échoue aussi :
+// une dérive ne grandit jamais en silence.
+{
+  const CONTENU_MD = path.join(RACINE, 'apps', 'site', 'content', 'md');
+  const versionsSources = {}; // basename → version frontmatter
+  (function indexe(d) {
+    for (const f of fs.readdirSync(d)) {
+      const p = path.join(d, f);
+      if (fs.statSync(p).isDirectory()) { indexe(p); continue; }
+      if (!/-U[XI]\.md$/.test(f)) continue;
+      const m = fs.readFileSync(p, 'utf8').match(/^version:\s*([\d.]+)/m);
+      if (m) versionsSources[f] = m[1];
+    }
+  })(CONTENU_MD);
+
+  const derivesFichier = path.join(PLUGIN_SRC, 'fraicheur.derives.json');
+  const derives = fs.existsSync(derivesFichier)
+    ? JSON.parse(fs.readFileSync(derivesFichier, 'utf8')).derives
+    : [];
+  const deriveDe = (fiche, source) => derives.find((d) => d.fiche === fiche && d.source === source);
+
+  let citations = 0, aJour = 0, assumees = 0;
+  const erreurs = [];
+  for (const f of rules) {
+    // Les citations vivent dans le chapeau (elles peuvent se replier sur 2 lignes).
+    const tete = fs.readFileSync(path.join(PLUGIN_SRC, 'rules', f), 'utf8').split('\n').slice(0, 15).join('\n');
+    for (const m of tete.matchAll(/`(?:[\w./-]*\/)?([A-Z][A-Z0-9-]*-U[XI])\.md`\s*\(v([\d.]+)\)/g)) {
+      const source = `${m[1]}.md`, citee = m[2];
+      citations++;
+      const actuelle = versionsSources[source];
+      if (!actuelle) { erreurs.push(`${f} cite ${source}, introuvable dans content/md/`); continue; }
+      if (actuelle === citee) { aJour++; continue; }
+      const d = deriveDe(f, source);
+      if (!d) { erreurs.push(`${f} cite ${source} v${citee}, la source est en v${actuelle} — condensé périmé (resynchroniser, ou assumer la dérive dans fraicheur.derives.json)`); continue; }
+      if (d.citee !== citee) { erreurs.push(`${f} / ${source} : la dérive assumée part de v${d.citee}, la fiche cite v${citee} — mettre fraicheur.derives.json en cohérence`); continue; }
+      if (d.actuelle !== actuelle) { erreurs.push(`${f} / ${source} : dérive assumée jusqu'à v${d.actuelle}, la source est en v${actuelle} — la dérive a GRANDI, resynchroniser (ou requalifier l'entrée)`); continue; }
+      assumees++;
+    }
+  }
+  if (erreurs.length) {
+    for (const e of erreurs) console.error(`✗ fraîcheur : ${e}`);
+    console.error(`✗ ${erreurs.length} condensé(s) périmé(s) — paquet NON produit`);
+    process.exit(1);
+  }
+  console.log(`  garde de fraîcheur : ${citations} citations vérifiées — ${aJour} à jour, ${assumees} dérive(s) assumée(s) (fraicheur.derives.json, résorption vague 5)`);
+}
+
 // 2bis. contrat d'implémentation @fili/react (KIT-*, généré du manifeste) ----
 const { genere: genereCatalogue } = require('./genere-catalogue.js');
 const cat = genereCatalogue(SKILL_DIR);

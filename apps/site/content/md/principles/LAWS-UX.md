@@ -2,8 +2,8 @@
 component: laws
 layer: ux
 type: principle
-version: 1.3.1 # 1.3.1 : la carte d'application renvoie Doherty aussi vers le principe performance (contrat des attentes, 2026-07-21) ; rien d'autre ne change. 1.3.0 : naissance du principe opérationnel cognitive-load (2026-07-21, cf. DECISIONS.md) — la carte d'application renvoie vers lui (Cognitive Load, Selective Attention) et l'anti-camouflage « candidate » est promu en RÈGLE chez lui ; le statut de référence humaine de ce catalogue reste inchangé. 1.2.0 : Laws devient un principe de premier niveau ; son statut de référence humaine non compilée reste inchangé. 1.1.0 : reclassée « référence humaine » — audience: humans, PAS compilée vers dist/ (l'IA ne la charge jamais au build). Décision 2026-07-12, cf. DECISIONS.md. 1.0.0 : première rédaction — catalogue large (27 lois, périmètre lawsofux.com + sources primaires) ; inventaire et benchmark faits AVANT livraison ; UX-only par nature (aucun token)
-last_updated: 2026-07-21
+version: 1.3.2 # 1.3.2 : wording — « accent » (teinte de marque sortie en DESIGN 1.34.0, focus v2) remplacé par « marque parcimonieuse » dans Von Restorff ; aucun catalogue ni règle modifiés. 1.3.1 : la carte d'application renvoie Doherty aussi vers le principe performance (contrat des attentes, 2026-07-21) ; rien d'autre ne change. 1.3.0 : naissance du principe opérationnel cognitive-load (2026-07-21, cf. DECISIONS.md) — la carte d'application renvoie vers lui (Cognitive Load, Selective Attention) et l'anti-camouflage « candidate » est promu en RÈGLE chez lui ; le statut de référence humaine de ce catalogue reste inchangé. 1.2.0 : Laws devient un principe de premier niveau ; son statut de référence humaine non compilée reste inchangé. 1.1.0 : reclassée « référence humaine » — audience: humans, PAS compilée vers dist/ (l'IA ne la charge jamais au build). Décision 2026-07-12, cf. DECISIONS.md. 1.0.0 : première rédaction — catalogue large (27 lois, périmètre lawsofux.com + sources primaires) ; inventaire et benchmark faits AVANT livraison ; UX-only par nature (aucun token)
+last_updated: 2026-07-29
 companion: none # principe sans couche UI — décision justifiée dans la note de transposition
 audience: humans # principe de RÉFÉRENCE : s'adresse aux humains (revue, formation), pas à l'IA au moment du build — non compilé en RULES, absent du routeur. Les lois s'appliquent via les principes/fondations/composants qui, eux, sont chargés.
 confidence: mixed # les lois de perception (Gestalt) et les seuils temporels (Doherty, Fitts) sont établis ; plusieurs "lois" nommées sont des heuristiques ou des effets d'ampleur variable, marqués comme tels ; deux mythes courants sont réfutés (Miller "7 items", règle des 3 clics)
@@ -175,10 +175,10 @@ STATUT : propriété universelle
 SOURCE : S2
 ÉNONCÉ : La perception ramène le complexe à l'arrangement le plus simple : les formes portent le sens indépendamment de la couleur — trait constant en iconographie, silhouettes distinctes selon les états — afin qu'aucune information ne repose sur la seule teinte.
 
-RÈGLE [LAWS-R27] : **Von Restorff Effect (isolation) — ce qui diffère se retient.** L'élément visuellement isolé est mémorisé et attire l'action. C'est la justification du primary *unique* (BUTTON) et de l'accent *parcimonieux* (COLOR). Frontière : l'effet s'annule si tout se distingue — un écran où tout est mis en avant n'a plus de point focal (la même inflation que « le primary partout »).
+RÈGLE [LAWS-R27] : **Von Restorff Effect (isolation) — ce qui diffère se retient.** L'élément visuellement isolé est mémorisé et attire l'action. C'est la justification du primary *unique* (BUTTON) et de la couleur de marque *parcimonieuse* (COLOR). Frontière : l'effet s'annule si tout se distingue — un écran où tout est mis en avant n'a plus de point focal (la même inflation que « le primary partout »).
 STATUT : propriété universelle
 SOURCE : S27, S14
-ÉNONCÉ : Un élément qui rompt l'homogénéité de son contexte est mieux mémorisé, et l'effet disparaît dès que la distinction se généralise : l'accent et l'action primaire restent uniques dans leur vue.
+ÉNONCÉ : Un élément qui rompt l'homogénéité de son contexte est mieux mémorisé, et l'effet disparaît dès que la distinction se généralise : la mise en avant et l'action primaire restent uniques dans leur vue.
 MESURE : au plus un élément par vue porte le traitement d'accentuation réservé
 
 RÈGLE [LAWS-R28] : **Serial Position Effect — on retient le début et la fin (partiellement couvert).** Dans une liste, les premiers et derniers éléments sont mieux mémorisés que le milieu ; placer les items importants aux extrémités. Implicite dans l'ordre des actions, mais **trou** : pas de règle explicite tant qu'un composant navigation/liste n'existe pas — activé avec lui.
@@ -270,7 +270,7 @@ SOURCE : interne
 | Paradox of the Active User | Helper avant erreur, onboarding contextuel | INPUT-UX, VOICE-UX |
 | Flow | Non-verrouillage, pas de déplacement non sollicité | MOTION-UX, SPACING-UX |
 | Gestalt (proximité, région, similarité, connexité, Prägnanz) | Proximité = info, conteneurs, registres, trait constant | SPACING-UX, CARD-UX, BORDER-UX, COLOR-UX, ICONOGRAPHY-UX |
-| Von Restorff | Primary unique, accent parcimonieux | BUTTON-UX, COLOR-UX |
+| Von Restorff | Primary unique, marque parcimonieuse | BUTTON-UX, COLOR-UX |
 | Serial Position | (trou — attend un composant navigation/liste) | — |
 | Doherty | Échelle sous 400 ms, feedback < 100 ms — et le contrat des attentes | MOTION-UX / DESIGN.md (motion.*), PERFORMANCE-UX |
 | Aesthetic-Usability | Traité comme risque de revue | ce fichier (§ risque) |

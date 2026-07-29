@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  Button, Link, Container, Brand, Divider, Switch, Select, Accordion,
+  Button, Link, Chip, Container, Brand, Divider, Switch, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, Modal, Tabs, DeleteButton, SubmitButton, ThemeToggle,
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
@@ -694,6 +694,31 @@ export const GROUPS: Group[] = [
           return s.context === "inline" ? <p className="m-0 text-sm text-text-primary">Un {inner} dans une phrase.</p> : inner;
         },
         code: (s) => `<Link href="#" context="${s.context}"${s.current ? " current" : ""}>${s.label || "Lien"}</Link>`,
+      },
+      {
+        key: "chip", name: "Chip",
+        controls: [
+          { k: "variant", type: "seg", opts: axisOpts("Chip", "variant") },
+          { k: "mono", type: "bool", label: "Mono (identifiant)" },
+          { k: "label", type: "text", label: "Label" },
+          { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
+        ],
+        initial: { variant: axisDefault("Chip", "variant"), mono: false, label: "Situations qui l'éprouvent", skeleton: false },
+        render: (s) => {
+          if (s.skeleton) return <Sk w={160} h={24} r="var(--radius-md)" />;
+          // La chip vit en NUÉE (CHIP-R02) : la démo montre l'usage canonique, pas la pièce isolée.
+          return (
+            <div className="flex max-w-sm flex-wrap gap-2">
+              <Chip variant={s.variant} mono={s.mono}>{s.label || "Renvoi"} →</Chip>
+              <Chip variant={s.variant} mono>BUTTON-R12</Chip>
+              <Chip variant={s.variant} mono>CARD-R03</Chip>
+            </div>
+          );
+        },
+        code: (s) => `<div className="flex flex-wrap gap-2">
+  <Chip${s.variant !== "outline" ? ` variant="${s.variant}"` : ""}${s.mono ? " mono" : ""} onClick={ouvrirVolet}>${s.label || "Renvoi"} →</Chip>
+  <Chip${s.variant !== "outline" ? ` variant="${s.variant}"` : ""} mono onClick={ouvrirVolet}>BUTTON-R12</Chip>
+</div>`,
       },
     ],
   },

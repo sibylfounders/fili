@@ -560,83 +560,6 @@
           }
         },
         {
-          "name": "fuchsia/50",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#FDF4FF"
-          }
-        },
-        {
-          "name": "fuchsia/100",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#FAE8FF"
-          }
-        },
-        {
-          "name": "fuchsia/200",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#F5D0FE"
-          }
-        },
-        {
-          "name": "fuchsia/300",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#F0ABFC"
-          }
-        },
-        {
-          "name": "fuchsia/400",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#E879F9"
-          }
-        },
-        {
-          "name": "fuchsia/500",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#D946EF"
-          }
-        },
-        {
-          "name": "fuchsia/600",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#C026D3"
-          }
-        },
-        {
-          "name": "fuchsia/700",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#A21CAF"
-          }
-        },
-        {
-          "name": "fuchsia/800",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#86198F"
-          }
-        },
-        {
-          "name": "fuchsia/900",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#701A75"
-          }
-        },
-        {
-          "name": "fuchsia/950",
-          "type": "color",
-          "valuesByMode": {
-            "Value": "#4A044E"
-          }
-        },
-        {
           "name": "static/black",
           "type": "color",
           "valuesByMode": {
@@ -889,14 +812,6 @@
           "valuesByMode": {
             "Light": "#FFFFFF",
             "Dark": "#111827"
-          }
-        },
-        {
-          "name": "accent",
-          "type": "color",
-          "valuesByMode": {
-            "Light": "#C026D3",
-            "Dark": "#E879F9"
           }
         },
         {

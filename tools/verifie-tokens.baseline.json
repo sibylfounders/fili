@@ -50,24 +50,6 @@
     {
       "file": "components/app-layout/app-layout.tsx",
       "type": "arbitraire",
-      "motif": "text-[10px]",
-      "occurrences": 2,
-      "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.tsx",
-      "type": "arbitraire",
-      "motif": "text-[13px]",
-      "occurrences": 1,
-      "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 7 (gabarits)"
-    },
-    {
-      "file": "components/app-layout/app-layout.tsx",
-      "type": "arbitraire",
       "motif": "w-[52px]",
       "occurrences": 1,
       "nature": "arbitraire",
@@ -105,15 +87,6 @@
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
       "motif": "13.5px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "13px",
       "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
@@ -545,38 +518,11 @@
     {
       "file": "components/dropdown/dropdown.tsx",
       "type": "arbitraire",
-      "motif": "max-w-[18rem]",
-      "occurrences": 2,
-      "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/dropdown/dropdown.tsx",
-      "type": "arbitraire",
       "motif": "text-[11px]",
       "occurrences": 1,
       "nature": "arbitraire",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/modal/modal.tsx",
-      "type": "arbitraire",
-      "motif": "text-[11px]",
-      "occurrences": 1,
-      "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 6 (superposés)"
-    },
-    {
-      "file": "components/select/select.tsx",
-      "type": "arbitraire",
-      "motif": "max-w-[18rem]",
-      "occurrences": 1,
-      "nature": "arbitraire",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 2 (Select/Switch)"
     },
     {
       "file": "components/submit-button/submit-button.css",

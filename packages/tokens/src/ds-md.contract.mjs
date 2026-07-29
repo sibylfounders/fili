@@ -9,10 +9,10 @@
 // token DS-UI correspondant porte EXACTEMENT la valeur ci-dessous. Une divergence non
 // déclarée est une dérive.
 //
-// Source : doctrine DS-MD — DESIGN.md v1.33.0
+// Source : doctrine DS-MD — DESIGN.md v1.34.0
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const dsMdVersion = "1.33.0";
+export const dsMdVersion = "1.34.0";
 export const syncedAt = "2026-07-29";
 
 export const contract = {
@@ -20,7 +20,6 @@ export const contract = {
     "primary": "#4F46E5",
     "primary-hover": "#4338CA",
     "on-primary": "#FFFFFF",
-    "accent": "#C026D3",
     "primary-subtle": "#E0E7FF",
     "primary-subtle-hover": "#C7D2FE",
     "on-primary-subtle": "#3730A3",

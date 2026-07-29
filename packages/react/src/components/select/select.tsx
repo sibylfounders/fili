@@ -262,7 +262,7 @@ export function Select({
           className={cn(
             // au moins la largeur du déclencheur, mais JAMAIS tronqué : la liste s'élargit
             // au mot le plus long (w-max), plafond raisonnable pour rester un popover
-            "absolute top-full z-popover mt-1 w-max min-w-full max-w-[18rem] overflow-hidden rounded-lg border border-border bg-background shadow-overlay",
+            "absolute top-full z-popover mt-1 w-max min-w-full max-w-menu overflow-hidden rounded-lg border border-border bg-background shadow-overlay",
             variant === "ghost" ? "right-0" : "left-0",
           )}
         >

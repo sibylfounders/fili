@@ -212,7 +212,7 @@ export function ModalHeader({ kicker, closable = true, level = 2, className, chi
     <div className={cn("flex items-start justify-between gap-md px-lg pb-sm pt-lg", className)} {...props}>
       <div className="min-w-0">
         {kicker ? (
-          <p className="m-0 mb-1 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">{kicker}</p>
+          <p className="m-0 mb-1 font-label text-2xs font-semibold uppercase tracking-wider text-text-muted">{kicker}</p>
         ) : null}
         <H id={ctx.titleId} style={{ margin: 0 }} className="text-h5 font-semibold leading-tight text-text-primary">
           {children}

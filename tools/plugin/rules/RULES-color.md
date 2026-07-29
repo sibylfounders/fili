@@ -7,15 +7,15 @@ selon-contexte: []
 ---
 # RULES — Color (compilé, condensé)
 
-> Généré depuis `foundations/color/COLOR-UX.md` (v1.1.0) et `COLOR-UI.md` (v1.0.1). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/COLOR-UX.md` (v1.3.0) et `COLOR-UI.md` (v1.3.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Fondation : contrainte transversale, pas d'axes. Les valeurs (hex) vivent dans les tokens — ce fichier régit leur usage.
 - **Règle cardinale : la couleur s'applique par rôle, jamais par valeur — et un rôle ne porte jamais deux sens.**
 
 ## Les trois registres (étanches)
-- **Marque** : `primary` (action), `accent` (focus ring, touches secondaires). Jamais pour un état sémantique.
-- **Sémantique** : `danger`/`success`/`warning`/`info`, chacun en couple texte + fond `-subtle`. Jamais pour décorer. Jamais `accent` à leur place (même si info et accent sont deux bleus).
+- **Marque** : `primary` (action), `secondary` (seconde voix). Jamais pour un état sémantique. Le focus n'est pas un rôle de marque : crans `control.focus-*` accordés à la bordure/état (défaut primary éclairci).
+- **Sémantique** : `danger`/`success`/`warning`/`info`, chacun en couple texte + fond `-subtle`. Jamais pour décorer. Jamais la marque à leur place.
 - **Neutres** : `text-*`, `background`/`surface*`, `border*`. Ni identité ni état.
 - Aucune couleur ne change de registre selon le contexte.
 
@@ -39,7 +39,7 @@ selon-contexte: []
 - Tout texte fonctionnel sur un fond non listé : STOP, remonter (ou re-tester avant usage).
 
 ## États interactifs
-- Hover : famille `*-hover` (fond assombri d'un cran) ou `surface-hover` (remplissage apparaissant sur les styles sans fond au repos, stroke/ghost). Focus : `accent`.
+- Hover : famille `*-hover` (fond assombri d'un cran) ou `surface-hover` (remplissage apparaissant sur les styles sans fond au repos, stroke/ghost). Focus : crans `control.focus-*` accordés (défaut primary éclairci).
 - **Disabled : pas de tokens** — dette assumée documentée (WCAG exempte les composants inactifs). Si un vrai besoin naît : STOP, remonter — le couple complet sera créé d'un coup.
 
 ## Positions explicites (décisions, pas des oublis)
@@ -49,7 +49,7 @@ selon-contexte: []
 - **Link** : `color.primary` au repos, `color.primary-hover` au survol ; le soulignement persistant dans le texte courant est le signal non chromatique. Aucun token Link dédié.
 - Sans consommateur, donc sans token (ne pas improviser — STOP si le cas se présente) : scrim de modale, ::selection, dataviz.
 - **Teinte des neutres : méthode bénie.** Teinter un neutre à **luminance WCAG constante** (OKLCh + recalage de L) n'altère aucun contraste — gratuit côté accessibilité. C'est une transformation de valeurs (DESIGN.md), aucun nom ne bouge.
-- **Marque : trois rôles (primary/secondary/accent), pas de slot décoratif.** Une teinte de marque supplémentaire sans rôle fonctionnel n'a pas de place — les identités multi-teintes décoratives sont hors périmètre (un token naît d'un besoin réel).
+- **Marque : deux rôles (primary/secondary), pas de slot décoratif.** (`accent`, né pour le focus en 1.33.0, est sorti en 1.34.0 quand le focus v2 lui a repris sa mission — la règle vaut à la sortie.) Une teinte de marque supplémentaire sans rôle fonctionnel n'a pas de place — les identités multi-teintes décoratives sont hors périmètre (un token naît d'un besoin réel).
 
 ## Risque
 | Cas | Risque | Sévérité |

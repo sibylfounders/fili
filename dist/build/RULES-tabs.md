@@ -3,8 +3,8 @@ sujet: tabs
 nature: components
 resume: "Des onglets **découpent un même objet en vues exclusives** : un seul volet visible à la fois, et"
 selon-contexte: [accessibility, border, button, link, motion, navigation]
-source: TABS-UX.md v1.0.0 + TABS-UI.md v1.0.0
-empreinte: sha256:447b8c3c656340eb
+source: TABS-UX.md v1.0.0 + TABS-UI.md v1.1.0
+empreinte: sha256:efdbe06227a026c2
 regles: {loi: 17, preference: 11, non_qualifie: 0}
 ---
 # RULES — tabs (compilé, mode build)

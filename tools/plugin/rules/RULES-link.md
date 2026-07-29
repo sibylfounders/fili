@@ -7,7 +7,7 @@ selon-contexte: ["card (si le lien étend une carte cliquable)", "iconography (s
 ---
 # RULES — Link (compilé, condensé)
 
-> Généré depuis `components/link/LINK-UX.md` (v1.0.0) et `LINK-UI.md` (v1.0.0).
+> Généré depuis `components/LINK-UX.md` (v1.1.0) et `LINK-UI.md` (v1.2.0).
 > La source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Usage
@@ -37,7 +37,7 @@ selon-contexte: ["card (si le lien étend une carte cliquable)", "iconography (s
 
 - default : `color.primary` + soulignement selon contexte ;
 - hover : `color.primary-hover`, soulignement maintenu ;
-- focus : `color.accent` + `border.focus-width` + `border.focus-offset` ;
+- focus : `control.focus-color` (focus v2, cran subtil — défaut primary éclairci) + `border.focus-width` + `border.focus-offset` ;
 - active : feedback immédiat sans déplacement du layout ;
 - visited : `color.text-secondary` seulement quand l'historique aide (collections de contenu).
 - Pas de Link disabled : retirer la cible ou expliquer l'indisponibilité.

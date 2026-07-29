@@ -58,13 +58,6 @@ export const primitives = {
     500: "#14B8A6", 600: "#0D9488", 700: "#0F766E", 800: "#115E59", 900: "#134E4A",
     950: "#042F2E",
   },
-  // accent = fuchsia (DS-MD 1.33.0 accent #C026D3 = fuchsia-600) — anneau de focus dédié,
-  // visible sur TOUT y compris un fond primary (4.71:1 sur blanc, ≥ 3:1 WCAG 1.4.11)
-  fuchsia: {
-    50: "#FDF4FF", 100: "#FAE8FF", 200: "#F5D0FE", 300: "#F0ABFC", 400: "#E879F9",
-    500: "#D946EF", 600: "#C026D3", 700: "#A21CAF", 800: "#86198F", 900: "#701A75",
-    950: "#4A044E",
-  },
   static: { black: "#000000", white: "#FFFFFF" },
 };
 
@@ -131,8 +124,9 @@ export const semantic = {
   "neutral-hover":  { light: "neutral.800", dark: "neutral.100" },
   "on-neutral":     { light: "neutral.0",   dark: "neutral.900" },
 
-  // accent = anneau de focus dédié (autorité 1.33.0 : accent #C026D3 — fuchsia, règle des 30°)
-  "accent":         { light: "fuchsia.600", dark: "fuchsia.400" },
+  // accent RETIRÉ (DESIGN.md 1.34.0, arbitrage 2026-07-29 soir) : créé en 1.33.0 pour le
+  // focus ring, libéré par le focus v2 (crans control.focus-* accordés) — un token sans
+  // propriétaire n'a pas de place. Le calibrage fuchsia (règle des 30°) reste journalisé.
 
   // ── Destructif (autorité : danger / danger-hover / danger-subtle) — ex-« error »
   "danger":              { light: "red.700", dark: "red.400" },
@@ -189,7 +183,9 @@ export const typography = {
     h6: "clamp(0.875rem, 0.83rem + 0.21vw, 1rem)",
   },
   // grille jumelle label(500)/paragraphe(400) sur corps partagés
-  size: { xl: "24px", lg: "18px", md: "16px", sm: "14px", xs: "12px" },
+  // 2xs (11px) : cran MICRO des interfaces denses — overlines, têtes de groupe de nav,
+  // badges du shell (arbitrage 2026-07-29 soir ; extension DS-UI, comme none/xs du radius).
+  size: { xl: "24px", lg: "18px", md: "16px", sm: "14px", xs: "12px", "2xs": "11px" },
   weight: { regular: 400, medium: 500, semibold: 600 },
   icon: { sm: "16px", md: "20px", lg: "24px" },
   display: { fontSize: "48px", fontWeight: 500, lineHeight: "1.1" },
@@ -315,7 +311,13 @@ export const transversal = {
   // Une SURFACE conteneur (Card, Alert — cran lg, décision Pilule 2026-07-29).
   surface: { radius: "var(--radius-lg)" },
   // Un SUPERPOSÉ (Modal, Drawer, menus Dropdown, listbox Select).
-  overlay: { radius: "var(--radius-lg)", elevation: "var(--elevation-overlay)" },
+  overlay: {
+    radius: "var(--radius-lg)",
+    elevation: "var(--elevation-overlay)",
+    // Largeur max d'un MENU ancré (listbox Select, menus Dropdown) — trois consommateurs
+    // réels au moment de la création (arbitrage 2026-07-29 soir).
+    "menu-max": "18rem",
+  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

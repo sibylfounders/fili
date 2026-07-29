@@ -20,8 +20,8 @@ import { cn } from "../../lib/cn";
  *     pression équivalente à un Button, c'est que Button aurait dû être choisi (LINK-UI.md).
  *   - `navigation` porte l'état courant de façon non chromatique (`current`) + `aria-current`.
  *
- * Focus : anneau `accent` (cyan) — DÉDIÉ, distinct de l'anneau accordé-au-ton de Button. C'est
- * le premier composant DS-UI à consommer le token `accent` pour un focus ring (cf. décision
+ * Focus : anneau v2 — cran subtil accordé (--control-focus-color, défaut primary éclairci),
+ * géométrie unique de la fondation BORDER (cf. décision
  * D+ ouverte dans `foundations/mapping-autorite.md`).
  *
  * Sémantique : rend un vrai `<a>` (destination réelle, jamais un handler JS qui remplace

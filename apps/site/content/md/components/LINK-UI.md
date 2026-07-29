@@ -1,8 +1,8 @@
 ---
 component: link
 layer: ui
-version: 1.1.0 # 1.1.0 : rattachement nommé à Motion (transition d'état = feedback, focus ring jamais animé) — 2026-07-21. 1.0.0 : première rédaction — mapping inline/standalone/navigation et états sur les tokens existants
-last_updated: 2026-07-21
+version: 1.2.0 # 1.2.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — l'anneau passe aux rôles `control.focus-*` (défaut primary éclairci), géométrie BORDER inchangée ; aucune autre règle modifiée. 1.1.0 : rattachement nommé à Motion (transition d'état = feedback, focus ring jamais animé) — 2026-07-21. 1.0.0 : première rédaction — mapping inline/standalone/navigation et états sur les tokens existants
+last_updated: 2026-07-29
 companion: LINK-UX.md
 tokens:
   typography:
@@ -13,7 +13,7 @@ tokens:
     hover: color.primary-hover
     visited: color.text-secondary
   focus:
-    color: color.accent
+    color: control.focus-color # focus v2 (2026-07-29) — cran subtil, défaut primary éclairci
     width: border.focus-width
     offset: border.focus-offset
   icon:
@@ -57,7 +57,7 @@ SOURCE : interne
 
 - default : `color.primary`, soulignement selon le contexte ;
 - hover : `color.primary-hover`, soulignement maintenu ;
-- focus : outline `color.accent`, `border.focus-width`, `border.focus-offset` ;
+- focus : outline `control.focus-color` (focus v2, cran subtil), `border.focus-width`, `border.focus-offset` ;
 - active : variation immédiate, sans déplacement de layout ;
 - visited : `color.text-secondary` uniquement dans les contextes où l'historique aide.
 

@@ -78,12 +78,6 @@
     "raison": "Seuil de la container query dérivé du CONTENU RÉEL de la Card (média+titre+description côte à côte), jamais un breakpoint partagé — documenté dans le fichier (ADAPTIVE-UI)."
   },
   {
-    "file": "components/nav/nav.tsx",
-    "motif": "text-[11px]",
-    "classe": "typo-overline",
-    "raison": "Cran micro des têtes de groupe (overline), hors échelle typo actuelle — hérité de la facture AppLayout validée ; candidat token caption/overline (décision ouverte, cf. rapport)."
-  },
-  {
     "file": "components/skeleton/skeleton.css",
     "motif": "1.4s",
     "classe": "mécanique-emotion",

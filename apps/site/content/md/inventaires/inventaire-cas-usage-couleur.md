@@ -9,7 +9,7 @@
 | Cas d'usage | Description | Particularité de contexte |
 |---|---|---|
 | Action de marque (primary) | Fond des actions principales, bordure de sélection | Couvert — rôle documenté, guardrail "jamais pour un état sémantique" |
-| Accent (focus, touches secondaires) | Focus ring partagé par bouton/input/card | Couvert — recalibré 3.68:1 (1.3.0), distinct des états sémantiques |
+| Focus (anneau) | Focus ring partagé par bouton/input/card | Couvert — rôles `control.focus-*` depuis le focus v2 (2026-07-29) ; l'ancienne teinte de marque `accent` est sortie (DESIGN 1.34.0) |
 | États sémantiques (danger/success/warning/info) | Tones de l'alert, bordures de l'input, tones du bouton | Couvert — familles texte + fond subtil, seuils testés |
 | Neutres de texte (primary/secondary/muted) | Hiérarchie du texte courant | Couvert — avec la frontière text-muted (métadonnées, jamais du texte fonctionnel — cf. F01 compteur) |
 | Surfaces (background/surface/surface-hover/surface-contrast) | Fonds de page, de zone, de state layer, de mise en avant | Couvert — rôle de chaque surface documenté |
@@ -36,7 +36,7 @@
 | Cas d'usage | Description | Particularité de contexte |
 |---|---|---|
 | Hover (state layers) | Fond assombri d'un cran ou remplissage apparaissant | Couvert — famille *-hover complète depuis 1.3.0 |
-| Focus | Ring accent, jamais supprimé | Couvert |
+| Focus | Ring `control.focus-*`, jamais supprimé | Couvert |
 | Transition entre états | Le passage repos → hover → focus est-il instantané ? | Couvert par renvoi — la fondation motion fait autorité sur les transitions ; la couleur fournit les deux bornes |
 | Selected | Bordure primary + indicateur non chromatique | Couvert (card) |
 | Chargement / skeleton | Fond surface en attente de contenu | Couvert (card skeleton) |

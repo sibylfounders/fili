@@ -7,7 +7,7 @@ selon-contexte: ["alert (frontière flux/superposé, tone et rôles hérités)",
 ---
 # RULES — Toast (compilé, condensé)
 
-> Généré depuis `components/toast/TOAST-UX.md` (v1.0.0) et `TOAST-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/TOAST-UX.md` (v1.0.1) et `TOAST-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
 - Un seul axe : **tone** (info/success/warning/danger/neutral — défaut `neutral`, l'inverse haute-contraste, ex-`reverse` renommé 2026-07-29 ; les quatre autres identiques à alert). **Pas d'axe persistance** : le toast est temporaire par nature, c'est ce qui le distingue de l'alert. Fermeture : `closing` auto/close/timer.
