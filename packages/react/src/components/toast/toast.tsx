@@ -54,7 +54,7 @@ import "./toast.css";
  * après avoir tranché).
  */
 
-export type ToastTone = "info" | "success" | "warning" | "danger" | "reverse";
+export type ToastTone = "info" | "success" | "warning" | "danger" | "neutral";
 
 export interface ToastAction {
   /** Verbe court, décrit ce que fait l'action (« Annuler »), jamais la gravité du toast. */
@@ -63,7 +63,7 @@ export interface ToastAction {
 }
 
 export interface ToastOptions {
-  /** Défaut « reverse » (arbitrage 2026-07-29) : la confirmation neutre, haut contraste, est le cas majoritaire — les tones sémantiques restent explicites. */
+  /** Défaut « neutral » (arbitrages 2026-07-29 — renommé depuis « reverse » : la langue des tones du Button) : la confirmation neutre, haut contraste, est le cas majoritaire. */
   tone?: ToastTone;
   title: React.ReactNode;
   /** 1 phrase max — le toast est trop éphémère pour un paragraphe. */
@@ -187,7 +187,7 @@ const toastCardVariants = cva(
         success: "border-success bg-success-subtle text-success",
         warning: "border-warning bg-warning-subtle text-warning",
         danger: "border-danger bg-danger-subtle text-danger",
-        reverse: "border-surface-inverse bg-surface-inverse text-text-inverse",
+        neutral: "border-neutral bg-neutral text-on-neutral",
       },
     },
     defaultVariants: { tone: "info" },
@@ -371,7 +371,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
             className={cn(
               "pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left bg-current",
               // reverse : le trait courant (texte inverse) se noie sur la surface sombre → plus opaque
-              tone === "reverse" ? "opacity-60" : "opacity-30",
+              tone === "neutral" ? "opacity-60" : "opacity-30",
             )}
             style={{ animation: `dsui-toast-timer ${duration}ms linear forwards`, animationPlayState: barRunning ? "running" : "paused" }}
           />
@@ -462,7 +462,7 @@ function ToastProvider({ children, placement = "bottom" }: ToastProviderProps) {
 
   const toast = React.useCallback((options: ToastOptions): string => {
     const id = nextId();
-    const tone = options.tone ?? "reverse";
+    const tone = options.tone ?? "neutral";
     const duration = computeDuration(options);
     dispatch({
       type: "push",

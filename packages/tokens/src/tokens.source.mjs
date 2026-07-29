@@ -46,17 +46,24 @@ export const primitives = {
     500: "#F59E0B", 600: "#D97706", 700: "#B45309", 800: "#92400E", 900: "#78350F",
     950: "#451A03",
   },
-  // info = blue (DS-MD info #1D4ED8 = blue-700)
-  blue: {
-    50: "#EFF6FF", 100: "#DBEAFE", 200: "#BFDBFE", 300: "#93C5FD", 400: "#60A5FA",
-    500: "#3B82F6", 600: "#2563EB", 700: "#1D4ED8", 800: "#1E40AF", 900: "#1E3A8A",
-    950: "#172554",
+  // info = sky (DS-MD 1.33.0 info #0369A1 = sky-700) — écarté d'indigo par la règle des 30°
+  sky: {
+    50: "#F0F9FF", 100: "#E0F2FE", 200: "#BAE6FD", 300: "#7DD3FC", 400: "#38BDF8",
+    500: "#0EA5E9", 600: "#0284C7", 700: "#0369A1", 800: "#075985", 900: "#0C4A6E",
+    950: "#082F49",
   },
-  // accent = cyan (DS-MD accent #0891B2 = cyan-600) — anneau de focus dédié
-  cyan: {
-    50: "#ECFEFF", 100: "#CFFAFE", 200: "#A5F3FC", 300: "#67E8F9", 400: "#22D3EE",
-    500: "#06B6D4", 600: "#0891B2", 700: "#0E7490", 800: "#155E75", 900: "#164E63",
-    950: "#083344",
+  // secondary = teal (DS-MD 1.33.0 secondary #0F766E = teal-700) — 2e couleur de marque
+  teal: {
+    50: "#F0FDFA", 100: "#CCFBF1", 200: "#99F6E4", 300: "#5EEAD4", 400: "#2DD4BF",
+    500: "#14B8A6", 600: "#0D9488", 700: "#0F766E", 800: "#115E59", 900: "#134E4A",
+    950: "#042F2E",
+  },
+  // accent = fuchsia (DS-MD 1.33.0 accent #C026D3 = fuchsia-600) — anneau de focus dédié,
+  // visible sur TOUT y compris un fond primary (4.71:1 sur blanc, ≥ 3:1 WCAG 1.4.11)
+  fuchsia: {
+    50: "#FDF4FF", 100: "#FAE8FF", 200: "#F5D0FE", 300: "#F0ABFC", 400: "#E879F9",
+    500: "#D946EF", 600: "#C026D3", 700: "#A21CAF", 800: "#86198F", 900: "#701A75",
+    950: "#4A044E",
   },
   static: { black: "#000000", white: "#FFFFFF" },
 };
@@ -104,12 +111,28 @@ export const semantic = {
   "primary":        { light: "indigo.600", dark: "indigo.400" },
   "primary-hover":  { light: "indigo.700", dark: "indigo.300" },
   "on-primary":     { light: "neutral.0",  dark: "neutral.950" },
-  // secondary = lavis primaire (autorité : secondary / secondary-hover / on-secondary)
-  "secondary":        { light: "indigo.100", dark: "indigo.900" },
-  "secondary-hover":  { light: "indigo.200", dark: "indigo.800" },
-  "on-secondary":     { light: "indigo.800", dark: "indigo.200" },
-  // accent = anneau de focus dédié (autorité : accent #0891B2)
-  "accent":         { light: "cyan.600", dark: "cyan.400" },
+  // lavis primaire (autorité 1.33.0 : primary-subtle — l'ex-« secondary », renommé pour
+  // suivre la convention {nom}-subtle et LIBÉRER le nom secondary pour une vraie 2e marque)
+  "primary-subtle":        { light: "indigo.100", dark: "indigo.900" },
+  "primary-subtle-hover":  { light: "indigo.200", dark: "indigo.800" },
+  "on-primary-subtle":     { light: "indigo.800", dark: "indigo.200" },
+
+  // ── SECONDARY = 2e couleur de marque (teal — autorité 1.33.0, arbitrage Aurélien 2026-07-29)
+  "secondary":              { light: "teal.700", dark: "teal.400" },
+  "secondary-hover":        { light: "teal.800", dark: "teal.300" },
+  "secondary-subtle":       { light: "teal.100", dark: "teal.950" },
+  "secondary-subtle-hover": { light: "teal.200", dark: "teal.900" },
+  "on-secondary":           { light: "neutral.0", dark: "neutral.950" },
+
+  // ── NEUTRAL = la famille du tone neutre des boutons (autorité : neutral-strong[-hover]).
+  // Solide = l'inverse haute-contraste ; son subtil EST surface/surface-hover (pas de doublon) ;
+  // son contour EST border-strong. Alias sémantiques de surface-inverse/text-inverse.
+  "neutral":        { light: "neutral.900", dark: "neutral.0"   },
+  "neutral-hover":  { light: "neutral.800", dark: "neutral.100" },
+  "on-neutral":     { light: "neutral.0",   dark: "neutral.900" },
+
+  // accent = anneau de focus dédié (autorité 1.33.0 : accent #C026D3 — fuchsia, règle des 30°)
+  "accent":         { light: "fuchsia.600", dark: "fuchsia.400" },
 
   // ── Destructif (autorité : danger / danger-hover / danger-subtle) — ex-« error »
   "danger":              { light: "red.700", dark: "red.400" },
@@ -128,10 +151,10 @@ export const semantic = {
   "on-success":           { light: "neutral.0", dark: "neutral.950" },
 
   // ── Info (autorité : info / info-subtle)
-  "info":              { light: "blue.700", dark: "blue.400" },
-  "info-hover":        { light: "blue.800", dark: "blue.300" },
-  "info-subtle":       { light: "blue.100", dark: "blue.950" },
-  "info-subtle-hover": { light: "blue.200", dark: "blue.900" },
+  "info":              { light: "sky.700", dark: "sky.400" },
+  "info-hover":        { light: "sky.800", dark: "sky.300" },
+  "info-subtle":       { light: "sky.100", dark: "sky.950" },
+  "info-subtle-hover": { light: "sky.200", dark: "sky.900" },
   "on-info":           { light: "neutral.0", dark: "neutral.950" },
 
   // ── Avertissement (autorité : warning / warning-subtle / warning-subtle-hover)
@@ -143,7 +166,7 @@ export const semantic = {
 };
 
 // Familles d'états (pour la validation de contraste et le regroupement) — dérivé du plat ci-dessus.
-export const stateFamilies = ["primary", "danger", "success", "info", "warning"];
+export const stateFamilies = ["primary", "secondary", "danger", "success", "info", "warning"];
 // Conservé pour compat d'import ; les rôles vivent désormais à plat dans `semantic`.
 export const states = {};
 

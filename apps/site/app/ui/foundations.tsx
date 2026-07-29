@@ -70,7 +70,8 @@ export const FOUNDATIONS: { key: string; title: string; desc: string }[] = [
 ];
 
 const COL_FAM = [
-  { k: "primary", l: "Primary", sub: "secondary", onSub: "on-secondary" },
+  { k: "primary", l: "Primary", sub: "primary-subtle", onSub: "on-primary-subtle" },
+  { k: "secondary", l: "Secondary" },
   { k: "danger", l: "Danger" },
   { k: "success", l: "Success" },
   { k: "warning", l: "Warning" },
@@ -82,11 +83,12 @@ const COL_FAM = [
 const RAMPS: [string, (number | string)[]][] = [
   ["neutral", [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
   ["indigo", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["teal", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
   ["red", [50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
   ["green", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
   ["amber", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
-  ["blue", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
-  ["cyan", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["sky", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["fuchsia", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
 ];
 
 function Couleur() {
@@ -110,14 +112,10 @@ function Couleur() {
           );
         })}
         <div className="chiprow">
-          <span className="rl">secondary</span>
-          {chip("var(--secondary)", "var(--on-secondary)", undefined, "Secondary")}
-          {chip("transparent", "var(--on-secondary)", "1px solid var(--on-secondary)", "Secondary")}
-        </div>
-        <div className="chiprow">
-          <span className="rl">reverse</span>
-          {chip("var(--surface-inverse)", "var(--text-inverse)", undefined, "Reverse")}
-          {chip("var(--surface-inverse)", "var(--text-inverse)", "1.5px solid var(--border-inverse)", "Reverse")}
+          <span className="rl">neutral</span>
+          {chip("var(--neutral)", "var(--on-neutral)", undefined, "Neutral")}
+          {chip("var(--surface)", "var(--text-primary)", undefined, "Neutral")}
+          {chip("transparent", "var(--text-primary)", "1px solid var(--border-strong)", "Neutral")}
         </div>
         <div className="chiprow">
           <span className="rl">accent</span>

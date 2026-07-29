@@ -44,9 +44,16 @@ for (const mode of ["light", "dark"]) {
   // Bordure délimitante (3:1)
   add(`${M} border-strong / background`, role("border-strong", mode), background, 3);
 
-  // secondary (lavis primaire) : on-secondary sur secondary
-  add(`${M} on-secondary / secondary`, role("on-secondary", mode), role("secondary", mode), 4.5);
+  // lavis primaire (primary-subtle, ex-secondary) : on-primary-subtle dessus
+  add(`${M} on-primary-subtle / primary-subtle`, role("on-primary-subtle", mode), role("primary-subtle", mode), 4.5);
   add(`${M} primary / background`, role("primary", mode), background, 4.5);
+
+  // accent (focus ring) : 3:1 sur le fond de page (WCAG 1.4.11)
+  add(`${M} accent / background (ring)`, role("accent", mode), background, 3);
+
+  // neutral (famille du tone neutre — achromatique, hors stateFamilies)
+  add(`${M} on-neutral / neutral`, role("on-neutral", mode), role("neutral", mode), 4.5);
+  add(`${M} on-neutral / neutral-hover`, role("on-neutral", mode), role("neutral-hover", mode), 4.5);
 
   // États : texte "on" sur fond plein + base-comme-texte sur background
   for (const fam of stateFamilies) {
@@ -54,11 +61,11 @@ for (const mode of ["light", "dark"]) {
     add(`${M} ${fam} / background`, role(fam, mode), background, 4.5);
   }
   // base-comme-texte sur le lavis -subtle (primary a « secondary » pour lavis, traité plus haut)
-  for (const fam of ["danger", "success", "info", "warning"]) {
+  for (const fam of ["secondary", "danger", "success", "info", "warning"]) {
     add(`${M} ${fam} / ${fam}-subtle`, role(fam, mode), role(`${fam}-subtle`, mode), 4.5);
   }
   // ÉTATS DE SURVOL (AA-strict) : au survol le lavis se fonce ET le texte passe en -hover
-  for (const fam of ["danger", "success", "info", "warning"]) {
+  for (const fam of ["secondary", "danger", "success", "info", "warning"]) {
     add(`${M} ${fam}-hover / ${fam}-subtle-hover`, role(`${fam}-hover`, mode), role(`${fam}-subtle-hover`, mode), 4.5);
   }
   // Le lavis au survol garde le token de TONE comme texte — c'est la formulation de
@@ -73,8 +80,8 @@ for (const mode of ["light", "dark"]) {
     }
   }
 
-  // lavis primaire (secondary) au survol : on-secondary tient sur secondary-hover
-  add(`${M} on-secondary / secondary-hover`, role("on-secondary", mode), role("secondary-hover", mode), 4.5);
+  // lavis primaire au survol : on-primary-subtle tient sur primary-subtle-hover
+  add(`${M} on-primary-subtle / primary-subtle-hover`, role("on-primary-subtle", mode), role("primary-subtle-hover", mode), 4.5);
 }
 
 let fails = 0;

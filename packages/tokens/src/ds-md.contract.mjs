@@ -9,29 +9,34 @@
 // token DS-UI correspondant porte EXACTEMENT la valeur ci-dessous. Une divergence non
 // déclarée est une dérive.
 //
-// Source : doctrine DS-MD — DESIGN.md v1.32.0
+// Source : doctrine DS-MD — DESIGN.md v1.33.0
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const dsMdVersion = "1.32.0";
-export const syncedAt = "2026-07-27";
+export const dsMdVersion = "1.33.0";
+export const syncedAt = "2026-07-29";
 
 export const contract = {
   "colors": {
     "primary": "#4F46E5",
     "primary-hover": "#4338CA",
     "on-primary": "#FFFFFF",
-    "accent": "#0891B2",
-    "secondary": "#E0E7FF",
-    "secondary-hover": "#C7D2FE",
-    "on-secondary": "#3730A3",
+    "accent": "#C026D3",
+    "primary-subtle": "#E0E7FF",
+    "primary-subtle-hover": "#C7D2FE",
+    "on-primary-subtle": "#3730A3",
+    "secondary": "#0F766E",
+    "secondary-hover": "#115E59",
+    "secondary-subtle": "#CCFBF1",
+    "secondary-subtle-hover": "#99F6E4",
+    "on-secondary": "#FFFFFF",
     "danger": "#B91C1C",
     "danger-hover": "#991B1B",
     "danger-subtle": "#FEE2E2",
     "danger-subtle-hover": "#FBCFCF",
     "success": "#15803D",
     "success-subtle": "#DCFCE7",
-    "info": "#1D4ED8",
-    "info-subtle": "#DBEAFE",
+    "info": "#0369A1",
+    "info-subtle": "#E0F2FE",
     "warning": "#92400E",
     "warning-hover": "#78350F",
     "warning-subtle": "#FEF3C7",

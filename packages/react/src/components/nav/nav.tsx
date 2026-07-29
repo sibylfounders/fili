@@ -38,7 +38,7 @@ export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
           "block rounded-sm px-sm py-1.5 text-sm no-underline transition-colors duration-fast ease-out",
           "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           current
-            ? "bg-secondary font-medium text-on-secondary"
+            ? "bg-primary-subtle font-medium text-on-primary-subtle"
             : "text-text-secondary hover:bg-surface-hover hover:text-text-primary",
           className,
         )}

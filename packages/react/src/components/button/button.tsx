@@ -68,15 +68,15 @@ const buttonVariants = cva(
       { style: "filled", tone: "neutral", class: "bg-surface-inverse text-text-inverse hover:opacity-90" },
       { style: "filled", tone: "destructive", class: "bg-danger text-on-danger hover:bg-danger-hover" },
       // ── STROKE — contour délimitant (bordure = tone) + texte tone
-      { style: "stroke", tone: "primary", class: "border-primary text-primary hover:bg-secondary hover:text-on-secondary" },
+      { style: "stroke", tone: "primary", class: "border-primary text-primary hover:bg-primary-subtle hover:text-on-primary-subtle" },
       { style: "stroke", tone: "neutral", class: "border-border-strong text-text-primary hover:bg-surface" },
       { style: "stroke", tone: "destructive", class: "border-danger text-danger hover:bg-danger-subtle" },
       // ── LIGHTER — lavis (fond doux) + texte tone
-      { style: "lighter", tone: "primary", class: "bg-secondary text-on-secondary hover:bg-secondary-hover" },
+      { style: "lighter", tone: "primary", class: "bg-primary-subtle text-on-primary-subtle hover:bg-primary-subtle-hover" },
       { style: "lighter", tone: "neutral", class: "bg-surface text-text-primary hover:bg-surface-hover" },
       { style: "lighter", tone: "destructive", class: "bg-danger-subtle text-danger hover:bg-danger-subtle-hover hover:text-danger-hover" },
       // ── GHOST — sans fond, remplissage léger au survol
-      { style: "ghost", tone: "primary", class: "text-primary hover:bg-secondary hover:text-on-secondary" },
+      { style: "ghost", tone: "primary", class: "text-primary hover:bg-primary-subtle hover:text-on-primary-subtle" },
       { style: "ghost", tone: "neutral", class: "text-text-secondary hover:bg-surface" },
       { style: "ghost", tone: "destructive", class: "text-danger hover:bg-danger-subtle" },
       // icon-only carré par taille (min-h = largeur), padding horizontal supprimé

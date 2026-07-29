@@ -22,7 +22,7 @@ export interface ComposedChartProps {
 /** Barres + ligne superposees (facon ComposedChart), survol/tactile montrant les deux series. */
 export function ComposedChart({
   data, labels, height = 160,
-  barColor = "var(--secondary)", lineColor = "var(--primary)",
+  barColor = "var(--primary-subtle)", lineColor = "var(--primary)",
   barLabel = "Barres", lineLabel = "Ligne", format = fmtInt, className, ariaLabel,
 }: ComposedChartProps) {
   const n = data.length;

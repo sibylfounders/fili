@@ -107,7 +107,7 @@ function NavRow({ item, collapsed, depth = 0, onNavigate }: { item: AppNavItem; 
           "group flex w-full items-center gap-2.5 rounded-md px-sm py-1.5 text-left text-sm no-underline transition-colors duration-fast ease-out",
           "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
           item.active
-            ? "bg-secondary font-medium text-on-secondary"
+            ? "bg-primary-subtle font-medium text-on-primary-subtle"
             : "text-text-secondary hover:bg-surface-hover hover:text-text-primary",
           collapsed && "justify-center px-0",
           !collapsed && depth > 0 && "ml-3 border-l border-border pl-3 text-[13px]",

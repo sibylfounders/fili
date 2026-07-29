@@ -14,7 +14,7 @@ import type { NavGroupe } from "@/lib/md";
 const LIEN =
   "block rounded-sm px-sm py-1.5 text-sm no-underline transition-colors duration-fast ease-out " +
   "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-const LIEN_COURANT = "bg-secondary font-medium text-on-secondary";
+const LIEN_COURANT = "bg-primary-subtle font-medium text-on-primary-subtle";
 const LIEN_REPOS = "text-text-secondary hover:bg-surface-hover hover:text-text-primary";
 
 function Lien({

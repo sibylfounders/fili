@@ -43,7 +43,7 @@
 .ch-cross { stroke: var(--border-strong, var(--border)); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
 
 /* barres */
-.ch-bar { fill: var(--secondary); transform-box: fill-box; transform-origin: bottom; }
+.ch-bar { fill: var(--primary-subtle); transform-box: fill-box; transform-origin: bottom; }
 .ch-anim .ch-bar { animation: chBar .6s var(--ease-out, ease-out) both; }
 @keyframes chBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 .ch-bar--dim { opacity: .45; transition: opacity var(--duration-fast, .12s) var(--ease-out, ease-out); }

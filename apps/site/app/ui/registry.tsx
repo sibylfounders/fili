@@ -301,7 +301,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
           <>
             <button className={shellIconBtn} aria-label="Rechercher">{ICO.search}</button>
             <button className={shellIconBtn} aria-label="Notifications">{ICO.bell}</button>
-            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-on-secondary">JG</span>
+            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary-subtle text-xs font-semibold text-on-primary-subtle">JG</span>
           </>
         ),
       }}
@@ -938,14 +938,14 @@ export const GROUPS: Group[] = [
       {
         key: "toast", name: "Toast",
         controls: [
-          { k: "tone", type: "seg", opts: ["reverse", "info", "success", "warning", "danger"] },
+          { k: "tone", type: "seg", opts: ["neutral", "info", "success", "warning", "danger"] },
           { k: "placement", type: "seg", label: "Emplacement", opts: ["bottom", "bottom-start", "bottom-end", "top", "top-start", "top-end"] },
           { k: "title", type: "text", label: "Titre" },
           { k: "description", type: "text", label: "Description" },
           { k: "closing", type: "seg", label: "Fermeture", opts: ["auto", "close", "timer"] },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { tone: "reverse", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "auto", skeleton: false },
+        initial: { tone: "neutral", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "auto", skeleton: false },
         render: (s) =>
           s.skeleton ? (
             <div className="flex w-80 items-start gap-md rounded-lg border border-border p-md">
@@ -955,7 +955,7 @@ export const GROUPS: Group[] = [
           ) : (
             <ToastDemo s={s} />
           ),
-        code: (s) => `${s.placement !== "bottom" ? `<Toast.Provider placement="${s.placement}">\u2026</Toast.Provider>\n` : ""}const { toast } = useToast();\ntoast({${s.tone !== "reverse" ? ` tone: "${s.tone}",` : ""} title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "auto" ? `, closing: "${s.closing}"` : ""} });`,
+        code: (s) => `${s.placement !== "bottom" ? `<Toast.Provider placement="${s.placement}">\u2026</Toast.Provider>\n` : ""}const { toast } = useToast();\ntoast({${s.tone !== "neutral" ? ` tone: "${s.tone}",` : ""} title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "auto" ? `, closing: "${s.closing}"` : ""} });`,
       },
       {
         key: "adacard", name: "StatCard",

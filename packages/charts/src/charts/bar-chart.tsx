@@ -18,7 +18,7 @@ export interface BarChartProps {
 
 /** Barres verticales (base zero), grille, axe X ; survol/tactile met en avant la barre active. */
 export function BarChart({
-  data, labels, height = 160, color = "var(--secondary)",
+  data, labels, height = 160, color = "var(--primary-subtle)",
   label = "Valeur", format = fmtInt, className, ariaLabel,
 }: BarChartProps) {
   const n = data.length;
