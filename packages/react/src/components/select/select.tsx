@@ -224,7 +224,11 @@ export function Select({
         >
           {/* voiles de débordement — pointer-events-none, purement informatifs */}
           {overflow.top ? (
-            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-6 bg-gradient-to-b from-background to-transparent" />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-[1] flex h-7 items-start justify-center bg-gradient-to-b from-background to-transparent pt-0.5">
+              <svg aria-hidden="true" viewBox="0 0 20 20" className="size-3.5 text-text-muted">
+                <path d="M6 12l4-4 4 4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           ) : null}
           {overflow.bottom ? (
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] flex h-7 items-end justify-center bg-gradient-to-t from-background to-transparent pb-0.5">
