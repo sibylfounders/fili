@@ -21,7 +21,10 @@ const RADIUS_PRESETS: Record<string, Record<"sm" | "md" | "lg", string | null>> 
   carre: { sm: "0px", md: "0px", lg: "0px" },
   defaut: { sm: null, md: null, lg: null },
   arrondi: { sm: "8px", md: "14px", lg: "20px" },
-  pilule: { sm: "9999px", md: "9999px", lg: "9999px" },
+  // pill ne s'applique JAMAIS au cran conteneur (radius.lg — cartes, alertes, modales) :
+  // un conteneur haut en 9999px devient un ovale (DESIGN.md 1.20.0 + décision pill du 17/07).
+  // Les contrôles mono-ligne (sm/md) prennent la pilule ; les conteneurs plafonnent à 20px.
+  pilule: { sm: "9999px", md: "9999px", lg: "20px" },
 };
 const FW_OPTS = [
   { value: "react", label: "React" },

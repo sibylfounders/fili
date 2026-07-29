@@ -34,7 +34,7 @@ const AlertContext = React.createContext<{ tone: AlertTone }>({ tone: "info" });
 
 const rootVariants = cva(
   // Structure : icône alignée sur la 1re ligne (items-start), bloc lu comme une unité.
-  "relative flex w-full gap-sm rounded-md border p-md text-base",
+  "relative flex w-full gap-sm rounded-lg border p-md text-base", // cran CONTENEUR (radius.lg, DESIGN.md 1.20.0)
   {
     variants: {
       // Rendu unique par tone : fond {tone}-lighter, bordure/texte/icône {tone}-base (≥ 4.5:1).

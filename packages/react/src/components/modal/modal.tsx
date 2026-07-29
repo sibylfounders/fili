@@ -38,7 +38,8 @@ import { verrouilleDefilement } from "../../lib/scroll-lock";
 const surfaceVariants = cva(
   [
     "relative z-overlay flex max-h-[calc(100%-var(--space-xl))] w-full flex-col outline-none",
-    "rounded-md border border-border bg-background shadow-overlay",
+    // cran CONTENEUR (radius.lg, DESIGN.md 1.20.0) — jamais le rayon des contrôles
+    "rounded-lg border border-border bg-background shadow-overlay",
     "transition-[opacity,transform] duration-slow ease-out motion-reduce:transition-none",
   ].join(" "),
   {
@@ -224,7 +225,7 @@ export function ModalHeader({ kicker, closable = true, level = 2, className, chi
 ModalHeader.displayName = "Modal.Header";
 
 export function ModalBody({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain px-lg py-sm text-sm text-text-secondary", className)} {...props} />;
+  return <div className={cn("min-h-0 flex-1 overflow-y-auto px-lg py-sm text-sm text-text-secondary", className)} {...props} />;
 }
 ModalBody.displayName = "Modal.Body";
 

@@ -284,7 +284,7 @@ function DropdownContent({ side = "auto", align = "auto", sideOffset = 4, classN
     <div
       ref={contentRef}
       className={cn(
-        "absolute z-popover w-max min-w-full max-w-[18rem] overflow-hidden rounded-md border border-border bg-background shadow-overlay",
+        "absolute z-popover w-max min-w-full max-w-[18rem] overflow-hidden rounded-lg border border-border bg-background shadow-overlay",
         "transition-[opacity,transform] duration-fast ease-out motion-reduce:transition-none",
         s === "bottom" ? "top-full" : "bottom-full",
         a === "start" ? "left-0" : a === "end" ? "right-0" : "left-1/2 -translate-x-1/2",
@@ -329,7 +329,7 @@ function DropdownInline({ className, children, onKeyDown, ...props }: DropdownIn
       className={cn(
         // en flux : à plat — bordure délimitante, PAS d'élévation (le relief signale une
         // couche flottante ; ce panneau appartient à la page)
-        "relative w-full min-w-40 max-w-[18rem] overflow-hidden rounded-md border border-border bg-background",
+        "relative w-full min-w-40 max-w-[18rem] overflow-hidden rounded-lg border border-border bg-background",
         className,
       )}
     >
