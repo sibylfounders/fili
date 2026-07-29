@@ -15,16 +15,18 @@ import "./drawer.css";
  * Échap ferme, retour du focus au déclencheur. C'est le mécanisme qui rend invocables les rails
  * de l'AppShell sous `breakpoint.tablet` (nav) et `breakpoint.desktop` (outils).
  *
- * Contrôlé : `open` + `onClose`. `side` = start (gauche, défaut) | end (droite) | bottom (bas,
- * feuille). Un nom accessible est requis (`aria-label` ou `aria-labelledby`) — role="dialog"
- * aria-modal.
+ * Contrôlé : `open` + `onClose`. `side` = start (gauche, défaut) | end (droite) | top | bottom.
+ * Les ancrages haut/bas SONT les « sheets » : même fondation overlay (voile, piège de focus,
+ * Échap), seul l'ancrage change — pas de composant Sheet séparé. Un nom accessible est requis
+ * (`aria-label` ou `aria-labelledby`) — role="dialog" aria-modal.
  *
- * EFFET sur le fond (`effect`) — nécessite un `<Drawer.Frame>` autour du contenu de la page :
- *  - `overlay` (défaut) : le tiroir glisse au-dessus, le fond ne bouge pas ;
- *  - `push` : le contenu se décale de la largeur du tiroir (start/end uniquement — un push
- *    vertical n'a pas de largeur de référence, bottom retombe sur overlay) ;
- *  - `depth` : « Depth Transition » façon iOS — le contenu recule dans une frame arrondie sur
- *    fond noir. Sans Frame, tout `effect` retombe sur overlay (aucune erreur).
+ * EFFET sur le fond — deux axes ORTHOGONAUX, nécessitent un `<Drawer.Frame>` autour de la page :
+ *  - `effect` = `overlay` (défaut : le tiroir glisse au-dessus, le fond ne bouge pas) | `push`
+ *    (le contenu se décale de la largeur du tiroir — start/end uniquement, un push vertical n'a
+ *    pas de largeur de référence : top/bottom retombent sur overlay) ;
+ *  - `depth` = booléen, COMBINABLE avec les deux effets : « Depth Transition » façon iOS — le
+ *    contenu recule (scale) dans une frame arrondie sur fond noir pendant que le tiroir est actif.
+ * Sans Frame, effect/depth retombent silencieusement sur overlay simple (aucune erreur).
  * Dans un Frame, le tiroir est PORTÉ DANS le Frame (positionnement absolu, contenu dans son
  * cadre) ; sans Frame il est porté vers document.body (fixe, plein viewport).
  *
@@ -33,8 +35,8 @@ import "./drawer.css";
  * quand la racine sera exposée. Cf. OVERLAY-UX « focus et clavier ».
  */
 
-export type DrawerSide = "start" | "end" | "bottom";
-export type DrawerEffect = "overlay" | "push" | "depth";
+export type DrawerSide = "start" | "end" | "top" | "bottom";
+export type DrawerEffect = "overlay" | "push";
 
 const panelVariants = cva(
   [
@@ -47,6 +49,7 @@ const panelVariants = cva(
       side: {
         start: "inset-y-0 left-0 w-rail-nav max-w-[85%] border-r border-border",
         end: "inset-y-0 right-0 w-rail-nav max-w-[85%] border-l border-border",
+        top: "inset-x-0 top-0 max-h-[85%] w-full rounded-b-lg border-b border-border",
         bottom: "inset-x-0 bottom-0 max-h-[85%] w-full rounded-t-lg border-t border-border",
       },
     },
@@ -58,7 +61,7 @@ const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 /* ── Frame : le cadre qui héberge la page et subit push/depth ─────────────────────────────── */
-type FrameState = { side: DrawerSide; effect: DrawerEffect };
+type FrameState = { side: DrawerSide; effect: DrawerEffect; depth: boolean };
 type FrameCtxValue = {
   node: HTMLDivElement | null;
   set: (state: FrameState | null) => void;
@@ -77,6 +80,7 @@ export function DrawerFrame({ className, children, ...props }: DrawerFrameProps)
       data-open={state ? "true" : "false"}
       data-side={state?.side}
       data-effect={state?.effect}
+      data-depth={state?.depth ? "true" : undefined}
       className={cn("ds-drawer-frame", className)}
       {...props}
     >
@@ -94,8 +98,10 @@ export interface DrawerProps
     VariantProps<typeof panelVariants> {
   open: boolean;
   onClose: () => void;
-  /** Effet sur le fond — actif seulement dans un <Drawer.Frame> (cf. docstring). */
+  /** Effet sur le fond : overlay (défaut) | push — actif seulement dans un <Drawer.Frame>. */
   effect?: DrawerEffect;
+  /** Depth Transition (iOS) : le contenu recule dans une frame arrondie sur fond noir — combinable avec overlay ET push. */
+  depth?: boolean;
 }
 
 export function DrawerRoot({
@@ -103,6 +109,7 @@ export function DrawerRoot({
   onClose,
   side = "start",
   effect = "overlay",
+  depth = false,
   className,
   children,
   ...props
@@ -113,7 +120,8 @@ export function DrawerRoot({
   const frame = React.useContext(FrameCtx);
   const inFrame = !!frame?.node;
   // push vertical impossible (pas de largeur de référence) → overlay.
-  const effectiveEffect: DrawerEffect = side === "bottom" && effect === "push" ? "overlay" : effect;
+  const vertical = side === "top" || side === "bottom";
+  const effectiveEffect: DrawerEffect = vertical && effect === "push" ? "overlay" : effect;
 
   React.useEffect(() => {
     if (!open) return;
@@ -141,9 +149,9 @@ export function DrawerRoot({
   const setFrame = frame?.set;
   React.useEffect(() => {
     if (!setFrame) return;
-    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect });
+    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect, depth });
     return () => setFrame(null);
-  }, [open, side, effectiveEffect, setFrame]);
+  }, [open, side, effectiveEffect, depth, setFrame]);
 
   if (!open || typeof document === "undefined") return null;
 
@@ -174,8 +182,14 @@ export function DrawerRoot({
   };
 
   const closedTransform =
-    side === "end" ? "translate-x-full" : side === "bottom" ? "translate-y-full" : "-translate-x-full";
-  const openTransform = side === "bottom" ? "translate-y-0" : "translate-x-0";
+    side === "end"
+      ? "translate-x-full"
+      : side === "bottom"
+        ? "translate-y-full"
+        : side === "top"
+          ? "-translate-y-full"
+          : "-translate-x-full";
+  const openTransform = vertical ? "translate-y-0" : "translate-x-0";
   // Dans un Frame : positionnement absolu (contenu dans le cadre) ; sinon fixe (viewport).
   const positionClass = inFrame ? "absolute" : "fixed";
 

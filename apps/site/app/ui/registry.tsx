@@ -92,21 +92,21 @@ export interface Entry {
 export interface Group { label: string; items: Entry[]; }
 
 /* ---------- démos à état interne ---------- */
-const DrawerDemo: React.FC<{ side: DrawerSide; effect: DrawerEffect }> = ({ side, effect }) => {
+const DrawerDemo: React.FC<{ side: DrawerSide; effect: DrawerEffect; depth: boolean }> = ({ side, effect, depth }) => {
   const [open, setOpen] = React.useState(false);
   return (
-    <Drawer.Frame className="h-[380px] w-full max-w-xl rounded-lg border border-border">
+    <Drawer.Frame className="h-full w-full">
       <div className="flex h-full flex-col gap-sm bg-background p-lg">
         <b className="text-text-primary">La page derrière</b>
         <p className="m-0 text-sm text-text-secondary">
           overlay : le tiroir glisse au-dessus · push : le contenu se décale (start/end) ·
-          depth : le contenu recule dans une frame sur fond noir (Depth Transition).
+          depth (combinable) : le contenu recule dans une frame sur fond noir (Depth Transition).
         </p>
         <div className="mt-auto">
           <Button.Root onClick={() => setOpen(true)}>Ouvrir le tiroir</Button.Root>
         </div>
       </div>
-      <Drawer open={open} onClose={() => setOpen(false)} side={side} effect={effect} aria-label="Tiroir de démonstration">
+      <Drawer open={open} onClose={() => setOpen(false)} side={side} effect={effect} depth={depth} aria-label="Tiroir de démonstration">
         <div className="flex flex-col gap-sm p-lg">
           <b className="text-text-primary">Tiroir modal</b>
           <p className="m-0 text-sm text-text-secondary">Voile · focus piégé · Échap ferme · retour du focus.</p>
@@ -458,14 +458,16 @@ export const GROUPS: Group[] = [
     items: [
       {
         key: "drawer", name: "Drawer",
+        fill: true, // comme AppLayout : le Frame remplit la case démo et l'aperçu plein écran
         controls: [
-          { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "bottom"] },
-          { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push", "depth"] },
+          { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "top", "bottom"] },
+          { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push"], disabled: (s) => s.side === "top" || s.side === "bottom" },
+          { k: "depth", type: "bool", label: "Depth" },
         ],
-        initial: { side: "start", effect: "overlay" },
-        render: (s) => <DrawerDemo side={s.side} effect={s.effect} />,
+        initial: { side: "start", effect: "overlay", depth: false },
+        render: (s) => <DrawerDemo side={s.side} effect={s.effect} depth={s.depth} />,
         code: (s) =>
-          `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`,
+          `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""}${s.depth ? " depth" : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`,
       },
       {
         key: "modal", name: "Modal",

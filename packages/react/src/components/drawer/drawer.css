@@ -1,16 +1,16 @@
 /**
  * Drawer — effets appliqués au CONTENU derrière le tiroir, via <Drawer.Frame> :
- *  - push  : le contenu se décale de la largeur du tiroir (côtés start/end uniquement) ;
- *  - depth : « Depth Transition » façon iOS — le contenu recule dans une frame arrondie
- *            sur fond noir pendant que le tiroir est actif.
+ *  - effect="push"  : le contenu se décale de la largeur du tiroir (côtés start/end uniquement) ;
+ *  - depth (booléen): « Depth Transition » façon iOS — le contenu recule (scale) dans une frame
+ *    arrondie sur fond noir. COMBINABLE avec overlay et push (les transforms se composent).
  * Le tiroir lui-même reste en overlay (il glisse au-dessus) ; seul le fond change.
- * Sans Frame autour, push/depth retombent silencieusement sur overlay.
+ * Sans Frame autour, effect/depth retombent silencieusement sur overlay simple.
  */
 .ds-drawer-frame {
   position: relative;
   overflow: hidden;
 }
-.ds-drawer-frame[data-effect="depth"] {
+.ds-drawer-frame[data-depth="true"] {
   background: #030712; /* fond noir de la Depth Transition */
 }
 .ds-drawer-frame__content {
@@ -21,6 +21,13 @@
     border-radius var(--duration-slow, 0.3s) var(--ease-out, ease-out);
 }
 
+/* DEPTH — le contenu recule dans une frame arrondie sur le fond noir */
+.ds-drawer-frame[data-open="true"][data-depth="true"] .ds-drawer-frame__content {
+  transform: scale(0.92);
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+}
+
 /* PUSH — le contenu se décale de la largeur du rail (start/end seulement) */
 .ds-drawer-frame[data-open="true"][data-effect="push"][data-side="start"] .ds-drawer-frame__content {
   transform: translateX(min(var(--rail-nav, 280px), 85%));
@@ -29,11 +36,12 @@
   transform: translateX(calc(-1 * min(var(--rail-nav, 280px), 85%)));
 }
 
-/* DEPTH — le contenu recule dans une frame arrondie sur le fond noir */
-.ds-drawer-frame[data-open="true"][data-effect="depth"] .ds-drawer-frame__content {
-  transform: scale(0.92);
-  border-radius: var(--radius-lg, 12px);
-  overflow: hidden;
+/* PUSH + DEPTH — les deux transforms se composent (décalage puis recul) */
+.ds-drawer-frame[data-open="true"][data-effect="push"][data-side="start"][data-depth="true"] .ds-drawer-frame__content {
+  transform: translateX(min(var(--rail-nav, 280px), 85%)) scale(0.92);
+}
+.ds-drawer-frame[data-open="true"][data-effect="push"][data-side="end"][data-depth="true"] .ds-drawer-frame__content {
+  transform: translateX(calc(-1 * min(var(--rail-nav, 280px), 85%))) scale(0.92);
 }
 
 @media (prefers-reduced-motion: reduce) {
