@@ -30,9 +30,35 @@
 }
 @media (prefers-reduced-motion: reduce) { .sw-shell-sidebar { transition: none; } }
 
-/* Rail droit (aside) : visible seulement à partir de desktop. */
-.sw-shell-aside { display: none; }
-@container sw-shell (min-width: 1280px) { .sw-shell-aside { display: block; } }
+/* Rail droit (aside) : fixe en flux dès desktop ; en dessous, off-canvas depuis la droite,
+   invocable par le FAB (.sw-shell-fab). MÊME mécanique mono-nœud que la sidebar : le nœud ne
+   se démonte jamais, les portails du consommateur (#section-tools) survivent aux bascules. */
+.sw-shell-aside {
+  position: absolute; inset-block: 0; right: 0; z-index: 40;
+  max-width: 85%;
+  transform: translateX(100%);
+  transition: transform var(--duration-base, .25s) var(--ease-out, ease-out);
+  /* dégagement : le FAB ne recouvre pas la dernière rangée du panneau ouvert */
+  padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+}
+.sw-shell-aside[data-open="true"] {
+  transform: translateX(0);
+  box-shadow: var(--elevation-overlay, 0 8px 24px rgb(0 0 0 / .12));
+}
+/* FAB : scopé au shell (absolute), comme la sidebar — pas au viewport. */
+.sw-shell-fab {
+  position: absolute; z-index: 40;
+  right: var(--space-md, 16px);
+  bottom: calc(var(--space-md, 16px) + env(safe-area-inset-bottom, 0px));
+}
+@container sw-shell (min-width: 1280px) {
+  .sw-shell-aside {
+    position: static; z-index: auto; max-width: none;
+    transform: none; box-shadow: none; padding-bottom: 0;
+  }
+  .sw-shell-fab, .sw-shell-aside-scrim { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .sw-shell-aside { transition: none; } }
 
 /* Padding du contenu : adaptatif à la LARGEUR DU SHELL (jamais au viewport) — serré en
    compact, généreux dès que le shell respire. */

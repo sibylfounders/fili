@@ -13,6 +13,9 @@ import "./app-layout.css";
  *   ≥ 1280 : sidebar + aside ;  1024–1280 : sidebar seule ;  < 1024 : off-canvas (Drawer).
  * REPLI : toggle = rail d'icônes ↔ étendu quand le shell est large (variant "docs" : masqué) ;
  *   quand le shell est étroit, le toggle ouvre l'off-canvas (fondation overlay).
+ * ASIDE < 1280 : le rail droit devient off-canvas, invocable par un FAB (bas droite,
+ *   RULES-button « un seul par écran ») — même mécanique CSS mono-nœud que la sidebar
+ *   (les portails du consommateur, ex. #section-tools, survivent : le nœud ne se démonte pas).
  */
 
 export type ShellVariant = "default" | "docs";
@@ -56,6 +59,17 @@ export interface AppLayoutProps {
 const IconPanel = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 3v18" />
+  </svg>
+);
+/* FAB de l'aside (réglages) : curseurs — ouvert, il devient une croix (fermer). */
+const IconSliders = (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="10" x2="4" y2="3" /><line x1="12" y1="21" x2="12" y2="12" /><line x1="12" y1="8" x2="12" y2="3" /><line x1="20" y1="21" x2="20" y2="16" /><line x1="20" y1="12" x2="20" y2="3" /><line x1="1" y1="14" x2="7" y2="14" /><line x1="9" y1="8" x2="15" y2="8" /><line x1="17" y1="16" x2="23" y2="16" />
+  </svg>
+);
+const IconClose = (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M18 6 6 18" /><path d="m6 6 12 12" />
   </svg>
 );
 
@@ -157,8 +171,10 @@ export function AppLayout({
   const groups = React.useMemo(() => toGroups(nav), [nav]);
   const [collapsed, setCollapsed] = React.useState(!!defaultCollapsed);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [asideOpen, setAsideOpen] = React.useState(false);
   const [rootRef, width] = useWidth();
   const isWide = width === 0 ? true : width >= 1024; // seuil sidebar (container)
+  const isDesktop = width === 0 ? true : width >= 1280; // seuil aside (container)
   const docs = variant === "docs";
   const bounded = boundedContent ?? docs;
 
@@ -169,12 +185,17 @@ export function AppLayout({
   const railCollapsed = collapsed && isWide && !docs && !hasCustomSidebar;
   const onToggle = () => { if (!isWide) setMobileOpen(true); else setCollapsed((c) => !c); };
   React.useEffect(() => { if (isWide) setMobileOpen(false); }, [isWide]);
+  React.useEffect(() => { if (isDesktop) setAsideOpen(false); }, [isDesktop]);
   React.useEffect(() => {
-    if (!mobileOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
+    if (!mobileOpen && !asideOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMobileOpen(false);
+      setAsideOpen(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [mobileOpen]);
+  }, [mobileOpen, asideOpen]);
   const sidebarNode = (rail: boolean) =>
     sidebar ?? <SidebarBody brand={brand} brandMark={brandMark} groups={groups} collapsed={rail} footer={sidebarFooter} />;
 
@@ -253,12 +274,37 @@ export function AppLayout({
             <div className={cn(contentPadding && "sw-shell-main-pad", bounded && "mx-auto w-full max-w-[880px]")}>{children}</div>
           </main>
           {aside ? (
-            <aside aria-label={asideLabel} className="sw-shell-aside w-rail-tools shrink-0 overflow-y-auto border-l border-border bg-surface">
+            <aside
+              data-open={asideOpen ? "true" : "false"}
+              aria-label={asideLabel}
+              className="sw-shell-aside w-rail-tools shrink-0 overflow-y-auto overscroll-contain border-l border-border bg-surface"
+            >
               {aside}
             </aside>
           ) : null}
         </div>
       </div>
+
+      {/* Scrim + FAB de l'aside (shell < desktop uniquement — masqués en CSS au-delà).
+          Un seul FAB par écran (RULES-button) ; ouvert, il devient le bouton de fermeture. */}
+      {aside && asideOpen ? (
+        <div className="sw-shell-aside-scrim absolute inset-0 z-30 bg-scrim" aria-hidden="true" onClick={() => setAsideOpen(false)} />
+      ) : null}
+      {aside ? (
+        <button
+          type="button"
+          onClick={() => setAsideOpen((o) => !o)}
+          aria-label={asideOpen ? `Fermer : ${asideLabel}` : `Ouvrir : ${asideLabel}`}
+          aria-expanded={asideOpen}
+          className={cn(
+            "sw-shell-fab flex h-[52px] w-[52px] items-center justify-center rounded-full bg-primary text-on-primary shadow-overlay",
+            "transition-colors duration-fast ease-out hover:bg-primary-hover",
+            "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+          )}
+        >
+          {asideOpen ? IconClose : IconSliders}
+        </button>
+      ) : null}
     </div>
   );
 }
