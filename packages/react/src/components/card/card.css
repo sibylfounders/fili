@@ -32,37 +32,7 @@
   }
 }
 
-/* ── Relief = signal, jamais décor (INTERACTION-UX.md, loi n°4 "la profondeur explique une
-   couche") ── Le SEUL composant du système qui gagne un relief, et seulement au hover/focus
-   d'une carte clickable — jamais au repos, jamais sur static/selectable/expandable.
-   Technique DS-MD (note motion de CARD-UI.md) : une ombre PRÉ-RENDUE sur un pseudo-élément,
-   animée en OPACITÉ — jamais un box-shadow interpolé (coûteux, saccadé). */
-.ds-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--elevation-raised);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--duration-fast) var(--ease-out);
-}
-.ds-card[data-mode="clickable"]:hover::before,
-.ds-card[data-mode="clickable"]:focus-within::before {
-  opacity: 1;
-}
-
-/* Le lien de titre reste un vrai Link. Sa cible s'étend à la surface entière ; les actions
-   internes portent z-index:1 dans le composant React et restent donc indépendantes. */
-.ds-card-title-link::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ds-card::before {
-    transition-duration: 0s;
-  }
-}
+/* ── Relief au hover + lien étendu : DÉMÉNAGÉS dans la couche partagée du langage
+   Interaction (lib/interaction.css — .ds-interactive / .ds-interactive-target), dont Card
+   est le premier consommateur (arbitrage 2026-07-29, INTERACTION-R26…R28 / U09…U11).
+   Ce fichier ne garde que ce qui est PROPRE à Card : le conteneur de requête Adaptive. */

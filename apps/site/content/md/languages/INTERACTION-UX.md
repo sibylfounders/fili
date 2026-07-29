@@ -2,8 +2,8 @@
 component: interaction
 layer: ux
 type: language
-version: 1.1.0 # 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — langage d'interaction fondé sur l'affordance honnête : reconnaître le rôle avant de lire, sans imposer une esthétique décorative
-last_updated: 2026-07-20
+version: 1.2.0 # 1.2.0 : le mode d'interaction (static/clickable/selectable/expandable) devient un axe transversal des surfaces-conteneurs (R26-R28) — promu depuis Card, qui n'en est plus que le premier consommateur. 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — langage d'interaction fondé sur l'affordance honnête : reconnaître le rôle avant de lire, sans imposer une esthétique décorative
+last_updated: 2026-07-29
 companion: INTERACTION-UI.md
 confidence: mixed # les obligations d'accessibilité et de cohérence sont établies ; la matérialité tactile sobre est une décision d'identité interne
 ---
@@ -171,6 +171,29 @@ SOURCE : S5, S6
 compréhension dépendante d'effets fragiles, coûteux ou insuffisamment contrastés. Un usage ponctuel
 reste possible hors composant si l'accessibilité et la performance sont démontrées.
 
+## Le mode d'interaction des surfaces
+
+> Né dans Card (axe `interaction_mode` de CARD-UX), promu ici le 2026-07-29 : static,
+> clickable, selectable et expandable décrivent ce que promet TOUTE surface qui organise du
+> contenu — carte, ligne de liste, tuile, carte de statistique — pas une propriété de Card.
+
+RÈGLE [INTERACTION-R26] : le mode d'interaction est un axe transversal des surfaces-conteneurs.
+STATUT : parti pris d'identité
+SOURCE : interne, S7
+ÉNONCÉ : Le mode d'interaction — static, clickable, selectable, expandable — est un axe transversal du langage : toute surface qui organise du contenu déclare ce qu'elle promet à travers ce mode, et le mode décrit un comportement, jamais un style.
+
+RÈGLE [INTERACTION-R27] : le mode appartient aux surfaces-conteneurs, jamais aux contrôles.
+STATUT : parti pris d'identité
+SOURCE : S5, S7
+ÉNONCÉ : Le mode d'interaction s'applique aux surfaces qui organisent du contenu et jamais aux contrôles, dont l'intention est intrinsèque ; généraliser le mode cliquable diluerait le signal du relief, qui ne reste lisible que parce qu'il est rare.
+MESURE : aucun contrôle (bouton, lien, champ, sélecteur) ne porte l'axe mode ; le relief de survol n'existe que sur une surface déclarée clickable
+
+RÈGLE [INTERACTION-R28] : un même mode porte les mêmes signaux sur toutes les surfaces.
+STATUT : propriété universelle
+SOURCE : S1, S7, S10
+ÉNONCÉ : Deux surfaces de même mode se reconnaissent aux mêmes signaux dans tout le produit : clickable expose une cible réelle atteignable au clavier et ne gagne son relief qu'au survol ou au focus, selectable expose son état de sélection par un canal non chromatique en plus de la couleur, expandable porte son état d'ouverture par l'orientation d'un indicateur, et static ne réagit pas.
+MESURE : toute surface clickable expose un élément interactif natif ; toute surface selectable expose son état programmatiquement et par un signal non chromatique
+
 ## Cohérence et variation
 
 RÈGLE [INTERACTION-R19] : un même rôle conserve ses signaux essentiels dans tous les contextes. Une action principale
@@ -266,3 +289,4 @@ une meilleure sémantique ou une meilleure structure.
 - Tester la reconnaissance Button / Link / Input / Card en maquette désaturée et sans hover.
 - Éprouver la sensation tactile sur pointer fin, tactile et clavier sans créer de latence perceptible.
 - Étendre le contrat aux futurs sélecteurs (checkbox, radio, switch, segmented control).
+- Migrer les autres surfaces-conteneurs existantes (StatCard de la bibliothèque de charts, groupes de cartes) vers l'axe mode partagé (R26).

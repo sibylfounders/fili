@@ -2,8 +2,8 @@
 component: interaction
 layer: ui
 type: language
-version: 1.1.0 # 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — grammaire technique d'affordance ; compose les tokens existants sans créer un thème d'effets
-last_updated: 2026-07-20
+version: 1.2.0 # 1.2.0 : implémentation de référence du mode d'interaction en couche partagée unique (U09-U11) — relief pré-rendu animé en opacité, lien étendu, extraction depuis Card. 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — grammaire technique d'affordance ; compose les tokens existants sans créer un thème d'effets
+last_updated: 2026-07-29
 companion: INTERACTION-UX.md
 tokens:
   action:
@@ -85,6 +85,29 @@ faire disparaître la limite au point de confondre le contrôle avec le contenu.
 - **Profondeur** : uniquement selon `ELEVATION-UI.md` ; aucune ombre de repos ajoutée ici.
 - **Mouvement** : `motion.fast` pour hover/press/focus ; techniques de `MOTION-UI.md`.
 - **Focus** : `outline` et offset selon `BORDER-UI.md`, jamais une border qui déplace le contenu.
+
+## Le mode d'interaction — implémentation de référence
+
+> Traduction des règles R26–R28 d'INTERACTION-UX : la couche partagée `ds-interactive`
+> (lib/interaction dans l'implémentation de référence), extraite de Card le 2026-07-29.
+
+RÈGLE [INTERACTION-U09] : une couche partagée unique implémente le mode, quel que soit le composant hôte.
+STATUT : implémentation de référence
+SOURCE : T4
+ÉNONCÉ : Le mode d'interaction est rendu par une couche partagée unique — attribut de mode sur la racine, curseur, relief et cible étendue communs — que chaque surface-conteneur consomme au lieu de réimplémenter les signaux localement.
+MESURE : les signaux du mode (curseur, relief de survol, cible étendue) proviennent de la couche partagée et ne sont pas redéfinis par le composant hôte
+
+RÈGLE [INTERACTION-U10] : le relief du mode clickable est pré-rendu et animé en opacité, au survol et au focus seulement.
+STATUT : implémentation de référence
+SOURCE : T4, T9
+ÉNONCÉ : Le relief d'une surface clickable est une ombre pré-rendue sur un pseudo-élément et animée en opacité, visible uniquement au survol et au focus interne ; aucune surface ne porte d'ombre de repos et aucun box-shadow n'est interpolé.
+MESURE : au repos, l'ombre de la surface est d'opacité nulle ; la transition d'apparition porte sur opacity, jamais sur box-shadow
+
+RÈGLE [INTERACTION-U11] : la cible réelle d'une surface clickable est un lien étendu ; les actions internes restent des voisins.
+STATUT : implémentation de référence
+SOURCE : T3
+ÉNONCÉ : La cible réelle d'une surface clickable est un vrai lien dont un pseudo-élément étend la zone d'activation à toute la surface ; les actions internes sont des voisins positionnés au-dessus, jamais des descendants du lien.
+MESURE : le lien étendu est l'élément annoncé par les technologies d'assistance ; aucune action interne n'est descendante du lien
 
 ## Robustesse
 

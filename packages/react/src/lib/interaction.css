@@ -1,0 +1,43 @@
+/**
+ * Couche partagée du langage Interaction — le MODE d'une surface-conteneur
+ * (INTERACTION-R26…R28 / U09…U11). Card est le premier consommateur ; toute surface qui
+ * organise du contenu (ligne de liste, tuile, carte de stat) consomme CETTE couche au lieu
+ * de réimplémenter les signaux localement (U09).
+ *
+ * Relief = signal, jamais décor (INTERACTION-R11/U10) : ombre PRÉ-RENDUE sur un
+ * pseudo-élément, animée en OPACITÉ — jamais un box-shadow interpolé — visible uniquement
+ * au survol/focus d'une surface clickable. Jamais d'ombre de repos.
+ */
+.ds-interactive {
+  isolation: isolate;
+}
+.ds-interactive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-raised);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+.ds-interactive[data-mode="clickable"]:hover::before,
+.ds-interactive[data-mode="clickable"]:focus-within::before {
+  opacity: 1;
+}
+
+/* La cible réelle d'une surface clickable : un VRAI lien dont le pseudo-élément étend la
+   zone à toute la surface (U11). Les actions internes restent des SIBLINGS positionnés
+   au-dessus (z-index), jamais des descendants du lien. */
+.ds-interactive-target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-interactive::before {
+    transition-duration: 0s;
+  }
+}

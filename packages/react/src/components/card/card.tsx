@@ -5,6 +5,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import { INTERACTION_MODE_CURSOR, type InteractionMode } from "../../lib/interaction";
 import { LinkRoot } from "../link/link";
 import "./card.css";
 
@@ -37,7 +38,10 @@ import "./card.css";
  * — deux autorités qui ne se mélangent jamais (ADAPTIVE-UX.md).
  */
 
-type CardInteractionMode = "static" | "clickable" | "selectable" | "expandable";
+// L'axe mode n'appartient plus à Card : c'est l'axe transversal du langage Interaction
+// (lib/interaction — INTERACTION-R26…R28, arbitrage 2026-07-29). Card en est le premier
+// consommateur ; l'alias reste exporté pour l'API existante.
+type CardInteractionMode = InteractionMode;
 type CardDensity = "comfortable" | "compact";
 
 const CardContext = React.createContext<{ mode: CardInteractionMode; density: CardDensity }>({
@@ -53,14 +57,9 @@ const rootVariants = cva(
   ].join(" "),
   {
     variants: {
-      mode: {
-        static: "",
-        // Le curseur annonce l'affordance ; le relief (::before, card.css) ne réagit qu'au
-        // hover/focus — jamais au repos. Voir « Relief = signal » dans la docstring.
-        clickable: "cursor-pointer",
-        selectable: "cursor-pointer",
-        expandable: "",
-      },
+      // Le curseur annonce l'affordance ; le relief (::before, lib/interaction.css) ne
+      // réagit qu'au hover/focus — jamais au repos. Voir « Relief = signal » dans la docstring.
+      mode: INTERACTION_MODE_CURSOR,
       density: {
         comfortable: "",
         compact: "",
@@ -112,6 +111,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
           data-regular-capable={adaptiveMedia || undefined}
           className={cn(
             "ds-card", // conteneur de requête ; la surface adaptative est son enfant
+            "ds-interactive", // couche partagée du mode (lib/interaction.css)
             rootVariants({ mode: resolvedMode, density: resolvedDensity }),
             className,
           )}
@@ -215,7 +215,7 @@ const CardTitleLink = React.forwardRef<HTMLAnchorElement, CardTitleLinkProps>(
       ref={ref}
       href={href}
       context="standalone"
-      className={cn("ds-card-title-link", className)}
+      className={cn("ds-card-title-link ds-interactive-target", className)}
       {...props}
     />
   ),

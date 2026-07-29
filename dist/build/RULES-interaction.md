@@ -2,10 +2,10 @@
 sujet: interaction
 nature: languages
 resume: "Ce langage définit comment un élément communique son **rôle** avant même que son libellé soit"
-selon-contexte: [adaptive, border, button, elevation, motion]
-source: INTERACTION-UX.md v1.1.0 + INTERACTION-UI.md v1.1.0
-empreinte: sha256:342cae56181eaa03
-regles: {loi: 19, preference: 13, non_qualifie: 0}
+selon-contexte: [adaptive, border, button, card, elevation, motion]
+source: INTERACTION-UX.md v1.2.0 + INTERACTION-UI.md v1.2.0
+empreinte: sha256:a7f843022d74b7c9
+regles: {loi: 20, preference: 18, non_qualifie: 0}
 ---
 # RULES — interaction (compilé, mode build)
 
@@ -37,6 +37,9 @@ regles: {loi: 19, preference: 13, non_qualifie: 0}
 - **[préférence]** Un effet visuel n'est conservé que s'il répond à une question vérifiable sur l'élément : est-il manipulable, reçoit-il une information, organise-t-il du contenu, appartient-il à une couche temporaire, son état vient-il de changer. `INTERACTION-R16`
 - **[préférence]** Un effet qui ne répond à aucune de ces questions est décoratif et ne fait pas partie du langage d'interaction. `INTERACTION-R17`
 - **[préférence]** Le neumorphisme et le glassmorphism ne sont pas des langages par défaut du système, parce qu'ils font dépendre la compréhension d'effets fragiles, coûteux et insuffisamment contrastés ; un usage ponctuel hors composant reste possible si l'accessibilité et la performance sont démontrées. `INTERACTION-R18`
+- **[préférence]** Le mode d'interaction — static, clickable, selectable, expandable — est un axe transversal du langage : toute surface qui organise du contenu déclare ce qu'elle promet à travers ce mode, et le mode décrit un comportement, jamais un style. `INTERACTION-R26`
+- **[préférence]** Le mode d'interaction s'applique aux surfaces qui organisent du contenu et jamais aux contrôles, dont l'intention est intrinsèque ; généraliser le mode cliquable diluerait le signal du relief, qui ne reste lisible que parce qu'il est rare. `INTERACTION-R27`
+- **[loi]** Deux surfaces de même mode se reconnaissent aux mêmes signaux dans tout le produit : clickable expose une cible réelle atteignable au clavier et ne gagne son relief qu'au survol ou au focus, selectable expose son état de sélection par un canal non chromatique en plus de la couleur, expandable porte son état d'ouverture par l'orientation d'un indicateur, et static ne réagit pas. `INTERACTION-R28`
 - **[loi]** Un même rôle conserve ses signaux essentiels dans tous les contextes : une action principale peut changer de taille ou de disposition, elle reste identifiable comme action. `INTERACTION-R19`
 - **[loi]** L'adaptation à l'espace disponible ne change jamais la nature du résultat : elle peut réorganiser, condenser ou révéler progressivement, mais elle ne transforme pas une navigation en action. `INTERACTION-R20`
 - **[préférence]** La cohérence n'est pas l'uniformité : les rôles qui font des promesses différentes reçoivent des expressions différentes. `INTERACTION-R21`
@@ -51,6 +54,9 @@ regles: {loi: 19, preference: 13, non_qualifie: 0}
 - **[préférence]** L'état d'activation peut réduire un décalage ou une ombre déjà justifiée pour donner une sensation de pression ; il ne crée pas d'ombre de repos nouvelle et ne déplace jamais la mise en page. `INTERACTION-U03`
 - **[préférence]** L'indicateur de focus est construit sur la géométrie de largeur et de décalage définie par la fondation de bordure, sa couleur appartient au composant propriétaire, et aucun effet tactile ne le remplace. `INTERACTION-U04`
 - **[préférence]** Un contrôle indisponible conserve une forme et un rôle perceptibles : la baisse de contraste ne va jamais jusqu'à faire disparaître la limite qui le distingue du contenu. `INTERACTION-U05`
+- **[préférence]** Le mode d'interaction est rendu par une couche partagée unique — attribut de mode sur la racine, curseur, relief et cible étendue communs — que chaque surface-conteneur consomme au lieu de réimplémenter les signaux localement. `INTERACTION-U09`
+- **[préférence]** Le relief d'une surface clickable est une ombre pré-rendue sur un pseudo-élément et animée en opacité, visible uniquement au survol et au focus interne ; aucune surface ne porte d'ombre de repos et aucun box-shadow n'est interpolé. `INTERACTION-U10`
+- **[préférence]** La cible réelle d'une surface clickable est un vrai lien dont un pseudo-élément étend la zone d'activation à toute la surface ; les actions internes sont des voisins positionnés au-dessus, jamais des descendants du lien. `INTERACTION-U11`
 - **[loi]** En mode de couleurs forcées, les bordures, l'indicateur de focus et la sémantique native survivent même lorsque les fonds, les ombres et les reflets sont neutralisés par le système. `INTERACTION-U06`
 - **[loi]** Sous un pointeur incapable de survoler, aucune information ni aucune action n'est masquée : le style de survol n'est qu'un renforcement facultatif. `INTERACTION-U07`
 - **[loi]** Une implémentation tactile n'intercepte pas les événements natifs du contrôle et respecte l'annulation du pointeur : l'action se déclenche au relâchement sur la cible, et sortir de la cible avant de relâcher l'annule. `INTERACTION-U08`

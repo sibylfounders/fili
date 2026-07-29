@@ -1494,6 +1494,169 @@
    "cas": []
   },
   {
+   "id": "INTERACTION-R26",
+   "couche": "ux",
+   "solution": "le mode d'interaction est un axe transversal des surfaces-conteneurs.",
+   "enonce": "Le mode d'interaction — static, clickable, selectable, expandable — est un axe transversal du langage : toute surface qui organise du contenu déclare ce qu'elle promet à travers ce mode, et le mode décrit un comportement, jamais un style.",
+   "mesure": "",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": true,
+   "sources": [
+    {
+     "ref": "S7",
+     "affirmation": "Les actions d'un bouton sont distinctes de la fonction d'un lien ; quand un élément ressemble à un lien mais agit comme un bouton, la bonne réponse est d'ajuster le dessin pour qu'il corresponde à la fonction et au rôle, et un rôle déclaré est une promesse d'implémenter les interactions clavier attendues (Entrée et Espace activent le bouton)",
+     "liens": [
+      {
+       "label": "WAI-ARIA Authoring Practices — Button Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+      },
+      {
+       "label": "APG — Read Me First",
+       "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+      }
+     ],
+     "confiance": "Établi, pratique de référence du W3C — **source normative directe de R04, R05, R07 et R10, jusqu'ici données comme des convictions internes**"
+    }
+   ],
+   "principale": {
+    "ref": "S7",
+    "affirmation": "Les actions d'un bouton sont distinctes de la fonction d'un lien ; quand un élément ressemble à un lien mais agit comme un bouton, la bonne réponse est d'ajuster le dessin pour qu'il corresponde à la fonction et au rôle, et un rôle déclaré est une promesse d'implémenter les interactions clavier attendues (Entrée et Espace activent le bouton)",
+    "liens": [
+     {
+      "label": "WAI-ARIA Authoring Practices — Button Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+     },
+     {
+      "label": "APG — Read Me First",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+     }
+    ],
+    "confiance": "Établi, pratique de référence du W3C — **source normative directe de R04, R05, R07 et R10, jusqu'ici données comme des convictions internes**"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "INTERACTION-R27",
+   "couche": "ux",
+   "solution": "le mode appartient aux surfaces-conteneurs, jamais aux contrôles.",
+   "enonce": "Le mode d'interaction s'applique aux surfaces qui organisent du contenu et jamais aux contrôles, dont l'intention est intrinsèque ; généraliser le mode cliquable diluerait le signal du relief, qui ne reste lisible que parce qu'il est rare.",
+   "mesure": "aucun contrôle (bouton, lien, champ, sélecteur) ne porte l'axe mode ; le relief de survol n'existe que sur une surface déclarée clickable",
+   "contre": "",
+   "probleme": "",
+   "statut": "identite",
+   "statutLibelle": "parti pris d'identité",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S5",
+     "affirmation": "Matérialité fonctionnelle sobre et tactile",
+     "liens": [
+      {
+       "label": "Décision d'identité interne, 2026-07-20",
+       "url": null
+      }
+     ],
+     "confiance": "À éprouver par tests utilisateurs"
+    },
+    {
+     "ref": "S7",
+     "affirmation": "Les actions d'un bouton sont distinctes de la fonction d'un lien ; quand un élément ressemble à un lien mais agit comme un bouton, la bonne réponse est d'ajuster le dessin pour qu'il corresponde à la fonction et au rôle, et un rôle déclaré est une promesse d'implémenter les interactions clavier attendues (Entrée et Espace activent le bouton)",
+     "liens": [
+      {
+       "label": "WAI-ARIA Authoring Practices — Button Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+      },
+      {
+       "label": "APG — Read Me First",
+       "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+      }
+     ],
+     "confiance": "Établi, pratique de référence du W3C — **source normative directe de R04, R05, R07 et R10, jusqu'ici données comme des convictions internes**"
+    }
+   ],
+   "principale": {
+    "ref": "S5",
+    "affirmation": "Matérialité fonctionnelle sobre et tactile",
+    "liens": [
+     {
+      "label": "Décision d'identité interne, 2026-07-20",
+      "url": null
+     }
+    ],
+    "confiance": "À éprouver par tests utilisateurs"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "INTERACTION-R28",
+   "couche": "ux",
+   "solution": "un même mode porte les mêmes signaux sur toutes les surfaces.",
+   "enonce": "Deux surfaces de même mode se reconnaissent aux mêmes signaux dans tout le produit : clickable expose une cible réelle atteignable au clavier et ne gagne son relief qu'au survol ou au focus, selectable expose son état de sélection par un canal non chromatique en plus de la couleur, expandable porte son état d'ouverture par l'orientation d'un indicateur, et static ne réagit pas.",
+   "mesure": "toute surface clickable expose un élément interactif natif ; toute surface selectable expose son état programmatiquement et par un signal non chromatique",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S1",
+     "affirmation": "Le rôle et les résultats attendus doivent être cohérents pour des composants identifiés de la même manière",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.2.4 Consistent Identification",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification"
+      }
+     ],
+     "confiance": "Établi"
+    },
+    {
+     "ref": "S7",
+     "affirmation": "Les actions d'un bouton sont distinctes de la fonction d'un lien ; quand un élément ressemble à un lien mais agit comme un bouton, la bonne réponse est d'ajuster le dessin pour qu'il corresponde à la fonction et au rôle, et un rôle déclaré est une promesse d'implémenter les interactions clavier attendues (Entrée et Espace activent le bouton)",
+     "liens": [
+      {
+       "label": "WAI-ARIA Authoring Practices — Button Pattern",
+       "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/"
+      },
+      {
+       "label": "APG — Read Me First",
+       "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+      }
+     ],
+     "confiance": "Établi, pratique de référence du W3C — **source normative directe de R04, R05, R07 et R10, jusqu'ici données comme des convictions internes**"
+    },
+    {
+     "ref": "S10",
+     "affirmation": "Toute fonctionnalité du contenu est opérable par une interface clavier, sans exiger de synchronisation particulière des frappes",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 2.1.1 Keyboard",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html"
+      }
+     ],
+     "confiance": "Établi, standard d'accessibilité (niveau A) — fonde R10 (cible réelle) et R22"
+    }
+   ],
+   "principale": {
+    "ref": "S1",
+    "affirmation": "Le rôle et les résultats attendus doivent être cohérents pour des composants identifiés de la même manière",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 3.2.4 Consistent Identification",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification"
+     }
+    ],
+    "confiance": "Établi"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
    "id": "INTERACTION-R19",
    "couche": "ux",
    "solution": "un même rôle conserve ses signaux essentiels dans tous les contextes. Une action principale",
@@ -2024,6 +2187,131 @@
      }
     ],
     "confiance": "Établi, standard (AA) — fonde U01 ; **l'exemption des composants inactifs montre que U05 est plus exigeant que la norme, donc un parti pris et non une obligation**"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "INTERACTION-U09",
+   "couche": "ui",
+   "solution": "une couche partagée unique implémente le mode, quel que soit le composant hôte.",
+   "enonce": "Le mode d'interaction est rendu par une couche partagée unique — attribut de mode sur la racine, curseur, relief et cible étendue communs — que chaque surface-conteneur consomme au lieu de réimplémenter les signaux localement.",
+   "mesure": "les signaux du mode (curseur, relief de survol, cible étendue) proviennent de la couche partagée et ne sont pas redéfinis par le composant hôte",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T4",
+     "affirmation": "Matrice visuelle action/réceptacle/surface",
+     "liens": [
+      {
+       "label": "Décision interne issue d'INTERACTION-UX.md",
+       "url": null
+      }
+     ],
+     "confiance": "À éprouver"
+    }
+   ],
+   "principale": {
+    "ref": "T4",
+    "affirmation": "Matrice visuelle action/réceptacle/surface",
+    "liens": [
+     {
+      "label": "Décision interne issue d'INTERACTION-UX.md",
+      "url": null
+     }
+    ],
+    "confiance": "À éprouver"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "INTERACTION-U10",
+   "couche": "ui",
+   "solution": "le relief du mode clickable est pré-rendu et animé en opacité, au survol et au focus seulement.",
+   "enonce": "Le relief d'une surface clickable est une ombre pré-rendue sur un pseudo-élément et animée en opacité, visible uniquement au survol et au focus interne ; aucune surface ne porte d'ombre de repos et aucun box-shadow n'est interpolé.",
+   "mesure": "au repos, l'ombre de la surface est d'opacité nulle ; la transition d'apparition porte sur opacity, jamais sur box-shadow",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T4",
+     "affirmation": "Matrice visuelle action/réceptacle/surface",
+     "liens": [
+      {
+       "label": "Décision interne issue d'INTERACTION-UX.md",
+       "url": null
+      }
+     ],
+     "confiance": "À éprouver"
+    },
+    {
+     "ref": "T9",
+     "affirmation": "L'information visuelle nécessaire pour identifier un composant d'interface et ses états atteint 3:1 avec les couleurs adjacentes ; les composants inactifs sont explicitement exemptés de cette exigence",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 1.4.11 Non-text Contrast",
+       "url": "https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html"
+      }
+     ],
+     "confiance": "Établi, standard (AA) — fonde U01 ; **l'exemption des composants inactifs montre que U05 est plus exigeant que la norme, donc un parti pris et non une obligation**"
+    }
+   ],
+   "principale": {
+    "ref": "T4",
+    "affirmation": "Matrice visuelle action/réceptacle/surface",
+    "liens": [
+     {
+      "label": "Décision interne issue d'INTERACTION-UX.md",
+      "url": null
+     }
+    ],
+    "confiance": "À éprouver"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "INTERACTION-U11",
+   "couche": "ui",
+   "solution": "la cible réelle d'une surface clickable est un lien étendu ; les actions internes restent des voisins.",
+   "enonce": "La cible réelle d'une surface clickable est un vrai lien dont un pseudo-élément étend la zone d'activation à toute la surface ; les actions internes sont des voisins positionnés au-dessus, jamais des descendants du lien.",
+   "mesure": "le lien étendu est l'élément annoncé par les technologies d'assistance ; aucune action interne n'est descendante du lien",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "T3",
+     "affirmation": "Utiliser les éléments natifs pour leur rôle",
+     "liens": [
+      {
+       "label": "WAI-ARIA Authoring Practices — No ARIA is better than bad ARIA",
+       "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+      }
+     ],
+     "confiance": "Établi"
+    }
+   ],
+   "principale": {
+    "ref": "T3",
+    "affirmation": "Utiliser les éléments natifs pour leur rôle",
+    "liens": [
+     {
+      "label": "WAI-ARIA Authoring Practices — No ARIA is better than bad ARIA",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/"
+     }
+    ],
+    "confiance": "Établi"
    },
    "confiance": "",
    "cas": []

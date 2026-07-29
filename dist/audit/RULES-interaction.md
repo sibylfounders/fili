@@ -2,10 +2,10 @@
 sujet: interaction
 nature: languages
 resume: "Ce langage définit comment un élément communique son **rôle** avant même que son libellé soit"
-selon-contexte: [adaptive, border, button, elevation, motion]
-source: INTERACTION-UX.md v1.1.0 + INTERACTION-UI.md v1.1.0
-empreinte: sha256:342cae56181eaa03
-regles: {loi: 19, preference: 13, non_qualifie: 0}
+selon-contexte: [adaptive, border, button, card, elevation, motion]
+source: INTERACTION-UX.md v1.2.0 + INTERACTION-UI.md v1.2.0
+empreinte: sha256:a7f843022d74b7c9
+regles: {loi: 20, preference: 18, non_qualifie: 0}
 ---
 # RULES — interaction (compilé, mode audit)
 
@@ -56,6 +56,12 @@ regles: {loi: 19, preference: 13, non_qualifie: 0}
 - **[préférence]** Un effet visuel n'est conservé que s'il répond à une question vérifiable sur l'élément : est-il manipulable, reçoit-il une information, organise-t-il du contenu, appartient-il à une couche temporaire, son état vient-il de changer. `INTERACTION-R16`
 - **[préférence]** Un effet qui ne répond à aucune de ces questions est décoratif et ne fait pas partie du langage d'interaction. `INTERACTION-R17`
 - **[préférence]** Le neumorphisme et le glassmorphism ne sont pas des langages par défaut du système, parce qu'ils font dépendre la compréhension d'effets fragiles, coûteux et insuffisamment contrastés ; un usage ponctuel hors composant reste possible si l'accessibilité et la performance sont démontrées. `INTERACTION-R18`
+- **[préférence]** Le mode d'interaction — static, clickable, selectable, expandable — est un axe transversal du langage : toute surface qui organise du contenu déclare ce qu'elle promet à travers ce mode, et le mode décrit un comportement, jamais un style. `INTERACTION-R26`
+- **[préférence]** Le mode d'interaction s'applique aux surfaces qui organisent du contenu et jamais aux contrôles, dont l'intention est intrinsèque ; généraliser le mode cliquable diluerait le signal du relief, qui ne reste lisible que parce qu'il est rare. `INTERACTION-R27`
+  - vérifiable : aucun contrôle (bouton, lien, champ, sélecteur) ne porte l'axe mode ; le relief de survol n'existe que sur une surface déclarée clickable
+- **[loi]** Deux surfaces de même mode se reconnaissent aux mêmes signaux dans tout le produit : clickable expose une cible réelle atteignable au clavier et ne gagne son relief qu'au survol ou au focus, selectable expose son état de sélection par un canal non chromatique en plus de la couleur, expandable porte son état d'ouverture par l'orientation d'un indicateur, et static ne réagit pas. `INTERACTION-R28`
+  - vérifiable : toute surface clickable expose un élément interactif natif ; toute surface selectable expose son état programmatiquement et par un signal non chromatique
+  - source : https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification
 - **[loi]** Un même rôle conserve ses signaux essentiels dans tous les contextes : une action principale peut changer de taille ou de disposition, elle reste identifiable comme action. `INTERACTION-R19`
   - source : https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification
 - **[loi]** L'adaptation à l'espace disponible ne change jamais la nature du résultat : elle peut réorganiser, condenser ou révéler progressivement, mais elle ne transforme pas une navigation en action. `INTERACTION-R20`
