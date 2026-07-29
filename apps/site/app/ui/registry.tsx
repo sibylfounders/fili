@@ -674,25 +674,62 @@ export const GROUPS: Group[] = [
       {
         key: "input", name: "Input",
         controls: [
+          { k: "type", type: "seg", label: "field_type", opts: ["text", "email", "password", "search", "tel", "number", "url", "textarea"] },
           { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
           { k: "tone", type: "seg", opts: ["neutral", "error", "success", "warning"] },
-          { k: "icon", type: "bool", label: "Icône (leading)" },
-          { k: "placeholder", type: "text", label: "Placeholder" },
+          { k: "icon", type: "bool", label: "Icône (leading)", disabled: (s) => !["text", "email", "tel"].includes(s.type) },
           { k: "disabled", type: "bool", label: "Disabled" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { size: "md", tone: "neutral", icon: false, placeholder: "nom@domaine.fr", disabled: false, skeleton: false },
-        render: (s) => (
-          <div className="w-72">
-            <Input.Root size={s.size} tone={s.tone} loading={s.skeleton}>
-              <Input.Wrapper>
-                {s.icon ? <Input.Icon>{IC_MAIL}</Input.Icon> : null}
-                <Input.Input placeholder={s.placeholder} disabled={s.disabled} aria-label="Champ" />
-              </Input.Wrapper>
-            </Input.Root>
-          </div>
-        ),
-        code: (s) => `<Input.Root size="${s.size}" tone="${s.tone}"><Input.Wrapper>${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input placeholder="${s.placeholder}"${s.disabled ? " disabled" : ""} /></Input.Wrapper></Input.Root>`,
+        initial: { type: "text", size: "md", tone: "neutral", icon: false, disabled: false, skeleton: false },
+        render: (s) => {
+          const icon = s.icon && ["text", "email", "tel"].includes(s.type) ? <Input.Icon>{IC_MAIL}</Input.Icon> : null;
+          const field =
+            s.type === "password" ? (
+              <Input.Password placeholder="••••••••" disabled={s.disabled} aria-label="Mot de passe" />
+            ) : s.type === "search" ? (
+              <Input.Search placeholder="Rechercher…" disabled={s.disabled} aria-label="Rechercher" />
+            ) : s.type === "number" ? (
+              <Input.Number defaultValue={2} min={0} max={99} disabled={s.disabled} aria-label="Quantité" />
+            ) : s.type === "url" ? (
+              <>
+                <Input.InlineAffix>https://</Input.InlineAffix>
+                <Input.Input type="url" placeholder="sibyl.fr" disabled={s.disabled} aria-label="Adresse" />
+              </>
+            ) : (
+              <Input.Input
+                type={s.type}
+                placeholder={s.type === "email" ? "nom@domaine.fr" : s.type === "tel" ? "06 12 34 56 78" : "Votre texte"}
+                autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
+                disabled={s.disabled}
+                aria-label="Champ"
+              />
+            );
+          return (
+            <div className="w-72">
+              <Input.Root size={s.size} tone={s.tone} loading={s.skeleton}>
+                {s.type === "textarea" ? (
+                  <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label="Message" />
+                ) : (
+                  <Input.Wrapper>
+                    {icon}
+                    {field}
+                  </Input.Wrapper>
+                )}
+              </Input.Root>
+            </div>
+          );
+        },
+        code: (s) => {
+          const root = (inner: string) => `<Input.Root size="${s.size}" tone="${s.tone}">${inner}</Input.Root>`;
+          if (s.type === "textarea") return root(`<Input.Textarea placeholder="\u2026" rows={3} />`);
+          const wrap = (inner: string) => root(`<Input.Wrapper>${inner}</Input.Wrapper>`);
+          if (s.type === "password") return wrap(`<Input.Password aria-label="Mot de passe" />`);
+          if (s.type === "search") return wrap(`<Input.Search placeholder="Rechercher\u2026" aria-label="Rechercher" />`);
+          if (s.type === "number") return wrap(`<Input.Number min={0} max={99} aria-label="Quantité" />`);
+          if (s.type === "url") return wrap(`<Input.InlineAffix>https://</Input.InlineAffix><Input.Input type="url" />`);
+          return wrap(`${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input type="${s.type}"${s.type === "email" ? ' autoComplete="email"' : s.type === "tel" ? ' autoComplete="tel"' : ""}${s.disabled ? " disabled" : ""} />`);
+        },
       },
       {
         key: "compact", name: "CompactButton",

@@ -186,6 +186,201 @@ function InputInlineAffix({ className, ...props }: React.HTMLAttributes<HTMLSpan
   return <span className={cn("shrink-0 select-none text-base text-text-secondary", className)} {...props} />;
 }
 
+/* ════ field_type — les natures de contenu qui exigent une MÉCANIQUE (DS-MD INPUT :
+   le 3e axe est le type HTML NATIF, jamais un text déguisé — le type pilote le clavier
+   mobile, la validation native et l'autofill). email/tel/url se composent avec l'API
+   existante (Icon, Affix, InlineAffix) ; ci-dessous les quatre qui demandent plus. ════ */
+
+const IconEye = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+);
+const IconEyeOff = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10.7 5.1A10.9 10.9 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-2.1 3M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a10.7 10.7 0 0 0 5.4-1.4" /><path d="M9.9 9.9a3 3 0 1 0 4.2 4.2" /><path d="m2 2 20 20" /></svg>
+);
+const IconLoupe = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+);
+const IconX = (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+);
+
+/** Petit bouton utilitaire interne au champ (toggle, clear, steppers) — jamais dans l'ordre
+ *  de lecture avant le champ, focus ring du système, mousedown neutralisé pour ne pas voler
+ *  le focus au champ. */
+function FieldButton({ className, onMouseDown, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => {
+        e.preventDefault(); // le focus reste dans le champ
+        onMouseDown?.(e);
+      }}
+      className={cn(
+        "flex size-6 shrink-0 items-center justify-center rounded-sm text-text-secondary transition-colors duration-fast ease-out",
+        "hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50",
+        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "[&>svg]:size-4",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/** Déclenche l'onChange React après une mutation programmatique de la valeur native. */
+function setNativeValue(el: HTMLInputElement, value: string) {
+  const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+  setter?.call(el, value);
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+/* ── Password : champ + toggle afficher/masquer ────────────────────────────── */
+export interface InputPasswordProps extends InputFieldProps {
+  /** Visible en clair au montage (défaut : masqué). */
+  defaultVisible?: boolean;
+}
+const InputPassword = React.forwardRef<HTMLInputElement, InputPasswordProps>(
+  ({ defaultVisible = false, autoComplete = "current-password", ...props }, ref) => {
+    const [visible, setVisible] = React.useState(defaultVisible);
+    return (
+      <>
+        <InputField ref={ref} {...props} type={visible ? "text" : "password"} autoComplete={autoComplete} />
+        <FieldButton
+          aria-label={visible ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          aria-pressed={visible}
+          onClick={() => setVisible((v) => !v)}
+        >
+          {visible ? IconEyeOff : IconEye}
+        </FieldButton>
+      </>
+    );
+  },
+);
+InputPassword.displayName = "Input.Password";
+
+/* ── Search : loupe + champ type search + effacement (croix, visible si non vide) ── */
+const InputSearch = React.forwardRef<HTMLInputElement, InputFieldProps>(
+  ({ onChange, className, ...props }, forwardedRef) => {
+    const innerRef = React.useRef<HTMLInputElement | null>(null);
+    const [hasValue, setHasValue] = React.useState(!!(props.value ?? props.defaultValue));
+    React.useEffect(() => {
+      if (props.value !== undefined) setHasValue(String(props.value) !== "");
+    }, [props.value]);
+    const setRefs = (el: HTMLInputElement | null) => {
+      innerRef.current = el;
+      if (typeof forwardedRef === "function") forwardedRef(el);
+      else if (forwardedRef) forwardedRef.current = el;
+    };
+    const clear = () => {
+      const el = innerRef.current;
+      if (!el) return;
+      setNativeValue(el, ""); // remonte par onChange — vaut aussi pour un champ contrôlé
+      el.focus();
+    };
+    return (
+      <>
+        <InputIcon>{IconLoupe}</InputIcon>
+        <InputField
+          ref={setRefs}
+          type="search"
+          {...props}
+          onChange={(e) => {
+            setHasValue(e.currentTarget.value !== "");
+            onChange?.(e);
+          }}
+          // la croix native WebKit disparaît : l'effacement est le nôtre (cohérent partout)
+          className={cn("[&::-webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:appearance-none", className)}
+        />
+        {hasValue ? (
+          <FieldButton aria-label="Effacer la recherche" onClick={clear}>
+            {IconX}
+          </FieldButton>
+        ) : null}
+      </>
+    );
+  },
+);
+InputSearch.displayName = "Input.Search";
+
+/* ── Number : QUANTITÉS réelles uniquement (steppers −/+). Un code postal, un OTP ou un
+   numéro de carte = type text + inputmode numeric, JAMAIS number (zéros de tête mangés,
+   « e » accepté) — cf. INPUT-UX. Spinners natifs masqués : les steppers sont les nôtres. ── */
+const InputNumber = React.forwardRef<HTMLInputElement, InputFieldProps>(
+  ({ className, ...props }, forwardedRef) => {
+    const innerRef = React.useRef<HTMLInputElement | null>(null);
+    const setRefs = (el: HTMLInputElement | null) => {
+      innerRef.current = el;
+      if (typeof forwardedRef === "function") forwardedRef(el);
+      else if (forwardedRef) forwardedRef.current = el;
+    };
+    const step = (dir: 1 | -1) => {
+      const el = innerRef.current;
+      if (!el || el.disabled) return;
+      try {
+        dir > 0 ? el.stepUp() : el.stepDown();
+      } catch {
+        /* champ vide sans min : stepUp lève — on repart de 0 */
+        setNativeValue(el, "0");
+        return el.focus();
+      }
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.focus();
+    };
+    return (
+      <>
+        <InputField
+          ref={setRefs}
+          type="number"
+          inputMode="decimal"
+          {...props}
+          className={cn(
+            "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+            className,
+          )}
+        />
+        <FieldButton aria-label="Diminuer" disabled={props.disabled} onClick={() => step(-1)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M5 12h14" /></svg>
+        </FieldButton>
+        <FieldButton aria-label="Augmenter" disabled={props.disabled} onClick={() => step(1)}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        </FieldButton>
+      </>
+    );
+  },
+);
+InputNumber.displayName = "Input.Number";
+
+/* ── Textarea : le multi-ligne. Remplace Input.Wrapper (hauteur au contenu, pas de h fixe) :
+   <Input.Root><Input.Textarea/></Input.Root>. Redimensionnable verticalement seulement. ── */
+export interface InputTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+const InputTextarea = React.forwardRef<HTMLTextAreaElement, InputTextareaProps>(
+  ({ className, rows = 3, ...props }, ref) => {
+    const { size } = React.useContext(InputContext);
+    return (
+      <label
+        className={cn(
+          "flex w-full cursor-text",
+          size === "sm" ? "px-sm py-1.5" : size === "lg" ? "px-lg py-sm" : "px-md py-2",
+        )}
+      >
+        <textarea
+          ref={ref}
+          rows={rows}
+          className={cn(
+            // même contrat que le champ : corps 16px (jamais moins — zoom iOS), resize vertical seul
+            "w-full resize-y bg-transparent text-base leading-normal text-text-primary outline-none",
+            "placeholder:select-none placeholder:text-text-muted",
+            "disabled:cursor-not-allowed disabled:resize-none disabled:text-text-disabled disabled:placeholder:text-text-disabled",
+            className,
+          )}
+          {...props}
+        />
+      </label>
+    );
+  },
+);
+InputTextarea.displayName = "Input.Textarea";
+
 /* API compound — miroir de la logique de référence, tokens DS-UI. */
 export const Input = {
   Root: InputRoot,
@@ -194,6 +389,10 @@ export const Input = {
   Icon: InputIcon,
   Affix: InputAffix,
   InlineAffix: InputInlineAffix,
+  Password: InputPassword,
+  Search: InputSearch,
+  Number: InputNumber,
+  Textarea: InputTextarea,
 };
 
 export {
@@ -203,5 +402,9 @@ export {
   InputIcon,
   InputAffix,
   InputInlineAffix,
+  InputPassword,
+  InputSearch,
+  InputNumber,
+  InputTextarea,
   rootVariants as inputRootVariants,
 };
