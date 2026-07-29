@@ -30,6 +30,12 @@ import "./drawer.css";
  * Dans un Frame, le tiroir est PORTÉ DANS le Frame (positionnement absolu, contenu dans son
  * cadre) ; sans Frame il est porté vers document.body (fixe, plein viewport).
  *
+ * LARGEUR (`size`, côtés start/end uniquement) : trois crans GRID, pas un de plus —
+ * sm = rail-nav (280, le rail de nav, défaut) · md = container-narrow (480, le formulaire
+ * focalisé) · lg = overlay (640, le panneau de travail). Au-delà de 640 le contenu appelle une
+ * page, pas un tiroir (même règle que Modal). Ignorée en top/bottom (hauteur = contenu,
+ * plafond 85%). Le push se décale de la largeur RÉELLE du cran choisi.
+ *
  * Limite assumée (v1) : le fond n'est pas mis `inert` (il faudrait une référence à la racine
  * applicative) ; l'inertie est approchée par le scrim + le piège de focus + aria-modal. À durcir
  * quand la racine sera exposée. Cf. OVERLAY-UX « focus et clavier ».
@@ -37,6 +43,15 @@ import "./drawer.css";
 
 export type DrawerSide = "start" | "end" | "top" | "bottom";
 export type DrawerEffect = "overlay" | "push";
+export type DrawerSize = "sm" | "md" | "lg";
+
+/* Largeur du panneau (start/end) — crans GRID via var() ; le Frame reprend le même cran
+   (data-size → --ds-drawer-w, drawer.css) pour que le push décale de la largeur réelle. */
+const SIZE_WIDTH: Record<DrawerSize, string> = {
+  sm: "w-rail-nav",
+  md: "w-[var(--container-narrow,480px)]",
+  lg: "w-[var(--overlay,640px)]",
+};
 
 const panelVariants = cva(
   [
@@ -47,8 +62,8 @@ const panelVariants = cva(
   {
     variants: {
       side: {
-        start: "inset-y-0 left-0 w-rail-nav max-w-[85%] border-r border-border",
-        end: "inset-y-0 right-0 w-rail-nav max-w-[85%] border-l border-border",
+        start: "inset-y-0 left-0 max-w-[85%] border-r border-border",
+        end: "inset-y-0 right-0 max-w-[85%] border-l border-border",
         top: "inset-x-0 top-0 max-h-[85%] w-full rounded-b-lg border-b border-border",
         bottom: "inset-x-0 bottom-0 max-h-[85%] w-full rounded-t-lg border-t border-border",
       },
@@ -61,7 +76,7 @@ const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 /* ── Frame : le cadre qui héberge la page et subit push/depth ─────────────────────────────── */
-type FrameState = { side: DrawerSide; effect: DrawerEffect; depth: boolean };
+type FrameState = { side: DrawerSide; effect: DrawerEffect; depth: boolean; size: DrawerSize };
 type FrameCtxValue = {
   node: HTMLDivElement | null;
   set: (state: FrameState | null) => void;
@@ -81,6 +96,7 @@ export function DrawerFrame({ className, children, ...props }: DrawerFrameProps)
       data-side={state?.side}
       data-effect={state?.effect}
       data-depth={state?.depth ? "true" : undefined}
+      data-size={state?.size}
       className={cn("ds-drawer-frame", className)}
       {...props}
     >
@@ -102,6 +118,8 @@ export interface DrawerProps
   effect?: DrawerEffect;
   /** Depth Transition (iOS) : le contenu recule dans une frame arrondie sur fond noir — combinable avec overlay ET push. */
   depth?: boolean;
+  /** Largeur du panneau (start/end) : sm = 280 (défaut) | md = 480 | lg = 640. Ignorée en top/bottom. */
+  size?: DrawerSize;
 }
 
 export function DrawerRoot({
@@ -110,6 +128,7 @@ export function DrawerRoot({
   side = "start",
   effect = "overlay",
   depth = false,
+  size = "sm",
   className,
   children,
   ...props
@@ -149,9 +168,9 @@ export function DrawerRoot({
   const setFrame = frame?.set;
   React.useEffect(() => {
     if (!setFrame) return;
-    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect, depth });
+    if (open) setFrame({ side: side ?? "start", effect: effectiveEffect, depth, size });
     return () => setFrame(null);
-  }, [open, side, effectiveEffect, depth, setFrame]);
+  }, [open, side, effectiveEffect, depth, size, setFrame]);
 
   if (!open || typeof document === "undefined") return null;
 
@@ -214,6 +233,7 @@ export function DrawerRoot({
         className={cn(
           positionClass,
           panelVariants({ side }),
+          !vertical && SIZE_WIDTH[size],
           shown ? openTransform : closedTransform,
           className,
         )}
