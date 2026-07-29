@@ -138,12 +138,22 @@ function Couleur() {
 
       <div>
         <p className="fblock-l">Texte — hiérarchie</p>
+        {/* du VRAI texte en corps 16 régulier — les puces en label 12 semibold écrasaient
+            la différence primary/secondary (rapport utilisateur 2026-07-29) */}
+        {([
+          ["primary", "Le texte porteur — titres et contenu principal."],
+          ["secondary", "La description, le texte d'appui qui accompagne."],
+          ["muted", "La métadonnée, le placeholder, l'accessoire."],
+          ["disabled", "L'indisponible — la limite reste perceptible."],
+        ] as [string, string][]).map(([t, sample]) => (
+          <div className="chiprow" key={t}>
+            <span className="rl">{t}</span>
+            <span className="text-base" style={{ color: `var(--text-${t})` }}>{sample}</span>
+          </div>
+        ))}
         <div className="chiprow">
-          <span className="rl">text</span>
-          {["primary", "secondary", "muted", "disabled"].map((t) => (
-            <span key={t} className="chip" style={{ background: "var(--background)", border: "1px solid var(--border)", color: `var(--text-${t})` }}>{t}</span>
-          ))}
-          <span className="chip" style={{ background: "var(--surface-inverse)", color: "var(--text-inverse)" }}>inverse</span>
+          <span className="rl">inverse</span>
+          <span className="chip" style={{ background: "var(--surface-inverse)", color: "var(--text-inverse)", fontWeight: 400 }}>Sur surface inverse</span>
         </div>
       </div>
 
