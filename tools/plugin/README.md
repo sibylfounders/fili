@@ -105,5 +105,5 @@ seul le chemin du paquet l'a été.
 
 `DECISIONS-locales.gabarit.md` vit dans `tools/pilote-arbitrage/` : c'est un **artefact de
 pilote**, retiré du paquet le 2026-07-28 tant que le cycle de vie des décisions locales
-(`CADRAGE-ARBITRAGE-CONSOMMATEUR.md` § 8) n'est pas mécaniquement garanti. Il n'entre ni dans
+(`docs/chantiers/CADRAGE-ARBITRAGE-CONSOMMATEUR.md` § 8) n'est pas mécaniquement garanti. Il n'entre ni dans
 le build, ni dans les empreintes de `publie.js`.

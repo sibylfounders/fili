@@ -1,6 +1,6 @@
 # Pilote relations & arbitrages — socle commun Fili
 
-Démonstrateur de la cascade de dépendances et d'impacts spécifiée dans `PILOTE-RELATIONS-ARBITRAGES.md` (racine du dépôt, 0.3.0). Node sans dépendance, limité à la tranche **interaction, button, link, card, form, creation-compte**. Les fiches de doctrine ne sont **jamais** modifiées ni annotées par ce pilote.
+Démonstrateur de la cascade de dépendances et d'impacts spécifiée dans `docs/chantiers/PILOTE-RELATIONS-ARBITRAGES.md` (0.3.0). Node sans dépendance, limité à la tranche **interaction, button, link, card, form, creation-compte**. Les fiches de doctrine ne sont **jamais** modifiées ni annotées par ce pilote.
 
 ## Fichiers
 

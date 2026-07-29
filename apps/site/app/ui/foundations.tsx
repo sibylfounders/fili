@@ -118,8 +118,8 @@ function Couleur() {
           {chip("transparent", "var(--text-primary)", "1px solid var(--border-strong)", "Neutral")}
         </div>
         <div className="chiprow">
-          <span className="rl">secondary</span>
-          <span className="chip" style={{ background: "var(--secondary)", width: 60 }} title="secondary (2e marque)" />
+          <span className="rl">accent</span>
+          <span className="chip" style={{ background: "var(--accent)", width: 60 }} title="accent (focus ring)" />
         </div>
       </div>
 

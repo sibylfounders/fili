@@ -106,6 +106,16 @@ réappliquer sans risque — les deux outils sont idempotents et travaillent lig
 
 Une fois appliqués, ils ne servent plus qu'à retracer ce qui a été décidé et quand.
 
+### `docs/chantiers/*.md`
+
+**Les journaux et cadrages des chantiers passés** (rangés là le 2026-07-29 pour dégager la racine) :
+les trois `CADRAGE-*` (spécifications côté consommateur), `MIGRATION-FILI.md` (l'inventaire du
+renommage), `PILOTE-RELATIONS-ARBITRAGES.md` (le pilote relations/tensions, démonstrateur dans
+`tools/pilote-relations/`) et les deux `RAPPORT-*-COHERENCE.md` (verdicts du chantier cohérence).
+On les lit pour retrouver un raisonnement ; on n'y écrit plus une fois le chantier fermé. À la
+racine ne restent que `README.md`, cette carte, et les deux contrats que l'outillage embarque dans
+le paquet : `FILI-COMPONENT-CONTRACT.md` et `MISSING-COMPONENT-PROTOCOL.md`.
+
 ---
 
 ## La chaîne, en une image

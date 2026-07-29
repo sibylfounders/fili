@@ -5,7 +5,7 @@
 > règle, un nom de token ni le routeur. L'agent relit les décisions **dont la portée croise la tâche
 > en cours** ; il n'y écrit que des constats `en-attente` — et seulement avec votre autorisation —
 > jamais une décision.
-> Spécification : `CADRAGE-ARBITRAGE-CONSOMMATEUR.md` 0.4.0 (monorepo).
+> Spécification : `docs/chantiers/CADRAGE-ARBITRAGE-CONSOMMATEUR.md` 0.4.0 (monorepo).
 
 ## Arbitre
 
