@@ -1,6 +1,6 @@
 "use client";
 // Composant interactif : hooks, contexte ou primitive Radix au niveau module.
-// Sans cette directive, une page serveur qui importe le baril @fili/react casse
+// Sans cette directive, une page serveur qui importe le baril @sibyl/react casse
 // (createContext évalué dans le graphe RSC).
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -12,7 +12,7 @@ import "./toast.css";
  * Toast — confirmation RÉACTIVE, chronométrée, superposée au contenu (jamais dans le flux —
  * cf. Alert pour le territoire « condition qui dure, dans le flux »). Construit sur
  * `content/md/components/TOAST-UX.md` + `TOAST-UI.md` (doctrine DS-MD, adopté 2026-07-20),
- * habillé par les tokens @fili/tokens. Partage la palette/silhouettes de `Alert` (tone × icône
+ * habillé par les tokens @sibyl/tokens. Partage la palette/silhouettes de `Alert` (tone × icône
  * normative), diverge sur : élévation (`elevation.overlay`, seul des deux à en porter une),
  * empilement (FIFO par ordre d'arrivée, PAS par gravité décroissante), position (pilotée par
  * Adaptive via Container Queries — jamais un ancrage fixe au viewport) et durée de vie
@@ -70,8 +70,8 @@ export interface ToastOptions {
   description?: React.ReactNode;
   /** Une action tolérée, jamais deux (TOAST-UX.md § Actions — pattern undo). */
   action?: ToastAction;
-  /** Fermeture visible : `défaut` (auto), `croix` (bouton), `timer` (barre de décompte). */
-  closing?: "défaut" | "croix" | "timer";
+  /** Fermeture visible : `auto` (défaut — le minuteur seul), `close` (bouton croix), `timer` (barre de décompte). */
+  closing?: "auto" | "close" | "timer";
 }
 
 interface ToastItem extends ToastOptions {
@@ -199,7 +199,7 @@ type TransitionPhase = "entering" | "visible" | "exiting";
 
 function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string) => void }) {
   const { id, tone, title, description, action, duration, illustrated } = item;
-  const closing = item.closing ?? "défaut";
+  const closing = item.closing ?? "auto";
   const [barRunning, setBarRunning] = React.useState(false);
   const [phase, setPhase] = React.useState<TransitionPhase>("entering");
   const reducedRef = React.useRef<boolean | null>(null);
@@ -351,7 +351,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
           </div>
         ) : null}
       </div>
-      {closing === "croix" ? (
+      {closing === "close" ? (
         <button
           type="button"
           aria-label="Fermer"
@@ -474,7 +474,7 @@ function ToastProvider({ children, placement = "bottom" }: ToastProviderProps) {
         // Vérifiée UNE FOIS, à l'injection (§ Instrument E-motion) : ce toast sera-t-il seul
         // après ce push ? Ne dépend jamais de la taille de la pile par la suite.
         illustrated: tone === "success" && itemsRef.current.length === 0,
-        closing: options.closing ?? "défaut",
+        closing: options.closing ?? "auto",
       },
     });
     return id;

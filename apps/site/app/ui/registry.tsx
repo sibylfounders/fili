@@ -515,14 +515,14 @@ export const GROUPS: Group[] = [
         fill: true, // comme AppLayout : le Frame remplit la case démo et l'aperçu plein écran
         controls: [
           { k: "side", type: "seg", label: "Côté", opts: ["start", "end", "top", "bottom"] },
-          { k: "size", type: "seg", label: "Taille", opts: ["sm", "md", "lg", "full"] },
+          { k: "size", type: "seg", label: "Taille", opts: ["narrow", "default", "wide", "full"] },
           { k: "effect", type: "seg", label: "Effet", opts: ["overlay", "push"], disabled: (s) => s.side === "top" || s.side === "bottom" },
           { k: "depth", type: "bool", label: "Depth" },
         ],
-        initial: { side: "start", size: "sm", effect: "overlay", depth: false },
+        initial: { side: "start", size: "narrow", effect: "overlay", depth: false },
         render: (s) => <DrawerDemo side={s.side} size={s.size} effect={s.effect} depth={s.depth} />,
         code: (s) => {
-          const defSize = s.side === "top" || s.side === "bottom" ? "full" : "sm";
+          const defSize = s.side === "top" || s.side === "bottom" ? "full" : "narrow";
           return `<Drawer.Frame>{/* page */}\n  <Drawer open={open} onClose={close} side="${s.side}"${s.size !== defSize ? ` size="${s.size}"` : ""}${s.effect !== "overlay" ? ` effect="${s.effect}"` : ""}${s.depth ? " depth" : ""} aria-label="…">…</Drawer>\n</Drawer.Frame>`;
         },
       },
@@ -942,10 +942,10 @@ export const GROUPS: Group[] = [
           { k: "placement", type: "seg", label: "Emplacement", opts: ["bottom", "bottom-start", "bottom-end", "top", "top-start", "top-end"] },
           { k: "title", type: "text", label: "Titre" },
           { k: "description", type: "text", label: "Description" },
-          { k: "closing", type: "seg", label: "Fermeture", opts: ["défaut", "croix", "timer"] },
+          { k: "closing", type: "seg", label: "Fermeture", opts: ["auto", "close", "timer"] },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { tone: "reverse", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "défaut", skeleton: false },
+        initial: { tone: "reverse", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "auto", skeleton: false },
         render: (s) =>
           s.skeleton ? (
             <div className="flex w-80 items-start gap-md rounded-lg border border-border p-md">
@@ -955,7 +955,7 @@ export const GROUPS: Group[] = [
           ) : (
             <ToastDemo s={s} />
           ),
-        code: (s) => `${s.placement !== "bottom" ? `<Toast.Provider placement="${s.placement}">\u2026</Toast.Provider>\n` : ""}const { toast } = useToast();\ntoast({${s.tone !== "reverse" ? ` tone: "${s.tone}",` : ""} title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "défaut" ? `, closing: "${s.closing}"` : ""} });`,
+        code: (s) => `${s.placement !== "bottom" ? `<Toast.Provider placement="${s.placement}">\u2026</Toast.Provider>\n` : ""}const { toast } = useToast();\ntoast({${s.tone !== "reverse" ? ` tone: "${s.tone}",` : ""} title: "${s.title || "\u2026"}", description: "\u2026"${s.closing !== "auto" ? `, closing: "${s.closing}"` : ""} });`,
       },
       {
         key: "adacard", name: "StatCard",

@@ -13,8 +13,8 @@
      pour décaler le contenu de la largeur RÉELLE du panneau. */
   --ds-drawer-w: var(--rail-nav, 280px);
 }
-.ds-drawer-frame[data-size="md"] { --ds-drawer-w: var(--container-narrow, 480px); }
-.ds-drawer-frame[data-size="lg"] { --ds-drawer-w: var(--overlay, 640px); }
+.ds-drawer-frame[data-size="default"] { --ds-drawer-w: var(--container-narrow, 480px); }
+.ds-drawer-frame[data-size="wide"] { --ds-drawer-w: var(--overlay, 640px); }
 .ds-drawer-frame[data-size="full"] { --ds-drawer-w: 85%; }
 .ds-drawer-frame[data-depth="true"] {
   background: #030712; /* fond noir de la Depth Transition */

@@ -77,33 +77,110 @@ const COL_FAM = [
   { k: "info", l: "Info" },
 ];
 
+/* Échelles tonales (étage 1 — primitives). Fixes par définition (hors mode), mais servies en
+   var() comme tout le reste : chaque pas existe en --famille-pas dans tokens.css. */
+const RAMPS: [string, (number | string)[]][] = [
+  ["neutral", [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["indigo", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["red", [50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["green", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["amber", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["blue", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+  ["cyan", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+];
+
 function Couleur() {
   const chip = (bg: string, color: string, border: string | undefined, label: string) => (
     <span className="chip" style={{ background: bg, color, border }}>{label}</span>
   );
   return (
-    <div>
-      <p className="fblock-l">Rôles sémantiques — solide / subtil / contour</p>
-      {COL_FAM.map((f) => {
-        const sub = f.sub || f.k + "-subtle";
-        const onSub = f.onSub || f.k;
-        return (
-          <div className="chiprow" key={f.k}>
-            <span className="rl">{f.k}</span>
-            {chip(`var(--${f.k})`, `var(--on-${f.k})`, undefined, f.l)}
-            {chip(`var(--${sub})`, `var(--${onSub})`, undefined, f.l)}
-            {chip("transparent", `var(--${f.k})`, `1px solid var(--${f.k})`, f.l)}
-          </div>
-        );
-      })}
-      <div className="chiprow">
-        <span className="rl">secondary</span>
-        {chip("var(--secondary)", "var(--on-secondary)", undefined, "Secondary")}
-        {chip("transparent", "var(--on-secondary)", "1px solid var(--on-secondary)", "Secondary")}
+    <div className="flex flex-col gap-6">
+      <div>
+        <p className="fblock-l">Rôles sémantiques — solide / subtil / contour</p>
+        {COL_FAM.map((f) => {
+          const sub = f.sub || f.k + "-subtle";
+          const onSub = f.onSub || f.k;
+          return (
+            <div className="chiprow" key={f.k}>
+              <span className="rl">{f.k}</span>
+              {chip(`var(--${f.k})`, `var(--on-${f.k})`, undefined, f.l)}
+              {chip(`var(--${sub})`, `var(--${onSub})`, undefined, f.l)}
+              {chip("transparent", `var(--${f.k})`, `1px solid var(--${f.k})`, f.l)}
+            </div>
+          );
+        })}
+        <div className="chiprow">
+          <span className="rl">secondary</span>
+          {chip("var(--secondary)", "var(--on-secondary)", undefined, "Secondary")}
+          {chip("transparent", "var(--on-secondary)", "1px solid var(--on-secondary)", "Secondary")}
+        </div>
+        <div className="chiprow">
+          <span className="rl">reverse</span>
+          {chip("var(--surface-inverse)", "var(--text-inverse)", undefined, "Reverse")}
+          {chip("var(--surface-inverse)", "var(--text-inverse)", "1.5px solid var(--border-inverse)", "Reverse")}
+        </div>
+        <div className="chiprow">
+          <span className="rl">accent</span>
+          <span className="chip" style={{ background: "var(--accent)", width: 60 }} title="accent (focus)" />
+        </div>
       </div>
-      <div className="chiprow">
-        <span className="rl">accent</span>
-        <span className="chip" style={{ background: "var(--accent)", width: 60 }} title="accent (focus)" />
+
+      <div>
+        <p className="fblock-l">Surfaces neutres — background / surface / hover / inverse</p>
+        <div className="chiprow">
+          <span className="rl">surfaces</span>
+          {chip("var(--background)", "var(--text-primary)", "1px solid var(--border)", "background")}
+          {chip("var(--surface)", "var(--text-primary)", undefined, "surface")}
+          {chip("var(--surface-hover)", "var(--text-primary)", undefined, "hover")}
+          {chip("var(--surface-inverse)", "var(--text-inverse)", undefined, "inverse")}
+        </div>
+      </div>
+
+      <div>
+        <p className="fblock-l">Texte — hiérarchie</p>
+        <div className="chiprow">
+          <span className="rl">text</span>
+          {["primary", "secondary", "muted", "disabled"].map((t) => (
+            <span key={t} className="chip" style={{ background: "var(--background)", border: "1px solid var(--border)", color: `var(--text-${t})` }}>{t}</span>
+          ))}
+          <span className="chip" style={{ background: "var(--surface-inverse)", color: "var(--text-inverse)" }}>inverse</span>
+        </div>
+      </div>
+
+      <div>
+        <p className="fblock-l">Bordures — décorative / délimitante (3:1) / inverse</p>
+        <div className="chiprow">
+          <span className="rl">border</span>
+          {chip("transparent", "var(--text-secondary)", "1.5px solid var(--border)", "border")}
+          {chip("transparent", "var(--text-primary)", "1.5px solid var(--border-strong)", "strong")}
+          {chip("var(--surface-inverse)", "var(--text-inverse)", "1.5px solid var(--border-inverse)", "inverse")}
+        </div>
+      </div>
+
+      <div>
+        <p className="fblock-l">Primitives — échelles tonales (étage 1, fixes hors mode)</p>
+        {RAMPS.map(([fam, steps]) => (
+          <div key={fam} className="mb-2 flex items-center gap-2.5">
+            <span className="rl w-20 shrink-0 font-mono text-xs text-text-secondary">{fam}</span>
+            <div className="flex min-w-0 flex-1 overflow-hidden rounded-md border border-border">
+              {steps.map((s) => (
+                <div key={s} className="group/step relative h-9 min-w-0 flex-1" style={{ background: `var(--${fam}-${s})` }} title={`--${fam}-${s}`}>
+                  <span
+                    className="absolute inset-x-0 bottom-0.5 text-center font-mono text-[8px] leading-none opacity-70"
+                    style={{ color: Number(s) >= 500 || fam === "neutral" && Number(s) >= 500 ? "#fff" : "var(--neutral-950)" }}
+                  >
+                    {s}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <p className="m-0 mt-1 text-xs text-text-muted">
+          Un composant ne consomme JAMAIS une primitive : il passe par un rôle (étage 2). Le cran
+          calibré <span className="font-mono">red-150</span> vient de la doctrine (contraste 4.60:1),
+          pas de l'échelle Tailwind.
+        </p>
       </div>
     </div>
   );
