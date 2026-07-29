@@ -29,3 +29,8 @@
 /* Rail droit (aside) : visible seulement à partir de desktop. */
 .sw-shell-aside { display: none; }
 @container sw-shell (min-width: 1280px) { .sw-shell-aside { display: block; } }
+
+/* Padding du contenu : adaptatif à la LARGEUR DU SHELL (jamais au viewport) — serré en
+   compact, généreux dès que le shell respire. */
+.sw-shell-main-pad { padding: var(--space-lg); }
+@container sw-shell (min-width: 640px) { .sw-shell-main-pad { padding: var(--space-xl); } }

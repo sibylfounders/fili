@@ -254,8 +254,10 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
     >
       <h1 className="m-0 text-2xl font-semibold text-text-primary">Tableau de bord</h1>
       <p className="mt-1 text-text-secondary">La sidebar occupe toute la hauteur ; topbar et contenu vivent dans la colonne de droite. Le bouton en haut à gauche replie la sidebar en rail d'icônes (off-canvas sous desktop).</p>
-      {/* Vraies Cards du système (jamais des placeholders ad hoc) */}
-      <div className="mt-lg grid grid-cols-1 gap-md tablet:grid-cols-3">
+      {/* Vraies Cards du système (jamais des placeholders ad hoc). Grille INTRINSÈQUE
+          (ADAPTIVE-R06 : jamais un nombre de colonnes par appareil) : les colonnes émergent
+          de la place réelle — 1 colonne dans un shell compact, 3 dès qu'il respire. */}
+      <div className="grid mt-lg gap-md [grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr))]">
         {[
           ["Revenu net", "48 210 €", "+6,4 % vs mois dernier"],
           ["Commandes", "1 284", "+8,1 % vs mois dernier"],
