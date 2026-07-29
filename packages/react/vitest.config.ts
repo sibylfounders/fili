@@ -7,6 +7,9 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     environment: "jsdom",
+    // globals: true est REQUIS pour le nettoyage automatique de testing-library
+    // entre les tests (sans lui, le DOM du test précédent fuit dans le suivant).
+    globals: true,
     setupFiles: "./vitest.setup.ts",
     css: false,
     include: ["src/**/*.test.tsx"],
