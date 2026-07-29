@@ -157,7 +157,7 @@ const TabsDemo: React.FC<{ variant: "line" | "pill"; activation: "auto" | "manua
   </Tabs.Root>
 );
 
-const DropdownDemo: React.FC<{ side: DropdownSide; align: DropdownAlign; icons: boolean }> = ({ side, align, icons }) => {
+const DropdownDemo: React.FC<{ side: DropdownSide | "auto"; align: DropdownAlign | "auto"; icons: boolean }> = ({ side, align, icons }) => {
   const [tri, setTri] = React.useState("recent");
   const [last, setLast] = React.useState<string | null>(null);
   const ic = (d: React.ReactNode) => (icons ? svg(d) : undefined);
@@ -542,17 +542,17 @@ export const GROUPS: Group[] = [
       {
         key: "dropdown", name: "Dropdown",
         controls: [
-          { k: "side", type: "seg", label: "Côté", opts: ["bottom", "top"] },
-          { k: "align", type: "seg", label: "Alignement", opts: ["start", "center", "end"] },
+          { k: "side", type: "seg", label: "Côté", opts: ["auto", "bottom", "top"] },
+          { k: "align", type: "seg", label: "Alignement", opts: ["auto", "start", "center", "end"] },
           { k: "icons", type: "bool", label: "Icônes" },
         ],
-        initial: { side: "bottom", align: "start", icons: true },
+        initial: { side: "auto", align: "auto", icons: true },
         blocks: [
           {
             title: "Ancré — un déclencheur ouvre le menu (motif menu button)",
             render: (s) => <DropdownDemo side={s.side} align={s.align} icons={s.icons} />,
             code: (s) =>
-              `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root>Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "bottom" ? ` side="${s.side}"` : ""}${s.align !== "start" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
+              `<Dropdown.Root>\n  <Dropdown.Trigger asChild><Button.Root>Options</Button.Root></Dropdown.Trigger>\n  <Dropdown.Content${s.side !== "auto" ? ` side="${s.side}"` : ""}${s.align !== "auto" ? ` align="${s.align}"` : ""}>\n    <Dropdown.Label>Compte</Dropdown.Label>\n    <Dropdown.Item icon={<User />} onSelect={fn}>Profil</Dropdown.Item>\n    <Dropdown.Item disabled>Facturation</Dropdown.Item>\n    <Dropdown.Separator />\n    <Dropdown.Item checked closeOnClick={false} onSelect={fn}>Plus récent</Dropdown.Item>\n  </Dropdown.Content>\n</Dropdown.Root>`,
           },
           {
             title: "En ligne — sans déclencheur, le panneau vit dans la page",

@@ -208,24 +208,54 @@ export type DropdownSide = "top" | "bottom";
 export type DropdownAlign = "start" | "center" | "end";
 
 export interface DropdownContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  side?: DropdownSide;
-  align?: DropdownAlign;
+  /** `auto` (défaut) : le côté se choisit selon l'espace disponible dans la fenêtre. */
+  side?: DropdownSide | "auto";
+  /** `auto` (défaut) : l'alignement se choisit pour que le menu tienne dans la fenêtre. */
+  align?: DropdownAlign | "auto";
   /** Écart déclencheur ↔ menu, en px (défaut 4). */
   sideOffset?: number;
 }
 
-function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, className, children, ...props }: DropdownContentProps) {
-  const { open, setOpen, menuId, triggerId } = useDropdown();
+function DropdownContent({ side = "auto", align = "auto", sideOffset = 4, className, children, ...props }: DropdownContentProps) {
+  const { open, setOpen, triggerRef, menuId, triggerId } = useDropdown();
+  const contentRef = React.useRef<HTMLDivElement>(null);
   const menuRef = React.useRef<HTMLDivElement>(null);
   const [shown, setShown] = React.useState(false);
+  const [placement, setPlacement] = React.useState<{ side: DropdownSide; align: DropdownAlign }>({
+    side: side === "auto" ? "bottom" : side,
+    align: align === "auto" ? "start" : align,
+  });
   const { overflow, update: updateOverflow } = useOverflowVeils(menuRef);
   const highlight = useFluidHighlight(menuRef);
   const { reset: resetHighlight } = highlight;
 
-  // à l'ouverture : transition d'entrée + focus sur le premier item (le focus vit dans le menu)
+  // à l'ouverture : 1. RÉSOUDRE le placement pendant que le menu est encore à opacité nulle
+  // (mesure réelle du menu + de l'ancre face à la fenêtre — jamais d'estimation), 2. jouer la
+  // transition d'entrée, 3. focus sur le premier item (le focus vit dans le menu)
   React.useEffect(() => {
     if (!open) return;
     const raf = requestAnimationFrame(() => {
+      const menu = contentRef.current;
+      const anchor = triggerRef.current;
+      if (menu && anchor && (side === "auto" || align === "auto")) {
+        const r = anchor.getBoundingClientRect();
+        const mh = menu.offsetHeight + sideOffset;
+        const mw = menu.offsetWidth;
+        const spaceBelow = window.innerHeight - r.bottom;
+        const resolvedSide: DropdownSide =
+          side !== "auto" ? side : spaceBelow >= mh || spaceBelow >= r.top ? "bottom" : "top";
+        const resolvedAlign: DropdownAlign =
+          align !== "auto"
+            ? align
+            : r.left + mw <= window.innerWidth - 8
+              ? "start"
+              : r.right - mw >= 8
+                ? "end"
+                : "start";
+        setPlacement({ side: resolvedSide, align: resolvedAlign });
+      } else if (side !== "auto" || align !== "auto") {
+        setPlacement({ side: side === "auto" ? "bottom" : side, align: align === "auto" ? "start" : align });
+      }
       setShown(true);
       updateOverflow();
       menuRef.current?.querySelector<HTMLElement>(FOCUSABLE_ITEM)?.focus();
@@ -235,7 +265,7 @@ function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, cla
       setShown(false);
       resetHighlight();
     };
-  }, [open, updateOverflow, resetHighlight]);
+  }, [open, side, align, sideOffset, triggerRef, updateOverflow, resetHighlight]);
 
   if (!open) return null;
 
@@ -249,17 +279,19 @@ function DropdownContent({ side = "bottom", align = "start", sideOffset = 4, cla
     }
   };
 
+  const { side: s, align: a } = placement;
   return (
     <div
+      ref={contentRef}
       className={cn(
         "absolute z-popover w-max min-w-full max-w-[18rem] overflow-hidden rounded-md border border-border bg-background shadow-overlay",
         "transition-[opacity,transform] duration-fast ease-out motion-reduce:transition-none",
-        side === "bottom" ? "top-full" : "bottom-full",
-        align === "start" ? "left-0" : align === "end" ? "right-0" : "left-1/2 -translate-x-1/2",
-        shown ? "opacity-100" : cn("opacity-0", side === "bottom" ? "translate-y-1" : "-translate-y-1"),
+        s === "bottom" ? "top-full" : "bottom-full",
+        a === "start" ? "left-0" : a === "end" ? "right-0" : "left-1/2 -translate-x-1/2",
+        shown ? "opacity-100" : cn("opacity-0", s === "bottom" ? "translate-y-1" : "-translate-y-1"),
         className,
       )}
-      style={{ [side === "bottom" ? "marginTop" : "marginBottom"]: sideOffset }}
+      style={{ [s === "bottom" ? "marginTop" : "marginBottom"]: sideOffset }}
       {...props}
     >
       <Veils overflow={overflow} />
