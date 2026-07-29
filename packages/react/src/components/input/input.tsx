@@ -212,9 +212,10 @@ function InputIcon<T extends React.ElementType = "span">({
   return (
     <Comp
       aria-hidden="true"
-      // icon.md = 20px (size-5), apparié au corps 16px ; couleur = contenu additionnel (text-secondary).
+      // icon.md = 20px (size-5), apparié au corps 16px ; couleur = contenu additionnel (text-secondary),
+      // trait 1.5 IMPOSÉ par la fondation Icônes — un trait 2 fait lire l'icône comme du texte noir.
       className={cn(
-        "flex size-5 shrink-0 items-center justify-center text-text-secondary [&>svg]:size-5",
+        "flex size-5 shrink-0 items-center justify-center text-text-secondary [&>svg]:size-5 [&>svg]:stroke-[1.5]",
         className,
       )}
       {...props}

@@ -49,7 +49,7 @@ const ADA_TRAFFIC: LineSeries[] = [
 const kEur = (n: number) => fmtInt(n) + " k€";
 
 /* icônes + skeleton + opérations async — partagés par les entrées composants */
-const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
+const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
 const IC_CLOSE = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>);
 const IC_ARROW = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>);
 const Sk = ({ w, h, r = "var(--radius-sm)" }: { w: string | number; h: string | number; r?: string }) => (
@@ -301,7 +301,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
           <>
             <button className={shellIconBtn} aria-label="Rechercher">{ICO.search}</button>
             <button className={shellIconBtn} aria-label="Notifications">{ICO.bell}</button>
-            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary-subtle text-xs font-semibold text-on-primary-subtle">JG</span>
+            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-on-secondary">JG</span>
           </>
         ),
       }}
