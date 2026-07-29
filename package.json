@@ -11,6 +11,12 @@
     "dev": "npm run dev --workspace @fili/site",
     "build": "npm run build --workspaces --if-present",
     "tokens:build": "npm run build --workspace @fili/tokens",
+    "manifeste:build": "node packages/react/build/genere-manifeste.mjs",
+    "verifie:tokens": "node tools/verifie-tokens.mjs",
+    "verifie:manifeste": "node tools/verifie-manifeste.mjs",
+    "verifie:consommation": "node tools/verifie-consommation.mjs",
+    "verifie:exemples": "node tools/verifie-exemples.mjs",
+    "verifie": "npm run verifie:tokens && npm run verifie:manifeste && npm run verifie:consommation && npm run verifie:exemples",
     "plugin": "node tools/plugin/publie.js",
     "plugin:build": "node tools/plugin/build-plugin.js"
   },

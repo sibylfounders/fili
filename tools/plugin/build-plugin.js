@@ -51,6 +51,11 @@ if (!rules.length) { console.error('✗ tools/plugin/rules/ ne contient aucune f
 for (const f of rules) fs.copyFileSync(path.join(PLUGIN_SRC, 'rules', f), path.join(SKILL_DIR, f));
 console.log(`  ${rules.length} fiches RULES-* copiées`);
 
+// 2bis. contrat d'implémentation @fili/react (KIT-*, généré du manifeste) ----
+const { genere: genereCatalogue } = require('./genere-catalogue.js');
+const cat = genereCatalogue(SKILL_DIR);
+console.log(`  KIT-socle + ${cat.fichiers - 1} contrats d'intention @fili/react (${cat.composants} composants du manifeste)`);
+
 // 3. tokens ------------------------------------------------------------------
 const { version: versionDesign } = require('./genere-tokens.js');
 

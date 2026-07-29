@@ -10,7 +10,7 @@ selon-contexte: ["form (convention requis et validation décidées au niveau du 
 > Généré depuis `components/input/INPUT-UX.md` (v1.6.0) et `INPUT-UI.md` (v1.5.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
-- Trois axes : **tone** (neutral/error/success/warning) × **size** (sm/md/lg) × **field_type** (text/email/password/number/search/textarea).
+- Trois axes : **status** (default/error/success/warning — ex-`tone`, renommé 2026-07-29 : un statut de validation SUBI, jamais décoratif ; aria-invalid auto en error) × **size** (sm/md/lg) × **field_type** (text/email/password/number/search/tel/url/textarea).
 - **Pas d'axe style** : il n'y a jamais "l'input principal de l'écran" — le type de champ le remplace (nature de contenu, pas poids visuel).
 
 ## Usage
@@ -96,11 +96,11 @@ typography:
   fallback: typography.fallback.sans
 colors:
   value_text: color.text-primary
-  tone.neutral_border: color.border-strong # bordure délimitante : 3:1 obligatoire (WCAG 1.4.11)
-  tone.error_border: color.danger
-  tone.error_text: color.danger
-  tone.success_border: color.success
-  tone.warning_border: color.warning
+  status.default_border: color.border-strong # bordure délimitante : 3:1 obligatoire (WCAG 1.4.11)
+  status.error_border: color.danger
+  status.error_text: color.danger
+  status.success_border: color.success
+  status.warning_border: color.warning
   focus_ring: color.accent
 content_elements:
   helper_text: color.text-secondary

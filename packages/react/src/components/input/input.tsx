@@ -27,10 +27,11 @@ import "./input.css";
  *     seule bordure → délimitante, 3:1 obligatoire à tous les états (WCAG 1.4.11).
  *     La référence pose une bordure décorative douce ; DS-MD impose le seuil.
  *
- * Focus ring (RULES-border) : `outline` instantané (JAMAIS de transition) + offset,
- * qui s'AJOUTE à la bordure d'état (error focalisé = ring dehors + bordure danger
- * dedans, les deux visibles). Couleur `primary` : précédent Button — DS-UI n'a
- * pas de token `accent` distinct, le ring reste unifié sur tous les focalisables.
+ * Focus ring (fondation BORDER, arbitrage 2026-07-29) : l'anneau UNIQUE du système —
+ * `outline` accent instantané (JAMAIS de transition), largeur/écart tokenisés
+ * (--control-focus-*, alias --input-focus-color), sur `:focus-visible`, qui s'AJOUTE
+ * à la bordure d'état (error focalisé = ring accent dehors + bordure danger dedans,
+ * les deux visibles — BORDER-R07). Implémenté dans input.css.
  *
  * Modes clair/sombre : gratuits (classes → tokens `var()`).
  */
@@ -54,8 +55,9 @@ const rootVariants = cva(
   ].join(" "),
   {
     variants: {
-      // Le rayon suit la taille (RULES-radius) ; md et lg partagent radius.md.
-      size: { sm: "rounded-sm", md: "rounded-md", lg: "rounded-md" },
+      // Le rayon suit la taille (RULES-radius) ; md et lg partagent l'alias --input-radius
+      // (→ --control-radius → --radius-md : cascade étage 3 → 2 → fondation).
+      size: { sm: "rounded-sm", md: "rounded-input", lg: "rounded-input" },
       // Bordure : neutre délimitante (3:1) ; error/success/warning = bordure de STATUT.
       status: {
         default: "border-border-strong",

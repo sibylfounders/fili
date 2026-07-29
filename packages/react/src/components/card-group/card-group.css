@@ -99,7 +99,7 @@
 /* La cible étendue peut être un <button> (ouvre un superposé) au lieu d'un <a> (navigue) :
    même technique, sémantique honnête — une commande n'est pas une destination. */
 .cg-title button{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;}
-.cg-title :is(a,button):focus-visible{outline:var(--border-focus-width,2px) solid var(--accent);outline-offset:var(--border-focus-offset,2px);border-radius:var(--radius-sm);}
+.cg-title :is(a,button):focus-visible{outline:var(--control-focus-width) solid var(--control-focus-color);outline-offset:var(--control-focus-offset);border-radius:var(--radius-sm);}
 
 /* Carte sans cible dans une collection interactive : aucune affordance.
    Le mode reste unique pour la collection ; c'est l'ÉLÉMENT qui déclare n'avoir rien

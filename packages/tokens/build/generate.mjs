@@ -7,6 +7,7 @@ import { dirname, join } from "node:path";
 import {
   primitives, alpha, semantic, states,
   typography, spacing, radius, elevation, motion, grid, border, breakpoint, zIndex, overlay, meta,
+  transversal, componentTokens,
 } from "../src/tokens.source.mjs";
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), "..", "dist");
@@ -57,12 +58,33 @@ css += `\n  /* breakpoints (référence CSS — les bascules réelles passent pa
 for (const [k, v] of Object.entries(breakpoint)) css += `  --breakpoint-${k}: ${v};\n`;
 css += `\n  /* bordure / focus ring */\n`;
 for (const [k, v] of Object.entries(border)) css += `  --${k}: ${v};\n`;
+
+// Rôles transversaux (étage 2) et alias de composant (étage 3) — valeurs = var(--…) :
+// la cascade est mécanique, un rôle maître se propage à ses consommateurs.
+const flatModal = (groups, prefixFn) => {
+  const light = [], dark = [];
+  for (const [grp, toks] of Object.entries(groups))
+    for (const [k, v] of Object.entries(toks)) {
+      const name = prefixFn(grp, k);
+      if (v && typeof v === "object") { light.push([name, v.light]); dark.push([name, v.dark]); }
+      else light.push([name, v]);
+    }
+  return { light, dark };
+};
+const tv = flatModal(transversal, (g, k) => `${g}-${k}`);
+const ct = flatModal(componentTokens, (g, k) => `${g}-${k}`);
+css += `\n  /* étage 2 — rôles transversaux (cascade mécanique) */\n`;
+for (const [k, v] of tv.light) css += `  --${k}: ${v};\n`;
+css += `\n  /* étage 3 — alias de composant → rôles transversaux */\n`;
+for (const [k, v] of ct.light) css += `  --${k}: ${v};\n`;
 css += `}\n\n`;
 css += `/* rôles sémantiques — MODE SOMBRE (data-theme + prefers) */\n`;
 css += `[data-theme="dark"] {\n`;
 for (const [name, m] of Object.entries(roles)) css += `  --${name}: ${m.dark};\n`;
+for (const [k, v] of [...tv.dark, ...ct.dark]) css += `  --${k}: ${v};\n`;
 css += `}\n\n@media (prefers-color-scheme: dark) {\n  :root:not([data-theme="light"]) {\n`;
 for (const [name, m] of Object.entries(roles)) css += `    --${name}: ${m.dark};\n`;
+for (const [k, v] of [...tv.dark, ...ct.dark]) css += `    --${k}: ${v};\n`;
 css += `  }\n}\n`;
 writeFileSync(join(DIST, "tokens.css"), css);
 
@@ -85,7 +107,15 @@ const theme = {
   // Rayon THÉMABLE de bout en bout : les classes rounded-* pointent vers var(--radius-*)
   // (le réglage « Rayon » du panneau Theming surcharge ces vars — avant, les classes Tailwind
   // étaient compilées en px durs et seuls les consommateurs CSS suivaient. Fix 2026-07-29).
-  borderRadius: Object.fromEntries(Object.entries(radius).map(([k]) => [k, `var(--radius-${k})`])),
+  borderRadius: {
+    ...Object.fromEntries(Object.entries(radius).map(([k]) => [k, `var(--radius-${k})`])),
+    // Rôles transversaux + alias de composant : rounded-control, rounded-surface,
+    // rounded-overlay, rounded-button, rounded-input, rounded-card…
+    ...Object.fromEntries(Object.entries(transversal)
+      .filter(([, toks]) => "radius" in toks).map(([g]) => [g, `var(--${g}-radius)`])),
+    ...Object.fromEntries(Object.entries(componentTokens)
+      .filter(([, toks]) => "radius" in toks).map(([g]) => [g, `var(--${g}-radius)`])),
+  },
   boxShadow: { ...elevation },
   transitionDuration: Object.fromEntries(Object.entries(motion.duration).map(([k, v]) => [k, v])),
   transitionTimingFunction: Object.fromEntries(

@@ -25,7 +25,7 @@
 .ds-theme-toggle__control { position: relative; display: inline-flex; align-items: center; }
 .ds-theme-toggle input {
   width: var(--tt-w); height: var(--tt-h); appearance: none; -webkit-appearance: none;
-  background: var(--border); border-radius: 9999px; cursor: pointer; margin: 0;
+  background: var(--border); border-radius: var(--radius-pill); cursor: pointer; margin: 0;
   transition: background-color var(--duration-fast) var(--ease-out);
 }
 .ds-theme-toggle input:checked { background: var(--primary); }
@@ -39,7 +39,7 @@
 .ds-theme-toggle .knob {
   position: absolute; top: calc((var(--tt-h) - var(--tt-knob)) / 2); left: 2px;
   width: var(--tt-knob); height: var(--tt-knob);
-  border-radius: 9999px; background: #fff; box-shadow: 0 1px 2px rgba(3, 7, 18, .25);
+  border-radius: var(--radius-pill); background: var(--static-white); box-shadow: 0 1px 2px rgba(3, 7, 18, .25);
   pointer-events: none; z-index: 2; transform-origin: left center;
   transition: transform var(--duration-fast) var(--ease-out);
 }
@@ -48,7 +48,7 @@
 .ds-theme-toggle input:active ~ .knob { transform: scaleX(1.2); }
 .ds-theme-toggle input:checked:hover ~ .knob { transform: translateX(var(--tt-shift)) scaleX(1.1); }
 .ds-theme-toggle input:checked:active ~ .knob { transform: translateX(var(--tt-shift)) scaleX(1.2); }
-.ds-theme-toggle input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ds-theme-toggle input:focus-visible { outline: var(--control-focus-width) solid var(--control-focus-color); outline-offset: var(--control-focus-offset); }
 .ds-theme-toggle__label { margin-left: var(--space-sm, 8px); color: var(--text-primary); font-size: 14px; }
 .ds-theme-toggle--lg .ds-theme-toggle__label { font-size: 16px; }
 @media (prefers-reduced-motion: reduce) {

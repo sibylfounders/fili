@@ -235,6 +235,29 @@
   /* bordure / focus ring */
   --focus-width: 2px;
   --focus-offset: 2px;
+
+  /* étage 2 — rôles transversaux (cascade mécanique) */
+  --control-focus-color: var(--accent);
+  --control-focus-width: var(--focus-width);
+  --control-focus-offset: var(--focus-offset);
+  --control-radius: var(--radius-md);
+  --control-raised-shadow: var(--elevation-raised);
+  --control-hover-shadow: var(--elevation-overlay);
+  --control-pressed-shadow: inset 0 4px 4px rgba(12, 12, 13, 0.05);
+  --control-mix-dark: var(--neutral-950);
+  --control-mix-light: var(--static-white);
+  --field-border: var(--border);
+  --field-inset-shadow: inset 0 4px 4px -1px rgba(12, 12, 13, 0.05);
+  --surface-radius: var(--radius-lg);
+  --overlay-radius: var(--radius-lg);
+  --overlay-elevation: var(--elevation-overlay);
+
+  /* étage 3 — alias de composant → rôles transversaux */
+  --button-radius: var(--control-radius);
+  --input-radius: var(--control-radius);
+  --input-focus-color: var(--control-focus-color);
+  --input-border: var(--field-border);
+  --card-radius: var(--surface-radius);
 }
 
 /* rôles sémantiques — MODE SOMBRE (data-theme + prefers) */
@@ -289,6 +312,8 @@
   --warning-subtle: #451A03;
   --warning-subtle-hover: #78350F;
   --on-warning: #030712;
+  --control-pressed-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.45);
+  --field-inset-shadow: inset 0 4px 4px -1px rgba(0, 0, 0, 0.4);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -343,5 +368,7 @@
     --warning-subtle: #451A03;
     --warning-subtle-hover: #78350F;
     --on-warning: #030712;
+    --control-pressed-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.45);
+    --field-inset-shadow: inset 0 4px 4px -1px rgba(0, 0, 0, 0.4);
   }
 }

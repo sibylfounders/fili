@@ -13,10 +13,16 @@
 // `note` : compléments conditionnels, affichés tels quels dans la table.
 // Les extensions (type: extension) ne se déclarent JAMAIS ici — elles se chargent via la
 // colonne « Selon contexte » du sujet dont elles dépendent (extension-de), pas par intention.
+// `kit` + `kitComposants` : le contrat d'implémentation @fili/react de l'intention —
+// KIT-<kit>.md est GÉNÉRÉ depuis packages/react/manifest.json (genere-catalogue.js) et ne se
+// charge QUE si le produit construit avec @fili/react (les règles de conception, elles,
+// valent pour tout produit).
 // ---------------------------------------------------------------------------
 const INTENTIONS = [
   {
     intention: 'Formulaire',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'formulaire', kitComposants: ['Input', 'Select', 'Switch', 'Button', 'CompactButton', 'Alert'],
     declencheurs: 'login / connexion, contact, checkout, réglages — toute page dont le cœur est une saisie isolée',
     // select et switch sont des contrôles de saisie au même titre que input : un formulaire porte
     // des choix et des bascules aussi souvent que des champs texte (ajoutés le 2026-07-27).
@@ -28,6 +34,8 @@ const INTENTIONS = [
   },
   {
     intention: 'Collection',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'collection', kitComposants: ['CardGroup', 'Card', 'Button', 'Link', 'Skeleton'],
     declencheurs: 'dashboard, liste, grille de cartes, galerie, résultats de recherche',
     sujets: ['collection'],
     fondations: ['color', 'spacing', 'typography', 'elevation', 'grid', 'touch'],
@@ -37,6 +45,8 @@ const INTENTIONS = [
   },
   {
     intention: 'Page de contenu',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'contenu', kitComposants: ['Container', 'Tabs', 'Link', 'Card', 'Accordion', 'Divider'],
     declencheurs: 'article, landing, page marketing, documentation, à-propos',
     // tabs : une page documentaire découpe régulièrement un même objet en vues exclusives.
     sujets: ['tabs'],
@@ -47,6 +57,8 @@ const INTENTIONS = [
   },
   {
     intention: 'Feedback',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'feedback', kitComposants: ['Alert', 'Toast', 'Button', 'CompactButton'],
     declencheurs: "notification, message d'état, bannière, confirmation, erreur globale",
     sujets: ['alert', 'toast'],
     fondations: ['color', 'iconography', 'touch'],
@@ -56,6 +68,8 @@ const INTENTIONS = [
   },
   {
     intention: 'Création de compte',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'creation-compte', kitComposants: ['Input', 'Button', 'Alert', 'Link'],
     declencheurs: 'inscription, sign-up, « créer un compte », écran d\'enregistrement',
     sujets: ['creation-compte'],
     fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
@@ -69,6 +83,8 @@ const INTENTIONS = [
     // Il ne se confond pas avec l'extension creation-compte-consentement, qui traite l'acceptation
     // des CGU à l'inscription — autre moment, autre propriétaire (ajouté le 2026-07-27).
     intention: 'Consentement',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'consentement', kitComposants: ['Alert', 'Button', 'Link'],
     declencheurs: "bandeau cookies, gestion des traceurs, préférences de confidentialité, « gérer mes choix », page cookies",
     sujets: ['consentement'],
     fondations: ['color', 'spacing', 'typography', 'border', 'radius', 'grid', 'touch'],
@@ -82,6 +98,8 @@ const INTENTIONS = [
     // seulement sa porte d'entrée dans le routeur : navigation n'était joignable par aucune
     // intention (ajouté le 2026-07-27).
     intention: 'Cadre applicatif',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'cadre-applicatif', kitComposants: ['AppLayout', 'Nav', 'Brand', 'SkipLink', 'TableOfContents', 'Tabs', 'ThemeToggle', 'Container', 'Drawer'],
     declencheurs: "shell d'application, rail ou barre de navigation, menu latéral, en-tête de site, découpage d'un écran en vues",
     sujets: ['navigation', 'tabs'],
     fondations: ['color', 'spacing', 'typography', 'grid', 'elevation', 'touch'],
@@ -91,6 +109,8 @@ const INTENTIONS = [
   },
   {
     intention: 'Superposé modal',
+    // Contrat d'implémentation @fili/react (KIT-<slug>.md, généré du manifeste) :
+    kit: 'superpose', kitComposants: ['Modal', 'Drawer', 'Dropdown', 'Button', 'CompactButton'],
     declencheurs: "modale de confirmation, « confirmer la suppression », dialogue de saisie courte, panneau de détail superposé, drawer",
     sujets: ['modal'],
     fondations: ['color', 'spacing', 'typography', 'elevation', 'grid', 'touch'],

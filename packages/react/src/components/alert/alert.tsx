@@ -173,7 +173,7 @@ const AlertClose = React.forwardRef<HTMLButtonElement, AlertCloseProps>(
       // Cible tactile 44px (size-11) même si le glyphe est petit ; marges négatives = pas d'inflation.
       className={cn(
         "-my-2 -mr-2 ml-auto flex size-11 shrink-0 items-center justify-center rounded-sm text-text-secondary",
-        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         className,
       )}
       {...props}

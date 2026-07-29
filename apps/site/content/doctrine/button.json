@@ -1977,8 +1977,8 @@
   {
    "id": "BUTTON-R17",
    "couche": "ux",
-   "solution": "les deux axes se combinent librement — 4 × 4 = 16 combinaisons colorées. Un bouton n'est jamais \"juste destructive\" — il est toujours une combinaison des deux (ex: ghost + destructive pour une suppression discrète en table, filled + destructive pour une confirmation de suppression en modale).",
-   "enonce": "Chez nous, les styles et les tones d'un bouton se combinent librement, formant seize combinaisons de couleurs possibles, chacune ayant un sens propre.",
+   "solution": "les deux axes se combinent librement — 4 × 3 = 12 combinaisons colorées. Un bouton n'est jamais \"juste destructive\" — il est toujours une combinaison des deux (ex: ghost + destructive pour une suppression discrète en table, filled + destructive pour une confirmation de suppression en modale).",
+   "enonce": "Chez nous, les styles et les tones d'un bouton se combinent librement, formant douze combinaisons de couleurs possibles, chacune ayant un sens propre.",
    "mesure": "chaque combinaison des styles et des tones du bouton dispose d'un rendu de couleur défini",
    "contre": "",
    "probleme": "",
@@ -1988,18 +1988,7 @@
    "sources": [],
    "principale": null,
    "confiance": "",
-   "cas": [
-    {
-     "id": "cas-0-5",
-     "titre": "Bouton de confirmation",
-     "famille": "Intention (le rôle du bouton dans la décision)"
-    },
-    {
-     "id": "cas-1-1",
-     "titre": "Bouton dans une modale",
-     "famille": "Conteneur / contexte d'intégration"
-    }
-   ]
+   "cas": []
   },
   {
    "id": "BUTTON-R18",
@@ -2132,7 +2121,7 @@
   {
    "id": "BUTTON-R26",
    "couche": "ux",
-   "solution": "exception documentée — un ghost peut porter une action à enjeu réel si son tone (destructive/warning) compense — voir table de combinaisons.",
+   "solution": "exception documentée — un ghost peut porter une action à enjeu réel si son tone (destructive) compense — voir table de combinaisons.",
    "enonce": "Chez nous, un bouton au style le plus discret peut porter une action à enjeu réel si sa couleur sémantique compense sa faible présence visuelle.",
    "mesure": "",
    "contre": "",
@@ -2224,77 +2213,33 @@
   {
    "id": "BUTTON-R31",
    "couche": "ux",
-   "solution": "porter une action qui a un poids réel — elle déclenche quelque chose de conséquent, mérite l'attention, engage potentiellement un tiers (support, hiérarchie, service d'urgence) — mais qui **ne détruit ni ne retire rien**.",
-   "enonce": "Chez nous, le tone d'avertissement porte une action qui a un poids réel et mérite l'attention, sans jamais détruire ni retirer quoi que ce soit.",
+   "solution": "abrogée — le tone warning est retiré du bouton (arbitrage 2026-07-29, cf. DECISIONS.md).",
+   "enonce": "L'avertissement est un message, jamais une action : il vit dans Alert (et les futurs Badge), pas dans Button — un bouton d'avertissement au style contour se confond avec une alerte. L'action « à portée réelle » que R31 visait (signaler, alerter un tiers) se porte avec un tone primary ou neutral et un libellé explicite ; c'est le contexte (modale de confirmation, message adjacent) qui porte l'avertissement. L'ID est conservé pour l'historique.",
    "mesure": "",
    "contre": "",
    "probleme": "",
-   "statut": "identite",
-   "statutLibelle": "parti pris d'identité",
-   "interne": false,
-   "sources": [
-    {
-     "ref": "S8",
-     "affirmation": "Distinction Warning vs Destructive (statut propre)",
-     "liens": [
-      {
-       "label": "Observation patterns mobile (menus d'action)",
-       "url": null
-      }
-     ],
-     "confiance": "Non formalisée dans la littérature de design system grand public"
-    }
-   ],
-   "principale": {
-    "ref": "S8",
-    "affirmation": "Distinction Warning vs Destructive (statut propre)",
-    "liens": [
-     {
-      "label": "Observation patterns mobile (menus d'action)",
-      "url": null
-     }
-    ],
-    "confiance": "Non formalisée dans la littérature de design system grand public"
-   },
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
    "confiance": "",
    "cas": []
   },
   {
    "id": "BUTTON-R32",
    "couche": "ux",
-   "solution": "règle d'isolement — même logique que le destructive : séparé visuellement des actions fréquentes.",
-   "enonce": "Chez nous, un bouton d'avertissement est isolé visuellement des actions fréquentes, selon la même logique que le bouton destructif.",
-   "mesure": "aucun bouton au tone d'avertissement n'occupe l'emplacement habituel d'une action fréquente",
+   "solution": "abrogée avec R31 — la règle d'isolement de l'avertissement suit le tone retiré.",
+   "enonce": "Sans tone d'avertissement, la règle d'isolement correspondante n'a plus d'objet sur le bouton ; l'isolement du destructif (R30) demeure.",
+   "mesure": "",
    "contre": "",
-   "probleme": "la distinguer du destructive n'est pas cosmétique — confondre les deux fait porter au destructive un sens qu'il n'a pas, et inversement banalise le warning.",
-   "statut": "identite",
-   "statutLibelle": "parti pris d'identité",
-   "interne": false,
-   "sources": [
-    {
-     "ref": "S8",
-     "affirmation": "Distinction Warning vs Destructive (statut propre)",
-     "liens": [
-      {
-       "label": "Observation patterns mobile (menus d'action)",
-       "url": null
-      }
-     ],
-     "confiance": "Non formalisée dans la littérature de design system grand public"
-    }
-   ],
-   "principale": {
-    "ref": "S8",
-    "affirmation": "Distinction Warning vs Destructive (statut propre)",
-    "liens": [
-     {
-      "label": "Observation patterns mobile (menus d'action)",
-      "url": null
-     }
-    ],
-    "confiance": "Non formalisée dans la littérature de design system grand public"
-   },
-   "confiance": "non formalisé — distinction observée dans des patterns mobile (ex: menus d'action avec option \"signaler\"), non formalisée dans la littérature de design system grand public à ce jour.",
+   "probleme": "",
+   "statut": "methode",
+   "statutLibelle": "note de méthode",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
    "cas": []
   },
   {

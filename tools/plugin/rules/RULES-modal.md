@@ -39,7 +39,7 @@ selon-contexte: ["button (bouton destructif et paire d'actions du Footer)", "for
 - Seul le `Body` défile ; jamais la page, jamais toute la surface. `Header`/`Footer` fixes, actions toujours visibles.
 
 ## UI (tokens)
-- `size="narrow"` → `grid.container-narrow` ; `size="default"` → `grid.overlay` ; aucun autre cran.
+- `size="narrow"` → `grid.container-narrow` ; `size="default"` → `grid.overlay` ; `size="wide"` → `grid.container-default` (1024 — modale porteuse d'illustration ou de tableau court, ajouté 2026-07-29). La confirmation reste narrow.
 - Voile `overlay.scrim` sous la surface, `z-index.overlay` partagé. Surface : `elevation.overlay` (jamais `elevation.raised`), `radius.md`, `color.border`. Focus ring `border.focus-width`/`border.focus-offset`, piège manuel.
 - Scroll-lock : verrouille `body` **et chaque ancêtre défilant réel** du déclencheur, pas seulement `document.body`. Mouvement `opacity`+`translate-y` sur `motion.slow` (voile idem), `prefers-reduced-motion` respecté.
 - Footer : séparateur `color.border` en trait supérieur, `spacing.*` d'abord. Fond non `inert` nativement, approché par scrim + piège manuel + `aria-modal` (identique Drawer).

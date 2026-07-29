@@ -1,0 +1,62 @@
+[
+  {
+    "file": "components/button/relief.css",
+    "motif": "rgba(255, 255, 255, 0.95)",
+    "classe": "mécanique-relief",
+    "raison": "Liseré haut du relief lighter au repos : blanc quasi-opaque posé SUR le fond du bouton, pas une couleur de rôle — la grammaire du relief (Figma 128:136) le définit localement."
+  },
+  {
+    "file": "components/submit-button/submit-button.css",
+    "motif": "rgba(79, 70, 229, .35)",
+    "classe": "repli-progressif",
+    "raison": "Première déclaration `stroke` = repli pour navigateurs sans color-mix ; la ligne suivante la remplace par color-mix(var(--primary) 35%). Paire volontaire, à garder tant que color-mix n'est pas universel."
+  },
+  {
+    "file": "components/submit-button/submit-button.css",
+    "motif": "rgba(3, 7, 18, .34)",
+    "classe": "mécanique-emotion",
+    "raison": "Drop-shadow animé du vol de l'avion (GSAP, --pp-sh variable) — ombre de scène chorégraphiée, hors grammaire elevation."
+  },
+  {
+    "file": "components/delete-button/delete-button.css",
+    "motif": "--del-",
+    "classe": "var-locale",
+    "raison": "Variables de la machine d'animation E-motion (géométrie des facettes), fallback = valeur par défaut du composant autonome."
+  },
+  {
+    "file": "components/delete-button/delete-button.css",
+    "motif": "--span-",
+    "classe": "var-locale",
+    "raison": "Variables par-lettre de l'animation d'éclatement — géométrie, pas des tokens."
+  },
+  {
+    "file": "components/delete-button/delete-button.css",
+    "motif": "--dscale",
+    "classe": "var-locale",
+    "raison": "Échelle d'animation locale."
+  },
+  {
+    "file": "components/submit-button/submit-button.css",
+    "motif": "--pp-",
+    "classe": "var-locale",
+    "raison": "Variables de la chorégraphie avion en papier (GSAP) — géométrie locale."
+  },
+  {
+    "file": "components/card-group/card-group.css",
+    "motif": "--grp-cols",
+    "classe": "var-locale",
+    "raison": "Nombre de colonnes injecté par le composant ; fallback 2 = défaut viable sans JS."
+  },
+  {
+    "file": "components/theme-toggle/theme-toggle.css",
+    "motif": "--tt-",
+    "classe": "var-locale",
+    "raison": "Géométrie de la piste/du pouce par taille — dimensionnement local documenté."
+  },
+  {
+    "file": "components/drawer/drawer.css",
+    "motif": "--ds-drawer-w",
+    "classe": "var-locale",
+    "raison": "Largeur réelle du cran courant, posée par le composant pour le push du Frame."
+  }
+]

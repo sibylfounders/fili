@@ -1,7 +1,7 @@
 ---
 sujet: toast
 type: composant
-resume: "Feedback réactif et chronométré : tone (info/success/warning/danger), une action tolérée (undo), empilement FIFO 2-3 max, position pilotée par Adaptive — jamais le seul porteur d'une information qui compte encore"
+resume: "Feedback réactif et chronométré : tone (info/success/warning/danger/neutral, défaut neutral), une action tolérée (undo), empilement FIFO 2-3 max, position pilotée par Adaptive — jamais le seul porteur d'une information qui compte encore"
 requires: []
 selon-contexte: ["alert (frontière flux/superposé, tone et rôles hérités)", "interaction (elevation.overlay désigné pour le toast)", "button (l'action undo suit RULES-button)", "emotion (instrument illustration, toast seul, envoi réussi)", "adaptive (position pilotée par conteneur)"]
 ---
@@ -10,7 +10,7 @@ selon-contexte: ["alert (frontière flux/superposé, tone et rôles hérités)",
 > Généré depuis `components/toast/TOAST-UX.md` (v1.0.0) et `TOAST-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Axes
-- Un seul axe : **tone** (info/success/warning/danger) — identique à alert, aucun token couleur nouveau. **Pas d'axe persistance** : le toast est temporaire par nature, c'est ce qui le distingue de l'alert.
+- Un seul axe : **tone** (info/success/warning/danger/neutral — défaut `neutral`, l'inverse haute-contraste, ex-`reverse` renommé 2026-07-29 ; les quatre autres identiques à alert). **Pas d'axe persistance** : le toast est temporaire par nature, c'est ce qui le distingue de l'alert. Fermeture : `closing` auto/close/timer.
 - **Frontière avec Alert** : l'alert vit *dans le flux* ; le toast vit *au-dessus*, injecté par le système, toujours réactif. Le toast est le territoire du feedback immédiat d'une action réussie — le registre qu'Alert exclut explicitement de lui-même.
 - Échelle d'interruption héritée : **alert < toast < modale**.
 

@@ -204,7 +204,13 @@ module.exports = {
     "md": "var(--radius-md)",
     "lg": "var(--radius-lg)",
     "2xl": "var(--radius-2xl)",
-    "pill": "var(--radius-pill)"
+    "pill": "var(--radius-pill)",
+    "control": "var(--control-radius)",
+    "surface": "var(--surface-radius)",
+    "overlay": "var(--overlay-radius)",
+    "button": "var(--button-radius)",
+    "input": "var(--input-radius)",
+    "card": "var(--card-radius)"
   },
   "boxShadow": {
     "none": "none",

@@ -264,6 +264,66 @@ export const border = {
   "focus-offset": "2px", // écart composant ↔ anneau (le ring s'ajoute, ne remplace pas la bordure d'état)
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ÉTAGE 2 (suite) — RÔLES TRANSVERSAUX NON-COULEUR (chantier cohérence 2026-07-29).
+// Un rôle n'entre ici que s'il a PLUSIEURS consommateurs ou une autorité claire.
+// Les valeurs sont des références var(--…) : la cascade est MÉCANIQUE dans le CSS
+// généré — changer un rôle maître se propage à tous ses consommateurs.
+// Une valeur { light, dark } génère la variante sombre dans [data-theme="dark"].
+// ─────────────────────────────────────────────────────────────────────────────
+export const transversal = {
+  // Un CONTRÔLE : l'objet qu'on presse (Button, CompactButton, déclencheur Select,
+  // Switch, ThemeToggle, boutons expressifs).
+  control: {
+    // Focus unifié de la fondation BORDER (R06/U02) : outline accent, jamais un ring accordé
+    // au ton (décision BUTTON-UI abrogée — arbitrage Aurélien 2026-07-29, cf. DECISIONS.md).
+    "focus-color":  "var(--accent)",
+    "focus-width":  "var(--focus-width)",
+    "focus-offset": "var(--focus-offset)",
+    radius: "var(--radius-md)",
+    // Relief « posé » : repos → raised, survol → overlay, pressé → s'enfonce.
+    "raised-shadow":  "var(--elevation-raised)",
+    "hover-shadow":   "var(--elevation-overlay)",
+    // Ombre pressée UNIQUE (référence : atelier Figma 128:136, portée par relief.css).
+    // Avant le chantier, trois alphas coexistaient (0.05 / 0.15 / 0.2) pour le même geste.
+    "pressed-shadow": {
+      light: "inset 0 4px 4px rgba(12, 12, 13, 0.05)",
+      dark:  "inset 0 4px 4px rgba(0, 0, 0, 0.45)",
+    },
+    // Ancres du relief : cibles des color-mix (assombrir vers le noir froid, éclaircir
+    // vers le blanc). Étaient codées #030712 / #fff dans chaque .css expressif.
+    "mix-dark":  "var(--neutral-950)",
+    "mix-light": "var(--static-white)",
+  },
+  // Un CHAMP : la zone réceptive au relief creusé (Input, déclencheur Select en relief).
+  field: {
+    border: "var(--border)",
+    "inset-shadow": {
+      light: "inset 0 4px 4px -1px rgba(12, 12, 13, 0.05)",
+      dark:  "inset 0 4px 4px -1px rgba(0, 0, 0, 0.4)",
+    },
+  },
+  // Une SURFACE conteneur (Card, Alert — cran lg, décision Pilule 2026-07-29).
+  surface: { radius: "var(--radius-lg)" },
+  // Un SUPERPOSÉ (Modal, Drawer, menus Dropdown, listbox Select).
+  overlay: { radius: "var(--radius-lg)", elevation: "var(--elevation-overlay)" },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ÉTAGE 3 — ALIAS DE COMPOSANT : uniquement ce que le CONTRAT du composant exige.
+// Chaque alias pointe vers un rôle transversal — jamais vers une primitive.
+// Créés pour la tranche pilote Button/Input/Card ; étendre au fil de la propagation.
+// ─────────────────────────────────────────────────────────────────────────────
+export const componentTokens = {
+  button: { radius: "var(--control-radius)" },
+  input:  {
+    radius: "var(--control-radius)",
+    "focus-color": "var(--control-focus-color)",
+    border: "var(--field-border)",
+  },
+  card:   { radius: "var(--surface-radius)" },
+};
+
 // Z-INDEX — ordre des couches superposées (DS-MD z-index, fondation overlay 1.30.0).
 export const zIndex = {
   sticky:  "100",

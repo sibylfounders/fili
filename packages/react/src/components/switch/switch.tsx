@@ -65,7 +65,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         onClick={() => onCheckedChange?.(!checked)}
         className={cn(
           trackVariants({ size }),
-          checked ? "bg-primary" : "bg-neutral-200",
+          checked ? "bg-primary" : "bg-surface-hover",
           loading && "ds-skeleton",
           className,
         )}

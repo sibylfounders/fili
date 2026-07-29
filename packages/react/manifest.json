@@ -1,0 +1,1067 @@
+{
+  "$schema": "./src/manifest/schema.ts",
+  "generated": "genere-manifeste.mjs — NE PAS ÉDITER",
+  "entries": [
+    {
+      "name": "Accordion",
+      "package": "@fili/react",
+      "import": "import { Accordion } from \"@fili/react\";",
+      "status": "stable",
+      "category": "contenu",
+      "purpose": "Sections dépliables (multi-ouvert par défaut) — headings réels + aria-expanded.",
+      "doctrine": {
+        "ux": "components/ACCORDION-UX.md",
+        "ui": "components/ACCORDION-UI.md"
+      },
+      "rules": "RULES-accordion.md",
+      "anatomy": [
+        "Accordion",
+        "Accordion.Item",
+        "Accordion.Header",
+        "Accordion.Panel"
+      ],
+      "props": {
+        "type": {
+          "type": "\"single\" | \"multiple\"",
+          "default": "\"multiple\"",
+          "description": "single = un seul panneau ouvert."
+        },
+        "level": {
+          "type": "2…6",
+          "default": "3",
+          "description": "Niveau de heading réel du Header."
+        }
+      }
+    },
+    {
+      "name": "Alert",
+      "package": "@fili/react",
+      "import": "import { Alert } from \"@fili/react\";",
+      "status": "stable",
+      "category": "message",
+      "purpose": "Message contextuel persistant. L'icône est la silhouette normative du tone — jamais retirée.",
+      "doctrine": {
+        "ux": "components/ALERT-UX.md",
+        "ui": "components/ALERT-UI.md"
+      },
+      "rules": "RULES-alert.md",
+      "anatomy": [
+        "Alert.Root",
+        "Alert.Icon",
+        "Alert.Content",
+        "Alert.Title",
+        "Alert.Description",
+        "Alert.Actions",
+        "Alert.Close"
+      ],
+      "axes": {
+        "tone": {
+          "kind": "tone",
+          "description": "Sémantique du message (registre messages du dictionnaire des tones).",
+          "values": {
+            "info": "information",
+            "success": "confirmation",
+            "warning": "avertissement",
+            "danger": "erreur/danger"
+          },
+          "default": "info"
+        }
+      },
+      "props": {
+        "live": {
+          "type": "boolean",
+          "default": "false",
+          "description": "true → role=alert (danger/warning) ou role=status."
+        }
+      },
+      "antiPatterns": [
+        "S'en servir comme bouton warning (l'avertissement est un message, pas une action)"
+      ]
+    },
+    {
+      "name": "AppLayout",
+      "package": "@fili/react",
+      "import": "import { AppLayout } from \"@fili/react\";",
+      "status": "stable",
+      "category": "gabarit",
+      "purpose": "Façade du shell applicatif (sidebar repliable, topbar, aside) pilotée par la largeur du shell, pas du viewport.",
+      "doctrine": null,
+      "rules": null,
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"docs\"",
+          "default": "\"default\"",
+          "description": "Gabarit app ou documentation."
+        },
+        "collapsible": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Rail de navigation repliable."
+        }
+      }
+    },
+    {
+      "name": "AppShell",
+      "package": "@fili/react",
+      "import": "import { AppShell } from \"@fili/react\";",
+      "status": "interne",
+      "category": "gabarit",
+      "purpose": "Primitive bas-niveau à 3 régions sous AppLayout. Préférer AppLayout ; statut interne recommandé (zéro consommateur).",
+      "doctrine": null,
+      "rules": null
+    },
+    {
+      "name": "Brand",
+      "package": "@fili/react",
+      "import": "import { Brand } from \"@fili/react\";",
+      "status": "stable",
+      "category": "identité",
+      "purpose": "Verrou logo + nom pour la tête de rail.",
+      "doctrine": null,
+      "rules": null,
+      "anatomy": [
+        "Brand.Root",
+        "Brand.Logo",
+        "Brand.Text"
+      ]
+    },
+    {
+      "name": "Button",
+      "package": "@fili/react",
+      "import": "import { Button } from \"@fili/react\";",
+      "status": "stable",
+      "category": "contrôle",
+      "purpose": "Déclencher une action. Jamais une navigation (→ Link) ni un avertissement (→ Alert).",
+      "doctrine": {
+        "ux": "components/BUTTON-UX.md",
+        "ui": "components/BUTTON-UI.md"
+      },
+      "rules": "RULES-button.md",
+      "anatomy": [
+        "Button.Root",
+        "Button.Icon"
+      ],
+      "axes": {
+        "variant": {
+          "kind": "variant",
+          "description": "La facture (le remplissage) — orthogonale au tone.",
+          "values": {
+            "filled": "fond plein + texte on-* — l'action qui doit se voir",
+            "stroke": "contour délimitant + texte tone — action secondaire affirmée",
+            "lighter": "lavis (fond doux) — action présente sans crier",
+            "ghost": "sans fond, remplissage léger au survol — action discrète"
+          },
+          "default": "filled"
+        },
+        "tone": {
+          "kind": "tone",
+          "description": "L'intention de l'action. PAS de warning : l'avertissement est un message (Alert), jamais une action (arbitrage 2026-07-29).",
+          "values": {
+            "primary": "l'action principale (marque)",
+            "neutral": "l'action ordinaire (haute-contraste, s'inverse en sombre)",
+            "destructive": "l'action irréversible — consomme la famille chromatique danger"
+          },
+          "default": "primary"
+        },
+        "size": {
+          "kind": "size",
+          "description": "La densité du contrôle.",
+          "values": {
+            "sm": "min-h 32px",
+            "md": "min-h 40px",
+            "lg": "min-h 48px"
+          },
+          "default": "md"
+        }
+      },
+      "props": {
+        "style": {
+          "type": "ButtonVariant",
+          "description": "Ancien nom de variant.",
+          "deprecated": "Utiliser `variant` (mêmes valeurs ; variant l'emporte). Retrait en prochaine majeure."
+        },
+        "iconOnly": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Bouton carré (largeur = hauteur) — exige un aria-label."
+        },
+        "asChild": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Rend l'enfant à la place du <button> (Radix Slot)."
+        },
+        "loading": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Squelette de chargement aux mêmes dimensions (aria-busy, désactivé)."
+        }
+      },
+      "tokens": [
+        "--button-radius → --control-radius",
+        "--control-focus-* (anneau unique BORDER via .ds-focus-ring)",
+        "--control-raised-shadow / --control-hover-shadow / --control-pressed-shadow (relief posé)",
+        "familles primary / neutral·surface-inverse / danger selon le tone"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active/pressed (relief s'enfonce)",
+        "disabled",
+        "loading"
+      ],
+      "accessibility": [
+        "type=button par défaut (jamais submit implicite)",
+        "focus ring accent ≥ 3:1 sur fond de page",
+        "disabled garde le curseur not-allowed (cause à exposer en usage)",
+        "iconOnly exige aria-label"
+      ],
+      "allowedComposition": [
+        "Button.Icon + libellé",
+        "asChild pour porter un <a> stylé bouton (navigation assumée)"
+      ],
+      "antiPatterns": [
+        "Recréer un bouton avec <div onClick> ou <button> natif stylé à la main",
+        "tone destructive pour une action banale (l'intention doit être réelle)",
+        "variant filled × plusieurs boutons de même rang (une seule action principale par vue)"
+      ],
+      "canonicalExamples": [
+        {
+          "title": "Action principale + secondaire",
+          "code": "<div className=\"flex gap-sm\">\n  <Button variant=\"filled\" tone=\"primary\">Enregistrer</Button>\n  <Button variant=\"stroke\" tone=\"neutral\">Annuler</Button>\n</div>"
+        },
+        {
+          "title": "Destructive avec icône",
+          "code": "<Button variant=\"lighter\" tone=\"destructive\" size=\"sm\">\n  <Button.Icon><svg viewBox=\"0 0 20 20\" /></Button.Icon>\n  Supprimer\n</Button>"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "package": "@fili/react",
+      "import": "import { Card } from \"@fili/react\";",
+      "status": "stable",
+      "category": "surface",
+      "purpose": "La surface de contenu autonome, adaptée à SON conteneur (container query, jamais le viewport). Identité fixe (outlined, relief au survol si interactive) — pas de tone.",
+      "doctrine": {
+        "ux": "components/CARD-UX.md",
+        "ui": "components/CARD-UI.md",
+        "pattern": "patterns/COLLECTION"
+      },
+      "rules": "RULES-card.md",
+      "anatomy": [
+        "Card.Root",
+        "Card.Media",
+        "Card.Header",
+        "Card.Body",
+        "Card.Title",
+        "Card.TitleLink",
+        "Card.Description",
+        "Card.Actions",
+        "Card.Chevron",
+        "Card.Skeleton"
+      ],
+      "axes": {
+        "mode": {
+          "kind": "mode",
+          "description": "Nature de l'interaction — langage transversal INTERACTION (R26-R28) : réservé aux surfaces-conteneurs, jamais aux contrôles.",
+          "values": {
+            "static": "aucune interaction propre",
+            "clickable": "toute la surface navigue (lien étendu via Card.TitleLink)",
+            "selectable": "la surface se sélectionne (selected)",
+            "expandable": "la surface se déplie (Card.Chevron)"
+          },
+          "default": "static"
+        },
+        "density": {
+          "kind": "density",
+          "description": "Densité de la composition interne.",
+          "values": {
+            "comfortable": "espacements pleins",
+            "compact": "espacements resserrés"
+          },
+          "default": "comfortable"
+        }
+      },
+      "props": {
+        "selected": {
+          "type": "boolean",
+          "description": "État sélectionné (mode selectable)."
+        },
+        "adaptiveMedia": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Media passe à côté du contenu dès ~24rem de largeur RÉELLE."
+        },
+        "loading": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Rend Card.Skeleton aux mêmes proportions."
+        }
+      },
+      "tokens": [
+        "--card-radius → --surface-radius (cran lg des surfaces conteneur)",
+        ".ds-interactive / .ds-interactive-target (langage INTERACTION : relief hover, lien étendu)",
+        "border / background / surface"
+      ],
+      "states": [
+        "static",
+        "hover (relief si interactive)",
+        "selected",
+        "loading"
+      ],
+      "accessibility": [
+        "lien étendu accessible : la cible reste le Card.TitleLink (un vrai <a>), pas un onClick de div",
+        "titre = vrai heading (Card.Title as h2…h6)"
+      ],
+      "adaptiveBehavior": "Container query sur sa propre largeur (état compact empilé = CSS de base ; regular côte-à-côte ≥ 24rem).",
+      "allowedComposition": [
+        "CardGroup pour toute COLLECTION de cartes (le mode vit alors sur la collection)"
+      ],
+      "antiPatterns": [
+        "Recréer une carte avec div + border + shadow à la main",
+        "onClick sur la surface entière sans lien réel (le lien étendu passe par TitleLink)",
+        "mode sur un contrôle (INTERACTION-R27 : surfaces-conteneurs seulement)"
+      ],
+      "canonicalExamples": [
+        {
+          "title": "Carte cliquable",
+          "code": "<Card.Root mode=\"clickable\">\n  <Card.Body>\n    <Card.Header>\n      <Card.Title><Card.TitleLink href=\"/article\">Titre de l'article</Card.TitleLink></Card.Title>\n    </Card.Header>\n    <Card.Description>Résumé en une ou deux phrases.</Card.Description>\n  </Card.Body>\n</Card.Root>"
+        }
+      ]
+    },
+    {
+      "name": "CardGroup",
+      "package": "@fili/react",
+      "import": "import { CardGroup } from \"@fili/react\";",
+      "status": "stable",
+      "category": "collection",
+      "purpose": "LA collection de cartes : grille intrinsèque, un seul mode pour toute la collection, proximité au survol.",
+      "doctrine": {
+        "pattern": "patterns/COLLECTION-UX.md + COLLECTION-UI.md"
+      },
+      "rules": "RULES-collection.md",
+      "props": {
+        "cols": {
+          "type": "1 | 2 | 3 | 4 | \"auto\"",
+          "default": "\"auto\"",
+          "description": "auto = grille intrinsèque (jamais un nombre par appareil)."
+        },
+        "density": {
+          "type": "\"spacious\" | \"comfortable\" | \"compact\"",
+          "default": "\"comfortable\"",
+          "description": "Densité de la collection."
+        },
+        "mode": {
+          "type": "\"static\" | \"clickable\" | \"selectable\"",
+          "default": "\"static\"",
+          "description": "Mode UNIQUE pour toute la collection."
+        },
+        "orientation": {
+          "type": "\"stacked\" | \"inline\"",
+          "default": "\"stacked\"",
+          "description": "Cartes empilées ou en ligne."
+        }
+      },
+      "antiPatterns": [
+        "Grille de cartes à la main (grid-cols-* par breakpoint viewport) — la collection est intrinsèque"
+      ]
+    },
+    {
+      "name": "CompactButton",
+      "package": "@fili/react",
+      "import": "import { CompactButton } from \"@fili/react\";",
+      "status": "stable",
+      "category": "contrôle",
+      "purpose": "Bouton icon-only pour les espaces contraints (fermer, développer, action en ligne).",
+      "doctrine": {
+        "ux": "components/BUTTON-UX.md",
+        "ui": "components/BUTTON-UI.md"
+      },
+      "rules": "RULES-button.md",
+      "anatomy": [
+        "CompactButton.Root",
+        "CompactButton.Icon"
+      ],
+      "axes": {
+        "variant": {
+          "kind": "variant",
+          "description": "Même facture que Button.",
+          "values": {
+            "filled": "fond plein + texte on-* — l'action qui doit se voir",
+            "stroke": "contour délimitant + texte tone — action secondaire affirmée",
+            "lighter": "lavis (fond doux) — action présente sans crier",
+            "ghost": "sans fond, remplissage léger au survol — action discrète"
+          },
+          "default": "lighter"
+        },
+        "tone": {
+          "kind": "tone",
+          "description": "Même intention que Button — défaut neutral (usage utilitaire).",
+          "values": {
+            "primary": "l'action principale (marque)",
+            "neutral": "l'action ordinaire (haute-contraste, s'inverse en sombre)",
+            "destructive": "l'action irréversible — consomme la famille chromatique danger"
+          },
+          "default": "neutral"
+        },
+        "size": {
+          "kind": "size",
+          "description": "Carré compact — étendre la cible tactile à 44px en usage.",
+          "values": {
+            "sm": "20px",
+            "md": "24px"
+          },
+          "default": "md"
+        }
+      },
+      "props": {
+        "style": {
+          "type": "ButtonVariant",
+          "description": "Ancien nom de variant.",
+          "deprecated": "Utiliser `variant`."
+        },
+        "fullRadius": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Cercle (true) vs arrondi --button-radius (false)."
+        },
+        "aria-label": {
+          "type": "string",
+          "required": true,
+          "description": "OBLIGATOIRE — icône seule, sans exception WCAG."
+        },
+        "loading": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Squelette de chargement."
+        }
+      },
+      "tokens": [
+        "--button-radius",
+        "--control-focus-*",
+        "mêmes familles de tone que Button"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "disabled",
+        "loading"
+      ],
+      "accessibility": [
+        "aria-label requis par le type",
+        "focus ring accent unique"
+      ],
+      "antiPatterns": [
+        "S'en servir pour une action principale libellée (→ Button)"
+      ],
+      "canonicalExamples": [
+        {
+          "title": "Fermer",
+          "code": "<CompactButton aria-label=\"Fermer\">\n  <CompactButton.Icon><svg viewBox=\"0 0 20 20\" /></CompactButton.Icon>\n</CompactButton>"
+        }
+      ]
+    },
+    {
+      "name": "Container",
+      "package": "@fili/react",
+      "import": "import { Container } from \"@fili/react\";",
+      "status": "stable",
+      "category": "gabarit",
+      "purpose": "Cadre de page (max-width + centrage). Le cran suit le contexte : narrow = formulaire, default = contenu, wide = dashboard.",
+      "doctrine": {
+        "pattern": "foundations/GRID"
+      },
+      "rules": null,
+      "props": {
+        "size": {
+          "type": "\"narrow\" | \"default\" | \"wide\" | \"full\"",
+          "default": "\"default\"",
+          "description": "Largeurs de contenu (langue narrow/default/wide — jamais sm/md/lg)."
+        }
+      }
+    },
+    {
+      "name": "DeleteButton",
+      "package": "@fili/react",
+      "import": "import { DeleteButton } from \"@fili/react\";",
+      "status": "expressif",
+      "category": "contrôle",
+      "purpose": "Bouton destructif E-motion (état terminal animé). Réservé aux moments mérités — budget de rareté.",
+      "doctrine": {
+        "ux": "components/BUTTON-UX.md §E-motion"
+      },
+      "rules": null,
+      "props": {
+        "onDelete": {
+          "type": "() => Promise<unknown> | unknown",
+          "description": "Action de suppression."
+        },
+        "size": {
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"lg\"",
+          "description": "Taille du contrôle."
+        }
+      }
+    },
+    {
+      "name": "Divider",
+      "package": "@fili/react",
+      "import": "import { Divider } from \"@fili/react\";",
+      "status": "stable",
+      "category": "structure",
+      "purpose": "Séparation décorative (ou sémantique avec decorative=false).",
+      "doctrine": {
+        "pattern": "foundations/BORDER"
+      },
+      "rules": null,
+      "props": {
+        "orientation": {
+          "type": "\"horizontal\" | \"vertical\"",
+          "default": "\"horizontal\"",
+          "description": "Sens du filet."
+        },
+        "decorative": {
+          "type": "boolean",
+          "default": "true",
+          "description": "false → role=separator + aria-orientation."
+        }
+      }
+    },
+    {
+      "name": "Drawer",
+      "package": "@fili/react",
+      "import": "import { Drawer } from \"@fili/react\";",
+      "status": "stable",
+      "category": "superposé",
+      "purpose": "Panneau ancré à un bord. Un « sheet » EST un Drawer top/bottom — pas de composant Sheet séparé.",
+      "doctrine": {
+        "pattern": "foundations/OVERLAY"
+      },
+      "rules": null,
+      "anatomy": [
+        "Drawer",
+        "Drawer.Frame (requis pour push/depth)"
+      ],
+      "axes": {
+        "side": {
+          "kind": "enum",
+          "description": "Bord d'ancrage (directions logiques).",
+          "values": {
+            "start": "rail début",
+            "end": "rail fin",
+            "top": "feuille haute centrée",
+            "bottom": "feuille basse centrée"
+          },
+          "default": "start"
+        },
+        "size": {
+          "kind": "enum",
+          "description": "Double lecture : largeur du panneau (start/end) ou de la feuille centrée (top/bottom). Défaut contextuel : narrow en start/end, full en top/bottom.",
+          "values": {
+            "narrow": "280 / 480px",
+            "default": "480 / 640px",
+            "wide": "640 / 1024px",
+            "full": "≈85% / pleine largeur"
+          },
+          "default": null
+        },
+        "effect": {
+          "kind": "enum",
+          "description": "push impossible en vertical (repli overlay) ; push/depth exigent <Drawer.Frame>.",
+          "values": {
+            "overlay": "par-dessus + scrim",
+            "push": "pousse le contenu du Frame"
+          },
+          "default": "overlay"
+        }
+      },
+      "props": {
+        "open": {
+          "type": "boolean",
+          "required": true,
+          "description": "Contrôlé."
+        },
+        "onClose": {
+          "type": "() => void",
+          "required": true,
+          "description": "Échap / scrim / bouton."
+        },
+        "depth": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Depth Transition (fond qui recule) — combinable."
+        }
+      }
+    },
+    {
+      "name": "Dropdown",
+      "package": "@fili/react",
+      "import": "import { Dropdown } from \"@fili/react\";",
+      "status": "stable",
+      "category": "superposé",
+      "purpose": "Menu d'ACTIONS (jamais de valeur — ça, c'est Select). Placement auto par défaut ; Dropdown.Inline pour la forme à plat.",
+      "doctrine": {
+        "pattern": "foundations/OVERLAY"
+      },
+      "rules": null,
+      "anatomy": [
+        "Dropdown.Root",
+        "Dropdown.Trigger",
+        "Dropdown.Content",
+        "Dropdown.Item",
+        "Dropdown.Label",
+        "Dropdown.Separator",
+        "Dropdown.Inline"
+      ],
+      "props": {
+        "side": {
+          "type": "\"top\" | \"bottom\" | \"auto\"",
+          "default": "\"auto\"",
+          "description": "Placement mesuré à l'ouverture ; explicite = forçage."
+        },
+        "align": {
+          "type": "\"start\" | \"center\" | \"end\" | \"auto\"",
+          "default": "\"auto\"",
+          "description": "Alignement."
+        }
+      },
+      "antiPatterns": [
+        "Y mettre une sélection de valeur (→ Select)",
+        "Item sans onSelect ni href"
+      ]
+    },
+    {
+      "name": "Input",
+      "package": "@fili/react",
+      "import": "import { Input } from \"@fili/react\";",
+      "status": "stable",
+      "category": "champ",
+      "purpose": "La zone réceptive du formulaire (relief creusé). API compound Root > Wrapper > (Icon · Input · InlineAffix) + Affix ; sous-composants Password / Search / Number / Textarea.",
+      "doctrine": {
+        "ux": "components/INPUT-UX.md",
+        "ui": "components/INPUT-UI.md",
+        "pattern": "patterns/FORM"
+      },
+      "rules": "RULES-input.md",
+      "anatomy": [
+        "Input.Root",
+        "Input.Wrapper",
+        "Input.Icon",
+        "Input.Input",
+        "Input.InlineAffix",
+        "Input.Affix",
+        "Input.Password",
+        "Input.Search",
+        "Input.Number",
+        "Input.Textarea"
+      ],
+      "axes": {
+        "status": {
+          "kind": "status",
+          "description": "Statut de validation — SUBI par les données, jamais décoratif. En error, aria-invalid est posé automatiquement. (Renommé depuis `tone`, 2026-07-29.)",
+          "values": {
+            "default": "bordure border-strong (délimitante 3:1)",
+            "error": "bordure danger",
+            "success": "bordure success",
+            "warning": "bordure warning"
+          },
+          "default": "default"
+        },
+        "size": {
+          "kind": "size",
+          "description": "Hauteur du champ (32/40/48px). Le 3e axe est field_type = le type HTML natif.",
+          "values": {
+            "sm": "32px, rayon sm",
+            "md": "40px",
+            "lg": "48px"
+          },
+          "default": "md"
+        }
+      },
+      "props": {
+        "clearable": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Croix d'effacement standard (Input.Input)."
+        },
+        "loading": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Squelette de chargement (Root)."
+        },
+        "asChild": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Slot Radix sur Root."
+        }
+      },
+      "tokens": [
+        "--input-radius → --control-radius (md/lg ; sm garde radius-sm)",
+        "--input-border → --field-border ; --field-inset-shadow (relief creusé)",
+        "--input-focus-color → --control-focus-color (anneau unique BORDER)",
+        "bordures de statut : danger / success / warning"
+      ],
+      "states": [
+        "default",
+        "focus-visible (ring accent + bordure d'état ensemble)",
+        "error",
+        "success",
+        "warning",
+        "disabled",
+        "loading"
+      ],
+      "accessibility": [
+        "aria-invalid automatique en error",
+        "le ring s'ajoute à la bordure d'état (les deux restent lisibles — BORDER-R07)",
+        "Password : aria-pressed sur le toggle œil ; Number : réservé aux quantités (OTP/code postal = text + inputmode)"
+      ],
+      "adaptiveBehavior": "Largeur fluide (w-full) — la largeur vient du gabarit de formulaire (container-narrow).",
+      "allowedComposition": [
+        "FORM : Input + Select + Button + Alert",
+        "Affix pour unités/domaines ; Icon pour la nature du champ"
+      ],
+      "antiPatterns": [
+        "<input> natif stylé à la main hors mécanique interne",
+        "status utilisé comme décor (un champ n'est pas « orange » : il est en warning)",
+        "Input.Number pour un code (OTP, postal) — c'est un text + inputmode"
+      ],
+      "canonicalExamples": [
+        {
+          "title": "Champ e-mail avec statut d'erreur",
+          "code": "<Input.Root status=\"error\">\n  <Input.Wrapper>\n    <Input.Input type=\"email\" placeholder=\"vous@exemple.fr\" aria-label=\"Adresse e-mail\" />\n  </Input.Wrapper>\n</Input.Root>"
+        },
+        {
+          "title": "Recherche effaçable",
+          "code": "<Input.Root>\n  <Input.Wrapper>\n    <Input.Search placeholder=\"Rechercher…\" aria-label=\"Rechercher\" />\n  </Input.Wrapper>\n</Input.Root>"
+        }
+      ]
+    },
+    {
+      "name": "Link",
+      "package": "@fili/react",
+      "import": "import { Link } from \"@fili/react\";",
+      "status": "stable",
+      "category": "contrôle",
+      "purpose": "La navigation. context règle la présentation (inline souligné, standalone, navigation avec current).",
+      "doctrine": {
+        "ux": "components/LINK-UX.md",
+        "ui": "components/LINK-UI.md"
+      },
+      "rules": "RULES-link.md",
+      "props": {
+        "context": {
+          "type": "\"inline\" | \"standalone\" | \"navigation\"",
+          "default": "\"standalone\"",
+          "description": "Environnement d'usage."
+        },
+        "current": {
+          "type": "boolean",
+          "description": "navigation seulement — aria-current + signal non chromatique."
+        }
+      },
+      "antiPatterns": [
+        "Un <button> qui navigue, un Link qui mute (l'action, c'est Button)"
+      ]
+    },
+    {
+      "name": "Modal",
+      "package": "@fili/react",
+      "import": "import { Modal } from \"@fili/react\";",
+      "status": "stable",
+      "category": "superposé",
+      "purpose": "Superposé modal centré (focus trap, scrim, Échap). Confirmation = narrow ; wide = illustration/tableau court.",
+      "doctrine": {
+        "ux": "components/MODAL-UX.md",
+        "ui": "components/MODAL-UI.md"
+      },
+      "rules": "RULES-modal.md",
+      "anatomy": [
+        "Modal.Root",
+        "Modal.Header",
+        "Modal.Body",
+        "Modal.Footer",
+        "Modal.Close"
+      ],
+      "axes": {
+        "placement": {
+          "kind": "enum",
+          "description": "Position verticale de la surface.",
+          "values": {
+            "center": "centrée",
+            "top": "haut (retrait 6vh)",
+            "bottom": "bas"
+          },
+          "default": "center"
+        }
+      },
+      "props": {
+        "open": {
+          "type": "boolean",
+          "required": true,
+          "description": "Contrôlé."
+        },
+        "onClose": {
+          "type": "() => void",
+          "required": true,
+          "description": "Fermeture."
+        },
+        "size": {
+          "type": "\"narrow\" | \"default\" | \"wide\"",
+          "default": "\"narrow\"",
+          "description": "Largeurs de contenu."
+        }
+      }
+    },
+    {
+      "name": "Nav",
+      "package": "@fili/react",
+      "import": "import { Nav } from \"@fili/react\";",
+      "status": "stable",
+      "category": "navigation",
+      "purpose": "Landmark de navigation (Root label requis) ; NavLink current = aria-current.",
+      "doctrine": {
+        "pattern": "patterns/NAVIGATION"
+      },
+      "rules": null,
+      "anatomy": [
+        "Nav.Root",
+        "Nav.List",
+        "Nav.Link"
+      ]
+    },
+    {
+      "name": "Select",
+      "package": "@fili/react",
+      "import": "import { Select } from \"@fili/react\";",
+      "status": "stable",
+      "category": "champ",
+      "purpose": "Choisir UNE valeur (combobox APG). native=true pour le menu de l'OS. Un menu d'actions, c'est Dropdown.",
+      "doctrine": {
+        "ux": "components/SELECT-UX.md",
+        "ui": "components/SELECT-UI.md"
+      },
+      "rules": "RULES-select.md",
+      "props": {
+        "options": {
+          "type": "SelectOption[]",
+          "required": true,
+          "description": "Les choix."
+        },
+        "value": {
+          "type": "string | null",
+          "required": true,
+          "description": "Contrôlé."
+        },
+        "onValueChange": {
+          "type": "(v: string) => void",
+          "required": true,
+          "description": "Changement."
+        },
+        "variant": {
+          "type": "\"default\" | \"ghost\"",
+          "default": "\"default\"",
+          "description": "Facture du déclencheur."
+        },
+        "size": {
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"md\"",
+          "description": "Taille du contrôle."
+        },
+        "native": {
+          "type": "boolean",
+          "default": "false",
+          "description": "<select> natif stylé."
+        }
+      }
+    },
+    {
+      "name": "Skeleton",
+      "package": "@fili/react",
+      "import": "import { Skeleton } from \"@fili/react\";",
+      "status": "stable",
+      "category": "affichage",
+      "purpose": "Squelette de chargement. Autonome, ou via la prop `loading` des composants (préférer loading).",
+      "doctrine": null,
+      "rules": null,
+      "props": {
+        "variant": {
+          "type": "\"block\" | \"text\" | \"circle\"",
+          "default": "\"block\"",
+          "description": "Forme."
+        },
+        "lines": {
+          "type": "number",
+          "description": "variant=text — dernière ligne raccourcie."
+        }
+      },
+      "antiPatterns": [
+        "Recomposer un squelette à la main quand le composant expose loading"
+      ]
+    },
+    {
+      "name": "SkipLink",
+      "package": "@fili/react",
+      "import": "import { SkipLink } from \"@fili/react\";",
+      "status": "stable",
+      "category": "navigation",
+      "purpose": "« Aller au contenu » (WCAG 2.4.1) — déplace réellement le focus.",
+      "doctrine": {
+        "pattern": "patterns/NAVIGATION"
+      },
+      "rules": null
+    },
+    {
+      "name": "SubmitButton",
+      "package": "@fili/react",
+      "import": "import { SubmitButton } from \"@fili/react\";",
+      "status": "expressif",
+      "category": "contrôle",
+      "purpose": "Bouton d'envoi E-motion (avion en papier). Moments mérités seulement.",
+      "doctrine": {
+        "ux": "components/BUTTON-UX.md + patterns/FORM (S21)"
+      },
+      "rules": null
+    },
+    {
+      "name": "Switch",
+      "package": "@fili/react",
+      "import": "import { Switch } from \"@fili/react\";",
+      "status": "stable",
+      "category": "champ",
+      "purpose": "Interrupteur à effet IMMÉDIAT (≠ checkbox). L'état se lit à la position du pouce, pas qu'à la couleur.",
+      "doctrine": {
+        "ux": "components/SWITCH-UX.md",
+        "ui": "components/SWITCH-UI.md"
+      },
+      "rules": "RULES-switch.md",
+      "props": {
+        "checked": {
+          "type": "boolean",
+          "required": true,
+          "description": "Contrôlé."
+        },
+        "onCheckedChange": {
+          "type": "(c: boolean) => void",
+          "description": "Bascule."
+        },
+        "size": {
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"md\"",
+          "description": "Taille."
+        }
+      },
+      "antiPatterns": [
+        "S'en servir dans un formulaire soumis plus tard (→ checkbox à venir / statut requis)"
+      ]
+    },
+    {
+      "name": "TableOfContents",
+      "package": "@fili/react",
+      "import": "import { TableOfContents } from \"@fili/react\";",
+      "status": "stable",
+      "category": "navigation",
+      "purpose": "Sommaire scrollspy (aria-current=location).",
+      "doctrine": {
+        "pattern": "patterns/NAVIGATION"
+      },
+      "rules": null
+    },
+    {
+      "name": "Tabs",
+      "package": "@fili/react",
+      "import": "import { Tabs } from \"@fili/react\";",
+      "status": "stable",
+      "category": "navigation",
+      "purpose": "Vues alternatives d'un même sujet (APG Tabs). Signal courant non chromatique.",
+      "doctrine": {
+        "ux": "components/TABS-UX.md",
+        "ui": "components/TABS-UI.md"
+      },
+      "rules": "RULES-tabs.md",
+      "anatomy": [
+        "Tabs.Root",
+        "Tabs.List",
+        "Tabs.Tab",
+        "Tabs.Panel"
+      ],
+      "props": {
+        "variant": {
+          "type": "\"line\" | \"pill\"",
+          "default": "\"line\"",
+          "description": "Facture."
+        },
+        "activation": {
+          "type": "\"auto\" | \"manual\"",
+          "default": "\"auto\"",
+          "description": "Activation au focus ou à l'entrée."
+        }
+      }
+    },
+    {
+      "name": "ThemeToggle",
+      "package": "@fili/react",
+      "import": "import { ThemeToggle } from \"@fili/react\";",
+      "status": "stable",
+      "category": "contrôle",
+      "purpose": "Interrupteur clair/sombre (soleil ↔ lune).",
+      "doctrine": null,
+      "rules": null,
+      "props": {
+        "checked": {
+          "type": "boolean",
+          "required": true,
+          "description": "true = sombre."
+        },
+        "onCheckedChange": {
+          "type": "(c: boolean) => void",
+          "required": true,
+          "description": "Bascule de thème."
+        }
+      }
+    },
+    {
+      "name": "Toast",
+      "package": "@fili/react",
+      "import": "import { Toast, useToast } from \"@fili/react\";",
+      "status": "stable",
+      "category": "message",
+      "purpose": "Notification éphémère, API impérative : useToast().toast({...}) sous <Toast.Provider>. FIFO max 3, durée calculée.",
+      "doctrine": {
+        "ux": "components/TOAST-UX.md",
+        "ui": "components/TOAST-UI.md"
+      },
+      "rules": "RULES-toast.md",
+      "axes": {
+        "tone": {
+          "kind": "tone",
+          "description": "Sémantique du message — neutral (inverse haute-contraste) par défaut.",
+          "values": {
+            "info": "information",
+            "success": "confirmation",
+            "warning": "avertissement",
+            "danger": "erreur",
+            "neutral": "neutre inverse (défaut)"
+          },
+          "default": "neutral"
+        }
+      },
+      "props": {
+        "closing": {
+          "type": "\"auto\" | \"close\" | \"timer\"",
+          "default": "\"auto\"",
+          "description": "Mode de fermeture."
+        },
+        "placement": {
+          "type": "ToastPlacement",
+          "default": "\"bottom\"",
+          "description": "Sur le Provider."
+        }
+      },
+      "antiPatterns": [
+        "Toast pour une erreur bloquante (→ Alert dans le flux)"
+      ]
+    }
+  ]
+}

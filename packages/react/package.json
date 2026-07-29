@@ -7,7 +7,9 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles.css": "./src/styles.css"
+    "./styles.css": "./src/styles.css",
+    "./manifest": "./src/manifest/index.ts",
+    "./manifest.json": "./manifest.json"
   },
   "dependencies": {
     "@fili/tokens": "*",
@@ -20,5 +22,8 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
+  },
+  "scripts": {
+    "manifeste": "node build/genere-manifeste.mjs"
   }
 }

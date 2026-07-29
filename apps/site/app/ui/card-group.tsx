@@ -116,8 +116,8 @@ export function CardGroup({ s, solo }: { s: CardState; solo?: boolean }) {
           actions={
             s.buttons && s.mode !== "clickable" ? (
               <>
-                <Button.Root style="stroke" tone="neutral" size="sm">Commencer</Button.Root>
-                <CompactButton style="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions">
+                <Button.Root variant="stroke" tone="neutral" size="sm">Commencer</Button.Root>
+                <CompactButton variant="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions">
                   <span dangerouslySetInnerHTML={H(MORE)} />
                 </CompactButton>
               </>

@@ -218,7 +218,8 @@ function tableIntentions() {
     '|---|---|---|---|',
   ];
   for (const b of bundles) {
-    const charger = b.fichiers.map((s) => `RULES-${s}`).join(', ') + (b.note ? ` — ${b.note}` : '');
+    const kit = b.kit ? ` · si le produit consomme @fili/react : + KIT-${b.kit}` : '';
+    const charger = b.fichiers.map((s) => `RULES-${s}`).join(', ') + kit + (b.note ? ` — ${b.note}` : '');
     lignes.push(`| **${b.intention}** | ${b.declencheurs} | ${charger} | ${fmtK(b.poids)} |`);
   }
   return lignes.join('\n');
@@ -261,6 +262,7 @@ Pour « audite cet écran / ce parcours » : saute directement au § **Mode audi
 8. Si une décision de design se pose au lieu d'être tranchée par une règle (choix de style ou de tone, niveau de friction, wording d'un label, conflit apparent, cas absent des RULES) : **stoppe et remonte la question en exposant les options** (2 à 4, chacune avec sa conséquence). Les lignes CONFIANCE calibrent la vitesse de remontée (établi > convergence > cas isolé > non formalisé — plus c'est faible, plus tu remontes vite).
 9. Une extension (type « extension » dans la table des sujets, ex. \`form-multi-step\`) ne se charge **jamais** par défaut avec son sujet parent — uniquement quand la situation qu'elle nomme se présente réellement dans la demande (étapes, validation asynchrone, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel). Charge le sujet parent en premier, l'extension en complément ciblé.
 10. **Socle universel** : \`RULES-accessibility\`, \`RULES-interaction\`, \`RULES-adaptive\`, \`RULES-cognitive-load\` et \`RULES-performance\` sont déjà chargés pour toute intention. Ils posent respectivement le principe d'accessibilité, le langage d'interaction, le principe adaptatif, le contrat de charge cognitive et le contrat des attentes (performance perçue). Ne jamais les retirer.
+11. **Si le produit construit avec \`@fili/react\`** : charge aussi \`KIT-socle\` + le \`KIT-<intention>\` de la table (contrat d'implémentation GÉNÉRÉ du manifeste du kit — imports exacts, axes, valeurs, défauts, anti-patterns, exemples compilables). Utilise ces composants tels quels : jamais de \`<button>\`/\`<input>\`/\`<select>\` recréés, jamais un composant \`interne\`. Composant manquant → protocole du manque (KIT-socle §3) : fiche de manque + validation, jamais une API publique improvisée. Si le produit ne consomme PAS @fili/react, ignore les KIT-* — les RULES-* suffisent.
 
 ## Mode audit — « audite cet écran / ce parcours »
 

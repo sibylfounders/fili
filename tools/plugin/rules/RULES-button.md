@@ -16,7 +16,7 @@ selon-contexte: ["form (si bouton de soumission d'un formulaire)", "voice (wordi
   pas un Link. Sa présence vient du style, de la limite et des états — aucune ombre de repos.
 
 ## Axes de décision
-- Deux axes indépendants, pleinement orthogonaux (4 × 4 = 16 combinaisons colorées) : **style** (remplissage : filled/stroke/lighter/ghost) × **tone** (nature de l'action : primary/neutral/destructive/warning).
+- Deux axes indépendants, pleinement orthogonaux (4 × 3 = 12 combinaisons colorées) : **variant** (remplissage : filled/stroke/lighter/ghost — ex-`style`, alias déprécié dans @fili/react) × **tone** (nature de l'action : primary/neutral/destructive). PAS de tone warning : l'avertissement est un message (Alert), jamais une action (arbitrage 2026-07-29).
 - Un bouton n'est jamais "juste destructive" — toujours une combinaison des deux axes.
 - Le choix style/tone n'est jamais esthétique : c'est une déclaration sur l'enjeu de l'action pour l'utilisateur.
 - Le **rang** d'une action (dominante / alternative / mineure) n'est PAS un axe : on l'obtient en combinant style+tone. Correspondance canonique : dominante = `filled`+`primary` (ou +tone de la conséquence) ; alternative = `stroke`/`lighter`+`neutral` ; mineure = `ghost`+tone approprié.
@@ -26,13 +26,12 @@ selon-contexte: ["form (si bouton de soumission d'un formulaire)", "voice (wordi
   - Exception : CTA de header sticky + dominante de contenu peuvent coexister (deux registres), mais jamais au même poids — l'un domine clairement.
 - **Stroke** : bordure + texte colorés, fond de page. Poids moyen — l'alternative légitime, ne concurrence pas la dominante.
 - **Lighter** : fond teinté doux + texte de tone. Poids moyen-doux — alternative ou mise en avant discrète d'un tone.
-- **Ghost** : texte seul, fond au hover. Poids minimal — action mineure ("Voir plus"). Une action à enjeu fort en ghost est mal classée, sauf si son tone (destructive/warning) compense.
+- **Ghost** : texte seul, fond au hover. Poids minimal — action mineure ("Voir plus"). Une action à enjeu fort en ghost est mal classée, sauf si son tone (destructive) compense.
 
 ## Tone (couleur / sens)
 - **Primary** : couleur de marque, porte l'action que le produit veut voir aboutir. Seul tone tiré de la palette de marque. Habille n'importe quel style (un `stroke`+`primary` ou `lighter`+`primary` est légitime).
 - **Neutral** : défaut hors marque, sans charge sémantique. Rendu « noir ». La majorité des boutons (souvent `stroke`/`ghost`).
 - **Destructive** : action qui retire/supprime/annule de façon coûteuse à revenir en arrière. Jamais positionné à l'emplacement habituel d'une action fréquente (clic réflexe). Pas pour les actions négatives mais réversibles (ex : "Retirer du panier").
-- **Warning** : action à poids réel (conséquente, engage un tiers) qui ne détruit ni ne retire rien. Même isolement visuel que destructive. A désormais les 4 styles (le fond plein warning est autorisé depuis DESIGN 1.21.0). CONFIANCE : non formalisé.
 
 ## Combinaisons
 Colonne = combinaison réelle (style × tone) ; rang = usage servi.
@@ -40,11 +39,9 @@ Colonne = combinaison réelle (style × tone) ; rang = usage servi.
 |---|---|---|
 | filled + primary | dominante | "Confirmer la commande" — CTA principal standard |
 | filled + destructive | dominante | "Supprimer définitivement mon compte" — confirmation en modale destructive |
-| filled + warning | dominante | "Signaler une urgence" — forte portée, non destructive |
 | stroke / lighter + neutral | alternative | "Annuler", "Retour" |
 | ghost + neutral | mineure | "Voir plus" — action mineure |
 | ghost + destructive | mineure | Icône suppression en table/liste — le tone compense le poids faible |
-| ghost + warning | mineure | Icône "signaler" discrète en menu contextuel |
 
 ## Tailles
 - La taille répond à la densité du contexte, pas à l'importance (ne pas confondre avec le style/tone).
@@ -128,7 +125,7 @@ Colonne = combinaison réelle (style × tone) ; rang = usage servi.
 
 **Frontière (pivot 2026-07-21) : implémentation de référence.** Tout ce qui suit (tokens, tailles, ratios, label = typography.body) décrit *ce* système — jamais un critère d'audit d'une interface tierce. L'universel auditable vit plus haut (usage, hiérarchie, états, wording) et dans les planchers externes (cible 24px WCAG 2.5.8 ; 44px = confort renforcé maison).
 
-- Axes : style [filled, stroke, lighter, ghost] × tone [primary, neutral, destructive, warning] × size [sm, md, lg]. États : [default, hover, focus, active, disabled, loading].
+- Axes : variant [filled, stroke, lighter, ghost] (`style` = alias déprécié) × tone [primary, neutral, destructive] × size [sm, md, lg]. États : [default, hover, focus, active, disabled, loading].
 
 ### Mapping des tokens
 Chaque tone fournit ses déclinaisons ; le style choisit lesquelles s'appliquent :
@@ -149,10 +146,7 @@ tones:
   destructive: { solid: color.danger,          on_solid: color.on-primary, solid_hover: color.danger-hover,
                  fg: color.danger,              border: color.danger,
                  subtle: color.danger-subtle,   on_subtle: color.danger,       subtle_hover: color.danger-subtle-hover }
-  warning:     { solid: color.warning,         on_solid: color.on-primary, solid_hover: color.warning-hover,
-                 fg: color.warning,             border: color.warning,
-                 subtle: color.warning-subtle,  on_subtle: color.warning,      subtle_hover: color.warning-subtle-hover }
-focus_ring: per-tone  # = le `fg` du ton (couleur de l'objet) : primary→primary, neutral→text-primary, destructive→danger, warning→warning
+focus_ring: color.accent  # anneau UNIQUE de la fondation BORDER (outline, focus-width/offset, :focus-visible) — abroge le per-tone (arbitrage 2026-07-29)
 sizing:
   sm: { height: scale.compact, padding_x: spacing.sm, padding_y: spacing.xs, radius: radius.sm }
   md: { height: scale.base, padding_x: spacing.md, padding_y: spacing.sm, radius: radius.md }

@@ -342,7 +342,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
               type="button"
               className={cn(
                 "-ml-1 flex min-h-11 items-center rounded-sm px-1 text-sm font-medium underline-offset-2 hover:underline",
-                "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+                "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               )}
               onClick={handleActionClick}
             >
@@ -356,7 +356,7 @@ function ToastCard({ item, onRemove }: { item: ToastItem; onRemove: (id: string)
           type="button"
           aria-label="Fermer"
           onClick={requestExit}
-          className="-mr-1 -mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-60 transition-opacity hover:opacity-100 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          className="-mr-1 -mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-60 transition-opacity hover:opacity-100 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className="size-4">
             <path d="m5.5 5.5 9 9M14.5 5.5l-9 9" />

@@ -1,8 +1,8 @@
 ---
 component: button
 layer: ux
-version: 1.9.0 # 1.9.0 : BUTTON-R65 requalifié en note de méthode — pointeur non normatif vers FORM-R28 (FORM-UX.md), qui portait déjà la règle, la mesure et les sources depuis la cession du 2026-07-03 ; ÉNONCÉ et MESURE normatifs retirés du pointeur, aucune règle métier modifiée (2026-07-28, cf. DECISIONS.md). 1.8.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.8.0 : BUTTON-R76 cède son autorité à CONSENTEMENT-UX (R08) — la symétrie de poids visuel des deux options d'un bandeau de consentement est une contrainte du pattern, pas une règle du bouton ; l'ID est conservé et pointe vers son nouveau propriétaire (2026-07-27, 4e cession d'autorité journalisée, cf. DECISIONS.md). 1.7.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.6.1 : le libellé visible reste intégralement lisible quand l'espace manque — repli avant troncature, libellé court uniquement s'il est validé. 1.6.0 : rattachement au Langage d'interaction et à l'Architecture adaptative.
-last_updated: 2026-07-28
+version: 1.10.0 # 1.10.0 : RETRAIT du tone warning (arbitrage Aurélien 2026-07-29, cf. DECISIONS.md) — l'avertissement est un message (Alert), jamais une action ; R31/R32 abrogées (IDs conservés), R16/R17/R26 et la table de combinaisons ajustés (4 × 3 = 12) ; la doctrine cesse d'annoncer une API que le composant refuse depuis la 0.3.0. 1.9.0 : BUTTON-R65 requalifié en note de méthode — pointeur non normatif vers FORM-R28 (FORM-UX.md), qui portait déjà la règle, la mesure et les sources depuis la cession du 2026-07-03 ; ÉNONCÉ et MESURE normatifs retirés du pointeur, aucune règle métier modifiée (2026-07-28, cf. DECISIONS.md). 1.8.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.8.0 : BUTTON-R76 cède son autorité à CONSENTEMENT-UX (R08) — la symétrie de poids visuel des deux options d'un bandeau de consentement est une contrainte du pattern, pas une règle du bouton ; l'ID est conservé et pointe vers son nouveau propriétaire (2026-07-27, 4e cession d'autorité journalisée, cf. DECISIONS.md). 1.7.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.6.1 : le libellé visible reste intégralement lisible quand l'espace manque — repli avant troncature, libellé court uniquement s'il est validé. 1.6.0 : rattachement au Langage d'interaction et à l'Architecture adaptative.
+last_updated: 2026-07-29
 companion: BUTTON-UI.md
 confidence: mixed # voir détail par section — certaines règles sont établies, d'autres sont un cas isolé documenté
 ---
@@ -159,12 +159,12 @@ STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Chez nous, un bouton se définit par deux dimensions indépendantes : le style, qui exprime son poids visuel, et le tone, qui exprime la nature de l'action.
   - **Style** (le remplissage) : filled, stroke, lighter, ghost — répond à *"quel poids visuel donne-t-on à ce bouton ?"* (du plus appuyé au plus discret).
-  - **Tone** (le sens sémantique) : primary, neutral, destructive, warning — répond à *"quelle est la nature de l'action ?"* (action de marque, action neutre, conséquence destructive, portée forte).
+  - **Tone** (le sens sémantique) : primary, neutral, destructive — répond à *"quelle est la nature de l'action ?"* (action de marque, action neutre, conséquence destructive). L'avertissement n'est pas une nature d'action : c'est un message (cf. retrait du tone warning, 2026-07-29).
 
-RÈGLE [BUTTON-R17] : les deux axes se combinent librement — 4 × 4 = 16 combinaisons colorées. Un bouton n'est jamais "juste destructive" — il est toujours une combinaison des deux (ex: ghost + destructive pour une suppression discrète en table, filled + destructive pour une confirmation de suppression en modale).
+RÈGLE [BUTTON-R17] : les deux axes se combinent librement — 4 × 3 = 12 combinaisons colorées. Un bouton n'est jamais "juste destructive" — il est toujours une combinaison des deux (ex: ghost + destructive pour une suppression discrète en table, filled + destructive pour une confirmation de suppression en modale).
 STATUT : parti pris d'identité
 SOURCE : interne
-ÉNONCÉ : Chez nous, les styles et les tones d'un bouton se combinent librement, formant seize combinaisons de couleurs possibles, chacune ayant un sens propre.
+ÉNONCÉ : Chez nous, les styles et les tones d'un bouton se combinent librement, formant douze combinaisons de couleurs possibles, chacune ayant un sens propre.
 MESURE : chaque combinaison des styles et des tones du bouton dispose d'un rendu de couleur défini
 
 > **Pourquoi deux axes plutôt qu'une liste plate de variantes** : une liste ne peut pas exprimer un destructive à faible poids visuel (icône de suppression discrète en table), et les systèmes majeurs (Material Design 3, IBM Carbon, Shopify Polaris) séparent tous le remplissage de la couleur. (Historique du choix : cf. DECISIONS.md.)
@@ -244,7 +244,7 @@ STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Chez nous, si une action en style discret a un enjeu réel fort, c'est le classement de l'action qui doit être revu, pas la visibilité du bouton.
 
-RÈGLE [BUTTON-R26] : exception documentée — un ghost peut porter une action à enjeu réel si son tone (destructive/warning) compense — voir table de combinaisons.
+RÈGLE [BUTTON-R26] : exception documentée — un ghost peut porter une action à enjeu réel si son tone (destructive) compense — voir table de combinaisons.
 STATUT : parti pris d'identité
 SOURCE : interne
 ÉNONCÉ : Chez nous, un bouton au style le plus discret peut porter une action à enjeu réel si sa couleur sémantique compense sa faible présence visuelle.
@@ -289,23 +289,17 @@ MESURE : aucun bouton au tone destructif n'occupe l'emplacement habituel d'une a
 > **Pourquoi** : le risque de clic accidentel par mémoire musculaire est réel. Le rôle du destructive n'est pas juste "rouge" (cf. BUTTON-UI.md pour le token exact) — c'est un signal d'alarme qui doit rester rare pour garder sa valeur d'alerte.
 > **Erreur fréquente** : réutiliser le tone destructive pour des actions simplement "négatives" mais réversibles (ex: "Retirer du panier") — ça banalise le signal là où ça compte vraiment.
 
-#### Warning
+#### Warning — tone retiré (2026-07-29)
 
-RÈGLE [BUTTON-R31] : porter une action qui a un poids réel — elle déclenche quelque chose de conséquent, mérite l'attention, engage potentiellement un tiers (support, hiérarchie, service d'urgence) — mais qui **ne détruit ni ne retire rien**.
-STATUT : parti pris d'identité
-SOURCE : S8
-ÉNONCÉ : Chez nous, le tone d'avertissement porte une action qui a un poids réel et mérite l'attention, sans jamais détruire ni retirer quoi que ce soit.
+RÈGLE [BUTTON-R31] : abrogée — le tone warning est retiré du bouton (arbitrage 2026-07-29, cf. DECISIONS.md).
+STATUT : note de méthode
+SOURCE : interne
+ÉNONCÉ : L'avertissement est un message, jamais une action : il vit dans Alert (et les futurs Badge), pas dans Button — un bouton d'avertissement au style contour se confond avec une alerte. L'action « à portée réelle » que R31 visait (signaler, alerter un tiers) se porte avec un tone primary ou neutral et un libellé explicite ; c'est le contexte (modale de confirmation, message adjacent) qui porte l'avertissement. L'ID est conservé pour l'historique.
 
-RÈGLE [BUTTON-R32] : règle d'isolement — même logique que le destructive : séparé visuellement des actions fréquentes.
-STATUT : parti pris d'identité
-SOURCE : S8
-ÉNONCÉ : Chez nous, un bouton d'avertissement est isolé visuellement des actions fréquentes, selon la même logique que le bouton destructif.
-MESURE : aucun bouton au tone d'avertissement n'occupe l'emplacement habituel d'une action fréquente
-
-> **Pourquoi** : la distinguer du destructive n'est pas cosmétique — confondre les deux fait porter au destructive un sens qu'il n'a pas, et inversement banalise le warning.
-> **Erreur fréquente** : traiter un warning comme un destructive stylé différemment sans lui donner de statut propre dans le système.
-
-CONFIANCE : non formalisé — distinction observée dans des patterns mobile (ex: menus d'action avec option "signaler"), non formalisée dans la littérature de design system grand public à ce jour.
+RÈGLE [BUTTON-R32] : abrogée avec R31 — la règle d'isolement de l'avertissement suit le tone retiré.
+STATUT : note de méthode
+SOURCE : interne
+ÉNONCÉ : Sans tone d'avertissement, la règle d'isolement correspondante n'a plus d'objet sur le bouton ; l'isolement du destructif (R30) demeure.
 
 ### Combinaisons observées et exemples
 
@@ -320,11 +314,9 @@ Colonne « Style × Tone » = la combinaison réelle du composant (les deux axes
 |---|---|---|---|
 | filled + primary | dominante | "Confirmer la commande" | CTA principal standard |
 | filled + destructive | dominante | "Supprimer définitivement mon compte" | Bouton de confirmation dans une modale destructive — reste la dominante *de cette modale* |
-| filled + warning | dominante | "Signaler une urgence" | Action à forte portée mais non destructive, mise en avant volontairement |
 | stroke / lighter + neutral | alternative | "Annuler", "Retour" | Option de retrait standard |
 | ghost + neutral | mineure | "Voir plus" | Action mineure, faible enjeu |
 | ghost + destructive | mineure | Icône de suppression dans une table/liste | Poids visuel faible, tone qui compense par la couleur et la confirmation |
-| ghost + warning | mineure | Icône "signaler" discrète dans un menu contextuel | Action à portée réelle mais non prioritaire dans ce contexte précis |
 
 > **Ce que cette table révèle** : le remplissage (`style`) et la gravité de l'action (`tone`) sont deux questions différentes. Un ghost + destructive n'est pas "moins grave" qu'un filled + destructive — c'est la même gravité, affichée avec moins d'insistance parce que le contexte l'exige. Cohérent avec la règle transversale plus bas : la friction doit suivre le risque réel, pas le poids visuel choisi pour d'autres raisons.
 

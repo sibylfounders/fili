@@ -11,7 +11,7 @@
   border-color: transparent;
   box-shadow: none;
   pointer-events: none;
-  animation: ds-skeleton-pulse 1.4s var(--ease-in-out, ease-in-out) infinite;
+  animation: ds-skeleton-pulse 1.4s var(--ease-in-out) infinite;
 }
 .ds-skeleton.ds-skeleton > * {
   visibility: hidden;

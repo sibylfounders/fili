@@ -119,7 +119,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
         >
           <div
             className={cn(
-              "ds-card-surface relative z-[1] flex w-full flex-col overflow-hidden rounded-lg border border-border bg-background shadow-none",
+              "ds-card-surface relative z-[1] flex w-full flex-col overflow-hidden rounded-card border border-border bg-background shadow-none",
               selected && "border-primary",
             )}
           >
@@ -250,7 +250,7 @@ function CardSkeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
       className={cn("ds-card w-full animate-pulse motion-reduce:animate-none", className)}
       {...props}
     >
-      <div className="ds-card-surface flex w-full flex-col overflow-hidden rounded-lg border border-border bg-background">
+      <div className="ds-card-surface flex w-full flex-col overflow-hidden rounded-card border border-border bg-background">
         <div className="aspect-video bg-surface" />
         <div className="flex flex-col gap-sm p-md">
           <div className="h-4 w-2/3 rounded-sm bg-surface" />

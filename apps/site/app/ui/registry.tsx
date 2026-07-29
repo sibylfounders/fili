@@ -5,16 +5,26 @@ import {
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
   type ModalPlacement, type ModalEnterFrom, type DropdownSide, type DropdownAlign,
-} from "@sibyl/react";
+} from "@fili/react";
+import { manifestByName } from "@fili/react/manifest";
 import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
 import {
   StatCard, ChartCard, KpiGroup,
   AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
   fmtEur, fmtInt, fmtCompact,
   type ComposedPoint, type DonutDatum, type KpiItem, type LineSeries,
-} from "@sibyl/charts";
+} from "@fili/charts";
 
-/* ── données atelier « adacard » : dogfooding de @sibyl/charts ── */
+/* ── dérivation du MANIFESTE (@fili/react/manifest) ─────────────────────────────
+   Les options publiques d'un composant ne sont plus retapées ici : elles viennent
+   du manifeste, lui-même vérifié par tsc contre les unions réelles (axe<U>()).
+   Si un composant gagne/perd une valeur, l'atelier suit sans édition manuelle. */
+const axisOpts = (component: string, axis: string): string[] =>
+  Object.keys(manifestByName[component]?.axes?.[axis]?.values ?? {});
+const axisDefault = (component: string, axis: string): string =>
+  manifestByName[component]?.axes?.[axis]?.default ?? axisOpts(component, axis)[0] ?? "";
+
+/* ── données atelier « adacard » : dogfooding de @fili/charts ── */
 const ADA_SPARK = [1420, 1560, 1490, 1720, 1640, 1580, 1810, 1750, 1930, 1880, 2050, 1990, 2180, 2310];
 const ADA_MONTHS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const ADA_CA = [32, 40, 36, 52, 47, 61, 55, 68, 63, 79, 73, 88];
@@ -110,7 +120,7 @@ const DrawerDemo: React.FC<{ side: DrawerSide; size: DrawerSize; effect: DrawerE
         <div className="flex flex-col gap-sm p-lg">
           <b className="text-text-primary">Tiroir modal</b>
           <p className="m-0 text-sm text-text-secondary">Voile · focus piégé · Échap ferme · retour du focus.</p>
-          <Button.Root style="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
+          <Button.Root variant="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
         </div>
       </Drawer>
     </Drawer.Frame>
@@ -134,7 +144,7 @@ const ModalDemo: React.FC<{
           <p className="mt-sm"><b className="text-text-primary">Que faire ?</b> border-strong, 3:1 obligatoire (WCAG 1.4.11).</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button.Root style="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
+          <Button.Root variant="ghost" tone="neutral" onClick={() => setOpen(false)}>Fermer</Button.Root>
           <Button.Root onClick={() => setOpen(false)}>Compris</Button.Root>
         </Modal.Footer>
       </Modal>
@@ -336,7 +346,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
               12 factures émises cette semaine — 3 en attente de règlement, 9 soldées.
             </Card.Description>
             <Card.Actions>
-              <Button.Root style="lighter" tone="neutral" size="sm">Tout voir</Button.Root>
+              <Button.Root variant="lighter" tone="neutral" size="sm">Tout voir</Button.Root>
             </Card.Actions>
           </Card.Body>
         </Card.Root>
@@ -624,15 +634,15 @@ export const GROUPS: Group[] = [
       {
         key: "button", name: "Button",
         controls: [
-          { k: "style", type: "seg", opts: ["filled", "stroke", "lighter", "ghost"] },
-          { k: "tone", type: "seg", opts: ["primary", "neutral", "destructive"] },
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
+          { k: "variant", type: "seg", opts: axisOpts("Button", "variant") },
+          { k: "tone", type: "seg", opts: axisOpts("Button", "tone") },
+          { k: "size", type: "seg", opts: axisOpts("Button", "size") },
           { k: "icon", type: "seg", opts: ["none", "leading", "trailing", "both", "only"], label: "Icône" },
           { k: "label", type: "text", label: "Label" },
           { k: "disabled", type: "bool", label: "Disabled", sec: "Interaction" },
           { k: "skeleton", type: "bool", label: "Skeleton", sec: "Interaction" },
         ],
-        initial: { style: "filled", tone: "primary", size: "md", icon: "none", label: "Enregistrer", disabled: false, skeleton: false },
+        initial: { variant: axisDefault("Button", "variant"), tone: axisDefault("Button", "tone"), size: axisDefault("Button", "size"), icon: "none", label: "Enregistrer", disabled: false, skeleton: false },
         render: (s) => {
           const ic = (
             <Button.Icon>
@@ -643,7 +653,7 @@ export const GROUPS: Group[] = [
           const lead = s.icon === "leading" || s.icon === "both" || only;
           const trail = s.icon === "trailing" || s.icon === "both";
           return (
-            <Button.Root style={s.style} tone={s.tone} size={s.size} iconOnly={only} disabled={s.disabled} loading={s.skeleton} aria-label={only ? s.label || "Action" : undefined}>
+            <Button.Root variant={s.variant} tone={s.tone} size={s.size} iconOnly={only} disabled={s.disabled} loading={s.skeleton} aria-label={only ? s.label || "Action" : undefined}>
               {lead ? ic : null}
               {!only ? s.label || "Bouton" : null}
               {trail ? ic : null}
@@ -652,10 +662,10 @@ export const GROUPS: Group[] = [
         },
         code: (s, fw) => {
           const t = s.label || "Bouton";
-          if (fw === "html") return `<button class="btn btn--${s.style} btn--${s.tone} btn--${s.size}">${t}</button>`;
-          if (fw === "angular") return `<button dsButton style="${s.style}" tone="${s.tone}" size="${s.size}">${t}</button>`;
+          if (fw === "html") return `<button class="btn btn--${s.variant} btn--${s.tone} btn--${s.size}">${t}</button>`;
+          if (fw === "angular") return `<button dsButton variant="${s.variant}" tone="${s.tone}" size="${s.size}">${t}</button>`;
           if (fw === "tailwind") return `<button class="inline-flex items-center gap-2 rounded-md px-md py-xs bg-primary text-on-primary">${t}</button>`;
-          return `<Button.Root style="${s.style}" tone="${s.tone}" size="${s.size}">${t}</Button.Root>`;
+          return `<Button.Root variant="${s.variant}" tone="${s.tone}" size="${s.size}">${t}</Button.Root>`;
         },
       },
       {
@@ -756,8 +766,8 @@ export const GROUPS: Group[] = [
         key: "input", name: "Input",
         controls: [
           { k: "type", type: "seg", label: "field_type", opts: ["text", "email", "password", "search", "tel", "number", "url", "textarea"] },
-          { k: "size", type: "seg", opts: ["sm", "md", "lg"] },
-          { k: "status", type: "seg", label: "Statut", opts: ["default", "error", "success", "warning"] },
+          { k: "size", type: "seg", opts: axisOpts("Input", "size") },
+          { k: "status", type: "seg", label: "Statut", opts: axisOpts("Input", "status") },
           { k: "icon", type: "bool", label: "Icône (leading)", disabled: (s) => !["text", "email", "tel"].includes(s.type) },
           { k: "clearable", type: "bool", label: "Effaçable", disabled: (s) => !["text", "email", "tel", "url"].includes(s.type) },
           { k: "disabled", type: "bool", label: "Disabled" },
@@ -819,20 +829,20 @@ export const GROUPS: Group[] = [
       {
         key: "compact", name: "CompactButton",
         controls: [
-          { k: "style", type: "seg", opts: ["filled", "stroke", "lighter", "ghost"] },
-          { k: "tone", type: "seg", opts: ["primary", "neutral", "destructive"] },
-          { k: "size", type: "seg", opts: ["sm", "md"] },
+          { k: "variant", type: "seg", opts: axisOpts("CompactButton", "variant") },
+          { k: "tone", type: "seg", opts: axisOpts("CompactButton", "tone") },
+          { k: "size", type: "seg", opts: axisOpts("CompactButton", "size") },
           { k: "fullRadius", type: "bool", label: "Full radius" },
           { k: "disabled", type: "bool", label: "Disabled" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { style: "lighter", tone: "neutral", size: "md", fullRadius: false, disabled: false, skeleton: false },
+        initial: { variant: axisDefault("CompactButton", "variant"), tone: axisDefault("CompactButton", "tone"), size: axisDefault("CompactButton", "size"), fullRadius: false, disabled: false, skeleton: false },
         render: (s) => (
-          <CompactButton style={s.style} tone={s.tone} size={s.size} fullRadius={s.fullRadius} disabled={s.disabled} loading={s.skeleton} aria-label="Fermer">
+          <CompactButton variant={s.variant} tone={s.tone} size={s.size} fullRadius={s.fullRadius} disabled={s.disabled} loading={s.skeleton} aria-label="Fermer">
             {IC_CLOSE}
           </CompactButton>
         ),
-        code: (s) => `<CompactButton style="${s.style}" tone="${s.tone}" size="${s.size}"${s.fullRadius ? " fullRadius" : ""} aria-label="Fermer"><CloseIcon /></CompactButton>`,
+        code: (s) => `<CompactButton variant="${s.variant}" tone="${s.tone}" size="${s.size}"${s.fullRadius ? " fullRadius" : ""} aria-label="Fermer"><CloseIcon /></CompactButton>`,
       },
     ],
   },
@@ -896,7 +906,7 @@ export const GROUPS: Group[] = [
                 <Input.Root loading><Input.Wrapper><Input.Input aria-label="Champ" /></Input.Wrapper></Input.Root>
                 <div className="flex items-center gap-sm">
                   <Button.Root loading>Enregistrer</Button.Root>
-                  <Button.Root style="stroke" tone="neutral" loading>Annuler</Button.Root>
+                  <Button.Root variant="stroke" tone="neutral" loading>Annuler</Button.Root>
                   <Switch checked loading aria-label="Option" />
                 </div>
               </div>

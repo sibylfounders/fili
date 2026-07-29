@@ -14,3 +14,6 @@ _to_delete/
 # artefacts du pont de fichiers (fichiers supprimés encore ouverts)
 .fuse_hidden*
 *.tsbuildinfo
+
+# fichier de travail du test des exemples du manifeste
+apps/site/exemples-manifeste.gen.tsx

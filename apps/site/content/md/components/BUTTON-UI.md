@@ -1,8 +1,8 @@
 ---
 component: button
 layer: ui
-version: 1.6.2 # 1.6.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
-last_updated: 2026-07-21
+version: 1.7.0 # 1.7.0 : (a) axe `style` renommé `variant` (Fili Component Contract 1.0.0 — `style` masquait l'attribut DOM React ; alias déprécié conservé dans @fili/react jusqu'à la prochaine majeure) ; (b) RETRAIT du tone warning (arbitrage 2026-07-29 — l'avertissement est un message, la famille chromatique warning reste aux messages/statuts) ; (c) focus ring : retour à l'anneau UNIQUE color.accent de la fondation BORDER via les rôles control.focus-* — abroge l'anneau « accordé au ton » (1.4.1), résout la contradiction croisée avec BORDER-UI ; (d) le contraste des couples est couvert par validate-contrast.mjs (test-rendu.js jamais porté — trou documenté). Cf. DECISIONS.md 2026-07-29. 1.6.2 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.6.1 : note de frontière (pivot 2026-07-21) — ce fichier est l'implémentation de référence, jamais un critère d'audit d'une interface tierce. 1.6.0 : Instrument E-motion (SubmitButton, gabarit) + un événement un porteur ; rattachement nommé Motion/Voice ; repli reduced-motion spinner. 1.5.1 : résilience des libellés longs — repli intrinsèque, hauteur minimale et absence de troncature. 1.5.0 : adoption d'INTERACTION-UI et ADAPTIVE-UI.
+last_updated: 2026-07-29
 companion: BUTTON-UX.md
 tokens:
   sizing:
@@ -31,8 +31,8 @@ tokens:
     width: border.focus-width
     offset: border.focus-offset
   axes:
-    style: [filled, stroke, lighter, ghost]
-    tone: [primary, neutral, destructive, warning]
+    variant: [filled, stroke, lighter, ghost] # nom canonique depuis 1.7.0 (Contract) ; `style` reste un alias déprécié dans @fili/react
+    tone: [primary, neutral, destructive] # warning RETIRÉ (2026-07-29) — l'avertissement est un message (Alert), pas une action
     size: [sm, md, lg]
   # Un tone = une couleur sémantique déclinée sur ses 4 rôles de rendu.
   #   solid / on_solid / solid_hover  → style FILLED (aplat + texte on-color + hover assombri)
@@ -69,21 +69,12 @@ tokens:
       subtle: color.danger-subtle
       on_subtle: color.danger
       subtle_hover: color.danger-subtle-hover
-    warning:
-      solid: color.warning
-      on_solid: color.on-primary
-      solid_hover: color.warning-hover
-      fg: color.warning
-      border: color.warning
-      subtle: color.warning-subtle
-      on_subtle: color.warning
-      subtle_hover: color.warning-subtle-hover
-  # Anneau de focus ACCORDÉ AU TON (1.4.1) : l'anneau reprend le `fg` du ton (la couleur de
-  # l'objet) — primary→primary, neutral→text-primary, destructive→danger, warning→warning.
-  # Chaque `fg` tient déjà ≥ 3:1 sur le fond de page (offset `border.focus-offset`). Remplace l'anneau
-  # `color.accent` unique (le cyan restait bon en contraste mais ne rattachait pas visuellement
-  # l'anneau à son bouton). Géométrie de l'anneau (largeur/écart) : `focus_ring_style` ci-dessus.
-  focus_ring: per-tone (= tones.<tone>.fg)
+  # Anneau de focus UNIQUE de la fondation BORDER (1.7.0, arbitrage 2026-07-29) : couleur
+  # `color.accent` (fuchsia 1.33.0, choisi pour rester visible sur TOUT fond, règle des 30°),
+  # largeur/écart `focus_ring_style`, outline extérieur sur :focus-visible. ABROGE l'anneau
+  # « accordé au ton » (1.4.1) : la refonte couleur 1.33.0 a précisément doté le système d'un
+  # accent dédié au focus, et BORDER-R06 exige UNE définition (rôle --control-focus-*).
+  focus_ring: color.accent (via control.focus-* — lib/focus.css, .ds-focus-ring)
   states: [default, hover, focus, active, disabled, loading]
 confidence: mixed
 ---
@@ -96,11 +87,11 @@ confidence: mixed
 
 ## Les 3 axes, en bref
 Ce composant se décrit sur 3 axes indépendants, combinables librement (le raisonnement derrière chacun est dans BUTTON-UX.md) :
-- **Style** : filled, stroke, lighter, ghost — le **remplissage** (comment le bouton occupe la surface), du plus appuyé au plus discret
-- **Tone** : primary, neutral, destructive, warning — la **couleur sémantique** (ce que l'action signifie)
+- **Variant** (ex-`style`, renommé 1.7.0 — Fili Component Contract) : filled, stroke, lighter, ghost — le **remplissage** (comment le bouton occupe la surface), du plus appuyé au plus discret
+- **Tone** : primary, neutral, destructive — la **couleur sémantique** (ce que l'action signifie) ; warning retiré (2026-07-29)
 - **Size** : sm, md, lg — densité du contexte
 
-Style et tone sont **pleinement orthogonaux** : les 4 × 4 = 16 combinaisons colorées existent toutes et résolvent chacune un token explicite. C'est le changement clé de la 1.4.0 — avant, `emphasis` mélangeait remplissage (primary = plein) et rang (secondary/ghost), et `tone` n'avait que neutral/destructive/warning. Désormais primary et neutral sont des **tones** (une couleur bleue de marque, une couleur neutre « noire ») que chaque style habille différemment. (Raisonnement complet du renommage : BUTTON-UX.md et DECISIONS.md 2026-07-18.)
+Variant et tone sont **pleinement orthogonaux** : les 4 × 3 = 12 combinaisons colorées existent toutes et résolvent chacune un token explicite. C'est le changement clé de la 1.4.0 — avant, `emphasis` mélangeait remplissage (primary = plein) et rang (secondary/ghost), et `tone` n'avait que neutral/destructive/warning. Désormais primary et neutral sont des **tones** (une couleur bleue de marque, une couleur neutre « noire ») que chaque style habille différemment. (Raisonnement complet du renommage : BUTTON-UX.md et DECISIONS.md 2026-07-18.)
 
 ## Mapping style × tone
 Chaque tone (bloc `tones.<tone>` de l'en-tête) fournit ses déclinaisons ; le style choisit lesquelles s'appliquent :
@@ -116,10 +107,10 @@ Deux régimes de hover, comme avant mais généralisés à tous les tones : **fi
 
 Règle générale qui en découle : **tout tone fournit d'emblée les quatre déclinaisons** — `solid`/`on_solid`/`solid_hover` (filled), `fg`/`border` (stroke), `subtle`/`on_subtle`/`subtle_hover` (lighter). Un tone qui n'en fournirait qu'une partie ne peut pas porter les 4 styles ; le build le refuse (token manquant). C'est la même séparation fond/premier-plan que pratiquent les systèmes majeurs (Carbon, Polaris), portée ici à une grille complète.
 
-**Le tone warning n'est plus l'exception.** Jusqu'en 1.20.0 il n'existait qu'en fond subtil (`warning` était réputé « jamais un fond plein »). Depuis DESIGN.md 1.21.0 l'ambre profond `color.warning` porte le blanc (`color.on-primary`) à 7.09:1 : warning a désormais son `solid`/`solid_hover` comme les autres, et donc les 4 styles.
+**Le tone warning est retiré (2026-07-29).** Son histoire : réputé « jamais un fond plein » jusqu'en 1.20.0, doté d'un solid à 7.09:1 par DESIGN.md 1.21.0 — mais le composant ne l'a jamais implémenté, avec un rationale que l'arbitrage du 2026-07-29 a confirmé : l'avertissement est un **message** (Alert, Badge), jamais une action, et un stroke warning se confond avec une alerte. La famille chromatique `warning` reste entière côté tokens pour ses vrais consommateurs (Alert, Toast, Input status).
 
 ## États — tokens hover
-Le hover est "le principal signal d'affordance sur desktop" (BUTTON-UX.md). Les 16 couples texte/fond au repos ET au hover restent ≥ 4.5:1 — vérifié par `tools/test-rendu.js` à chaque régénération (la paire la plus tendue, `lighter` + destructive au hover, tient à 4.60:1 grâce au `danger-subtle-hover` calibré). `active`, `disabled` et `loading` restent volontairement sans token de couleur à ce stade : `loading` est un comportement (le label devient un indicateur, cf. BUTTON-UX.md), `disabled` et `active` sont une dette assumée tant qu'un besoin réel ne les a pas fait émerger.
+Le hover est "le principal signal d'affordance sur desktop" (BUTTON-UX.md). Les 12 couples texte/fond au repos ET au hover restent ≥ 4.5:1 — couverts par le contrôle de contraste de la chaîne tokens (`validate-contrast.mjs`, 72 paires clair+sombre ; la paire la plus tendue, `lighter` + destructive au hover, tient à 4.60:1 grâce au `danger-subtle-hover` calibré). Le script `tools/test-rendu.js` cité par les versions antérieures n'a jamais été porté au monorepo — trou ouvert de l'étape 7, journalisé. `active`, `disabled` et `loading` restent volontairement sans token de couleur à ce stade : `loading` est un comportement (le label devient un indicateur, cf. BUTTON-UX.md), `disabled` et `active` sont une dette assumée tant qu'un besoin réel ne les a pas fait émerger.
 
 ## Motion — hover et repli du spinner
 
@@ -175,7 +166,7 @@ La compatibilité (façon caniuse) et le budget de poids de ce moment signature 
 
 ## Accessibilité — spécifications techniques
 - Contraste minimum 3:1 sur tous les états visibles
-- Focus visible obligatoire, jamais supprimé sans remplacement équivalent. **Anneau accordé au ton** : il reprend le `fg` du ton (la couleur de l'objet) — primary→`color.primary`, neutral→`color.text-primary`, destructive→`color.danger`, warning→`color.warning`. Chacun tient ≥ 3:1 sur le fond de page ; l'offset (`border.focus-offset`) sépare l'anneau du bouton.
+- Focus visible obligatoire, jamais supprimé sans remplacement équivalent. **Anneau unique de la fondation BORDER** : outline `color.accent`, largeur `border.focus-width`, écart `border.focus-offset`, sur `:focus-visible` — défini une seule fois (`lib/focus.css`, rôles `control.focus-*`) et consommé par tous les contrôles. L'accent (fuchsia, ≥ 3:1 sur les fonds du système) rend l'anneau visible sur tout, y compris un fond primary.
 - Bouton icône seule → `aria-label` systématique, sans exception
 - Zone tactile minimum 44px, y compris quand la taille visuelle est `sm` — la zone de clic peut s'étendre au-delà des limites visuelles du bouton plutôt que de descendre sous ce seuil
 
