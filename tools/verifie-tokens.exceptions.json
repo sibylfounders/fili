@@ -102,6 +102,12 @@
     "raison": "Filets internes de la collection (séparateurs 1px) et couture des coins joints (calc(radius - 1px)) — épaisseur de trait, pas un espacement."
   },
   {
+    "file": "lib/choice.css",
+    "motif": "1px",
+    "classe": "géométrie-filets",
+    "raison": "Filet délimitant de la marque de choix (case/disque) au repos — épaisseur de TRAIT, pas un espacement. Même statut que les filets de card-group.css : le système n'émet aucun token de border-width (l'échelle border ne porte que des couleurs), et en inventer un pour un composant serait une décision de fondation, prise ailleurs. Exception nommée plutôt que valeur masquée."
+  },
+  {
     "file": "components/card-group/card-group.css",
     "motif": "34rem",
     "classe": "requête-conteneur",

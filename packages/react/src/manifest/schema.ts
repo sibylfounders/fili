@@ -16,6 +16,8 @@
  * Généré en JSON par packages/react/build/genere-manifeste.mjs → manifest.json.
  */
 
+import type * as React from "react";
+
 export type Statut = "stable" | "experimental" | "interne" | "expressif";
 
 export type Categorie =
@@ -126,3 +128,19 @@ export function anatomie<T, K extends keyof T & string = keyof T & string>(
 ): string[] {
   return [root, ...subs.map((s) => `${root}.${s}`)];
 }
+
+/**
+ * Sous-API d'un compound bâti sur `forwardRef`.
+ *
+ * `anatomie<T>()` exige l'exhaustivité sur `keyof T`. Quand la racine est une fonction
+ * simple (`Tabs`, `Nav`, `CardGroup`), `keyof` ne contient que les clés assignées et
+ * l'exigence tombe juste. Quand elle est un `forwardRef`, l'interface
+ * `ForwardRefExoticComponent` ajoute `$$typeof`, `displayName`, `defaultProps` et
+ * `propTypes` — du bruit d'implémentation React, pas une anatomie publique : les lister
+ * dans le manifeste serait un mensonge de plus, pas une garantie de plus.
+ *
+ * `SousApi<T>` retire exactement ces quatre clés et rien d'autre. L'exhaustivité reste
+ * ENTIÈRE sur ce qui a été assigné : ajouter `Checkbox.Item` sans l'inscrire au manifeste
+ * casse toujours tsc.
+ */
+export type SousApi<T> = Omit<T, keyof React.ForwardRefExoticComponent<never>>;

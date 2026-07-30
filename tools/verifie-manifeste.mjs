@@ -30,7 +30,8 @@ const REGISTRY = readFileSync(join(ROOT, "apps/site/app/ui/registry.tsx"), "utf8
 // dossier → nom public
 const DIR_TO_NAME = {
   accordion: "Accordion", alert: "Alert", "app-layout": "AppLayout", "app-shell": "AppShell",
-  brand: "Brand", button: "Button", card: "Card", "card-group": "CardGroup", chip: "Chip",
+  brand: "Brand", button: "Button", card: "Card", "card-group": "CardGroup",
+  checkbox: "Checkbox", chip: "Chip", radio: "Radio",
   "compact-button": "CompactButton", container: "Container", "delete-button": "DeleteButton",
   divider: "Divider", drawer: "Drawer", dropdown: "Dropdown", input: "Input", link: "Link",
   modal: "Modal", nav: "Nav", select: "Select", skeleton: "Skeleton", "skip-link": "SkipLink",

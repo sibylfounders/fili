@@ -21,6 +21,9 @@ export * from "./components/nav";
 export * from "./components/toc";
 export * from "./components/skip-link";
 export * from "./components/switch";
+// La famille du choix : deux frères, un vocabulaire commun (lib/choice.ts).
+export * from "./components/checkbox";
+export * from "./components/radio";
 export * from "./components/skeleton";
 export * from "./components/theme-toggle";
 export * from "./components/container";

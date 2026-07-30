@@ -7,7 +7,7 @@
  * Les unions viennent des types exportés ou de React.ComponentProps — aucune chaîne libre
  * ne décrit une API. Les exemples canoniques compilent (tools/verifie-exemples.mjs).
  */
-import { axe, propsDe, anatomie, type Entree } from "./schema";
+import { axe, propsDe, anatomie, type Entree, type SousApi } from "./schema";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
@@ -35,6 +35,14 @@ type ShellVariant = import("../components/app-layout/app-layout").ShellVariant;
 type CardGroupMode = import("../components/card-group/card-group").CardGroupMode;
 type CardGroupDensity = import("../components/card-group/card-group").CardGroupDensity;
 type CardGroupC = typeof import("../components/card-group/card-group").CardGroup;
+type ChoiceSize = import("../lib/choice").ChoiceSize;
+type ChoiceStatus = import("../lib/choice").ChoiceStatus;
+type CheckboxC = SousApi<typeof import("../components/checkbox/checkbox").Checkbox>;
+type CheckboxP = import("../components/checkbox/checkbox").CheckboxProps &
+  import("../components/checkbox/checkbox").CheckboxGroupProps;
+type RadioC = SousApi<typeof import("../components/radio/radio").Radio>;
+type RadioP = import("../components/radio/radio").RadioProps &
+  import("../components/radio/radio").RadioGroupProps;
 type DeleteButtonSize = NonNullable<import("../components/delete-button/delete-button").DeleteButtonProps["size"]>;
 type ChipVariant = NonNullable<VariantProps<typeof import("../components/chip/chip").chipVariants>["variant"]>;
 type ChipP = import("../components/chip/chip").ChipProps;
@@ -300,6 +308,67 @@ export const catalogue: Entree[] = [
     </Card.Body>
   </Card.Root>
 </CardGroup>`,
+      },
+    ],
+  },
+  {
+    name: "Checkbox",
+    package: "@fili/react",
+    import: 'import { Checkbox } from "@fili/react";',
+    status: "stable",
+    category: "champ",
+    purpose:
+      "Une sélection VALIDÉE À LA SOUMISSION, cumulable — l'autre moitié de la ligne de partage posée par SWITCH-UX. Le switch agit tout de suite ; la case attend l'envoi.",
+    doctrine: { ux: "components/CHOICE-UX.md", ui: "components/CHOICE-UI.md" },
+    rules: "RULES-choice.md",
+    anatomy: anatomie<CheckboxC>("Checkbox", ["Group"]),
+    axes: {
+      size: axe<ChoiceSize>({
+        kind: "size",
+        description: "Cran de la marque et du libellé — apparié à l'échelle `icon` (CHOICE-UI).",
+        values: { sm: "compact (marque icon.sm)", md: "défaut (marque icon.md)" },
+        default: "md",
+      }),
+      status: axe<ChoiceStatus>({
+        kind: "status",
+        description: "Statut SUBI par la validation, jamais décoratif. Hérité du groupe quand il existe.",
+        values: { default: "au repos", error: "invalidé par la validation (bordure danger + anneau accordé)" },
+        default: "default",
+      }),
+    },
+    props: propsDe<CheckboxP>()({
+      label: { type: "ReactNode", description: "Libellé EMBARQUÉ et cliquable, à droite de la marque (CHOICE-R08)." },
+      helper: { type: "ReactNode", description: "Aide de l'option : une phrase courte, sans lien (CHOICE-R10)." },
+      indeterminate: { type: "boolean", default: "false", description: "Parent partiellement coché — se CALCULE, ne se sélectionne pas (CHOICE-R11)." },
+      onCheckedChange: { type: "(checked: boolean) => void", description: "Bascule de la case (effet différé à la soumission)." },
+      value: { type: "string", description: "Dans un Checkbox.Group : la valeur portée par cette option." },
+      exclusive: { type: "boolean", default: "false", description: "« Aucune de ces réponses » : la cocher décoche les autres (CHOICE-R18)." },
+      onValueChange: { type: "(valeurs: string[]) => void", description: "Checkbox.Group : l'ensemble des valeurs cochées." },
+      error: { type: "ReactNode", description: "Checkbox.Group : message d'erreur DU GROUPE, jamais de la première case (CHOICE-R17)." },
+    }),
+    tokens: ["icon-sm / icon-md (taille de marque)", "radius-sm (case)", "border-strong au repos (3:1)", "primary / on-primary (coché)", "danger (erreur)", "--control-focus-* (anneau unique)"],
+    states: ["checked", "indeterminate (propriété DOM, jamais soumise)", "disabled", "error", "focus-visible"],
+    accessibility: [
+      "input[type=checkbox] NATIF conservé et focalisable — rôle, état et clavier non réimplémentés (CHOICE-R15)",
+      "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
+      "Checkbox.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
+      "état jamais porté par la seule couleur : le glyphe change (CHOICE-R12)",
+    ],
+    antiPatterns: [
+      "S'en servir pour un réglage à effet immédiat (c'est Switch — CHOICE-R01)",
+      "Poser une case unique là où la question n'admet qu'une réponse (ce sont des Radio, même à deux options — CHOICE-R03)",
+      "Pré-cocher un consentement (CHOICE-R13)",
+      "Rendre `indeterminate` cliquable comme troisième état (il se calcule — CHOICE-R11)",
+    ],
+    canonicalExamples: [
+      { title: "Consentement explicite", code: `<Checkbox label="J'accepte les conditions d'utilisation" onCheckedChange={() => {}} />` },
+      {
+        title: "Options cumulables sous leur question",
+        code: `<Checkbox.Group label="Centres d'intérêt" value={["design"]} onValueChange={() => {}}>
+  <Checkbox value="design" label="Design" />
+  <Checkbox value="code" label="Développement" helper="Front et back" />
+  <Checkbox value="aucun" label="Aucun de ces sujets" exclusive />
+</Checkbox.Group>`,
       },
     ],
   },
@@ -620,6 +689,63 @@ export const catalogue: Entree[] = [
     <Nav.Link href="/relief">Relief</Nav.Link>
   </Nav.List>
 </Nav.Root>`,
+      },
+    ],
+  },
+  {
+    name: "Radio",
+    package: "@fili/react",
+    import: 'import { Radio } from "@fili/react";',
+    status: "stable",
+    category: "champ",
+    purpose:
+      "Un choix EXCLUSIF dans un ensemble borné, validé à la soumission. L'exclusivité appartient au GROUPE : un radio hors Radio.Group est un défaut de conception, pas une variante.",
+    doctrine: { ux: "components/CHOICE-UX.md", ui: "components/CHOICE-UI.md" },
+    rules: "RULES-choice.md",
+    anatomy: anatomie<RadioC>("Radio", ["Group"]),
+    axes: {
+      size: axe<ChoiceSize>({
+        kind: "size",
+        description: "Cran de la marque et du libellé — apparié à l'échelle `icon` (CHOICE-UI).",
+        values: { sm: "compact (marque icon.sm)", md: "défaut (marque icon.md)" },
+        default: "md",
+      }),
+      status: axe<ChoiceStatus>({
+        kind: "status",
+        description: "Statut SUBI par la validation, jamais décoratif. Hérité du groupe quand il existe.",
+        values: { default: "au repos", error: "invalidé par la validation (bordure danger + anneau accordé)" },
+        default: "default",
+      }),
+    },
+    props: propsDe<RadioP>()({
+      value: { type: "string", required: true, description: "La valeur portée par cette option — c'est ce que le groupe transmet." },
+      label: { type: "ReactNode", description: "Libellé embarqué et cliquable ; il se comprend hors contexte (CHOICE-R09)." },
+      helper: { type: "ReactNode", description: "Aide de l'option : une phrase courte, sans lien (CHOICE-R10)." },
+      onValueChange: { type: "(valeur: string) => void", description: "Radio.Group : la valeur retenue." },
+      name: { type: "string", description: "Radio.Group : nom commun des options, généré si absent — c'est lui qui rend le groupe exclusif." },
+      error: { type: "ReactNode", description: "Radio.Group : message d'erreur DU GROUPE, jamais de la première option (CHOICE-R17)." },
+    }),
+    tokens: ["icon-sm / icon-md (taille de marque)", "radius-pill (disque)", "border-strong au repos (3:1)", "primary / on-primary (coché)", "danger (erreur)", "--control-focus-* (anneau unique)"],
+    states: ["checked", "disabled", "error", "focus-visible"],
+    accessibility: [
+      "input[type=radio] NATIFS partageant un `name` : arrêt de tabulation unique, flèches et sélection qui suit le focus, gratuitement (CHOICE-R14)",
+      "Radio.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
+      "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
+      "la forme (disque) porte la cardinalité, pas la seule couleur (CHOICE-R12)",
+    ],
+    antiPatterns: [
+      "Poser un radio hors de son groupe (l'exclusivité appartient au groupe — CHOICE-R05)",
+      "Réimplémenter le clavier en role=radiogroup + tabindex mobile (plus de code, moins de justesse)",
+      "Dépasser le seuil de SELECT-UX — au-delà, la question change de composant (CHOICE-R04)",
+      "Pré-sélectionner une option sans que ce soit une décision assumée (CHOICE-R13)",
+    ],
+    canonicalExamples: [
+      {
+        title: "Choix d'une formule",
+        code: `<Radio.Group label="Formule" value="annuel" onValueChange={() => {}}>
+  <Radio value="mensuel" label="Mensuel" />
+  <Radio value="annuel" label="Annuel" helper="Deux mois offerts" />
+</Radio.Group>`,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  Button, Link, Chip, Container, Brand, Divider, Switch, Select, Accordion,
+  Button, Link, Chip, Container, Brand, Divider, Switch, Checkbox, Radio, Select, Accordion,
   Nav, TableOfContents, SkipLink, Drawer, Modal, Tabs, DeleteButton, SubmitButton, ThemeToggle,
   Input, Alert, Toast, Card, CompactButton, useToast, AppLayout, Skeleton, Dropdown,
   type SelectOption, type DrawerSide, type DrawerSize, type DrawerEffect, type ToastPlacement,
@@ -618,6 +618,79 @@ export const GROUPS: Group[] = [
           </div>
         ),
         code: (s) => `<Select options={OPTS} value="${s.value}" onValueChange={setV}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.variant === "ghost" ? ' variant="ghost"' : ""}${s.native ? " native" : ""} aria-label="Site" />`,
+      },
+      {
+        key: "checkbox", name: "Checkbox",
+        controls: [
+          { k: "size", type: "seg", opts: axisOpts("Checkbox", "size") },
+          { k: "groupe", type: "bool", label: "Dans son groupe" },
+          { k: "helper", type: "bool", label: "Aide par option" },
+          { k: "exclusive", type: "bool", label: "Option « aucune »", disabled: (s) => !s.groupe },
+          { sec: "État", k: "indeterminate", type: "bool", label: "Indéterminé", disabled: (s) => s.groupe },
+          { sec: "État", k: "error", type: "bool", label: "Erreur" },
+          { sec: "État", k: "disabled", type: "bool", label: "Désactivé" },
+        ],
+        initial: { size: "md", groupe: true, helper: true, exclusive: true, indeterminate: false, error: false, disabled: false, valeurs: ["design"], seule: false },
+        render: (s, set) =>
+          s.groupe ? (
+            <Checkbox.Group
+              label="Centres d'intérêt"
+              size={s.size}
+              disabled={s.disabled}
+              value={s.valeurs}
+              onValueChange={(v) => set("valeurs", v)}
+              error={s.error ? "Choisissez au moins un sujet." : undefined}
+              helper={s.error ? undefined : "Plusieurs réponses possibles."}
+            >
+              <Checkbox value="design" label="Design" helper={s.helper ? "Fondations, composants, doctrine." : undefined} />
+              <Checkbox value="code" label="Développement" />
+              {/* CHOICE-R18 : l'option exclusive se déclare sur l'OPTION, et se pose en dernier. */}
+              {s.exclusive ? <Checkbox value="aucun" label="Aucun de ces sujets" exclusive /> : null}
+            </Checkbox.Group>
+          ) : (
+            <Checkbox
+              label="J'accepte les conditions d'utilisation"
+              helper={s.helper ? "Vous pourrez les relire à tout moment." : undefined}
+              size={s.size}
+              status={s.error ? "error" : "default"}
+              indeterminate={s.indeterminate}
+              checked={s.seule}
+              onCheckedChange={(v) => set("seule", v)}
+              disabled={s.disabled}
+            />
+          ),
+        code: (s) =>
+          s.groupe
+            ? `<Checkbox.Group label="Centres d'intérêt" value={valeurs} onValueChange={setValeurs}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.error ? ' error="Choisissez au moins un sujet."' : ""}${s.disabled ? " disabled" : ""}>\n  <Checkbox value="design" label="Design"${s.helper ? ' helper="Fondations, composants, doctrine."' : ""} />\n  <Checkbox value="code" label="Développement" />${s.exclusive ? `\n  <Checkbox value="aucun" label="Aucun de ces sujets" exclusive />` : ""}\n</Checkbox.Group>`
+            : `<Checkbox label="J'accepte les conditions d'utilisation" checked={v} onCheckedChange={setV}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.helper ? ' helper="Vous pourrez les relire à tout moment."' : ""}${s.indeterminate ? " indeterminate" : ""}${s.error ? ' status="error"' : ""}${s.disabled ? " disabled" : ""} />`,
+      },
+      {
+        key: "radio", name: "Radio",
+        controls: [
+          { k: "size", type: "seg", opts: axisOpts("Radio", "size") },
+          { k: "helper", type: "bool", label: "Aide par option" },
+          { sec: "État", k: "error", type: "bool", label: "Erreur" },
+          { sec: "État", k: "disabled", type: "bool", label: "Désactivé" },
+        ],
+        initial: { size: "md", helper: true, error: false, disabled: false, valeur: "annuel" },
+        /* Aucun `Radio` nu ici : hors de son groupe il n'a pas d'exclusivité, donc pas de sens
+           (CHOICE-R05). L'atelier montre l'usage juste, pas l'usage possible. */
+        render: (s, set) => (
+          <Radio.Group
+            label="Formule"
+            size={s.size}
+            disabled={s.disabled}
+            value={s.valeur}
+            onValueChange={(v) => set("valeur", v)}
+            error={s.error ? "Choisissez une formule pour continuer." : undefined}
+            helper={s.error ? undefined : "Vous pourrez changer à tout moment."}
+          >
+            <Radio value="mensuel" label="Mensuel" helper={s.helper ? "Sans engagement." : undefined} />
+            <Radio value="annuel" label="Annuel" helper={s.helper ? "Deux mois offerts." : undefined} />
+          </Radio.Group>
+        ),
+        code: (s) =>
+          `<Radio.Group label="Formule" value={formule} onValueChange={setFormule}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.error ? ' error="Choisissez une formule pour continuer."' : ""}${s.disabled ? " disabled" : ""}>\n  <Radio value="mensuel" label="Mensuel"${s.helper ? ' helper="Sans engagement."' : ""} />\n  <Radio value="annuel" label="Annuel"${s.helper ? ' helper="Deux mois offerts."' : ""} />\n</Radio.Group>`,
       },
       {
         key: "switch", name: "Switch",
