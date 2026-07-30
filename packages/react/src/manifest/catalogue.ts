@@ -187,6 +187,7 @@ export const catalogue: Entree[] = [
       nav: { type: "AppNavGroup[] | AppNavItem[]", description: "Navigation structurée (rendue par la facture unique de Nav)." },
       topbar: { type: "{ breadcrumb, search, actions }", description: "Barre supérieure composable." },
       aside: { type: "ReactNode", description: "Rail d'outils (fin) — off-canvas sous breakpoint desktop." },
+      asideLabel: { type: "string", default: '"Panneau"', description: "Nom accessible du rail d'outils — sert aussi de libellé au FAB qui l'invoque hors-champ." },
       sidebar: { type: "ReactNode", description: "Échappatoire : remplace brand+nav par un contenu sur-mesure." },
     }),
     accessibility: ["nav intégrée = landmark étiqueté", "off-canvas refermé après navigation (combobox/switch exclus du piège)"],

@@ -128,6 +128,7 @@ export function Shell({
               : { search: true }
         }
         aside={section === "md" ? undefined : aside}
+        asideLabel="Réglages"
       >
         {children}
       </AppLayout>

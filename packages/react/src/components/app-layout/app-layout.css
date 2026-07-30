@@ -1,7 +1,16 @@
 /* AppLayout — bascules responsives pilotées par la LARGEUR DU SHELL (container query),
    pas par le viewport : le shell s'adapte à son conteneur (testable au resize).
    Seuils alignés sur les tokens breakpoint (tablet 1024 / desktop 1280). */
-.sw-shell { container-type: inline-size; container-name: sw-shell; position: relative; }
+.sw-shell {
+  container-type: inline-size; container-name: sw-shell; position: relative;
+  /* Les deux rails hors-champ sont posés HORS du cadre (translateX ±100 %). Sans découpe,
+     celui de DROITE débordait vers l'extérieur : le document devenait plus large que la
+     fenêtre, le navigateur mobile dézoomait pour tout faire tenir et le rail de réglages
+     s'affichait à côté du contenu au lieu d'être caché derrière le FAB (bug 30/07).
+     `clip` (et non `hidden`) découpe SANS créer de conteneur de défilement : la topbar
+     collante et l'aperçu plein écran (position: fixed) restent intacts. */
+  overflow-x: clip;
+}
 
 /* Sidebar : UN seul élément — off-canvas (shell étroit) ↔ fixe en flux dès tablet.
    Scopée au shell (absolute), donc contenue dans son cadre (aperçu, box…), pas au viewport. */
@@ -10,12 +19,21 @@
   max-width: 85%;
   overflow-y: auto;
   transform: translateX(-100%);
+  /* Hors-champ = hors de l'arbre d'accessibilité ET hors du parcours de tabulation :
+     `visibility: hidden` retiré SEULEMENT à la fin de la sortie (délai = durée du glissement),
+     rétabli immédiatement à l'entrée. Le nœud, lui, ne se démonte jamais (portails). */
+  visibility: hidden;
   transition: transform var(--duration-base) var(--ease-out),
-              width var(--duration-base) var(--ease-out);
+              width var(--duration-base) var(--ease-out),
+              visibility 0s linear var(--duration-base);
 }
 .sw-shell-sidebar[data-open="true"] {
   transform: translateX(0);
+  visibility: visible;
   box-shadow: var(--elevation-overlay, 0 8px 24px rgb(0 0 0 / .12));
+  transition: transform var(--duration-base) var(--ease-out),
+              width var(--duration-base) var(--ease-out),
+              visibility 0s;
 }
 @container sw-shell (min-width: 1024px) {
   .sw-shell-sidebar {
@@ -25,6 +43,7 @@
        d'un shell plus haut que la fenêtre (le défilement vit dans le main, pas la page). */
     position: sticky; top: 0; align-self: stretch; height: auto; max-height: 100vh;
     z-index: auto; max-width: none; transform: none; box-shadow: none;
+    visibility: visible; transition: width var(--duration-base) var(--ease-out);
   }
   .sw-shell-scrim { display: none; }
 }
@@ -37,13 +56,17 @@
   position: absolute; inset-block: 0; right: 0; z-index: 40;
   max-width: 85%;
   transform: translateX(100%);
-  transition: transform var(--duration-base) var(--ease-out);
+  visibility: hidden;
+  transition: transform var(--duration-base) var(--ease-out),
+              visibility 0s linear var(--duration-base);
   /* dégagement : le FAB ne recouvre pas la dernière rangée du panneau ouvert */
   padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
 }
 .sw-shell-aside[data-open="true"] {
   transform: translateX(0);
+  visibility: visible;
   box-shadow: var(--elevation-overlay, 0 8px 24px rgb(0 0 0 / .12));
+  transition: transform var(--duration-base) var(--ease-out), visibility 0s;
 }
 /* FAB : scopé au shell (absolute), comme la sidebar — pas au viewport. */
 .sw-shell-fab {
@@ -55,6 +78,7 @@
   .sw-shell-aside {
     position: static; z-index: auto; max-width: none;
     transform: none; box-shadow: none; padding-bottom: 0;
+    visibility: visible; transition: none;
   }
   .sw-shell-fab, .sw-shell-aside-scrim { display: none; }
 }

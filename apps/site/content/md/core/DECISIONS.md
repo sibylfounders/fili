@@ -8,6 +8,15 @@
 
 ---
 
+## 2026-07-30 — SHELL : un rail hors-champ qui n'est pas découpé n'est pas hors-champ, il est à côté
+
+- **Fichiers** : `packages/react/src/components/app-layout/app-layout.css`, `apps/site/app/components/shell.tsx` (`asideLabel="Réglages"`).
+- **Ancien état** : les deux rails du shell (nav à gauche, réglages à droite) étaient sortis du cadre par `transform: translateX(±100%)`, et le commentaire disait « off-canvas ». Il l'était pour celui de gauche seulement : en sens de lecture LTR, un débordement à gauche n'est pas atteignable, le navigateur le jette. À droite, rien ne le jetait — `.sw-shell` n'avait aucune découpe, `html`/`body` non plus. Le document mesurait donc 710 px de large sur un téléphone de 390, le rail de réglages vivait **à côté** du contenu, et le FAB ne commandait rien qui fût réellement caché. Mesuré : `scrollWidth` 710 sans découpe, 390 avec.
+- **Nouvel état** : `.sw-shell` gagne `overflow-x: clip`. Le rail sorti est découpé au bord du shell ; le document reprend la largeur de la fenêtre ; le FAB redevient la **seule** porte d'entrée des réglages sous 1280 px de shell, ce qu'il prétendait déjà être.
+- **`clip` et non `hidden`** : `hidden` aurait fait du shell un conteneur de défilement — la topbar collante se serait recalée sur lui et l'aperçu plein écran (`position: fixed`) aurait changé de référentiel. `overflow-x: clip` avec `overflow-y: visible` découpe **sans** créer de scrollport : la paire `visible`/`clip` est admise telle quelle. Vérifié : `position` de la topbar reste `sticky`, l'aperçu plein écran reste au cadre.
+- **Hors-champ veut aussi dire hors du clavier** : les deux rails prenaient `visibility: hidden` nulle part, donc leurs contrôles (le sélecteur de section, les quatre réglages de theming) restaient dans l'ordre de tabulation et dans l'arbre d'accessibilité d'un écran où ils n'existaient pas. La visibilité est désormais retirée **à la fin** du glissement (`transition: visibility 0s linear var(--duration-base)`) et rendue immédiatement à l'ouverture — l'animation reste entière, l'état fermé est vraiment fermé. Le nœud, lui, ne se démonte toujours jamais : les portails du consommateur (`#section-nav`, `#section-tools`) survivent aux bascules, c'est la mécanique mono-nœud d'origine.
+- **Ce que ça ne change pas** : les seuils (sidebar 1024, aside 1280), la nature des bascules (largeur du **shell**, jamais du viewport), ni le nombre de FAB à l'écran (un seul, RULES-button).
+
 ## 2026-07-30 — CARD-R26 : le régime de sélection appartient au GROUPE, et il devient intypable de le mélanger
 
 - **Fichiers** : `packages/react/src/components/card-group/{card-group.tsx,collection-context.ts}`, `packages/react/src/components/card/card.tsx`, manifeste (`CardGroup` gagne l'axe `selection`, `Card` la prop `value`), atelier (`app/ui/card-group.tsx`, `registry.tsx`), tests (`__tests__/card-group.test.tsx`), fiche `manques/famille-du-choix.md` (→ résolu).
