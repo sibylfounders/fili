@@ -343,18 +343,25 @@ CardActions.displayName = "Card.Actions";
  * annonce ; `Card.Actions` reste un sibling positionné au-dessus en z-index, jamais imbriqué
  * dans ce lien.
  */
-export interface CardTitleLinkProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
-  href: string;
-}
+type CardTitleLinkCommon = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
+/**
+ * Comme `Link`, dont il est la spécialisation : un lien natif EXIGE une destination,
+ * `asChild` la délègue au routeur de l'application (next/link, Remix Link…). Sans cette
+ * porte, une carte de destination dans une application routée n'avait d'autre choix que
+ * l'`<a href>` nu — donc, sous un `basePath`, un lien qui ne résout pas (constat GitHub
+ * Pages du 2026-07-30). Ce n'est pas une capacité nouvelle : c'est la MÊME que `Link`,
+ * qui manquait au seul endroit où la cible est étendue.
+ */
+export type CardTitleLinkProps =
+  | (CardTitleLinkCommon & { asChild?: false; href: string })
+  | (CardTitleLinkCommon & { asChild: true; href?: string });
 const CardTitleLink = React.forwardRef<HTMLAnchorElement, CardTitleLinkProps>(
-  ({ className, href, ...props }, ref) => (
+  ({ className, ...props }, ref) => (
     <LinkRoot
       ref={ref}
-      href={href}
       context="standalone"
       className={cn("ds-card-title-link ds-interactive-target", className)}
-      {...props}
+      {...(props as React.ComponentPropsWithoutRef<typeof LinkRoot>)}
     />
   ),
 );

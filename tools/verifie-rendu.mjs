@@ -243,6 +243,19 @@ for (const chemin of pages) {
     const cible = norme(l.href.startsWith("/") ? l.href : new URL(l.href, "http://x" + chemin).pathname);
     if (!pagesConnues.has(cible) && !/\.[a-z0-9]{2,5}$/i.test(cible))
       findings.push({ page: chemin, regle: "lien-mort", motif: l.href, detail: `« ${l.texte} » — aucune page construite à cette adresse` });
+    // LIEN HORS BASEPATH : la page existe, l'adresse écrite ne la sert pas. `norme()` retire
+    // le préfixe pour comparer à l'inventaire — ce faisant, elle acceptait indifféremment
+    // /fili/md et /md, et laissait passer précisément le défaut du 2026-07-30 : trois
+    // destinations de la page d'accueil et toute la grille de doctrine écrites en `<a href>`
+    // nu, donc sans le préfixe que next/link pose seul. Vert en local (basePath vide),
+    // mortes une fois publiées. Le rendu est le seul endroit qui voie l'adresse FINALE.
+    if (BASEPATH && l.href.startsWith("/") && !l.href.startsWith(BASEPATH + "/") && l.href !== BASEPATH)
+      findings.push({
+        page: chemin,
+        regle: "lien-hors-basepath",
+        motif: l.href,
+        detail: `« ${l.texte} » — attendu sous ${BASEPATH}/ ; composer next/link (Link/Nav.Link/Card.TitleLink asChild) plutôt qu'un <a href> nu`,
+      });
   }
   for (const c of constats) findings.push({ page: chemin, ...c });
   for (const e of erreurs) findings.push({ page: chemin, regle: "erreur-javascript", motif: e, detail: "" });
@@ -296,6 +309,14 @@ for (const f of findings) (parRegle[f.regle] ??= []).push(f);
 console.log(`\nVérificateur de rendu — ${pages.length} page(s) construite(s), ${findings.length} constat(s)`);
 console.log(`  focus éprouvé au clavier sur ${focusablesVus} élément(s)` +
   (focusablesPlafonnes ? ` · ${focusablesPlafonnes} NON éprouvé(s) (plafond --focus ${MAX_FOCUS} par page)` : ""));
+// Une garde inerte doit se DIRE : sans basePath, `lien-hors-basepath` ne peut rien voir, et
+// un vert local ne prouve alors rien sur le site publié (c'est exactement ce qui a laissé
+// passer les liens morts du 2026-07-30).
+console.log(
+  BASEPATH
+    ? `  basePath « ${BASEPATH} » détecté — les liens internes sont confrontés à l'adresse FINALE`
+    : "  basePath vide (build local) — la règle « lien-hors-basepath » est INERTE ici ; c'est la CI qui la joue",
+);
 for (const [regle, fs] of Object.entries(parRegle)) {
   console.log(`\n■ ${regle} — ${fs.length}`);
   for (const f of fs.slice(0, 12)) console.log(`   ${f.page}  ${f.motif}${f.detail ? " — " + f.detail : ""}`);

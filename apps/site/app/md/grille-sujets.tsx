@@ -1,4 +1,5 @@
 "use client";
+import NextLink from "next/link";
 import { Card, CardGroup } from "@fili/react";
 
 /**
@@ -12,6 +13,9 @@ import { Card, CardGroup } from "@fili/react";
  * Elle était écrite à la main en `<Link>` bordés, ce qui privait la page des filets
  * internes, des coins hérités et du highlight de proximité — et faisait diverger la
  * doctrine de son propre site.
+ *
+ * ROUTAGE : `Card.TitleLink asChild` + `next/link` — le routeur préfixe le `basePath` du
+ * déploiement. Sans lui, /md/<slug>/ pointait hors du site une fois publié (2026-07-30).
  *
  * Client parce que les composés du kit sont exportés par des modules `"use client"` : y
  * accéder depuis le graphe serveur produit une référence que le manifest de Next 14.2
@@ -36,7 +40,9 @@ export function GrilleSujets({ items, label }: { items: SujetTuile[]; label: str
                   <Card.Icon className="mb-sm" dangerouslySetInnerHTML={{ __html: s.embleme }} />
                 ) : null}
                 <Card.Title as="h3">
-                  <Card.TitleLink href={`/md/${s.slug}/`}>{s.titre}</Card.TitleLink>
+                  <Card.TitleLink asChild>
+                    <NextLink href={`/md/${s.slug}/`}>{s.titre}</NextLink>
+                  </Card.TitleLink>
                 </Card.Title>
               </div>
             </Card.Header>

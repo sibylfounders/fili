@@ -1,10 +1,12 @@
 import { GrilleLiens } from "./components/grille-liens";
 
-/** Portail — trois destinations, une par section. Une collection, pas trois liens habillés. */
+/** Portail — trois destinations, une par section. Une collection, pas trois liens habillés.
+ *  Les adresses portent leur barre finale : le site est construit en `trailingSlash`, et
+ *  s'en passer coûtait une redirection à chaque entrée du site. */
 const ENTREES = [
-  { href: "/md", titre: "Doctrine", sous: "Les règles UX/UI et les tokens — la source d'autorité." },
-  { href: "/ui", titre: "Composants", sous: "L'atelier @fili/react — les composants vivants." },
-  { href: "/audit", titre: "Audit", sous: "Protocoles d'audit et règles condensées." },
+  { href: "/md/", titre: "Doctrine", sous: "Les règles UX/UI et les tokens — la source d'autorité." },
+  { href: "/ui/", titre: "Composants", sous: "L'atelier @fili/react — les composants vivants." },
+  { href: "/audit/", titre: "Audit", sous: "Protocoles d'audit et règles condensées." },
 ];
 
 export default function Portal() {

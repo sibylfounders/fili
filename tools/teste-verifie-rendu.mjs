@@ -40,4 +40,33 @@ if (fauxPositifs.length) {
   for (const f of fauxPositifs) console.error(`   ${f.page} [${f.regle}] ${f.motif}`);
   process.exit(1);
 }
-console.log(`✅ harnais de rendu : ${attendues.length} détections confirmées sur la fixture négative (dont l'outline transparente refusée), 0 faux positif sur la conforme — l'Input au focus délégué est accepté.`);
+/**
+ * Deuxième fixture : un build SOUS basePath. La règle « lien-hors-basepath » ne peut rien
+ * voir quand le préfixe est vide — c'est-à-dire dans tous les builds locaux, et c'est
+ * précisément pourquoi trois liens morts ont vécu jusqu'à la publication (2026-07-30).
+ * Elle a donc besoin de sa propre fixture pour être éprouvée hors de la CI.
+ */
+let brutBase;
+try {
+  brutBase = execFileSync(process.execPath, [join(ici, "verifie-rendu.mjs"), "--out", "tools/fixtures/rendu-basepath", "--json"], {
+    cwd: join(ici, ".."), encoding: "utf8", stdio: ["ignore", "pipe", "pipe"],
+  });
+} catch (e) {
+  console.error("❌ le harnais de rendu n'a pas pu s'exécuter sur la fixture basePath :");
+  console.error(String(e.stderr ?? e.message).slice(0, 400));
+  process.exit(1);
+}
+const horsBase = JSON.parse(brutBase).findings.filter((f) => f.regle === "lien-hors-basepath");
+if (horsBase.length !== 1 || horsBase[0].motif !== "/md/") {
+  console.error("❌ « lien-hors-basepath » : attendu exactement 1 constat sur /md/ — obtenu " +
+    JSON.stringify(horsBase.map((f) => f.motif)));
+  process.exit(1);
+}
+// Et le lien CORRECT (/fili/md/) ne doit produire ni ce constat, ni un lien-mort.
+const fauxSurBase = JSON.parse(brutBase).findings.filter((f) => f.motif === "/fili/md/");
+if (fauxSurBase.length) {
+  console.error("❌ « lien-hors-basepath » signale à tort l'adresse correcte /fili/md/");
+  process.exit(1);
+}
+
+console.log(`✅ harnais de rendu : ${attendues.length} détections confirmées sur la fixture négative (dont l'outline transparente refusée), 0 faux positif sur la conforme — l'Input au focus délégué est accepté ; « lien-hors-basepath » éprouvée sur sa propre fixture.`);

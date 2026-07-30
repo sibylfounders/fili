@@ -1,4 +1,5 @@
 "use client";
+import NextLink from "next/link";
 import { Card, CardGroup } from "@fili/react";
 
 /**
@@ -17,6 +18,11 @@ import { Card, CardGroup } from "@fili/react";
  * COLLECTION-UI), titre en `<strong>` donc absent du plan du document (CARD-UI.md :
  * élément de titre réel), pas de balisage liste, et un troisième vocabulaire de survol.
  * Même constat, même correctif que `md/grille-sujets.tsx` (2026-07-26).
+ *
+ * ROUTAGE : la cible étendue compose `next/link` via `Card.TitleLink asChild` — le routeur
+ * préfixe le `basePath` (le site est servi sous /fili sur GitHub Pages) et navigue côté
+ * client. Un `<a href="/md">` nu pointait vers la racine du domaine : trois liens morts sur
+ * la page d'accueil, invisibles en local où le basePath est vide (constat du 2026-07-30).
  *
  * UNE destination n'est pas une collection : `solo` (défaut dès qu'il n'y a qu'un item)
  * retire la grille et le highlight de proximité — il ne reste que la carte.
@@ -46,7 +52,9 @@ export function GrilleLiens({
           <Card.Body>
             <Card.Header>
               <Card.Title as={titleAs}>
-                <Card.TitleLink href={d.href}>{d.titre}</Card.TitleLink>
+                <Card.TitleLink asChild>
+                  <NextLink href={d.href}>{d.titre}</NextLink>
+                </Card.TitleLink>
               </Card.Title>
             </Card.Header>
             {d.sous ? <Card.Description>{d.sous}</Card.Description> : null}
