@@ -10,7 +10,10 @@ const FIX = join(ici, "fixtures", "fili-check");
 const manifest = join(ici, "..", "packages", "react", "manifest.json");
 
 const attendues = ["import-sibyl", "button-natif", "input-natif", "select-natif", "div-cliquable",
-  "role-button", "palette-defaut", "carte-recreee", "prop-inventee", "manque-sans-fiche"];
+  "role-button", "palette-defaut", "carte-recreee", "prop-inventee", "manque-sans-fiche",
+  // ajoutées le 2026-07-30 : chaque écart trouvé à la main finit en fixture, sinon la
+  // règle qui l'attrape peut disparaître sans que rien ne le dise.
+  "style-en-dur"];
 
 const neg = analyser(join(FIX, "incorrect"), { manifest });
 const vues = new Set(neg.findings.map((f) => f.rule));

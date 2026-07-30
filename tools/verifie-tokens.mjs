@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 // ─────────────────────────────────────────────────────────────────────────────
-// VÉRIFICATEUR DE TOKENS v2 — packages/react/src (fermeture du chantier cohérence).
+// VÉRIFICATEUR DE TOKENS v2 — le kit ET ses consommateurs du monorepo.
+//
+// PORTÉE (2026-07-30) : la racine n'est plus codée en dur. Elle est DÉCLARÉE dans
+// RACINES, avec des exclusions nommées et justifiées une par une (même grammaire que
+// tools/fili-check.config.monorepo.json). Un fichier créé demain sous une racine
+// déclarée est donc couvert le jour de sa création — la propriété « pages à venir »
+// ne tient qu'à ça. La version précédente ne regardait que packages/react/src : le
+// site, premier consommateur du kit, échappait entièrement à la garde (constat de
+// l'audit de cohérence du 2026-07-30 — page d'accueil intégralement en valeurs dures).
 //
 // Détections :
 //   1. var(--x) INCONNUE. Une variable est connue si elle est : un token global
@@ -24,19 +32,47 @@
 //     une mise à jour).
 //
 // Usage : node tools/verifie-tokens.mjs [--strict] [--update-baseline]
+//         node tools/verifie-tokens.mjs --adopte <étiquette de racine>   (usage unique)
 // ─────────────────────────────────────────────────────────────────────────────
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = join(ROOT, "packages/react/src");
+
+// ── RACINES : ce qui est vérifié. Inclusives, exclusions justifiées une par une. ──
+// `etiquette` préfixe la clé des constats. Elle est VIDE pour le kit : les clés
+// historiques (baseline, exceptions, périmètre strict) restent valides telles quelles.
+const RACINES = [
+  {
+    dir: "packages/react/src",
+    etiquette: "",
+    raison: "le kit lui-même — périmètre historique de la garde",
+    exclure: [],
+  },
+  {
+    dir: "apps/site/app",
+    etiquette: "apps/site/app/",
+    raison: "le site : premier consommateur du kit et vitrine de la doctrine — une page non conforme y contredit ce qu'elle documente",
+    exclure: [
+      { chemin: "ui", raison: "Atelier : les démonstrations posent VOLONTAIREMENT des valeurs (nuancier, règle graduée, aperçu redimensionnable) — montrer un token exige de l'afficher. Couvert par verifie-kit.py." },
+      { chemin: "test", raison: "Pages de test internes (cas d'usage) — hors produit, jamais publiées en navigation." },
+      { chemin: "exemples-manifeste.gen.tsx", raison: "Fichier de travail généré par verifie-exemples (gitignoré) — son contenu est celui du manifeste, déjà vérifié à la source." },
+    ],
+  },
+];
+
 const TOKENS_CSS = join(ROOT, "packages/tokens/dist/tokens.css");
 const EXC_PATH = join(ROOT, "tools/verifie-tokens.exceptions.json");
 const BASE_PATH = join(ROOT, "tools/verifie-tokens.baseline.json");
 const STRICT = process.argv.includes("--strict");
 const UPDATE = process.argv.includes("--update-baseline");
 const INIT = process.argv.includes("--init-baseline"); // bootstrap UNIQUE de la dette pré-existante
+// --adopte <étiquette> : constat UNIQUE de la dette d'une racine nouvellement déclarée.
+const ADOPTE = (() => {
+  const i = process.argv.indexOf("--adopte");
+  return i !== -1 ? process.argv[i + 1] : null;
+})();
 
 // Périmètre strict = tranche pilote + couche partagée + entrée CSS.
 const STRICT_SCOPE = [
@@ -56,14 +92,20 @@ const globales = new Set();
 for (const m of readFileSync(TOKENS_CSS, "utf8").matchAll(/--([\w-]+)\s*:/g)) globales.add(m[1]);
 
 const files = [];
-(function walk(dir) {
-  for (const e of readdirSync(dir)) {
-    const p = join(dir, e);
-    if (statSync(p).isDirectory()) walk(p);
-    else if (/\.(tsx?|css)$/.test(e)) files.push(p);
-  }
-})(SRC);
-const sources = files.map((p) => [relative(SRC, p), readFileSync(p, "utf8")]);
+const sources = [];
+for (const racine of RACINES) {
+  const base = join(ROOT, racine.dir);
+  if (!existsSync(base)) { console.error(`✗ racine déclarée introuvable : ${racine.dir}`); process.exit(1); }
+  (function walk(dir) {
+    for (const e of readdirSync(dir)) {
+      const p = join(dir, e);
+      const rel = relative(base, p);
+      if (racine.exclure.some((x) => rel === x.chemin || rel.startsWith(x.chemin + "/"))) continue;
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(tsx?|css)$/.test(e)) { files.push(p); sources.push([racine.etiquette + rel, readFileSync(p, "utf8")]); }
+    }
+  })(base);
+}
 
 // dossier → variables qui y sont déclarées (css `--x:` ou tsx `"--x"` posée en style/JS)
 const localesParDossier = new Map();
@@ -117,6 +159,17 @@ for (const [file, src] of sources) {
       for (const m of l.matchAll(PALETTE)) if (!m[1].includes("p-")) push(file, n, "palette-defaut", m[1]);
       for (const m of l.matchAll(/[\w-]+-\[(\d+(?:\.\d+)?(?:px|rem|em))\]/g)) push(file, n, "arbitraire", m[0]);
       if (/rounded-full/.test(l)) push(file, n, "rounded-full", "rounded-full", "préférer rounded-pill (token)");
+      // Valeur en dur posée en STYLE INLINE (objet React) : `borderRadius: 10`,
+      // `padding: "80px 24px"`. Aucune classe à lire — c'est exactement par là que la
+      // page d'accueil échappait à toutes les gardes (audit 2026-07-30). Une propriété
+      // dont la valeur est `var(--x)` ou une expression n'est PAS concernée : seule la
+      // valeur littérale l'est.
+      for (const m of l.matchAll(
+        /\b(borderRadius|borderWidth|border|padding|paddingTop|paddingRight|paddingBottom|paddingLeft|margin|marginTop|marginRight|marginBottom|marginLeft|gap|rowGap|columnGap|fontSize|letterSpacing|width|height|minWidth|maxWidth|minHeight|maxHeight|inset|boxShadow)\s*:\s*(\d+(?:\.\d+)?(?![\w.])|"[^"]*\d(?:px|rem|em)[^"]*"|'[^']*\d(?:px|rem|em)[^']*')/g,
+      )) {
+        if (m[2] === "0") continue; // zéro n'est pas une valeur d'échelle (même règle que le balayage CSS)
+        push(file, n, "style-inline-en-dur", `${m[1]}: ${m[2]}`, "un rôle de token ou une classe tokenisée existe");
+      }
     }
     if (file.endsWith(".css")) {
       // Une DÉFINITION de variable locale (`--tt-w: 36px`) est la tokenisation locale du
@@ -220,6 +273,42 @@ if (INIT) {
     entries: [...parCle.values()].sort((a, b) => a.file.localeCompare(b.file) || a.motif.localeCompare(b.motif)),
   }, null, 2) + "\n");
   console.log(`\nBaseline initialisée : ${parCle.size} entrée(s), ${horsPilote.length} occurrence(s).`);
+  process.exit(0);
+}
+if (ADOPTE) {
+  // ADOPTION D'UNE RACINE (usage unique par racine) — le seul geste qui AJOUTE des
+  // entrées à la baseline sans édition manuelle, et il est volontairement étroit :
+  //   - il n'accepte qu'une étiquette de racine DÉCLARÉE (pas un chemin quelconque) ;
+  //   - il ne touche à aucune entrée existante ;
+  //   - il refuse si la racine a déjà des entrées (une adoption ne se rejoue pas :
+  //     après elle, tout écart nouveau est un écart nouveau).
+  // Élargir la portée d'une garde fait apparaître d'un coup la dette qu'elle ignorait ;
+  // la refuser en bloc ferait désactiver la garde, l'accepter en silence la viderait de
+  // son sens. On la CONSTATE, datée et justifiée, et plus rien ne s'y ajoute.
+  const etiquettes = RACINES.map((r) => r.etiquette).filter(Boolean);
+  if (!etiquettes.includes(ADOPTE)) {
+    console.error(`\n✗ --adopte attend l'étiquette d'une racine déclarée : ${etiquettes.join(", ")}`);
+    process.exit(1);
+  }
+  if (baseline.entries.some((e) => e.file.startsWith(ADOPTE))) {
+    console.error(`\n✗ la racine « ${ADOPTE} » a déjà des entrées : son adoption a eu lieu. Un écart nouveau se corrige, se classe, ou entre par édition manuelle justifiée.`);
+    process.exit(1);
+  }
+  const ajouts = new Map();
+  for (const f of horsPilote.filter((f) => f.file.startsWith(ADOPTE))) {
+    const k = cle(f);
+    if (baseMap.has(k)) continue;
+    if (!ajouts.has(k))
+      ajouts.set(k, {
+        file: f.file, type: f.type, motif: f.motif, occurrences: 0, nature: f.type,
+        justification: `dette constatée à l'ADOPTION de la racine « ${ADOPTE} » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée`,
+        vague: "vague 9 (site)",
+      });
+    ajouts.get(k).occurrences++;
+  }
+  const entries = [...baseline.entries, ...ajouts.values()].sort((a, b) => a.file.localeCompare(b.file) || a.motif.localeCompare(b.motif));
+  writeFileSync(BASE_PATH, JSON.stringify({ ...baseline, maj: `verifie-tokens --adopte ${ADOPTE} (constat d'adoption de racine)`, entries }, null, 2) + "\n");
+  console.log(`\nRacine « ${ADOPTE} » adoptée : ${ajouts.size} entrée(s) ajoutée(s), ${[...ajouts.values()].reduce((a, e) => a + e.occurrences, 0)} occurrence(s) constatées. Les entrées existantes n'ont pas bougé.`);
   process.exit(0);
 }
 if (UPDATE) {

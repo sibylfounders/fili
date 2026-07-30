@@ -953,6 +953,25 @@ Méthode : une question à la fois, application immédiate. Les sept, dans l'ord
 
 **7. Le `12px` de CardGroup est renvoyé à la vague 5** (avec la résorption des dérives ci-dessus) plutôt que tranché à chaud.
 
+## 2026-07-30 — Les gardes changent de périmètre : elles protégeaient le kit, elles protègent maintenant ses consommateurs
+
+**Le constat.** Un test de cohérence à vue sur la page d'accueil et la Vue d'ensemble a trouvé ce qu'aucune garde n'avait vu : une page d'accueil entièrement en valeurs dures (`borderRadius: 10` — l'échelle n'a que 8 et 12), deux cartes recréées à la main, l'anneau de focus du navigateur au lieu du focus v2, et huit `text-[10/11/12/13px]` que le cran `2xs` de la veille aurait dû absorber. Deux causes, toutes deux des entorses à la règle que la Méthode applique partout ailleurs — **l'inventaire de ce qui est vérifié se dérive, il ne s'écrit pas** :
+
+1. `verifie-tokens` avait sa racine codée en dur (`packages/react/src`). Le site — premier consommateur du kit et vitrine de la doctrine — n'était pas regardé.
+2. `fili-check` couvrait bien `apps/site/app`, mais ses règles lisaient des *classes*. Un `style={{}}` inline n'a aucune classe à lire : une page entière pouvait passer.
+
+**Ce qui change.**
+
+- **Portée déclarée.** `verifie-tokens` prend des RACINES déclarées avec exclusions justifiées une par une (même grammaire que `fili-check.config.monorepo.json`) : `packages/react/src` et `apps/site/app`, moins l'Atelier (les démonstrations posent volontairement des valeurs — montrer un token exige de l'afficher) et les pages de test. Un fichier créé demain sous une racine déclarée est couvert le jour de sa création : c'est là, et nulle part ailleurs, que se joue la propriété « pages à venir ».
+- **Deux règles nouvelles.** `style-en-dur` (valeur d'échelle littérale dans un objet `style`) et un `carte-recreee` réécrit : bordure + rayon + espacement intérieur font une carte, **en classes comme en style inline**, sur un conteneur — un `<pre>` bordé reste un bloc de code, un `<span>` arrondi reste une étiquette (une règle bruyante finit désactivée). Au passage, fili-check lit désormais les imports : `<Link>` de `next/link` n'est plus confondu avec le `Link` du kit — il était jusque-là exempté des règles de recréation et ses props étaient vérifiées contre le mauvais manifeste.
+- **Adopter sans mentir.** Élargir une garde fait apparaître d'un coup la dette qu'elle ignorait. La refuser en bloc la ferait désactiver, l'accepter en silence la viderait de son sens : on la CONSTATE, datée et détaillée. `verifie-tokens --adopte <racine>` et `verifie-consommation --adopte` sont des gestes UNIQUES qui refusent de se rejouer ; ensuite, tout écart nouveau échoue. Constats : 114 entrées / 238 occurrences côté tokens, 15 entrées / 16 occurrences côté consommation (dont la page d'accueil et les deux cartes locales) — résorption vague 9. Le même mécanisme entre dans le validateur PORTABLE : sans lui, un projet existant n'allume jamais fili-check, et un validateur qu'on n'allume pas ne protège rien.
+- **Preuve, pas promesse.** Une page jetable reproduisant exactement les fautes de la page d'accueil a été créée : les deux gardes échouent (4 constats côté tokens, 3 côté consommation), puis repassent au vert une fois la page retirée.
+- **Fixtures.** `style-en-dur` et les deux nouvelles formes de carte recréée entrent dans la fixture négative et dans la liste des détections attendues : chaque écart trouvé à la main finit en fixture, sinon la règle qui l'attrape peut disparaître sans que rien ne le dise.
+
+**ESLint écarté, et pourquoi.** L'intention initiale était d'interdire `style={{}}` et les valeurs arbitraires à l'écriture. ESLint n'est installé nulle part dans le monorepo : l'ajouter, c'était trois ou quatre dépendances et surtout un SECOND moteur de règles à tenir synchronisé avec la doctrine — deux vérités pour une seule règle, exactement la panne que ce chantier combat. À la place, un crochet de pré-commit versionné (`tools/hooks/pre-commit`, activé par `npm run gardes:locales`, zéro dépendance) rapproche les gardes existantes du moment où l'on écrit. Il est contournable par `--no-verify` et c'est assumé : **l'autorité reste la CI**.
+
+**Ce que ça ne couvre toujours pas.** Rien de tout ceci ne voit le RENDU : l'anneau de focus manquant de la page d'accueil n'est visible qu'en ouvrant la page. C'est la couche suivante (harnais sur les 91 pages de `out/`, assertions sur le DOM calculé), et elle reste à faire.
+
 ## Fil rouge méthodologique (transversal, non daté)
 
 - **Le biais "état transitoire"** : loading (bouton) → validation asynchrone (input) → skeleton (card) → résolution/disparition (callout) → et, à l'échelle du système, la fondation motion elle-même (5e occurrence — le vocabulaire des transitions manquait en entier). La première rédaction documente l'état final, jamais la transition. Depuis le callout : écrire la section "sortie de scène / état d'attente" *avant* le test de couverture — le prédicteur a fonctionné en amont sur typographie (chargement de police), iconographie (spinner) et motion (interruption).

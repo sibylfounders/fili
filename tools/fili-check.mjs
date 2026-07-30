@@ -18,7 +18,12 @@
 //   role-button      role="button" sur un élément natif non-bouton
 //   import-sibyl     ancienne importation @sibyl/*
 //   palette-defaut   classe Tailwind de la palette brute là où un rôle Fili existe
-//   carte-recreee    <div> combinant bordure + fond + rayon + ombre (Card recréée)
+//   carte-recreee    conteneur combinant bordure + rayon + espacement intérieur (Card
+//                    recréée) — en classes OU en style inline : une carte reste une carte
+//                    quelle que soit la façon dont elle est écrite
+//   style-en-dur     valeur d'échelle écrite à la main dans un objet style={{}} (aucune
+//                    classe à lire : c'est l'angle mort par lequel une page entière peut
+//                    passer — constat de l'audit de cohérence du 2026-07-30)
 //   prop-inventee    valeur d'axe hors de l'union du manifeste (ex. tone="magic")
 //   manque-sans-fiche marqueur FILI-MANQUE sans fiche .fili/manques/<slug>.md
 //   allow-sans-raison exception inline déclarée sans justification
@@ -135,6 +140,63 @@ export function analyser(cible, options = {}) {
     const nomDeTag = (tag) =>
       ts.isIdentifier(tag) ? tag.text : ts.isPropertyAccessExpression(tag) ? `${tag.expression.getText()}.${tag.name.text}` : tag.getText();
 
+    // ── D'où vient un nom ? ───────────────────────────────────────────────────
+    // Sans ça, `<Link>` de next/link était traité comme le Link DU KIT : ses props
+    // étaient vérifiées contre le manifeste (faux positifs possibles) et il échappait
+    // aux règles de recréation (faux négatifs — la page d'accueil du site est passée
+    // exactement par là). On lit donc les imports du fichier.
+    const provenance = new Map();
+    for (const st of sf.statements) {
+      if (!ts.isImportDeclaration(st) || !ts.isStringLiteral(st.moduleSpecifier)) continue;
+      const mod = st.moduleSpecifier.text;
+      const b = st.importClause?.namedBindings;
+      if (st.importClause?.name) provenance.set(st.importClause.name.text, mod);
+      if (b && ts.isNamedImports(b)) for (const el of b.elements) provenance.set(el.name.text, mod);
+      if (b && ts.isNamespaceImport(b)) provenance.set(b.name.text, mod);
+    }
+    // `@sibyl/*` est le MÊME kit sous son ancien nom : l'import est sanctionné à part
+    // (import-sibyl), mais le composant reste le nôtre — sans quoi une importation
+    // périmée dispenserait au passage du contrôle des props.
+    const PAQUETS_KIT = [options.paquet ?? conf.paquet ?? "@fili/react", "@sibyl/react"];
+    const duKit = (base) => {
+      const mod = provenance.get(base);
+      // importé du kit → oui ; importé d'ailleurs → non ; non importé (défini sur place,
+      // ou barillet local qui ré-exporte le kit) → on garde le bénéfice du doute au
+      // manifeste, comportement historique.
+      return mod ? PAQUETS_KIT.some((p) => mod === p || mod.startsWith(p + "/")) : true;
+    };
+
+    // ── Style inline : les propriétés dont la valeur est un LITTÉRAL ──────────
+    // Une valeur calculée (`width: pct + "%"`, `style={styles}`) reste licite : on ne
+    // sait pas la juger et elle n'est pas une valeur d'échelle écrite à la main.
+    const DIM_INLINE = /^(borderRadius|borderWidth|border|padding|padding(?:Top|Right|Bottom|Left|Inline|Block)|margin|margin(?:Top|Right|Bottom|Left|Inline|Block)|gap|rowGap|columnGap|fontSize|letterSpacing|width|height|minWidth|maxWidth|minHeight|maxHeight|inset|boxShadow|color|background|backgroundColor|borderColor)$/;
+    // Renvoie { posees } — toutes les propriétés déclarées, quelle que soit leur valeur
+    // (c'est ce qui dessine une carte) — et { litteraux } — celles dont la valeur est
+    // écrite à la main (c'est ce qui court-circuite l'échelle). Les deux questions sont
+    // distinctes : une carte dont la bordure est tokenisée reste une carte recréée.
+    const styleDe = (attrs) => {
+      const a = attrs.find((x) => ts.isJsxAttribute(x) && x.name.getText() === "style");
+      const posees = new Set(), litteraux = [];
+      if (!a?.initializer || !ts.isJsxExpression(a.initializer)) return { posees, litteraux };
+      const obj = a.initializer.expression;
+      if (!obj || !ts.isObjectLiteralExpression(obj)) return { posees, litteraux };
+      for (const p of obj.properties) {
+        if (!ts.isPropertyAssignment(p) || !p.name) continue;
+        const cle = p.name.getText().replace(/["']/g, "");
+        posees.add(cle);
+        const v = p.initializer;
+        let texte = null;
+        if (ts.isNumericLiteral(v) && v.text !== "0") texte = v.text;
+        else if (ts.isStringLiteral(v) && !v.text.includes("var(") && /\d(px|rem|em|%)|^#[0-9a-fA-F]{3,8}$|^(rgb|hsl)a?\(/.test(v.text)) texte = `"${v.text}"`;
+        if (texte && DIM_INLINE.test(cle)) litteraux.push({ cle, texte });
+      }
+      return { posees, litteraux };
+    };
+    // Une carte est un CONTENEUR. Un <pre> bordé est un bloc de code, un <span> arrondi
+    // est une étiquette : les signaler noierait la règle sous des faux positifs, et une
+    // règle bruyante finit désactivée.
+    const CONTENEUR = /^(div|section|article|aside|li|figure|form|label|a)$/;
+
     const visite = (node) => {
       if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier) && node.moduleSpecifier.text.startsWith("@sibyl/"))
         pousse("import-sibyl", ligneDe(node.getStart()), node.moduleSpecifier.text);
@@ -149,6 +211,26 @@ export function analyser(cible, options = {}) {
           : a?.initializer && ts.isJsxExpression(a.initializer) && a.initializer.expression && ts.isStringLiteral(a.initializer.expression) ? a.initializer.expression.text
           : null;
         const classes = valeurTexte(attr("className")) ?? "";
+        const base0 = nom.split(".")[0];
+        const estKit = /^[A-Z]/.test(base0) && axesParComposant.has(base0) && duKit(base0);
+
+        // ── Valeurs en dur posées en style inline (toute balise SAUF le kit) ──
+        // Le kit, lui, a le droit de composer ses propres mécaniques ; un consommateur
+        // qui écrit `style={{ borderRadius: 10 }}` court-circuite l'échelle, et aucune
+        // règle lisant des classes ne peut le voir.
+        if (!estKit) {
+          const { posees, litteraux } = styleDe(attrs);
+          for (const { cle, texte } of litteraux)
+            pousse("style-en-dur", ligne, `${nom} style={{ ${cle}: ${texte} }}`, "poser un rôle de token (var(--…)) ou une classe tokenisée");
+          // Une CARTE ne se reconnaît pas à la façon dont elle est écrite : bordure +
+          // rayon + espacement intérieur font une carte, en classes comme en style inline.
+          if (CONTENEUR.test(nom) || /^[A-Z]/.test(nom)) {
+            const carteInline = posees.has("borderRadius") && [...posees].some((c) => /^border([A-Z]|$)/.test(c) && c !== "borderRadius") && [...posees].some((c) => c.startsWith("padding"));
+            const carteClasses = /(^|\s)border(-|\s|"|$)/.test(" " + classes + " ") && /rounded/.test(classes) && /(^|\s)p[xytblr]?-/.test(" " + classes);
+            if (carteInline || carteClasses)
+              pousse("carte-recreee", ligne, `${nom} bordure+rayon+espacement`, "c'est une Card — utiliser Card/CardGroup (@fili/react)");
+          }
+        }
 
         if (/^[a-z]/.test(nom)) {
           if (nom === "button") pousse("button-natif", ligne, "<button>", "utiliser Button / CompactButton (@fili/react)");
@@ -156,10 +238,8 @@ export function analyser(cible, options = {}) {
           if (nom === "select") pousse("select-natif", ligne, "<select>", "utiliser Select (native le rend aussi)");
           if ((nom === "div" || nom === "span") && attr("onClick")) pousse("div-cliquable", ligne, `<${nom} onClick>`, "un contrôle est un Button ou un Link");
           if (nom !== "button" && valeurTexte(attr("role")) === "button") pousse("role-button", ligne, `<${nom} role="button">`, "utiliser la primitive appropriée");
-          if (nom === "div" && /(^|\s)border(-|\s|")/.test(" " + classes) && /rounded/.test(classes) && /shadow/.test(classes) && /bg-/.test(classes))
-            pousse("carte-recreee", ligne, "div border+rounded+shadow+bg", "c'est une Card — utiliser Card/CardGroup (@fili/react)");
           for (const m of classes.matchAll(PALETTE)) pousse("palette-defaut", ligne, m[1], "un rôle Fili existe (tokens sémantiques)");
-        } else if (axesParComposant.size) {
+        } else if (axesParComposant.size && duKit(base0)) {
           const base = nom.split(".")[0];
           // Les axes/props du manifeste décrivent la RACINE : ne vérifier que <X> ou <X.Root>
           // (les sous-composants ont leurs propres props, non couvertes ici).
@@ -187,6 +267,40 @@ export function analyser(cible, options = {}) {
     visite(sf);
   }
   return { files: files.length, findings, manques };
+}
+
+// ── BASELINE : adopter le validateur sur un code qui existe déjà ─────────────
+// Sans elle, fili-check est tout ou rien : un projet réel ne l'allume jamais, parce
+// que le premier passage sort des dizaines d'écarts et que personne ne s'arrête pour
+// tout reprendre. On CONSTATE donc l'existant, daté et détaillé (fichier, règle, motif,
+// occurrences, justification, vague), et à partir de là tout écart NOUVEAU échoue —
+// y compris dans un fichier créé demain. Une entrée ne s'ajoute jamais toute seule :
+// `--adopte` est un geste unique, ensuite c'est une édition manuelle justifiée.
+const cleFinding = (f) => `${f.file}|${f.rule}|${f.motif}`;
+
+export function classe(findings, baseline) {
+  const connues = new Map((baseline?.entries ?? []).map((e) => [`${e.file}|${e.rule}|${e.motif}`, e]));
+  const compte = new Map();
+  for (const f of findings) compte.set(cleFinding(f), (compte.get(cleFinding(f)) ?? 0) + 1);
+  const nouveaux = [], augmentes = [], reduits = [], disparus = [];
+  for (const [k, n] of compte) {
+    const b = connues.get(k);
+    if (!b) nouveaux.push({ k, n, exemples: findings.filter((f) => cleFinding(f) === k).slice(0, 3) });
+    else if (n > b.occurrences) augmentes.push({ k, avant: b.occurrences, apres: n });
+    else if (n < b.occurrences) reduits.push({ k, avant: b.occurrences, apres: n });
+  }
+  for (const [k, b] of connues) if (!compte.has(k)) disparus.push({ k, avant: b.occurrences });
+  return { nouveaux, augmentes, reduits, disparus, compte, connues };
+}
+
+export function baselineDepuis(findings, justification, vague) {
+  const parCle = new Map();
+  for (const f of findings) {
+    const k = cleFinding(f);
+    if (!parCle.has(k)) parCle.set(k, { file: f.file, rule: f.rule, motif: f.motif, occurrences: 0, justification, vague });
+    parCle.get(k).occurrences++;
+  }
+  return [...parCle.values()].sort((a, b) => a.file.localeCompare(b.file) || a.rule.localeCompare(b.rule) || a.motif.localeCompare(b.motif));
 }
 
 export function rapport({ files, findings, manques }) {

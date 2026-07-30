@@ -79,6 +79,11 @@ resume: Contrat d'implémentation @fili/react — inventaire réel du kit et rè
    \`node fili-check.mjs . --manifest manifest.json\` depuis la racine du projet —
    à brancher avant toute publication. Configuration : copier
    \`fili-check.config.example.json\` vers \`.fili/fili-check.config.json\`.
+   Sur un code qui existe déjà, le premier passage sort forcément des écarts : les
+   CONSTATER une fois (fichier, règle, motif, occurrences, justification) et exiger
+   ensuite que rien n'augmente vaut mieux que de repousser l'adoption — un validateur
+   qu'on n'allume jamais ne protège rien. Ce qui compte est que tout écart NOUVEAU
+   échoue, y compris dans un fichier créé après le constat.
 2. **N'utilise jamais** les composants au statut \`interne\`${internes.length ? ` (${internes.map((e) => e.name).join(', ')})` : ''} ;
    les \`experimental\`${experimentaux.length ? ` (${experimentaux.map((e) => e.name).join(', ')})` : ' (aucun aujourd\'hui)'} ne sont pas proposés par défaut.
 3. **Composant manquant** : suis MISSING-COMPONENT-PROTOCOL.md (livré dans ce paquet) —
