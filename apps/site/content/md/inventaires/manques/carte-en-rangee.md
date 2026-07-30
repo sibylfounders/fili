@@ -1,5 +1,6 @@
 # Manque : carte en rangée (ex-`orientation="inline"`)
-- Statut : proposé
+- Statut : validé
+- Arbitrage : 2026-07-30 (Aurélien) — piste 1 retenue : un AXE `layout="stacked" | "row"` sur `Card.Root`, avec reflow automatique en empilé sous le seuil de conteneur. La disposition interne est un comportement adaptatif du composant, pas une pièce d'anatomie — même autorité et même mécanique qu'`adaptiveMedia`. Point ouvert à trancher à la rédaction UI : la hauteur minimale de rangée (64/56px en dur dans l'ancienne implémentation) vient-elle d'un cran existant ou d'un rôle propre justifié dans DESIGN.md ?
 - Besoin rencontré : une carte dont le CONTENU se lit en rangée — pastille ou média à gauche, texte au centre, actions ou contrôle poussés à droite — au lieu de l'empilement vertical. C'est la « ligne de liste cardée » : réglages, options de formulaire, entrées de menu, plans tarifaires.
 - Contexte réel (page, produit, capture) : `apps/site/app/test/carte-reglage/` (essai du 2026-07-30 : libellé à gauche, Switch à droite, seul et en collection jointe). Demande d'Aurélien le même soir : « inline card me permettait d'avoir l'icône à gauche et pas au-dessus ».
 - Fréquence prévisible : élevée. Tout écran de réglages, toute liste d'options, tout choix de formule.

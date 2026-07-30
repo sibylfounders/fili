@@ -1,5 +1,6 @@
 # Manque : slider
 - Statut : proposé
+- Arbitrage : 2026-07-30 (Aurélien) — REPORTÉE, pas refusée : un seul usage, interne à l'atelier, sans besoin produit réel. Le marqueur `FILI-MANQUE: slider` continue de le recenser sans le sanctionner — c'est exactement le contrat du protocole. À rouvrir quand un écran réel en aura besoin.
 - Besoin rencontré : régler une valeur numérique bornée par glissement (nombre de lignes du Skeleton `text` dans le playground de l'atelier).
 - Contexte réel (page, produit, capture) : apps/site/app/ui/controls.tsx (contrôle `range` du playground — entrée Skeleton).
 - Fréquence prévisible : faible aujourd'hui (un seul usage, interne à l'atelier) ; possible dans de futurs réglages produits (densité, seuils d'audit).

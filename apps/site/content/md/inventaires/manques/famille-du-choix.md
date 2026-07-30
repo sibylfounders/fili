@@ -1,5 +1,6 @@
 # Manque : la famille du CHOIX (Checkbox, Radio, et leur groupe)
-- Statut : proposé
+- Statut : validé
+- Arbitrage : 2026-07-30 (Aurélien) — validée telle quelle : deux composants (Checkbox, Radio) + leur groupe, UNE paire de doctrine CHOICE-UX/UI, libellé embarqué façon Switch, plus l'axe de sélection sur CardGroup pour honorer CARD-R26. Ordre retenu : contrôles nus → essai carded → arbitrage de Card.Control.
 - Besoin rencontré : sélectionner une ou plusieurs options **validées à la soumission** — case à cocher (choix indépendants, consentement) et bouton radio (choix exclusif parmi peu d'options). Le kit n'a que `Switch`, dont la doctrine dit explicitement qu'il est *autre chose*.
 
 ## Ce n'est pas un souhait : trois doctrines le prescrivent déjà
