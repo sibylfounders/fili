@@ -7,6 +7,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 import { INTERACTION_MODE_CURSOR, type InteractionMode } from "../../lib/interaction";
 import { LinkRoot } from "../link/link";
+import { useCollectionContext } from "../card-group/collection-context";
+import "../../lib/focus.css";
 import "./card.css";
 
 /**
@@ -72,8 +74,19 @@ const rootVariants = cva(
 export interface CardRootProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof rootVariants> {
-  /** Carte selectable : état sélectionné exposé techniquement (aria-pressed/checkbox réel en aval). */
+  /**
+   * Carte selectable : état sélectionné. En mode `selectable`, la carte l'expose elle-même —
+   * `role="button"` + `aria-pressed`, anneau de focus, et coche non chromatique en plus de la
+   * bordure `color.primary` (CARD-UI.md : « selected_border PLUS un indicateur non chromatique,
+   * et l'état exposé techniquement »). La collection qui l'héberge n'a pas à le refaire.
+   */
   selected?: boolean;
+  /**
+   * Mode selectable : bascule de l'état. C'est la CARTE qui porte l'interaction (clic sur la
+   * surface hors actions/cibles internes, Espace/Entrée au clavier) — autorité CARD, la
+   * collection n'a pas à refaire cette mécanique (rétablissement des frontières 2026-07-30).
+   */
+  onSelectedChange?: (selected: boolean) => void;
   /**
    * Autorise le passage en disposition horizontale (media à côté du contenu) quand le
    * conteneur a assez de largeur — état `regular` de l'Architecture adaptative. Désactiver
@@ -88,23 +101,64 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
   (
     {
       className,
-      mode = "static",
-      density = "comfortable",
+      mode,
+      density,
       selected,
+      onSelectedChange,
       adaptiveMedia = true,
       loading = false,
+      onClick,
+      onKeyDown,
       children,
       ...props
     },
     ref,
   ) => {
+    // La collection (CardGroup) fournit des DÉFAUTS via son contexte ; une prop explicite
+    // les surclasse — c'est ainsi qu'une carte sans cible reste `static` dans une
+    // collection interactive. Hors collection : défauts propres de Card.
+    const collection = useCollectionContext();
     if (loading) return <CardSkeleton className={className} />;
-    const resolvedMode = mode ?? "static";
-    const resolvedDensity = density ?? "comfortable";
+    const resolvedMode: CardInteractionMode = mode ?? collection?.mode ?? "static";
+    const resolvedDensity: CardDensity = density ?? collection?.density ?? "comfortable";
+    // Le mode selectable rend la carte manipulable : c'est donc ELLE qui porte le rôle, la
+    // tabulation, l'état ET la bascule (clic hors actions/cibles internes, Espace/Entrée).
+    // Les attributs restent surchargeables (`{...props}` passe après) pour le cas d'un vrai
+    // input checkbox/radio en aval.
+    const sel =
+      resolvedMode === "selectable"
+        ? { role: "button" as const, tabIndex: 0, "aria-pressed": !!selected }
+        : null;
+    const handleClick =
+      resolvedMode === "selectable"
+        ? (e: React.MouseEvent<HTMLDivElement>) => {
+            onClick?.(e);
+            if (e.defaultPrevented) return;
+            // Les cibles internes (actions, liens, boutons) restent des cibles distinctes :
+            // les manipuler ne bascule pas la sélection.
+            const t = e.target as HTMLElement;
+            if (t !== e.currentTarget && t.closest("a,button,input,select,textarea,.ds-card-actions")) return;
+            onSelectedChange?.(!selected);
+          }
+        : onClick;
+    const handleKeyDown =
+      resolvedMode === "selectable"
+        ? (e: React.KeyboardEvent<HTMLDivElement>) => {
+            onKeyDown?.(e);
+            if (e.defaultPrevented) return;
+            if ((e.key === " " || e.key === "Enter") && e.target === e.currentTarget) {
+              e.preventDefault();
+              onSelectedChange?.(!selected);
+            }
+          }
+        : onKeyDown;
     return (
       <CardContext.Provider value={{ mode: resolvedMode, density: resolvedDensity }}>
         <div
           ref={ref}
+          {...sel}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
           data-mode={resolvedMode}
           data-density={resolvedDensity}
           data-selected={selected || undefined}
@@ -112,6 +166,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
           className={cn(
             "ds-card", // conteneur de requête ; la surface adaptative est son enfant
             "ds-interactive", // couche partagée du mode (lib/interaction.css)
+            resolvedMode === "selectable" && "ds-focus-ring", // anneau unique de BORDER (focus v2)
             rootVariants({ mode: resolvedMode, density: resolvedDensity }),
             className,
           )}
@@ -124,6 +179,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
             )}
           >
             {children}
+            {resolvedMode === "selectable" && selected ? <CardCheck /> : null}
           </div>
         </div>
       </CardContext.Provider>
@@ -131,6 +187,21 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
   },
 );
 CardRoot.displayName = "Card.Root";
+
+/**
+ * Coche de sélection — l'indicateur NON CHROMATIQUE qui accompagne `selected_border`
+ * (CARD-UI.md l.99). Décoratif pour l'AT : l'état est déjà annoncé par `aria-pressed`.
+ */
+function CardCheck() {
+  return (
+    <span aria-hidden="true" className="ds-card-check absolute right-sm top-sm z-[2] size-4 text-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 6 9 17l-5-5" />
+      </svg>
+    </span>
+  );
+}
+CardCheck.displayName = "Card.Check";
 
 /** Media : ratio fixe, object-fit cover ; fallback = surface + icône (même ratio, la grille ne voit pas la différence). */
 export interface CardMediaProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -195,7 +266,7 @@ CardDescription.displayName = "Card.Description";
 
 /** Actions internes : SIBLINGS du lien étendu, jamais des descendants (cf. Card.TitleLink) — chaque cible reste distincte au clavier. */
 function CardActions({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("relative z-[1] mt-sm flex items-center gap-sm", className)} {...props} />;
+  return <div className={cn("ds-card-actions relative z-[1] mt-sm flex items-center gap-sm", className)} {...props} />;
 }
 CardActions.displayName = "Card.Actions";
 
@@ -221,6 +292,35 @@ const CardTitleLink = React.forwardRef<HTMLAnchorElement, CardTitleLinkProps>(
   ),
 );
 CardTitleLink.displayName = "Card.TitleLink";
+
+/**
+ * Pastille d'icône (32×32, glyphe 22) — au-dessus ou à côté du titre. Rapatriée depuis la
+ * collection (`.cg-chip` de card-group.css) le 2026-07-30 : un affleurement d'ITEM appartient
+ * à CARD, pas au pattern qui la dispose. Décorative pour l'AT (`aria-hidden`).
+ */
+function CardIcon({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span aria-hidden="true" className={cn("ds-card-icon", className)} {...props} />;
+}
+CardIcon.displayName = "Card.Icon";
+
+/**
+ * Cible étendue-COMMANDE — le pendant de `Card.TitleLink` quand la carte clickable ouvre un
+ * superposé au lieu de naviguer : un vrai `<button>`, jamais un `<a href="#">` — une commande
+ * n'est pas une destination. Même technique de zone étendue (`ds-interactive-target`).
+ * Rapatriée depuis la collection (`.cg-cmd`) le 2026-07-30 — autorité CARD.
+ */
+export interface CardTitleCommandProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+const CardTitleCommand = React.forwardRef<HTMLButtonElement, CardTitleCommandProps>(
+  ({ className, type = "button", ...props }, ref) => (
+    <button
+      ref={ref}
+      type={type}
+      className={cn("ds-card-title-command ds-interactive-target", className)}
+      {...props}
+    />
+  ),
+);
+CardTitleCommand.displayName = "Card.TitleCommand";
 
 /** Chevron du mode expandable — l'ORIENTATION porte l'état (aria-expanded en aval), jamais un changement de glyphe. */
 export interface CardChevronProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -264,26 +364,32 @@ CardSkeleton.displayName = "Card.Skeleton";
 
 export const Card = {
   Root: CardRoot,
+  Check: CardCheck,
   Media: CardMedia,
+  Icon: CardIcon,
   Header: CardHeader,
   Body: CardBody,
   Title: CardTitle,
   Description: CardDescription,
   Actions: CardActions,
   TitleLink: CardTitleLink,
+  TitleCommand: CardTitleCommand,
   Chevron: CardChevron,
   Skeleton: CardSkeleton,
 };
 
 export {
   CardRoot,
+  CardCheck,
   CardMedia,
+  CardIcon,
   CardHeader,
   CardBody,
   CardTitle,
   CardDescription,
   CardActions,
   CardTitleLink,
+  CardTitleCommand,
   CardChevron,
   CardSkeleton,
   rootVariants as cardRootVariants,

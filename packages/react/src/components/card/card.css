@@ -42,3 +42,40 @@
 [data-relief] .ds-card[data-selected] > .ds-card-surface {
   box-shadow: var(--control-raised-shadow);
 }
+
+/* ── Affleurements d'ITEM rapatriés depuis la collection (2026-07-30) ───────────────────
+   La pastille (`Card.Icon`) et la cible étendue-commande (`Card.TitleCommand`) vivaient
+   dans card-group.css (.cg-chip / .cg-cmd) : un pattern qui peint l'intérieur de ses
+   items empiète sur CARD. Géométrie dérivée des tokens (icon.lg + space.sm), plus aucun
+   pixel local. */
+.ds-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: calc(var(--icon-lg) + var(--space-sm));
+  height: calc(var(--icon-lg) + var(--space-sm));
+  flex: none;
+}
+.ds-card-icon svg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+/* La cible étendue peut être un <button> (ouvre un superposé) au lieu d'un <a> (navigue) :
+   même technique de zone étendue, sémantique honnête — une commande n'est pas une
+   destination. */
+.ds-card-title-command {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ds-card-title-command:focus-visible {
+  outline: var(--control-focus-width) solid var(--control-focus-color);
+  outline-offset: var(--control-focus-offset);
+  border-radius: var(--radius-sm);
+}

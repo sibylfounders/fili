@@ -179,10 +179,11 @@ export const input: Entree = {
   status: "stable",
   category: "champ",
   purpose:
-    "La zone réceptive du formulaire (relief creusé). API compound Root > Wrapper > (Icon · Input · InlineAffix) + Affix ; sous-composants Password / Search / Number / Textarea.",
+    "La zone réceptive du formulaire (relief creusé). Le BLOC CHAMP — Field > (Label · Root > Wrapper > (Icon · Input · InlineAffix) + Affix · Helper|Error) — porte le câblage exigé par la doctrine : for/id, aria-describedby, indicateur de requis. Root employé seul reste le cadre bordé, inchangé.",
   doctrine: { ux: "components/INPUT-UX.md", ui: "components/INPUT-UI.md", pattern: "patterns/FORM" },
   rules: "RULES-input.md",
   anatomy: anatomie<InputC>("Input", [
+    "Field", "Label", "Helper", "Error",
     "Root", "Wrapper", "Icon", "Input", "InlineAffix", "Affix",
     "Password", "Search", "Number", "Textarea",
   ]),
@@ -207,6 +208,7 @@ export const input: Entree = {
     }),
   },
   props: propsDe<InputP>()({
+    required: { type: "boolean", default: "false", description: "Input.Field : pose l'indicateur visible sur le libellé (INPUT-R30) + aria-required. La CONVENTION requis/optionnel appartient au formulaire entier (FORM-R10)." },
     clearable: { type: "boolean", default: "false", description: "Croix d'effacement standard (Input.Input)." },
     loading: { type: "boolean", default: "false", description: "Squelette de chargement (Root)." },
     asChild: { type: "boolean", default: "false", description: "Slot Radix sur Root." },
@@ -220,6 +222,9 @@ export const input: Entree = {
   states: ["default", "focus-visible (ring accent + bordure d'état ensemble)", "error", "success", "warning", "disabled", "loading"],
   accessibility: [
     "aria-invalid automatique en error",
+    "Input.Field : liaison for/id du libellé (INPUT-UI T1 — jamais la seule proximité visuelle) et aria-describedby vers le message, posé seulement s'il existe",
+    "Input.Error remplace Input.Helper (INPUT-R26) et se signale par une icône + « Erreur » pour l'AT, jamais par la seule couleur (INPUT-R31)",
+    "dans un Field, Wrapper et Textarea cessent d'être des <label> : un seul étiquetage, celui du libellé visible",
     "le ring s'ajoute à la bordure d'état (les deux restent lisibles — BORDER-R07)",
     "Password : aria-pressed sur le toggle œil ; Number : réservé aux quantités (OTP/code postal = text + inputmode)",
   ],
@@ -227,12 +232,27 @@ export const input: Entree = {
   allowedComposition: ["FORM : Input + Select + Button + Alert", "Affix pour unités/domaines ; Icon pour la nature du champ"],
   antiPatterns: [
     "<input> natif stylé à la main hors mécanique interne",
+    "libellé écrit à la main à côté du champ (INPUT-R38 : label toujours visible ET lié — c'est le rôle d'Input.Field + Input.Label)",
+    "placeholder tenant lieu de libellé (INPUT-R38)",
     "status utilisé comme décor (un champ n'est pas « orange » : il est en warning)",
     "Input.Number pour un code (OTP, postal) — c'est un text + inputmode",
   ],
   canonicalExamples: [
     {
-      title: "Champ e-mail avec statut d'erreur",
+      title: "Champ complet — libellé lié, aide, erreur (le bloc champ)",
+      code: `<Input.Field status="error" required>
+  <Input.Label>Adresse e-mail</Input.Label>
+  <Input.Root>
+    <Input.Wrapper>
+      <Input.Input type="email" placeholder="vous@exemple.fr" autoComplete="email" />
+    </Input.Wrapper>
+  </Input.Root>
+  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>
+  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>
+</Input.Field>`,
+    },
+    {
+      title: "Cadre seul, sans bloc champ (usage autonome inchangé)",
       code: `<Input.Root status="error">
   <Input.Wrapper>
     <Input.Input type="email" placeholder="vous@exemple.fr" aria-label="Adresse e-mail" />
@@ -261,8 +281,8 @@ export const card: Entree = {
   doctrine: { ux: "components/CARD-UX.md", ui: "components/CARD-UI.md", pattern: "patterns/COLLECTION" },
   rules: "RULES-card.md",
   anatomy: anatomie<CardC>("Card", [
-    "Root", "Media", "Header", "Body", "Title",
-    "TitleLink", "Description", "Actions", "Chevron", "Skeleton",
+    "Root", "Media", "Icon", "Header", "Body", "Title",
+    "TitleLink", "TitleCommand", "Description", "Actions", "Check", "Chevron", "Skeleton",
   ]),
   axes: {
     mode: axe<CardMode>({
@@ -286,6 +306,7 @@ export const card: Entree = {
   },
   props: propsDe<CardP>()({
     selected: { type: "boolean", description: "État sélectionné (mode selectable)." },
+    onSelectedChange: { type: "(selected: boolean) => void", description: "Mode selectable : bascule portée par la CARTE (clic hors cibles internes, Espace/Entrée) — la collection ne refait pas cette mécanique." },
     adaptiveMedia: { type: "boolean", default: "true", description: "Media passe à côté du contenu dès ~24rem de largeur RÉELLE." },
     loading: { type: "boolean", default: "false", description: "Rend Card.Skeleton aux mêmes proportions." },
   }),
@@ -301,7 +322,9 @@ export const card: Entree = {
   ],
   adaptiveBehavior:
     "Container query sur sa propre largeur (état compact empilé = CSS de base ; regular côte-à-côte ≥ 24rem).",
-  allowedComposition: ["CardGroup pour toute COLLECTION de cartes (le mode vit alors sur la collection)"],
+  allowedComposition: [
+    "CardGroup pour toute COLLECTION de cartes : les Card sont les ENFANTS DIRECTS du pattern, qui leur transmet mode et densité par contexte (une Card `mode=\"static\"` explicite reste sans cible dans une collection interactive)",
+  ],
   antiPatterns: [
     "Recréer une carte avec div + border + shadow à la main",
     "onClick sur la surface entière sans lien réel (le lien étendu passe par TitleLink)",

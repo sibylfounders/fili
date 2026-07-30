@@ -232,12 +232,30 @@ export function analyser(cible, options = {}) {
           }
         }
 
+        // ── Élément natif rendu PAR un composant du kit via `asChild` (Radix Slot) ─────
+        // `<Nav.Link asChild><button …>` ou `<Chip asChild><a …>` : l'élément natif EST le
+        // rendu du composant kit (facture, focus, sémantique choisie par le consommateur).
+        // Ce n'est pas un contrôle recréé — c'est le motif de composition documenté du kit.
+        // Seul le PARENT IMMÉDIAT compte : un natif enfoui plus bas reste une recréation.
+        const rendaParKitAsChild = (() => {
+          const el = ts.isJsxOpeningElement(node) ? node.parent : node; // JsxElement | JsxSelfClosing
+          const wrap = el?.parent;
+          if (!wrap || !ts.isJsxElement(wrap)) return false;
+          const op = wrap.openingElement;
+          const wnom = nomDeTag(op.tagName);
+          const wbase = wnom.split(".")[0];
+          if (!/^[A-Z]/.test(wbase) || !duKit(wbase)) return false;
+          return op.attributes.properties.some((a) => ts.isJsxAttribute(a) && a.name.getText() === "asChild");
+        })();
+
         if (/^[a-z]/.test(nom)) {
-          if (nom === "button") pousse("button-natif", ligne, "<button>", "utiliser Button / CompactButton (@fili/react)");
-          if (nom === "input" || nom === "textarea") pousse("input-natif", ligne, `<${nom}>`, "utiliser Input (@fili/react)");
-          if (nom === "select") pousse("select-natif", ligne, "<select>", "utiliser Select (native le rend aussi)");
-          if ((nom === "div" || nom === "span") && attr("onClick")) pousse("div-cliquable", ligne, `<${nom} onClick>`, "un contrôle est un Button ou un Link");
-          if (nom !== "button" && valeurTexte(attr("role")) === "button") pousse("role-button", ligne, `<${nom} role="button">`, "utiliser la primitive appropriée");
+          if (!rendaParKitAsChild) {
+            if (nom === "button") pousse("button-natif", ligne, "<button>", "utiliser Button / CompactButton (@fili/react)");
+            if (nom === "input" || nom === "textarea") pousse("input-natif", ligne, `<${nom}>`, "utiliser Input (@fili/react)");
+            if (nom === "select") pousse("select-natif", ligne, "<select>", "utiliser Select (native le rend aussi)");
+            if ((nom === "div" || nom === "span") && attr("onClick")) pousse("div-cliquable", ligne, `<${nom} onClick>`, "un contrôle est un Button ou un Link");
+            if (nom !== "button" && valeurTexte(attr("role")) === "button") pousse("role-button", ligne, `<${nom} role="button">`, "utiliser la primitive appropriée");
+          }
           for (const m of classes.matchAll(PALETTE)) pousse("palette-defaut", ligne, m[1], "un rôle Fili existe (tokens sémantiques)");
         } else if (axesParComposant.size && duKit(base0)) {
           const base = nom.split(".")[0];

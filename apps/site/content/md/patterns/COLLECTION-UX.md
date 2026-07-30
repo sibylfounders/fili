@@ -2,7 +2,7 @@
 component: collection
 layer: ux
 type: pattern # composition de plusieurs composants sur un écran, comme form
-version: 1.0.1 # 1.0.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.0.0 : première rédaction — le pattern lève la clause de naissance de la grille de colonnes (GRID-UX 1.1.0 : « la grille de colonnes naîtra avec le pattern collection/grille » — c'est fait). Inventaire et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : grille intrinsèque via grid.item-min (256px), composé par le contenu (pas de 12 canonique), charger-plus > pagination > scroll-infini-jamais-seul, transfert du gap depuis CARD-UI.
+version: 1.0.2 # 1.0.2 : le consommateur de la clause « sans cible » devient Card mode=static explicite — l'API CardGroup.Card est supprimée (2026-07-30, une seule anatomie de carte) ; aucune règle modifiée. 1.0.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.0.0 : première rédaction — le pattern lève la clause de naissance de la grille de colonnes (GRID-UX 1.1.0 : « la grille de colonnes naîtra avec le pattern collection/grille » — c'est fait). Inventaire et benchmark faits AVANT livraison. Arbitrages du 2026-07-21 (cf. DECISIONS.md) : grille intrinsèque via grid.item-min (256px), composé par le contenu (pas de 12 canonique), charger-plus > pagination > scroll-infini-jamais-seul, transfert du gap depuis CARD-UI.
 last_updated: 2026-07-21
 companion: COLLECTION-UI.md
 confidence: mixed # la grille intrinsèque (colonnes émergentes de la largeur d'item) est établie techniquement et convergente avec le principe adaptatif ; le refus d'un 12-colonnes canonique est une décision interne assumée ; la position charger-plus/pagination/scroll infini s'appuie sur NN/g mais reste un arbitrage produit
@@ -252,8 +252,10 @@ POURQUOI : sans cette séparation, il ne reste que deux issues, toutes deux mauv
 > **Portée** : la règle est écrite au niveau de la collection parce qu'elle ne concerne pas la carte.
 > Elle vaut identiquement pour une liste dont certaines entrées sont dépliables, pour un tableau
 > dont certaines lignes mènent à une fiche et d'autres non, pour un menu dont une option est
-> momentanément indisponible. Le premier consommateur est `CardGroup.Card` (prop `inactive`,
-> 2026-07-27) ; les suivants devront exposer la même distinction sous le même nom.
+> momentanément indisponible. Le consommateur de référence est la collection de cartes :
+> une `Card` qui surclasse le mode du groupe en `static` (carte SANS CIBLE, 2026-07-30 —
+> l'ex-prop `inactive` de l'API supprimée `CardGroup.Card`) ; les suivants devront exposer
+> la même distinction sous le même geste.
 
 ## Règle transversale
 

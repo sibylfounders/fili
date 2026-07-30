@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Select, Switch } from "@fili/react";
+import { Input, Select, Switch } from "@fili/react";
 import type { Control } from "./registry";
 
 /** Panneau de contrôles façon Figma : rangées label→contrôle, sections explicites
@@ -41,11 +41,12 @@ export function Controls({
       return (
         <label key={c.k} className="flex flex-col gap-1">
           <span className="text-sm text-text-secondary">{label}</span>
-          <input
-            className="rounded-sm border border-border bg-background px-md py-1.5 text-sm text-text-primary"
-            value={state[c.k] ?? ""}
-            onChange={(e) => set(c.k, e.target.value)}
-          />
+          {/* Champ du kit — plus d'<input> restylé dans le playground. */}
+          <Input.Root size="sm">
+            <Input.Wrapper>
+              <Input.Input value={state[c.k] ?? ""} onChange={(e) => set(c.k, e.target.value)} />
+            </Input.Wrapper>
+          </Input.Root>
         </label>
       );
     if (c.type === "range")
@@ -54,6 +55,7 @@ export function Controls({
           <span className="text-sm text-text-secondary">
             {label} <b className="text-text-primary">{state[c.k]}{c.unit ?? ""}</b>
           </span>
+          {/* FILI-MANQUE: slider — le kit n'a pas de Slider ; implémentation locale PROVISOIRE déclarée (fiche : content/md/inventaires/manques/slider.md), à remplacer après arbitrage. */}
           <input type="range" min={c.min} max={c.max} step={c.step ?? 1} value={state[c.k]} onChange={(e) => set(c.k, Number(e.target.value))} />
         </label>
       );

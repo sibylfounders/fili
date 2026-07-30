@@ -55,7 +55,7 @@ const ICONS: Record<string, string> = {
 };
 
 const LibIcon: React.FC<{ p: string }> = ({ p }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: "100%", height: "100%" }} dangerouslySetInnerHTML={{ __html: p }} />
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="size-full" dangerouslySetInnerHTML={{ __html: p }} />
 );
 
 export const FOUNDATIONS: { key: string; title: string; desc: string }[] = [
@@ -325,7 +325,9 @@ function MotionCard({ label, sub, dur, ease }: { label: string; sub: string; dur
     d.classList.remove("go"); void d.offsetWidth; d.classList.add("go");
   };
   return (
-    <div className="mcard" onMouseEnter={play} onClick={play}>
+    // Rejeu au SURVOL uniquement : un div cliquable serait un contrôle recréé (un contrôle
+    // est un Button ou un Link) — l'animation est décorative, le survol suffit.
+    <div className="mcard" onMouseEnter={play}>
       <div className="mtrack"><span ref={dotRef} className="mdot" style={{ transitionDuration: dur, transitionTimingFunction: ease }} /></div>
       <span className="mcard-l">{label}<em>{sub}</em></span>
     </div>

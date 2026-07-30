@@ -21,8 +21,8 @@
       "fiche": "RULES-collection.md",
       "source": "COLLECTION-UX.md",
       "citee": "1.0.0",
-      "actuelle": "1.0.1",
-      "justification": "Bump patch de la source postérieur à la condensation ; aucune règle nouvelle. Resynchronisation éditoriale groupée.",
+      "actuelle": "1.0.2",
+      "justification": "Bumps patch de la source postérieurs à la condensation (1.0.1 : chemins ; 1.0.2 : le consommateur de la clause « sans cible » devient Card mode=static — suppression de l'API CardGroup.Card, 2026-07-30) ; aucune règle nouvelle ni modifiée. Resynchronisation éditoriale groupée.",
       "vague": 5
     },
     {

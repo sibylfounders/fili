@@ -1,9 +1,68 @@
-# Fili Component Contract — version 1.0.0 (2026-07-29)
+# Fili Component Contract — version 1.1.0 (2026-07-30)
+
+<!-- 1.1.0 : la LOI ATOMIQUE (Tokens → Components → Patterns → Pages → Flows) entre au
+     contrat comme règle NORMATIVE, avec ses conséquences exécutables — arbitrage journalisé
+     dans DECISIONS.md (2026-07-30, « une seule Card »). 1.0.0 : première rédaction. -->
 
 > La grammaire commune de l'API du kit `@fili/react`. Les mêmes mots portent le même type
 > de décision partout. Deux composants peuvent proposer des valeurs différentes pour un
 > même axe ; ils ne doivent jamais employer deux noms différents pour la même idée sans
 > raison documentée ici.
+
+## La loi atomique — hiérarchie d'autorité (NORMATIF, 1.1.0)
+
+> Tokens → Components → Patterns → Pages → Flows.
+>
+> Chaque étage possède un périmètre exclusif. Franchir la frontière d'un étage — dans un
+> sens comme dans l'autre — est une violation du contrat, au même titre qu'une valeur
+> d'axe inventée. Cette hiérarchie n'est pas une narration : les validateurs
+> (`fili-check`, `verifie-manifeste`, `verifie-rendu`) et la validation runtime des
+> patterns (ex. `CardGroup` refuse tout enfant qui n'est pas un `Card.Root` direct)
+> l'exécutent.
+
+### Tokens
+
+Possèdent les **valeurs** et les **rôles visuels** (couleur, espace, rayon, motion,
+focus…). Ils ne définissent **aucune** anatomie de composant.
+
+### Components
+
+Possèdent leur **anatomie**, leur **rendu**, leurs **états**, leurs **interactions**,
+leur **accessibilité intrinsèque** et leur **comportement adaptatif interne** (container
+queries). Une anatomie visuelle réutilisable n'existe qu'**une fois** — jamais deux
+implémentations parallèles de la même chose (le précédent : `CardGroup.Card`, supprimé
+le 2026-07-30).
+
+### Patterns
+
+**Assemblent et orchestrent** des composants existants. Ils peuvent posséder : la
+disposition entre composants, le contexte collectif (mode, densité…), l'ordre, les
+relations, les règles d'orchestration. Ils ne redessinent **jamais** l'anatomie d'un
+composant enfant et ne sont jamais propriétaires de son rendu interne.
+
+### Pages
+
+Fournissent le **contenu**, le **choix des composants**, la **composition des patterns**
+et la mise en page propre au contexte (éléments sémantiques ordinaires et wrappers de
+layout). Elles ne fabriquent **pas** de primitive visuelle locale lorsqu'un composant du
+kit existe.
+
+### Flows
+
+**Ordonnent** les pages, patterns, états et décisions dans le temps. Ils ne possèdent
+pas le rendu interne des composants.
+
+### Conséquences exécutables
+
+- Si un composant existe, il **doit** être réutilisé.
+- Si plusieurs composants suffisent, ils **doivent** être composés.
+- Si le besoin manque réellement, appliquer `MISSING-COMPONENT-PROTOCOL.md` — jamais un
+  fallback visuel local silencieux.
+- Aucune **deuxième anatomie parallèle** d'un composant existant.
+- Aucune **API locale** qui masque l'API publique (un extrait d'atelier montre l'API
+  réelle, copiable telle quelle).
+- Un pattern n'est **jamais** propriétaire du rendu interne de ses enfants ; sa frontière
+  est vérifiée (manifeste `anatomy` exhaustif, validation runtime des enfants).
 
 ## Les axes
 
@@ -14,7 +73,7 @@
 | `size` | **Échelle dimensionnelle d'un contrôle** | sm/md/lg | Button, Input, Select, Switch, ThemeToggle… |
 | `status` | **État communiqué par le composant**, notamment la validation — imposé par les données, pas choisi pour l'esthétique | default/error/success/warning | Input (et tout futur champ) |
 | `mode` | **Nature de l'interaction** d'une surface-conteneur (langage transversal INTERACTION) | static/clickable/selectable/expandable | Card, CardGroup |
-| `density` | **Densité de contenu ou de composition** | comfortable/compact (+spacious en collection) | Card, CardGroup |
+| `density` | **Densité de contenu ou de composition** | comfortable/compact (deux crans, ceux de CARD — la collection les relaie par contexte) | Card, CardGroup |
 | `context` | **Environnement d'usage** qui change la présentation sans changer la nature | inline/standalone/navigation | Link |
 | `state` | **État interne de machine** — exposé en `data-state`, jamais une option décorative publique | idle/deleting/done ; entering/visible/exiting | DeleteButton, SubmitButton, Toast |
 

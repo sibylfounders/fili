@@ -1,13 +1,16 @@
 "use client";
 import * as React from "react";
-import { CardGroup, Chip, Modal } from "@fili/react";
+import { Card, CardGroup, Chip, Link, Modal } from "@fili/react";
 import { EVENEMENT_VOLET, allerAuVolet, ancreConsommee, ancreDemandee } from "../doc-tabs";
 import type { Decision } from "@/lib/doctrine";
 
 /**
  * Grille des règles d'un groupe — même geste que les Situations : collection de cartes du DS
- * (`CardGroup`, mode clickable, colonnes intrinsèques), détail dans un `Modal`. Une seule modale
- * montée à la fois, portée par la collection et non par la carte (« un seul mode par collection »).
+ * (`CardGroup`, mode clickable, colonnes intrinsèques) dont les enfants sont de vraies `Card`
+ * (l'API `CardGroup.Card` a été supprimée le 2026-07-30), détail dans un `Modal`. La cible
+ * étendue est une COMMANDE (`Card.TitleCommand`) — ouvrir un superposé n'est pas naviguer.
+ * Une seule modale montée à la fois, portée par la collection et non par la carte
+ * (« un seul mode par collection »).
  *
  * Pas de visuel ici, contrairement aux Situations : une règle n'a pas d'illustration, et en
  * fabriquer une serait un ornement sans besoin réel.
@@ -114,60 +117,65 @@ export function DecisionsGrille({
   return (
     <>
       {/* Un seul mode pour la collection (CARD-UX). Les règles dont la modale n'ajouterait
-          rien se déclarent `inactive` : elles gardent leur place et leur forme, mais perdent
-          toute affordance — pas de curseur main, pas de relief, et le highlight de proximité
-          les ignore. Le survol ne promet que ce qui existe. */}
+          rien surclassent le mode du groupe en `static` : ce sont des cartes SANS CIBLE —
+          elles gardent leur place et leur forme, mais perdent toute affordance (pas de
+          curseur main, pas de relief) et le highlight de proximité les ignore. Le survol
+          ne promet que ce qui existe. */}
       <CardGroup mode="clickable" separated label={`Règles — ${groupe}`}>
-        {decisions.map((x) => (
-          <CardGroup.Card
-            key={x.id}
-            id={x.id}
-            className="scroll-mt-[72px]"
-            titleAs="h4"
-            title={titre(x)}
-            inactive={!aDuDetail(x)}
-            onActivate={() => setOuvert(x)}
-            description={
-              x.mesure ? (
-                <>
-                  <span className="mr-1 font-label text-[10px] font-semibold uppercase tracking-wider text-text-muted">Vérifiable</span>
-                  {x.mesure}
-                </>
-              ) : x.probleme ? (
-                <>
-                  <span className="mr-1 font-label text-[10px] font-semibold uppercase tracking-wider text-text-muted">Pourquoi</span>
-                  {x.probleme}
-                </>
-              ) : undefined
-            }
-          >
-            <span className="mt-sm flex flex-wrap items-center gap-sm">
-              {/* L'action est DÉCLARÉE, pas seulement suggérée par le survol — et elle
-                  n'apparaît que sur les cartes qui ont une cible. Une carte sans détail
-                  n'affiche donc ni texte accentué, ni flèche : rien qui ressemble à un lien.
-                  Ce n'est pas un élément interactif imbriqué (interdit dans une cible
-                  étendue, LINK-R16) mais un libellé ; la cible reste le titre de la carte. */}
-              {aDuDetail(x) ? (
-                <span className="text-xs font-medium text-primary">Comprendre la règle →</span>
-              ) : null}
-              <span className="font-mono text-xs font-semibold text-text-muted">{x.id}</span>
-              <Pastille titre={COURT[x.statut].aide}>{COURT[x.statut].label}</Pastille>
-              {x.couche === "ux" && x.statut !== "methode" && x.cas.length === 0 ? (
-                <Pastille ton="muted" titre="Aucune situation concrète ne l'illustre encore — trou de couverture, pas un défaut de la règle.">
-                  Aucune situation
-                </Pastille>
-              ) : null}
-              <span className="font-label text-[11px] text-text-muted">
-                {[
-                  x.cas.length ? `${x.cas.length} situation${x.cas.length > 1 ? "s" : ""}` : null,
-                  x.sources.length ? `${x.sources.length} source${x.sources.length > 1 ? "s" : ""}` : x.interne ? "source interne" : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </span>
-            </span>
-          </CardGroup.Card>
-        ))}
+        {decisions.map((x) => {
+          const detail = aDuDetail(x);
+          return (
+            <Card.Root key={x.id} id={x.id} mode={detail ? undefined : "static"} className="scroll-mt-[72px]">
+              <Card.Body>
+                <Card.Header>
+                  <Card.Title as="h4">
+                    {detail ? (
+                      <Card.TitleCommand onClick={() => setOuvert(x)}>{titre(x)}</Card.TitleCommand>
+                    ) : (
+                      titre(x)
+                    )}
+                  </Card.Title>
+                </Card.Header>
+                {x.mesure ? (
+                  <Card.Description>
+                    <span className="mr-1 font-label text-[10px] font-semibold uppercase tracking-wider text-text-muted">Vérifiable</span>
+                    {x.mesure}
+                  </Card.Description>
+                ) : x.probleme ? (
+                  <Card.Description>
+                    <span className="mr-1 font-label text-[10px] font-semibold uppercase tracking-wider text-text-muted">Pourquoi</span>
+                    {x.probleme}
+                  </Card.Description>
+                ) : null}
+                <span className="mt-sm flex flex-wrap items-center gap-sm">
+                  {/* L'action est DÉCLARÉE, pas seulement suggérée par le survol — et elle
+                      n'apparaît que sur les cartes qui ont une cible. Une carte sans détail
+                      n'affiche donc ni texte accentué, ni flèche : rien qui ressemble à un lien.
+                      Ce n'est pas un élément interactif imbriqué (interdit dans une cible
+                      étendue, LINK-R16) mais un libellé ; la cible reste le titre de la carte. */}
+                  {detail ? (
+                    <span className="text-xs font-medium text-primary">Comprendre la règle →</span>
+                  ) : null}
+                  <span className="font-mono text-xs font-semibold text-text-muted">{x.id}</span>
+                  <Pastille titre={COURT[x.statut].aide}>{COURT[x.statut].label}</Pastille>
+                  {x.couche === "ux" && x.statut !== "methode" && x.cas.length === 0 ? (
+                    <Pastille ton="muted" titre="Aucune situation concrète ne l'illustre encore — trou de couverture, pas un défaut de la règle.">
+                      Aucune situation
+                    </Pastille>
+                  ) : null}
+                  <span className="font-label text-[11px] text-text-muted">
+                    {[
+                      x.cas.length ? `${x.cas.length} situation${x.cas.length > 1 ? "s" : ""}` : null,
+                      x.sources.length ? `${x.sources.length} source${x.sources.length > 1 ? "s" : ""}` : x.interne ? "source interne" : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
+                </span>
+              </Card.Body>
+            </Card.Root>
+          );
+        })}
       </CardGroup>
 
       <Modal open={!!d} onClose={() => setOuvert(null)} size="default">
@@ -228,9 +236,9 @@ export function DecisionsGrille({
                       <li key={s.ref} className="flex flex-wrap items-baseline gap-2">
                         {s.liens.map((l, i) =>
                           l.url ? (
-                            <a key={i} href={l.url} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2">
+                            <Link key={i} href={l.url} context="inline" target="_blank" rel="noreferrer">
                               {l.label}
-                            </a>
+                            </Link>
                           ) : (
                             <span key={i} className="text-text-secondary">{l.label}</span>
                           ),

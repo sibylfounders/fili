@@ -1,11 +1,12 @@
-import Link from "next/link";
 import { ReglesCles } from "./regles-cles";
 import { notFound } from "next/navigation";
 import { fiche, nbCas, slugsDoctrine, type Fiche } from "@/lib/doctrine";
 import { sujet } from "@/lib/md";
 import { Markdown } from "../../components/markdown";
+import { LienRetour } from "../../components/lien-retour";
 import { DocTabs } from "../doc-tabs";
 import { CasGrille } from "./cas-grille";
+import { Preuves } from "./preuves";
 import { Repliable } from "./repliable";
 import { VoletDecisions } from "./volet-decisions";
 import { DecisionsGrille } from "./decisions-grille";
@@ -57,13 +58,8 @@ function Essentiel({ f, ux }: { f: Fiche; ux?: string }) {
       ) : null}
 
       {e.preuves.length ? (
-        <section className="grid gap-md tablet:grid-cols-3">
-          {e.preuves.map((p, i) => (
-            <div key={i} className="rounded-md border border-border bg-surface px-md py-sm">
-              <p className="m-0 text-h3 font-semibold text-text-primary">{p.valeur}</p>
-              <p className="m-0 text-sm text-text-secondary">{p.libelle}</p>
-            </div>
-          ))}
+        <section>
+          <Preuves preuves={e.preuves} label="Preuves chiffrées" />
         </section>
       ) : null}
 
@@ -268,11 +264,7 @@ export default function SujetPage({ params }: { params: { slug: string } }) {
 
   return (
     <main className="mx-auto max-w-container-default px-lg py-xl">
-      <p className="m-0">
-        <Link href="/md/" className="text-sm text-text-secondary no-underline hover:text-text-primary">
-          ← Doctrine
-        </Link>
-      </p>
+      <LienRetour href="/md/">← Doctrine</LienRetour>
       <div className="mt-md flex items-center gap-md">
         {f.embleme ? <Html html={f.embleme} className="shrink-0 [&_svg]:h-10 [&_svg]:w-10" /> : null}
         <h1 className="m-0 text-h2 font-semibold text-text-primary">{f.nom}</h1>

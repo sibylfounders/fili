@@ -7,7 +7,7 @@ import { ResizablePreview } from "./resizable-preview";
 import { CodeBlock } from "./code-block";
 import { Foundations, FOUNDATIONS } from "./foundations";
 import { useTheming } from "../theming-context";
-import { Nav, navGroupLabelTextClass } from "@fili/react";
+import { Accordion, Button, CompactButton, Nav, Switch, navGroupLabelTextClass } from "@fili/react";
 
 const ALL = GROUPS.flatMap((g) => g.items);
 
@@ -68,34 +68,24 @@ export function Atelier() {
   );
 
   // Fondations et Layout : en tête, REPLIABLES (fermées par défaut) — le socle est là sans
-  // manger la liste. Le reste : catégories ET liens en ordre alphabétique.
-  const [openGroups, setOpenGroups] = React.useState<Record<string, boolean>>({
-    Fondations: false,
-    Layout: false,
-  });
-  const groupSection = (label: string, collapsible: boolean, children: React.ReactNode) => {
-    const open = collapsible ? (openGroups[label] ?? false) : true;
-    return (
-      <div key={label}>
-        {collapsible ? (
-          <button
-            type="button"
-            aria-expanded={open}
-            onClick={() => setOpenGroups((p) => ({ ...p, [label]: !(p[label] ?? false) }))}
-            className={"mb-2 flex w-full items-center justify-between rounded-sm px-sm transition-colors hover:text-text-primary " + navGroupLabelTextClass}
-          >
-            {label}
-            <svg viewBox="0 0 20 20" className={"size-3.5 shrink-0 transition-transform duration-fast " + (open ? "" : "-rotate-90")} aria-hidden="true">
-              <path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        ) : (
-          <p className={"mb-2 px-sm " + navGroupLabelTextClass}>{label}</p>
-        )}
-        {open ? <Nav.List className="gap-1">{children}</Nav.List> : null}
-      </div>
-    );
-  };
+  // manger la liste. Le dépliable est l'Accordion du kit (même geste que la nav Doctrine),
+  // plus un <button> restylé à la main. Le reste : catégories ET liens en ordre alphabétique.
+  const groupeRepliable = (label: string, children: React.ReactNode) => (
+    <Accordion.Item key={label} value={label}>
+      <Accordion.Header level={2} className="px-sm">
+        <span className={navGroupLabelTextClass}>{label}</span>
+      </Accordion.Header>
+      <Accordion.Panel className="px-0 pb-sm pt-0">
+        <Nav.List className="gap-1">{children}</Nav.List>
+      </Accordion.Panel>
+    </Accordion.Item>
+  );
+  const groupeFixe = (label: string, children: React.ReactNode) => (
+    <div key={label}>
+      <p className={"mb-2 px-sm " + navGroupLabelTextClass}>{label}</p>
+      <Nav.List className="gap-1">{children}</Nav.List>
+    </div>
+  );
   const layoutGroup = GROUPS.find((g) => g.label === "Layout");
   const otherGroups = GROUPS.filter((g) => g.label !== "Layout")
     .slice()
@@ -105,32 +95,34 @@ export function Atelier() {
 
   const list = (
     <Nav.Root label="Composants de l'atelier" className="flex flex-col gap-lg">
-      {groupSection("Fondations", true, FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key)))}
-      {layoutGroup
-        ? groupSection("Layout", true, sortedItems(layoutGroup.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key)))
-        : null}
+      <Accordion.Root defaultOpen={[]}>
+        {groupeRepliable("Fondations", FOUNDATIONS.map((f) => navBtn(f.key, f.title, f.key === key)))}
+        {layoutGroup
+          ? groupeRepliable("Layout", sortedItems(layoutGroup.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key)))
+          : null}
+      </Accordion.Root>
       {otherGroups.map((g) =>
-        groupSection(g.label, false, sortedItems(g.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))),
+        groupeFixe(g.label, sortedItems(g.items).map((it) => navBtn(it.key, it.name, !isFoundation && it.key === entry.key))),
       )}
     </Nav.Root>
   );
 
-  const iconBtn = "rounded-sm p-1 text-text-secondary transition-colors hover:text-text-primary";
   const changed = !!entry.initial && JSON.stringify(s) !== JSON.stringify(entry.initial);
   const tools =
     !isFoundation && entry.controls && entry.controls.length ? (
       <div>
         <div className="mb-md flex items-center justify-between">
           <span className="font-label text-sm font-semibold text-text-primary">Playground</span>
+          {/* Contrôles du kit — jamais un <button> restylé dans l'atelier. */}
           <div className="flex items-center gap-1.5">
             {changed ? (
-              <button type="button" onClick={reset} title="Réinitialiser" aria-label="Réinitialiser" className={iconBtn}>
+              <CompactButton variant="ghost" tone="neutral" size="md" onClick={reset} title="Réinitialiser" aria-label="Réinitialiser">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
-              </button>
+              </CompactButton>
             ) : null}
-            <button type="button" onClick={shuffle} title="Aléatoire" aria-label="Aléatoire" className={iconBtn}>
+            <CompactButton variant="ghost" tone="neutral" size="md" onClick={shuffle} title="Aléatoire" aria-label="Aléatoire">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22" /><path d="m18 2 4 4-4 4" /><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2" /><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8" /><path d="m18 14 4 4-4 4" /></svg>
-            </button>
+            </CompactButton>
           </div>
         </div>
         {entry.controls[0]?.sec ? null : (
@@ -148,19 +140,16 @@ export function Atelier() {
       <div className="mb-lg mt-1 flex items-center justify-between gap-md">
         <h1 className="m-0 text-3xl font-medium text-text-primary">{entry.name}</h1>
         {entry.replay ? (
+          /* Contrôles du kit : la bascule reduced-motion est un Switch (effet immédiat),
+             « Rejouer » un Button — plus de checkbox ni de <button> restylés. */
           <div className="flex items-center gap-md">
-            <label className="flex items-center gap-2 text-xs text-text-secondary">
-              <input type="checkbox" checked={reduced} onChange={(e) => setReduced(e.target.checked)} />
-              reduced-motion
-            </label>
-            <button
-              type="button"
-              onClick={replay}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:border-primary"
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+            <Switch size="sm" checked={reduced} onCheckedChange={setReduced} label="reduced-motion" />
+            <Button.Root variant="stroke" tone="neutral" size="sm" onClick={replay}>
+              <Button.Icon>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+              </Button.Icon>
               Rejouer
-            </button>
+            </Button.Root>
           </div>
         ) : null}
       </div>

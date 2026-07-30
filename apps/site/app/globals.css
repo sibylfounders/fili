@@ -101,8 +101,16 @@ body { margin: 0; }
 .doc-prose ul, .doc-prose ol { margin: 0 0 14px; padding-left: 22px; }
 .doc-prose li { margin: 4px 0; }
 .doc-prose li > ul, .doc-prose li > ol { margin: 4px 0; }
+/* Les liens issus du MARKDOWN passent désormais par Link (@fili/react, mapping de
+   markdown.tsx) et portent leur facture et leur focus eux-mêmes. Les règles ci-dessous
+   ne servent plus qu'aux <a> du HTML BRUT embarqué dans les fiches (specimens, pieds
+   générés) — et leur appliquent la même fondation Focus/Bordure (BORDER-U05). */
 .doc-prose a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
 .doc-prose a:hover { color: var(--primary-hover); }
+.doc-prose a:focus-visible {
+  outline: var(--control-focus-width) solid var(--control-focus-color);
+  outline-offset: var(--control-focus-offset);
+}
 .doc-prose strong { font-weight: var(--weight-semibold); color: var(--text-primary); }
 .doc-prose code {
   font-family: var(--font-mono); font-size: .875em; background: var(--surface);
@@ -111,6 +119,15 @@ body { margin: 0; }
 .doc-prose pre {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
   padding: 14px 16px; overflow-x: auto; margin: 0 0 16px;
+}
+/* Un conteneur SCROLLABLE est focalisable au clavier dans Chromium (le défilement doit
+   rester atteignable sans souris) : l'anneau est celui de la fondation Focus/Bordure —
+   géométrie et couleur tokenisées (--control-focus-*), jamais celui du navigateur.
+   Règle posée sur TOUS les <pre> (doc-prose, sources repliées, blocs de l'atelier) :
+   c'est l'application de la fondation transversale, pas une facture nouvelle. */
+pre:focus-visible {
+  outline: var(--control-focus-width) solid var(--control-focus-color);
+  outline-offset: var(--control-focus-offset);
 }
 .doc-prose pre code { background: none; border: 0; padding: 0; font-size: 13px; line-height: 1.6; }
 .doc-prose blockquote {

@@ -56,6 +56,17 @@ jobs:
 
       - run: npm run build --workspace @fili/site
 
+      # ── Le RENDU : la seule garde qui voie le résultat plutôt que l'intention.
+      # Elle ouvre les pages CONSTRUITES dans Chromium et interroge le DOM calculé
+      # (anneau de focus du système, hiérarchie de titres, plancher de cible tactile,
+      # liens morts confrontés à l'inventaire construit, erreurs JavaScript).
+      # L'inventaire des pages se dérive du dossier construit : une page créée demain
+      # est vérifiée sans que personne ne l'inscrive. La détection des valeurs source
+      # reste au validateur AST (verifie:consommation / verifie:tokens) — pas de redite.
+      # Le navigateur s'installe ici et nulle part ailleurs — ~40 s de plus par run.
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verifie:rendu
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/site/out

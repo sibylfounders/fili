@@ -33,19 +33,19 @@ Publier et apprendre   étapes 8–10 + boucles
 
 **01 / INVENTAIRE**
 
-#### Cartographier avant de décider
+### Cartographier avant de décider
 
 Les cas d’usage révèlent les situations que la première intuition oublie.
 
 **02 / CONTRADICTION**
 
-#### Éprouver chaque règle
+### Éprouver chaque règle
 
 Une règle est confrontée aux autres sujets, aux standards et aux cas limites avant de devenir normative.
 
 **03 / TRACE**
 
-#### Journaliser ce qui change
+### Journaliser ce qui change
 
 Chaque révision garde l’ancienne règle, la nouvelle et la raison de l’arbitrage.
 

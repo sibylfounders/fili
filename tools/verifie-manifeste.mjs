@@ -55,6 +55,31 @@ for (const e of MANIFEST)
   if (e.package === "@fili/react" && !Object.values(DIR_TO_NAME).includes(e.name))
     fail(`entrée de manifeste ${e.name} sans dossier de composant`);
 
+// ── 1bis. API COMPOUND ⇒ anatomie déclarée ET complète ───────────────────────
+// Un voyant vert ne doit plus pouvoir ignorer une sous-API publique (c'est exactement
+// ainsi que `CardGroup.Card` a vécu invisible des vérificateurs — garde du 2026-07-30).
+// Complémentaire du niveau tsc (`anatomie<T>()` est désormais EXHAUSTIF) : ce contrôle-ci
+// attrape l'entrée qui omet `anatomy` tout court pour un composant compound.
+for (const d of dirs) {
+  const name = DIR_TO_NAME[d];
+  const e = name ? byName[name] : null;
+  if (!e || e.status === "interne") continue;
+  const srcPath = join(COMPONENTS, d, `${d}.tsx`);
+  if (!existsSync(srcPath)) continue;
+  const src = readFileSync(srcPath, "utf8");
+  const m = src.match(new RegExp(`export const ${name}\\s*=\\s*(?:Object\\.assign\\(|\\{)([\\s\\S]*?);`));
+  if (!m) continue; // export simple (fonction/forwardRef) : pas d'anatomie à déclarer
+  const cles = [...m[1].matchAll(/(?:^|[,{(]\s*)([A-Za-z_]\w*)\s*:/gm)].map((x) => x[1]);
+  if (!cles.length) continue;
+  if (!e.anatomy?.length) {
+    fail(`${name} : API compound (${cles.join(", ")}) sans champ anatomy dans le manifeste`);
+    continue;
+  }
+  for (const k of cles)
+    if (!e.anatomy.includes(`${name}.${k}`))
+      fail(`${name} : sous-composant public ${name}.${k} absent de l'anatomie du manifeste`);
+}
+
 // ── 2. Doctrine et RULES pointées existent ───────────────────────────────────
 const version = (file) => readFileSync(file, "utf8").match(/^version:\s*([\d.]+)/m)?.[1] ?? null;
 for (const e of MANIFEST) {

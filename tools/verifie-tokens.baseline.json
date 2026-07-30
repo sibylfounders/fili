@@ -912,119 +912,11 @@
       "vague": "vague 9 (site)"
     },
     {
-      "file": "apps/site/app/md/page.tsx",
-      "type": "arbitraire",
-      "motif": "text-[13px]",
-      "occurrences": 1,
-      "nature": "arbitraire",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
       "file": "apps/site/app/md/socle/page.tsx",
       "type": "arbitraire",
       "motif": "text-[11px]",
       "occurrences": 1,
       "nature": "arbitraire",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "border: \"1px solid var(--border)\"",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "borderRadius: 10",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "fontSize: \".9rem\"",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "fontSize: \"2.2rem\"",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "gap: 12",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "marginBottom: 8",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "marginTop: 32",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "marginTop: 4",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "maxWidth: 760",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "padding: \"18px 20px\"",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
-      "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
-      "vague": "vague 9 (site)"
-    },
-    {
-      "file": "apps/site/app/page.tsx",
-      "type": "style-inline-en-dur",
-      "motif": "padding: \"80px 24px\"",
-      "occurrences": 1,
-      "nature": "style-inline-en-dur",
       "justification": "dette constatée à l'ADOPTION de la racine « apps/site/app/ » par la garde (2026-07-30, cf. DECISIONS.md) — antérieure à l'élargissement, aucune augmentation tolérée",
       "vague": "vague 9 (site)"
     },
@@ -1085,178 +977,7 @@
     {
       "file": "components/card-group/card-group.css",
       "type": "dimension-en-dur",
-      "motif": "10px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "120px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "12px",
-      "occurrences": 12,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "13.5px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "14px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "16px",
-      "occurrences": 4,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "18px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "20px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "22px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "24px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "rythme dense compact (2×12px) du média — le 12px hors échelle est la vraie dette (vague 5) ; édition manuelle 2026-07-29 après un update intermédiaire qui avait figé un état transitoire",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "32px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
       "motif": "340px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "3px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "56px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "5px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "64px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "6px",
-      "occurrences": 5,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "76px",
-      "occurrences": 1,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "8px",
-      "occurrences": 2,
-      "nature": "dimension-en-dur",
-      "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
-      "vague": "vague 5 (CardGroup)"
-    },
-    {
-      "file": "components/card-group/card-group.css",
-      "type": "dimension-en-dur",
-      "motif": "96px",
       "occurrences": 1,
       "nature": "dimension-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
@@ -1266,7 +987,7 @@
       "file": "components/card-group/card-group.css",
       "type": "z-index-en-dur",
       "motif": "z-index:0",
-      "occurrences": 2,
+      "occurrences": 1,
       "nature": "z-index-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -1275,7 +996,7 @@
       "file": "components/card-group/card-group.css",
       "type": "z-index-en-dur",
       "motif": "z-index:1",
-      "occurrences": 4,
+      "occurrences": 1,
       "nature": "z-index-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -1284,7 +1005,7 @@
       "file": "components/card-group/card-group.css",
       "type": "z-index-en-dur",
       "motif": "z-index:2",
-      "occurrences": 3,
+      "occurrences": 1,
       "nature": "z-index-en-dur",
       "justification": "dette pré-existante au chantier cohérence (constat 2026-07-29) — aucune augmentation tolérée",
       "vague": "vague 5 (CardGroup)"
@@ -1884,5 +1605,5 @@
       "vague": "vague 4 (Alert/Toast)"
     }
   ],
-  "maj": "verifie-tokens --adopte apps/site/app/ (constat d'adoption de racine)"
+  "maj": "verifie-tokens --update-baseline (réductions uniquement)"
 }

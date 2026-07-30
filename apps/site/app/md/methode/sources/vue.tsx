@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link";
-import { CardGroup } from "@fili/react";
+import NextLink from "next/link";
+import { Card, CardGroup, Link } from "@fili/react";
 import type { Entree, Sources } from "./page";
 
 /**
@@ -16,16 +16,15 @@ import type { Entree, Sources } from "./page";
  * ─────────────────────────────────────────────────────────────────────────────
  * CARD ou CARDGROUP ? La règle, une fois pour toutes.
  *
- * `CardGroup` + `CardGroup.Card` — une COLLECTION d'éléments de même nature. Le groupe
- * porte le mode d'interaction (un seul pour toute la collection), les colonnes, les filets
- * internes, les coins et le highlight de proximité. Sa mécanique interne interroge les
- * `.cg-card` : lui donner d'autres enfants la neutralise en silence.
+ * Il n'existe qu'UNE anatomie de carte : `Card` (`Card.Root/Media/Icon/Header/Body/Title/
+ * TitleLink/TitleCommand/Description/Actions`). `CardGroup` est le pattern COLLECTION :
+ * il assemble et orchestre ces `Card` (colonnes, filets, coins, régime joint/séparé,
+ * highlight de proximité, balisage de liste) et leur transmet son mode et sa densité par
+ * contexte — il ne redessine JAMAIS leur contenu. L'ancienne API `CardGroup.Card` (une
+ * seconde carte monolithique) a été supprimée le 2026-07-30.
  *
- * `Card.Root` et ses parties — une carte SEULE, hors collection, dont on compose l'intérieur
- * cas par cas (média cadré, actions multiples, structure inhabituelle).
- *
- * Ici c'est une collection : `CardGroup.Card`, avec `icon` pour la vignette, `href` pour la
- * destination, et le contenu libre pour les compteurs.
+ * Ici c'est une collection : des `Card` dans le `CardGroup`, avec `Card.Icon` pour la
+ * vignette, `Card.TitleLink` pour la destination, et le contenu libre pour les compteurs.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -34,9 +33,9 @@ import type { Entree, Sources } from "./page";
  * Servi depuis notre domaine, jamais chargé chez son propriétaire : aucune requête tierce,
  * donc aucune adresse IP de visiteur transmise.
  *
- * Passée en `icon` et non en `media` : `media` est un visuel illustratif cadré en haut de la
- * carte (ou sur son flanc en inline), alors qu'il s'agit d'une pastille alignée sur le titre —
- * exactement ce que la prop `icon` désigne dans le playground.
+ * Passée dans `Card.Icon` et non `Card.Media` : `media` est un visuel illustratif cadré en
+ * haut de la carte, alors qu'il s'agit d'une pastille alignée sur le titre — exactement ce
+ * que `Card.Icon` désigne.
  */
 function Marque({ e, present }: { e: Entree; present: boolean }) {
   if (!present) {
@@ -62,8 +61,9 @@ export function VueSources({ d, logos }: { d: Sources; logos: string[] }) {
   return (
     <main className="mx-auto max-w-[980px] px-lg py-xl">
       <p className="m-0">
-        <Link href="/md/" className="text-sm text-text-secondary no-underline hover:text-text-primary">
-          ← Doctrine
+        {/* Routage Next, facture et focus Fili : next/link composé via Link asChild. */}
+        <Link asChild context="navigation" className="text-sm">
+          <NextLink href="/md/">← Doctrine</NextLink>
         </Link>
       </p>
 
@@ -88,24 +88,30 @@ export function VueSources({ d, logos }: { d: Sources; logos: string[] }) {
           <section key={f} className="mt-xl">
             <h2 className="m-0 mb-md text-h3 font-medium text-text-primary">{f}</h2>
             {/* Collection : le mode vit sur le groupe, jamais sur la carte (CARD-UX).
-                `clickable` + `href` → la cible étendue est un vrai lien.
+                `clickable` + `Card.TitleLink` → la cible étendue est un vrai lien.
                 Pas de nouvel onglet : LINK-R09 réserve l'ouverture externe aux cas
                 exceptionnels et exige qu'elle soit annoncée. */}
             <CardGroup cols="auto" mode="clickable" separated label={`Sources — ${f}`}>
               {lot.map((e) => (
-                <CardGroup.Card
-                  key={e.nom}
-                  titleAs="h3"
-                  title={e.nom}
-                  description={e.description}
-                  icon={<Marque e={e} present={presents.has(e.logo)} />}
-                  href={e.url}
-                >
-                  <p className="m-0 mt-xs font-label text-xs text-text-muted">
-                    {e.citations} citation{e.citations > 1 ? "s" : ""} · {e.sujets} sujet
-                    {e.sujets > 1 ? "s" : ""}
-                  </p>
-                </CardGroup.Card>
+                <Card.Root key={e.nom}>
+                  <Card.Body>
+                    <Card.Header>
+                      <div className="flex min-w-0 flex-col">
+                        <Card.Icon className="mb-sm">
+                          <Marque e={e} present={presents.has(e.logo)} />
+                        </Card.Icon>
+                        <Card.Title as="h3">
+                          <Card.TitleLink href={e.url}>{e.nom}</Card.TitleLink>
+                        </Card.Title>
+                      </div>
+                    </Card.Header>
+                    {e.description ? <Card.Description>{e.description}</Card.Description> : null}
+                    <p className="m-0 mt-xs font-label text-xs text-text-muted">
+                      {e.citations} citation{e.citations > 1 ? "s" : ""} · {e.sujets} sujet
+                      {e.sujets > 1 ? "s" : ""}
+                    </p>
+                  </Card.Body>
+                </Card.Root>
               ))}
             </CardGroup>
           </section>
@@ -117,23 +123,29 @@ export function VueSources({ d, logos }: { d: Sources; logos: string[] }) {
         {/* Carte isolée : `solo` — pas de grille, pas de highlight de proximité.
             Mode statique : rien à cliquer, donc aucune affordance de relief. */}
         <CardGroup solo mode="static" label="À propos des logos">
-          <CardGroup.Card
-            titleAs="h3"
-            title={`${poses} logo${poses > 1 ? "s" : ""} sur ${d.entrees.length} en place`}
-            description="Les autres affichent un monogramme en attendant leur fichier."
-          >
-            <p className="m-0 mt-sm text-sm leading-relaxed text-text-secondary">
-              Ils sont servis depuis notre propre domaine, jamais chargés chez leur
-              propriétaire&nbsp;: aucune requête vers un tiers, donc aucune adresse IP de visiteur
-              transmise. C&rsquo;est la contrainte que nos audits imposent aux autres, elle vaut
-              d&rsquo;abord pour nous.
-            </p>
-            <p className="m-0 mt-sm text-sm leading-relaxed text-text-secondary">
-              Ces marques appartiennent à leurs détenteurs et sont reproduites au seul titre de la
-              citation de nos sources. Leur présence n&rsquo;indique ni partenariat, ni approbation,
-              ni affiliation.
-            </p>
-          </CardGroup.Card>
+          <Card.Root>
+            <Card.Body>
+              <Card.Header>
+                <Card.Title as="h3">
+                  {poses} logo{poses > 1 ? "s" : ""} sur {d.entrees.length} en place
+                </Card.Title>
+              </Card.Header>
+              <Card.Description>
+                Les autres affichent un monogramme en attendant leur fichier.
+              </Card.Description>
+              <p className="m-0 mt-sm text-sm leading-relaxed text-text-secondary">
+                Ils sont servis depuis notre propre domaine, jamais chargés chez leur
+                propriétaire&nbsp;: aucune requête vers un tiers, donc aucune adresse IP de visiteur
+                transmise. C&rsquo;est la contrainte que nos audits imposent aux autres, elle vaut
+                d&rsquo;abord pour nous.
+              </p>
+              <p className="m-0 mt-sm text-sm leading-relaxed text-text-secondary">
+                Ces marques appartiennent à leurs détenteurs et sont reproduites au seul titre de la
+                citation de nos sources. Leur présence n&rsquo;indique ni partenariat, ni approbation,
+                ni affiliation.
+              </p>
+            </Card.Body>
+          </Card.Root>
         </CardGroup>
       </section>
 

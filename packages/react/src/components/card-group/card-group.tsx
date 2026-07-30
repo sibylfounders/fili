@@ -1,31 +1,59 @@
 "use client";
 import * as React from "react";
 import { cn } from "../../lib/cn";
+import { CollectionContext } from "./collection-context";
+// Identité RÉELLE de la seule anatomie de carte admise comme enfant. Pas de cycle :
+// card.tsx n'importe de ce dossier que collection-context.ts (une feuille).
+import { CardRoot, type CardRootProps } from "../card/card";
 import "./card-group.css";
 
 /**
- * CardGroup — la COLLECTION de cartes, pas la carte. Deux autorités qui ne se mélangent pas
- * (ADAPTIVE-UX) : le groupe décide du nombre de colonnes, de la jointure et du mode ; la carte
- * décide de sa disposition interne.
+ * CardGroup — le pattern COLLECTION (`COLLECTION-UX.md`, `type: pattern`), pas un composant.
+ * « La carte reste l'atome, la collection est la phrase. »
  *
- * Règles portées, venues de CARD-UX/UI et du pattern COLLECTION :
- *  · UN SEUL mode d'interaction par collection — `mode` vit sur le groupe, jamais sur la carte ;
- *  · jointes (défaut) = filets internes + coins hérités du conteneur ; `separated` = cartes détachées ;
- *  · RELIEF = SIGNAL : rien au repos, l'élévation n'apparaît qu'au survol d'une carte interactive ;
- *  · highlight de PROXIMITÉ : la carte la plus proche du pointeur s'éclaire (surface pleine), les
- *    filets adjacents s'effacent pour ne pas doubler le contour ;
- *  · en mode `clickable`, la cible étendue est portée par un vrai lien OU un vrai bouton (`onActivate`) —
- *    une commande n'est pas une destination ; les actions internes restent des cibles distinctes.
+ * FRONTIÈRES D'AUTORITÉ — la table de COLLECTION-UX.md, achevée le 2026-07-30 :
+ *  · à la COLLECTION : le balisage de liste ET la cellule de grille (`role="list"` /
+ *    `role="listitem"`, `.cg-cell`), le nombre de colonnes, les gouttières, le régime
+ *    (joint / séparé), les filets internes, les coins hérités, le highlight de proximité,
+ *    l'annonce de chargement (`aria-busy`), et le contexte collectif de mode et de densité ;
+ *  · à la CARTE : tout ce qui se trouve visuellement à l'intérieur de la cellule — contenu,
+ *    anatomie (`Card.Media/Icon/Header/Body/Title/TitleLink/TitleCommand/Description/Actions`),
+ *    rendu, états (sélection, squelette), interactions (bascule selectable, clavier).
  *
- * Promu depuis l'atelier (apps/site) vers le package le 2026-07-26 : le catalogue montrait un
- * composant que le package n'avait pas.
+ * La collection NE REND AUCUNE anatomie de carte : ses enfants SONT de vraies `Card`.
+ * L'API `CardGroup.Card` — une seconde implémentation monolithique de la carte, aux axes
+ * divergents — a été SUPPRIMÉE le 2026-07-30 : il n'existe qu'une seule carte, `Card`.
+ * Cette frontière est EXÉCUTABLE (fin de chantier 2026-07-30) : un enfant direct qui
+ * n'est pas un `Card.Root` (identité RÉELLE du composant, pas un displayName) fait
+ * échouer le rendu avec une erreur explicite — en développement comme au build. Aucun
+ * filtrage silencieux, aucun composant intermédiaire toléré, même s'il rend une Card.
+ *
+ * Usage canonique :
+ *
+ *   <CardGroup mode="clickable" label="Guides">
+ *     <Card.Root>
+ *       <Card.Body>
+ *         <Card.Header>
+ *           <Card.Title><Card.TitleLink href="/guides">Commencer</Card.TitleLink></Card.Title>
+ *         </Card.Header>
+ *         <Card.Description>Installer et brancher le kit.</Card.Description>
+ *       </Card.Body>
+ *     </Card.Root>
+ *   </CardGroup>
+ *
+ * MÉCANIQUE mode/densité : le groupe fournit ses valeurs par CONTEXTE React
+ * (collection-context.ts) ; les `Card` descendantes les prennent comme défauts. Une carte
+ * SANS CIBLE dans une collection interactive déclare `mode="static"` : elle garde sa place
+ * et sa forme, perd toute affordance, et le highlight de proximité l'ignore.
+ *
+ * Deux variables restent disparues, faute de titre à les détenir :
+ *  · la densité `spacious` — COLLECTION-R01 : la densité « appartient déjà à CARD » (2 crans) ;
+ *  · l'orientation `inline` — la disposition interne d'une carte est décidée par SA largeur
+ *    (container query de card.css, principe Adaptive), jamais par la collection.
  */
 
 export type CardGroupMode = "static" | "clickable" | "selectable";
-export type CardGroupDensity = "spacious" | "comfortable" | "compact";
-
-type Ctx = { mode: CardGroupMode; inline: boolean };
-const GroupCtx = React.createContext<Ctx>({ mode: "static", inline: false });
+export type CardGroupDensity = "comfortable" | "compact";
 
 export interface CardGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   /**
@@ -34,13 +62,13 @@ export interface CardGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement
    * reste possible quand la collection a une cardinalité connue (galerie de démonstration).
    */
   cols?: 1 | 2 | 3 | 4 | "auto";
-  /** Cartes détachées (gap + contour par carte) au lieu de jointes (filets internes). */
+  /** Cartes détachées (gouttière + contour par carte) au lieu de jointes (filets internes). */
   separated?: boolean;
   /** Contour du groupe (ou de chaque carte si `separated`). Défaut : true. */
   outlined?: boolean;
+  /** Densité des items — deux crans, ceux de CARD. Relayée aux cartes par le contexte. */
   density?: CardGroupDensity;
-  orientation?: "stacked" | "inline";
-  /** Mode d'interaction — UN SEUL pour toute la collection (CARD-UX). */
+  /** Mode d'interaction — UN SEUL pour toute la collection (CARD-UX), relayé par le contexte. */
   mode?: CardGroupMode;
   /** Carte isolée : pas de grille, pas de highlight de proximité. */
   solo?: boolean;
@@ -48,45 +76,88 @@ export interface CardGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement
   proximity?: boolean;
   /** Étiquette de la liste, annoncée au lecteur d'écran. */
   label?: string;
-  children?: React.ReactNode;
+  /**
+   * Collection en cours de chargement : `aria-busy` vit ICI et pas sur les squelettes, qui sont
+   * `aria-hidden` (CARD-UI.md : « un lecteur d'écran n'a pas à parcourir des blocs vides »).
+   */
+  loading?: boolean;
+  /**
+   * Les items de la collection : des `Card.Root` en ENFANTS DIRECTS, jamais une autre
+   * anatomie ni un composant intermédiaire (même s'il finit par rendre une Card — la
+   * frontière doit être LISIBLE dans l'arbre). Le type contraint ce que TypeScript sait
+   * contraindre ; la validation runtime (identité réelle de `Card.Root`) fait autorité
+   * et ÉCHOUE explicitement en développement comme au build.
+   */
+  children?: CardGroupChild;
 }
+
+/** Un enfant admissible : un élément `Card.Root` (identité réelle), ou une liste/condition de tels éléments. */
+export type CardGroupChild =
+  | React.ReactElement<CardRootProps, typeof CardRoot>
+  | Iterable<CardGroupChild>
+  | boolean
+  | null
+  | undefined;
 
 export function CardGroupRoot({
   cols = "auto",
   separated = false,
   outlined = true,
   density = "comfortable",
-  orientation = "stacked",
   mode = "static",
   solo = false,
   proximity,
   label,
+  loading = false,
   className,
   children,
   ...props
 }: CardGroupProps) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const inline = orientation === "inline";
   const interactif = mode === "clickable" || mode === "selectable";
   const prox = (proximity ?? interactif) && !solo;
-  const fluide = cols === "auto" && !solo && !inline;
-  const effCols = solo || inline ? 1 : cols === "auto" ? undefined : cols;
+  const fluide = cols === "auto" && !solo;
+  const effCols = solo ? 1 : cols === "auto" ? undefined : cols;
 
-  const items = React.Children.toArray(children).filter(React.isValidElement);
-  const cles = items.map((c) => (c as React.ReactElement).key).join("|");
+  // ── Frontière EXÉCUTABLE : seuls des Card.Root directs entrent dans la collection ──
+  // Rien n'est filtré ni accepté en silence : un enfant étranger (div, Button, Fragment,
+  // texte, ou composant intermédiaire qui rendrait une Card) échoue immédiatement — en
+  // développement comme au build (prerender). L'identité est celle du composant réel,
+  // jamais un simple displayName.
+  const items: React.ReactElement<CardRootProps>[] = [];
+  for (const enfant of React.Children.toArray(children)) {
+    if (React.isValidElement(enfant) && enfant.type === CardRoot) {
+      items.push(enfant as React.ReactElement<CardRootProps>);
+      continue;
+    }
+    const recu = !React.isValidElement(enfant)
+      ? `« ${String(enfant).slice(0, 40)} » (texte)`
+      : typeof enfant.type === "string"
+        ? `<${enfant.type}>`
+        : enfant.type === React.Fragment
+          ? "un Fragment"
+          : `<${(enfant.type as { displayName?: string; name?: string }).displayName ?? (enfant.type as { name?: string }).name ?? "composant anonyme"}>`;
+    throw new Error(
+      `CardGroup n'accepte que des <Card.Root> en enfants DIRECTS — reçu : ${recu}. ` +
+        "Le pattern Collection assemble de vraies Card (une seule anatomie) et la frontière doit rester " +
+        "lisible dans l'arbre : pas d'enveloppe, pas de composant intermédiaire même s'il rend une Card. " +
+        "Composer <Card.Root>…</Card.Root> directement ; si le besoin n'est pas couvert, suivre MISSING-COMPONENT-PROTOCOL.md.",
+    );
+  }
+  const cles = items.map((c) => c.key).join("|");
 
   // Filets et coins : dépendent du nombre de colonnes RÉEL (container queries) → mesure au runtime.
   React.useLayoutEffect(() => {
     const grp = ref.current;
     if (!grp) return;
-    const cards = Array.from(grp.querySelectorAll<HTMLElement>(".cg-card"));
-    if (!cards.length) return;
+    const cells = Array.from(grp.querySelectorAll<HTMLElement>(".cg-cell"));
+    if (!cells.length) return;
     const colonnes = () => getComputedStyle(grp).gridTemplateColumns.split(" ").length;
     const trim = () => {
       const n = colonnes();
-      const len = cards.length;
+      const len = cells.length;
       const debutDerniereLigne = (Math.ceil(len / n) - 1) * n;
-      cards.forEach((c, i) => {
+      cells.forEach((c, i) => {
         c.classList.toggle("no-r", (i + 1) % n === 0);
         c.classList.toggle("no-b", i >= debutDerniereLigne);
         c.classList.toggle("c-tl", i === 0);
@@ -96,23 +167,24 @@ export function CardGroupRoot({
       });
     };
     trim();
+    if (typeof ResizeObserver === "undefined") return; // jsdom / navigateurs anciens
     const ro = new ResizeObserver(trim);
     ro.observe(grp);
     return () => ro.disconnect();
-  }, [cles, effCols, separated, density, inline]);
+  }, [cles, effCols, separated, density]);
 
-  // Highlight de proximité : la carte la plus proche du pointeur reçoit la surface.
+  // Highlight de proximité : la cellule la plus proche du pointeur reçoit la surface.
   React.useLayoutEffect(() => {
     const grp = ref.current;
     if (!grp || !prox) return;
     const hl = grp.querySelector<HTMLElement>(".cg-hl");
-    // Les cartes déclarées sans cible n'attirent pas le highlight : le survol ne promet
-    // que ce qui existe (cf. la prop `inactive` de CardGroup.Card).
-    const cards = Array.from(grp.querySelectorAll<HTMLElement>(".cg-card:not(.cg-card--inactive)"));
-    if (!hl || !cards.length) return;
+    // Les cartes déclarées sans cible (`mode="static"` explicite sur la Card) n'attirent pas
+    // le highlight : le survol ne promet que ce qui existe.
+    const cells = Array.from(grp.querySelectorAll<HTMLElement>(".cg-cell:not(.cg-cell--inactive)"));
+    if (!hl || !cells.length) return;
     let visible = false;
     const colonnes = () => getComputedStyle(grp).gridTemplateColumns.split(" ").length;
-    const nettoie = () => cards.forEach((c) => c.classList.remove("hl-off-b", "hl-off-r"));
+    const nettoie = () => cells.forEach((c) => c.classList.remove("hl-off-b", "hl-off-r"));
     const place = (it: HTMLElement, i: number) => {
       hl.classList.toggle("teleport", !visible);
       hl.style.transform = `translate(${it.offsetLeft}px,${it.offsetTop}px)`;
@@ -126,13 +198,13 @@ export function CardGroupRoot({
       const n = colonnes();
       nettoie();
       it.classList.add("hl-off-b", "hl-off-r");
-      if (i % n > 0) cards[i - 1]?.classList.add("hl-off-r");
-      if (i - n >= 0) cards[i - n]?.classList.add("hl-off-b");
+      if (i % n > 0) cells[i - 1]?.classList.add("hl-off-r");
+      if (i - n >= 0) cells[i - n]?.classList.add("hl-off-b");
     };
     const plusProche = (e: MouseEvent): [HTMLElement, number] | null => {
       let best: [HTMLElement, number] | null = null;
       let dist = Infinity;
-      cards.forEach((it, i) => {
+      cells.forEach((it, i) => {
         const r = it.getBoundingClientRect();
         if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
           best = [it, i];
@@ -163,14 +235,15 @@ export function CardGroupRoot({
       grp.removeEventListener("mousemove", onMove);
       grp.removeEventListener("mouseleave", onLeave);
     };
-  }, [cles, prox, effCols, separated, inline]);
+  }, [cles, prox, effCols, separated]);
 
   return (
-    <GroupCtx.Provider value={{ mode, inline }}>
+    <CollectionContext.Provider value={{ mode, density }}>
       <div
         ref={ref}
-        role={mode === "selectable" ? undefined : "list"}
+        role="list"
         aria-label={label}
+        aria-busy={loading || undefined}
         style={effCols ? ({ ["--grp-cols" as string]: effCols } as React.CSSProperties) : undefined}
         className={cn(
           "cardgrp",
@@ -181,167 +254,35 @@ export function CardGroupRoot({
           outlined && "outlined",
           solo && "solo",
           density,
-          inline ? "inline" : "stacked",
           className,
         )}
         {...props}
       >
         {prox ? <div className="cg-hl" aria-hidden="true" /> : null}
-        {items}
+        {items.map((item, i) => {
+          // La CELLULE appartient à la collection ; tout ce qui est dedans appartient à Card.
+          // Une Card qui surclasse le mode du groupe en `static` est une carte SANS CIBLE :
+          // la cellule se marque inactive et le highlight l'ignore. La lecture de `mode` est
+          // sûre : l'identité Card.Root de l'enfant vient d'être vérifiée.
+          const inactive = interactif && item.props.mode === "static";
+          return (
+            <div
+              key={item.key ?? i}
+              role="listitem"
+              className={cn("cg-cell", inactive && "cg-cell--inactive")}
+            >
+              <span className="cg-hb" aria-hidden="true" />
+              <span className="cg-hr" aria-hidden="true" />
+              {item}
+            </div>
+          );
+        })}
       </div>
-    </GroupCtx.Provider>
+    </CollectionContext.Provider>
   );
 }
 CardGroupRoot.displayName = "CardGroup.Root";
 
-const CHECK = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
-
-export interface CardGroupCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "onSelect"> {
-  title: React.ReactNode;
-  description?: React.ReactNode;
-  /** Pastille d'icône (24×24 conseillé) — au-dessus du titre, ou en tête de rangée en inline. */
-  icon?: React.ReactNode;
-  /** Média illustratif : en haut (stacked) ou sur le flanc (inline). */
-  media?: React.ReactNode;
-  /** Actions internes — cibles distinctes de la cible étendue, jamais imbriquées dedans. */
-  actions?: React.ReactNode;
-  /** Contenu libre sous la description (métadonnées, statut, lien de lecture). */
-  children?: React.ReactNode;
-  /** Mode clickable : destination (rend un lien). */
-  href?: string;
-  /** Mode clickable : commande (rend un bouton) — ouvre un superposé, par exemple. */
-  onActivate?: () => void;
-  /** Mode selectable : état et bascule. */
-  selected?: boolean;
-  onSelectedChange?: (v: boolean) => void;
-  /** Niveau de titre réel dans la page qui accueille la collection. */
-  titleAs?: "h2" | "h3" | "h4" | "h5";
-  /**
-   * Carte SANS CIBLE dans une collection interactive.
-   *
-   * Ce n'est pas un second mode : la collection en garde un seul (CARD-UX). C'est la
-   * déclaration qu'un élément particulier n'a rien à ouvrir — une règle sans détail
-   * supplémentaire, une entrée sans destination. Elle perd alors toute affordance : pas de
-   * curseur main, pas de relief au survol, et le highlight de proximité l'ignore.
-   *
-   * Sans cette prop, il n'y avait que deux issues, toutes deux mauvaises : promettre un
-   * détail inexistant au survol, ou alourdir chaque carte d'un bouton explicite.
-   */
-  inactive?: boolean;
-}
-
-export function CardGroupCard({
-  title,
-  description,
-  icon,
-  media,
-  actions,
-  children,
-  href,
-  onActivate,
-  selected,
-  onSelectedChange,
-  titleAs: H = "h4",
-  inactive = false,
-  className,
-  ...props
-}: CardGroupCardProps) {
-  const { mode, inline } = React.useContext(GroupCtx);
-  const clickable = mode === "clickable" && !inactive;
-  const selectable = mode === "selectable" && !inactive;
-
-  const cible = clickable ? (
-    href ? (
-      <a href={href}>{title}</a>
-    ) : (
-      <button type="button" onClick={onActivate}>
-        {title}
-      </button>
-    )
-  ) : (
-    title
-  );
-
-  const titre = <H className="cg-title">{cible}</H>;
-  const desc = description ? <p className="cg-desc">{description}</p> : null;
-  const chip = icon ? (
-    <span className="cg-chip" aria-hidden="true">
-      {icon}
-    </span>
-  ) : null;
-  const visuel = media ? <span className={inline ? "cg-media--side" : "cg-media--top"} aria-hidden="true">{media}</span> : null;
-
-  const corps = inline ? (
-    <div className="cg-inner">
-      {visuel}
-      {chip}
-      <div className="cg-text">
-        {titre}
-        {desc}
-        {children}
-      </div>
-      {actions ? <div className="cg-actions">{actions}</div> : null}
-    </div>
-  ) : (
-    <>
-      {visuel}
-      <div className="cg-head">
-        {chip}
-        {titre}
-        {desc}
-        {children}
-      </div>
-      {actions ? <div className="cg-actions">{actions}</div> : null}
-    </>
-  );
-
-  const selAttrs = selectable
-    ? ({
-        role: "button" as const,
-        tabIndex: 0,
-        "aria-pressed": !!selected,
-        onClick: (e: React.MouseEvent<HTMLDivElement>) => {
-          if ((e.target as HTMLElement).closest(".cg-actions")) return;
-          onSelectedChange?.(!selected);
-        },
-        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
-          if ((e.key === " " || e.key === "Enter") && e.target === e.currentTarget) {
-            e.preventDefault();
-            onSelectedChange?.(!selected);
-          }
-        },
-      })
-    : ({ role: "listitem" as const });
-
-  return (
-    <div
-      className={cn(
-        "cg-card",
-        inactive && "cg-card--inactive",
-        clickable && "cg-card--click",
-        selectable && "cg-card--select",
-        selected && "selected",
-        media && inline && "has-img",
-        className,
-      )}
-      {...selAttrs}
-      {...props}
-    >
-      <span className="cg-hb" aria-hidden="true" />
-      <span className="cg-hr" aria-hidden="true" />
-      {clickable || selectable ? <span className="cg-lift" aria-hidden="true" /> : null}
-      {selectable ? <span className="cg-check" aria-hidden="true">{CHECK}</span> : null}
-      {corps}
-    </div>
-  );
-}
-CardGroupCard.displayName = "CardGroup.Card";
-
 export const CardGroup = Object.assign(CardGroupRoot, {
   Root: CardGroupRoot,
-  Card: CardGroupCard,
 });

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { socleDoc, socleIndex } from "@/lib/md";
 import { Markdown } from "../../components/markdown";
+import { LienRetour } from "../../components/lien-retour";
 import { DocTabs } from "../doc-tabs";
 
 /**
@@ -27,11 +27,7 @@ export default function SoclePage() {
 
   return (
     <main className="mx-auto max-w-container-default px-lg py-xl">
-      <p className="m-0">
-        <Link href="/md/" className="text-sm text-text-secondary no-underline hover:text-text-primary">
-          ← Doctrine
-        </Link>
-      </p>
+      <LienRetour href="/md/">← Doctrine</LienRetour>
       <div className="mt-md flex flex-wrap items-baseline gap-sm">
         <h1 className="m-0 text-h2 font-semibold text-text-primary">Socle</h1>
         <span className="font-label text-xs font-semibold uppercase tracking-wide text-text-secondary">Méthode</span>

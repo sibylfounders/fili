@@ -1,12 +1,12 @@
 "use client";
 import * as React from "react";
-import { CardGroup } from "@fili/react";
+import { Card, CardGroup } from "@fili/react";
 
 /* TEST autonome (hors shell atelier) : le contenu « quand utiliser quoi » de la page
    Cas d'usage (Button), passé dans le groupe de cartes DU PACKAGE — séparées + cliquables,
    donc highlight de proximité réel : la teinte --surface glisse vers la carte visée.
-   Depuis le 2026-07-26, ce test consomme `CardGroup` de @fili/react (avant : une copie
-   locale du groupe, qui vivait dans apps/site). */
+   Depuis le 2026-07-30, les enfants de la collection sont de vraies `Card`
+   (l'API `CardGroup.Card` a été supprimée) : ce test consomme exactement l'API publique. */
 
 const CASES = [
   { t: "Action primaire", d: "L'écran attend une action principale claire." },
@@ -29,7 +29,16 @@ export default function CasUsageTest() {
       </p>
       <CardGroup cols={3} separated mode="clickable" label="Cas d'usage du bouton">
         {CASES.map((c, i) => (
-          <CardGroup.Card key={i} title={c.t} description={c.d} href="#" />
+          <Card.Root key={i}>
+            <Card.Body>
+              <Card.Header>
+                <Card.Title as="h2">
+                  <Card.TitleLink href="#">{c.t}</Card.TitleLink>
+                </Card.Title>
+              </Card.Header>
+              <Card.Description>{c.d}</Card.Description>
+            </Card.Body>
+          </Card.Root>
         ))}
       </CardGroup>
     </div>

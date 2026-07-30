@@ -1,13 +1,13 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   CARD GROUP — la COLLECTION de cartes (CARD-UX « un seul mode d'interaction par
-   collection » + pattern COLLECTION). Cartes transparentes au-dessus d'un highlight
-   de proximité (rect exact de la carte visée), filets internes en mode joint, coins
-   hérités du conteneur, densités, orientation inline, sélection.
-   Déplacé le 2026-07-26 depuis l'atelier (apps/site) vers le package : l'atelier ne
-   dogfoodait pas son propre catalogue. Tokens uniquement.
+   CARD GROUP — le pattern COLLECTION. Ce fichier ne contient QUE ce que la table
+   des frontières de COLLECTION-UX.md lui attribue : grille et colonnes, gouttières,
+   régime joint/séparé, filets internes, coins hérités, highlight de proximité.
+   Tout ce qui touche à l'intérieur d'un item — fond, bordure, rayon, padding,
+   typographie, média, états — appartient à CARD et vit dans card.css.
+   Réécrit le 2026-07-30 : la collection posait l'intérieur de ses items.
    ══════════════════════════════════════════════════════════════════════════ */
-.cardgrp.solo{max-width:340px;}
-.cardgrp.solo.inline{max-width:none;width:100%;}
+
+/* ── Grille ─────────────────────────────────────────────────────────────── */
 .cardgrp{position:relative;display:grid;grid-template-columns:repeat(var(--grp-cols,2),minmax(0,1fr));width:100%;}
 /* Colonnes INTRINSÈQUES (cols="auto", COLLECTION-UI) : elles émergent de la largeur reçue et du
    token grid.item-min, jamais d'un nombre par appareil. Portée ICI et non par un utilitaire
@@ -15,96 +15,60 @@
    feuilles qui tranchait — la règle du composant gagnait, le mode fluide n'a jamais fonctionné
    (constat 2026-07-27). Une classe du composant, plus spécifique, ne dépend plus de cet ordre. */
 .cardgrp.fluide{grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--item-min)),1fr));}
-.cardgrp.joined{gap:0;background:var(--background);border-radius:var(--radius-lg);overflow:hidden;}
-.cardgrp.sep{gap:var(--space-sm);}
-.cardgrp.outlined.joined{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
-.cardgrp.outlined.sep>.cg-card{border:1px solid var(--border);}
-.cardgrp.sep>.cg-card{border-radius:var(--radius-lg);}
+.cardgrp.solo{max-width:340px;}
 @container atelier-preview (max-width:34rem){ .cardgrp{grid-template-columns:1fr;} }
 @container atelier-preview (max-width:46rem){ .cardgrp[style*="--grp-cols:3"]{grid-template-columns:repeat(2,minmax(0,1fr));} }
-@container atelier-preview (max-width:34rem){ .cardgrp[style*="--grp-cols:3"]{grid-template-columns:1fr;} }
-.cg-card{position:relative;min-width:0;display:flex;flex-direction:column;padding-bottom:var(--space-md);}
-.cg-card::before{content:"";position:absolute;inset:0;z-index:0;background:var(--background);border-radius:inherit;transition:background-color var(--duration-fast) var(--ease-out);}
-.cg-card--click,.cg-card--select{cursor:pointer;}
-.cg-card--click .cg-title :is(a,button){color:inherit;text-decoration:none;}
-.cg-card--click .cg-title :is(a,button)::after{content:"";position:absolute;inset:0;}
-.cg-card--click .cg-actions{z-index:3;}
-.cardgrp.inline>.cg-card{container-type:inline-size;padding-bottom:0;}
-.cardgrp.inline>.cg-card>.cg-inner{display:flex;flex-direction:row;align-items:center;gap:12px;min-height:64px;padding-left:var(--space-md);width:100%;}
-.cardgrp.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
-.cg-hb{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);opacity:.7;pointer-events:none;z-index:1;transition:opacity var(--duration-fast) var(--ease-out);}
-.cg-hr{position:absolute;top:0;bottom:1px;right:0;width:1px;background:var(--border);opacity:.7;pointer-events:none;z-index:1;transition:opacity var(--duration-fast) var(--ease-out);}
-.cardgrp.sep .cg-hb,.cardgrp.sep .cg-hr,.cg-card.no-b .cg-hb,.cg-card.no-r .cg-hr{display:none;}
-.cg-card.hl-off-b .cg-hb,.cg-card.hl-off-r .cg-hr{opacity:0;}
+
+/* ── Régimes ────────────────────────────────────────────────────────────── */
+.cardgrp.sep{gap:var(--space-sm);}
+.cardgrp.joined{gap:0;border-radius:var(--radius-lg);overflow:hidden;}
+.cardgrp.outlined.joined{border:1px solid var(--border);}
+
+/* ── La CELLULE : l'unité de grille, pas la carte ───────────────────────────
+   Elle porte les filets, les coins et la cible du highlight ; la Card qu'elle
+   héberge porte son contour, son fond et son contenu. */
+.cg-cell{position:relative;display:flex;min-width:0;border-radius:var(--radius-lg);}
+.cardgrp.joined>.cg-cell{border-radius:0;}
+.cg-cell>.ds-card{display:flex;flex:1;z-index:2;}
+/* Ordre de peinture de la cellule : sol (0) → highlight de proximité (1) → carte, dont la
+   surface est transparente (2) → filets (3). Sans le z-index sur la carte, le highlight,
+   positionné à 1, passerait par-dessus son contenu. */
+.cg-cell>.ds-card>.ds-card-surface{flex:1;}
+
+/* Le SOL de la cellule. Seule concession de la collection à l'intérieur d'un item, et elle
+   est motivée : le highlight de proximité est un signal de collection qui doit apparaître
+   SOUS le contenu de la carte visée. La cellule peint donc le fond, la surface de la carte
+   se rend transparente, et le highlight se glisse entre les deux. */
+.cg-cell::before{content:"";position:absolute;inset:0;z-index:0;background:var(--background);border-radius:inherit;pointer-events:none;}
+.cardgrp .cg-cell>.ds-card>.ds-card-surface{background:transparent;}
+
+/* Régime JOINT : les filets de la collection remplacent le contour de chaque carte, et les
+   quatre coins extérieurs héritent du rayon du conteneur. */
+.cardgrp.joined .cg-cell>.ds-card>.ds-card-surface{border-color:transparent;border-radius:0;}
+.cardgrp.joined>.cg-cell.c-tl,.cardgrp.joined>.cg-cell.c-tl>.ds-card>.ds-card-surface{border-top-left-radius:calc(var(--radius-lg) - 1px);}
+.cardgrp.joined>.cg-cell.c-tr,.cardgrp.joined>.cg-cell.c-tr>.ds-card>.ds-card-surface{border-top-right-radius:calc(var(--radius-lg) - 1px);}
+.cardgrp.joined>.cg-cell.c-bl,.cardgrp.joined>.cg-cell.c-bl>.ds-card>.ds-card-surface{border-bottom-left-radius:calc(var(--radius-lg) - 1px);}
+.cardgrp.joined>.cg-cell.c-br,.cardgrp.joined>.cg-cell.c-br>.ds-card>.ds-card-surface{border-bottom-right-radius:calc(var(--radius-lg) - 1px);}
+/* Régime SÉPARÉ sans contour de collection : la carte ne dessine pas le sien non plus. */
+.cardgrp.sep:not(.outlined) .cg-cell>.ds-card>.ds-card-surface{border-color:transparent;}
+
+/* ── Filets internes (régime joint uniquement) ──────────────────────────── */
+.cg-hb,.cg-hr{position:absolute;background:var(--border);opacity:.7;pointer-events:none;z-index:3;transition:opacity var(--duration-fast) var(--ease-out);}
+.cg-hb{left:0;right:0;bottom:0;height:1px;}
+.cg-hr{top:0;bottom:1px;right:0;width:1px;}
+.cardgrp.sep .cg-hb,.cardgrp.sep .cg-hr,.cg-cell.no-b .cg-hb,.cg-cell.no-r .cg-hr{display:none;}
+/* Les filets adjacents à la carte survolée s'effacent : le highlight ne double pas le contour. */
+.cg-cell.hl-off-b .cg-hb,.cg-cell.hl-off-r .cg-hr{opacity:0;}
+
+/* ── Highlight de proximité ─────────────────────────────────────────────── */
 .cg-hl{position:absolute;left:0;top:0;width:0;height:0;background:var(--surface);opacity:0;pointer-events:none;z-index:1;border-radius:0;transition:transform var(--duration-fast) var(--ease-out),width var(--duration-fast) var(--ease-out),height var(--duration-fast) var(--ease-out),opacity var(--duration-fast) var(--ease-in);}
 .cardgrp.sep .cg-hl{border-radius:var(--radius-lg);}
 .cg-hl.on{opacity:1;transition:transform var(--duration-fast) var(--ease-out),width var(--duration-fast) var(--ease-out),height var(--duration-fast) var(--ease-out),opacity var(--duration-fast) var(--ease-out);}
 .cg-hl.teleport{transition:opacity var(--duration-fast) var(--ease-out);}
 @media(prefers-reduced-motion:reduce){.cg-hl,.cg-hl.on{transition:opacity var(--duration-fast) linear;}}
-.cg-head{padding:var(--space-md) var(--space-md) 0;display:flex;flex-direction:column;align-items:flex-start;}
-.cg-head,.cg-text,.cg-chip,.cg-media--top,.cg-media--side{position:relative;z-index:2;}
-.cg-chip{display:flex;align-items:center;justify-content:flex-start;width:32px;height:32px;background:transparent;margin-bottom:var(--space-sm);flex:none;}
-.cg-chip svg{width:22px;height:22px;}
-.cardgrp.inline>.cg-card>.cg-inner>.cg-chip{margin-bottom:0;align-self:center;}
-.cg-title{position:static;margin:0;font-size:var(--size-sm);font-weight:var(--weight-medium);color:var(--text-primary);line-height:1.35;}
-.cg-desc{font-size:var(--size-sm);color:var(--text-secondary);line-height:1.5;margin-top:3px;}
-.cg-text{display:flex;flex-direction:column;min-width:0;flex:1;padding:12px 0;}
-.cg-actions{position:relative;z-index:2;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:12px 16px 0;}
-.cardgrp.inline>.cg-card>.cg-inner>.cg-actions{margin-left:auto;padding:0 16px 0 0;flex-wrap:nowrap;flex:none;align-self:center;}
-.cg-media--top{display:block;position:relative;overflow:hidden;width:calc(100% - 2*var(--space-md));margin:var(--space-md) var(--space-md) 0;height:0;padding-top:calc(56.25% - 18px);box-sizing:content-box;border-radius:6px;background:linear-gradient(135deg,var(--primary-subtle),var(--info-subtle) 55%,var(--surface));}
-.cg-media--top img,.cg-media--side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.cg-media--side{position:relative;overflow:hidden;width:96px;min-height:64px;align-self:stretch;flex:none;border-radius:6px;background:linear-gradient(135deg,var(--primary-subtle),var(--info-subtle) 55%,var(--surface));margin:var(--space-sm) 0 var(--space-sm) var(--space-sm);}
-.cardgrp.compact .cg-card{padding-bottom:12px;}
-.cardgrp.compact .cg-head{padding:12px 12px 0;}
-.cardgrp.compact .cg-actions{padding:8px 12px 0;gap:var(--space-xs);}
-.cardgrp.compact .cg-media--top{width:calc(100% - 24px);margin:12px 12px 0;padding-top:calc(56.25% - 13.5px);}
-.cardgrp.compact .cg-chip{margin-bottom:6px;}
-.cardgrp.compact .cg-text{padding:8px 0;}
-.cardgrp.compact.inline>.cg-card>.cg-inner{min-height:56px;padding-left:12px;}
-.cardgrp.compact.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
-.cg-card.selected::after{content:"";position:absolute;inset:0;z-index:1;background:var(--primary-subtle);box-shadow:inset 0 0 0 1px var(--primary);border-radius:inherit;pointer-events:none;}
-.cg-card.selected .cg-check{color:var(--primary);}
-.cardgrp.joined>.cg-card.c-tl{border-top-left-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-tr{border-top-right-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-bl{border-bottom-left-radius:calc(var(--radius-lg) - 1px);}
-.cardgrp.joined>.cg-card.c-br{border-bottom-right-radius:calc(var(--radius-lg) - 1px);}
-.cg-lift{position:absolute;inset:0;z-index:0;border-radius:inherit;box-shadow:var(--elevation-raised);opacity:0;pointer-events:none;transition:opacity var(--duration-fast) var(--ease-out);}
-.cg-card--click:hover .cg-lift,.cg-card--select:hover .cg-lift{opacity:1;}
-.cardgrp.solo .cg-lift{display:none;}
-.cardgrp.solo .cg-card--click:hover::before,.cardgrp.solo .cg-card--select:hover::before{background:var(--surface);}
-@media(prefers-reduced-motion:reduce){.cg-lift{transition:none;}}
-.cg-card.selected .cg-title{font-weight:var(--weight-semibold);color:var(--primary);}
-.cg-check{display:none;position:absolute;top:10px;right:12px;z-index:2;width:16px;height:16px;color:var(--text-secondary);}
-.cg-card.selected .cg-check{display:block;}
-/* Inline adaptatif : une rangée trop étroite se replie en empilé (selon SA largeur). */
-@container (max-width:22rem){
-  /* reflow inline → empilé : contenu ET média alignés sur le même retrait (comme une carte empilée) */
-  .cardgrp.inline>.cg-card>.cg-inner{flex-direction:column;align-items:stretch;gap:6px;padding:12px var(--space-md);min-height:0;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-chip{align-self:flex-start;margin-bottom:0;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-actions{align-self:flex-start;margin-left:0;padding:var(--space-sm) 0 0;flex-wrap:wrap;}
-  .cardgrp.inline>.cg-card>.cg-inner>.cg-media--side{width:100%;min-height:120px;margin:0 0 var(--space-sm);}
-  .cardgrp.inline>.cg-card.has-img>.cg-inner{padding-left:var(--space-md);}
-}
-/* densité « spacious » (aéré) — plus d'espace blanc que comfortable */
-.cardgrp.spacious.stacked>.cg-card{padding-bottom:var(--space-lg);}
-.cardgrp.spacious .cg-head{padding:var(--space-lg) var(--space-lg) 0;}
-.cardgrp.spacious .cg-actions{padding:20px 24px 0;gap:10px;}
-.cardgrp.spacious .cg-chip{margin-bottom:14px;}
-.cardgrp.spacious .cg-text{padding:20px 0;}
-.cardgrp.spacious .cg-desc{margin-top:5px;}
-.cardgrp.spacious .cg-media--top{width:calc(100% - 2*var(--space-lg));margin:var(--space-lg) var(--space-lg) 0;}
-.cardgrp.spacious.inline>.cg-card>.cg-inner{min-height:76px;padding-left:var(--space-lg);gap:var(--space-md);}
-.cardgrp.spacious.inline>.cg-card.has-img>.cg-inner{padding-left:0;}
+/* Une carte sans cible n'attire pas le highlight (le JS l'écarte) et n'annonce rien. */
+.cg-cell--inactive{cursor:default;}
 
-/* La cible étendue peut être un <button> (ouvre un superposé) au lieu d'un <a> (navigue) :
-   même technique, sémantique honnête — une commande n'est pas une destination. */
-.cg-title button{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;}
-.cg-title :is(a,button):focus-visible{outline:var(--control-focus-width) solid var(--control-focus-color);outline-offset:var(--control-focus-offset);border-radius:var(--radius-sm);}
-
-/* Carte sans cible dans une collection interactive : aucune affordance.
-   Le mode reste unique pour la collection ; c'est l'ÉLÉMENT qui déclare n'avoir rien
-   à ouvrir. Pas de curseur main, pas de relief au survol — le highlight de proximité
-   l'écarte côté JS. */
-.cg-card--inactive{cursor:default;}
-.cg-card--inactive .cg-lift{display:none;}
-.cg-card--inactive .cg-title{color:var(--text-primary);}
+/* Les deux affleurements d'item que la collection fournissait encore (.cg-chip / .cg-cmd)
+   sont RAPATRIÉS dans CARD le 2026-07-30 (Card.Icon / Card.TitleCommand, card.css) :
+   dette soldée — ce fichier ne peint plus rien à l'intérieur d'une cellule. */

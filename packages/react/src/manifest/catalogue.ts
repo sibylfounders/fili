@@ -34,7 +34,7 @@ type ThemeToggleSize = NonNullable<import("../components/theme-toggle/theme-togg
 type ShellVariant = import("../components/app-layout/app-layout").ShellVariant;
 type CardGroupMode = import("../components/card-group/card-group").CardGroupMode;
 type CardGroupDensity = import("../components/card-group/card-group").CardGroupDensity;
-type CardGroupOrientation = NonNullable<import("../components/card-group/card-group").CardGroupProps["orientation"]>;
+type CardGroupC = typeof import("../components/card-group/card-group").CardGroup;
 type DeleteButtonSize = NonNullable<import("../components/delete-button/delete-button").DeleteButtonProps["size"]>;
 type ChipVariant = NonNullable<VariantProps<typeof import("../components/chip/chip").chipVariants>["variant"]>;
 type ChipP = import("../components/chip/chip").ChipProps;
@@ -67,6 +67,8 @@ type ToastP = import("../components/toast/toast").ToastOptions &
 type TocP = import("../components/toc/toc").TableOfContentsProps;
 
 type AccordionC = typeof import("../components/accordion/accordion").Accordion;
+type DrawerC = typeof import("../components/drawer/drawer").Drawer;
+type LinkC = typeof import("../components/link/link").Link;
 type AlertC = typeof import("../components/alert/alert").Alert;
 type BrandC = typeof import("../components/brand/brand").Brand;
 type DropdownC = typeof import("../components/dropdown/dropdown").Dropdown;
@@ -85,7 +87,7 @@ export const catalogue: Entree[] = [
     purpose: "Sections dépliables (multi-ouvert par défaut) — headings réels + aria-expanded.",
     doctrine: { ux: "components/ACCORDION-UX.md", ui: "components/ACCORDION-UI.md" },
     rules: "RULES-accordion.md",
-    anatomy: anatomie<AccordionC>("Accordion", ["Item", "Header", "Panel"]),
+    anatomy: anatomie<AccordionC>("Accordion", ["Root", "Item", "Header", "Panel"]),
     axes: {
       type: axe<AccordionType>({
         kind: "enum",
@@ -235,9 +237,11 @@ export const catalogue: Entree[] = [
     import: 'import { CardGroup } from "@fili/react";',
     status: "stable",
     category: "collection",
-    purpose: "LA collection de cartes : grille intrinsèque (les colonnes émergent de la largeur réelle), un seul mode pour toute la collection, surlignage de proximité.",
+    purpose:
+      "Le PATTERN Collection — il assemble et orchestre de vraies Card (enfants directs), il ne redessine JAMAIS leur contenu : grille intrinsèque, régime joint/séparé, filets et coins, highlight de proximité, balisage liste + cellule, contexte collectif de mode et de densité.",
     doctrine: { pattern: "patterns/COLLECTION-UX.md + COLLECTION-UI.md" },
     rules: "RULES-collection.md",
+    anatomy: anatomie<CardGroupC>("CardGroup", ["Root"]),
     axes: {
       mode: axe<CardGroupMode>({
         kind: "mode",
@@ -248,14 +252,11 @@ export const catalogue: Entree[] = [
       density: axe<CardGroupDensity>({
         kind: "density",
         description: "Densité de la collection.",
-        values: { spacious: "aérée", comfortable: "défaut", compact: "resserrée" },
+        // Deux crans, ceux de CARD : COLLECTION-R01 dit que la densité « appartient déjà à
+        // CARD ». Le cran `spacious` que la collection s'était donné a été retiré le 2026-07-30
+        // avec le rétablissement des frontières d'autorité.
+        values: { comfortable: "défaut", compact: "resserrée" },
         default: "comfortable",
-      }),
-      orientation: axe<CardGroupOrientation>({
-        kind: "enum",
-        description: "Disposition des cartes.",
-        values: { stacked: "empilées (grille)", inline: "en ligne" },
-        default: "stacked",
       }),
     },
     props: propsDe<CardGroupP>()({
@@ -263,18 +264,42 @@ export const catalogue: Entree[] = [
       separated: { type: "boolean", default: "false", description: "Cartes séparées (gouttières) vs jointives." },
       outlined: { type: "boolean", default: "true", description: "Bordure de la collection." },
       solo: { type: "boolean", default: "false", description: "Carte unique (désactive la proximité)." },
+      loading: { type: "boolean", default: "false", description: "Collection en chargement — porte aria-busy ; les squelettes sont aria-hidden." },
       label: { type: "string", description: "Étiquette du groupe (accessibilité des collections interactives)." },
     }),
-    accessibility: ["mode selectable : état porté par aria (selected par carte)", "une carte inactive dans une collection interactive est marquée inactive"],
+    accessibility: [
+      "role=list / role=listitem posés par la collection (la cellule lui appartient)",
+      "aria-busy au chargement vit sur la collection, les squelettes des cartes sont aria-hidden",
+      "mode selectable : état et bascule portés par chaque Card (aria-pressed, Espace/Entrée)",
+      "une Card `mode=\"static\"` explicite est une carte SANS CIBLE : aucune affordance, le highlight l'ignore",
+    ],
     adaptiveBehavior: "Grille intrinsèque repeat(auto-fill, minmax(min(100%, item-min), 1fr)) — jamais de grid-cols par breakpoint.",
-    antiPatterns: ["Grille de cartes à la main (tablet:grid-cols-*)", "des modes différents carte par carte (le mode appartient à la collection)"],
+    antiPatterns: [
+      "Grille de cartes à la main (tablet:grid-cols-*)",
+      "des modes différents carte par carte (le mode appartient à la collection ; une carte sans cible surclasse en static)",
+      "la collection qui rend l'intérieur de ses items — l'ex-API CardGroup.Card, une seconde anatomie de carte, a été SUPPRIMÉE le 2026-07-30 : les enfants sont de vraies Card",
+    ],
     canonicalExamples: [
       {
-        title: "Collection cliquable",
-        code: `<CardGroup.Root mode="clickable" label="Guides">
-  <CardGroup.Card title="Commencer" description="Installer et brancher le kit." href="/guides/commencer" />
-  <CardGroup.Card title="Theming" description="Rayons, relief, sombre." href="/guides/theming" />
-</CardGroup.Root>`,
+        title: "Collection cliquable — de vraies Card comme enfants",
+        code: `<CardGroup mode="clickable" separated label="Guides">
+  <Card.Root>
+    <Card.Body>
+      <Card.Header>
+        <Card.Title><Card.TitleLink href="/guides/commencer">Commencer</Card.TitleLink></Card.Title>
+      </Card.Header>
+      <Card.Description>Installer et brancher le kit.</Card.Description>
+    </Card.Body>
+  </Card.Root>
+  <Card.Root>
+    <Card.Body>
+      <Card.Header>
+        <Card.Title><Card.TitleLink href="/guides/theming">Theming</Card.TitleLink></Card.Title>
+      </Card.Header>
+      <Card.Description>Rayons, relief, sombre.</Card.Description>
+    </Card.Body>
+  </Card.Root>
+</CardGroup>`,
       },
     ],
   },
@@ -408,7 +433,7 @@ export const catalogue: Entree[] = [
     doctrine: { pattern: "foundations/OVERLAY" },
     dette: "Paire DRAWER-UX/UI propre à écrire (vague 6) — les arbitrages (side/effect/depth/size à double lecture) sont journalisés dans DECISIONS.md.",
     rules: null,
-    anatomy: ["Drawer", "Drawer.Frame"],
+    anatomy: anatomie<DrawerC>("Drawer", ["Root", "Frame"]),
     axes: {
       side: axe<DrawerSide>({
         kind: "enum",
@@ -497,6 +522,7 @@ export const catalogue: Entree[] = [
     purpose: "LA navigation. context règle la présentation sans changer la nature ; current (navigation) = aria-current + signal non chromatique.",
     doctrine: { ux: "components/LINK-UX.md", ui: "components/LINK-UI.md" },
     rules: "RULES-link.md",
+    anatomy: anatomie<LinkC>("Link", ["Root", "Icon"]),
     axes: {
       context: axe<LinkContext>({
         kind: "context",

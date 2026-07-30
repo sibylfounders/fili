@@ -14,19 +14,19 @@ Quatre volets composent cette page : l’**essentiel**, le **journal** (chaque d
 
 **01 / STRUCTURE**
 
-#### Vérifier ce que la machine sait
+### Vérifier ce que la machine sait
 
 Tokens, dépendances, versions, liens et sorties générées sont contrôlés automatiquement.
 
 **02 / RENDU**
 
-#### Mesurer les seuils visibles
+### Mesurer les seuils visibles
 
 Les combinaisons et contrastes déclarés sont calculés, pas seulement affirmés.
 
 **03 / LIMITE**
 
-#### Nommer ce qui reste manuel
+### Nommer ce qui reste manuel
 
 Clavier, lecteur d’écran, zoom et compréhension réelle demandent encore des essais humains.
 
@@ -38,7 +38,7 @@ Clavier, lecteur d’écran, zoom et compréhension réelle demandent encore des
 
 **Vérifié par le réel**
 
-#### La justesse, mesurée — pas déclarée
+### La justesse, mesurée — pas déclarée
 
 Un système qui audite les autres doit lui-même être confronté au réel. Ce qui est publié ici se relie à un artefact vérifiable ; le reste est dit privé, pas surjoué.
 

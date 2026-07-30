@@ -7,7 +7,7 @@ import {
   type ModalPlacement, type ModalEnterFrom, type DropdownSide, type DropdownAlign,
 } from "@fili/react";
 import { manifestByName } from "@fili/react/manifest";
-import { CardGroup, codeCardSolo, codeCardGrp } from "./card-group";
+import { CardDemo, CardGroupDemo, codeCard, codeCardGroup } from "./card-group";
 import {
   StatCard, ChartCard, KpiGroup,
   AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
@@ -261,7 +261,12 @@ const shellBrand = (label: string) => (
     <span className="truncate">{label}</span>
   </span>
 );
-const shellIconBtn = "flex h-9 w-9 items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface-hover hover:text-text-primary";
+/* Actions d'icône de topbar : le kit, jamais un <button> restylé (CompactButton ghost). */
+const shellIconBtn = (label: string, icon: React.ReactNode) => (
+  <CompactButton variant="ghost" tone="neutral" size="md" aria-label={label}>
+    {icon}
+  </CompactButton>
+);
 
 const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) => {
   if (variant === "docs") {
@@ -275,7 +280,7 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
           { label: "Fondations", items: [{ label: "Couleur" }, { label: "Typographie" }, { label: "Espacement" }] },
           { label: "Composants", items: [{ label: "Button" }, { label: "Input" }, { label: "Select", items: [{ label: "Options" }, { label: "Tailles" }] }] },
         ]}
-        topbar={{ search: true, actions: <button className={shellIconBtn} aria-label="Dépôt">{ICO.file}</button> }}
+        topbar={{ search: true, actions: shellIconBtn("Dépôt", ICO.file) }}
         aside={
           <div className="p-lg">
             <p className="mb-2 font-label text-[11px] font-semibold uppercase tracking-wider text-text-muted">Sur cette page</p>
@@ -309,9 +314,9 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
         breadcrumb: <><span className="flex h-4 w-4 items-center justify-center text-text-muted">{ICO.home}</span><span className="text-text-primary">Tableau de bord</span></>,
         actions: (
           <>
-            <button className={shellIconBtn} aria-label="Rechercher">{ICO.search}</button>
-            <button className={shellIconBtn} aria-label="Notifications">{ICO.bell}</button>
-            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-on-secondary">JG</span>
+            {shellIconBtn("Rechercher", ICO.search)}
+            {shellIconBtn("Notifications", ICO.bell)}
+            <span className="ml-1 flex h-8 w-8 items-center justify-center rounded-pill bg-secondary text-xs font-semibold text-on-secondary">JG</span>
           </>
         ),
       }}
@@ -366,7 +371,12 @@ export const GROUPS: Group[] = [
         initial: { size: "default" },
         render: (s) => (
           <Container size={s.size}>
-            <div className="rounded-md border border-border bg-surface px-md py-sm text-sm text-text-secondary">size = {s.size}</div>
+            {/* Le remplissage de démo est une VRAIE Card — jamais un div bordé-arrondi local. */}
+            <Card.Root>
+              <Card.Body>
+                <Card.Description>size = {s.size}</Card.Description>
+              </Card.Body>
+            </Card.Root>
           </Container>
         ),
         code: (s) => `<Container size="${s.size}">…</Container>`,
@@ -490,28 +500,32 @@ export const GROUPS: Group[] = [
       {
         key: "skiplink", name: "SkipLink",
         render: () => (
-          <div className="relative w-full max-w-md overflow-hidden rounded-md border border-border bg-background p-md">
-            {/* Le lien est le PREMIER focalisable du cadre — masqué jusqu'au focus, il apparaît
-                en haut à gauche DU CADRE (focus:absolute surclasse le focus:fixed du composant). */}
-            <SkipLink href="#skiplink-demo-main" className="focus:absolute focus:left-sm focus:top-sm" />
-            <p className="m-0 text-sm text-text-secondary">
-              1 · Clique ici puis appuie sur <b className="text-text-primary">Tab</b> : le lien
-              « Aller au contenu » apparaît. 2 · <b className="text-text-primary">Entrée</b> :
-              le focus saute la nav et atterrit sur le contenu, encadré ci-dessous.
-            </p>
-            <nav aria-label="Nav factice" className="mt-sm flex gap-md text-sm">
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Produits</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Tarifs</a>
-              <a href="#" onClick={(e) => e.preventDefault()} className="text-text-secondary underline-offset-2 hover:underline">Contact</a>
-            </nav>
-            <div
-              id="skiplink-demo-main"
-              tabIndex={-1}
-              className="mt-sm rounded-md border border-dashed border-border p-md text-sm text-text-secondary outline-none focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--control-focus-color)]"
-            >
-              Contenu principal — le focus arrive ici, en sautant la nav.
-            </div>
-          </div>
+          /* Le cadre de la démo est une VRAIE Card (surface de contenu), plus un div
+             bordé-arrondi local ; les liens factices sont des Link du kit. */
+          <Card.Root className="w-full max-w-md">
+            <Card.Body>
+              {/* Le lien est le PREMIER focalisable du cadre — masqué jusqu'au focus, il apparaît
+                  en haut à gauche DU CADRE (focus:absolute surclasse le focus:fixed du composant). */}
+              <SkipLink href="#skiplink-demo-main" className="focus:absolute focus:left-sm focus:top-sm" />
+              <p className="m-0 text-sm text-text-secondary">
+                1 · Clique ici puis appuie sur <b className="text-text-primary">Tab</b> : le lien
+                « Aller au contenu » apparaît. 2 · <b className="text-text-primary">Entrée</b> :
+                le focus saute la nav et atterrit sur le contenu, encadré ci-dessous.
+              </p>
+              <nav aria-label="Nav factice" className="mt-sm flex gap-md text-sm">
+                <Link href="#" context="navigation" onClick={(e) => e.preventDefault()}>Produits</Link>
+                <Link href="#" context="navigation" onClick={(e) => e.preventDefault()}>Tarifs</Link>
+                <Link href="#" context="navigation" onClick={(e) => e.preventDefault()}>Contact</Link>
+              </nav>
+              <div
+                id="skiplink-demo-main"
+                tabIndex={-1}
+                className="mt-sm rounded-md bg-surface p-md text-sm text-text-secondary outline-none focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[color:var(--control-focus-color)]"
+              >
+                Contenu principal — le focus arrive ici, en sautant la nav.
+              </div>
+            </Card.Body>
+          </Card.Root>
         ),
         code: () => `<SkipLink href="#main">Aller au contenu</SkipLink>\n{/* … nav … */}\n<main id="main" tabIndex={-1}>…</main>`,
       },
@@ -796,22 +810,31 @@ export const GROUPS: Group[] = [
           { k: "icon", type: "bool", label: "Icône (leading)", disabled: (s) => !["text", "email", "tel"].includes(s.type) },
           { k: "clearable", type: "bool", label: "Effaçable", disabled: (s) => !["text", "email", "tel", "url"].includes(s.type) },
           { k: "disabled", type: "bool", label: "Disabled" },
+          // Le BLOC CHAMP (Input.Field) : libellé lié, aide, message d'erreur, indicateur de
+          // requis. INPUT-R38 exige un libellé toujours visible — le kit l'outille depuis le
+          // 2026-07-30 au lieu de le laisser à chaque page.
+          { sec: "Bloc champ", k: "label", type: "bool", label: "Libellé (Input.Field)" },
+          { sec: "Bloc champ", k: "required", type: "bool", label: "Requis", disabled: (s) => !s.label },
+          { sec: "Bloc champ", k: "helper", type: "bool", label: "Texte d'aide", disabled: (s) => !s.label },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { type: "text", size: "md", status: "default", icon: false, clearable: true, disabled: false, skeleton: false },
+        initial: { type: "text", size: "md", status: "default", icon: false, clearable: true, disabled: false, label: true, required: false, helper: true, skeleton: false },
         render: (s) => {
           const icon = s.icon && ["text", "email", "tel"].includes(s.type) ? <Input.Icon>{IC_MAIL}</Input.Icon> : null;
+          // Avec un libellé visible, plus d'aria-label : il le COMPLÉTERAIT au mieux, le
+          // contredirait au pire (INPUT-R33, « Label in Name »). Le libellé fait le nom.
+          const nom = (n: string) => (s.label ? undefined : n);
           const field =
             s.type === "password" ? (
-              <Input.Password placeholder="••••••••" disabled={s.disabled} aria-label="Mot de passe" />
+              <Input.Password placeholder="••••••••" disabled={s.disabled} aria-label={nom("Mot de passe")} />
             ) : s.type === "search" ? (
-              <Input.Search placeholder="Rechercher…" disabled={s.disabled} aria-label="Rechercher" />
+              <Input.Search placeholder="Rechercher…" disabled={s.disabled} aria-label={nom("Rechercher")} />
             ) : s.type === "number" ? (
-              <Input.Number defaultValue={2} min={0} max={99} disabled={s.disabled} aria-label="Quantité" />
+              <Input.Number defaultValue={2} min={0} max={99} disabled={s.disabled} aria-label={nom("Quantité")} />
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label="Adresse" />
+                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label={nom("Adresse")} />
               </>
             ) : (
               <Input.Input
@@ -822,26 +845,50 @@ export const GROUPS: Group[] = [
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
                 clearable={s.clearable}
                 disabled={s.disabled}
-                aria-label="Champ"
+                aria-label={nom("Champ")}
               />
+            );
+          const dedans =
+            s.type === "textarea" ? (
+              <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label={nom("Message")} />
+            ) : (
+              <Input.Wrapper>
+                {icon}
+                {field}
+              </Input.Wrapper>
             );
           return (
             <div className="w-72">
-              <Input.Root size={s.size} status={s.status} loading={s.skeleton}>
-                {s.type === "textarea" ? (
-                  <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label="Message" />
-                ) : (
-                  <Input.Wrapper>
-                    {icon}
-                    {field}
-                  </Input.Wrapper>
-                )}
-              </Input.Root>
+              {s.label ? (
+                // Field FOURNIT size et status par contexte ; Root les lit comme défauts —
+                // même contrat que CardGroup → Card, il ne les répète donc pas.
+                <Input.Field size={s.size} status={s.status} required={s.required}>
+                  <Input.Label>Adresse e-mail</Input.Label>
+                  <Input.Root loading={s.skeleton}>{dedans}</Input.Root>
+                  {s.helper ? <Input.Helper>Nous ne la partagerons jamais.</Input.Helper> : null}
+                  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>
+                </Input.Field>
+              ) : (
+                <Input.Root size={s.size} status={s.status} loading={s.skeleton}>
+                  {dedans}
+                </Input.Root>
+              )}
             </div>
           );
         },
         code: (s) => {
-          const root = (inner: string) => `<Input.Root size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}>${inner}</Input.Root>`;
+          // Dans un bloc champ, size et status vivent sur Field (contexte) : Root ne les répète pas.
+          const champ = (inner: string) =>
+            `<Input.Field size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}${s.required ? " required" : ""}>\n` +
+            `  <Input.Label>Adresse e-mail</Input.Label>\n` +
+            `  <Input.Root>${inner}</Input.Root>\n` +
+            (s.helper ? `  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>\n` : "") +
+            `  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>\n` +
+            `</Input.Field>`;
+          const root = (inner: string) =>
+            s.label
+              ? champ(inner)
+              : `<Input.Root size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}>${inner}</Input.Root>`;
           if (s.type === "textarea") return root(`<Input.Textarea placeholder="\u2026" rows={3} />`);
           const wrap = (inner: string) => root(`<Input.Wrapper>${inner}</Input.Wrapper>`);
           if (s.type === "password") return wrap(`<Input.Password aria-label="Mot de passe" />`);
@@ -875,56 +922,48 @@ export const GROUPS: Group[] = [
     label: "Contenu & feedback",
     items: [
       {
-        // Card SEULE — dérivée du manifeste Card (mode inclut expandable). La collection
-        // vit dans l'entrée CardGroup ci-dessous : les deux ne sont plus confondues.
+        // Card SEULE — l'entrée rend DIRECTEMENT `Card.Root` et ses sous-composants
+        // (aucun helper local) ; l'extrait affiché est l'API publique, copiable telle
+        // quelle. La collection vit dans l'entrée CardGroup ci-dessous — c'est un PATTERN
+        // (Collection), pas une seconde famille de Card.
         key: "card", name: "Card",
         controls: [
-          { k: "mode", type: "seg", label: "Mode", opts: axisOpts("Card", "mode") },
+          { k: "media", type: "seg", label: "Media", opts: ["icône", "image", "aucun"] },
+          // Pastille au-dessus du titre ou à sa gauche : pure COMPOSITION (un wrapper de
+          // layout), pas un axe de Card — l'extrait affiché montre le wrapper réel.
+          { k: "icone", type: "seg", label: "Pastille", opts: ["au-dessus", "à gauche"], disabled: (s) => s.media !== "icône" },
+          // API réelle adaptiveMedia : ON = le media passe sur le flanc dès ~24rem reçus
+          // (état regular — la poignée de l'aperçu le démontre) ; OFF = toujours EMPILÉ,
+          // media AU-DESSUS du texte, quelle que soit la largeur.
+          { k: "adaptive", type: "bool", label: "Media adaptatif (flanc dès ~24rem)", disabled: (s) => s.media !== "image" },
+          { k: "description", type: "bool", label: "Description" },
+          { k: "buttons", type: "bool", label: "Boutons" },
           { k: "density", type: "seg", label: "Densité", opts: axisOpts("Card", "density") },
-          { k: "media", type: "bool", label: "Media" },
-          { k: "selected", type: "bool", label: "Selected", disabled: (s) => s.mode !== "selectable" },
+          { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: axisOpts("Card", "mode") },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { mode: axisDefault("Card", "mode"), density: axisDefault("Card", "density"), media: false, selected: false, skeleton: false },
-        render: (s) => (
-          <div className="w-80">
-            <Card.Root mode={s.mode} density={s.density} selected={s.mode === "selectable" ? s.selected : undefined} loading={s.skeleton}>
-              {s.media ? <Card.Media ratio="landscape"><div className="h-full w-full bg-surface-hover" /></Card.Media> : null}
-              <Card.Body>
-                <Card.Header>
-                  <Card.Title>
-                    {s.mode === "clickable" ? <Card.TitleLink href="#">Titre de la carte</Card.TitleLink> : "Titre de la carte"}
-                  </Card.Title>
-                  {s.mode === "expandable" ? <Card.Chevron expanded={false} /> : null}
-                </Card.Header>
-                <Card.Description>Une description en une ou deux phrases.</Card.Description>
-              </Card.Body>
-            </Card.Root>
-          </div>
-        ),
-        code: (s) =>
-          `<Card.Root mode="${s.mode}"${s.density !== "comfortable" ? ` density="${s.density}"` : ""}${s.mode === "selectable" && s.selected ? " selected" : ""}>\n  <Card.Body>\n    <Card.Header><Card.Title>${s.mode === "clickable" ? '<Card.TitleLink href="…">Titre</Card.TitleLink>' : "Titre"}</Card.Title></Card.Header>\n    <Card.Description>…</Card.Description>\n  </Card.Body>\n</Card.Root>`,
+        initial: {
+          media: "icône", icone: "au-dessus", adaptive: true, description: true, buttons: false,
+          density: axisDefault("Card", "density"), mode: axisDefault("Card", "mode"), skeleton: false,
+        },
+        render: (s) => <CardDemo s={s as any} />,
+        code: (s) => codeCard(s as any),
       },
       {
+        // Le PATTERN COLLECTION : colonnes, jointure, régime, mode — ses enfants sont de
+        // vraies `Card.Root` (l'API CardGroup.Card a été supprimée le 2026-07-30) ; le
+        // contenu des cartes se règle sur la page Card, à qui il appartient.
         key: "card-group", name: "CardGroup",
         controls: [
-          { sec: "Card", k: "media", type: "seg", label: "Media", opts: ["icône", "image", "aucun"] },
-          { sec: "Card", k: "description", type: "bool", label: "Description" },
-          { sec: "Card", k: "buttons", type: "bool", label: "Boutons" },
-          { sec: "Groupe", k: "density", type: "seg", label: "Densité", opts: axisOpts("CardGroup", "density") },
-          { sec: "Groupe", k: "orientation", type: "seg", label: "Orientation", opts: axisOpts("CardGroup", "orientation") },
-          { sec: "Groupe", k: "cols", type: "seg", label: "Colonnes", opts: ["1", "2", "3"], disabled: (s) => s.orientation === "inline" },
-          { sec: "Groupe", k: "separated", type: "bool", label: "Séparées" },
+          { k: "density", type: "seg", label: "Densité", opts: axisOpts("CardGroup", "density") },
+          { k: "cols", type: "seg", label: "Colonnes", opts: ["1", "2", "3"] },
+          { k: "separated", type: "bool", label: "Séparées" },
           { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: axisOpts("CardGroup", "mode") },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { media: "icône", description: true, buttons: false, density: axisDefault("CardGroup", "density"), orientation: "stacked", cols: "2", separated: true, mode: "selectable", skeleton: false },
-        blocks: [
-          { title: "Card solo (dans la collection)", render: (s) => <CardGroup solo s={s as any} />, code: (s) => codeCardSolo(s as any) },
-          { title: "Card group", render: (s) => <CardGroup s={s as any} />, code: (s) => codeCardGrp(s as any) },
-        ],
-        render: (s) => <CardGroup s={s as any} />,
-        code: (s) => codeCardGrp(s as any),
+        initial: { density: axisDefault("CardGroup", "density"), cols: "2", separated: true, mode: "selectable", skeleton: false },
+        render: (s) => <CardGroupDemo s={s as any} />,
+        code: (s) => codeCardGroup(s as any),
       },
       {
         key: "skeleton", name: "Skeleton",
@@ -985,7 +1024,9 @@ export const GROUPS: Group[] = [
         initial: { tone: "info", title: "Notification", description: "Un message contextuel qui s'installe dans la page.", dismissible: false, skeleton: false },
         render: (s) =>
           s.skeleton ? (
-            <div className="flex max-w-md items-start gap-md rounded-md border border-border p-md">
+            /* Squelette composé du kit (Skeleton) — plus de fausse carte bordée à la main :
+               l'alerte au repos n'a pas d'autre contour que le sien, le squelette non plus. */
+            <div className="flex w-full max-w-md items-start gap-md">
               <Sk w={20} h={20} r="9999px" />
               <div className="flex flex-1 flex-col gap-2 pt-0.5"><Sk w="45%" h={12} /><Sk w="85%" h={10} /></div>
             </div>
@@ -1014,7 +1055,8 @@ export const GROUPS: Group[] = [
         initial: { tone: "neutral", placement: "bottom", title: "Enregistré", description: "Vos changements sont sauvegardés.", closing: "auto", skeleton: false },
         render: (s) =>
           s.skeleton ? (
-            <div className="flex w-80 items-start gap-md rounded-lg border border-border p-md">
+            /* Même règle que l'Alert : squelette composé du kit, pas de carte recréée. */
+            <div className="flex w-80 items-start gap-md">
               <Sk w={20} h={20} r="9999px" />
               <div className="flex flex-1 flex-col gap-2 pt-0.5"><Sk w="50%" h={12} /><Sk w="80%" h={10} /></div>
             </div>

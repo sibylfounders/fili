@@ -165,7 +165,12 @@ export function sujetsParNature(): { nature: Nature; items: Sujet[] }[] {
   const all = sujets();
   return NATURES.map((nature) => ({
     nature,
-    items: all.filter((s) => s.nature.dossier === nature.dossier),
+    // UNE seule dérivation de « la liste des sujets » : un sujet n'apparaît (vue d'ensemble
+    // ET nav) que si sa fiche doctrine existe — donc que si sa page /md/<slug>/ est générée
+    // (generateStaticParams lit slugsDoctrine). C'est le lien mort /md/chip/ du constat du
+    // 2026-07-30 : CHIP-UX/UI.md existaient, chip.json non, et la vue d'ensemble promettait
+    // une page jamais construite. Le jour où la fiche arrive, le sujet réapparaît seul.
+    items: all.filter((s) => s.nature.dossier === nature.dossier && fiche(s.slug) !== undefined),
   })).filter((g) => g.items.length > 0);
 }
 

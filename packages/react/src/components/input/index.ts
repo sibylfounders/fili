@@ -1,5 +1,9 @@
 export {
   Input,
+  InputFieldBlock,
+  InputLabel,
+  InputHelper,
+  InputError,
   InputRoot,
   InputWrapper,
   InputField,
@@ -12,4 +16,11 @@ export {
   InputTextarea,
   inputRootVariants,
 } from "./input";
-export type { InputRootProps, InputFieldProps, InputPasswordProps, InputTextareaProps, InputStatus } from "./input";
+export type {
+  InputRootProps,
+  InputFieldProps,
+  InputFieldBlockProps,
+  InputPasswordProps,
+  InputTextareaProps,
+  InputStatus,
+} from "./input";

@@ -1,13 +1,17 @@
 "use client";
-import { CardGroup } from "@fili/react";
+import { Card, CardGroup } from "@fili/react";
 
 /**
  * Grille des sujets d'une nature — CLIENT.
  *
- * Une collection de destinations de même nature : `CardGroup` en mode `clickable`, la cible
- * étendue portée par `href`. Elle était écrite à la main en `<Link>` bordés, ce qui privait
- * la page des filets internes, des coins hérités et du highlight de proximité — et faisait
- * diverger la doctrine de son propre site.
+ * Une collection de destinations de même nature : `CardGroup` (pattern COLLECTION) en mode
+ * `clickable`, dont les enfants sont de vraies `Card` — la seule anatomie de carte du kit
+ * (l'API `CardGroup.Card` a été supprimée le 2026-07-30). La cible étendue est un vrai
+ * lien (`Card.TitleLink`) ; la pastille d'emblème est `Card.Icon` — un affleurement
+ * d'ITEM, donc autorité CARD, plus jamais la collection.
+ * Elle était écrite à la main en `<Link>` bordés, ce qui privait la page des filets
+ * internes, des coins hérités et du highlight de proximité — et faisait diverger la
+ * doctrine de son propre site.
  *
  * Client parce que les composés du kit sont exportés par des modules `"use client"` : y
  * accéder depuis le graphe serveur produit une référence que le manifest de Next 14.2
@@ -24,23 +28,21 @@ export function GrilleSujets({ items, label }: { items: SujetTuile[]; label: str
   return (
     <CardGroup cols="auto" mode="clickable" separated label={label}>
       {items.map((s) => (
-        <CardGroup.Card
-          key={s.slug}
-          titleAs="h3"
-          title={s.titre}
-          href={`/md/${s.slug}/`}
-          icon={
-            s.embleme ? (
-              <span
-                aria-hidden="true"
-                className="[&_svg]:size-6"
-                dangerouslySetInnerHTML={{ __html: s.embleme }}
-              />
-            ) : undefined
-          }
-        >
-          <p className="m-0 mt-2xs font-mono text-[11px] text-text-muted">{s.meta}</p>
-        </CardGroup.Card>
+        <Card.Root key={s.slug}>
+          <Card.Body>
+            <Card.Header>
+              <div className="flex min-w-0 flex-col">
+                {s.embleme ? (
+                  <Card.Icon className="mb-sm" dangerouslySetInnerHTML={{ __html: s.embleme }} />
+                ) : null}
+                <Card.Title as="h3">
+                  <Card.TitleLink href={`/md/${s.slug}/`}>{s.titre}</Card.TitleLink>
+                </Card.Title>
+              </div>
+            </Card.Header>
+            <p className="m-0 mt-2xs font-mono text-[11px] text-text-muted">{s.meta}</p>
+          </Card.Body>
+        </Card.Root>
       ))}
     </CardGroup>
   );

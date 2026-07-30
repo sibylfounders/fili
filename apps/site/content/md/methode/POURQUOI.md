@@ -14,19 +14,19 @@ Ce projet transforme une documentation de design en **contexte de décision** : 
 
 **01 / FIABILITÉ**
 
-#### Savoir ce qui est sûr
+### Savoir ce qui est sûr
 
 Chaque arbitrage fragile, divergent ou encore émergent porte un niveau de confiance explicite.
 
 **02 / CONTEXTE**
 
-#### Savoir où l’appliquer
+### Savoir où l’appliquer
 
 Le périmètre, les dépendances et les conditions de chargement accompagnent la règle.
 
 **03 / JUGEMENT**
 
-#### Savoir quand s’arrêter
+### Savoir quand s’arrêter
 
 La frontière entre exécution automatique et décision humaine fait partie de la documentation.
 

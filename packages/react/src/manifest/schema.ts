@@ -110,9 +110,19 @@ export function propsDe<P>() {
 }
 
 /**
- * Anatomie VÉRIFIÉE d'une API compound : chaque sous-nom doit être une clé réelle de
- * l'objet exporté (Card.Media inventé ne compile pas).
+ * Anatomie VÉRIFIÉE et EXHAUSTIVE d'une API compound :
+ *   - chaque sous-nom doit être une clé réelle de l'objet exporté (Card.Media inventé ne
+ *     compile pas) ;
+ *   - chaque clé réelle doit être LISTÉE : une sous-API publique oubliée du manifeste casse
+ *     tsc au lieu de passer sous silence (garde ajoutée le 2026-07-30 — c'est exactement
+ *     ainsi que `CardGroup.Card` a pu vivre invisible des vérificateurs).
  */
-export function anatomie<T>(root: string, subs: readonly (keyof T & string)[]): string[] {
+export function anatomie<T, K extends keyof T & string = keyof T & string>(
+  root: string,
+  subs: readonly K[] &
+    ([Exclude<keyof T & string, K>] extends [never]
+      ? unknown
+      : readonly ["ANATOMIE INCOMPLÈTE — sous-composant public non listé :", Exclude<keyof T & string, K>]),
+): string[] {
   return [root, ...subs.map((s) => `${root}.${s}`)];
 }

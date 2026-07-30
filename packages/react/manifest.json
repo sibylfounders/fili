@@ -16,6 +16,7 @@
       "rules": "RULES-accordion.md",
       "anatomy": [
         "Accordion",
+        "Accordion.Root",
         "Accordion.Item",
         "Accordion.Header",
         "Accordion.Panel"
@@ -355,12 +356,15 @@
         "Card",
         "Card.Root",
         "Card.Media",
+        "Card.Icon",
         "Card.Header",
         "Card.Body",
         "Card.Title",
         "Card.TitleLink",
+        "Card.TitleCommand",
         "Card.Description",
         "Card.Actions",
+        "Card.Check",
         "Card.Chevron",
         "Card.Skeleton"
       ],
@@ -391,6 +395,10 @@
           "type": "boolean",
           "description": "État sélectionné (mode selectable)."
         },
+        "onSelectedChange": {
+          "type": "(selected: boolean) => void",
+          "description": "Mode selectable : bascule portée par la CARTE (clic hors cibles internes, Espace/Entrée) — la collection ne refait pas cette mécanique."
+        },
         "adaptiveMedia": {
           "type": "boolean",
           "default": "true",
@@ -419,7 +427,7 @@
       ],
       "adaptiveBehavior": "Container query sur sa propre largeur (état compact empilé = CSS de base ; regular côte-à-côte ≥ 24rem).",
       "allowedComposition": [
-        "CardGroup pour toute COLLECTION de cartes (le mode vit alors sur la collection)"
+        "CardGroup pour toute COLLECTION de cartes : les Card sont les ENFANTS DIRECTS du pattern, qui leur transmet mode et densité par contexte (une Card `mode=\"static\"` explicite reste sans cible dans une collection interactive)"
       ],
       "antiPatterns": [
         "Recréer une carte avec div + border + shadow à la main",
@@ -439,11 +447,15 @@
       "import": "import { CardGroup } from \"@fili/react\";",
       "status": "stable",
       "category": "collection",
-      "purpose": "LA collection de cartes : grille intrinsèque (les colonnes émergent de la largeur réelle), un seul mode pour toute la collection, surlignage de proximité.",
+      "purpose": "Le PATTERN Collection — il assemble et orchestre de vraies Card (enfants directs), il ne redessine JAMAIS leur contenu : grille intrinsèque, régime joint/séparé, filets et coins, highlight de proximité, balisage liste + cellule, contexte collectif de mode et de densité.",
       "doctrine": {
         "pattern": "patterns/COLLECTION-UX.md + COLLECTION-UI.md"
       },
       "rules": "RULES-collection.md",
+      "anatomy": [
+        "CardGroup",
+        "CardGroup.Root"
+      ],
       "axes": {
         "mode": {
           "kind": "mode",
@@ -459,20 +471,10 @@
           "kind": "density",
           "description": "Densité de la collection.",
           "values": {
-            "spacious": "aérée",
             "comfortable": "défaut",
             "compact": "resserrée"
           },
           "default": "comfortable"
-        },
-        "orientation": {
-          "kind": "enum",
-          "description": "Disposition des cartes.",
-          "values": {
-            "stacked": "empilées (grille)",
-            "inline": "en ligne"
-          },
-          "default": "stacked"
         }
       },
       "props": {
@@ -496,24 +498,32 @@
           "default": "false",
           "description": "Carte unique (désactive la proximité)."
         },
+        "loading": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Collection en chargement — porte aria-busy ; les squelettes sont aria-hidden."
+        },
         "label": {
           "type": "string",
           "description": "Étiquette du groupe (accessibilité des collections interactives)."
         }
       },
       "accessibility": [
-        "mode selectable : état porté par aria (selected par carte)",
-        "une carte inactive dans une collection interactive est marquée inactive"
+        "role=list / role=listitem posés par la collection (la cellule lui appartient)",
+        "aria-busy au chargement vit sur la collection, les squelettes des cartes sont aria-hidden",
+        "mode selectable : état et bascule portés par chaque Card (aria-pressed, Espace/Entrée)",
+        "une Card `mode=\"static\"` explicite est une carte SANS CIBLE : aucune affordance, le highlight l'ignore"
       ],
       "adaptiveBehavior": "Grille intrinsèque repeat(auto-fill, minmax(min(100%, item-min), 1fr)) — jamais de grid-cols par breakpoint.",
       "antiPatterns": [
         "Grille de cartes à la main (tablet:grid-cols-*)",
-        "des modes différents carte par carte (le mode appartient à la collection)"
+        "des modes différents carte par carte (le mode appartient à la collection ; une carte sans cible surclasse en static)",
+        "la collection qui rend l'intérieur de ses items — l'ex-API CardGroup.Card, une seconde anatomie de carte, a été SUPPRIMÉE le 2026-07-30 : les enfants sont de vraies Card"
       ],
       "canonicalExamples": [
         {
-          "title": "Collection cliquable",
-          "code": "<CardGroup.Root mode=\"clickable\" label=\"Guides\">\n  <CardGroup.Card title=\"Commencer\" description=\"Installer et brancher le kit.\" href=\"/guides/commencer\" />\n  <CardGroup.Card title=\"Theming\" description=\"Rayons, relief, sombre.\" href=\"/guides/theming\" />\n</CardGroup.Root>"
+          "title": "Collection cliquable — de vraies Card comme enfants",
+          "code": "<CardGroup mode=\"clickable\" separated label=\"Guides\">\n  <Card.Root>\n    <Card.Body>\n      <Card.Header>\n        <Card.Title><Card.TitleLink href=\"/guides/commencer\">Commencer</Card.TitleLink></Card.Title>\n      </Card.Header>\n      <Card.Description>Installer et brancher le kit.</Card.Description>\n    </Card.Body>\n  </Card.Root>\n  <Card.Root>\n    <Card.Body>\n      <Card.Header>\n        <Card.Title><Card.TitleLink href=\"/guides/theming\">Theming</Card.TitleLink></Card.Title>\n      </Card.Header>\n      <Card.Description>Rayons, relief, sombre.</Card.Description>\n    </Card.Body>\n  </Card.Root>\n</CardGroup>"
         }
       ]
     },
@@ -826,6 +836,7 @@
       "rules": null,
       "anatomy": [
         "Drawer",
+        "Drawer.Root",
         "Drawer.Frame"
       ],
       "axes": {
@@ -961,7 +972,7 @@
       "import": "import { Input } from \"@fili/react\";",
       "status": "stable",
       "category": "champ",
-      "purpose": "La zone réceptive du formulaire (relief creusé). API compound Root > Wrapper > (Icon · Input · InlineAffix) + Affix ; sous-composants Password / Search / Number / Textarea.",
+      "purpose": "La zone réceptive du formulaire (relief creusé). Le BLOC CHAMP — Field > (Label · Root > Wrapper > (Icon · Input · InlineAffix) + Affix · Helper|Error) — porte le câblage exigé par la doctrine : for/id, aria-describedby, indicateur de requis. Root employé seul reste le cadre bordé, inchangé.",
       "doctrine": {
         "ux": "components/INPUT-UX.md",
         "ui": "components/INPUT-UI.md",
@@ -970,6 +981,10 @@
       "rules": "RULES-input.md",
       "anatomy": [
         "Input",
+        "Input.Field",
+        "Input.Label",
+        "Input.Helper",
+        "Input.Error",
         "Input.Root",
         "Input.Wrapper",
         "Input.Icon",
@@ -1005,6 +1020,11 @@
         }
       },
       "props": {
+        "required": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Input.Field : pose l'indicateur visible sur le libellé (INPUT-R30) + aria-required. La CONVENTION requis/optionnel appartient au formulaire entier (FORM-R10)."
+        },
         "clearable": {
           "type": "boolean",
           "default": "false",
@@ -1038,6 +1058,9 @@
       ],
       "accessibility": [
         "aria-invalid automatique en error",
+        "Input.Field : liaison for/id du libellé (INPUT-UI T1 — jamais la seule proximité visuelle) et aria-describedby vers le message, posé seulement s'il existe",
+        "Input.Error remplace Input.Helper (INPUT-R26) et se signale par une icône + « Erreur » pour l'AT, jamais par la seule couleur (INPUT-R31)",
+        "dans un Field, Wrapper et Textarea cessent d'être des <label> : un seul étiquetage, celui du libellé visible",
         "le ring s'ajoute à la bordure d'état (les deux restent lisibles — BORDER-R07)",
         "Password : aria-pressed sur le toggle œil ; Number : réservé aux quantités (OTP/code postal = text + inputmode)"
       ],
@@ -1048,12 +1071,18 @@
       ],
       "antiPatterns": [
         "<input> natif stylé à la main hors mécanique interne",
+        "libellé écrit à la main à côté du champ (INPUT-R38 : label toujours visible ET lié — c'est le rôle d'Input.Field + Input.Label)",
+        "placeholder tenant lieu de libellé (INPUT-R38)",
         "status utilisé comme décor (un champ n'est pas « orange » : il est en warning)",
         "Input.Number pour un code (OTP, postal) — c'est un text + inputmode"
       ],
       "canonicalExamples": [
         {
-          "title": "Champ e-mail avec statut d'erreur",
+          "title": "Champ complet — libellé lié, aide, erreur (le bloc champ)",
+          "code": "<Input.Field status=\"error\" required>\n  <Input.Label>Adresse e-mail</Input.Label>\n  <Input.Root>\n    <Input.Wrapper>\n      <Input.Input type=\"email\" placeholder=\"vous@exemple.fr\" autoComplete=\"email\" />\n    </Input.Wrapper>\n  </Input.Root>\n  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>\n  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>\n</Input.Field>"
+        },
+        {
+          "title": "Cadre seul, sans bloc champ (usage autonome inchangé)",
           "code": "<Input.Root status=\"error\">\n  <Input.Wrapper>\n    <Input.Input type=\"email\" placeholder=\"vous@exemple.fr\" aria-label=\"Adresse e-mail\" />\n  </Input.Wrapper>\n</Input.Root>"
         },
         {
@@ -1074,6 +1103,11 @@
         "ui": "components/LINK-UI.md"
       },
       "rules": "RULES-link.md",
+      "anatomy": [
+        "Link",
+        "Link.Root",
+        "Link.Icon"
+      ],
       "axes": {
         "context": {
           "kind": "context",

@@ -8,12 +8,12 @@ Trois défauts, par ordre de gravité :
      `Card` ou `CardGroup` existe. C'est le défaut qui a motivé la promotion de
      CardGroup dans le paquet, et il est revenu deux fois depuis.
 
-  2. GROUPE MAL PEUPLÉ — un `CardGroup` dont les enfants ne sont pas des
-     `CardGroup.Card`. Silencieux et redoutable : la mécanique du groupe interroge
-     les `.cg-card` pour les filets, les coins et le highlight de proximité. Avec
-     d'autres enfants elle ne trouve rien, ne lève aucune erreur, et le groupe
-     dégénère en grille nue — ce qui ressemble à un défaut de style alors que
-     c'est un composant neutralisé.
+  2. GROUPE MAL PEUPLÉ — un `CardGroup` dont les enfants ne sont pas de vraies
+     `Card` (`Card.Root`). Silencieux et redoutable : la mécanique du groupe pose
+     ses cellules autour de ses enfants pour les filets, les coins et le highlight
+     de proximité ; avec autre chose que des Card elle encadre du contenu qui n'en
+     est pas, et le pattern dégénère en grille nue. L'ancienne API `CardGroup.Card`
+     (supprimée le 2026-07-30) est signalée comme obsolète.
 
   3. TOKEN INEXISTANT — une classe qui référence un token absent du système. Elle
      ne produit aucun style et passe la compilation sans bruit.
@@ -29,9 +29,10 @@ ICI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES = [os.path.join(ICI, "apps/site/app"), os.path.join(ICI, "apps/site/lib")]
 TOKENS_CSS = os.path.join(ICI, "packages/tokens/dist/tokens.css")
 
-# Fichiers où une carte écrite à la main est légitime : le playground DÉMONTRE le
-# composant, il ne le consomme pas ; les squelettes imitent volontairement sa forme.
-EXEMPTS = ("app/ui/", "app/test/")
+# Plus AUCUNE exemption de dossier (2026-07-30) : l'atelier et les pages de test
+# consomment le kit comme n'importe quelle page — une exception éventuelle est
+# locale (marqueur `kit-ok:` motivé), jamais un dossier entier.
+EXEMPTS = ()
 
 PREFIXES_TOKEN = ("bg-", "text-", "border-", "ring-", "fill-", "stroke-", "from-", "to-", "via-")
 # Classes Tailwind natives qui partagent ces préfixes sans être des tokens de couleur.
@@ -90,7 +91,7 @@ def cartes_maison(src):
 
 
 def groupes_mal_peuples(src):
-    """CardGroup dont les enfants ne sont pas des CardGroup.Card."""
+    """CardGroup dont les enfants directs ne sont pas de vraies Card (Card.Root)."""
     out = []
     for m in re.finditer(r"<CardGroup\b(?![\w.])", src):
         depart = m.start()
@@ -98,11 +99,15 @@ def groupes_mal_peuples(src):
         if fin < 0:
             continue
         corps = src[depart:fin]
+        ligne = src[:depart].count("\n") + 1
         if "<CardGroup.Card" in corps or "<Kit.Card" in corps:
+            out.append((ligne, "CardGroup.Card — API SUPPRIMÉE (2026-07-30) : composer de vraies Card"))
+            continue
+        if "<Card.Root" in corps or "<DemoCard" in corps or "{items" in corps or "{children" in corps:
             continue
         enfants = re.findall(r"<([A-Z][\w.]*)", corps[corps.find(">") :])
         if enfants:
-            out.append((src[:depart].count("\n") + 1, ", ".join(sorted(set(enfants))[:4])))
+            out.append((ligne, ", ".join(sorted(set(enfants))[:4])))
     return out
 
 

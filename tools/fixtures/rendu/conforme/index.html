@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8">
+<title>Fixture positive — rendu</title><link rel="stylesheet" href="/_tokens.css">
+</head><body>
+  <h1>Titre de la page</h1>
+  <h2>Sous-titre au bon niveau</h2>
+  <p><a href="#un" class="ds-focus-ring">lien à l'anneau du système</a></p>
+  <p><button class="ds-focus-ring" style="--taille: 40px; width: var(--taille); height: var(--taille)">ok</button></p>
+  <!-- Input conforme : l'élément actif délègue visuellement son focus au cadre parent
+       ([data-slot=input]:has(input:focus-visible)) — le harnais doit l'ACCEPTER. -->
+  <p><span data-slot="input"><input aria-label="Champ au focus délégué" value="texte"></span></p>
+</body></html>

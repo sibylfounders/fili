@@ -44,6 +44,46 @@ const InputContext = React.createContext<{ size: InputSize; status: InputStatus 
   status: "default",
 });
 
+/**
+ * Contexte de CHAMP — fourni par `Input.Field`, le bloc qui réunit [libellé · cadre · message].
+ *
+ * Pourquoi un niveau au-dessus de `Input.Root` : Root EST le cadre bordé (bordure, rayon,
+ * `overflow-hidden`, anneau de focus) — un libellé visible y serait *dans* la boîte. Le bloc
+ * champ porte donc le câblage que la doctrine exige et que chaque page refaisait à la main :
+ * `for`/`id` (INPUT-UI T1 — jamais la seule proximité visuelle), `aria-describedby` vers le
+ * message, et l'indicateur de requis (INPUT-R30).
+ *
+ * Mécanique : Field FOURNIT, l'enfant SURCLASSE — exactement le contrat `CardGroup` → `Card`
+ * (arbitrage 2026-07-30). `Input.Root` employé seul reste donc strictement inchangé : hors
+ * d'un Field, ce contexte vaut `null` et rien ne change.
+ */
+type FieldContextValue = {
+  fieldId: string;
+  messageId: string;
+  /** Un message (helper OU erreur) est monté : sans lui, `aria-describedby` pointerait dans le vide. */
+  hasMessage: boolean;
+  setHasMessage: (present: boolean) => void;
+  size: InputSize;
+  status: InputStatus;
+  required: boolean;
+};
+const FieldContext = React.createContext<FieldContextValue | null>(null);
+
+/**
+ * Câblage du champ natif à son bloc : identifiant (cible du `for` du libellé) et lien vers le
+ * message (`aria-describedby`). Rendu AVANT `{...props}` : un consommateur garde la main.
+ * Hors d'un `Input.Field`, ne pose rien — l'usage autonome reste identique.
+ */
+function useChampCable(): Record<string, string | boolean | undefined> {
+  const champ = React.useContext(FieldContext);
+  if (!champ) return {};
+  return {
+    id: champ.fieldId,
+    "aria-describedby": champ.hasMessage ? champ.messageId : undefined,
+    "aria-required": champ.required || undefined,
+  };
+}
+
 const rootVariants = cva(
   [
     "group relative flex w-full items-stretch overflow-hidden border bg-background text-text-primary",
@@ -101,16 +141,21 @@ export interface InputRootProps
 }
 
 const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
-  ({ className, size = "md", status = "default", asChild = false, loading = false, children, ...props }, ref) => {
+  ({ className, size, status, asChild = false, loading = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "div";
+    // Le bloc champ fournit des DÉFAUTS ; une prop explicite les surclasse (contrat
+    // Field → Root, miroir de CardGroup → Card). Hors d'un Field : défauts propres.
+    const field = React.useContext(FieldContext);
+    const resolvedSize: InputSize = size ?? field?.size ?? "md";
+    const resolvedStatus: InputStatus = status ?? field?.status ?? "default";
     return (
-      <InputContext.Provider value={{ size: size ?? "md", status: status ?? "default" }}>
+      <InputContext.Provider value={{ size: resolvedSize, status: resolvedStatus }}>
         <Comp
           ref={ref}
           data-slot={loading ? undefined : "input"}
-          data-status={status ?? "default"}
+          data-status={resolvedStatus}
           aria-busy={loading || undefined}
-          className={cn(rootVariants({ size, status }), loading && "ds-skeleton divide-transparent", className)}
+          className={cn(rootVariants({ size: resolvedSize, status: resolvedStatus }), loading && "ds-skeleton divide-transparent", className)}
           {...props}
         >
           {children}
@@ -121,13 +166,25 @@ const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
 );
 InputRoot.displayName = "Input.Root";
 
-/* ── Wrapper (label : cliquer place le focus sur le champ) ─────────────────── */
+/* ── Wrapper (cliquer le cadre place le focus sur le champ) ────────────────── */
+/**
+ * Hors d'un `Input.Field`, le Wrapper est un `<label>` : il enveloppe le champ, donc cliquer
+ * n'importe où dans le cadre y place le focus (association implicite) — comportement
+ * historique, inchangé.
+ *
+ * DANS un `Input.Field`, le libellé visible porte déjà l'association explicite (`for`/`id`).
+ * Le Wrapper rend alors un `<div>` : deux `<label>` pour un même champ produiraient un
+ * double étiquetage (nom accessible concaténé, signalé par les validateurs). Le clic sur le
+ * cadre continue de focaliser dans les faits — le champ occupe toute la largeur du wrapper.
+ */
 const InputWrapper = React.forwardRef<
   HTMLLabelElement,
   React.LabelHTMLAttributes<HTMLLabelElement>
 >(({ className, ...props }, ref) => {
   const { size } = React.useContext(InputContext);
-  return <label ref={ref} className={cn(wrapperVariants({ size }), className)} {...props} />;
+  const field = React.useContext(FieldContext);
+  const Comp = (field ? "div" : "label") as "label";
+  return <Comp ref={ref} className={cn(wrapperVariants({ size }), className)} {...props} />;
 });
 InputWrapper.displayName = "Input.Wrapper";
 
@@ -141,6 +198,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
   ({ className, type = "text", asChild = false, clearable = false, onChange, ...props }, forwardedRef) => {
     const Comp = asChild ? Slot : "input";
     const { status } = React.useContext(InputContext);
+    const cable = useChampCable();
     // mécanique clearable — hooks inconditionnels, inactifs si !clearable
     const innerRef = React.useRef<HTMLInputElement | null>(null);
     const [hasValue, setHasValue] = React.useState(!!(props.value ?? props.defaultValue));
@@ -158,6 +216,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         type={type}
         // le statut est porté par la sémantique, pas seulement la couleur (INTERACTION-R12)
         aria-invalid={status === "error" || undefined}
+        {...cable}
         className={cn(
           // Valeur = typography.body (16px). JAMAIS en dessous : sous 16px, iOS Safari zoome au focus.
           "w-full bg-transparent text-base text-text-primary outline-none",
@@ -404,9 +463,14 @@ InputNumber.displayName = "Input.Number";
 export interface InputTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 const InputTextarea = React.forwardRef<HTMLTextAreaElement, InputTextareaProps>(
   ({ className, rows = 3, ...props }, ref) => {
-    const { size } = React.useContext(InputContext);
+    const { size, status } = React.useContext(InputContext);
+    const champ = React.useContext(FieldContext);
+    const cable = useChampCable();
+    // Même règle que le Wrapper : dans un bloc champ, le libellé visible porte déjà
+    // l'association explicite — pas de second <label> autour du textarea.
+    const Enveloppe = (champ ? "div" : "label") as "label";
     return (
-      <label
+      <Enveloppe
         className={cn(
           "flex w-full cursor-text",
           size === "sm" ? "px-sm py-1.5" : size === "lg" ? "px-lg py-sm" : "px-md py-2",
@@ -415,6 +479,8 @@ const InputTextarea = React.forwardRef<HTMLTextAreaElement, InputTextareaProps>(
         <textarea
           ref={ref}
           rows={rows}
+          aria-invalid={status === "error" || undefined}
+          {...cable}
           className={cn(
             // même contrat que le champ : corps 16px (jamais moins — zoom iOS), resize vertical seul
             "w-full resize-y bg-transparent text-base leading-normal text-text-primary outline-none",
@@ -424,14 +490,154 @@ const InputTextarea = React.forwardRef<HTMLTextAreaElement, InputTextareaProps>(
           )}
           {...props}
         />
-      </label>
+      </Enveloppe>
     );
   },
 );
 InputTextarea.displayName = "Input.Textarea";
 
+/* ══ Le BLOC CHAMP : libellé · cadre · message ═══════════════════════════════════════════
+   Tranche livrée le 2026-07-30 (arbitrage Aurélien, option A). Elle ne crée aucune règle :
+   la doctrine était déjà écrite et les quatre rôles de tokens déjà déclarés dans INPUT-UI.
+   Elle rend seulement TENABLE ce que le kit imposait sans l'outiller — INPUT-R38 « label
+   toujours visible » se respectait jusqu'ici à la main, page par page.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+
+export interface InputFieldBlockProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: InputSize;
+  status?: InputStatus;
+  /**
+   * Le champ est obligatoire : pose l'indicateur visible sur le libellé (INPUT-R30) et
+   * `aria-required` sur le champ. La CONVENTION — marquer le requis ou marquer l'optionnel —
+   * appartient au formulaire entier (FORM-R10), pas à ce composant.
+   */
+  required?: boolean;
+}
+
+/** Bloc champ : il assemble libellé, cadre et message, et porte leur câblage technique. */
+const InputFieldBlock = React.forwardRef<HTMLDivElement, InputFieldBlockProps>(
+  ({ className, size = "md", status = "default", required = false, children, ...props }, ref) => {
+    const uid = React.useId();
+    const [hasMessage, setHasMessage] = React.useState(false);
+    const valeur = React.useMemo<FieldContextValue>(
+      () => ({
+        fieldId: `${uid}champ`,
+        messageId: `${uid}message`,
+        hasMessage,
+        setHasMessage,
+        size,
+        status,
+        required,
+      }),
+      [uid, hasMessage, size, status, required],
+    );
+    return (
+      <FieldContext.Provider value={valeur}>
+        <div ref={ref} className={cn("flex w-full flex-col gap-xs", className)} {...props}>
+          {children}
+        </div>
+      </FieldContext.Provider>
+    );
+  },
+);
+InputFieldBlock.displayName = "Input.Field";
+
+/**
+ * Libellé VISIBLE du champ, lié par `for`/`id` (INPUT-UI T1 — jamais la seule proximité
+ * visuelle). Sa taille est celle du corps (`text-base`) : INPUT-UI donne `value_font` au texte
+ * saisi ET au label, et jamais moins de 16 px — sous ce seuil, iOS Safari zoome au focus.
+ * L'indicateur de requis suit INPUT-R30 : marque visible + équivalent textuel pour l'AT, jamais
+ * un astérisque muet.
+ */
+const InputLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLLabelElement>>(
+  ({ className, children, ...props }, ref) => {
+    const champ = React.useContext(FieldContext);
+    return (
+      <label
+        ref={ref}
+        htmlFor={champ?.fieldId}
+        className={cn("text-base font-medium text-text-primary", className)}
+        {...props}
+      >
+        {children}
+        {champ?.required ? (
+          <>
+            <span aria-hidden="true" className="ml-0.5 text-danger">*</span>
+            <span className="sr-only"> (obligatoire)</span>
+          </>
+        ) : null}
+      </label>
+    );
+  },
+);
+InputLabel.displayName = "Input.Label";
+
+/** Enregistre le message auprès du bloc : sans lui, `aria-describedby` pointerait dans le vide. */
+function useMessageEnregistre(actif: boolean) {
+  const champ = React.useContext(FieldContext);
+  const signale = champ?.setHasMessage;
+  React.useEffect(() => {
+    if (!signale || !actif) return;
+    signale(true);
+    return () => signale(false);
+  }, [signale, actif]);
+  return champ;
+}
+
+/**
+ * Aide contextuelle PERSISTANTE, indépendante de la validation (INPUT-R25) : elle guide
+ * *avant* la saisie. L'erreur la REMPLACE tant qu'elle est active (INPUT-R26) — les deux ne
+ * s'empilent jamais, elles partagent le même emplacement sous le champ.
+ */
+const InputHelper = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => {
+    const champ = React.useContext(FieldContext);
+    const efface = champ?.status === "error";
+    useMessageEnregistre(!efface);
+    if (efface) return null;
+    return (
+      <p ref={ref} id={champ?.messageId} className={cn("text-sm text-text-secondary", className)} {...props} />
+    );
+  },
+);
+InputHelper.displayName = "Input.Helper";
+
+/**
+ * Message d'erreur — rendu seulement quand le bloc est en `status="error"`, où il remplace le
+ * helper (INPUT-R26). Il est précédé d'une icône dédiée et d'un « Erreur » réservé à l'AT :
+ * INPUT-R31 interdit de ne le signaler que par la couleur. Le texte, lui, appartient à
+ * l'appelant — INPUT-R23 demande qu'il dise *pourquoi* et *comment corriger*.
+ */
+const InputError = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, children, ...props }, ref) => {
+    const champ = React.useContext(FieldContext);
+    const actif = champ?.status === "error";
+    useMessageEnregistre(!!actif);
+    if (!actif) return null;
+    return (
+      <p
+        ref={ref}
+        id={champ?.messageId}
+        className={cn("flex items-start gap-1.5 text-sm text-danger", className)}
+        {...props}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mt-0.5 size-4 shrink-0">
+          <circle cx="12" cy="12" r="10" /><path d="M12 8v4" strokeLinecap="round" /><path d="M12 16h.01" strokeLinecap="round" />
+        </svg>
+        <span className="sr-only">Erreur : </span>
+        <span>{children}</span>
+      </p>
+    );
+  },
+);
+InputError.displayName = "Input.Error";
+
 /* API compound — miroir de la logique de référence, tokens DS-UI. */
 export const Input = {
+  Field: InputFieldBlock,
+  Label: InputLabel,
+  Helper: InputHelper,
+  Error: InputError,
   Root: InputRoot,
   Wrapper: InputWrapper,
   Input: InputField,
@@ -445,6 +651,10 @@ export const Input = {
 };
 
 export {
+  InputFieldBlock,
+  InputLabel,
+  InputHelper,
+  InputError,
   InputRoot,
   InputWrapper,
   InputField,

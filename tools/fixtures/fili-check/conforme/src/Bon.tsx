@@ -1,6 +1,6 @@
 // FIXTURE POSITIVE — consommation conforme : zéro écart attendu.
 import * as React from "react";
-import { Button, Input, Select, Card } from "@fili/react";
+import { Button, Input, Select, Card, Nav } from "@fili/react";
 
 export function Bon({ value, onChange }: { value: string | null; onChange: (v: string) => void }) {
   return (
@@ -15,6 +15,11 @@ export function Bon({ value, onChange }: { value: string | null; onChange: (v: s
         <Button variant="stroke" tone="neutral">Annuler</Button>
         {/* FILI-MANQUE: date-picker */}
         <p>Champ de date temporaire déclaré (fiche présente).</p>
+        {/* élément natif rendu PAR le kit via asChild (Radix Slot) : c'est le rendu du
+            composant, pas un contrôle recréé — exemption verrouillée le 2026-07-30 */}
+        <Nav.Link asChild current>
+          <button type="button" onClick={() => onChange("x")}>Sélection</button>
+        </Nav.Link>
       </Card.Body>
     </Card.Root>
   );
