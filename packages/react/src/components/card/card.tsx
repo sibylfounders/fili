@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 import { INTERACTION_MODE_CURSOR, type InteractionMode } from "../../lib/interaction";
 import { LinkRoot } from "../link/link";
-import { useCollectionContext } from "../card-group/collection-context";
+import { useCollectionContext, useCollectionItem } from "../card-group/collection-context";
 import "../../lib/focus.css";
 import "./card.css";
 
@@ -45,6 +45,20 @@ import "./card.css";
 // consommateur ; l'alias reste exporté pour l'API existante.
 type CardInteractionMode = InteractionMode;
 type CardDensity = "comfortable" | "compact";
+
+/**
+ * Circulation clavier d'un choix EXCLUSIF de cartes (APG Radio Group). Les quatre flèches
+ * sont actives parce qu'une collection est une grille : « suivant » est à droite quand il y
+ * a plusieurs colonnes, en dessous quand il n'y en a qu'une — et l'utilisateur ne sait pas
+ * laquelle il regarde. Aucune ne dépend de la direction du texte ici : l'ordre suivi est
+ * celui du DOM, qui est celui de la lecture.
+ */
+const FLECHES: Record<string, number> = {
+  ArrowRight: 1,
+  ArrowDown: 1,
+  ArrowLeft: -1,
+  ArrowUp: -1,
+};
 
 const CardContext = React.createContext<{ mode: CardInteractionMode; density: CardDensity }>({
   mode: "static",
@@ -88,6 +102,13 @@ export interface CardRootProps
    */
   onSelectedChange?: (selected: boolean) => void;
   /**
+   * Valeur de la carte dans un `CardGroup` qui déclare un régime de sélection
+   * (`selection="single" | "multiple"`, CARD-R26). Obligatoire dans ce cas — sans elle, la
+   * collection ne peut pas dire laquelle est retenue et le groupe échoue explicitement.
+   * Inutile ailleurs : hors régime, la carte reste autonome (`selected`/`onSelectedChange`).
+   */
+  value?: string;
+  /**
    * Autorise le passage en disposition horizontale (media à côté du contenu) quand le
    * conteneur a assez de largeur — état `regular` de l'Architecture adaptative. Désactiver
    * pour une carte qui doit rester empilée quelle que soit la largeur reçue. Défaut : true.
@@ -105,6 +126,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
       density,
       selected,
       onSelectedChange,
+      value,
       adaptiveMedia = true,
       loading = false,
       onClick,
@@ -118,16 +140,36 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
     // les surclasse — c'est ainsi qu'une carte sans cible reste `static` dans une
     // collection interactive. Hors collection : défauts propres de Card.
     const collection = useCollectionContext();
+    const rang = useCollectionItem();
     if (loading) return <CardSkeleton className={className} />;
     const resolvedMode: CardInteractionMode = mode ?? collection?.mode ?? "static";
     const resolvedDensity: CardDensity = density ?? collection?.density ?? "comfortable";
-    // Le mode selectable rend la carte manipulable : c'est donc ELLE qui porte le rôle, la
-    // tabulation, l'état ET la bascule (clic hors actions/cibles internes, Espace/Entrée).
-    // Les attributs restent surchargeables (`{...props}` passe après) pour le cas d'un vrai
-    // input checkbox/radio en aval.
+
+    // ── Régime de sélection : la collection décide COMMENT on choisit (CARD-R26) ──────
+    // La carte garde ce qui lui appartient — le rendu de son état, sa bascule, son clavier —
+    // mais ne prétend plus être seule au monde : sous un régime, c'est le groupe qui dit ce
+    // qui est retenu, parce que « une seule à la fois » ne peut pas se décider carte par carte.
+    const regime = resolvedMode === "selectable" ? (collection?.selection ?? null) : null;
+    const retenue = regime && value !== undefined ? collection!.estRetenue(value) : !!selected;
+    const bascule = () => {
+      if (regime && value !== undefined) collection!.basculer(value);
+      else onSelectedChange?.(!retenue);
+    };
+    // Un seul arrêt de tabulation dans un choix exclusif : la tabulation entre sur l'option
+    // retenue, ou à défaut sur la première (APG Radio Group). En cumulable, chaque carte est
+    // un arrêt — c'est le clavier d'une case à cocher, et il est déjà juste.
+    const tabIndex =
+      regime === "single" ? (retenue || (!collection!.aRetenue && rang?.index === 0) ? 0 : -1) : 0;
+    // `role="button"` + `aria-pressed` reste la forme AUTONOME (une carte qui s'enfonce).
+    // Sous régime, la carte prend le rôle que CARD-R25 nomme explicitement : case ou bouton
+    // radio. Les attributs restent surchargeables (`{...props}` passe après).
     const sel =
       resolvedMode === "selectable"
-        ? { role: "button" as const, tabIndex: 0, "aria-pressed": !!selected }
+        ? regime === "single"
+          ? { role: "radio" as const, tabIndex, "aria-checked": retenue }
+          : regime === "multiple"
+            ? { role: "checkbox" as const, tabIndex, "aria-checked": retenue }
+            : { role: "button" as const, tabIndex: 0, "aria-pressed": retenue }
         : null;
     const handleClick =
       resolvedMode === "selectable"
@@ -138,7 +180,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
             // les manipuler ne bascule pas la sélection.
             const t = e.target as HTMLElement;
             if (t !== e.currentTarget && t.closest("a,button,input,select,textarea,.ds-card-actions")) return;
-            onSelectedChange?.(!selected);
+            bascule();
           }
         : onClick;
     const handleKeyDown =
@@ -146,9 +188,19 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
         ? (e: React.KeyboardEvent<HTMLDivElement>) => {
             onKeyDown?.(e);
             if (e.defaultPrevented) return;
-            if ((e.key === " " || e.key === "Enter") && e.target === e.currentTarget) {
+            if (e.target !== e.currentTarget) return;
+            // Choix exclusif : les flèches circulent ET retiennent (APG). Le déplacement est
+            // demandé à la collection, seule à connaître l'ordre des items.
+            if (regime === "single" && rang && FLECHES[e.key] !== undefined) {
               e.preventDefault();
-              onSelectedChange?.(!selected);
+              collection!.deplacer(rang.index, FLECHES[e.key]);
+              return;
+            }
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              // Un radio déjà retenu ne se dé-coche pas : rechoisir la même option ne fait rien.
+              if (regime === "single" && retenue) return;
+              bascule();
             }
           }
         : onKeyDown;
@@ -161,7 +213,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
           onKeyDown={handleKeyDown}
           data-mode={resolvedMode}
           data-density={resolvedDensity}
-          data-selected={selected || undefined}
+          data-selected={retenue || undefined}
           data-regular-capable={adaptiveMedia || undefined}
           className={cn(
             "ds-card", // conteneur de requête ; la surface adaptative est son enfant
@@ -175,11 +227,11 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardRootProps>(
           <div
             className={cn(
               "ds-card-surface relative z-[1] flex w-full flex-col overflow-hidden rounded-card border border-border bg-background shadow-none",
-              selected && "border-primary",
+              retenue && "border-primary",
             )}
           >
             {children}
-            {resolvedMode === "selectable" && selected ? <CardCheck /> : null}
+            {resolvedMode === "selectable" && retenue ? <CardCheck /> : null}
           </div>
         </div>
       </CardContext.Provider>
@@ -264,9 +316,24 @@ function CardDescription({ className, ...props }: React.HTMLAttributes<HTMLParag
 }
 CardDescription.displayName = "Card.Description";
 
-/** Actions internes : SIBLINGS du lien étendu, jamais des descendants (cf. Card.TitleLink) — chaque cible reste distincte au clavier. */
+/**
+ * Zone d'actions — le PIED de la colonne de contenu. CARD-R07 énumère les slots de la carte
+ * (« media / header / corps / zone d'actions ») : les actions font partie du CONTENU, elles
+ * ne sont pas un troisième bloc de la surface. Elles vivent donc dans `Card.Body`, dont elles
+ * héritent le retrait et la gouttière ; `margin-top: auto` (card.css) les colle au bas dès
+ * que la carte a de la hauteur libre — ce qui aligne les boutons entre cartes voisines d'une
+ * collection, et reste sans effet sur une carte isolée qui fait sa propre hauteur.
+ *
+ * Correctif du 2026-07-30 (soir) : posées en frère de `Card.Body`, elles entraient dans le
+ * flux de l'état RANGÉE et devenaient une troisième colonne — le média poussait le texte, les
+ * boutons s'alignaient sur le titre. L'appelant devait en plus leur rendre un retrait à la
+ * main (`px-md pb-md`), signe que l'anatomie était mal posée.
+ *
+ * Elles restent des SIBLINGS du lien étendu, jamais ses descendants (CARD-R23, source T1) :
+ * chaque action garde sa cible propre au clavier.
+ */
 function CardActions({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("ds-card-actions relative z-[1] mt-sm flex items-center gap-sm", className)} {...props} />;
+  return <div className={cn("ds-card-actions relative z-[1] flex items-center gap-sm", className)} {...props} />;
 }
 CardActions.displayName = "Card.Actions";
 

@@ -1032,9 +1032,11 @@ export const GROUPS: Group[] = [
           { k: "cols", type: "seg", label: "Colonnes", opts: ["1", "2", "3"] },
           { k: "separated", type: "bool", label: "Séparées" },
           { sec: "Interaction", k: "mode", type: "seg", label: "Mode", opts: axisOpts("CardGroup", "mode") },
+          // Le régime appartient au GROUPE (CARD-R26) : « aucun » = chaque carte reste autonome.
+          { sec: "Interaction", k: "selection", type: "seg", label: "Régime", opts: ["aucun", ...axisOpts("CardGroup", "selection")], disabled: (s) => s.mode !== "selectable" },
           { sec: "Interaction", k: "skeleton", type: "bool", label: "Skeleton" },
         ],
-        initial: { density: axisDefault("CardGroup", "density"), cols: "2", separated: true, mode: "selectable", skeleton: false },
+        initial: { density: axisDefault("CardGroup", "density"), cols: "2", separated: true, mode: "selectable", selection: "single", skeleton: false },
         render: (s) => <CardGroupDemo s={s as any} />,
         code: (s) => codeCardGroup(s as any),
       },

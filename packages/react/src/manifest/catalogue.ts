@@ -34,6 +34,7 @@ type ThemeToggleSize = NonNullable<import("../components/theme-toggle/theme-togg
 type ShellVariant = import("../components/app-layout/app-layout").ShellVariant;
 type CardGroupMode = import("../components/card-group/card-group").CardGroupMode;
 type CardGroupDensity = import("../components/card-group/card-group").CardGroupDensity;
+type CardGroupSelection = import("../components/card-group/card-group").CardGroupSelection;
 type CardGroupC = typeof import("../components/card-group/card-group").CardGroup;
 type ChoiceSize = import("../lib/choice").ChoiceSize;
 type ChoiceStatus = import("../lib/choice").ChoiceStatus;
@@ -266,6 +267,16 @@ export const catalogue: Entree[] = [
         values: { comfortable: "défaut", compact: "resserrée" },
         default: "comfortable",
       }),
+      selection: axe<CardGroupSelection>({
+        kind: "enum",
+        description:
+          "Régime de sélection d'un groupe selectable (CARD-R26) — porté par le GROUPE, jamais carte par carte : « une seule à la fois » est indécidable localement. Absent = chaque carte reste autonome.",
+        values: {
+          single: "choix exclusif — radiogroup, un seul arrêt de tabulation, les flèches circulent et retiennent",
+          multiple: "choix cumulable — group, chaque carte est une case et un arrêt de tabulation",
+        },
+        default: null,
+      }),
     },
     props: propsDe<CardGroupP>()({
       cols: { type: '1 | 2 | 3 | 4 | "auto"', default: '"auto"', description: "auto = grille intrinsèque — JAMAIS un nombre par appareil." },
@@ -273,10 +284,14 @@ export const catalogue: Entree[] = [
       outlined: { type: "boolean", default: "true", description: "Bordure de la collection." },
       solo: { type: "boolean", default: "false", description: "Carte unique (désactive la proximité)." },
       loading: { type: "boolean", default: "false", description: "Collection en chargement — porte aria-busy ; les squelettes sont aria-hidden." },
-      label: { type: "string", description: "Étiquette du groupe (accessibilité des collections interactives)." },
+      label: { type: "string", description: "Étiquette du groupe — la QUESTION quand un régime de sélection est déclaré (exigée alors)." },
+      value: { type: "string | null | string[]", description: "Sous régime : la valeur retenue (single) ou les valeurs retenues (multiple). Le type réel est contraint par `selection` (union discriminée)." },
+      onValueChange: { type: "(v: string | null) => void | (v: string[]) => void", description: "Sous régime : le groupe applique le régime et rend la nouvelle sélection." },
     }),
     accessibility: [
       "role=list / role=listitem posés par la collection (la cellule lui appartient)",
+      "sous régime, le groupe devient une QUESTION : role=radiogroup (single) ou role=group (multiple), les cellules cessent d'être des listitem, et chaque Card prend le rôle nommé par CARD-R25 (radio / checkbox + aria-checked)",
+      "single : un seul arrêt de tabulation (l'option retenue, à défaut la première), flèches circulantes, la sélection suit le focus (APG Radio Group)",
       "aria-busy au chargement vit sur la collection, les squelettes des cartes sont aria-hidden",
       "mode selectable : état et bascule portés par chaque Card (aria-pressed, Espace/Entrée)",
       "une Card `mode=\"static\"` explicite est une carte SANS CIBLE : aucune affordance, le highlight l'ignore",
@@ -285,6 +300,7 @@ export const catalogue: Entree[] = [
     antiPatterns: [
       "Grille de cartes à la main (tablet:grid-cols-*)",
       "des modes différents carte par carte (le mode appartient à la collection ; une carte sans cible surclasse en static)",
+      "un groupe qui mélange sélection simple et multiple (CARD-R26) — l'union discriminée de `selection` le rend intypable",
       "la collection qui rend l'intérieur de ses items — l'ex-API CardGroup.Card, une seconde anatomie de carte, a été SUPPRIMÉE le 2026-07-30 : les enfants sont de vraies Card",
     ],
     canonicalExamples: [
@@ -305,6 +321,23 @@ export const catalogue: Entree[] = [
         <Card.Title><Card.TitleLink href="/guides/theming">Theming</Card.TitleLink></Card.Title>
       </Card.Header>
       <Card.Description>Rayons, relief, sombre.</Card.Description>
+    </Card.Body>
+  </Card.Root>
+</CardGroup>`,
+      },
+      {
+        title: "Choix exclusif — le régime appartient au groupe (CARD-R26)",
+        code: `<CardGroup mode="selectable" selection="single" separated label="Formule" value="annuel" onValueChange={() => {}}>
+  <Card.Root value="mensuel">
+    <Card.Body>
+      <Card.Header><Card.Title>Mensuel</Card.Title></Card.Header>
+      <Card.Description>Sans engagement.</Card.Description>
+    </Card.Body>
+  </Card.Root>
+  <Card.Root value="annuel">
+    <Card.Body>
+      <Card.Header><Card.Title>Annuel</Card.Title></Card.Header>
+      <Card.Description>Deux mois offerts.</Card.Description>
     </Card.Body>
   </Card.Root>
 </CardGroup>`,

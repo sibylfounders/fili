@@ -1,5 +1,6 @@
 # Manque : la famille du CHOIX (Checkbox, Radio, et leur groupe)
-- Statut : validé
+- Statut : résolu
+- Promotion : Checkbox  <!-- tranche verticale livrée le 2026-07-30 : CHOICE-UX/UI 1.0.0, Checkbox + Checkbox.Group, Radio + Radio.Group, manifeste, atelier, tests — et l'axe `selection` de CardGroup, qui rend CARD-R26 tenable -->
 - Arbitrage : 2026-07-30 (Aurélien) — validée telle quelle : deux composants (Checkbox, Radio) + leur groupe, UNE paire de doctrine CHOICE-UX/UI, libellé embarqué façon Switch, plus l'axe de sélection sur CardGroup pour honorer CARD-R26. Ordre retenu : contrôles nus → essai carded → arbitrage de Card.Control.
 - Besoin rencontré : sélectionner une ou plusieurs options **validées à la soumission** — case à cocher (choix indépendants, consentement) et bouton radio (choix exclusif parmi peu d'options). Le kit n'a que `Switch`, dont la doctrine dit explicitement qu'il est *autre chose*.
 
@@ -67,3 +68,22 @@ Faible côté kit. Réel côté **usage** : sans ces composants, la première pa
 ## Recommandation
 
 **Deux nouveaux composants + une variation de `CardGroup`**, une seule paire de doctrine, dans l'ordre : contrôles nus → essai carded → arbitrage `Card.Control` et axe de sélection. En attente d'arbitrage : aucune implémentation locale n'existe, rien n'a été anticipé dans le code.
+
+---
+
+## Livraison (2026-07-30)
+
+Les trois pièces annoncées sont en place : `Checkbox` et son groupe, `Radio` et son groupe, et
+l'axe **`selection="single" | "multiple"`** de `CardGroup` — écrit en union discriminée, de sorte
+qu'un groupe mixte n'est plus seulement interdit par `CARD-R26` : il est **intypable**. Le régime
+appartient au groupe et non à la carte, parce que « une seule à la fois » ne se décide pas carte
+par carte ; la carte garde le rendu de son état, sa bascule et son clavier.
+
+**Point ouvert tranché** : la taille de la marque vient de l'échelle `icon` (dont la raison d'être
+déclarée est d'apparier des crans au corps de texte), sans rôle nouveau.
+
+**Ce qui reste explicitement hors de cette fiche** : `Card.Control`, c'est-à-dire la branche
+« input réel » de `CARD-R25`. Sous régime, la carte prend aujourd'hui le rôle ARIA que la règle
+nomme (`radio` / `checkbox` + `aria-checked`) — la troisième branche qu'elle autorise. L'essai
+*carded* dira, par l'usage, si un vrai `input` imbriqué est nécessaire ou si la composition
+suffit ; il est prévu APRÈS, comme convenu : un formulaire à huit cases n'en carde aucune.

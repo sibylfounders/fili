@@ -31,6 +31,8 @@ export interface CardGroupState {
   cols: "1" | "2" | "3" | string;
   separated: boolean;
   mode: "static" | "clickable" | "selectable" | string;
+  /** Régime de sélection du GROUPE (CARD-R26). « aucun » = chaque carte reste autonome. */
+  selection: "aucun" | "single" | "multiple" | string;
   skeleton: boolean;
 }
 
@@ -48,6 +50,9 @@ const DEMOS = [
   { t: "Adaptive par conteneur", d: "La carte choisit sa disposition selon SA largeur reçue.", ic: "adaptive" },
   { t: "Thème vivant", d: "Clair/sombre et crans de rayon pilotés par les tokens.", ic: "couleur" },
 ];
+
+/** Valeurs des cartes de démonstration sous régime de sélection. */
+const VALEURS = ["motion", "relief", "adaptive", "theme"];
 
 const MORE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></svg>';
 
@@ -110,15 +115,17 @@ function contenuDemo(
         {opts.description && (!expandable || opts.expanded) ? (
           <Card.Description>{demo.d}</Card.Description>
         ) : null}
+        {/* Le PIED de la colonne de contenu : dans Card.Body, retrait et gouttière hérités
+            (plus de px-md pb-md à la main), collé en bas quand la carte a de la hauteur libre. */}
+        {opts.buttons && opts.mode !== "clickable" ? (
+          <Card.Actions>
+            <Button.Root variant="stroke" tone="neutral" size="sm">Commencer</Button.Root>
+            <CompactButton variant="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions">
+              <span dangerouslySetInnerHTML={H(MORE)} />
+            </CompactButton>
+          </Card.Actions>
+        ) : null}
       </Card.Body>
-      {opts.buttons && opts.mode !== "clickable" ? (
-        <Card.Actions className="px-md pb-md">
-          <Button.Root variant="stroke" tone="neutral" size="sm">Commencer</Button.Root>
-          <CompactButton variant="ghost" tone="neutral" size="md" fullRadius aria-label="Plus d'actions">
-            <span dangerouslySetInnerHTML={H(MORE)} />
-          </CompactButton>
-        </Card.Actions>
-      ) : null}
     </>
   );
 }
@@ -158,16 +165,45 @@ export function CardDemo({ s }: { s: CardState }) {
 /** Entrée « CardGroup » — le vrai pattern Collection : des `Card.Root` en enfants DIRECTS. */
 export function CardGroupDemo({ s }: { s: CardGroupState }) {
   const [choisies, setChoisies] = React.useState<Record<number, boolean>>({});
+  const [une, setUne] = React.useState<string | null>(VALEURS[1]);
+  const [plusieurs, setPlusieurs] = React.useState<string[]>([VALEURS[0]]);
   const selectable = s.mode === "selectable";
+  const regime = selectable && s.selection !== "aucun" ? s.selection : null;
+  const contenu = (demo: (typeof DEMOS)[number], i: number) =>
+    contenuDemo(demo, i, { media: "icône", description: true, buttons: false, mode: s.mode });
+  const commun = {
+    cols: Number(s.cols) as 1 | 2 | 3,
+    separated: s.separated,
+    density: s.density as "comfortable" | "compact",
+    mode: s.mode as "static" | "clickable" | "selectable",
+    loading: s.skeleton,
+  };
+
+  // Trois appels distincts plutôt qu'un seul aux props conditionnelles : l'union discriminée
+  // de `selection` est exactement ce qui rend un groupe mixte intypable (CARD-R26), et
+  // l'atelier n'a aucune raison de la contourner par un cast.
+  if (regime === "single")
+    return (
+      <CardGroup {...commun} selection="single" value={une} onValueChange={setUne} label="Formule">
+        {DEMOS.map((demo, i) => (
+          <Card.Root key={i} value={VALEURS[i]} loading={s.skeleton}>
+            {contenu(demo, i)}
+          </Card.Root>
+        ))}
+      </CardGroup>
+    );
+  if (regime === "multiple")
+    return (
+      <CardGroup {...commun} selection="multiple" value={plusieurs} onValueChange={setPlusieurs} label="Sujets suivis">
+        {DEMOS.map((demo, i) => (
+          <Card.Root key={i} value={VALEURS[i]} loading={s.skeleton}>
+            {contenu(demo, i)}
+          </Card.Root>
+        ))}
+      </CardGroup>
+    );
   return (
-    <CardGroup
-      cols={Number(s.cols) as 1 | 2 | 3}
-      separated={s.separated}
-      density={s.density as "comfortable" | "compact"}
-      mode={s.mode as "static" | "clickable" | "selectable"}
-      loading={s.skeleton}
-      label="Cartes de démonstration"
-    >
+    <CardGroup {...commun} label="Cartes de démonstration">
       {DEMOS.map((demo, i) => (
         <Card.Root
           key={i}
@@ -175,7 +211,7 @@ export function CardGroupDemo({ s }: { s: CardGroupState }) {
           selected={selectable ? !!choisies[i] : undefined}
           onSelectedChange={selectable ? (v) => setChoisies((p) => ({ ...p, [i]: v })) : undefined}
         >
-          {contenuDemo(demo, i, { media: "icône", description: true, buttons: false, mode: s.mode })}
+          {contenu(demo, i)}
         </Card.Root>
       ))}
     </CardGroup>
@@ -217,10 +253,11 @@ function codeUneCard(s: CardState, indent = ""): string {
     ...(s.mode === "expandable" ? [`      <Card.Chevron expanded={ouverte} />`] : []),
     `    </Card.Header>`,
     ...(s.description ? [`    <Card.Description>Entrées posées, sorties au cran inférieur.</Card.Description>`] : []),
-    `  </Card.Body>`,
+    // La zone d'actions est le PIED de la colonne de contenu : elle vit DANS Card.Body.
     ...(s.buttons && s.mode !== "clickable"
-      ? [`  <Card.Actions>`, `    <Button.Root variant="stroke" tone="neutral" size="sm">Commencer</Button.Root>`, `  </Card.Actions>`]
+      ? [`    <Card.Actions>`, `      <Button.Root variant="stroke" tone="neutral" size="sm">Commencer</Button.Root>`, `    </Card.Actions>`]
       : []),
+    `  </Card.Body>`,
     `</Card.Root>`,
   ];
   return lignes.map((l) => indent + l).join("\n");
@@ -231,8 +268,11 @@ export function codeCard(s: CardState): string {
 }
 
 export function codeCardGroup(s: CardGroupState): string {
+  const regime = s.mode === "selectable" && s.selection !== "aucun" ? s.selection : null;
   const attrs = [
     s.mode !== "static" ? ` mode="${s.mode}"` : "",
+    regime === "single" ? ` selection="single" value={formule} onValueChange={setFormule}` : "",
+    regime === "multiple" ? ` selection="multiple" value={suivis} onValueChange={setSuivis}` : "",
     ` cols={${s.cols}}`,
     s.separated ? " separated" : "",
     s.density !== "comfortable" ? ` density="${s.density}"` : "",
@@ -243,6 +283,9 @@ export function codeCardGroup(s: CardGroupState): string {
     "  ",
   )
     // dans une collection, le mode vient du GROUPE (contexte) — la carte ne le répète pas
-    .replace(' mode="static"', "");
-  return `<CardGroup${attrs} label="Cartes de démonstration">\n${carte}\n  {/* … autres Card.Root (enfants DIRECTS — le pattern refuse tout autre enfant) … */}\n</CardGroup>`;
+    .replace(' mode="static"', "")
+    // Sous régime, la carte porte sa VALEUR : c'est elle que le groupe retient (CARD-R26).
+    .replace("<Card.Root", regime ? `<Card.Root value="motion"` : "<Card.Root");
+  const etiquette = regime === "single" ? "Formule" : regime === "multiple" ? "Sujets suivis" : "Cartes de démonstration";
+  return `<CardGroup${attrs} label="${etiquette}">\n${carte}\n  {/* … autres Card.Root (enfants DIRECTS — le pattern refuse tout autre enfant) … */}\n</CardGroup>`;
 }

@@ -1,7 +1,11 @@
 "use client";
 import * as React from "react";
 import { cn } from "../../lib/cn";
-import { CollectionContext } from "./collection-context";
+import {
+  CollectionContext,
+  CollectionItemContext,
+  type CardGroupSelection,
+} from "./collection-context";
 // Identité RÉELLE de la seule anatomie de carte admise comme enfant. Pas de cycle :
 // card.tsx n'importe de ce dossier que collection-context.ts (une feuille).
 import { CardRoot, type CardRootProps } from "../card/card";
@@ -15,7 +19,9 @@ import "./card-group.css";
  *  · à la COLLECTION : le balisage de liste ET la cellule de grille (`role="list"` /
  *    `role="listitem"`, `.cg-cell`), le nombre de colonnes, les gouttières, le régime
  *    (joint / séparé), les filets internes, les coins hérités, le highlight de proximité,
- *    l'annonce de chargement (`aria-busy`), et le contexte collectif de mode et de densité ;
+ *    l'annonce de chargement (`aria-busy`), le contexte collectif de mode et de densité, et
+ *    — depuis le 2026-07-30 — le RÉGIME DE SÉLECTION (`selection`, CARD-R26) avec la valeur
+ *    retenue : « une seule à la fois » est une propriété collective, indécidable carte par carte ;
  *  · à la CARTE : tout ce qui se trouve visuellement à l'intérieur de la cellule — contenu,
  *    anatomie (`Card.Media/Icon/Header/Body/Title/TitleLink/TitleCommand/Description/Actions`),
  *    rendu, états (sélection, squelette), interactions (bascule selectable, clavier).
@@ -54,8 +60,9 @@ import "./card-group.css";
 
 export type CardGroupMode = "static" | "clickable" | "selectable";
 export type CardGroupDensity = "comfortable" | "compact";
+export type { CardGroupSelection };
 
-export interface CardGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+interface CardGroupBaseProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   /**
    * Colonnes du groupe. `"auto"` (défaut) = colonnes INTRINSÈQUES : elles émergent de la largeur
    * reçue et de `grid.item-min`, jamais d'un nombre par appareil (COLLECTION-UI). Un nombre fixe
@@ -91,6 +98,36 @@ export interface CardGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement
   children?: CardGroupChild;
 }
 
+/**
+ * RÉGIME DE SÉLECTION (CARD-R26) — porté par le GROUPE, jamais par la carte : « toutes
+ * partagent le même mode, simple ou multiple ». Écrit en union discriminée, la règle
+ * devient une contrainte de compilation : `single` n'accepte qu'une valeur, `multiple`
+ * qu'un tableau, et sans `selection` déclaré aucune des deux n'est acceptée — un groupe
+ * mixte ne se tape pas.
+ *
+ * Sans `selection`, rien ne change : chaque carte reste autonome (`selected` /
+ * `onSelectedChange`), comme avant cette tranche.
+ */
+type CardGroupSansSelection = {
+  selection?: undefined;
+  value?: never;
+  onValueChange?: never;
+};
+type CardGroupSelectionSimple = {
+  selection: "single";
+  /** La valeur retenue — `null` quand rien n'est choisi (une pré-sélection est une décision). */
+  value?: string | null;
+  onValueChange?: (valeur: string | null) => void;
+};
+type CardGroupSelectionMultiple = {
+  selection: "multiple";
+  value?: string[];
+  onValueChange?: (valeurs: string[]) => void;
+};
+
+export type CardGroupProps = CardGroupBaseProps &
+  (CardGroupSansSelection | CardGroupSelectionSimple | CardGroupSelectionMultiple);
+
 /** Un enfant admissible : un élément `Card.Root` (identité réelle), ou une liste/condition de tels éléments. */
 export type CardGroupChild =
   | React.ReactElement<CardRootProps, typeof CardRoot>
@@ -109,6 +146,9 @@ export function CardGroupRoot({
   proximity,
   label,
   loading = false,
+  selection,
+  value,
+  onValueChange,
   className,
   children,
   ...props
@@ -145,6 +185,73 @@ export function CardGroupRoot({
     );
   }
   const cles = items.map((c) => c.key).join("|");
+
+  // ── Régime de sélection : trois conditions, trois erreurs explicites ─────────
+  // Même politique que la frontière ci-dessus — on échoue plutôt que d'accepter à moitié.
+  // Un régime silencieusement ignoré produirait exactement la règle écrite et non tenue
+  // que cette tranche vient supprimer (CARD-R26).
+  const valeurs = items.map((c) => c.props.value);
+  if (selection) {
+    if (mode !== "selectable")
+      throw new Error(
+        `CardGroup : selection="${selection}" n'a de sens qu'avec mode="selectable" — reçu mode="${mode}". ` +
+          "Le régime dit COMMENT on choisit ; c'est le mode qui rend les cartes choisissables.",
+      );
+    if (!label)
+      throw new Error(
+        "CardGroup : un groupe de cartes à choisir doit porter la QUESTION comme nom accessible (`label`). " +
+          "La proximité visuelle d'un titre au-dessus ne rattache rien (CHOICE-R06, transposé à la collection).",
+      );
+    const sansValeur = valeurs.findIndex((v) => v === undefined);
+    if (sansValeur !== -1)
+      throw new Error(
+        `CardGroup : la carte n° ${sansValeur + 1} n'a pas de \`value\`, alors que le groupe déclare ` +
+          `selection="${selection}". Sans valeur, la collection ne peut ni dire laquelle est retenue ni ` +
+          "faire respecter le régime — c'est la carte, et non le groupe, qui redeviendrait autonome.",
+      );
+  }
+
+  const retenues: string[] = selection
+    ? selection === "single"
+      ? value == null
+        ? []
+        : [value as string]
+      : ((value as string[] | undefined) ?? [])
+    : [];
+
+  const contexte = React.useMemo(
+    () => ({
+      mode,
+      density,
+      selection: selection ?? null,
+      estRetenue: (v: string) => retenues.includes(v),
+      aRetenue: retenues.length > 0,
+      basculer: (v: string) => {
+        if (!onValueChange) return;
+        if (selection === "single") {
+          // Un choix exclusif se DÉFAIT en en prenant un autre, pas en se dé-cochant :
+          // même comportement qu'un groupe de radios (APG), qui ne se vide pas au clic.
+          (onValueChange as (valeur: string | null) => void)(v);
+          return;
+        }
+        const sansLui = retenues.filter((x) => x !== v);
+        (onValueChange as (valeurs: string[]) => void)(
+          retenues.includes(v) ? sansLui : [...sansLui, v],
+        );
+      },
+      deplacer: (depuis: number, delta: number) => {
+        const n = valeurs.length;
+        if (!n || selection !== "single") return;
+        const vers = (depuis + delta + n) % n;
+        const cible = valeurs[vers];
+        if (cible === undefined) return;
+        // La sélection SUIT le focus (APG Radio Group) : on déplace ET on retient.
+        (onValueChange as ((valeur: string | null) => void) | undefined)?.(cible);
+        ref.current?.querySelectorAll<HTMLElement>(".cg-cell > .ds-card")[vers]?.focus();
+      },
+    }),
+    [mode, density, selection, retenues.join("|"), valeurs.join("|"), onValueChange],
+  );
 
   // Filets et coins : dépendent du nombre de colonnes RÉEL (container queries) → mesure au runtime.
   React.useLayoutEffect(() => {
@@ -238,10 +345,13 @@ export function CardGroupRoot({
   }, [cles, prox, effCols, separated]);
 
   return (
-    <CollectionContext.Provider value={{ mode, density }}>
+    <CollectionContext.Provider value={contexte}>
       <div
         ref={ref}
-        role="list"
+        // Un groupe à choisir n'est plus une liste : c'est une QUESTION. `radiogroup` pour
+        // le choix exclusif, `group` pour le cumulable — et les cellules cessent d'être des
+        // `listitem`, qui n'ont rien à faire entre un radiogroup et ses radios.
+        role={selection === "single" ? "radiogroup" : selection === "multiple" ? "group" : "list"}
         aria-label={label}
         aria-busy={loading || undefined}
         style={effCols ? ({ ["--grp-cols" as string]: effCols } as React.CSSProperties) : undefined}
@@ -268,12 +378,16 @@ export function CardGroupRoot({
           return (
             <div
               key={item.key ?? i}
-              role="listitem"
+              role={selection ? undefined : "listitem"}
               className={cn("cg-cell", inactive && "cg-cell--inactive")}
             >
               <span className="cg-hb" aria-hidden="true" />
               <span className="cg-hr" aria-hidden="true" />
-              {item}
+              {/* Le rang vient de la CELLULE — elle appartient déjà à la collection ; la carte
+                  n'a pas à savoir compter ses sœurs, seulement où elle se trouve. */}
+              <CollectionItemContext.Provider value={{ index: i, total: items.length }}>
+                {item}
+              </CollectionItemContext.Provider>
             </div>
           );
         })}

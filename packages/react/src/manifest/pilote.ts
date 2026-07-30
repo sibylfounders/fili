@@ -307,6 +307,7 @@ export const card: Entree = {
   props: propsDe<CardP>()({
     selected: { type: "boolean", description: "État sélectionné (mode selectable)." },
     onSelectedChange: { type: "(selected: boolean) => void", description: "Mode selectable : bascule portée par la CARTE (clic hors cibles internes, Espace/Entrée) — la collection ne refait pas cette mécanique." },
+    value: { type: "string", description: "Valeur de la carte dans un CardGroup à régime de sélection (CARD-R26) — exigée dans ce cas, inutile ailleurs." },
     adaptiveMedia: { type: "boolean", default: "true", description: "Media passe à côté du contenu dès ~24rem de largeur RÉELLE." },
     loading: { type: "boolean", default: "false", description: "Rend Card.Skeleton aux mêmes proportions." },
   }),
@@ -319,6 +320,7 @@ export const card: Entree = {
   accessibility: [
     "lien étendu accessible : la cible reste le Card.TitleLink (un vrai <a>), pas un onClick de div",
     "titre = vrai heading (Card.Title as h2…h6)",
+    "mode selectable autonome : role=button + aria-pressed ; sous le régime d'un CardGroup : role=radio ou checkbox + aria-checked (la branche « input réel » de CARD-R25 reste ouverte, cf. essai carded)",
   ],
   adaptiveBehavior:
     "Container query sur sa propre largeur (état compact empilé = CSS de base ; regular côte-à-côte ≥ 24rem).",

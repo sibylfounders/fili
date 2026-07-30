@@ -281,10 +281,10 @@ describe("CardGroup / composition avec l'anatomie réelle de Card", () => {
               </Card.Title>
             </Card.Header>
             <Card.Description>Installer et brancher le kit.</Card.Description>
+            <Card.Actions>
+              <button type="button">Aperçu</button>
+            </Card.Actions>
           </Card.Body>
-          <Card.Actions>
-            <button type="button">Aperçu</button>
-          </Card.Actions>
         </Card.Root>
       </CardGroup>,
     );
@@ -293,8 +293,17 @@ describe("CardGroup / composition avec l'anatomie réelle de Card", () => {
     expect(lien).toHaveAttribute("href", "/guides/commencer");
     expect(lien.className).toContain("ds-card-title-link");
     expect(container.querySelector(".ds-card-media img")).not.toBeNull();
-    expect(container.querySelector(".ds-card-actions")).not.toBeNull();
+    // La zone d'actions est le PIED de la colonne de CONTENU : elle vit dans Card.Body, et
+    // n'est donc jamais un troisième bloc de la surface (sinon l'état rangée en fait une
+    // colonne — le défaut corrigé le 2026-07-30 au soir).
+    const actions = container.querySelector(".ds-card-actions");
+    expect(actions).not.toBeNull();
+    expect(actions!.parentElement!.className).toContain("ds-card-body");
+    expect(container.querySelector(".ds-card-surface > .ds-card-actions")).toBeNull();
+    // …et elle reste un SIBLING du lien étendu, jamais son descendant (CARD-R23).
+    expect(actions!.querySelector("a")).toBeNull();
   });
+
 
   it("Card.TitleCommand : la cible étendue-commande est un VRAI bouton (jamais un lien factice)", async () => {
     const user = userEvent.setup();
@@ -330,6 +339,9 @@ describe("Atelier / les démos consomment directement Card et la vraie frontièr
     expect(src).toContain("<Card.Root");
     expect(src).not.toContain("CardGroup.Card");
     expect(src).not.toContain("<DemoCard"); // plus aucun composant entre CardGroup et ses cartes
+    // La zone d'actions n'exige plus que l'appelant lui rende son retrait à la main :
+    // elle est le pied de la colonne de contenu et vit dans Card.Body (correctif 2026-07-30).
+    expect(src).not.toMatch(/<Card\.Actions className="px-md/);
   });
 
   it("les extraits affichés sont l'API publique copiable (Card.Root / CardGroup), jamais un helper <CardGroup s={{…}} />", () => {
@@ -361,5 +373,153 @@ describe("Atelier / les démos consomment directement Card et la vraie frontièr
     expect(container.querySelectorAll(".ds-card").length).toBe(1);
     expect(container.querySelector('[role="list"]')).toBeNull(); // pas de collection autour
     expect(container.querySelector(".ds-card-icon")).not.toBeNull();
+  });
+});
+
+/**
+ * RÉGIME DE SÉLECTION (CARD-R26) — ajouté le 2026-07-30. La règle « dans un groupe de cartes
+ * sélectionnables, toutes partagent le même mode (single ou multi) » était écrite et non
+ * tenue : `mode="selectable"` était implicitement cumulable, le choix exclusif impossible.
+ */
+describe("CardGroup / régime de sélection — la règle collective devient exécutable (CARD-R26)", () => {
+  const carte = (v: string, titre: string) => (
+    <Card.Root key={v} value={v}>
+      <Card.Body>
+        <Card.Header><Card.Title>{titre}</Card.Title></Card.Header>
+      </Card.Body>
+    </Card.Root>
+  );
+
+  function Exclusif({ initiale = "annuel" as string | null }) {
+    const [v, setV] = React.useState<string | null>(initiale);
+    return (
+      <CardGroup mode="selectable" selection="single" label="Formule" value={v} onValueChange={setV}>
+        {carte("mensuel", "Mensuel")}
+        {carte("annuel", "Annuel")}
+        {carte("trois-ans", "Trois ans")}
+      </CardGroup>
+    );
+  }
+
+  it("le groupe devient une QUESTION : radiogroup + radios, plus aucune liste", () => {
+    const { container } = render(<Exclusif />);
+    expect(screen.getByRole("radiogroup", { name: "Formule" })).toBeTruthy();
+    expect(screen.getAllByRole("radio")).toHaveLength(3);
+    expect(container.querySelector('[role="list"]')).toBeNull();
+    expect(container.querySelector('[role="listitem"]')).toBeNull();
+  });
+
+  it("une seule carte est cochée, et en choisir une autre libère la première", async () => {
+    const user = userEvent.setup();
+    render(<Exclusif />);
+    const [mensuel, annuel] = screen.getAllByRole("radio");
+    expect(annuel.getAttribute("aria-checked")).toBe("true");
+    await user.click(mensuel);
+    expect(mensuel.getAttribute("aria-checked")).toBe("true");
+    expect(annuel.getAttribute("aria-checked")).toBe("false");
+  });
+
+  it("un seul arrêt de tabulation : la tabulation entre sur l'option retenue (APG)", () => {
+    render(<Exclusif />);
+    const radios = screen.getAllByRole("radio");
+    expect(radios.map((r) => r.getAttribute("tabindex"))).toEqual(["-1", "0", "-1"]);
+  });
+
+  it("sans option retenue, la tabulation entre sur la PREMIÈRE", () => {
+    render(<Exclusif initiale={null} />);
+    expect(screen.getAllByRole("radio").map((r) => r.getAttribute("tabindex"))).toEqual(["0", "-1", "-1"]);
+  });
+
+  it("les flèches circulent ET retiennent — la sélection suit le focus", async () => {
+    const user = userEvent.setup();
+    render(<Exclusif />);
+    const radios = screen.getAllByRole("radio");
+    radios[1].focus();
+    await user.keyboard("{ArrowDown}");
+    expect(radios[2].getAttribute("aria-checked")).toBe("true");
+    expect(document.activeElement).toBe(radios[2]);
+    await user.keyboard("{ArrowDown}"); // circulaire
+    expect(radios[0].getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("rechoisir l'option déjà retenue ne la dé-coche pas (comme un radio)", async () => {
+    const user = userEvent.setup();
+    render(<Exclusif />);
+    const annuel = screen.getAllByRole("radio")[1];
+    await user.click(annuel);
+    expect(annuel.getAttribute("aria-checked")).toBe("true");
+  });
+
+  it("régime cumulable : group + cases, chacune un arrêt de tabulation", async () => {
+    const user = userEvent.setup();
+    function Cumulable() {
+      const [v, setV] = React.useState<string[]>(["annuel"]);
+      return (
+        <CardGroup mode="selectable" selection="multiple" label="Sujets suivis" value={v} onValueChange={setV}>
+          {carte("mensuel", "Mensuel")}
+          {carte("annuel", "Annuel")}
+        </CardGroup>
+      );
+    }
+    const { container } = render(<Cumulable />);
+    expect(container.querySelector('[role="group"]')?.getAttribute("aria-label")).toBe("Sujets suivis");
+    const cases = screen.getAllByRole("checkbox");
+    expect(cases.map((c) => c.getAttribute("tabindex"))).toEqual(["0", "0"]);
+    await user.click(cases[0]);
+    expect(cases.map((c) => c.getAttribute("aria-checked"))).toEqual(["true", "true"]);
+    await user.click(cases[1]);
+    expect(cases.map((c) => c.getAttribute("aria-checked"))).toEqual(["true", "false"]);
+  });
+
+  it("sans régime déclaré, rien ne change : liste, aria-pressed, cartes autonomes", () => {
+    const { container } = render(
+      <CardGroup mode="selectable" label="Choix">
+        <Card.Root selected onSelectedChange={() => {}}>
+          <Card.Body><Card.Header><Card.Title>A</Card.Title></Card.Header></Card.Body>
+        </Card.Root>
+      </CardGroup>,
+    );
+    expect(container.querySelector('[role="list"]')).toBeTruthy();
+    expect(screen.getByRole("button").getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("un régime sans mode selectable échoue explicitement", () => {
+    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      render(
+        // @ts-expect-error — le type refuse déjà la combinaison ; on vérifie la garde runtime.
+        <CardGroup mode="clickable" selection="single" label="Formule">
+          {carte("a", "A")}
+        </CardGroup>,
+      ),
+    ).toThrow(/selection="single" n'a de sens qu'avec mode="selectable"/);
+    silence.mockRestore();
+  });
+
+  it("une carte sans `value` sous régime échoue explicitement, en nommant son rang", () => {
+    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      render(
+        <CardGroup mode="selectable" selection="single" label="Formule">
+          {carte("a", "A")}
+          <Card.Root>
+            <Card.Body><Card.Header><Card.Title>B</Card.Title></Card.Header></Card.Body>
+          </Card.Root>
+        </CardGroup>,
+      ),
+    ).toThrow(/la carte n° 2 n'a pas de `value`/);
+    silence.mockRestore();
+  });
+
+  it("un groupe à choisir sans nom accessible échoue — la proximité ne rattache rien", () => {
+    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() =>
+      render(
+        <CardGroup mode="selectable" selection="single">
+          {carte("a", "A")}
+        </CardGroup>,
+      ),
+    ).toThrow(/doit porter la QUESTION comme nom accessible/);
+    silence.mockRestore();
   });
 });
