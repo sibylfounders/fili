@@ -97,7 +97,9 @@
 .ds-choice[data-status="error"] .ds-choice-mark { border-color: var(--danger); }
 .ds-choice[data-status="error"] { --control-focus-color: var(--control-focus-danger); }
 
-.ds-choice[data-disabled] .ds-choice-mark { opacity: .5; }
+/* Inerte : mêmes rôles que .ds-inert (BUTTON-U03) — l'opacité composite est bannie
+   partout, pas seulement sur le bouton. La marque cochée garde son signe lisible. */
+.ds-choice[data-disabled] .ds-choice-mark { background: var(--surface-disabled); border-color: var(--border); color: var(--on-surface-disabled); }
 .ds-choice[data-disabled] .ds-choice-libelle { color: var(--text-disabled); }
 
 /* Le libellé : corps de texte — il est lu, pas décoré (CHOICE-UI). */

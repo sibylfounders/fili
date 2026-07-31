@@ -5,6 +5,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../../lib/interaction.css";
 
 /**
  * Switch — bascule un état booléen à EFFET IMMÉDIAT (DS-MD RULES-switch). Distinct de la checkbox
@@ -24,7 +25,8 @@ const trackVariants = cva(
     "relative inline-flex shrink-0 items-center rounded-pill align-middle",
     "transition-colors duration-base ease-in-out motion-reduce:transition-none",
     "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
-    "disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
+    // La piste inerte prend le remplissage tokenisé (ds-inert), plus une opacité en dur.
+    "ds-inert cursor-pointer",
   ].join(" "),
   {
     variants: { size: { sm: "h-5 w-9", md: "h-6 w-11", lg: "h-7 w-14" } },

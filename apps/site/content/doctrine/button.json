@@ -3757,6 +3757,38 @@
    "cas": []
   },
   {
+   "id": "BUTTON-U02",
+   "couche": "ui",
+   "solution": "l'état d'activation est une identité TACTILE, partagée, et indépendante du registre de relief.",
+   "enonce": "L'état d'activation du bouton se signale par une course géométrique brève — un enfoncement et une réduction d'échelle — portée par une couche partagée, jamais par un token de couleur supplémentaire ni par un mécanisme propre au composant ; il reste perceptible quel que soit le registre de relief, actif ou débrayé.",
+   "mesure": "l'état pressé produit une transformation géométrique mesurable lorsque le registre de relief est débrayé, et aucun composant ne définit sa propre course d'activation en dehors de la couche partagée",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "BUTTON-U03",
+   "couche": "ui",
+   "solution": "l'état indisponible est UN état tokenisé, jamais une opacité composite.",
+   "enonce": "L'indisponibilité se rend par un couple de rôles nommés — un remplissage inerte et un texte inerte — dont le contraste est encadré par la chaîne de tokens ; aucune opacité globale n'est appliquée au contrôle, et aucun signal d'interactivité (relief, survol, pression) ne subsiste sur un contrôle indisponible.",
+   "mesure": "aucun composant du kit n'applique d'opacité à l'état indisponible ; le couple texte/fond de cet état est fait de deux tokens et son ratio est encadré entre 1,8:1 et 4,5:1 en clair comme en sombre",
+   "contre": "",
+   "probleme": "",
+   "statut": "implementation",
+   "statutLibelle": "implémentation de référence",
+   "interne": true,
+   "sources": [],
+   "principale": null,
+   "confiance": "",
+   "cas": []
+  },
+  {
    "id": "BUTTON-U01",
    "couche": "ui",
    "solution": "le Button ne consomme aucune élévation. Son affordance matérielle vient de son remplissage, de",

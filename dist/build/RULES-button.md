@@ -3,9 +3,9 @@ sujet: button
 nature: components
 resume: "Ce fichier contient le raisonnement : quand utiliser quoi, pourquoi, quel wording, quel risque."
 selon-contexte: [accessibility, adaptive, border, card, consentement, elevation, emotion, form, iconography, interaction, link, motion, toast, typography, voice]
-source: BUTTON-UX.md v1.10.0 + BUTTON-UI.md v1.8.0
-empreinte: sha256:df6b963bb223d8e8
-regles: {loi: 10, preference: 80, non_qualifie: 0}
+source: BUTTON-UX.md v1.10.0 + BUTTON-UI.md v1.9.0
+empreinte: sha256:1ed6eff293888a85
+regles: {loi: 10, preference: 82, non_qualifie: 0}
 ---
 # RULES — button (compilé, mode build)
 
@@ -111,4 +111,6 @@ regles: {loi: 10, preference: 80, non_qualifie: 0}
 
 ## Consignes d'implémentation
 
+- **[préférence]** L'état d'activation du bouton se signale par une course géométrique brève — un enfoncement et une réduction d'échelle — portée par une couche partagée, jamais par un token de couleur supplémentaire ni par un mécanisme propre au composant ; il reste perceptible quel que soit le registre de relief, actif ou débrayé. `BUTTON-U02`
+- **[préférence]** L'indisponibilité se rend par un couple de rôles nommés — un remplissage inerte et un texte inerte — dont le contraste est encadré par la chaîne de tokens ; aucune opacité globale n'est appliquée au contrôle, et aucun signal d'interactivité (relief, survol, pression) ne subsiste sur un contrôle indisponible. `BUTTON-U03`
 - **[préférence]** Le code du bouton n'implémente aucune ombre portée à l'état de repos ; son affordance vient du remplissage, de la bordure, des états et du focus. `BUTTON-U01`

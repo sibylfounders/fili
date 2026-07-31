@@ -6,6 +6,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../../lib/interaction.css";
 import { warnStyleAlias, type ButtonVariant } from "../button/button";
 import "../../lib/focus.css";
 import "../button/relief.css";
@@ -25,10 +26,11 @@ import "../button/relief.css";
 const compactButtonVariants = cva(
   [
     "inline-flex shrink-0 items-center justify-center select-none",
-    "transition-colors",
     "outline-none ds-focus-ring",
-    // cursor-not-allowed (comme Input/Button) : PAS de pointer-events-none, qui masquerait le curseur.
-    "disabled:cursor-not-allowed disabled:opacity-50",
+    // Mêmes couches partagées que Button : transition + pression (ds-pressable), état
+    // indisponible tokenisé (ds-inert). cursor-not-allowed vient de ds-inert ; PAS de
+    // pointer-events-none, qui masquerait le curseur.
+    "ds-pressable ds-inert",
   ].join(" "),
   {
     variants: {

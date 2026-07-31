@@ -90,6 +90,17 @@ export const semantic = {
   "text-disabled":  { light: "neutral.300", dark: "neutral.600" }, // extension DS-UI
   "text-inverse":   { light: "neutral.0",   dark: "neutral.900" }, // texte sur surface-inverse — extension DS-UI
 
+  // ── INERTE (indisponible) : UN état, pas douze. L'opacité composite qui tenait lieu de
+  // disabled faisait varier son intensité avec le style ET avec la surface posée dessous
+  // (2,29:1 en filled sur page, 2,34:1 sur carte, 3,38:1 en ghost) : rien de mesurable par
+  // une chaîne qui raisonne sur des PAIRES de tokens. Deux rôles nommés par l'INTENTION,
+  // calés sur des crans existants (surface-hover / text-muted) — alias, comme neutral l'est
+  // de surface-inverse : la rampe ne grandit pas, seule la nomenclature s'étend.
+  // Le couple est VOLONTAIREMENT sous 4.5:1 (2,05:1 clair / 2,13:1 sombre) — l'inertie EST
+  // le signal, et WCAG 1.4.3 exempte les contrôles indisponibles.
+  "surface-disabled":    { light: "neutral.200", dark: "neutral.700" }, // extension DS-UI
+  "on-surface-disabled": { light: "neutral.400", dark: "neutral.500" }, // extension DS-UI
+
   // ── Bordures (autorité : border / border-strong)
   "border":         { light: "neutral.200", dark: "neutral.800" }, // décorative / séparation
   "border-strong":  { light: "neutral.500", dark: "neutral.400" }, // délimitante 3:1 (WCAG 1.4.11)

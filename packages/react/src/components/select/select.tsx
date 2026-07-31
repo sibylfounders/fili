@@ -5,6 +5,9 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import "../../lib/interaction.css";
+import { FieldMessage, resolveStatus, useField, useFieldWiring, verdictMessage } from "../../lib/field";
+import { type ValidationVerdict } from "../../lib/validation";
 import "../../lib/no-scrollbar.css";
 
 /**
@@ -16,8 +19,19 @@ import "../../lib/no-scrollbar.css";
  * Clavier : fermé ↓↑/Entrée/Espace ouvrent, une frappe présélectionne (type-ahead) ; ouvert ↑↓
  * déplacent, Début/Fin aux extrêmes, Entrée/Espace valident, Échap ferme, Tab valide l'actif.
  *
- * Contrôlé : `value` + `onValueChange`. Nom accessible requis (`aria-label`/`aria-labelledby`).
- * Mono-sélection (multi/recherche différés). Requis et validation = affaire du formulaire.
+ * Contrôlé : `value` + `onValueChange`. Nom accessible requis (`aria-label`/`aria-labelledby`),
+ * sauf dans un bloc champ où le libellé visible le fournit. Mono-sélection (multi/recherche
+ * différés).
+ *
+ * VALIDATION (chantier 2026-07-30) — SELECT-R07 déclarait depuis toujours un état d'erreur
+ * « bordure et message », et SELECT-R09 renvoyait le requis au formulaire ; le composant
+ * n'offrait aucune prise pour l'un ni pour l'autre. Il en a une maintenant, et une seule : le
+ * VERDICT. Aucun axe `status` décoratif n'a été ajouté — un select n'est pas « rouge », il est
+ * en erreur parce qu'un verdict le dit.
+ *
+ * Dans un `Input.Field`, le select consomme le MÊME bloc champ que l'input (`lib/field`) :
+ * `for`/`id` du libellé (un `<button>` est un élément étiquetable), `aria-describedby` vers le
+ * message, `aria-required`, verdict hérité. Aucun second bloc champ n'a été inventé pour lui.
  */
 export interface SelectOption {
   value: string;
@@ -29,7 +43,8 @@ const triggerVariants = cva(
   [
     "inline-flex items-center gap-sm rounded-md text-text-primary transition-colors duration-fast ease-out",
     "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--control-focus-color)]",
-    "disabled:opacity-50 disabled:cursor-not-allowed",
+    // État indisponible : couple de tokens encadré (ds-inert), plus une opacité en dur.
+    "ds-inert",
   ].join(" "),
   {
     variants: {
@@ -65,6 +80,12 @@ export interface SelectProps extends VariantProps<typeof triggerVariants> {
   disabled?: boolean;
   /** Rend le déclencheur en squelette de chargement, aux dimensions de sa taille. */
   loading?: boolean;
+  /**
+   * Le VERDICT de validation. Il porte la bordure d'erreur, `aria-invalid` et le message —
+   * il n'y a pas d'autre chemin vers l'état d'erreur d'un select. Hérité du bloc champ quand
+   * le select y vit ; la prop l'emporte quand les deux existent (le contrôle surclasse).
+   */
+  verdict?: ValidationVerdict;
   /** Liste NATIVE du navigateur (<select>) : même déclencheur stylé, menu rendu par l'OS —
    *  clavier/mobile/lecteurs d'écran natifs gratuits ; à préférer quand le menu n'a pas
    *  besoin d'être dessiné par le système. */
@@ -82,11 +103,17 @@ export function Select({
   disabled,
   loading = false,
   native = false,
+  verdict,
   size = "md",
   variant,
   className,
   ...aria
 }: SelectProps) {
+  // Bloc champ : le select y consomme le câblage commun (id, describedby, required,
+  // aria-invalid). Hors bloc, `cable` est vide et rien ne change.
+  const champ = useField();
+  const cable = useFieldWiring();
+  const msgId = React.useId();
   const [open, setOpen] = React.useState(false);
   const [active, setActive] = React.useState(0);
   const rootRef = React.useRef<HTMLDivElement>(null);
@@ -97,6 +124,34 @@ export function Select({
   const [overflow, setOverflow] = React.useState({ top: false, bottom: false });
   const listId = React.useId();
   const typed = React.useRef({ str: "", t: 0 });
+
+  // ── Verdict : la SEULE voie vers l'état d'erreur d'un select ──────────────────────────
+  const verdictEffectif = verdict ?? champ?.verdict;
+  const statut = resolveStatus(verdictEffectif, champ?.status);
+  const enErreur = statut === "error";
+  const message = verdictMessage(verdictEffectif);
+  // Hors bloc champ, le select porte lui-même son message : SELECT-R07 exige la bordure ET le
+  // message. Dans un bloc, c'est l'emplacement de message du bloc qui l'affiche — un seul.
+  const messageAutonome = !champ && message ? msgId : undefined;
+  const cableEffectif = {
+    ...cable,
+    "aria-invalid": enErreur || undefined,
+    "aria-describedby": (cable["aria-describedby"] as string | undefined) ?? messageAutonome,
+    ...(native && champ?.required ? { required: true } : {}),
+  };
+  /** La bordure d'erreur s'ajoute à la facture, y compris en `ghost` : un select fautif ne peut
+   *  pas rester sans trait, sans quoi l'état ne serait porté que par le message. */
+  const bordureStatut = enErreur ? "border-danger" : undefined;
+  /** Hors bloc champ, le message accompagne le select ; dans un bloc, le bloc s'en charge. */
+  const enveloppe = (noyau: React.ReactNode) =>
+    messageAutonome ? (
+      <span className="inline-flex flex-col gap-xs">
+        {noyau}
+        <FieldMessage id={msgId} severity={message!.severity}>{message!.texte}</FieldMessage>
+      </span>
+    ) : (
+      noyau
+    );
 
   const updateOverflow = React.useCallback(() => {
     const el = listRef.current;
@@ -110,9 +165,14 @@ export function Select({
     if (open) updateOverflow();
   }, [open, options, updateOverflow]);
   // L'option active suit le clavier jusque dans une liste qui défile.
+  // `scrollIntoView?.()` : la méthode n'existe que là où il y a une MISE EN PAGE — jsdom ne
+  // l'implémente pas. Sans la garde, l'appel lève dans un effet passif et React démonte tout
+  // l'arbre : un formulaire entier disparaissait au premier test qui ouvrait la liste. Même
+  // convention que `ResizeObserver` dans CardGroup et Tabs (« jsdom / navigateurs anciens ») —
+  // le confort de défilement s'efface, la sélection au clavier reste entière.
   React.useEffect(() => {
     if (!open) return;
-    document.getElementById(`${listId}-opt-${active}`)?.scrollIntoView({ block: "nearest" });
+    document.getElementById(`${listId}-opt-${active}`)?.scrollIntoView?.({ block: "nearest" });
   }, [open, active, listId]);
 
   const selectedIndex = options.findIndex((o) => o.value === value);
@@ -196,7 +256,7 @@ export function Select({
 
   // ── Forme native : le déclencheur du système, le menu de l'OS ──────────────────────────
   if (native) {
-    return (
+    return enveloppe(
       <div className={cn("relative inline-block", className)}>
         <select
           value={value ?? ""}
@@ -211,7 +271,9 @@ export function Select({
             variant === "ghost" ? "pr-7" : "pr-9",
             !selected && "text-text-muted",
             loading && "ds-skeleton",
+            bordureStatut,
           )}
+          {...cableEffectif}
           {...aria}
         >
           {value == null ? (
@@ -228,11 +290,11 @@ export function Select({
         <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
           <Chevron />
         </span>
-      </div>
+      </div>,
     );
   }
 
-  return (
+  return enveloppe(
     <div ref={rootRef} className={cn("relative inline-block", className)}>
       <button
         ref={triggerRef}
@@ -248,7 +310,8 @@ export function Select({
         onKeyDown={onKeyDown}
         data-style={variant === "ghost" || loading ? undefined : "lighter"}
         data-tone={variant === "ghost" || loading ? undefined : "neutral"}
-        className={cn(triggerVariants({ size, variant }), loading && "ds-skeleton")}
+        className={cn(triggerVariants({ size, variant }), loading && "ds-skeleton", bordureStatut)}
+        {...cableEffectif}
         {...aria}
       >
         <span className={cn("truncate", !selected && "text-text-muted")}>
@@ -315,7 +378,7 @@ export function Select({
           </ul>
         </div>
       )}
-    </div>
+    </div>,
   );
 }
 Select.displayName = "Select";

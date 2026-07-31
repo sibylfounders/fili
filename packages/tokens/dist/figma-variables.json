@@ -655,6 +655,22 @@
           }
         },
         {
+          "name": "surface/disabled",
+          "type": "color",
+          "valuesByMode": {
+            "Light": "#E5E7EB",
+            "Dark": "#374151"
+          }
+        },
+        {
+          "name": "on/surface/disabled",
+          "type": "color",
+          "valuesByMode": {
+            "Light": "#9CA3AF",
+            "Dark": "#6B7280"
+          }
+        },
+        {
           "name": "border",
           "type": "color",
           "valuesByMode": {

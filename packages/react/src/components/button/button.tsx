@@ -8,6 +8,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 import "./relief.css";
 import "../../lib/focus.css";
+import "../../lib/interaction.css";
 
 /**
  * Button — construit sur les RÈGLES de Design System MD (autorité UX),
@@ -34,11 +35,15 @@ import "../../lib/focus.css";
 const buttonVariants = cva(
   [
     "inline-flex max-w-full items-center justify-center text-center select-none border border-transparent",
-    "font-medium leading-tight [overflow-wrap:anywhere] transition-colors",
+    "font-medium leading-tight [overflow-wrap:anywhere]",
     "outline-none ds-focus-ring",
+    // ds-pressable : la transition (couleur ET pression, motion.fast) + la course d'active,
+    // hors du registre relief — l'active est une propriété universelle (INTERACTION-R13).
+    // ds-inert : l'état indisponible en DEUX TOKENS encadrés, plus une opacité en dur dont
+    // l'intensité variait avec le style et avec la surface dessous (BUTTON-U03).
     // DS-MD : disabled jamais silencieux — exposer la cause en usage (tooltip/inline).
-    // cursor-not-allowed (comme Input) : PAS de pointer-events-none, qui masquerait le curseur.
-    "disabled:cursor-not-allowed disabled:opacity-50",
+    // cursor-not-allowed (porté par ds-inert) : PAS de pointer-events-none, qui masquerait le curseur.
+    "ds-pressable ds-inert",
   ].join(" "),
   {
     variants: {

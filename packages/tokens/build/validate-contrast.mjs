@@ -25,6 +25,12 @@ const ratio = (a, b) => { const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x
 const checks = [];
 const add = (label, fg, bg, min, required = true) =>
   checks.push({ label, fg, bg, min, required, r: ratio(fg, bg) });
+// ENCADREMENT — l'unique cas où un ratio doit rester SOUS un plafond : l'état indisponible.
+// Un disabled qui atteindrait le seuil du texte courant ne se distinguerait plus d'un contrôle
+// actif (INTERACTION-R13 : les états sont DISTINCTS) ; un disabled sous le plancher deviendrait
+// le « disabled silencieux » que BUTTON-R80 interdit. Les deux bornes sont donc requises.
+const addEntre = (label, fg, bg, min, max) =>
+  checks.push({ label, fg, bg, min, max, required: true, r: ratio(fg, bg) });
 
 for (const mode of ["light", "dark"]) {
   const M = mode.toUpperCase();
@@ -82,17 +88,30 @@ for (const mode of ["light", "dark"]) {
 
   // lavis primaire au survol : on-primary-subtle tient sur primary-subtle-hover
   add(`${M} on-primary-subtle / primary-subtle-hover`, role("on-primary-subtle", mode), role("primary-subtle-hover", mode), 4.5);
+
+  // INDISPONIBLE (BUTTON-U03) : encadré, jamais un plancher seul. Le remplissage inerte
+  // couvre filled/lighter ; les styles sans fond (stroke/ghost) posent le même texte sur la
+  // page et sur les surfaces — les trois sont vérifiés, sinon « disabled » redeviendrait un
+  // état à géométrie variable, ce qu'il était sous opacity: .5.
+  addEntre(`${M} on-surface-disabled / surface-disabled`, role("on-surface-disabled", mode), role("surface-disabled", mode), 1.8, 4.5);
+  addEntre(`${M} on-surface-disabled / background`, role("on-surface-disabled", mode), background, 1.8, 4.5);
+  addEntre(`${M} on-surface-disabled / surface`, role("on-surface-disabled", mode), surface, 1.8, 4.5);
 }
 
 let fails = 0;
 const pad = (s, n) => (s + " ".repeat(n)).slice(0, n);
-console.log("PAIRE".padEnd(40), "RATIO", " MIN", " ", "STATUT");
+console.log("PAIRE".padEnd(40), "RATIO", "    SEUIL", " ", "STATUT");
 console.log("-".repeat(66));
 for (const c of checks) {
-  const ok = c.r >= c.min;
+  const ok = c.r >= c.min && (c.max === undefined || c.r <= c.max);
   if (!ok && c.required) fails++;
-  const status = ok ? "OK" : (c.required ? "ÉCHEC" : "sous seuil (toléré)");
-  console.log(pad(c.label, 40), c.r.toFixed(2).padStart(5), c.min.toFixed(1).padStart(4), "  ", status);
+  const seuil = c.max === undefined ? c.min.toFixed(1) : `${c.min.toFixed(1)}–${c.max.toFixed(1)}`;
+  const status = ok
+    ? "OK"
+    : c.required
+      ? (c.max !== undefined && c.r > c.max ? "ÉCHEC (au-dessus du plafond)" : "ÉCHEC")
+      : "sous seuil (toléré)";
+  console.log(pad(c.label, 40), c.r.toFixed(2).padStart(5), seuil.padStart(9), "  ", status);
 }
 console.log("-".repeat(66));
 console.log(`${checks.length} paires · ${fails} échec(s) requis`);
