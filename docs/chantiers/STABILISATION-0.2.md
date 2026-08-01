@@ -46,8 +46,8 @@ cd ~/Claude/Projects/Fili && npm run verifie
 | 7 | `tel:` : vrai lien, pas faux lien | FAIT | href conservé, rôle `link` présent, protocoles dangereux toujours vidés — sous-ensemble Fili, pas la RFC complète |
 | 8 | Fin du traitement magique `NextLink` | FAIT | champ `imports`, agrégation générique, plus aucune mention de Next dans le vérificateur |
 | 9 | Qualification de la preuve Chromium | FAIT | garde automatique et vérification ponctuelle distinguées ici et dans `DECISIONS.md` |
-| 10 | Vérification finale complète | **NON PROUVÉ** | `npm test`, build Next et rendu strict non exécutables ici |
-| 11 | Commit | NON CRÉÉ | interdit avant le vert complet, et non demandé |
+| 10 | Vérification finale complète | **FAIT** | `npm run verifie` → code **0** au Terminal macOS (2026-08-01). Détail au § « Porte complète » ci-dessous. |
+| 11 | Commit | **FAIT** | `04ab6d8` (12 fichiers) ; trois fichiers partagés sont partis avec `9a4b425` — voir la note du § « Porte complète » |
 
 ## Défauts corrigés dans cette passe
 
@@ -151,10 +151,52 @@ prétend pas le contraire.
 | `npm run plugin:build` | 0 | 71 fichiers, 232 Ko |
 | `node tools/teste-verifie-rendu.mjs` | 0 | 5 détections, 0 faux positif, `lien-hors-basepath` éprouvée |
 | `git diff --check` | 0 | — |
-| **`npm test`** | — | **NON PROUVÉ** |
-| **`npm run build --workspace @fili/site`** | — | **NON PROUVÉ** |
-| **`npm run verifie:rendu` (strict)** | — | **NON PROUVÉ** |
-| **`npm run verifie`** | — | **NON PROUVÉ** — contient les trois ci-dessus |
+| **`npm test`** | **0** | **10 fichiers, 226 tests réussis** |
+| **`npm run build --workspace @fili/site`** | **0** | **96 pages générées** |
+| **`npm run verifie:rendu` (strict)** | **0** | **93 pages balayées, 0 nouveau constat** |
+| **`npm run verifie`** | **0** | **porte complète — contient les trois ci-dessus** |
+
+> **Le tableau ci-dessus mélange deux dates, et il faut le lire ainsi.** Les dix premières
+> lignes datent de la passe du 2026-07-30, sur l'arbre d'alors (`fc61f8b` + modifications).
+> Leurs mesures — 456 constats bruts, 106 exceptions, 38 fichiers, 35 exemples, 71 fichiers de
+> paquet — ne décrivent plus l'arbre commité : quatre chantiers de plus y ont été versés
+> depuis. Les quatre dernières lignes, elles, datent du **2026-08-01** et portent sur `af3f023`.
+> Elles ne sont pas rejouées ici : elles sont reprises de la porte complète.
+
+## Porte complète — le résultat, et d'où il vient (2026-08-01)
+
+```
+npm run verifie   →  code de sortie 0
+```
+
+| Ce qui est mesuré | Résultat |
+|---|---|
+| Tests React (vitest) | **10 fichiers, 226 tests réussis** |
+| Build Next (`@fili/site`) | **96 pages générées** |
+| Vérificateur de rendu, strict | **93 pages balayées, 0 nouveau constat** |
+| Manifeste | **30 composants, 0 incohérence** |
+| Consommation du kit | conforme |
+| Critères du corpus, contraste, couche UX | réussis |
+| L'arbre après la porte | **non resali** — les générateurs n'ont produit aucun écart |
+
+**Provenance.** Ces quatre premières mesures viennent d'un **audit indépendant conduit par
+Codex** sur `af3f023`, et non d'une exécution de l'agent : `npm test` (rolldown *darwin-arm64*),
+le build Next (plafond de 45 s) et tout ce qui ouvre Chromium restent hors d'atteinte depuis
+une session Cowork — la contrainte du § précédent reste vraie, elle n'a pas disparu. Ce que
+l'agent a pu rejouer lui-même sur l'arbre commité, en lecture seule : manifeste 30 entrées /
+0 incohérence · `verifie:tokens --strict` (463 constats bruts, 113 exceptions, baseline
+**178 / 350 occ., inchangée**) · `verifie:consommation` (44 fichiers, constat à 0) ·
+`verifie:exemples` (39 exemples, 29 composants, 2 imports d'intégration) · `verifie:flows`
+(code 0) · `verifie:tsc` (propre).
+
+**Commits.** Les corrections de ce chantier sont dans **`04ab6d8`** — « Stabilisation 0.2 : un
+`tel:` qui n'appelait personne, une durée nulle qui n'était pas une durée, et deux dérivations
+écrites hors du rendu », 12 fichiers, sur la base `26a1eac`. Trois fichiers de ce chantier ont
+voyagé avec **`9a4b425`** (la chaîne de validation), parce qu'ils portaient les deux chantiers
+à la fois et qu'un fichier ne se coupe pas : `checkbox.tsx` (le registre d'exclusivité de
+CHOICE-R18 y côtoie la prop `verdict`), `vitest.config.ts` (le retrait du bloc `esbuild` y
+côtoie l'alias du greffon) et `choice.test.tsx`, déplacé délibérément pour qu'un test ne
+précède jamais son sujet dans l'histoire. HEAD au moment de la clôture : **`af3f023`**.
 
 Preuves obtenues hors vitest, sur la VM du pont : collision 4/4 (2 scénarios corrigés, 2
 échecs attendus sur la variante régressée), CHOICE-R18 16/16, rendu Markdown réel 31/31,
@@ -226,13 +268,15 @@ Elles préexistent à ce chantier ou en sortent explicitement ; aucune n'est abs
 - Découpe de `apps/site/app/ui/registry.tsx` et de `packages/react/src/manifest/catalogue.ts` ;
   contrat universel indépendant de React ; distribution npm de `@fili/react`.
 
-## Prochaine action exacte
+## Chantier clos — 2026-08-01
 
-```bash
-cd ~/Claude/Projects/Fili
-npm run verifie      # porte complète — doit rendre 0
-git diff --check
-git status --short
-```
+La porte a rendu **0**, le diff a été relu chantier par chantier, et les corrections sont
+commitées (`04ab6d8`, plus les trois fichiers partagés dans `9a4b425`). L'arbre suivi est
+propre ; la vérification complète ne l'a pas resali.
 
-Aucun commit ne doit être créé avant relecture du diff.
+Ce qui n'est PAS clos et ne doit pas être lu comme tel : les dettes du § « Hors périmètre »
+ci-dessus restent ouvertes, telles qu'écrites — bruit canvas d'axe-core sous jsdom, baseline
+historique 178/350, 21 composants publics sans test direct, `@fili/charts` sans test, scénario
+navigateur dynamique pour les rails, découpe de `registry.tsx` et `catalogue.ts`, contrat
+universel hors React, distribution npm de `@fili/react`, `slider` en `FILI-MANQUE`.
+Aucune n'a été traitée par cette clôture, et aucune n'a été requalifiée.

@@ -9,9 +9,9 @@
 
 | Écart de l'audit | Verdict | Statut |
 |---|---|---|
-| `npm run verifie` non bloquant | scripts scindés `rapport:*` / `verifie:*` ; `verifie` = chaîne complète (tokens → manifeste:check → manifeste → tokens strict → consommation strict → exemples → tsc → tests → paquet → site) | TERMINÉ-VÉRIFIÉ (les 7 premiers maillons attestés sur machine ; tests/site : cf. §7) |
+| `npm run verifie` non bloquant | scripts scindés `rapport:*` / `verifie:*` ; `verifie` = chaîne complète (tokens → manifeste:check → manifeste → tokens strict → consommation strict → exemples → tsc → tests → paquet → site) | TERMINÉ-VÉRIFIÉ (les 7 premiers maillons attestés sur machine le 2026-07-29 ; tests et site attestés le 2026-08-01 — cf. §4) |
 | Génération silencieuse du manifeste | `manifeste:check` compare la génération EN MÉMOIRE au commité, n'écrit rien, message de régénération | TERMINÉ-VÉRIFIÉ |
-| CI publie sur simple build visuel | pages.yml verrouillé (ci-joint) — fichier PROTÉGÉ contre l'écriture à distance : **à coller toi-même** | PARTIEL (livré, non appliqué) |
+| CI publie sur simple build visuel | pages.yml verrouillé — fichier PROTÉGÉ contre l'écriture à distance ; **appliqué le 2026-08-01** (`af3f023`) et réaligné sur la porte élargie | PARTIEL (appliqué et cohérent localement ; **jamais exécuté par GitHub** — cf. §4) |
 | 61 écarts non bloquants | baseline versionnée `tools/verifie-tokens.baseline.json` : 146 entrées / 305 occurrences (détection ÉTENDUE : dimensions, durées, z-index, couleurs), chacune avec justification et vague ; tout nouveau/augmentation échoue ; `--update-baseline` ne sait QUE réduire | TERMINÉ-VÉRIFIÉ |
 | Var locale « connue partout » | portée PAR DOSSIER de composant + liste `PARTAGEES` explicite (vide) | TERMINÉ-VÉRIFIÉ |
 | Validateur consommation regex/ligne, non livré | `fili-check.mjs` : AST TypeScript, fichier complet, portable (`node fili-check.mjs .`), config d'exclusions justifiées, échec clair sans TypeScript ; livré dans le paquet ; `verifie-consommation` = enveloppe monorepo du même moteur | TERMINÉ-VÉRIFIÉ (fixtures ± + auto-test dans build-plugin) |
@@ -45,10 +45,10 @@ teste-fili-check             → ✅ 10 détections sur fixture négative, 0 fau
 
 | Ouvert | Statut | Prochaine action |
 |---|---|---|
-| Exécution des tests vitest | **PARTIEL** — le registre npm est inaccessible depuis le pont (403, cloud ET VM local) : les dépendances ne sont pas installées | Toi, Terminal : `npm i -D -w @fili/react vitest jsdom @testing-library/react @testing-library/dom @testing-library/user-event @testing-library/jest-dom axe-core && npm test` |
-| `npm audit` | **PARTIEL** — même blocage réseau | Toi, Terminal : `npm audit` (rapport §11 : non exécutable d'ici ; AUCUNE correction automatique à lancer sans lecture) |
-| Build Next + `npm run verifie` complet | **PARTIEL** | Toi, Terminal : `npm run verifie` (après l'install ci-dessus) |
-| pages.yml | **PARTIEL** — protégé à distance | Coller le fichier livré dans `.github/workflows/pages.yml` |
+| Exécution des tests vitest | **TERMINÉ-VÉRIFIÉ** (2026-08-01, `af3f023`) — `npm test` → code 0, **10 fichiers, 226 tests réussis** | — |
+| `npm audit` | **DÉCISION REQUISE** (2026-08-01) — exécuté, **2 vulnérabilités `high`** ; la correction proposée est une migration majeure vers Next 16. Voir § 7. | Arbitrer la stratégie de mise à niveau. Aucun correctif n'a été appliqué. |
+| Build Next + `npm run verifie` complet | **TERMINÉ-VÉRIFIÉ** (2026-08-01, `af3f023`) — `npm run verifie` → code 0 ; build **96 pages**, rendu strict **93 pages, 0 nouveau constat** ; l'arbre suivi n'a pas été resali | — |
+| pages.yml | **PARTIEL** — le fichier est **appliqué** (`af3f023`) et sa **cohérence locale est vérifiée** : ses 17 étapes reproduisent le script `verifie` dans le même ordre, plus `npm ci` et `npx playwright install`, ce dernier remonté AVANT `verifie:contraste`. Mais **le workflow n'a jamais été exécuté par GitHub** : les 9 commits ne sont pas poussés. Un fichier cohérent n'est pas un workflow qui passe. | Pousser, puis lire le premier run réel. Rien ne sera « vérifié » avant. |
 | Tests visuels (clair/sombre/reduced-motion/hover/pressed) | **DETTE ACCEPTÉE** — jsdom n'a pas de moteur de rendu ; Storybook exclu | Harnais Playwright sur l'Atelier (le cloud a Chromium ; il faut @playwright/test installable — Terminal) — vague dédiée |
 | Tests adaptatifs (220px, redimensionnement réel du conteneur) | **DETTE ACCEPTÉE** — container queries invisibles en jsdom | Même harnais Playwright, pages /ui en `fill` |
 | Baseline 146 entrées | **DETTE ACCEPTÉE** — gelée, ne peut plus croître | Résorption par vagues (2→8), `--update-baseline` à chaque réduction |
@@ -70,3 +70,70 @@ Le moteur AST est UN fichier (`tools/fili-check.mjs`), consommé par le monorepo
 par le paquet (copie au build, auto-testée) et par les consommateurs (`node fili-check.mjs .`).
 Toute nouvelle détection s'ajoute là, avec sa fixture dans `tools/fixtures/fili-check/` — l'auto-test
 du build refuse un paquet dont le validateur a perdu une détection.
+
+## 7. Audit de dépendances — relevé du 2026-08-01, aucune correction appliquée
+
+`npm audit --json`, exécuté au Terminal macOS sur `af3f023`. **Deux vulnérabilités `high`.**
+La commande est **inexécutable depuis une session Cowork** : le pont et le conteneur cloud
+répondent tous deux `403 blocked-by-allowlist` sur `registry.npmjs.org`.
+
+### Ce qui est installé, vérifié dans l'arbre réel
+
+| Paquet | Installé | Déclaré | D'où il vient |
+|---|---|---|---|
+| `next` | **14.2.35** | `apps/site` → `^14.2.15` | dépendance **directe** du site |
+| `postcss` (racine) | **8.4.31** | — | **épinglé EXACTEMENT par `next`** (`next` → `postcss: 8.4.31`) |
+| `postcss` (site) | 8.5.22 | `apps/site` → `^8.4.47` | pipeline Tailwind/autoprefixer du site |
+
+Le fait décisif : la PostCSS vulnérable n'est pas celle qu'utilise le pipeline CSS du site.
+Elle est **enfermée dans l'épinglage de Next**, qui la fixe à la version exacte. Elle ne peut
+donc pas être relevée sans changer Next — ce qui explique la correction proposée par npm.
+
+### Applicabilité PROBABLE au déploiement statique
+
+Le site est construit en export statique :
+
+```js
+output: "export",  images: { unoptimized: true }
+```
+
+Il n'y a donc **ni serveur Next à l'exécution, ni middleware, ni optimiseur d'images** : les
+classes d'alertes qui visent ces surfaces n'ont pas de cible dans le déploiement actuel.
+Le mot **probable** est là exprès. Cette lecture porte sur la *surface d'exécution*, pas sur le
+contenu précis des avis : les identifiants d'avis ne sont lisibles que dans la sortie de
+`npm audit --json`, que l'agent n'a pas pu produire. **Rien ici ne permet de déclarer ces
+alertes corrigées, ni négligeables.** Une alerte qui vise la chaîne de BUILD, et non le serveur,
+resterait applicable — l'export statique ne protège pas de ce qui s'exécute pour le produire.
+
+### Statut et décision restante
+
+**DÉCISION REQUISE.** Trois routes existent — migrer vers Next 16 (majeure, chantier à part
+entière), attendre un correctif de la ligne 14.x, ou documenter une dette acceptée après
+lecture des avis. **Aucune n'est retenue ici**, et la dette n'est pas déclarée acceptée.
+
+Interdictions respectées, et vérifiables au diff : `npm audit fix` **n'a pas été lancé** ;
+`package.json` et `package-lock.json` **ne sont pas modifiés** ; les versions de Next et de
+PostCSS **n'ont pas changé**. La mise à niveau sera un chantier séparé.
+
+## 8. Résidu ignoré `_to_delete_rangement/` — inventaire et traitement
+
+3,6 Mo, 148 fichiers, dossier gitignoré (`_to_delete*/`). **Il n'était pas que du résidu** :
+`CAHIER-FILI-AUDIT.md` — document versionné, commité en `156987a` — y cite **quatre fichiers
+nommément**, les trois maquettes exécutables de `pilote/` (`navigateur-fili.html`,
+`planche-fili-v2.html`, `fili-audite-par-fili.html`) et `lot0-verdicts.csv`. Une suppression en
+bloc aurait cassé ces renvois depuis un document du dépôt.
+
+| Famille | Poids | Classement | Sort |
+|---|---|---|---|
+| `pilote/` — maquettes exécutables, verdicts et instruments du lot 0 | 1,6 Mo | **preuve unique, citée par un document versionné** | **conservé en place** |
+| `_smoke-validation.mjs` + `_smoke-validation-build/` | 182 Ko | preuve palliative, **citée** par `VALIDATION-CHAINE.md` § 6bis, et **supplantée** par `npm test` (226 tests) | **conservé en place** |
+| `_generate.apres.mjs`, `_theme.avant.cjs` | ~20 Ko | copies d'états déjà versionnés par git (`8080e95`) | supprimé |
+| `demo/` (7 versions successives d'une même démo), `_kit/`, `tw/`, 4 scripts `_patch_*.py`, `_lot15.tar.gz`, 2 journaux, `.DS_Store`, `__pycache__`, et les scripts de session `commits.sh` / `partition.sh` / `pages.yml` (ce dernier commité en `af3f023`) | ~1,9 Mo | **résidus reproductibles** | supprimé |
+| — | — | *indécidable* | **aucun** |
+
+**Décision d'Aurélien, 2026-08-01** (interface à choix, option recommandée retenue) :
+supprimer les seuls résidus reproductibles, conserver en place les deux familles citées par
+un document du dépôt. Motif : aucune citation cassée, et aucun document hors du périmètre de
+cette clôture n'a besoin d'être retouché. Le dossier subsiste à ≈1,7 Mo — **dette nommée, pas
+fermée**. L'archivage hors dépôt de `pilote/` reste possible plus tard, mais il exigera de
+mettre à jour `CAHIER-FILI-AUDIT.md`, qui n'était pas dans le périmètre autorisé ici.

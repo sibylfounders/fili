@@ -133,7 +133,56 @@ pas « vertes » : elles sont **non exécutées**, et c'est différent.
 | `npm run build --workspace @fili/site` | `device_bash` plafonne à 45 s | `tsc --noEmit` du site passe |
 | `npm run verifie:rendu` (site réel) | exige le build Next | l'auto-test des fixtures passe en cloud — **7 détections, 0 faux positif** |
 
-**Prochaine action au Terminal** : `cd ~/Claude/Projects/Fili && npm run verifie`.
+## 6ter. La porte a rendu 0 — ce que ça prouve, et ce que ça ne prouve pas (2026-08-01)
+
+```
+npm run verifie   →  code de sortie 0        (HEAD af3f023)
+```
+
+La chaîne est commitée dans **`9a4b425`** — « La chaîne de validation est un GREFFON : une
+erreur cesse d'être un style choisi, elle devient la conséquence d'un verdict », 38 fichiers.
+
+### Ce qui est VÉRIFIÉ AUTOMATIQUEMENT, à chaque passage de la porte
+
+| Garde | Ce qu'elle empêche | Résultat |
+|---|---|---|
+| `npm test` | qu'un comportement de la chaîne change sans qu'on le voie | **10 fichiers, 226 tests réussis** |
+| `verifie:manifeste` | qu'un contrôle de formulaire naisse sans déclarer son `validation.role` — détection STRUCTURELLE en AST, pas textuelle | **30 composants, 0 incohérence** |
+| `verifie:consommation` (`fili-check`) | `statut-sans-verdict` : un état d'erreur choisi à la main plutôt que descendu d'un verdict · `aria-invalid-manuel` : l'attribut écrit dans une page alors que le kit le DÉRIVE | conforme, constat à **0** |
+| `verifie:rendu` (strict) | `message-orphelin` : un contrôle qui désigne un message inexistant · `erreur-sans-message` : un `aria-invalid` qui dit « refusé » sans dire pourquoi | **93 pages, 0 nouveau constat** |
+| `verifie:tsc` | qu'un verdict soit passé là où le type ne l'admet pas | propre |
+
+Les deux gardes de rendu existent parce que les identifiants sont **générés** (`React.useId`) :
+aucune lecture de source ne peut confronter un `aria-describedby` à sa cible. Seul le rendu
+voit l'identifiant final.
+
+### Les limites TOUJOURS DÉCLARÉES — elles n'ont pas été levées
+
+- **`ACCESSIBILITY-R18` n'est que partiellement automatisée.** Le critère vérifie qu'un message
+  est *associé*, pas qu'il *décrit* la cause. La pertinence du texte reste un constat assisté.
+- **Le plafond de vérification du focus est de 14 éléments par page** (`--focus <n>` pour le
+  lever). Sur une page qui en porte davantage, la liste des écarts est un **plancher**, pas un
+  inventaire : des éléments restent non éprouvés, et le rapport l'annonce.
+- **Le bruit `HTMLCanvasElement.getContext`** vient d'axe-core sous jsdom, qui n'a pas de moteur
+  de rendu. Il n'est pas supprimé, il est connu.
+- **Le harnais de fumée `_to_delete_rangement/_smoke-validation.mjs` reste un palliatif**, pas
+  une garde. Il avait un angle mort — il bouchait `scrollIntoView` — et c'est `npm test` qui l'a
+  révélé. Un harnais qui polyfille une API absente ne prouve plus ce qu'il prétend.
+- **Trois divergences de tokens sont déclarées** et le restent, dont l'écart de nommage entre
+  la doctrine (`spacing.base`) et le thème émis (`--space-base`).
+
+### Ce qui reste VOLONTAIREMENT HORS PÉRIMÈTRE
+
+Aucune de ces lignes n'est une dette à résorber : ce sont des frontières choisies.
+
+- **Pas d'orchestration en API publique** — un seul consommateur ne fait pas une API.
+- **La validation croisée est une frontière produit**, pas une affaire de kit.
+- **Une seule locale (`fr`).** Le contrat, lui, ne contient aucun texte : c'est le greffon qui
+  porte `messagesFR`, et un jeu se surcharge au lieu de se recopier.
+- **Le DÉLAI d'un `deferred` appartient au consommateur** — le contrat ne connaît pas le temps.
+- **La famille du choix n'a pas de teinte d'avertissement** ; la décision revient à `CHOICE-UI`.
+- **`CHOICE` n'a pas de fiche condensée dans le paquet.**
+- **Le résumé d'erreurs reste composé** (`Alert` + liens), il n'est pas un composant.
 
 ---
 
