@@ -67,6 +67,13 @@ def decisions(src: str, refs, couche: str):
         enonce = ligne("ÉNONCÉ")
         contre = ligne("CONTRE")
         mesure = ligne("MESURE")
+        # CRITERE : l'expression exécutable, à côté de la MESURE sans la remplacer.
+        # Peut courir sur plusieurs lignes (continuation indentée).
+        mc = re.search(r"^CRITERE : ((?:.+)(?:\n[ \t]+\S.*)*)$", b, re.M)
+        critere = re.sub(r"\s+", " ", mc.group(1)).strip() if mc else ""
+        # SCENE : l'état dans lequel la mesure est prise. Absente = « repos ».
+        # Beaucoup de règles d'accessibilité ne mesurent RIEN au repos.
+        scene = ligne("SCENE") or "repos"
         probleme = ligne("POURQUOI") or ligne("PROBLÈME")
         # à défaut de PROBLÈME explicite : le « Pourquoi » ou l'« Erreur fréquente » qui suit
         if not probleme:
@@ -87,6 +94,8 @@ def decisions(src: str, refs, couche: str):
             "solution": solution,
             "enonce": enonce,
             "mesure": mesure,
+            "critere": critere,
+            "scene": scene,
             "contre": contre,
             "probleme": probleme,
             "statut": STATUTS.get(statut_txt, "methode"),

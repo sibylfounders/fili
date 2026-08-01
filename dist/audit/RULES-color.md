@@ -3,8 +3,8 @@ sujet: color
 nature: foundations
 resume: "Ce fichier contient le raisonnement : rôles, registres, redondance, contraste, theming."
 selon-contexte: [alert, button, card, elevation, form, input, link]
-source: COLOR-UX.md v1.3.0 + COLOR-UI.md v1.3.0
-empreinte: sha256:263c2fd9676186c7
+source: COLOR-UX.md v1.4.0 + COLOR-UI.md v1.3.0
+empreinte: sha256:e238048a52ab201b
 regles: {loi: 13, preference: 10, non_qualifie: 0}
 ---
 # RULES — color (compilé, mode audit)
@@ -39,6 +39,7 @@ regles: {loi: 13, preference: 10, non_qualifie: 0}
   - source : https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html
 - **[loi]** Le texte courant atteint 4,5:1 avec son fond, et tout composant d'interface ou état requis pour l'identifier atteint 3:1 avec les couleurs adjacentes. `COLOR-R09`
   - vérifiable : contraste texte / fond ≥ 4,5:1 ; contraste composant ou état / fond ≥ 3:1
+  - critère : `chaque("body *") contraste(color) >= 4.5 ou mesure(font-size) >= 24 et contraste(color) >= 3 ou mesure(font-size) >= 18.66 et mesure(font-weight) >= 700 et contraste(color) >= 3`
   - source : https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
 - **[loi]** La conformité au contraste s'établit par paire et non par token isolé : chaque couleur de texte déclare les fonds sur lesquels elle est vérifiée. `COLOR-R10`
   - vérifiable : chaque token de texte déclare la liste des fonds vérifiés ; tout fond non déclaré est interdit

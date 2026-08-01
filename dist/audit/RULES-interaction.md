@@ -3,8 +3,8 @@ sujet: interaction
 nature: languages
 resume: "Ce langage définit comment un élément communique son **rôle** avant même que son libellé soit"
 selon-contexte: [adaptive, border, button, card, elevation, motion]
-source: INTERACTION-UX.md v1.2.0 + INTERACTION-UI.md v1.2.0
-empreinte: sha256:a7f843022d74b7c9
+source: INTERACTION-UX.md v1.3.0 + INTERACTION-UI.md v1.2.0
+empreinte: sha256:24ef3138fe32ce28
 regles: {loi: 20, preference: 18, non_qualifie: 0}
 ---
 # RULES — interaction (compilé, mode audit)
@@ -37,10 +37,12 @@ regles: {loi: 20, preference: 18, non_qualifie: 0}
   - source : https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - **[loi]** Une zone de saisie délimite clairement l'endroit où la valeur sera reçue : son label, sa limite, son contenu et son focus la distinguent d'un bouton comme d'une simple surface. `INTERACTION-R08`
   - vérifiable : tout champ porte un label visible et une délimitation dont le contraste atteint 3:1 avec les couleurs adjacentes
+  - critère : `chaque("input:not([type=hidden]):not([type=button]):not([type=submit]),select,textarea") etiquete_visible()`
   - source : https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html
 - **[préférence]** Le caractère réceptif d'une zone de saisie décrit une fonction et non un effet imposé : une ombre interne peut soutenir cette lecture dans un thème, mais elle n'est ni universelle ni suffisante. `INTERACTION-R09`
 - **[loi]** Une surface qui organise du contenu ne promet pas de clic : une surface cliquable reçoit une cible réelle et des signaux d'interaction supplémentaires, une surface statique ne copie jamais l'apparence d'un contrôle. `INTERACTION-R10`
   - vérifiable : toute surface cliquable expose un élément interactif natif atteignable au clavier ; aucune surface statique ne porte de gestionnaire de clic
+  - critère : `compte("div[onclick],span[onclick],li[onclick],p[onclick],td[onclick]") == 0`
   - source : https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - **[préférence]** L'ombre indique une relation spatiale ou un changement d'état et ne décore jamais ; les niveaux d'élévation et leurs usages restent la propriété de la fondation elevation. `INTERACTION-R11`
 - **[loi]** L'action, la navigation, l'erreur, la sélection et le focus restent compréhensibles sans perception de la couleur : le mot, la forme, la bordure, l'icône ou la position fournissent au moins un second canal. `INTERACTION-R12`
@@ -72,6 +74,7 @@ regles: {loi: 20, preference: 18, non_qualifie: 0}
   - source : https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
 - **[loi]** Une icône seule conserve un nom accessible, un changement d'état conserve un libellé ou un état exposé programmatiquement, et une cible conserve la sémantique native attendue de son rôle. `INTERACTION-R23`
   - vérifiable : tout contrôle sans texte visible porte un nom accessible et tout état est exposé programmatiquement
+  - critère : `chaque("button,a[href],[role=button],input[type=button],input[type=submit]") nomme()`
   - source : https://www.w3.org/TR/WCAG22/#name-role-value
 - **[loi]** Un composant qui remplit la même fonction est nommé et représenté de façon constante dans tout le produit : l'apparence cohérente accompagne une identification cohérente. `INTERACTION-R24`
   - vérifiable : un composant de même fonction porte le même nom accessible et la même représentation dans tout le produit

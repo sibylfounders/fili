@@ -2,7 +2,7 @@
 component: interaction
 layer: ux
 type: language
-version: 1.2.0 # 1.2.0 : le mode d'interaction (static/clickable/selectable/expandable) devient un axe transversal des surfaces-conteneurs (R26-R28) — promu depuis Card, qui n'en est plus que le premier consommateur. 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — langage d'interaction fondé sur l'affordance honnête : reconnaître le rôle avant de lire, sans imposer une esthétique décorative
+version: 1.3.0 # 1.3.0 : `CRITERE` posés sur R08, R10, R23 — la couche UX entre dans le moteur (loi 4.20, 2026-07-31). 1.2.0 : 1.2.0 : le mode d'interaction (static/clickable/selectable/expandable) devient un axe transversal des surfaces-conteneurs (R26-R28) — promu depuis Card, qui n'en est plus que le premier consommateur. 1.1.0 : Interaction devient un langage de premier niveau, distinct des fondations qu'il compose. 1.0.0 : première rédaction — langage d'interaction fondé sur l'affordance honnête : reconnaître le rôle avant de lire, sans imposer une esthétique décorative
 last_updated: 2026-07-29
 companion: INTERACTION-UI.md
 confidence: mixed # les obligations d'accessibilité et de cohérence sont établies ; la matérialité tactile sobre est une décision d'identité interne
@@ -88,6 +88,11 @@ STATUT : propriété universelle
 SOURCE : S9, S6
 ÉNONCÉ : Une zone de saisie délimite clairement l'endroit où la valeur sera reçue : son label, sa limite, son contenu et son focus la distinguent d'un bouton comme d'une simple surface.
 MESURE : tout champ porte un label visible et une délimitation dont le contraste atteint 3:1 avec les couleurs adjacentes
+CRITERE : chaque("input:not([type=hidden]):not([type=button]):not([type=submit]),select,textarea") etiquete_visible()
+
+> **Portée du critère** : il n'automatise que la clause **label visible**. La délimitation à 3:1
+> relève de `BORDER-R03`, dont le corpus dit lui-même (`BORDER-U09`) qu'elle n'est pas décidable
+> par un script — savoir si un champ n'est identifiable *que* par sa bordure est un jugement.
 contenu et son focus le distinguent d'un bouton et d'une simple surface.
 
 RÈGLE [INTERACTION-R09] : « réceptif » décrit une fonction, pas un effet imposé. Une ombre interne peut soutenir cette
@@ -103,6 +108,7 @@ STATUT : propriété universelle
 SOURCE : S7, S10
 ÉNONCÉ : Une surface qui organise du contenu ne promet pas de clic : une surface cliquable reçoit une cible réelle et des signaux d'interaction supplémentaires, une surface statique ne copie jamais l'apparence d'un contrôle.
 MESURE : toute surface cliquable expose un élément interactif natif atteignable au clavier ; aucune surface statique ne porte de gestionnaire de clic
+CRITERE : compte("div[onclick],span[onclick],li[onclick],p[onclick],td[onclick]") == 0
 d'interaction supplémentaires. Une surface statique ne copie jamais l'apparence d'un contrôle.
 
 ### 4. La profondeur explique une couche
@@ -228,6 +234,11 @@ STATUT : propriété universelle
 SOURCE : S3, S8
 ÉNONCÉ : Une icône seule conserve un nom accessible, un changement d'état conserve un libellé ou un état exposé programmatiquement, et une cible conserve la sémantique native attendue de son rôle.
 MESURE : tout contrôle sans texte visible porte un nom accessible et tout état est exposé programmatiquement
+CRITERE : chaque("button,a[href],[role=button],input[type=button],input[type=submit]") nomme()
+
+> **Portée du critère** : il vérifie qu'un nom accessible **existe**, pas qu'il *décrit la
+> fonction*. « Bouton », « cliquez ici », « en savoir plus » passent. La pertinence du nom
+> reste un constat assisté.
 état programmatique ; une cible conserve la sémantique native attendue.
 
 RÈGLE [INTERACTION-R24] : l'apparence cohérente accompagne une identification cohérente : un composant ayant la même

@@ -8,6 +8,350 @@
 
 ---
 
+## 2026-08-01 — LA SCÈNE : mesurer dans un état, et non au repos
+
+**Décision.** Nouveau champ de fiche, `SCENE:`, à côté de `CRITERE:`. Il déclare **l'état dans
+lequel la mesure est prise**. Liste **fermée**, comme la table des prédicats : `repos`,
+`soumission-vide`, `tabulation`. Une scène absente ne s'improvise pas — elle remonte comme
+manque et le paquet n'est pas produit.
+
+**Pourquoi c'est structurant.** `ACCESSIBILITY-R18` (« `aria-invalid` n'est jamais seul ») ne
+mesurait **rien** depuis deux jours : sur une page tranquille, aucun champ n'est en erreur.
+Le moteur disait « rien à signaler » et c'était vrai au sens le plus creux du terme. La même
+règle, dans la scène `soumission-vide`, examine six champs. **Mesurer au repos et conclure
+« conforme » est la façon la plus polie de ne pas auditer.**
+
+**Rejeu et unanimité, appliqués (§ 11.5).** Chaque scène est jouée **trois fois**. Un constat
+qui ne se reproduit pas à l'identique devient un *non concluant*, jamais un constat. Un faux
+positif intermittent détruit la confiance en une réunion.
+
+**Une scène injouable n'est pas une conformité.** Une page sans formulaire ne « passe » pas
+`FORM-R20` : la mesure n'a pas eu lieu, et le rapport le dit. Cinq des six pages de Passion
+Courtage sont dans ce cas.
+
+**Deux `CRITERE` posés** : `FORM-R20` (un résumé d'alerte visible apparaît après un échec) et
+`FORM-R24` (chaque champ en erreur porte un message associé). Portée déclarée pour R20 : il
+vérifie qu'un résumé **apparaît**, pas qu'il liste *toutes* les erreurs.
+
+**Résultat, et il est à l'honneur du client.** Le formulaire de contact de Passion Courtage
+produit un vrai résumé — `div[role=alert]` : « Votre demande n'a pas été envoyée : 6 champs
+sont… » — et passe six champs en `aria-invalid`, chacun avec son message associé. **Trois rejeux
+unanimes.** C'est le premier « rien à signaler » du projet obtenu sur une mesure qui aurait pu
+échouer.
+
+**Un critère retiré plutôt que livré faux.** `BORDER-U06` avait reçu
+`aucun(":focus-visible") mesure(outline-style) == "none"`, et signalait sept contrôles sur la
+page de contact. Vérification : la règle dit « jamais `outline: none` **sans remplacement
+équivalent au seuil 3:1** », et le site change bien la couleur de bordure au focus. Établir s'il
+y a remplacement demande une **mesure différentielle** — comparer l'état focalisé à l'état de
+repos — mécanisme qui n'existe pas. Le `CRITERE` a été retiré ; la scène `tabulation` reste
+construite et déclarée, en attente d'une règle qu'elle puisse servir honnêtement.
+
+C'est le cinquième constat écarté par vérification en deux jours. Aucun n'a été trouvé par
+relecture du code : tous par confrontation à la pièce.
+
+## 2026-08-01 — LA COUCHE UX ENTRE DANS LE MOTEUR (loi 4.20)
+
+**Le reproche, et il est fondé.** Neuf règles rendues exécutables, dont sept en fondations et
+zéro dans `languages`, `flows` ou `patterns`. Le mécanisme de l'erreur a un nom : **on a laissé
+l'instrument choisir la doctrine** — d'abord les 12 contrôles de `verifie-rendu`, puis « ce que
+le CSSOM sait voir ». Le journal du matin appelait ça une découverte (*« le contrôle précédait la
+règle »*) ; la journée l'a refait en plus grand.
+
+**Ce que le comptage a montré.** 342 des 837 `MESURE` sont dans les couches UX. Et surtout :
+`languages` 61 % de propriétés universelles, `flows` 58 %, `principles` 53 % — contre
+`foundations` 39 %. **Les couches UX concentrent les normes opposables**, les fondations
+concentrent les partis pris. Le statut de frontière disait l'ordre depuis le début.
+
+**L'argument décisif** : `ACCESSIBILITY-UX` ne porte que 11 `MESURE` parce qu'elle est conçue
+pour poser l'obligation et renvoyer au propriétaire. L'accessibilité vit dans `FORM`,
+`VALIDATION`, `INTERACTION`, `GESTURE`. « Accessibilité d'abord » **impose** « UX d'abord ».
+Versé au cahier comme **loi 4.20**.
+
+**Quatre `CRITERE` posés, choisis dans le corpus avant de savoir comment les mesurer** :
+`INTERACTION-R23` (nom accessible), `INTERACTION-R08` (étiquette visible), `INTERACTION-R10`
+(surface cliquable = élément natif), `FORM-R05` (aucun tabindex positif). Deux prédicats
+nouveaux — `nomme()` et `etiquete_visible()` — qui expriment deux notions **définies par la
+norme** (WCAG 4.1.2 et 3.3.2), pas par nous. Deux règles n'ont demandé aucune machinerie.
+
+**Portées partielles déclarées dans les fiches** : `R23` vérifie qu'un nom *existe*, pas qu'il
+décrit la fonction (« cliquez ici » passe) ; `R08` n'automatise que l'étiquette visible, la
+délimitation à 3:1 relevant d'un jugement que `BORDER-U09` déclare non scriptable.
+
+**Un faux positif, encore, et le même remède.** Le moteur a signalé un `select` sans étiquette
+sur Passion Courtage. Vérification : le `select` natif est un **shim** à `opacity:0`,
+`aria-hidden="true"`, `tabindex="-1"`, conservé pour la soumission ; le vrai contrôle est un
+combobox correctement étiqueté par `aria-labelledby`. **Le site avait raison.**
+
+Cause : `visible()` ne testait que `getClientRects().length`. Corrigé — il remonte la chaîne des
+ancêtres (`display`, `visibility`, `opacity`, `content-visibility`) et **exclut tout sous-arbre
+`aria-hidden="true"`**, ce qui est normatif : un élément retiré de l'arbre d'accessibilité n'a
+rien à faire dans une mesure d'accessibilité. C'est le quatrième faux positif écarté par
+vérification en deux jours ; à chaque fois, c'est la lecture de la pièce qui a tranché, pas le
+chiffre.
+
+**Le harnais fabriquait sa propre divergence.** Le test de non-régression stubbait
+`getClientRects` pour rendre la visibilité neutre — mais le contrôle en dur ne consulte que ça,
+là où l'évaluateur du corpus consulte aussi le style calculé. Le talon avantageait un moteur.
+Il respecte désormais `display:none`, seul fait de mise en page que jsdom connaisse vraiment.
+
+**17 cas d'épreuve** pour les deux prédicats (`npm run verifie:ux`), dont neuf que le prédicat
+doit rejeter — étiquette vide, `placeholder` tenant lieu d'étiquette, `aria-label` sans
+étiquette visible, `aria-labelledby` mort, image sans `alt`, `tabindex` positif.
+
+**Résultat sur Passion Courtage** : aucun écart sur les quatre nouvelles règles. Un « rien à
+signaler » qui vaut quelque chose, puisque les prédicats sont prouvés mordants.
+
+## 2026-07-31 — FILI AUDITÉ PAR FILI : le kit se signe, et ça change tout
+
+**Fait.** Neuf règles du corpus exécutées sur les 90 pages construites. **643 écarts de contraste
+— zéro sur un élément portant `data-slot`**, la marque que les composants de `@fili/react` posent
+sur leur racine. Tous sont dans la feuille du site de documentation.
+
+**Pourquoi c'est le résultat qui compte.** L'annexe A.2 avait produit six constats à la main le
+matin même ; cinq mesuraient la feuille de la démo, pas le système. La machine fait la
+distinction que l'œil avait ratée cinq fois sur six — **parce que le kit se signe**. Un système
+qui marque ses composants est un système auditable. C'est un argument de conception, pas une
+commodité d'outillage.
+
+**Une tension du corpus, produite par la machine.** 578 des 643 écarts sont `text-muted`.
+`COLOR-R09` (propriété universelle) pose 4,5:1 pour tout texte ; `COLOR-R12` déclare `text-muted`
+à 2,54:1 et en autorise l'emploi sur les métadonnées accessoires. **WCAG 1.4.3 ne connaît pas
+d'exception « métadonnée accessoire »** — ses seules exceptions sont le texte incident, les
+logotypes et le grand texte. Les deux règles ne peuvent pas être vraies ensemble : soit R12 est
+une **exception nommée** de R09 (relation `exception-de`, précédent F01 à ré-instruire), soit
+c'est un écart assumé qu'il faut cesser d'appeler légitime. **Le moteur ne tranche pas** — il
+produit la contradiction et s'arrête. À arbitrer.
+
+Une partie des occurrences sont d'ailleurs des libellés de navigation (« Layout », « Theming ») :
+du texte fonctionnel, pas de la métadonnée. C'est le cas F01 reproduit à l'échelle du site.
+
+**Le grief Tailwind se répète sur l'espacement.** 24 utilitaires (`.p-3`, `.gap-1.5`, `.mt-px`)
+hors de l'échelle `--space-*`. A.2 avait retenu « palette = défauts Tailwind, 5 tokens sur 5 » ;
+c'est la même chose sur l'espacement. Le système déclare une échelle fermée et la couche
+utilitaire en expose une autre à côté.
+
+**Écart de nommage découvert.** `SPACING-R05` a d'abord répondu *en attente de déclaration* sur
+Fili lui-même : la fiche écrit `spacing.base`, le thème émet `--space-base`. Le critère suit
+désormais le nom **émis**, seul observable par un moteur, et l'écart est relevé dans la fiche. Il
+n'a été visible qu'une fois la règle rendue exécutable.
+
+**Trois corrections d'outillage.** (1) L'évaluateur DOM tentait d'exécuter les critères statiques
+— une liste de propriétés CSS passée à `querySelectorAll` : bug livré le matin, corrigé.
+(2) `dans()` reconnaît désormais une valeur **dérivée** d'un cran (`calc(var(--radius-lg) - 1px)`),
+que `RADIUS-R06` autorise nommément pour le cas concentrique — quatre faux positifs supprimés ;
+condamner une règle du corpus au nom d'une autre n'est pas un constat. (3) Deux limites de
+l'instrument statique déclarées au rapport : il compte ce qui est **écrit**, pas ce qui est
+employé, et il ne sait pas séparer le kit du site (la marque `data-slot` ne vaut que côté DOM).
+
+**Lot 1 — critère atteint.** Le MVP devait « retrouver ce qui a été mesuré à la main aux annexes
+A.1 et A.2, et ne rien inventer ». Les sept lignes de A.1 sont traitées : retrouvées, corrigées ou
+déclarées hors portée. A.2 est refaite et son verdict est plus net que l'original. Aucun constat
+n'a été fabriqué, et trois tentations de fabrication ont été écartées en cours de route
+(`text-muted`, le pire arrêt d'un dégradé, le cas concentrique).
+
+## 2026-07-31 — `contraste()` : le prédicat qui a failli livrer des faux positifs
+
+**Décision.** `COLOR-R09` reçoit son `CRITERE`. Il écrit les **trois seuils de la norme en
+clair**, dans la grammaire, plutôt que de les cacher dans le prédicat :
+
+```
+chaque("body *") contraste(color) >= 4.5
+  ou mesure(font-size) >= 24 et contraste(color) >= 3
+  ou mesure(font-size) >= 18.66 et mesure(font-weight) >= 700 et contraste(color) >= 3
+```
+
+La précédence (`et` lie plus fort que `ou`) suffit à dire WCAG 1.4.3 sans parenthèses. Le
+prédicat, lui, ne fait qu'une chose : le rapport de luminance, avec composition alpha du texte
+et de son fond effectif remonté d'ancêtre en ancêtre.
+
+**Portée déclarée : R09 n'est que PARTIELLEMENT automatisée.** Sa seconde clause — « composant
+ou état requis pour l'identifier atteint 3:1 » — suppose de savoir ce qui *identifie* un
+contrôle. `BORDER-U09` déclare ce jugement non décidable par un script. La fiche le dit
+maintenant, le rapport ne prétend pas au reste.
+
+**Le faux positif évité.** Première version : sur un fond en dégradé, mesurer contre chaque
+arrêt et garder le pire. Résultat sur Passion Courtage : **30 « écarts »**, dont le titre du
+héros à 2,27:1. Vérification : le texte est posé sur la **moitié sombre** du dégradé — il est
+conforme. Le pire arrêt était à l'autre bout de l'élément. `COLOR-R21` dit « le pixel le plus
+défavorable », c'est-à-dire *sous le texte*, pas sur l'élément entier.
+
+Correction : un fond en dégradé est **non concluant** tant que l'échantillonnage de pixels
+n'existe pas. Les 30 écarts sont retombés à **zéro écart concluant** et 65 mesures non
+concluantes, nommées. C'est la deuxième fois en une journée que la tentation d'un chiffre bat
+la lecture de la règle — la première était `text-muted` (loi 4.15, loi 4.16).
+
+**Ce qui empêche que ça recommence.** `tools/teste-contraste.mjs` : **13 cas d'épreuve à
+verdict calculé à la main**, dont sept que le prédicat *doit rejeter*. Un prédicat qui ne mord
+sur rien passe tous les sites — et « aucun écart » ne veut alors rien dire. Le harnais prouve
+qu'il mord avant qu'on lise son silence. `npm run verifie:contraste`.
+
+**Deux corrections d'instrument au passage.** Le runner **déroule la page et attend les
+animations** avant de mesurer : un élément saisi à mi-fondu n'a pas la couleur qu'il aura.
+Et l'opacité d'un ancêtre intermédiaire est **composée** (calcul exact) au lieu d'être déclarée
+indécidable — seule l'opacité du porteur du fond reste non concluante.
+
+**Nouvelle catégorie de sortie.** Le moteur distingue désormais quatre issues, pas trois :
+conforme · en écart · **non concluant** (la mesure existe, la valeur n'a pas pu être établie) ·
+en attente de déclaration (la donnée appartient au client). Confondre les deux dernières avec
+« conforme » est la façon la plus simple de mentir avec un audit.
+
+## 2026-07-31 — L'INSTRUMENT STATIQUE : le corpus lit la feuille de style, pas seulement le DOM
+
+**Décision.** Quatre `MESURE` du corpus ne parlent pas du document rendu mais des **valeurs
+déclarées** — « aucune valeur d'espacement en dur hors des crans de l'échelle », « aucune taille
+de police en unités viewport seules ». Aucun sélecteur ne les atteint : une valeur écrite dans un
+`@media` jamais appliqué reste une valeur écrite. `tools/instrument-statique.mjs` les récolte
+via le **CSSOM du navigateur** — pas un analyseur CSS maison, qui divergerait en silence de la
+cascade réelle.
+
+La grammaire gagne deux formes, `chaque_valeur()` et `aucune_valeur()`, et deux prédicats,
+`unites_seules()` et `clamp_avec_rem()`. Quatre `CRITERE` posés : `SPACING-R05`, `RADIUS-R03`,
+`TYPOGRAPHY-R11`, `TYPOGRAPHY-R12`. **Le moteur exécute huit règles du corpus sur 1 040.**
+
+**Un jeu de tokens vide n'est pas une conformité.** Sur Passion Courtage, aucun `--spacing-*` ni
+`--radius-*` n'est déclaré : il n'y a pas d'échelle à laquelle confronter les 375 déclarations
+d'espacement et les 104 de rayon. L'instrument sort une **troisième issue**, à côté de conforme
+et en écart : *en attente de déclaration* (loi 4.18). Le taire ferait lire « rien à signaler » là
+où rien n'a pu être regardé. C'est le premier emploi machine de ce quatrième état.
+
+**Ce que l'instrument a corrigé du relevé à la main.** Le cahier disait « aucune échelle
+typographique — 17 `clamp()` distincts ». **Les 17 sont exacts ; 3 seulement sont des
+`font-size`, 14 sont de l'espacement.** Le chiffre était juste, l'attribution fausse : c'est la
+loi 4.15 en plein, appliquée à nous. Idem pour « 20 `padding` + 15 `gap` » — 36 et 22 en réalité,
+le relevé n'avait compté que les raccourcis, pas les propriétés longues.
+
+**Le seul écart trouvé est net.** `TYPOGRAPHY-R12` : les trois `clamp()` de taille du site ont un
+terme préféré en `vw` pur (`clamp(2.7rem, 5.6vw, 4.6rem)`). Le zoom navigateur n'agit pas sur les
+unités viewport — entre les deux bornes, le texte ne grandit pas quand l'utilisateur zoome. C'est
+exactement l'anti-patron que la règle nomme.
+
+**Effet de bord.** Trois fiches bumpées (SPACING 1.3.0, RADIUS 1.2.0, TYPOGRAPHY 1.4.0) sans
+aucune règle nouvelle ni modifiée : les condensés du paquet ne portent pas les `CRITERE`, la
+citation a donc été relevée sans retoucher leur contenu — et c'est vrai.
+
+## 2026-07-31 — LA MACHINE CORRIGE L'AUDITEUR : premier passage sur un site client
+
+**Fait.** Le moteur piloté par le corpus a tourné sous Chromium 141 sur les 6 pages de Passion
+Courtage, à 8 largeurs. Quatre règles exécutables sur 1 040 — le rapport le dit en tête plutôt
+que de laisser croire à une couverture.
+
+**Il a falsifié le relevé fait à la main le matin même.** L'annexe A.1 du cahier affirmait
+« hiérarchie de titres correcte » : **h2 → h4 sur les six pages**, le pied ouvre ses blocs en
+`h4` alors que le dernier titre du corps est un `h2`. Violation de `TYPOGRAPHY-R07`, propriété
+universelle. Trois autres lignes de A.1 mélangeaient les portées — un chiffre relevé sur
+`index.html` se lisait comme valant pour cinq pages (8 `<em>` contre 28 sur le site ; 13 liens
+externes contre 33).
+
+**Il a aussi trouvé ce que l'œil n'avait pas cherché.** Le débordement horizontal culmine à
+**+125 px à 721 px** — la bascule compilée du site elle-même — et il y a **+11 px à 320 px** sur
+`/contact.html`, seul régime que `GRID-R10` norme. Le relevé à la main avait balayé 900, 834,
+768, 600 et 390 : ni le pire point, ni le seul point normé.
+
+**Ce qu'il n'a pas fait, et qu'il dit.** Le débordement à 721/768/834 n'est **pas** rangé en « à
+corriger » : `GRID-R10` ne norme que 320 px, donc le corpus ne dit rien à ces largeurs. Le
+rapport le range en *non couvert* et pose la question au référentiel, pas au client. Un moteur
+qui aurait « arrondi » aurait fabriqué une violation à partir d'une observation.
+
+**Ce que ça enseigne.** La loi 4.16 prise à revers : un corpus de test écrit par l'auditeur
+mesure l'auditeur — y compris quand l'auditeur croyait mesurer le client. C'est la première
+fois qu'une machine du projet corrige une affirmation humaine du projet.
+
+**Manques nommés par ce passage** : le prédicat `contraste()` (déclaré, jamais implémenté) et
+surtout **un instrument statique** — lire la feuille de style du client, pas seulement le DOM
+rendu. Sans lui, les échelles d'espacement, de typographie et de rayons de A.1 restent hors
+d'atteinte.
+
+## 2026-07-31 — QUATRE RÈGLES AU CORPUS, TROIS MÉCANISMES NOMMÉS
+
+**Décision.** `TYPOGRAPHY-R07` reçoit son `CRITERE` : `suite("h1,h2,h3,h4,h5,h6") sans_saut`.
+`suite()` parle d'une **séquence**, pas d'un élément : elle ne pouvait pas être un prédicat
+élément par élément — c'est une **quatrième forme** de la grammaire, à côté de `compte()`,
+`chaque()` et `aucun()`. Le test de non-régression le confirme : six occurrences, identiques des
+deux côtés, sur cinq cas d'épreuve construits pour ça.
+
+La grammaire gagne aussi une **précédence** (`et` lie plus fort que `ou`) et le prédicat `dans()`,
+qui lit les crans `--control-focus-*` sur la racine — le harnais ne connaît aucune couleur en dur.
+
+**Deux rattachements étaient faux.** `focus-invisible` était rattaché à BORDER-U04 (apparition
+instantanée de l'anneau) ; il relève de **BORDER-U06** (jamais `outline: none` sans remplacement).
+`focus-hors-systeme` était rattaché à BORDER-U03 (rayon de l'anneau) ; il relève de **BORDER-U02**
+(anneau en `control.focus-color`). Deux règles réelles citées à la place des deux bonnes : la loi
+4.15 décrit exactement ce piège, et il s'est refermé sur nous.
+
+**Ce qui reste en dur, et pourquoi — nommément.** Trois contrôles ne reçoivent pas de `CRITERE`,
+parce qu'en écrire un qui se trompe serait pire que de ne pas en écrire :
+
+- `cible-trop-petite` (TOUCH-R06) : **aucune convention DOM ne permet à un élément de déclarer une
+  exception nommée** (`inline`, `essentiel`). `declare_exception` est validé mais inévaluable. Le
+  compilateur remonte ce motif exact plutôt que de laisser croire à une conformité.
+- `focus-invisible` (BORDER-U06) et `focus-hors-systeme` (BORDER-U02) : demandent le **pilotage du
+  focus clavier** et la **remontée d'ancêtres** — le kit pose volontairement l'anneau sur le cadre
+  du composant, pas sur le champ.
+
+La remontée d'ancêtres est le **même manque** que la divergence R18 du jour : `porte_ou_ascendant`.
+Arbitré : on ne l'ajoute pas. Conséquence assumée — les deux contrôles de focus restent dans
+`verifie-rendu.mjs` et R18 reste partielle. Le harnais le dit à chaque exécution.
+
+**Loi versée au cahier Audit (4.19).** Un constat de doctrine (qui cite une règle, un statut, une
+source) et un contrôle d'hygiène de build (404, erreur JS, page injoignable) ne se mélangent pas
+dans un rapport. Une 404 rangée parmi les violations du design system donne à un défaut
+d'intendance l'autorité d'une règle, et noie les vrais constats. Corollaire outillage : un contrôle
+qui ne peut citer aucune règle n'a rien à faire dans le moteur piloté par le corpus.
+
+## 2026-07-31 — LE MOTEUR LIT LE CORPUS : trois règles quittent le code, une divergence instruite
+
+**Décision.** Le champ `CRITERE:` est posé et il traverse toute la chaîne : la fiche markdown le
+porte à côté de `MESURE:` (qui ne bouge pas — la prose reste le texte du constat livré),
+`extrait-decisions.py` le projette dans la fiche de doctrine, `compile-regles.py` l'émet dans
+`dist/audit/RULES-*.md`. Deux outils nouveaux le consomment : `tools/criteres-grammaire.mjs`
+(compilateur + évaluateur, **table de prédicats fermée**) et `tools/execute-criteres.mjs` (le
+moteur, sous Chromium). Le moteur ne connaît **aucune règle en dur** : retirer un `CRITERE:` d'une
+fiche le retire du moteur.
+
+**Ce que le test de non-régression a trouvé.** `tools/teste-criteres.mjs` fait tourner sur le même
+DOM les contrôles en dur de `verifie-rendu.mjs` et l'évaluateur piloté par le corpus. Les 90 pages
+construites ne déclenchent qu'une occurrence — elles prouvent que les deux moteurs se taisent
+ensemble, pas qu'ils s'accordent. Douze cas d'épreuve forcent chaque branche. Résultat : **10
+occurrences côté code, 11 côté corpus**.
+
+L'écart est réel et il est du côté du corpus. Sur
+`<fieldset aria-describedby="e"><input aria-invalid="true"></fieldset>`, le code remonte au
+`fieldset` (`closest`) et ne signale rien ; le `CRITERE` de `ACCESSIBILITY-R18`, écrit avec
+`porte(...)`, n'interroge que l'élément et signale une faute. **Le code avait raison** — R18 dit
+« associé par une relation programmatique », jamais « porté par l'élément ».
+
+**Ce qu'on n'a pas fait.** On n'a pas ajouté le prédicat `porte_ou_ascendant(attr)` qui corrigerait
+le critère. La table des prédicats est fermée par construction : un prédicat absent remonte comme
+manque et s'arbitre, il ne s'improvise pas — même mécanique que le `MISSING-COMPONENT-PROTOCOL`,
+appliquée au moteur. R18 reste donc partiellement automatisée, et le harnais le **dit à chaque
+exécution** au lieu de le taire.
+
+**Pourquoi ça compte.** C'est la première fois qu'une règle du corpus est exécutable sans qu'un
+outil la connaisse. C'est aussi la première fois qu'un désaccord entre le code et la doctrine est
+sorti par une machine plutôt que par une relecture — le cas exact que le § 4 du cahier de lot
+annonçait comme « une trouvaille, pas un échec ».
+
+**Effets de bord assumés.** Les condensés `tools/plugin/rules/RULES-accessibility.md` et
+`RULES-typography.md` ont été resynchronisés (R17, R18, R06 amendée) et leurs deux entrées de
+`fraicheur.derives.json` supprimées : la garde de fraîcheur avait correctement refusé de produire
+le paquet, parce que la dérive avait cessé d'être éditoriale pour devenir doctrinale.
+
+**Portée du test.** L'instrument est jsdom — cette machine n'a pas de navigateur. Le test ne vaut
+que pour les critères purement structurels. Tout critère géométrique (`mesure`, `contraste`) devra
+passer par `execute-criteres.mjs` sous Chromium avant d'être dit éprouvé.
+
+## 2026-07-31 — LE CONTRÔLE PRÉCÉDAIT LA RÈGLE : trois trous ouverts par l'inventaire du moteur
+
+- **Fichiers** : `foundations/TYPOGRAPHY-UX.md` (1.2.0 — `TYPOGRAPHY-R06` amendée, premier `CRITERE` du corpus), `principles/ACCESSIBILITY-UX.md` (1.2.0 — `ACCESSIBILITY-R17`, `ACCESSIBILITY-R18`, sources S8/S9). Aucun token, aucun composant.
+- **Origine** : lot 1 du projet Fili Audit — inventaire de ce que le moteur existant contrôle déjà (`docs/chantiers/LOT1-GRAMMAIRE-CRITERE.md`). Sur les douze contrôles de `tools/verifie-rendu.mjs`, **cinq appliquaient une règle du corpus, quatre relevaient de l'hygiène de build, et trois ne s'appuyaient sur rien**. Le code était plus exigeant que la doctrine — c'est l'inverse de la Méthode, et c'est resté invisible tant que personne n'avait confronté les deux listes.
+- **`titre-absent`** — `TYPOGRAPHY-R06` disait « **un seul** h1 » : une page sans aucun h1 satisfaisait la lettre de la règle, alors que le vérificateur la signalait depuis le 30/07. La règle passe à « **exactement un** ». Arbitrage d'Aurélien : le motif est le référencement — le h1 est lu comme le sujet de la page, l'absence coûte autant que la duplication.
+- **Ce que l'amendement ne dit pas** : rien du graphisme. `TYPOGRAPHY-R08` (le niveau et la taille sont deux décisions indépendantes) était déjà écrit et couvrait exactement la nuance soulevée — un h1 peut légitimement être rendu plus petit qu'un h2. La règle a donc gagné une obligation de **présence**, pas une obligation de **poids**.
+- **`ACCESSIBILITY-R17`** — aucune règle n'exigeait qu'un `aria-describedby` désigne un élément existant. Le commentaire de `verifie-rendu.mjs` qualifiait pourtant déjà ce cas de « défaut le plus silencieux de la chaîne » : le message disparaît pour la technologie d'assistance sans que rien ne bouge à l'écran. Seul le rendu peut le voir — les identifiants sont générés par `React.useId`, aucune lecture de source ne les confronte.
+- **`ACCESSIBILITY-R18`** — `aria-invalid` posé sans message associé annonce l'échec sans dire pourquoi. `INPUT-UX` parlait du message et de son `aria-describedby`, jamais de cette implication. Placées dans le principe et non chez `INPUT` : elles ne concernent aucun composant en propre, et `ACCESSIBILITY-R02` réserve le détail au propriétaire.
+- **Premier `CRITERE` du corpus.** Ces trois règles inaugurent le champ `CRITERE:`, posé **à côté** de `MESURE:` sans le remplacer : la prose reste le texte du constat livré au client, le critère est ce que la machine exécute. Grammaire fermée à trois formes et sept prédicats (`docs/chantiers/LOT1-GRAMMAIRE-CRITERE.md`) — un critère qui aurait besoin d'un prédicat absent ne s'écrit pas, il remonte comme manque, même mécanique que le `MISSING-COMPONENT-PROTOCOL`.
+- **Ce qui reste ouvert** : les quatre contrôles d'hygiène (`lien-mort`, `lien-hors-basepath`, `erreur-javascript`, `page-injoignable`) n'entrent pas dans le corpus et n'y entreront pas — un 404 n'est pas un écart au référentiel. Le rapport devra les afficher **séparément** des constats de doctrine, sous peine d'affaiblir ces derniers.
+
 ## 2026-07-30 — VALIDATION : une erreur cesse d'être un style choisi, elle devient la conséquence d'un verdict
 
 - **Fichiers** : `packages/react/src/lib/{validation.ts,field.tsx}` (nouveaux), `components/{input,select,checkbox,radio}/*.tsx`, `src/index.ts`, manifeste (`schema.ts` + les six déclarations), `apps/site/content/md/principles/VALIDATION-UX.md` (nouveau) et son inventaire, `apps/site/app/ui/formulaire-pilote.tsx` (nouveau) + `registry.tsx`, `tools/{fili-check.mjs,verifie-manifeste.mjs}`, `tools/plugin/config-intentions.js`, trois fichiers de tests.

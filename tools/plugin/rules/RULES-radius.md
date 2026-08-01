@@ -7,7 +7,7 @@ selon-contexte: ["border (focus ring : rayon du composant + offset)"]
 ---
 # RULES — Radius (compilé, condensé)
 
-> Généré depuis `foundations/radius/RADIUS-UX.md` (v1.1.0) et `RADIUS-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/radius/RADIUS-UX.md` (v1.2.0) et `RADIUS-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - La plus petite fondation. **Règle cardinale : le rayon suit la taille et rien d'autre** — ni l'importance, ni l'état, ni le goût de l'écran.

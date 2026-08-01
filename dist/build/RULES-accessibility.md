@@ -3,9 +3,9 @@ sujet: accessibility
 nature: principles
 resume: "Ce fichier pose les **obligations universelles** d'accessibilité que tout composant, pattern, fondation et langage doit respecter — le contrat minimal, pas le détail."
 selon-contexte: []
-source: ACCESSIBILITY-UX.md v1.1.1
-empreinte: sha256:992fdf4da2ee5f1f
-regles: {loi: 8, preference: 2, non_qualifie: 0}
+source: ACCESSIBILITY-UX.md v1.2.0
+empreinte: sha256:ccc8def301141b7c
+regles: {loi: 10, preference: 2, non_qualifie: 0}
 ---
 # RULES — accessibility (compilé, mode build)
 
@@ -29,6 +29,8 @@ regles: {loi: 8, preference: 2, non_qualifie: 0}
 - **[préférence]** Nous appliquons les mécanismes normatifs pour toute limite de temps imposée, et renforçons l'exigence en annonçant et préservant les données déjà saisies. `ACCESSIBILITY-R12`
 - **[loi]** Aucun contenu ne doit produire de flash dangereux — au maximum trois flashs par seconde, dans le respect des seuils établis. `ACCESSIBILITY-R13`
 - **[préférence]** Nous testons chaque écran assemblé avant livraison avec le clavier seul, un lecteur d'écran, le zoom 200 %, un usage tactile imprécis et le mode mouvement réduit. `ACCESSIBILITY-R14`
+- **[loi]** Tout attribut de relation ARIA désigne un identifiant porté par un élément présent dans le document. `ACCESSIBILITY-R17`
+- **[loi]** Tout élément portant aria-invalid="true" expose un message d'erreur en texte, associé par une relation programmatique. `ACCESSIBILITY-R18`
 
 ## Non couvert — poser la question, ne rien trancher
 

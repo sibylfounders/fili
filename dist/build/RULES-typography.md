@@ -3,8 +3,8 @@ sujet: typography
 nature: foundations
 resume: "Ce fichier contient le raisonnement : hiérarchie, lisibilité, risques."
 selon-contexte: [alert, button, card, form, input]
-source: TYPOGRAPHY-UX.md v1.1.3 + TYPOGRAPHY-UI.md v1.1.0
-empreinte: sha256:4b5768ddbbf4940c
+source: TYPOGRAPHY-UX.md v1.4.0 + TYPOGRAPHY-UI.md v1.1.0
+empreinte: sha256:bd566899b4cbdec5
 regles: {loi: 15, preference: 16, non_qualifie: 0}
 ---
 # RULES — typography (compilé, mode build)
@@ -22,7 +22,7 @@ regles: {loi: 15, preference: 16, non_qualifie: 0}
 - **[loi]** La typographie porte deux décisions séparées — la structure sémantique du contenu et les conditions physiques de lisibilité — et aucune des deux ne se prend à la place de l'autre. `TYPOGRAPHY-R03`
 - **[loi]** Le niveau sémantique d'un texte et son traitement visuel se décident indépendamment l'un de l'autre. `TYPOGRAPHY-R04`
 - **[loi]** Les niveaux de titre h1 à h6 décrivent la structure du contenu et ne sont jamais employés pour obtenir un effet de style. `TYPOGRAPHY-R05`
-- **[loi]** Une page comporte un seul titre de niveau 1, qui est le titre du document. `TYPOGRAPHY-R06`
+- **[loi]** Une page comporte exactement un titre de niveau 1, qui est le titre du document. `TYPOGRAPHY-R06`
 - **[loi]** Les niveaux de titre se suivent sans saut : un niveau n n'est jamais suivi directement d'un niveau n+2. `TYPOGRAPHY-R07`
 - **[loi]** Le niveau d'un titre suit la structure du contenu et sa taille suit le design : un titre de niveau inférieur peut légitimement être rendu plus petit qu'un titre de niveau supérieur. `TYPOGRAPHY-R08`
 - **[loi]** Un texte qui doit avoir l'apparence d'un titre sans en être un prend son style sur un élément non-titre. `TYPOGRAPHY-R09`

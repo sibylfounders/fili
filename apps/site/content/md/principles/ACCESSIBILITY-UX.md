@@ -2,7 +2,7 @@
 component: accessibility
 layer: ux
 type: principle
-version: 1.1.1 # 1.1.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.0 : Accessibility devient un principe de premier niveau ; son contrat universel, sa compilation et son chargement automatique restent inchangés. 1.0.1 : attributions WCAG précisées (2.5.6 AAA, ordre de focus, portée de 1.4.2, mécanismes/exceptions de 2.2.1) + 2.5.8 AA ajouté ; première rédaction : fondation transversale UX-only (companion: none) compilée vers dist/ et chargée d'office par le routeur, née des trous P1 de l'inventaire transversal du 2026-07-14
+version: 1.2.0 # 1.2.0 : deux règles neuves nées de l'inventaire du moteur (2026-07-31) — R17 (une relation ARIA désigne un élément existant) et R18 (aria-invalid n'est jamais seul). Le code de verifie-rendu.mjs contrôlait les deux depuis le 30/07 sans qu'aucune règle ne les porte : le contrôle précédait la doctrine. Sources S8 (WCAG 4.1.2 + ARIA 1.2) et S9 (WCAG 3.3.1) ajoutées. 1.1.1 # 1.1.1 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.0 : Accessibility devient un principe de premier niveau ; son contrat universel, sa compilation et son chargement automatique restent inchangés. 1.0.1 : attributions WCAG précisées (2.5.6 AAA, ordre de focus, portée de 1.4.2, mécanismes/exceptions de 2.2.1) + 2.5.8 AA ajouté ; première rédaction : fondation transversale UX-only (companion: none) compilée vers dist/ et chargée d'office par le routeur, née des trous P1 de l'inventaire transversal du 2026-07-14
 last_updated: 2026-07-20
 companion: none # principe UX-only : aucune couche visuelle (ni token, ni lexique) — le « concret » vit chez les propriétaires nommés. Distinct de laws : celui-ci EST compilé (l'IA de build le charge à chaque intention), cf. note de transposition
 confidence: mixed # les critères WCAG 2.2 cités sont établis (principalement A/AA ; 2.5.6 est AAA) ; le choix d'un socle universel compact plutôt qu'une duplication par composant est une décision d'architecture interne datée 2026-07-14
@@ -132,6 +132,20 @@ SOURCE : interne
 
 ## Règle transversale
 
+RÈGLE [ACCESSIBILITY-R17] : **toute relation programmatique désigne un élément qui existe.** Un `aria-describedby`, `aria-labelledby` ou `aria-errormessage` dont l'identifiant ne correspond à aucun élément du document ne produit **aucune erreur visible** : le message disparaît pour la technologie d'assistance sans que rien ne bouge à l'écran. C'est le défaut le plus silencieux de la chaîne — et seul le rendu peut le voir, puisque les identifiants sont générés à l'exécution.
+STATUT : propriété universelle
+SOURCE : S8
+ÉNONCÉ : Tout attribut de relation ARIA désigne un identifiant porté par un élément présent dans le document.
+MESURE : aucun identifiant d'aria-describedby, aria-labelledby ou aria-errormessage sans élément correspondant
+CRITERE : chaque("[aria-describedby],[aria-labelledby],[aria-errormessage]") pointe_vers_existant(aria-describedby|aria-labelledby|aria-errormessage)
+
+RÈGLE [ACCESSIBILITY-R18] : **`aria-invalid` n'est jamais seul.** Un champ marqué invalide sans message associé annonce l'échec sans dire pourquoi : la personne sait qu'elle s'est trompée, jamais en quoi. L'identification d'une erreur exige que sa cause soit décrite en texte, pas seulement signalée.
+STATUT : propriété universelle
+SOURCE : S9
+ÉNONCÉ : Tout élément portant aria-invalid="true" expose un message d'erreur en texte, associé par une relation programmatique.
+MESURE : aucun élément aria-invalid="true" sans message associé par aria-describedby ou aria-errormessage
+CRITERE : chaque("[aria-invalid=true]") porte(aria-describedby) ou porte(aria-errormessage)
+
 RÈGLE [ACCESSIBILITY-R16] : **l'accessibilité n'est pas une couche qu'on ajoute — c'est la condition d'existence de chaque règle.** Ce fichier pose l'obligation universelle et nomme son propriétaire ; il ne réécrit jamais la mécanique là où elle vit déjà.
 STATUT : note de méthode
 SOURCE : interne
@@ -150,5 +164,7 @@ SOURCE : interne
 | S5 | Flash (2.3.1) : ≤ 3 par seconde, seuils général et rouge | [W3C — Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html) | Établi — standard (A) |
 | S6 | Nom, rôle, valeur (4.1.2) | [WCAG 2.2](https://www.w3.org/TR/WCAG22/) | Établi — standard |
 | S7 | Taxonomie des capacités (visuel, auditif, moteur, cognitif, parole) | [W3C WAI — Diverse Abilities and Barriers](https://www.w3.org/WAI/people-use-web/abilities-barriers/) | Établi |
+| S8 | Un IDREF ARIA qui ne résout pas rompt la relation sans signal visible ; nom, rôle et valeur doivent être exposés à l'arbre d'accessibilité | [WCAG 2.2 — 4.1.2 Nom, rôle et valeur](https://www.w3.org/TR/WCAG22/#name-role-value), [WAI-ARIA 1.2 — IDREF](https://www.w3.org/TR/wai-aria-1.2/#propcharacteristic_value) | Établi — standard (niveau A) |
+| S9 | Une erreur détectée automatiquement est identifiée et décrite **en texte** ; le seul marquage ne suffit pas | [WCAG 2.2 — 3.3.1 Identification des erreurs](https://www.w3.org/TR/WCAG22/#error-identification) | Établi — standard (niveau A) |
 
 CONFIANCE : les critères WCAG 2.2 cités sont établis (principalement niveaux A/AA ; 2.5.6 est explicitement AAA). Les exigences qui dépassent ces critères sont identifiées comme **règles internes renforcées**. Le choix d'un **socle universel compact chargé pour toutes les intentions** — plutôt qu'une section accessibilité dupliquée dans chaque composant — est une décision d'architecture interne datée du 2026-07-14 : la règle propre reste chez son propriétaire, ce fichier ne porte que l'obligation et le renvoi.

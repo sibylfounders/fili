@@ -7,7 +7,7 @@ selon-contexte: ["form (si bouton de soumission d'un formulaire)", "voice (wordi
 ---
 # RULES — Button (compilé, condensé)
 
-> Généré depuis `components/BUTTON-UX.md` (v1.10.0) et `BUTTON-UI.md` (v1.8.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/BUTTON-UX.md` (v1.10.0) et `BUTTON-UI.md` (v1.9.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Usage
 - Bouton = action qui modifie un état, soumet une donnée, ou déclenche un processus. Navigation simple → lien, pas bouton.
@@ -162,7 +162,10 @@ min_touch_target: 44px
 ### Hover
 - **filled** (tout tone) → `solid_hover` (fond assombri d'un cran) · **lighter** (tout tone) → `subtle_hover` (fond teinté soutenu d'un cran) · **stroke / ghost** (tout tone) → `subtle` apparaît (le fond teinté du tone surgit ; neutral = `surface`).
 - Les 16 couples texte/fond, au repos ET au hover, sont ≥ 4.5:1 (vérifié par `tools/test-rendu.js` ; paire la plus tendue `lighter`+destructive au hover = 4.60:1).
-- `active`, `disabled`, `loading` : volontairement sans token de couleur (loading est un comportement ; active/disabled = dette assumée).
+- `active` : identité **TACTILE**, jamais une couleur de plus — enfoncement géométrique porté par `.ds-pressable`. Un état nommé par INTERACTION-R13 est UNIVERSEL : il ne peut pas dépendre d'un registre débrayable, donc il ne vit plus sous `[data-relief]` (qui l'enrichit sans le créer).
+- `disabled` : couple de rôles ENCADRÉ `surface-disabled` / `on-surface-disabled` — le contraste y est borné par le HAUT autant que par le bas (1,8:1 ≤ r ≤ 4,5:1, vérifié par `validate-contrast`) : un état indisponible doit rester lisible sans se lire comme actif. Remplace l'`opacity: .5` en dur.
+- `loading` : sans token de couleur — c'est un comportement, pas une teinte.
+- **Fenêtre de motion des états** : hover, focus et active partagent `motion.fast` (100 ms) en UNE seule déclaration — ils ne peuvent pas se désynchroniser. En `prefers-reduced-motion`, c'est la TRANSITION qui tombe, pas l'état.
 
 ### Tailles
 - sm → `scale.compact` (radius réduit) · md → `scale.base` · lg → `scale.expanded` (même radius que md, sinon effet pilule).

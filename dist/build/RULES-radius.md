@@ -3,8 +3,8 @@ sujet: radius
 nature: foundations
 resume: "Ce fichier contient le raisonnement : ce que le rayon suit, l'imbrication, le pill."
 selon-contexte: [alert, border, button, card, input]
-source: RADIUS-UX.md v1.1.0 + RADIUS-UI.md v1.1.0
-empreinte: sha256:b06ffc5dfc5424dd
+source: RADIUS-UX.md v1.2.0 + RADIUS-UI.md v1.1.0
+empreinte: sha256:35a8026c523b0e2c
 regles: {loi: 2, preference: 7, non_qualifie: 0}
 ---
 # RULES — radius (compilé, mode build)

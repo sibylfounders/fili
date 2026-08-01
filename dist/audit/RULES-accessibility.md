@@ -3,9 +3,9 @@ sujet: accessibility
 nature: principles
 resume: "Ce fichier pose les **obligations universelles** d'accessibilité que tout composant, pattern, fondation et langage doit respecter — le contrat minimal, pas le détail."
 selon-contexte: []
-source: ACCESSIBILITY-UX.md v1.1.1
-empreinte: sha256:992fdf4da2ee5f1f
-regles: {loi: 8, preference: 2, non_qualifie: 0}
+source: ACCESSIBILITY-UX.md v1.2.0
+empreinte: sha256:ccc8def301141b7c
+regles: {loi: 10, preference: 2, non_qualifie: 0}
 ---
 # RULES — accessibility (compilé, mode audit)
 
@@ -46,6 +46,14 @@ regles: {loi: 8, preference: 2, non_qualifie: 0}
   - vérifiable : aucun contenu ne clignote plus de trois fois par seconde, et les seuils de flash général et de flash rouge sont respectés
   - source : https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html
 - **[préférence]** Nous testons chaque écran assemblé avant livraison avec le clavier seul, un lecteur d'écran, le zoom 200 %, un usage tactile imprécis et le mode mouvement réduit. `ACCESSIBILITY-R14`
+- **[loi]** Tout attribut de relation ARIA désigne un identifiant porté par un élément présent dans le document. `ACCESSIBILITY-R17`
+  - vérifiable : aucun identifiant d'aria-describedby, aria-labelledby ou aria-errormessage sans élément correspondant
+  - critère : `chaque("[aria-describedby],[aria-labelledby],[aria-errormessage]") pointe_vers_existant(aria-describedby|aria-labelledby|aria-errormessage)`
+  - source : https://www.w3.org/TR/WCAG22/#name-role-value
+- **[loi]** Tout élément portant aria-invalid="true" expose un message d'erreur en texte, associé par une relation programmatique. `ACCESSIBILITY-R18`
+  - vérifiable : aucun élément aria-invalid="true" sans message associé par aria-describedby ou aria-errormessage
+  - critère : `chaque("[aria-invalid=true]") porte(aria-describedby) ou porte(aria-errormessage)`
+  - source : https://www.w3.org/TR/WCAG22/#error-identification
 
 ## Non couvert — poser la question, ne rien trancher
 

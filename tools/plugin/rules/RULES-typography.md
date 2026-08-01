@@ -7,7 +7,7 @@ selon-contexte: []
 ---
 # RULES — Typography (compilé, condensé)
 
-> Généré depuis `foundations/typography/TYPOGRAPHY-UX.md` (v1.1.1) et `TYPOGRAPHY-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/typography/TYPOGRAPHY-UX.md` (v1.4.0) et `TYPOGRAPHY-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Fondation, pas un composant : contrainte transversale consommée par tous les composants. Le modèle à axes ne s'applique pas.
@@ -15,7 +15,7 @@ selon-contexte: []
 
 ## Hiérarchie sémantique
 - h1-h6 décrivent la structure du contenu (arbre du lecteur d'écran, indexation, sommaire) — jamais le style.
-- **Un seul h1 par page** (le titre du document, pas le plus gros texte).
+- **Exactement un h1 par page** — ni deux, ni **zéro** (le titre du document, pas le plus gros texte). Une page sans h1 est un arbre sans racine pour la navigation par titres, et un document sans sujet pour l'indexation.
 - **Jamais de saut de niveau** (h2 → h4 interdit) : casse la navigation par titres.
 - **Niveau ≠ taille** : un h2 peut être stylé plus petit qu'un h3. Le niveau suit la structure, la taille suit le design.
 - Texte qui doit *avoir l'air* d'un titre sans en être un (KPI de dashboard, citation) : style voulu sur un élément non-heading — jamais un heading pour le style. Inversement, un hero marketing prend le style display, le h1 reste au vrai titre.

@@ -7,7 +7,7 @@ selon-contexte: ["color", "border", "motion", "iconography", "voice"]
 ---
 # RULES — Accessibilité (compilé, condensé)
 
-> Généré depuis `principles/accessibility/ACCESSIBILITY-UX.md` (v1.1.0). **Socle universel** : ce fichier est chargé d'office avec le routeur pour toute intention. Il pose le contrat minimal et **renvoie au propriétaire** — il ne réécrit ni contraste, ni focus ring, ni mouvement, ni wording. Ne pas éditer à la main. La source fait autorité.
+> Généré depuis `principles/accessibility/ACCESSIBILITY-UX.md` (v1.2.0). **Socle universel** : ce fichier est chargé d'office avec le routeur pour toute intention. Il pose le contrat minimal et **renvoie au propriétaire** — il ne réécrit ni contraste, ni focus ring, ni mouvement, ni wording. Ne pas éditer à la main. La source fait autorité.
 
 ## Nature
 - Principe transversal, **sans token, sans valeur visuelle**. Il pose l'obligation ; le propriétaire pose la mécanique. En cas de divergence, le propriétaire a raison (ce n'est pas une source de substitution).
@@ -20,6 +20,8 @@ selon-contexte: ["color", "border", "motion", "iconography", "voice"]
 - **Pas de dépendance unique** : aucune fonction ne repose seulement sur le hover, un geste complexe, le glisser-déposer ou la parole — chacun garde une alternative simple (2.5.1, 2.5.7, 1.4.13).
 - **Focus** : visible, ordonné (tab = ordre visuel/logique), non piégé, **non masqué** par un sticky/superposé (2.4.7, 2.4.3, 2.1.2, 2.4.11).
 - **Nom/rôle/valeur** exposés ; **le nom accessible contient le libellé visible** (4.1.2, 2.5.3).
+- **Toute relation ARIA désigne un élément qui existe** : chaque identifiant cité par `aria-describedby`, `aria-labelledby` ou `aria-errormessage` est porté par un élément présent dans le document. Un identifiant mort supprime le message pour la technologie d'assistance sans rien changer à l'écran (4.1.2).
+- **`aria-invalid` n'est jamais seul** : tout élément en `aria-invalid="true"` expose un message d'erreur en texte, associé par `aria-describedby` ou `aria-errormessage`. L'état sans le motif n'est pas une erreur utilisable (3.3.1).
 - **Jamais un seul canal** : aucune info portée uniquement par la couleur, le mouvement, le son ou l'haptique — repli = le mot (1.4.1, 1.3.3, 1.4.2).
 - **Gestes / pointeur** : alternative simple au geste complexe et au drag ; action grave jamais déclenchée au `pointerdown` (annulable, à la relâche) (2.5.2, 2.5.7).
 - **Temps** : toute limite imposée à l'utilisateur est contrôlable, annoncée, avec conservation des données (2.2.1).

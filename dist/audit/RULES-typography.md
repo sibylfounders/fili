@@ -3,8 +3,8 @@ sujet: typography
 nature: foundations
 resume: "Ce fichier contient le raisonnement : hiérarchie, lisibilité, risques."
 selon-contexte: [alert, button, card, form, input]
-source: TYPOGRAPHY-UX.md v1.1.3 + TYPOGRAPHY-UI.md v1.1.0
-empreinte: sha256:4b5768ddbbf4940c
+source: TYPOGRAPHY-UX.md v1.4.0 + TYPOGRAPHY-UI.md v1.1.0
+empreinte: sha256:bd566899b4cbdec5
 regles: {loi: 15, preference: 16, non_qualifie: 0}
 ---
 # RULES — typography (compilé, mode audit)
@@ -22,11 +22,13 @@ regles: {loi: 15, preference: 16, non_qualifie: 0}
 - **[loi]** La typographie porte deux décisions séparées — la structure sémantique du contenu et les conditions physiques de lisibilité — et aucune des deux ne se prend à la place de l'autre. `TYPOGRAPHY-R03`
 - **[loi]** Le niveau sémantique d'un texte et son traitement visuel se décident indépendamment l'un de l'autre. `TYPOGRAPHY-R04`
 - **[loi]** Les niveaux de titre h1 à h6 décrivent la structure du contenu et ne sont jamais employés pour obtenir un effet de style. `TYPOGRAPHY-R05`
-- **[loi]** Une page comporte un seul titre de niveau 1, qui est le titre du document. `TYPOGRAPHY-R06`
-  - vérifiable : un seul élément h1 par page
+- **[loi]** Une page comporte exactement un titre de niveau 1, qui est le titre du document. `TYPOGRAPHY-R06`
+  - vérifiable : exactement un élément h1 par page
+  - critère : `compte("h1") == 1`
   - source : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 - **[loi]** Les niveaux de titre se suivent sans saut : un niveau n n'est jamais suivi directement d'un niveau n+2. `TYPOGRAPHY-R07`
   - vérifiable : aucun saut de niveau de titre (h2 → h4)
+  - critère : `suite("h1,h2,h3,h4,h5,h6") sans_saut`
   - source : https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements
 - **[loi]** Le niveau d'un titre suit la structure du contenu et sa taille suit le design : un titre de niveau inférieur peut légitimement être rendu plus petit qu'un titre de niveau supérieur. `TYPOGRAPHY-R08`
   - source : https://design-system.service.gov.uk/styles/typography/
@@ -36,9 +38,11 @@ regles: {loi: 15, preference: 16, non_qualifie: 0}
 - **[préférence]** Les tailles de texte varient continûment entre une borne minimale et une borne maximale en fonction de la largeur du viewport, plutôt que par paliers. `TYPOGRAPHY-R10`
 - **[loi]** Une taille de texte ne s'exprime jamais en unités viewport seules, qui ne répondent pas au zoom du navigateur et font échouer le critère de redimensionnement du texte. `TYPOGRAPHY-R11`
   - vérifiable : aucune taille de police exprimée en unités viewport seules
+  - critère : `aucune_valeur("font-size") unites_seules(vw|vh|vmin|vmax)`
   - source : https://adrianroselli.com/2019/12/responsive-type-and-zoom.html
 - **[préférence]** Toute taille fluide combine rem et vw dans clamp(), avec une composante rem dans le minimum, dans le maximum et dans la partie fixe de la valeur préférée. `TYPOGRAPHY-R12`
   - vérifiable : chaque clamp() de taille contient une composante rem dans le minimum, le maximum et la partie fixe
+  - critère : `chaque_valeur("font-size") clamp_avec_rem()`
 - **[préférence]** La conformité au redimensionnement du texte se vérifie par un test de zoom navigateur réel, et non par la seule forme de la formule ni par un redimensionnement de fenêtre. `TYPOGRAPHY-R13`
   - vérifiable : à 200 % de zoom navigateur, la taille rendue a doublé sans perte de contenu ni défilement à deux dimensions
 - **[préférence]** Le rapport entre la taille maximale et la taille minimale d'un même échelon typographique ne dépasse pas 2,5. `TYPOGRAPHY-R14`

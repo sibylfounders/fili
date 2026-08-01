@@ -2,7 +2,7 @@
 component: spacing
 layer: ux
 type: foundation
-version: 1.2.1 # 1.2.1 : la note de transposition est mise à jour — la grille de colonnes est née dans le pattern collection (2026-07-21) et ses gouttières sont bien des tokens spacing ; aucune règle modifiée. 1.2.0 : le rythme vertical entre dans la fondation — même échelle et même monotonie sur l'axe Y, titre plus proche de ce qu'il ouvre, hauteurs accrochées à la grille de base ; interlignes en baseline SOUPLE (position assumée, révisable — cf. À approfondir). Aucun token nouveau. Cf. DECISIONS.md 2026-07-21. 1.1.0 : le cadre de page (largeurs de conteneur) est passé à la nouvelle fondation grid (née du besoin prouvé par les pilotes 2026-07-16) ; spacing garde la proximité/densité/régimes, et les gouttières d'une future grille de colonnes y resteront des tokens spacing. Cf. DECISIONS.md 2026-07-16. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; cadrage : le grid n'a pas de fondation propre (cf. note de transposition, décision journalisée dans DECISIONS.md)
+version: 1.3.0 # 1.3.0 : `CRITERE` posé sur R05 — l'échelle fermée devient mesurable sur une feuille de style tierce (2026-07-31). 1.2.1 : la note de transposition est mise à jour — la grille de colonnes est née dans le pattern collection (2026-07-21) et ses gouttières sont bien des tokens spacing ; aucune règle modifiée. 1.2.0 : le rythme vertical entre dans la fondation — même échelle et même monotonie sur l'axe Y, titre plus proche de ce qu'il ouvre, hauteurs accrochées à la grille de base ; interlignes en baseline SOUPLE (position assumée, révisable — cf. À approfondir). Aucun token nouveau. Cf. DECISIONS.md 2026-07-21. 1.1.0 : le cadre de page (largeurs de conteneur) est passé à la nouvelle fondation grid (née du besoin prouvé par les pilotes 2026-07-16) ; spacing garde la proximité/densité/régimes, et les gouttières d'une future grille de colonnes y resteront des tokens spacing. Cf. DECISIONS.md 2026-07-16. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; cadrage : le grid n'a pas de fondation propre (cf. note de transposition, décision journalisée dans DECISIONS.md)
 last_updated: 2026-07-11
 companion: SPACING-UI.md
 confidence: mixed # la loi de proximité et la grille de base sont établies par convergence ; le breakpoint unique et l'échelle en px sont des décisions internes assumées, marquées comme telles
@@ -46,6 +46,12 @@ STATUT : propriété universelle
 SOURCE : S2, S4
 ÉNONCÉ : L'échelle d'espacement est fermée : on choisit un cran existant sans inventer de valeur intermédiaire ; un besoin répété fait évoluer l'échelle, pas l'écran.
 MESURE : aucune valeur d'espacement en dur hors des crans de l'échelle
+CRITERE : chaque_valeur("padding,padding-*,margin,margin-*,gap,row-gap,column-gap") dans(space.*)
+
+> **Écart de nommage relevé le 2026-07-31** : cette fiche écrit `spacing.base`, `spacing.xs`…,
+> mais le thème émet `--space-base`, `--space-xs`… Le critère suit le NOM ÉMIS, seul observable
+> par un moteur. La divergence entre le vocabulaire de la doctrine et celui des tokens est
+> réelle et reste à réconcilier — elle n'a été visible qu'une fois la règle rendue exécutable.
 
 > **Pourquoi** : la régularité perçue vient du petit nombre de valeurs, pas de leur précision — les systèmes majeurs convergent sur une échelle courte à progression non linéaire (serrée en bas : 4/8/16, écartée en haut : 24/40/80), parce que les petits écarts se jouent au pixel près et les grands à la dizaine.
 > **Erreur fréquente** : le 13px local "parce que 12 était trop peu" — la valeur unique casse le rythme partout où elle voisine l'échelle, et elle est invisible au rebranding.

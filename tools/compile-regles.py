@@ -94,9 +94,17 @@ def regles_brutes(src, couche, deja_portees=frozenset()):
         if ident and statut == "methode":
             continue
         mm = re.search(r"^MESURE : (.+)$", b, re.M) if ident else None
+        # CRITERE : l'expression EXÉCUTABLE, posée à côté de la MESURE sans la remplacer.
+        # La prose de MESURE reste le texte du constat livré ; CRITERE est ce que la
+        # machine évalue. Peut courir sur plusieurs lignes (indentation de continuation).
+        cm = re.search(r"^CRITERE : ((?:.+)(?:\n[ \t]+\S.*)*)$", b, re.M) if ident else None
+        crit = re.sub(r"\s+", " ", cm.group(1)).strip() if cm else ""
+        sc = re.search(r"^SCENE : (.+)$", b, re.M) if ident else None
+        scene = sc.group(1).strip() if sc else "repos"
         out.append({"couche": couche, "texte": txt,
                     "mot": MOT.get(statut, "non qualifié"),
                     "id": ident, "mesure": mm.group(1).strip() if mm else "",
+                    "critere": crit, "scene": scene,
                     "contre": "", "url": None})
     return out
 
@@ -109,7 +117,7 @@ def regles_annotees(fiche):
         p = d.get("principale")
         url = p["liens"][0]["url"] if (p and p["liens"]) else None
         out.append({"couche": d["couche"], "texte": d["enonce"] or d["solution"].split("\n")[0],
-                    "mot": MOT[d["statut"]], "id": d["id"], "mesure": d.get("mesure", ""),
+                    "mot": MOT[d["statut"]], "id": d["id"], "mesure": d.get("mesure", ""), "critere": d.get("critere", ""), "scene": d.get("scene", "repos"),
                     "contre": d.get("contre", ""), "url": url if MOT[d["statut"]] == "loi" else None})
     return out
 
@@ -202,6 +210,14 @@ def compile_sujet(slug, mode="audit"):
             if mode == "audit":
                 if r["mesure"]:
                     L.append(f"  - vérifiable : {r['mesure']}")
+                # Le critère est l'expression exécutable. Il ne remplace pas la
+                # prose de MESURE : celle-ci reste le texte du constat livré.
+                if r.get("critere"):
+                    L.append(f"  - critère : `{r['critere']}`")
+                    # La scène fait partie de la mesure : la taire ferait lire un
+                    # « rien à signaler » obtenu au repos comme une conformité.
+                    if r.get("scene") and r["scene"] != "repos":
+                        L.append(f"  - scène : {r['scene']}")
                 if r["contre"]:
                     L.append(f"  - le secteur : {r['contre'].split('.')[0]}.")
                 if r["url"]:

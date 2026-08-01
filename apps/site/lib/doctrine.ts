@@ -33,6 +33,10 @@ export type Decision = {
   enonce: string;
   /** Critère vérifiable quand il existe — sans lui, pas de constat automatique possible. */
   mesure: string;
+  /** L'expression exécutable de la MESURE, dans la grammaire `CRITERE`. Vide = non automatisable. */
+  critere: string;
+  /** L'état dans lequel la mesure est prise (`repos`, `soumission-vide`, `tabulation`). */
+  scene: string;
   /** Ce que fait le secteur quand il fait autrement. La preuve qu'on a lu avant de choisir. */
   contre: string;
   probleme: string;

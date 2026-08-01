@@ -3,8 +3,8 @@ sujet: form
 nature: patterns
 resume: "Ce fichier n'est pas un composant au sens de BUTTON-UX.md ou INPUT-UX.md — c'est un **pattern**, une règle qui n'émerge que quand plusieurs champs et un bouton sont assemblés."
 selon-contexte: [alert, button, emotion, input, interaction, motion, toast, voice]
-source: FORM-UX.md v2.4.0 + FORM-UI.md v1.3.0
-empreinte: sha256:2266fea548ff554e
+source: FORM-UX.md v2.6.0 + FORM-UI.md v1.3.0
+empreinte: sha256:ac4537c20dc9923c
 regles: {loi: 17, preference: 51, non_qualifie: 0}
 ---
 # RULES — form (compilé, mode audit)
@@ -23,6 +23,7 @@ regles: {loi: 17, preference: 51, non_qualifie: 0}
   - vérifiable : chaque groupe de champs liés par le sens est contenu dans un fieldset dont la legend nomme le groupe
 - **[loi]** L'ordre des champs et du focus doit suivre la logique de la tâche et ne jamais utiliser de tabindex positif pour corriger un DOM mal ordonné. `FORM-R05`
   - vérifiable : aucun attribut tabindex positif n'est utilisé sur les champs du formulaire
+  - critère : `compte("[tabindex]:not([tabindex='0']):not([tabindex='-1'])") == 0`
 - **[préférence]** Nous définissons un formulaire comme long non par un nombre de champs mais par le besoin de scroller pour voir toutes les erreurs possibles. `FORM-R07`
   - vérifiable : le formulaire est classé long dès que l'utilisateur doit scroller pour voir toutes les erreurs possibles
 - **[préférence]** Dans une modale, nous réservons le formulaire aux saisies courtes et déplaçons tout formulaire long en page complète. `FORM-R08`
@@ -47,6 +48,8 @@ regles: {loi: 17, preference: 51, non_qualifie: 0}
   - vérifiable : le message d'erreur nomme la relation entre les champs et le lien du résumé mène au premier champ du groupe dans l'ordre de lecture
 - **[loi]** Après un échec de soumission, une vue d'ensemble de toutes les erreurs doit être donnée avant que l'utilisateur ne les redécouvre en scrollant. `FORM-R20`
   - vérifiable : un résumé listant toutes les erreurs apparaît après un échec de soumission
+  - critère : `compte("[role=alert],[role=alertdialog],[aria-live=assertive]") >= 1`
+  - scène : soumission-vide
 - **[loi]** Le résumé d'erreurs doit être structuré comme une alerte de tonalité danger, non fermable, annoncée via role="alert". `FORM-R21`
   - vérifiable : le résumé d'erreurs est un composant alert de tone danger, non fermable tant que des erreurs subsistent, avec role="alert"
 - **[loi]** Le résumé d'erreurs ne doit apparaître qu'après un échec de soumission, jamais de façon préventive. `FORM-R22`
@@ -55,6 +58,8 @@ regles: {loi: 17, preference: 51, non_qualifie: 0}
   - vérifiable : chaque entrée du résumé est un lien d'ancre vers le champ en erreur reprenant son message d'erreur exact, pas un intitulé générique
 - **[loi]** Le résumé d'erreurs ne doit jamais remplacer les messages d'erreur inline à côté de chaque champ — les deux doivent coexister. `FORM-R24`
   - vérifiable : chaque champ en erreur affiche un message d'erreur inline en plus de son entrée dans le résumé
+  - critère : `chaque("[aria-invalid=true]") porte(aria-describedby) ou porte(aria-errormessage)`
+  - scène : soumission-vide
 - **[préférence]** Nous préfixons le titre de la page par « Erreur : » après un échec de soumission d'un formulaire rendu côté serveur. `FORM-R25`
   - vérifiable : le title de la page est préfixé par 'Erreur :' après un échec de soumission
 - **[préférence]** Nous déplaçons le focus vers le premier champ en erreur pour un formulaire court, ou vers le résumé pour un formulaire long ou à erreurs multiples. `FORM-R26`

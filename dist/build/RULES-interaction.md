@@ -3,8 +3,8 @@ sujet: interaction
 nature: languages
 resume: "Ce langage définit comment un élément communique son **rôle** avant même que son libellé soit"
 selon-contexte: [adaptive, border, button, card, elevation, motion]
-source: INTERACTION-UX.md v1.2.0 + INTERACTION-UI.md v1.2.0
-empreinte: sha256:a7f843022d74b7c9
+source: INTERACTION-UX.md v1.3.0 + INTERACTION-UI.md v1.2.0
+empreinte: sha256:24ef3138fe32ce28
 regles: {loi: 20, preference: 18, non_qualifie: 0}
 ---
 # RULES — interaction (compilé, mode build)

@@ -2237,6 +2237,7 @@
    "solution": "l'accessibilité est un **principe transversal** — comme les lois, elle n'a ni variantes (composant), ni assemblage (pattern), ni token ; le modèle à axes ne s'applique pas. Contrairement aux lois, elle **est compilée vers `dist/`** (`RULES-accessibility`) et **chargée d'office par le routeur pour toute intention** : c'est un contrat que le build consomme réellement à chaque génération d'UI, pas une lecture théorique réservée à l'humain. Précédent du système : `companion: none` **sans** `audience: humans`.",
    "enonce": "Ce document précise que l'accessibilité est un principe transversal sans variantes ni tokens, mais compilé et chargé automatiquement pour toute génération d'interface.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "methode",
@@ -2253,6 +2254,7 @@
    "solution": "ce principe **ne fait pas autorité sur un comportement précis** — il pose l'obligation, le propriétaire pose la mécanique. En cas de divergence, le fichier propriétaire (`COLOR`, `BORDER`, `MOTION`, `BUTTON`, `FORM`…) a raison. Il n'est donc **pas** une source normative de substitution — même clause que l'inventaire transversal dont il est issu.",
    "enonce": "Ce principe pose l'obligation générale mais ne fait pas autorité sur le détail : en cas de divergence, le composant propriétaire prévaut.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "methode",
@@ -2269,6 +2271,7 @@
    "solution": "**`VOICE` est la voix éditoriale — la façon dont le produit *écrit*, jamais la commande *vocale*.** L'obligation « service utilisable sans parler » et « nom accessible adressable à la voix » relève de l'interaction (clavier + nom accessible, ci-dessous et chez `INPUT`), pas du langage `VOICE`. Ne jamais lire `VOICE` comme une couverture de la reconnaissance vocale.",
    "enonce": "Ce document précise que 'VOICE' désigne la voix éditoriale du produit, jamais la commande vocale, pour éviter toute confusion de lecture.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "methode",
@@ -2291,6 +2294,7 @@
    "solution": "**toute fonction est utilisable au clavier seul** — atteignable et activable sans souris ni tactile (WCAG 2.1.1). Tout nouveau composant hérite de cette obligation avant toute autre.",
    "enonce": "Toute fonction doit être utilisable au clavier seul, atteignable et activable sans souris ni écran tactile.",
    "mesure": "chaque fonction est atteignable et activable au clavier seul, sans souris ni tactile",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2335,6 +2339,7 @@
    "solution": "**aucune fonction ne dépend uniquement du hover, d'un geste complexe (multipoint ou tracé), du glisser-déposer ou de la parole** — chacun garde une alternative simple à pointeur unique ou clavier (WCAG 2.5.1, 2.5.7 ; contenu au hover : 1.4.13). Les alternatives concrètes vivent chez les propriétaires : glisser-déposer → `CARD`, hover → `BUTTON`/`CARD`, parole → `INPUT`.",
    "enonce": "Aucune fonction ne doit dépendre uniquement du survol, d'un geste complexe, du glisser-déposer ou de la parole.",
    "mesure": "aucune fonction ne dépend uniquement du survol, d'un geste complexe, du glisser-déposer ou de la parole — une alternative à pointeur unique ou clavier existe",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2400,6 +2405,7 @@
    "solution": "le focus est **visible, ordonné, non piégé et non masqué** — l'ordre de tabulation préserve le sens et l'opérabilité, sans devoir reproduire littéralement la disposition visuelle ; on sait toujours où l'on agit, on entre et sort de toute zone au clavier, et rien (en-tête collant, élément superposé) ne cache la cible focalisée (WCAG 2.4.7, 2.4.3, 2.1.2, 2.4.11). Le style du ring appartient à `BORDER` (qui porte aussi le contrat « non masqué ») ; l'ordre et l'absence de piège à `FORM` et au futur composant modal.",
    "enonce": "Le focus clavier doit toujours être visible, suivre un ordre cohérent, ne jamais être piégé ni masqué par un élément superposé.",
    "mesure": "le focus clavier reste visible, suit un ordre cohérent, n'est jamais piégé dans une zone, et n'est jamais masqué par un élément superposé",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2459,6 +2465,7 @@
    "solution": "chaque contrôle expose **nom, rôle et valeur** à l'arbre d'accessibilité, et son **nom accessible contient le libellé visible** (WCAG 4.1.2, 2.5.3 « label in name ») — pour que la commande vocale puisse l'adresser par ce qu'on lit à l'écran. La mécanique par champ vit chez `INPUT` ; l'icône seule chez `ICONOGRAPHY` (aria-label) ; le choix des mots chez `VOICE`.",
    "enonce": "Chaque contrôle doit exposer nom, rôle et valeur à l'arbre d'accessibilité, et son nom accessible doit contenir le libellé affiché.",
    "mesure": "chaque contrôle expose nom, rôle et valeur à l'arbre d'accessibilité, et son nom accessible contient le libellé visible à l'écran",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2529,6 +2536,7 @@
    "solution": "**aucune information ni instruction ne dépend uniquement d'une caractéristique sensorielle ou de la couleur** (WCAG 1.3.3 et 1.4.1). Le système étend cette exigence au mouvement, au son et à l'haptique : chaque canal non fiable est doublé, et le canal de repli est toujours le mot (`VOICE`). WCAG 1.4.2 porte spécifiquement sur le contrôle d'un son joué automatiquement ; il ne suffit pas, à lui seul, à justifier cette règle de redondance renforcée. Détail par canal : couleur → `COLOR` ; mouvement → `MOTION` ; son et haptique → l'émetteur (`ALERT` pour un futur signal sonore, `BUTTON` pour l'haptique).",
    "enonce": "Aucune information ni instruction ne doit reposer uniquement sur une caractéristique sensorielle ou sur la couleur.",
    "mesure": "aucune information ou instruction ne repose uniquement sur une caractéristique sensorielle ou sur la couleur",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2588,6 +2596,7 @@
    "solution": "**une alternative simple existe pour tout geste complexe et tout glisser-déposer**, et **une action grave ne se déclenche jamais au `pointerdown`** (déclenchement à la relâche, annulable) — WCAG 2.5.2, 2.5.7. Propriétaires : `CARD` (glisser-déposer), `BUTTON` (annulation du pointeur).",
    "enonce": "Une alternative simple doit exister pour tout geste complexe ou glisser-déposer, et une action grave ne doit jamais se déclencher au pointerdown seul.",
    "mesure": "toute action grave se déclenche au relâchement du pointeur, jamais au pointerdown seul, et reste annulable ; tout geste complexe a une alternative simple",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2637,6 +2646,7 @@
    "solution": "toute cible interactive respecte au minimum **24 × 24 pixels CSS ou l'espacement équivalent**, sous réserve des exceptions prévues par WCAG 2.5.8 (niveau AA). Le standard interne de **44px** documenté par `ICONOGRAPHY` et les composants reste la cible de confort renforcée : il couvre le minimum WCAG sans confondre taille du glyphe et zone interactive.",
    "enonce": "Toute cible interactive doit mesurer au moins 24 × 24 pixels CSS ou bénéficier d'un espacement équivalent, sauf exceptions prévues.",
    "mesure": "chaque cible interactive mesure au moins 24 × 24 pixels CSS, ou bénéficie d'un espacement équivalent, sauf exception normative",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2675,6 +2685,7 @@
    "solution": "pour toute limite de temps imposée à l'utilisateur, appliquer l'un des mécanismes prévus par WCAG 2.2.1 : la supprimer, permettre de l'ajuster avant qu'elle ne commence, ou avertir et permettre une prolongation suffisante, sauf exception normative (temps réel ou délai essentiel). **Règle interne renforcée** : lorsqu'une expiration peut interrompre une saisie, l'annoncer et préserver les données déjà fournies dès que cela est techniquement possible. Propriétaire : `FORM`. Hors périmètre : les délais côté serveur qui ne constituent pas une échéance imposée à l'utilisateur.",
    "enonce": "Nous appliquons les mécanismes normatifs pour toute limite de temps imposée, et renforçons l'exigence en annonçant et préservant les données déjà saisies.",
    "mesure": "toute limite de temps applique un mécanisme (suppression, ajustement préalable ou prolongation avertie), et un message annonce l'expiration en préservant les données saisies",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "identite",
@@ -2719,6 +2730,7 @@
    "solution": "**aucun flash dangereux** — pas plus de trois flashs par seconde, seuils de flash général et de flash rouge respectés (WCAG 2.3.1). Propriétaire : `MOTION`.",
    "enonce": "Aucun contenu ne doit produire de flash dangereux — au maximum trois flashs par seconde, dans le respect des seuils établis.",
    "mesure": "aucun contenu ne clignote plus de trois fois par seconde, et les seuils de flash général et de flash rouge sont respectés",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "universelle",
@@ -2757,6 +2769,7 @@
    "solution": "éprouver chaque **écran assemblé** — pas seulement les styles isolés — au minimum avec : **clavier seul** (atteindre et activer chaque fonction, focus visible et non masqué), **lecteur d'écran** (nom/rôle/valeur, annonce des changements dynamiques), **zoom 200 % et reflow** (aucune perte de contenu ni de fonction), **tactile imprécis** (cibles atteignables, aucune dépendance au hover) et **mouvement réduit** (aucune information perdue). Ces tests sont **manuels** : l'outillage du projet prouve la résolution des tokens, certains contrastes, le graphe de routage et les liens — il ne simule ni clavier, ni lecteur d'écran, ni commande vocale.",
    "enonce": "Nous testons chaque écran assemblé avant livraison avec le clavier seul, un lecteur d'écran, le zoom 200 %, un usage tactile imprécis et le mode mouvement réduit.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "identite",
@@ -2819,6 +2832,7 @@
    "solution": "en l'absence de composant audio ou vidéo, **aucune règle détaillée n'est écrite sur les sous-titres, les transcriptions ou les audiodescriptions** — le besoin est réel mais sans consommateur ; il reste `En attente` dans l'inventaire transversal, position à prendre avant de créer un tel composant. Même statut pour la reconnaissance vocale complète, les superposés (modale, tiroir) et les raccourcis à une seule touche.",
    "enonce": "Ce document signale qu'aucune règle détaillée n'existe encore sur les sous-titres, l'audiodescription, la reconnaissance vocale ou les superposés, faute de composant consommateur.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "",
    "statut": "methode",
@@ -2851,11 +2865,98 @@
    ]
   },
   {
+   "id": "ACCESSIBILITY-R17",
+   "couche": "ux",
+   "solution": "**toute relation programmatique désigne un élément qui existe.** Un `aria-describedby`, `aria-labelledby` ou `aria-errormessage` dont l'identifiant ne correspond à aucun élément du document ne produit **aucune erreur visible** : le message disparaît pour la technologie d'assistance sans que rien ne bouge à l'écran. C'est le défaut le plus silencieux de la chaîne — et seul le rendu peut le voir, puisque les identifiants sont générés à l'exécution.",
+   "enonce": "Tout attribut de relation ARIA désigne un identifiant porté par un élément présent dans le document.",
+   "mesure": "aucun identifiant d'aria-describedby, aria-labelledby ou aria-errormessage sans élément correspondant",
+   "critere": "chaque(\"[aria-describedby],[aria-labelledby],[aria-errormessage]\") pointe_vers_existant(aria-describedby|aria-labelledby|aria-errormessage)",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S8",
+     "affirmation": "Un IDREF ARIA qui ne résout pas rompt la relation sans signal visible ; nom, rôle et valeur doivent être exposés à l'arbre d'accessibilité",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 4.1.2 Nom, rôle et valeur",
+       "url": "https://www.w3.org/TR/WCAG22/#name-role-value"
+      },
+      {
+       "label": "WAI-ARIA 1.2 — IDREF",
+       "url": "https://www.w3.org/TR/wai-aria-1.2/#propcharacteristic_value"
+      }
+     ],
+     "confiance": "Établi — standard (niveau A)"
+    }
+   ],
+   "principale": {
+    "ref": "S8",
+    "affirmation": "Un IDREF ARIA qui ne résout pas rompt la relation sans signal visible ; nom, rôle et valeur doivent être exposés à l'arbre d'accessibilité",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 4.1.2 Nom, rôle et valeur",
+      "url": "https://www.w3.org/TR/WCAG22/#name-role-value"
+     },
+     {
+      "label": "WAI-ARIA 1.2 — IDREF",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/#propcharacteristic_value"
+     }
+    ],
+    "confiance": "Établi — standard (niveau A)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
+   "id": "ACCESSIBILITY-R18",
+   "couche": "ux",
+   "solution": "**`aria-invalid` n'est jamais seul.** Un champ marqué invalide sans message associé annonce l'échec sans dire pourquoi : la personne sait qu'elle s'est trompée, jamais en quoi. L'identification d'une erreur exige que sa cause soit décrite en texte, pas seulement signalée.",
+   "enonce": "Tout élément portant aria-invalid=\"true\" expose un message d'erreur en texte, associé par une relation programmatique.",
+   "mesure": "aucun élément aria-invalid=\"true\" sans message associé par aria-describedby ou aria-errormessage",
+   "critere": "chaque(\"[aria-invalid=true]\") porte(aria-describedby) ou porte(aria-errormessage)",
+   "contre": "",
+   "probleme": "",
+   "statut": "universelle",
+   "statutLibelle": "propriété universelle",
+   "interne": false,
+   "sources": [
+    {
+     "ref": "S9",
+     "affirmation": "Une erreur détectée automatiquement est identifiée et décrite **en texte** ; le seul marquage ne suffit pas",
+     "liens": [
+      {
+       "label": "WCAG 2.2 — 3.3.1 Identification des erreurs",
+       "url": "https://www.w3.org/TR/WCAG22/#error-identification"
+      }
+     ],
+     "confiance": "Établi — standard (niveau A)"
+    }
+   ],
+   "principale": {
+    "ref": "S9",
+    "affirmation": "Une erreur détectée automatiquement est identifiée et décrite **en texte** ; le seul marquage ne suffit pas",
+    "liens": [
+     {
+      "label": "WCAG 2.2 — 3.3.1 Identification des erreurs",
+      "url": "https://www.w3.org/TR/WCAG22/#error-identification"
+     }
+    ],
+    "confiance": "Établi — standard (niveau A)"
+   },
+   "confiance": "",
+   "cas": []
+  },
+  {
    "id": "ACCESSIBILITY-R16",
    "couche": "ux",
    "solution": "**l'accessibilité n'est pas une couche qu'on ajoute — c'est la condition d'existence de chaque règle.** Ce fichier pose l'obligation universelle et nomme son propriétaire ; il ne réécrit jamais la mécanique là où elle vit déjà.",
    "enonce": "Ce document rappelle que l'accessibilité est la condition d'existence de chaque règle du système, et que sa mécanique concrète vit toujours chez un seul propriétaire.",
    "mesure": "",
+   "critere": "",
    "contre": "",
    "probleme": "une section « accessibilité » recopiée dans chaque composant diverge dès la première évolution et laisse croire à une couverture qu'aucun propriétaire ne garantit — exactement le travers que l'inventaire transversal a rendu visible. Un contrat unique, chargé partout, plus un renvoi vers le propriétaire réel : la règle ne vit qu'à un seul endroit.",
    "statut": "methode",

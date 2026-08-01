@@ -2,7 +2,7 @@
 component: color
 layer: ux
 type: foundation
-version: 1.3.0 # 1.3.0 : le registre marque passe à DEUX rôles (primary, secondary) — retrait d'`accent` (focus v2 1.34.0 : l'anneau = cran subtil control.focus-* accordé à la bordure/état ; arbitrage Aurélien 2026-07-29 soir, cf. DECISIONS.md) ; R04/R05/R13 reformulées, R05 gagne le précédent « la règle vaut à la sortie ». 1.2.0 : # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
+version: 1.4.0 # 1.4.0 : `CRITERE` posé sur R09 — le contraste texte/fond devient exécutable (2026-07-31). 1.3.0 : 1.3.0 : le registre marque passe à DEUX rôles (primary, secondary) — retrait d'`accent` (focus v2 1.34.0 : l'anneau = cran subtil control.focus-* accordé à la bordure/état ; arbitrage Aurélien 2026-07-29 soir, cf. DECISIONS.md) ; R04/R05/R13 reformulées, R05 gagne le précédent « la règle vaut à la sortie ». 1.2.0 : # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
 last_updated: 2026-07-20
 companion: COLOR-UI.md
 confidence: mixed # la structure par rôles, 1.4.1 et les seuils de contraste sont établis ; les positions dark mode / forced-colors sont des décisions internes datées, marquées comme telles
@@ -88,6 +88,14 @@ STATUT : propriété universelle
 SOURCE : S2
 ÉNONCÉ : Le texte courant atteint 4,5:1 avec son fond, et tout composant d'interface ou état requis pour l'identifier atteint 3:1 avec les couleurs adjacentes.
 MESURE : contraste texte / fond ≥ 4,5:1 ; contraste composant ou état / fond ≥ 3:1
+CRITERE : chaque("body *") contraste(color) >= 4.5
+          ou mesure(font-size) >= 24 et contraste(color) >= 3
+          ou mesure(font-size) >= 18.66 et mesure(font-weight) >= 700 et contraste(color) >= 3
+
+> **Portée du critère** : il n'automatise que la **première** clause (texte / fond). La seconde —
+> « composant ou état requis pour l'identifier » — suppose de savoir ce qui *identifie* un contrôle,
+> jugement que `BORDER-U09` déclare explicitement non décidable par un script. R09 est donc
+> **partiellement automatisée**, et le rapport ne prétend pas au reste.
 
 RÈGLE [COLOR-R10] : le contraste se vérifie **par paire** — un token de texte n'est pas "conforme" dans l'absolu, il l'est *sur un fond donné*. Chaque token de texte de ce système déclare ses fonds d'usage (le mapping vit dans COLOR-UI.md).
 STATUT : propriété universelle

@@ -2,7 +2,7 @@
 component: radius
 layer: ux
 type: foundation
-version: 1.1.0 # 1.1.0 : cran conteneur radius.lg (12px) — sépare le rayon des conteneurs (card/alert) de celui des contrôles ; contradiction pill tranchée (réservé badge/avatar, jamais un contrôle). Stress-test 2026-07-17. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; la plus petite fondation du système, brièveté confirmée par l'inventaire (17 cas)
+version: 1.2.0 # 1.2.0 : `CRITERE` posé sur R03 — l'échelle de rayon devient mesurable sur une feuille de style tierce (2026-07-31). 1.1.0 : cran conteneur radius.lg (12px) — sépare le rayon des conteneurs (card/alert) de celui des contrôles ; contradiction pill tranchée (réservé badge/avatar, jamais un contrôle). Stress-test 2026-07-17. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; la plus petite fondation du système, brièveté confirmée par l'inventaire (17 cas)
 last_updated: 2026-07-11
 companion: RADIUS-UI.md
 confidence: mixed # l'échelle croissante avec la taille et l'imbrication concentrique sont convergentes ; l'échelle à 3 crans est un choix interne
@@ -32,6 +32,7 @@ STATUT : parti pris d'identité
 SOURCE : S1, S7, S8, S9, S10
 ÉNONCÉ : Le cran de rayon se choisit selon la taille et le type du composant, sur une échelle fermée et croissante.
 MESURE : chaque composant résout un cran de l'échelle ; aucune valeur de rayon en dur
+CRITERE : chaque_valeur("border-radius,border-*-radius") dans(radius.*)
 
 > **Pourquoi le cran conteneur (1.1.0)** : un contrôle et le conteneur qui l'accueille n'ont pas la même échelle de courbure — beaucoup d'identités déclarent explicitement les deux (une maquette du stress-test : carte 16 / contrôle 8). Sans cran conteneur, cette intention était strictement **inexprimable** (un thème ne crée pas de nom). `radius.lg` (12px) la rend exprimable ; l'imbrication reste concentrique (un contrôle md 8px dans une carte lg 12px : interne < externe, jamais d'« oreille »).
 

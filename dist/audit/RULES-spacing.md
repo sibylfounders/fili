@@ -3,8 +3,8 @@ sujet: spacing
 nature: foundations
 resume: "Ce fichier contient le raisonnement : proximité, hiérarchie de l'espace, échelle fermée, responsive."
 selon-contexte: [adaptive, alert, button, card, collection, form, grid, input]
-source: SPACING-UX.md v1.2.1 + SPACING-UI.md v1.2.0
-empreinte: sha256:61797e752d89c081
+source: SPACING-UX.md v1.3.0 + SPACING-UI.md v1.2.0
+empreinte: sha256:86eaae99844f2db8
 regles: {loi: 7, preference: 13, non_qualifie: 0}
 ---
 # RULES — spacing (compilé, mode audit)
@@ -24,6 +24,7 @@ regles: {loi: 7, preference: 13, non_qualifie: 0}
   - source : https://atlassian.design/foundations/spacing
 - **[loi]** L'échelle d'espacement est fermée : on choisit un cran existant sans inventer de valeur intermédiaire ; un besoin répété fait évoluer l'échelle, pas l'écran. `SPACING-R05`
   - vérifiable : aucune valeur d'espacement en dur hors des crans de l'échelle
+  - critère : `chaque_valeur("padding,padding-*,margin,margin-*,gap,row-gap,column-gap") dans(space.*)`
   - source : https://atlassian.design/foundations/spacing
 - **[préférence]** Chez nous l'échelle est délibérément plus courte que celles des systèmes majeurs et ne s'allonge que sur un besoin réel journalisé. `SPACING-R06`
 - **[loi]** L'espace encode la relation : plus deux éléments sont proches, plus leur lien est perçu comme fort, et cette proximité l'emporte sur les autres indices visuels de groupement. `SPACING-R07`

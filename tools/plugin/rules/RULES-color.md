@@ -7,7 +7,7 @@ selon-contexte: []
 ---
 # RULES — Color (compilé, condensé)
 
-> Généré depuis `foundations/COLOR-UX.md` (v1.3.0) et `COLOR-UI.md` (v1.3.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/COLOR-UX.md` (v1.4.0) et `COLOR-UI.md` (v1.3.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Fondation : contrainte transversale, pas d'axes. Les valeurs (hex) vivent dans les tokens — ce fichier régit leur usage.

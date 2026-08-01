@@ -2,7 +2,7 @@
 component: typography
 layer: ux
 type: foundation # distinct de "component" (un atome avec variantes) et de "pattern" (une composition) — une contrainte transversale
-version: 1.1.3 # 1.1.3 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.1 : balisage RÈGLE/CONFIANCE, aucune règle modifiée. 1.1.0 : benchmark (GOV.UK, Carbon, Polaris + littérature typographique : Butterick, Bringhurst, WCAG 1.4.8) et test de couverture — 6 trous comblés (interlignage, graisse, casse, alignement, taille minimale, profondeur). 1.0.0 : première rédaction, sans benchmark ni inventaire — écart de méthode corrigé, cf. DECISIONS.md
+version: 1.4.0 # 1.4.0 : `CRITERE` posés sur R11 et R12 — les deux mesures d'unités quittent le code pour le corpus (2026-07-31). 1.3.0 : `CRITERE` posé sur R07 — le saut de niveau quitte le code pour le corpus (2026-07-31). 1.2.0 : TYPOGRAPHY-R06 passe de « un seul h1 » à « exactement un h1 » — l'absence était conforme à la lettre de la règle alors que verifie-rendu la signalait déjà (arbitrage Aurélien 2026-07-31, motif SEO) ; premier CRITERE posé. 1.1.3 # 1.1.3 : chemins repointés vers `content/md/` — fin de la migration vers le monorepo Sibyl DS (2026-07-27) ; aucune règle, aucun token, aucune source modifiés. 1.1.2 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.1 : balisage RÈGLE/CONFIANCE, aucune règle modifiée. 1.1.0 : benchmark (GOV.UK, Carbon, Polaris + littérature typographique : Butterick, Bringhurst, WCAG 1.4.8) et test de couverture — 6 trous comblés (interlignage, graisse, casse, alignement, taille minimale, profondeur). 1.0.0 : première rédaction, sans benchmark ni inventaire — écart de méthode corrigé, cf. DECISIONS.md
 last_updated: 2026-07-05
 companion: TYPOGRAPHY-UI.md
 confidence: mixed # la hiérarchie sémantique et la mesure sont établies ; la typographie fluide contient un point activement débattu, marqué comme tel
@@ -47,17 +47,21 @@ STATUT : propriété universelle
 SOURCE : S6, S15, S20
 ÉNONCÉ : Les niveaux de titre h1 à h6 décrivent la structure du contenu et ne sont jamais employés pour obtenir un effet de style.
 
-RÈGLE [TYPOGRAPHY-R06] : **un seul h1 par page** — c'est le titre du document, pas le plus gros texte de la page.
+RÈGLE [TYPOGRAPHY-R06] : **exactement un h1 par page** — c'est le titre du document, pas le plus gros texte de la page. Ni deux, ni **zéro** : une page sans h1 est un arbre sans racine pour la navigation par titres, et un document sans sujet pour l'indexation.
 STATUT : propriété universelle
 SOURCE : S15, S6
-ÉNONCÉ : Une page comporte un seul titre de niveau 1, qui est le titre du document.
-MESURE : un seul élément h1 par page
+ÉNONCÉ : Une page comporte exactement un titre de niveau 1, qui est le titre du document.
+MESURE : exactement un élément h1 par page
+CRITERE : compte("h1") == 1
+
+> **Pourquoi la présence, et pas seulement l'unicité** : le référencement lit le h1 comme le sujet de la page — l'absence coûte autant que la duplication. Et cette obligation ne dit **rien** du graphisme : par TYPOGRAPHY-R08, le h1 peut légitimement être rendu plus petit qu'un h2. Le niveau suit la structure, la taille suit le design. *(Arbitrage Aurélien, 2026-07-31.)*
 
 RÈGLE [TYPOGRAPHY-R07] : **jamais de saut de niveau** — un h2 n'est jamais suivi directement d'un h4.
 STATUT : propriété universelle
 SOURCE : S15, S6
 ÉNONCÉ : Les niveaux de titre se suivent sans saut : un niveau n n'est jamais suivi directement d'un niveau n+2.
 MESURE : aucun saut de niveau de titre (h2 → h4)
+CRITERE : suite("h1,h2,h3,h4,h5,h6") sans_saut
 
 > **Pourquoi** : un saut casse l'arbre pour la navigation par titres (un utilisateur de lecteur d'écran conclut à du contenu manquant) sans aucun bénéfice en échange.
 
@@ -88,6 +92,7 @@ STATUT : propriété universelle
 SOURCE : S1, S13
 ÉNONCÉ : Une taille de texte ne s'exprime jamais en unités viewport seules, qui ne répondent pas au zoom du navigateur et font échouer le critère de redimensionnement du texte.
 MESURE : aucune taille de police exprimée en unités viewport seules
+CRITERE : aucune_valeur("font-size") unites_seules(vw|vh|vmin|vmax)
 
 > **Pourquoi** : **le zoom du navigateur n'affecte pas les unités viewport** — l'utilisateur zoome, la fenêtre ne change pas de largeur, le texte ne grandit pas. C'est un échec d'accessibilité silencieux : invisible en test standard, bloquant pour l'utilisateur malvoyant qui dépend du zoom.
 
@@ -96,6 +101,7 @@ STATUT : implémentation de référence
 SOURCE : S2, S13, S16
 ÉNONCÉ : Toute taille fluide combine rem et vw dans clamp(), avec une composante rem dans le minimum, dans le maximum et dans la partie fixe de la valeur préférée.
 MESURE : chaque clamp() de taille contient une composante rem dans le minimum, le maximum et la partie fixe
+CRITERE : chaque_valeur("font-size") clamp_avec_rem()
 
 RÈGLE [TYPOGRAPHY-R13] : limite connue — même cette version corrigée peut ne pas atteindre les 200 % d'agrandissement exigés par WCAG 1.4.4 à des niveaux de zoom extrêmes (jusqu'à 500 %), sur certaines plages de viewport — démontré mathématiquement par l'analyse de novembre 2023 (cf. sources). Tester réellement au zoom plutôt que de faire confiance à la formule.
 STATUT : implémentation de référence

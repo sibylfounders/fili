@@ -3,8 +3,8 @@ sujet: spacing
 nature: foundations
 resume: "Ce fichier contient le raisonnement : proximité, hiérarchie de l'espace, échelle fermée, responsive."
 selon-contexte: [adaptive, alert, button, card, collection, form, grid, input]
-source: SPACING-UX.md v1.2.1 + SPACING-UI.md v1.2.0
-empreinte: sha256:61797e752d89c081
+source: SPACING-UX.md v1.3.0 + SPACING-UI.md v1.2.0
+empreinte: sha256:86eaae99844f2db8
 regles: {loi: 7, preference: 13, non_qualifie: 0}
 ---
 # RULES — spacing (compilé, mode build)

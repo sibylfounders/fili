@@ -3,8 +3,8 @@ sujet: radius
 nature: foundations
 resume: "Ce fichier contient le raisonnement : ce que le rayon suit, l'imbrication, le pill."
 selon-contexte: [alert, border, button, card, input]
-source: RADIUS-UX.md v1.1.0 + RADIUS-UI.md v1.1.0
-empreinte: sha256:b06ffc5dfc5424dd
+source: RADIUS-UX.md v1.2.0 + RADIUS-UI.md v1.1.0
+empreinte: sha256:35a8026c523b0e2c
 regles: {loi: 2, preference: 7, non_qualifie: 0}
 ---
 # RULES — radius (compilé, mode audit)
@@ -23,6 +23,7 @@ regles: {loi: 2, preference: 7, non_qualifie: 0}
   - vérifiable : rayon identique au repos et dans tous les états d'un même composant
 - **[préférence]** Le cran de rayon se choisit selon la taille et le type du composant, sur une échelle fermée et croissante. `RADIUS-R03`
   - vérifiable : chaque composant résout un cran de l'échelle ; aucune valeur de rayon en dur
+  - critère : `chaque_valeur("border-radius,border-*-radius") dans(radius.*)`
 - **[préférence]** Le rayon n'est jamais dérivé d'un pourcentage ni d'une fraction de la hauteur : c'est un cran choisi, qui ne croît pas proportionnellement à la taille. `RADIUS-R04`
   - vérifiable : aucun rayon exprimé en pourcentage ou calculé depuis la hauteur
 - **[préférence]** Deux contrôles de même taille voisins dans une même composition partagent le même cran de rayon. `RADIUS-R05`
