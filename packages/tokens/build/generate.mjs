@@ -99,16 +99,45 @@ for (const n of Object.keys(roles)) colors[n] = `var(--${n})`;
 for (const fam of Object.keys(primitives)) if (fam !== "static") colors[`p-${fam}`] = primGroup(fam);
 colors.scrim = "var(--scrim)";
 
+/**
+ * CE QUE LE THÈME REND SUBSTITUABLE — décidé le 2026-07-31 (fiche de manque
+ * « variabilisation du thème », arbitrage Aurélien : « une ambiance, ce n'est justement pas
+ * que la couleur »).
+ *
+ * Règle : tout axe qui a un token CSS traverse Tailwind en `var(--…)`, jamais en littéral.
+ * Sans ça, surcharger une variable sur un conteneur ne déplace rien — les classes utilitaires
+ * ont déjà été compilées en dur, et seuls les consommateurs CSS suivent. C'est ce qui rendait
+ * couleur et rayon thémables (2026-07-29) pendant que les quatre autres axes restaient gelés.
+ *
+ * Substituables : couleur · rayon · espacement · famille · graisse · titrage · élévation ·
+ * durée · courbe.
+ *
+ * NON substituables, et c'est nommé plutôt que masqué :
+ *   - les crans de texte COURANT (`text-xs/sm/base/lg/xl`). Les défauts de Tailwind y portent
+ *     un interlignage ; les remplacer par une chaîne le PERDRAIT, et le socle n'a aucun token
+ *     d'interlignage à mettre à la place. À rouvrir avec une fiche « tokens d'interlignage ».
+ *   - `font-bold`. Aucun `--weight-bold` n'existe. Deux usages résiduels, à résorber plutôt
+ *     qu'à consacrer par un token de commodité.
+ */
 const theme = {
   colors,
-  fontFamily: { sans: ["Geist", "system-ui", "sans-serif"], mono: ["JetBrains Mono", "monospace"], label: ["Inter", "system-ui", "sans-serif"] },
+  // THÉMABLE — voir la note de tête « Ce que le thème rend substituable ».
+  fontFamily: Object.fromEntries(Object.keys(typography.fontFamily).map((k) => [k, `var(--font-${k})`])),
   fontSize: {
-    ...Object.fromEntries(Object.entries(typography.heading).map(([k, v]) => [k, v])),
+    ...Object.fromEntries(Object.keys(typography.heading).map((k) => [k, `var(--text-${k})`])),
     // le cran micro rejoint les classes texte (text-2xs) — les autres crans (xs..xl)
     // coïncident avec l'échelle Tailwind par défaut, 2xs est une extension.
     "2xs": "var(--size-2xs)",
   },
-  spacing: Object.fromEntries(Object.entries(spacing).map(([k, v]) => [k, v])),
+  // GRAISSE — absente du thème jusqu'au 2026-07-31 : `font-medium` et `font-semibold`
+  // tombaient sur les défauts de Tailwind alors que `--weight-*` existait déjà en CSS.
+  // `bold` n'est PAS repris : aucun token ne le porte (deux usages résiduels, à résorber).
+  fontWeight: {
+    normal: "var(--weight-regular)",
+    medium: "var(--weight-medium)",
+    semibold: "var(--weight-semibold)",
+  },
+  spacing: Object.fromEntries(Object.keys(spacing).map((k) => [k, `var(--space-${k})`])),
   // Rayon THÉMABLE de bout en bout : les classes rounded-* pointent vers var(--radius-*)
   // (le réglage « Rayon » du panneau Theming surcharge ces vars — avant, les classes Tailwind
   // étaient compilées en px durs et seuls les consommateurs CSS suivaient. Fix 2026-07-29).
@@ -121,10 +150,12 @@ const theme = {
     ...Object.fromEntries(Object.entries(componentTokens)
       .filter(([, toks]) => "radius" in toks).map(([g]) => [g, `var(--${g}-radius)`])),
   },
-  boxShadow: { ...elevation },
-  transitionDuration: Object.fromEntries(Object.entries(motion.duration).map(([k, v]) => [k, v])),
+  boxShadow: Object.fromEntries(Object.keys(elevation).map((k) => [k, `var(--elevation-${k})`])),
+  transitionDuration: Object.fromEntries(Object.keys(motion.duration).map((k) => [k, `var(--duration-${k})`])),
+  // La variable CSS porte la clé BRUTE (`--ease-out`, mais `--spring` : la source ne préfixe
+  // pas cette dernière). La classe, elle, reste `ease-out` / `ease-spring`.
   transitionTimingFunction: Object.fromEntries(
-    Object.entries(motion.easing).map(([k, v]) => [k.replace(/^ease-/, ""), v])),
+    Object.keys(motion.easing).map((k) => [k.replace(/^ease-/, ""), `var(--${k})`])),
   maxWidth: {
     ...Object.fromEntries(Object.entries(grid).filter(([k]) => !k.startsWith("rail-"))),
     menu: "var(--overlay-menu-max)", // max-w-menu — largeur des menus ancrés

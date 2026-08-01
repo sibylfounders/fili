@@ -13,6 +13,8 @@ module.exports = {
     "text-muted": "var(--text-muted)",
     "text-disabled": "var(--text-disabled)",
     "text-inverse": "var(--text-inverse)",
+    "surface-disabled": "var(--surface-disabled)",
+    "on-surface-disabled": "var(--on-surface-disabled)",
     "border": "var(--border)",
     "border-strong": "var(--border-strong)",
     "border-inverse": "var(--border-inverse)",
@@ -149,40 +151,34 @@ module.exports = {
     "scrim": "var(--scrim)"
   },
   "fontFamily": {
-    "sans": [
-      "Geist",
-      "system-ui",
-      "sans-serif"
-    ],
-    "mono": [
-      "JetBrains Mono",
-      "monospace"
-    ],
-    "label": [
-      "Inter",
-      "system-ui",
-      "sans-serif"
-    ]
+    "sans": "var(--font-sans)",
+    "mono": "var(--font-mono)",
+    "label": "var(--font-label)"
   },
   "fontSize": {
-    "h1": "clamp(2rem, 1.67rem + 1.67vw, 3rem)",
-    "h2": "clamp(1.5rem, 1.33rem + 0.83vw, 2rem)",
-    "h3": "clamp(1.25rem, 1.17rem + 0.42vw, 1.5rem)",
-    "h4": "clamp(1.125rem, 1.08rem + 0.21vw, 1.25rem)",
-    "h5": "clamp(1rem, 0.96rem + 0.21vw, 1.125rem)",
-    "h6": "clamp(0.875rem, 0.83rem + 0.21vw, 1rem)",
+    "h1": "var(--text-h1)",
+    "h2": "var(--text-h2)",
+    "h3": "var(--text-h3)",
+    "h4": "var(--text-h4)",
+    "h5": "var(--text-h5)",
+    "h6": "var(--text-h6)",
     "2xs": "var(--size-2xs)"
   },
+  "fontWeight": {
+    "normal": "var(--weight-regular)",
+    "medium": "var(--weight-medium)",
+    "semibold": "var(--weight-semibold)"
+  },
   "spacing": {
-    "0": "0px",
-    "base": "4px",
-    "xs": "4px",
-    "sm": "8px",
-    "md": "16px",
-    "lg": "24px",
-    "xl": "40px",
-    "2xl": "64px",
-    "section": "80px"
+    "0": "var(--space-0)",
+    "base": "var(--space-base)",
+    "xs": "var(--space-xs)",
+    "sm": "var(--space-sm)",
+    "md": "var(--space-md)",
+    "lg": "var(--space-lg)",
+    "xl": "var(--space-xl)",
+    "2xl": "var(--space-2xl)",
+    "section": "var(--space-section)"
   },
   "borderRadius": {
     "none": "var(--radius-none)",
@@ -200,23 +196,23 @@ module.exports = {
     "card": "var(--card-radius)"
   },
   "boxShadow": {
-    "none": "none",
-    "raised": "0 1px 3px rgba(3, 7, 18, 0.10)",
-    "overlay": "0 4px 12px rgba(3, 7, 18, 0.14)",
-    "scene": "0 24px 64px -16px rgba(3, 7, 18, 0.13), 0 4px 16px rgba(3, 7, 18, 0.05)"
+    "none": "var(--elevation-none)",
+    "raised": "var(--elevation-raised)",
+    "overlay": "var(--elevation-overlay)",
+    "scene": "var(--elevation-scene)"
   },
   "transitionDuration": {
-    "fast": "100ms",
-    "base": "200ms",
-    "slow": "300ms",
-    "expressive": "700ms",
-    "celebration": "1200ms"
+    "fast": "var(--duration-fast)",
+    "base": "var(--duration-base)",
+    "slow": "var(--duration-slow)",
+    "expressive": "var(--duration-expressive)",
+    "celebration": "var(--duration-celebration)"
   },
   "transitionTimingFunction": {
-    "out": "cubic-bezier(0, 0, 0.2, 1)",
-    "in": "cubic-bezier(0.4, 0, 1, 1)",
-    "in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
-    "spring": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+    "out": "var(--ease-out)",
+    "in": "var(--ease-in)",
+    "in-out": "var(--ease-in-out)",
+    "spring": "var(--spring)"
   },
   "maxWidth": {
     "container-narrow": "480px",
