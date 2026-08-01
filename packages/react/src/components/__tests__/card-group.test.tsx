@@ -18,6 +18,27 @@ import userEvent from "@testing-library/user-event";
 import { Card } from "../card/card";
 import { CardGroup } from "../card-group/card-group";
 
+/**
+ * Erreur VOLONTAIRE de rendu : l'assertion porte sur le THROW, jamais sur la trace.
+ * Deux sources de bruit sont à éteindre, et seulement pendant l'appel :
+ *   • React journalise l'erreur avec `console.error` avant de la propager ;
+ *   • jsdom republie l'exception non capturée en « Uncaught [Error: …] » par l'événement
+ *     `error` de la fenêtre — que `console.error` ne couvre pas (c'est cette trace-là qui
+ *     doublait chaque garde de frontière dans la sortie).
+ * Rien n'est masqué globalement : hors de ce helper, une panne reste immédiatement lisible.
+ */
+const enSilence = (fn: () => void) => {
+  const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+  const avale = (e: ErrorEvent) => e.preventDefault();
+  window.addEventListener("error", avale);
+  try {
+    fn();
+  } finally {
+    window.removeEventListener("error", avale);
+    spy.mockRestore();
+  }
+};
+
 const uneCarte = (titre: string, props: React.ComponentProps<typeof Card.Root> = {}) => (
   <Card.Root key={titre} {...props}>
     <Card.Body>
@@ -58,13 +79,6 @@ describe("CardGroup / une seule anatomie de carte", () => {
 });
 
 describe("CardGroup / frontière exécutable — enfants directs Card.Root uniquement", () => {
-  // React journalise l'erreur de rendu en plus de la propager : on la silencie pour
-  // garder la sortie des tests lisible — l'assertion porte sur le THROW, pas sur le log.
-  const enSilence = (fn: () => void) => {
-    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
-    try { fn(); } finally { spy.mockRestore(); }
-  };
-
   it("refuse un élément natif (div) avec un message explicite", () => {
     enSilence(() => {
       expect(() =>
@@ -471,6 +485,30 @@ describe("CardGroup / régime de sélection — la règle collective devient ex�
     expect(cases.map((c) => c.getAttribute("aria-checked"))).toEqual(["true", "false"]);
   });
 
+  /**
+   * RÉGRESSION — même défaut que `Checkbox.Group`, même origine : la dépendance du mémo
+   * était une sérialisation `join("|")`, et `["a|b"]` ne s'y distingue pas de `["a", "b"]`.
+   * Avec un `onValueChange` stable, le contexte de collection restait figé et les cartes
+   * gardaient l'état précédent (constat d'audit du 2026-07-30).
+   */
+  it("COLLISION de sérialisation : ['a|b'] puis ['a','b'] — les cartes suivent la sélection", () => {
+    const onValueChange = vi.fn(); // le MÊME callback d'un rendu à l'autre
+    const Etiquettes = ({ value }: { value: string[] }) => (
+      <CardGroup mode="selectable" selection="multiple" label="Étiquettes" value={value} onValueChange={onValueChange}>
+        {carte("a|b", "Alpha")}
+        {carte("a", "Bravo")}
+        {carte("b", "Charlie")}
+      </CardGroup>
+    );
+    const etats = () => screen.getAllByRole("checkbox").map((c) => c.getAttribute("aria-checked"));
+
+    const { rerender } = render(<Etiquettes value={["a|b"]} />);
+    expect(etats()).toEqual(["true", "false", "false"]);
+
+    rerender(<Etiquettes value={["a", "b"]} />);
+    expect(etats()).toEqual(["false", "true", "true"]);
+  });
+
   it("sans régime déclaré, rien ne change : liste, aria-pressed, cartes autonomes", () => {
     const { container } = render(
       <CardGroup mode="selectable" label="Choix">
@@ -484,42 +522,128 @@ describe("CardGroup / régime de sélection — la règle collective devient ex�
   });
 
   it("un régime sans mode selectable échoue explicitement", () => {
-    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() =>
-      render(
-        // @ts-expect-error — le type refuse déjà la combinaison ; on vérifie la garde runtime.
-        <CardGroup mode="clickable" selection="single" label="Formule">
-          {carte("a", "A")}
-        </CardGroup>,
-      ),
-    ).toThrow(/selection="single" n'a de sens qu'avec mode="selectable"/);
-    silence.mockRestore();
+    enSilence(() => {
+      expect(() =>
+        render(
+          // @ts-expect-error — le type refuse déjà la combinaison ; on vérifie la garde runtime.
+          <CardGroup mode="clickable" selection="single" label="Formule">
+            {carte("a", "A")}
+          </CardGroup>,
+        ),
+      ).toThrow(/selection="single" n'a de sens qu'avec mode="selectable"/);
+    });
   });
 
   it("une carte sans `value` sous régime échoue explicitement, en nommant son rang", () => {
-    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() =>
-      render(
-        <CardGroup mode="selectable" selection="single" label="Formule">
-          {carte("a", "A")}
-          <Card.Root>
-            <Card.Body><Card.Header><Card.Title>B</Card.Title></Card.Header></Card.Body>
-          </Card.Root>
-        </CardGroup>,
-      ),
-    ).toThrow(/la carte n° 2 n'a pas de `value`/);
-    silence.mockRestore();
+    enSilence(() => {
+      expect(() =>
+        render(
+          <CardGroup mode="selectable" selection="single" label="Formule">
+            {carte("a", "A")}
+            <Card.Root>
+              <Card.Body><Card.Header><Card.Title>B</Card.Title></Card.Header></Card.Body>
+            </Card.Root>
+          </CardGroup>,
+        ),
+      ).toThrow(/la carte n° 2 n'a pas de `value`/);
+    });
   });
 
   it("un groupe à choisir sans nom accessible échoue — la proximité ne rattache rien", () => {
-    const silence = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() =>
-      render(
-        <CardGroup mode="selectable" selection="single">
-          {carte("a", "A")}
-        </CardGroup>,
-      ),
-    ).toThrow(/doit porter la QUESTION comme nom accessible/);
-    silence.mockRestore();
+    enSilence(() => {
+      expect(() =>
+        render(
+          <CardGroup mode="selectable" selection="single">
+            {carte("a", "A")}
+          </CardGroup>,
+        ),
+      ).toThrow(/doit porter la QUESTION comme nom accessible/);
+    });
+  });
+});
+
+/**
+ * `Card.TitleLink asChild` — Stabilisation 0.2 (2026-07-30).
+ *
+ * La capacité est portée par le CODE et par le consommateur, mais le manifeste ne décrit
+ * que les props du Root : rien n'empêchait `asChild` de disparaître sans qu'aucune garde
+ * ne bronche. Ce bloc tient les trois bouts — le rendu, le consommateur réel, le contrat
+ * publié — en attendant que le schéma du manifeste couvre les sous-composants compound.
+ */
+describe("Card.TitleLink asChild — la porte du routeur, tenue par une garde", () => {
+  const ici2 = dirname(fileURLToPath(import.meta.url));
+  const RACINE = join(ici2, "../../../../..");
+
+  it("rend l'enfant fourni — UN seul lien, qui garde la facture de la cible étendue", () => {
+    render(
+      <Card.Root mode="clickable">
+        <Card.Body>
+          <Card.Header>
+            <Card.Title as="h3">
+              <Card.TitleLink asChild>
+                <a href="/fili/md/card/">Card</a>
+              </Card.TitleLink>
+            </Card.Title>
+          </Card.Header>
+        </Card.Body>
+      </Card.Root>,
+    );
+    const liens = screen.getAllByRole("link");
+    expect(liens).toHaveLength(1); // pas de <a> imbriqué dans un <a>
+    expect(liens[0]).toHaveAttribute("href", "/fili/md/card/");
+    expect(liens[0].className).toContain("ds-card-title-link");
+    expect(liens[0].className).toContain("ds-interactive-target");
+  });
+
+  it("le consommateur réel compose le routeur, jamais une adresse écrite à la main", () => {
+    const src = readFileSync(join(RACINE, "apps/site/app/md/grille-sujets.tsx"), "utf8");
+    expect(src).toContain("Card.TitleLink asChild");
+    expect(src).toMatch(/from "next\/link"/);
+    expect(src).not.toMatch(/<a\s/); // aucun lien natif : c'est ce défaut qui a été corrigé
+  });
+
+  it("le contrat PUBLIÉ porte la capacité et avoue ce qu'il ne décrit pas encore", () => {
+    const manifeste = JSON.parse(readFileSync(join(RACINE, "packages/react/manifest.json"), "utf8"));
+    const card = manifeste.entries.find((e: { name: string }) => e.name === "Card");
+    expect(card.anatomy).toContain("Card.TitleLink");
+    expect(
+      (card.canonicalExamples ?? []).some((x: { code: string }) => x.code.includes("Card.TitleLink asChild")),
+    ).toBe(true);
+    // Le trou de couverture est NOMMÉ dans le manifeste, pas seulement dans un rapport.
+    expect(card.dette).toMatch(/sous-composants compound/);
+  });
+});
+
+/**
+ * Dérivations PURES (2026-07-30, micro-passe de stabilisation). `items`, `cles`, `valeurs` et
+ * `retenues` viennent chacune d'un `useMemo` — plus aucune identité tenue dans une ref
+ * comparée pendant le rendu. Les effets de disposition (filets, coins) sont gouvernés par
+ * `cles` : ce bloc vérifie qu'ils continuent d'être rejoués quand la liste change de taille
+ * ou d'ordre, ce qu'une dépendance mal dérivée casserait en silence.
+ */
+describe("CardGroup / la disposition suit la LISTE", () => {
+  const liste = (titres: string[]) => (
+    <CardGroup label="Guides" separated>
+      {titres.map((t) => uneCarte(t))}
+    </CardGroup>
+  );
+
+  it("changer le nombre d'enfants, puis leur ordre, recalcule filets et coins", () => {
+    const { container, rerender } = render(liste(["Un", "Deux", "Trois"]));
+    const cellules = () => [...container.querySelectorAll(".cg-cell")];
+    const marque = (classe: string) => cellules().findIndex((c) => c.classList.contains(classe));
+
+    expect(cellules()).toHaveLength(3);
+    expect(marque("c-tl")).toBe(0);
+    expect(marque("c-br")).toBe(2);
+
+    rerender(liste(["Un", "Deux"]));
+    expect(cellules()).toHaveLength(2);
+    expect(marque("c-br")).toBe(1); // le coin a suivi la nouvelle dernière cellule
+
+    rerender(liste(["Deux", "Un"]));
+    expect(cellules()[0].textContent).toContain("Deux"); // les clés ont changé d'ordre
+    expect(marque("c-tl")).toBe(0);
+    expect(marque("c-br")).toBe(1);
   });
 });

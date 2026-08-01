@@ -6,7 +6,7 @@
  * de portée de jsdom — trou documenté, harnais Atelier prévu.
  */
 import * as React from "react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
@@ -15,6 +15,26 @@ import { Button } from "../button/button";
 import { CompactButton } from "../compact-button/compact-button";
 import { Input } from "../input/input";
 import { Card } from "../card/card";
+
+/**
+ * L'alias déprécié `style` avertit UNE fois par module (`warnStyleAlias`, button.tsx).
+ * Cet avertissement est ATTENDU : il est capturé ici pour être vérifié, au lieu d'être
+ * laissé polluer la sortie. Ce n'est pas une mise sous silence de `console.warn` : tout
+ * message qui n'est pas cette dépréciation est réémis tel quel, et le spy ne vit que le
+ * temps de ce fichier — le seul à consommer l'alias.
+ */
+const avertissements: string[] = [];
+const warnOriginal = console.warn;
+beforeAll(() => {
+  vi.spyOn(console, "warn").mockImplementation((...args: unknown[]) => {
+    const message = String(args[0]);
+    avertissements.push(message);
+    if (!message.includes("est dépréciée")) warnOriginal(...(args as []));
+  });
+});
+afterAll(() => {
+  vi.mocked(console.warn).mockRestore();
+});
 
 /* ── Button — API ─────────────────────────────────────────────────────────── */
 describe("Button / API", () => {
@@ -33,6 +53,16 @@ describe("Button / API", () => {
     expect(screen.getByRole("button")).toHaveAttribute("data-style", "ghost");
     rerender(<Button style="stroke">A</Button>);
     expect(screen.getByRole("button")).toHaveAttribute("data-style", "stroke");
+  });
+
+  it("… et il le dit UNE seule fois, en nommant son remplaçant", () => {
+    // L'avertissement est un contrat public (retrait annoncé en majeure) : il s'atteste,
+    // il ne se subit pas. Une seule occurrence, quel que soit le nombre d'usages.
+    const depreciations = avertissements.filter((m) => m.includes("est dépréciée"));
+    expect(depreciations).toHaveLength(1);
+    expect(depreciations[0]).toContain("[fili]");
+    expect(depreciations[0]).toContain("`style`");
+    expect(depreciations[0]).toContain("`variant`");
   });
 
   it("variant L'EMPORTE sur style quand les deux sont fournis", () => {

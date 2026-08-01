@@ -85,7 +85,20 @@ const PARTAGEES = new Set([
 ]);
 
 const exceptions = existsSync(EXC_PATH) ? JSON.parse(readFileSync(EXC_PATH, "utf8")) : [];
-const excepted = (file, motif) => exceptions.find((e) => file.includes(e.file) && motif.includes(e.motif));
+/**
+ * Une exception porte sur un couple fichier + motif. Elle peut RESTREINDRE sa portée avec
+ * `contexte` : une expression régulière confrontée au texte qui précède le motif, motif
+ * compris (donc ancrable par `$`). C'est ce qui permet d'excepter « la durée nulle d'une
+ * bascule de `visibility` » sans excepter « toute durée nulle du fichier » — une exception
+ * sans périmètre est une wildcard, et une wildcard ne se relit pas. Sans `contexte`, la
+ * portée reste le couple fichier + motif (toutes les entrées historiques).
+ */
+const excepted = (file, motif, portee = null) =>
+  exceptions.find((e) => {
+    if (!file.includes(e.file) || !motif.includes(e.motif)) return false;
+    if (!e.contexte) return true;
+    return portee != null && new RegExp(e.contexte).test(portee);
+  });
 
 // ── Variables connues : globales + locales PAR DOSSIER ───────────────────────
 const globales = new Set();
@@ -124,8 +137,8 @@ const connue = (name, file) => {
 
 // ── Balayage ─────────────────────────────────────────────────────────────────
 const findings = [];
-const push = (file, line, type, motif, detail = "") => {
-  const exc = excepted(file, motif);
+const push = (file, line, type, motif, detail = "", portee = null) => {
+  const exc = excepted(file, motif, portee);
   findings.push({ file, line, type, motif, detail, exc: exc?.classe });
 };
 
@@ -184,7 +197,9 @@ for (const [file, src] of sources) {
         }
         return "--def:_";
       });
-      const pousseDur = (t, m, d) => push(file, n, t, m, d);
+      // `portee` = le texte de la déclaration jusqu'à la fin du motif : c'est lui que
+      // confronte le `contexte` d'une exception (voir `excepted`).
+      const pousseDur = (t, m, d, portee = null) => push(file, n, t, m, d, portee);
       // masque les fallbacks var() déjà comptés, puis cherche les valeurs en dur restantes
       const hors = sansDefs.replace(/var\([^)]*\)/g, "var()");
       for (const m of hors.matchAll(/#(?:[0-9a-fA-F]{3}){1,2}\b/g)) {
@@ -196,7 +211,8 @@ for (const [file, src] of sources) {
         if (m[1] === "0") continue;
         pousseDur("dimension-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 70));
       }
-      for (const m of hors.matchAll(/(?<![\w.-])(\d*\.?\d+)(ms|s)(?![\w-])/g)) pousseDur("duree-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 60));
+      for (const m of hors.matchAll(/(?<![\w.-])(\d*\.?\d+)(ms|s)(?![\w-])/g))
+        pousseDur("duree-en-dur", `${m[1]}${m[2]}`, l.trim().slice(0, 60), hors.slice(0, m.index + m[0].length));
       for (const m of hors.matchAll(/z-index\s*:\s*(\d+)/g)) pousseDur("z-index-en-dur", `z-index:${m[1]}`, "hors échelle --z-*");
     }
   });

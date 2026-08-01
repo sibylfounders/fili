@@ -48,7 +48,12 @@ function ficheComposant(e) {
   if (e.accessibility?.length) L.push(`Accessibilité portée par le composant : ${e.accessibility.join(' ; ')}.`);
   if (e.adaptiveBehavior) L.push(`Adaptatif : ${e.adaptiveBehavior}`);
   if (e.antiPatterns?.length) L.push(`NE JAMAIS : ${e.antiPatterns.join(' ; ')}.`);
-  for (const ex of e.canonicalExamples ?? []) L.push(`Exemple — ${ex.title} :\n\`\`\`tsx\n${ex.code}\n\`\`\``);
+  for (const ex of e.canonicalExamples ?? []) {
+    // Un exemple qui montre une INTÉGRATION déclare ses imports extérieurs : les rendre ici
+    // rend l'extrait autonome pour l'agent qui le lit (même contrat que verifie-exemples).
+    const entete = ex.imports?.length ? ex.imports.join('\n') + '\n\n' : '';
+    L.push(`Exemple — ${ex.title} :\n\`\`\`tsx\n${entete}${ex.code}\n\`\`\``);
+  }
   return L.join('\n\n');
 }
 

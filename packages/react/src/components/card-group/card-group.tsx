@@ -159,38 +159,55 @@ export function CardGroupRoot({
   const fluide = cols === "auto" && !solo;
   const effCols = solo ? 1 : cols === "auto" ? undefined : cols;
 
-  // ── Frontière EXÉCUTABLE : seuls des Card.Root directs entrent dans la collection ──
-  // Rien n'est filtré ni accepté en silence : un enfant étranger (div, Button, Fragment,
-  // texte, ou composant intermédiaire qui rendrait une Card) échoue immédiatement — en
-  // développement comme au build (prerender). L'identité est celle du composant réel,
-  // jamais un simple displayName.
-  const items: React.ReactElement<CardRootProps>[] = [];
-  for (const enfant of React.Children.toArray(children)) {
-    if (React.isValidElement(enfant) && enfant.type === CardRoot) {
-      items.push(enfant as React.ReactElement<CardRootProps>);
-      continue;
+  /**
+   * ── Frontière EXÉCUTABLE : seuls des Card.Root directs entrent dans la collection ──
+   * Rien n'est filtré ni accepté en silence : un enfant étranger (div, Button, Fragment,
+   * texte, ou composant intermédiaire qui rendrait une Card) échoue immédiatement — en
+   * développement comme au build (prerender). L'identité est celle du composant réel,
+   * jamais un simple displayName.
+   *
+   * DÉRIVATION PURE. Les trois listes de ce composant (les items, leurs clés, leurs valeurs)
+   * viennent des enfants et de rien d'autre, par `useMemo` et rien d'autre. Deux tentatives
+   * ont été écartées : une dépendance SÉRIALISÉE (`join("|")` n'est pas injectif — `["a|b"]`
+   * et `["a", "b"]` donnent la même chaîne, le contexte restait figé sur une sélection
+   * périmée), puis une identité tenue dans une ref COMPARÉE PENDANT LE RENDU — qui faisait
+   * passer les tests mais écrivait hors du flux de rendu : invisible au rendu concurrent, et
+   * survivant à un rendu abandonné. Le prix de la justesse est ici une recomposition plus
+   * fréquente quand le parent recrée ses enfants à chaque rendu ; il est assumé.
+   */
+  const items = React.useMemo(() => {
+    const directs: React.ReactElement<CardRootProps>[] = [];
+    for (const enfant of React.Children.toArray(children)) {
+      if (React.isValidElement(enfant) && enfant.type === CardRoot) {
+        directs.push(enfant as React.ReactElement<CardRootProps>);
+        continue;
+      }
+      const recu = !React.isValidElement(enfant)
+        ? `« ${String(enfant).slice(0, 40)} » (texte)`
+        : typeof enfant.type === "string"
+          ? `<${enfant.type}>`
+          : enfant.type === React.Fragment
+            ? "un Fragment"
+            : `<${(enfant.type as { displayName?: string; name?: string }).displayName ?? (enfant.type as { name?: string }).name ?? "composant anonyme"}>`;
+      throw new Error(
+        `CardGroup n'accepte que des <Card.Root> en enfants DIRECTS — reçu : ${recu}. ` +
+          "Le pattern Collection assemble de vraies Card (une seule anatomie) et la frontière doit rester " +
+          "lisible dans l'arbre : pas d'enveloppe, pas de composant intermédiaire même s'il rend une Card. " +
+          "Composer <Card.Root>…</Card.Root> directement ; si le besoin n'est pas couvert, suivre MISSING-COMPONENT-PROTOCOL.md.",
+      );
     }
-    const recu = !React.isValidElement(enfant)
-      ? `« ${String(enfant).slice(0, 40)} » (texte)`
-      : typeof enfant.type === "string"
-        ? `<${enfant.type}>`
-        : enfant.type === React.Fragment
-          ? "un Fragment"
-          : `<${(enfant.type as { displayName?: string; name?: string }).displayName ?? (enfant.type as { name?: string }).name ?? "composant anonyme"}>`;
-    throw new Error(
-      `CardGroup n'accepte que des <Card.Root> en enfants DIRECTS — reçu : ${recu}. ` +
-        "Le pattern Collection assemble de vraies Card (une seule anatomie) et la frontière doit rester " +
-        "lisible dans l'arbre : pas d'enveloppe, pas de composant intermédiaire même s'il rend une Card. " +
-        "Composer <Card.Root>…</Card.Root> directement ; si le besoin n'est pas couvert, suivre MISSING-COMPONENT-PROTOCOL.md.",
-    );
-  }
-  const cles = items.map((c) => c.key).join("|");
+    return directs;
+  }, [children]);
+
+  // Les clés pilotent les effets de disposition : elles changent avec la LISTE, pas à chaque
+  // rendu de la page — c'est `items` qui porte cette frontière.
+  const cles = React.useMemo(() => items.map((c) => c.key), [items]);
+  const valeurs = React.useMemo(() => items.map((c) => c.props.value), [items]);
 
   // ── Régime de sélection : trois conditions, trois erreurs explicites ─────────
   // Même politique que la frontière ci-dessus — on échoue plutôt que d'accepter à moitié.
   // Un régime silencieusement ignoré produirait exactement la règle écrite et non tenue
   // que cette tranche vient supprimer (CARD-R26).
-  const valeurs = items.map((c) => c.props.value);
   if (selection) {
     if (mode !== "selectable")
       throw new Error(
@@ -211,13 +228,19 @@ export function CardGroupRoot({
       );
   }
 
-  const retenues: string[] = selection
-    ? selection === "single"
-      ? value == null
-        ? []
-        : [value as string]
-      : ((value as string[] | undefined) ?? [])
-    : [];
+  // La sélection retenue ne dépend que du régime et de la valeur REÇUE — deux entrées
+  // immuables, pilotées par le parent. Aucune sérialisation, aucune comparaison de contenu.
+  const retenues = React.useMemo<string[]>(
+    () =>
+      selection
+        ? selection === "single"
+          ? value == null
+            ? []
+            : [value as string]
+          : ((value as string[] | undefined) ?? [])
+        : [],
+    [selection, value],
+  );
 
   const contexte = React.useMemo(
     () => ({
@@ -250,7 +273,10 @@ export function CardGroupRoot({
         ref.current?.querySelectorAll<HTMLElement>(".cg-cell > .ds-card")[vers]?.focus();
       },
     }),
-    [mode, density, selection, retenues.join("|"), valeurs.join("|"), onValueChange],
+    // Dépendances = les listes DÉRIVÉES elles-mêmes, chacune produite par son propre `useMemo`
+    // — jamais une sérialisation. Les autres sont primitives (`mode`, `density`, `selection`)
+    // ou fournies par le parent (`onValueChange`) ; `ref` est stable par construction.
+    [mode, density, selection, retenues, valeurs, onValueChange],
   );
 
   // Filets et coins : dépendent du nombre de colonnes RÉEL (container queries) → mesure au runtime.

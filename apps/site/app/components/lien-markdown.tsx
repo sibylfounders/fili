@@ -21,7 +21,14 @@ import { Link } from "@fili/react";
  *
  * La frontière est celle de l'ADRESSE, pas du composant : une ancre (`#…`), un `mailto:`,
  * un `tel:` ou une URL absolue ne concernent pas le routeur et restent un `<a>` — les faire
- * passer par next/link n'apporterait rien et casserait l'ancre.
+ * passer par next/link n'apporterait rien et casserait l'ancre. `tel:` en particulier n'est
+ * pas une page : il ouvre le composeur du terminal, il n'a donc ni `basePath` ni barre finale
+ * à recevoir, et le préfixer produirait une adresse morte.
+ *
+ * ROUTER une adresse et la juger SÛRE sont deux questions distinctes, et la seconde se tranche
+ * en amont : `markdown.tsx` assainit les URI avec l'allowlist de react-markdown, étendue à
+ * `tel:` le 2026-07-30 (stabilisation 0.2) parce qu'un numéro y perdait sa destination tout en
+ * gardant l'apparence d'un lien. Ce fichier ne reçoit donc que des adresses déjà jugées.
  */
 const INTERNE = (href: string) => /^\.{0,2}\//.test(href);
 
