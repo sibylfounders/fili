@@ -21,7 +21,9 @@ export function SkipLink({ href = "#main", className, children = "Aller au conte
     e.preventDefault();
     if (!target.hasAttribute("tabindex") && target.tabIndex < 0) target.tabIndex = -1;
     target.focus();
-    target.scrollIntoView({ block: "start" });
+    // Même garde que Select : `scrollIntoView` suppose une mise en page (absent de jsdom).
+    // Le DÉPLACEMENT DU FOCUS, lui, est le contrat du composant — il reste inconditionnel.
+    target.scrollIntoView?.({ block: "start" });
   };
   return (
     <a

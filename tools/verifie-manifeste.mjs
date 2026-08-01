@@ -12,6 +12,11 @@
 //   - une RULES compilée cite une version de source différente de la fiche actuelle
 //     (fiche périmée → un agent recevrait une API potentiellement fausse).
 // Avertit (sans échouer) si :
+//   - un contrôle de formulaire ne déclare pas son rôle de validation (détection
+//     STRUCTURELLE en AST : élément input/textarea/select ou role combobox/switch
+//     réellement RENDU — pas une occurrence textuelle dans un sélecteur CSS) ;
+//   - un composant déclaré field/group sans test de validité NI test d'accessibilité.
+// Avertit (sans échouer) si :
 //   - un composant stable est absent de l'atelier ;
 //   - un composant sans doctrine est status "stable" (dette documentée) ;
 //   - une entrée experimental (jamais proposée aux agents par le catalogue).
@@ -19,6 +24,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { chargeTypescript } from "./fili-check.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const MANIFEST = JSON.parse(readFileSync(join(ROOT, "packages/react/manifest.json"), "utf8")).entries;
@@ -79,6 +85,90 @@ for (const d of dirs) {
   for (const k of cles)
     if (!e.anatomy.includes(`${name}.${k}`))
       fail(`${name} : sous-composant public ${name}.${k} absent de l'anatomie du manifeste`);
+}
+
+
+// ── 1ter. RÔLE DE VALIDATION : tout contrôle de formulaire le DÉCLARE ─────────
+// Détection STRUCTURELLE (AST), pas textuelle : `t.closest('[role="combobox"]…')`
+// dans app-layout est une CHAÎNE, pas un élément rendu — une recherche par motif la
+// prendrait pour un contrôle de formulaire. Le contrat de composant exige la
+// déclaration de tout composant qui rend RÉELLEMENT un élément associable à un
+// formulaire ; c'est ce qui empêche un contrôle futur de naître sans décision.
+const ts = chargeTypescript(ROOT);
+if (!ts) {
+  fail("TypeScript introuvable — la détection structurelle des contrôles de formulaire est requise, pas d'analyse dégradée");
+} else {
+  const TAGS_FORMULAIRE = new Set(["input", "textarea", "select"]);
+  const ROLES_FORMULAIRE = new Set(["combobox", "switch"]);
+  const TESTS = join(ROOT, "packages/react/src/components/__tests__");
+  const corpusTests = existsSync(TESTS)
+    ? readdirSync(TESTS)
+        .filter((f) => /\.tsx?$/.test(f))
+        .map((f) => readFileSync(join(TESTS, f), "utf8"))
+        .join("\n")
+    : "";
+
+  const rendUnControle = (src, file) => {
+    const sf = ts.createSourceFile(file, src, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    let trouve = false;
+    const visite = (node) => {
+      if (trouve) return;
+      if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        const tag = node.tagName.getText();
+        if (TAGS_FORMULAIRE.has(tag)) { trouve = true; return; }
+        for (const a of node.attributes.properties) {
+          if (!ts.isJsxAttribute(a) || a.name.getText() !== "role") continue;
+          const init = a.initializer;
+          const v = init && ts.isStringLiteral(init) ? init.text : null;
+          if (v && ROLES_FORMULAIRE.has(v)) { trouve = true; return; }
+        }
+      }
+      ts.forEachChild(node, visite);
+    };
+    visite(sf);
+    return trouve;
+  };
+
+  for (const d of dirs) {
+    const name = DIR_TO_NAME[d];
+    const e = name ? byName[name] : null;
+    if (!e || e.status === "interne") continue;
+    const srcPath = join(COMPONENTS, d, `${d}.tsx`);
+    if (!existsSync(srcPath)) continue;
+    if (!rendUnControle(readFileSync(srcPath, "utf8"), `${d}.tsx`)) continue;
+
+    const v = e.validation;
+    if (!v || !v.role) {
+      fail(`${name} : rend un contrôle de formulaire sans déclaration de rôle de validation (manifeste : validation.role = field | group | none)`);
+      continue;
+    }
+    if (!["field", "group", "none"].includes(v.role)) {
+      fail(`${name} : validation.role « ${v.role} » invalide (field | group | none)`);
+      continue;
+    }
+    if (v.role === "none") {
+      if (!v.justification || v.justification.trim().length < 40)
+        fail(`${name} : validation.role "none" sans justification suffisante — un contrôle hors chaîne dit POURQUOI`);
+      continue;
+    }
+    // field | group : la déclaration doit être COMPLÈTE — c'est elle que lit un agent.
+    for (const cle of [
+      "externalConstraints", "ariaInvalidTarget", "messageBinding", "focusTarget",
+      "summaryRole", "requiredBehavior", "pendingBehavior", "correctionBehavior",
+    ]) {
+      const val = v[cle];
+      if (!val || (Array.isArray(val) && !val.length))
+        fail(`${name} : validation.${cle} manquant (rôle « ${v.role} » — la déclaration doit être complète)`);
+    }
+    if (!v.examples?.valid || !v.examples?.invalid)
+      fail(`${name} : validation.examples doit donner un cas valide ET un cas invalide`);
+    // Un porteur de validation ne se livre pas sans preuve exécutée.
+    const cite = new RegExp(`\\b${name}\\b`).test(corpusTests);
+    const preuveVerdict = cite && /verdict|Validation\./.test(corpusTests);
+    const preuveA11y = cite && /aria-invalid/.test(corpusTests);
+    if (!preuveVerdict) fail(`${name} : déclaré « ${v.role} » sans test citant un verdict (packages/react/src/components/__tests__)`);
+    if (!preuveA11y) fail(`${name} : déclaré « ${v.role} » sans test d'accessibilité citant aria-invalid`);
+  }
 }
 
 // ── 2. Doctrine et RULES pointées existent ───────────────────────────────────

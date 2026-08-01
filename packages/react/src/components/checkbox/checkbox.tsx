@@ -3,6 +3,8 @@
 import * as React from "react";
 import { cn } from "../../lib/cn";
 import type { ChoiceSize, ChoiceStatus } from "../../lib/choice";
+import { FieldMessage, verdictMessage } from "../../lib/field";
+import { choiceStatusFromVerdict, type ValidationVerdict } from "../../lib/validation";
 import "../../lib/focus.css";
 import "../../lib/choice.css";
 
@@ -11,11 +13,24 @@ export type { ChoiceSize, ChoiceStatus };
 type GroupeCtx = {
   valeurs: string[];
   bascule: (valeur: string, coche: boolean, exclusif: boolean) => void;
+  /**
+   * Recensement des options EXCLUSIVES auprès de leur groupe ; renvoie la radiation.
+   * Contrat INTERNE à l'anatomie (aucune prop publique n'apparaît) : l'exclusivité se
+   * déclare toujours sur l'option, mais c'est le groupe qui doit pouvoir la reconnaître
+   * dans les valeurs déjà cochées.
+   */
+  recense: (valeur: string, exclusif: boolean) => () => void;
   size: ChoiceSize;
   status: ChoiceStatus;
   disabled: boolean;
 };
 const CheckboxGroupCtx = React.createContext<GroupeCtx | null>(null);
+
+/**
+ * Sélection vide PARTAGÉE — une référence stable, pour ne pas invalider un mémo à chaque
+ * rendu du groupe non contrôlé. Jamais mutée : le groupe ne fait que lire et recomposer.
+ */
+const AUCUNE: string[] = [];
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "size" | "onChange"> {
@@ -24,8 +39,18 @@ export interface CheckboxProps
   /** Aide de l'option : une phrase courte, sans lien (CHOICE-R10). */
   helper?: React.ReactNode;
   size?: ChoiceSize;
-  /** Statut SUBI par la validation — jamais décoratif. Hérité du groupe s'il existe. */
+  /**
+   * Statut SUBI par la validation — jamais décoratif. Hérité du groupe s'il existe. Depuis le
+   * chantier « Validation et récupération », c'est un mode de PRÉSENTATION : dès qu'un
+   * `verdict` existe, c'est lui qui décide.
+   */
   status?: ChoiceStatus;
+  /**
+   * Le VERDICT de cette case. Utile pour une case ISOLÉE qui porte sa propre contrainte —
+   * consentement obligatoire, confirmation explicite. Dans un `Checkbox.Group`, le verdict
+   * appartient au GROUPE (CHOICE-R17) : ne pas le poser sur chaque option.
+   */
+  verdict?: ValidationVerdict;
   /** Parent partiellement coché — se CALCULE, ne se sélectionne pas (CHOICE-R11). */
   indeterminate?: boolean;
   onCheckedChange?: (checked: boolean) => void;
@@ -75,6 +100,7 @@ const CheckboxBase = React.forwardRef<HTMLInputElement, CheckboxProps>(
       helper,
       size,
       status,
+      verdict,
       indeterminate = false,
       checked,
       defaultChecked,
@@ -89,14 +115,31 @@ const CheckboxBase = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ) => {
     const groupe = React.useContext(CheckboxGroupCtx);
     const uid = React.useId();
-    const aideId = helper ? `${uid}aide` : undefined;
+    // Le message de verdict REMPLACE l'aide (INPUT-R26, même règle d'emplacement partagé) —
+    // ils ne s'empilent jamais sous l'option.
+    const message = verdictMessage(verdict);
+    const msgId = message ? `${uid}msg` : undefined;
+    const aideId = helper && !message ? `${uid}aide` : undefined;
     const resolvedSize = size ?? groupe?.size ?? "md";
-    const resolvedStatus = status ?? groupe?.status ?? "default";
+    const resolvedStatus = verdict
+      ? choiceStatusFromVerdict(verdict)
+      : status ?? groupe?.status ?? "default";
     const resolvedDisabled = disabled ?? groupe?.disabled;
 
     // Piloté par le groupe dès qu'une valeur y est déclarée ; autonome sinon.
     const parGroupe = !!groupe && value !== undefined;
     const resolvedChecked = parGroupe ? groupe.valeurs.includes(value) : checked;
+
+    // L'option se DÉCLARE exclusive auprès de son groupe. Sans ce recensement, la bascule
+    // ne connaît que le caractère exclusif de l'option manipulée : cocher une option
+    // ordinaire laissait la valeur exclusive dans le tableau (CHOICE-R18, défaut du
+    // 2026-07-30). Le recensement a lieu au montage, donc AVANT toute interaction ; la
+    // bascule elle-même reste synchrone et ne rattrape rien après coup.
+    const recense = groupe?.recense;
+    React.useEffect(() => {
+      if (!parGroupe || !recense) return;
+      return recense(value!, exclusive);
+    }, [parGroupe, recense, value, exclusive]);
 
     const innerRef = React.useRef<HTMLInputElement | null>(null);
     const setRefs = (el: HTMLInputElement | null) => {
@@ -126,7 +169,7 @@ const CheckboxBase = React.forwardRef<HTMLInputElement, CheckboxProps>(
             defaultChecked={defaultChecked}
             disabled={resolvedDisabled}
             aria-invalid={resolvedStatus === "error" || undefined}
-            aria-describedby={aideId}
+            aria-describedby={msgId ?? aideId}
             value={value}
             onChange={(e) => {
               const coche = e.currentTarget.checked;
@@ -141,7 +184,15 @@ const CheckboxBase = React.forwardRef<HTMLInputElement, CheckboxProps>(
           </span>
           {label != null ? <span className="ds-choice-libelle">{label}</span> : null}
         </label>
-        {helper ? (
+        {message ? (
+          <FieldMessage
+            id={msgId}
+            severity={message.severity}
+            className="pl-[calc(var(--icon-md)+var(--space-sm))]"
+          >
+            {message.texte}
+          </FieldMessage>
+        ) : helper ? (
           <span id={aideId} className="ds-choice-aide pl-[calc(var(--icon-md)+var(--space-sm))] text-sm text-text-secondary">
             {helper}
           </span>
@@ -160,8 +211,18 @@ export interface CheckboxGroupProps extends Omit<React.HTMLAttributes<HTMLFieldS
   size?: ChoiceSize;
   status?: ChoiceStatus;
   disabled?: boolean;
-  /** Message d'erreur du GROUPE — jamais rattaché à la première option (CHOICE-R17). */
+  /**
+   * Message d'erreur du GROUPE — jamais rattaché à la première option (CHOICE-R17). Mode de
+   * PRÉSENTATION depuis le chantier « Validation et récupération » : dans un formulaire réel,
+   * c'est `verdict` qui porte le message, et le même objet alimente le résumé d'erreurs.
+   */
   error?: React.ReactNode;
+  /**
+   * Le VERDICT du groupe — requis, cardinalité minimale/maximale, combinaison interdite. Il
+   * l'emporte sur `status` et sur `error` : une erreur de groupe est la conséquence d'un
+   * verdict, jamais un message posé à la main.
+   */
+  verdict?: ValidationVerdict;
   helper?: React.ReactNode;
 }
 
@@ -171,16 +232,44 @@ export interface CheckboxGroupProps extends Omit<React.HTMLAttributes<HTMLFieldS
  * répondent à une même question, il ne l'est plus (CHOICE-R07).
  *
  * `fieldset`/`legend` : la question est rattachée techniquement, pas seulement posée à côté.
+ *
+ * EXCLUSIVITÉ (CHOICE-R18) : elle se déclare sur l'option (`exclusive`), mais elle
+ * s'ARBITRE ici. Le groupe tient le registre de ses propres options exclusives, parce que
+ * la bascule doit répondre à une question que l'option manipulée ne suffit pas à trancher :
+ * « parmi les valeurs déjà cochées, lesquelles sont exclusives ? ». L'API publique
+ * `value` / `onValueChange` reste entièrement déterministe : chaque bascule calcule le
+ * tableau suivant à partir du tableau reçu, sans le muter ni différer la décision.
  */
 export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroupProps>(
   (
-    { className, label, value, onValueChange, size = "md", status, error, helper, disabled = false, children, ...props },
+    { className, label, value, onValueChange, size = "md", status, error, verdict, helper, disabled = false, children, ...props },
     ref,
   ) => {
     const uid = React.useId();
-    const msgId = error || helper ? `${uid}msg` : undefined;
-    const resolvedStatus = status ?? (error ? "error" : "default");
-    const valeurs = value ?? [];
+    const message = verdictMessage(verdict);
+    const affiche: React.ReactNode = message?.texte ?? error;
+    const msgId = affiche || helper ? `${uid}msg` : undefined;
+    const resolvedStatus = verdict
+      ? choiceStatusFromVerdict(verdict)
+      : status ?? (error ? "error" : "default");
+    // `AUCUNE` (constante de module) plutôt qu'un `[]` neuf à chaque rendu : la sélection
+    // devient une RÉFÉRENCE immuable, utilisable telle quelle comme dépendance de mémo.
+    const valeurs = value ?? AUCUNE;
+
+    /**
+     * Registre des options EXCLUSIVES de CE groupe. Il est porté par une référence propre
+     * à l'instance : deux groupes affichés sur la même page ne partagent rien, et un
+     * démontage d'option radie sa valeur. Une référence (et non un état) suffit — la
+     * bascule le lit au moment du clic, elle n'a pas à provoquer de rendu.
+     */
+    const exclusives = React.useRef<Set<string>>(new Set());
+    const recense = React.useCallback((valeur: string, exclusif: boolean) => {
+      if (!exclusif) return () => {};
+      exclusives.current.add(valeur);
+      return () => {
+        exclusives.current.delete(valeur);
+      };
+    }, []);
 
     const ctx = React.useMemo<GroupeCtx>(
       () => ({
@@ -188,15 +277,27 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
         size,
         status: resolvedStatus,
         disabled,
+        recense,
+        // CHOICE-R18 — décider à partir du tableau REÇU, sans jamais le muter :
+        //   • décocher retire la seule valeur manipulée ;
+        //   • cocher une option exclusive ne laisse qu'elle ;
+        //   • cocher une option ordinaire retire les valeurs exclusives du groupe, que la
+        //     seule option manipulée ne suffit pas à désigner — d'où le registre.
         bascule: (valeur, coche, exclusif) => {
           if (!onValueChange) return;
-          // L'option exclusive vide le reste ; cocher une autre option la retire (CHOICE-R18).
-          if (exclusif) return onValueChange(coche ? [valeur] : []);
-          const sansExclusives = valeurs.filter((v) => v !== valeur);
-          onValueChange(coche ? [...sansExclusives, valeur] : sansExclusives);
+          const sansElle = valeurs.filter((v) => v !== valeur);
+          if (!coche) return onValueChange(sansElle);
+          if (exclusif) return onValueChange([valeur]);
+          onValueChange([...sansElle.filter((v) => !exclusives.current.has(v)), valeur]);
         },
       }),
-      [valeurs.join("|"), size, resolvedStatus, disabled, onValueChange],
+      // La dépendance est la SÉLECTION REÇUE elle-même — une référence immuable pilotée par
+      // le parent. Elle remplace `valeurs.join("|")` : une sérialisation n'est pas injective,
+      // `["a|b"]` et `["a", "b"]` produisent la même chaîne. Avec un `onValueChange` stable,
+      // le contexte restait alors figé sur la sélection précédente et les cases affichaient un
+      // état périmé (constat d'audit du 2026-07-30). Les autres dépendances sont des valeurs
+      // primitives ou des références stables (`recense` est un `useCallback` sans dépendance).
+      [valeurs, size, resolvedStatus, disabled, onValueChange, recense],
     );
 
     return (
@@ -210,14 +311,8 @@ export const CheckboxGroup = React.forwardRef<HTMLFieldSetElement, CheckboxGroup
         >
           <legend className="mb-xs p-0 font-medium text-text-primary">{label}</legend>
           {children}
-          {error ? (
-            <p id={msgId} className="m-0 flex items-start gap-1.5 text-sm text-danger">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mt-0.5 size-4 shrink-0">
-                <circle cx="12" cy="12" r="10" /><path d="M12 8v4" strokeLinecap="round" /><path d="M12 16h.01" strokeLinecap="round" />
-              </svg>
-              <span className="sr-only">Erreur : </span>
-              <span>{error}</span>
-            </p>
+          {affiche ? (
+            <FieldMessage id={msgId} severity={message?.severity ?? "error"}>{affiche}</FieldMessage>
           ) : helper ? (
             <p id={msgId} className="m-0 text-sm text-text-secondary">{helper}</p>
           ) : null}

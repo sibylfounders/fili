@@ -8,6 +8,7 @@ import {
 } from "@fili/react";
 import { manifestByName } from "@fili/react/manifest";
 import { CardDemo, CardGroupDemo, codeCard, codeCardGroup } from "./card-group";
+import { MESSAGES, extraitCode, texteDe, type FamilleMessages, type SourceMessage } from "./messages-validation";
 import {
   StatCard, ChartCard, KpiGroup,
   AreaChart, BarChart, ComposedChart, DonutChart, LineChart,
@@ -57,6 +58,66 @@ const ADA_TRAFFIC: LineSeries[] = [
   { label: "Payant", data: [2600, 3100, 2900, 3300, 3000, 3600, 3400, 3900, 3700, 4200, 4000, 4600], color: "var(--ch-cat-4)" },
 ];
 const kEur = (n: number) => fmtInt(n) + " k€";
+
+/* ── Les textes de la démo Input suivent la NATURE de la donnée ──────────────────────────
+   Un libellé, une aide et un message d'erreur ne sont pas des remplissages : ils disent ce
+   qu'on attend et comment corriger (INPUT-R23). Montrer « Adresse e-mail / Le format attendu
+   est nom@domaine.fr » au-dessus d'un champ de recherche apprenait exactement le contraire.
+   Chaque erreur nomme donc la contrainte réelle du type — c'est aussi ce que produirait la
+   chaîne de validation sur ce champ. */
+const TEXTES_INPUT: Record<
+  string,
+  { label: string; helper: string; erreur: string; nom: string }
+> = {
+  text: {
+    label: "Nom affiché",
+    helper: "Il apparaîtra sur votre profil public.",
+    erreur: "Saisissez un nom d'au moins deux caractères.",
+    nom: "Nom affiché",
+  },
+  email: {
+    label: "Adresse e-mail",
+    helper: "Nous ne la partagerons jamais.",
+    erreur: "Saisissez une adresse au format nom@domaine.fr",
+    nom: "Adresse e-mail",
+  },
+  password: {
+    label: "Mot de passe",
+    helper: "Douze caractères minimum ; les espaces comptent.",
+    erreur: "Ce mot de passe est trop court : il en faut douze au minimum.",
+    nom: "Mot de passe",
+  },
+  search: {
+    label: "Rechercher une règle",
+    helper: "Un mot-clé, ou un identifiant comme INPUT-R38.",
+    erreur: "Aucune règle ne correspond : essayez un mot plus court.",
+    nom: "Rechercher une règle",
+  },
+  tel: {
+    label: "Téléphone",
+    helper: "Avec l'indicatif si le numéro est étranger : +33 6 12 34 56 78.",
+    erreur: "Ce numéro est incomplet : il manque des chiffres.",
+    nom: "Téléphone",
+  },
+  number: {
+    label: "Quantité",
+    helper: "Entre 0 et 99, par pas de 1.",
+    erreur: "Saisissez une quantité comprise entre 0 et 99.",
+    nom: "Quantité",
+  },
+  url: {
+    label: "Site web",
+    helper: "Le protocole est déjà posé — commencez au domaine.",
+    erreur: "Saisissez une adresse de la forme exemple.fr/page.",
+    nom: "Site web",
+  },
+  textarea: {
+    label: "Message",
+    helper: "Dites-nous ce qui vous amène, en quelques lignes.",
+    erreur: "Le message est vide : écrivez au moins une phrase.",
+    nom: "Message",
+  },
+};
 
 /* icônes + skeleton + opérations async — partagés par les entrées composants */
 const IC_MAIL = (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>);
@@ -360,6 +421,75 @@ const AppLayoutDemo: React.FC<{ variant: "default" | "docs" }> = ({ variant }) =
   );
 };
 
+/* ── La table de référence des MESSAGES de validation ────────────────────────────────────
+   Une chaîne de validation ne se comprend pas en regardant un formulaire au repos : ce qui
+   se lit, c'est ce que le système DIT quand une valeur ne convient pas. Cette table met les
+   messages côte à côte pour qu'on puisse juger d'un coup d'œil s'ils tiennent la règle
+   INPUT-R23 — dire pourquoi ET comment corriger. */
+const TEINTE_SOURCE: Record<SourceMessage, string> = {
+  native: "Contrainte HTML native — le navigateur la calcule",
+  schema: "Déclarée par le produit et calculée par le contrat (cardinalité, requis d'un groupe)",
+  business: "Règle métier — le produit la possède, Fili la présente",
+  server: "Le serveur fait foi : son verdict remplace celui du client",
+};
+
+function TableMessages({ famille, notes }: { famille: FamilleMessages; notes: boolean }) {
+  return (
+    <div className="flex w-full max-w-[860px] flex-col gap-xl">
+      <p className="m-0 text-sm text-text-secondary">
+        Le contrat <code className="text-text-primary">Validation</code> ne code aucun texte : il en{" "}
+        <b className="text-text-primary">réclame</b>. Ce qui voyage entre le validateur, le message sous le champ et le
+        résumé d’erreurs, c’est le <b className="text-text-primary">code</b> — stable, indépendant du navigateur et de la
+        langue. Voici le wording de référence pour chacun. Les <code className="text-text-primary">{"{accolades}"}</code>{" "}
+        sont interpolées depuis <code className="text-text-primary">issue.params</code>.
+      </p>
+
+      {MESSAGES[famille].map((table) => (
+        <section key={table.titre} className="flex flex-col gap-sm">
+          <div className="flex flex-col gap-xs">
+            <h2 className="m-0 text-lg font-medium text-text-primary">{table.titre}</h2>
+            <p className="m-0 text-sm text-text-secondary">{table.sous}</p>
+          </div>
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-border-strong">
+                <th scope="col" className="py-2 pr-md align-bottom font-medium text-text-primary">Quand</th>
+                <th scope="col" className="py-2 pr-md align-bottom font-medium text-text-primary">Code</th>
+                <th scope="col" className="py-2 align-bottom font-medium text-text-primary">Message de référence</th>
+              </tr>
+            </thead>
+            <tbody>
+              {table.lignes.map((l) => (
+                <tr key={l.code + l.contrainte} className="border-b border-border align-top">
+                  <td className="py-sm pr-md text-text-secondary">{l.contrainte}</td>
+                  <td className="py-sm pr-md whitespace-nowrap">
+                    <code className="text-text-primary">{l.code}</code>
+                    <span className="mt-1 block text-xs text-text-muted" title={TEINTE_SOURCE[l.source]}>
+                      {l.source}
+                    </span>
+                  </td>
+                  <td className="py-sm">
+                    <span className="text-text-primary">{texteDe(l)}</span>
+                    {notes && l.note ? (
+                      <span className="mt-1 block text-xs text-text-secondary">{l.note}</span>
+                    ) : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ))}
+
+      <p className="m-0 text-sm text-text-secondary">
+        Ce jeu est une <b className="text-text-primary">référence</b>, pas une obligation : un produit l’adapte à sa voix
+        (<code className="text-text-primary">VOICE</code>) et à sa langue. Ce qui n’est pas négociable, ce sont les codes
+        et la chaîne — le message affiché et celui du résumé sortent toujours du même objet.
+      </p>
+    </div>
+  );
+}
+
 /* ---------- registre ---------- */
 export const GROUPS: Group[] = [
   {
@@ -633,6 +763,7 @@ export const GROUPS: Group[] = [
         initial: { size: "md", groupe: true, helper: true, exclusive: true, indeterminate: false, error: false, disabled: false, valeurs: ["design"], seule: false },
         render: (s, set) =>
           s.groupe ? (
+            // fili-check-allow: statut-sans-verdict — atelier : fixture de présentation, l'erreur est le SUJET du contrôle « Erreur »
             <Checkbox.Group
               label="Centres d'intérêt"
               size={s.size}
@@ -648,6 +779,7 @@ export const GROUPS: Group[] = [
               {s.exclusive ? <Checkbox value="aucun" label="Aucun de ces sujets" exclusive /> : null}
             </Checkbox.Group>
           ) : (
+            // fili-check-allow: statut-sans-verdict — atelier : fixture de présentation d'une case isolée
             <Checkbox
               label="J'accepte les conditions d'utilisation"
               helper={s.helper ? "Vous pourrez les relire à tout moment." : undefined}
@@ -676,6 +808,7 @@ export const GROUPS: Group[] = [
         /* Aucun `Radio` nu ici : hors de son groupe il n'a pas d'exclusivité, donc pas de sens
            (CHOICE-R05). L'atelier montre l'usage juste, pas l'usage possible. */
         render: (s, set) => (
+          // fili-check-allow: statut-sans-verdict — atelier : fixture de présentation, l'erreur est le SUJET du contrôle « Erreur »
           <Radio.Group
             label="Formule"
             size={s.size}
@@ -691,6 +824,20 @@ export const GROUPS: Group[] = [
         ),
         code: (s) =>
           `<Radio.Group label="Formule" value={formule} onValueChange={setFormule}${s.size !== "md" ? ` size="${s.size}"` : ""}${s.error ? ' error="Choisissez une formule pour continuer."' : ""}${s.disabled ? " disabled" : ""}>\n  <Radio value="mensuel" label="Mensuel"${s.helper ? ' helper="Sans engagement."' : ""} />\n  <Radio value="annuel" label="Annuel"${s.helper ? ' helper="Deux mois offerts."' : ""} />\n</Radio.Group>`,
+      },
+      {
+        key: "form-messages", name: "Messages de validation",
+        controls: [
+          { k: "famille", type: "seg", label: "Famille", opts: ["Saisie", "Choix", "Serveur"] },
+          { k: "notes", type: "bool", label: "Afficher les nuances" },
+        ],
+        initial: { famille: "Saisie", notes: true },
+        /* LA TABLE DE RÉFÉRENCE — l'autre moitié de la chaîne de validation.
+           Le contrat (`Validation`) ne code AUCUN texte : il en réclame. Cette entrée dit
+           lequel, pour chaque contrainte de chaque contrôle. Les données vivent dans
+           `messages-validation.ts` ; ce fichier ne fait que les rendre. */
+        render: (s) => <TableMessages famille={s.famille as FamilleMessages} notes={s.notes} />,
+        code: (s) => extraitCode(s.famille as FamilleMessages),
       },
       {
         key: "switch", name: "Switch",
@@ -894,20 +1041,23 @@ export const GROUPS: Group[] = [
         initial: { type: "text", size: "md", status: "default", icon: false, clearable: true, disabled: false, label: true, required: false, helper: true, skeleton: false },
         render: (s) => {
           const icon = s.icon && ["text", "email", "tel"].includes(s.type) ? <Input.Icon>{IC_MAIL}</Input.Icon> : null;
+          // Les textes suivent la NATURE de la donnée : un champ de recherche ne demande pas
+          // « une adresse au format nom@domaine.fr ».
+          const t = TEXTES_INPUT[s.type] ?? TEXTES_INPUT.text;
           // Avec un libellé visible, plus d'aria-label : il le COMPLÉTERAIT au mieux, le
           // contredirait au pire (INPUT-R33, « Label in Name »). Le libellé fait le nom.
           const nom = (n: string) => (s.label ? undefined : n);
           const field =
             s.type === "password" ? (
-              <Input.Password placeholder="••••••••" disabled={s.disabled} aria-label={nom("Mot de passe")} />
+              <Input.Password placeholder="••••••••" disabled={s.disabled} aria-label={nom(t.nom)} />
             ) : s.type === "search" ? (
-              <Input.Search placeholder="Rechercher…" disabled={s.disabled} aria-label={nom("Rechercher")} />
+              <Input.Search placeholder="INPUT-R38, focus, bordure…" disabled={s.disabled} aria-label={nom(t.nom)} />
             ) : s.type === "number" ? (
-              <Input.Number defaultValue={2} min={0} max={99} disabled={s.disabled} aria-label={nom("Quantité")} />
+              <Input.Number defaultValue={2} min={0} max={99} disabled={s.disabled} aria-label={nom(t.nom)} />
             ) : s.type === "url" ? (
               <>
                 <Input.InlineAffix>https://</Input.InlineAffix>
-                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label={nom("Adresse")} />
+                <Input.Input type="url" placeholder="fili.fr" clearable={s.clearable} disabled={s.disabled} aria-label={nom(t.nom)} />
               </>
             ) : (
               <Input.Input
@@ -918,12 +1068,12 @@ export const GROUPS: Group[] = [
                 autoComplete={s.type === "email" ? "email" : s.type === "tel" ? "tel" : undefined}
                 clearable={s.clearable}
                 disabled={s.disabled}
-                aria-label={nom("Champ")}
+                aria-label={nom(t.nom)}
               />
             );
           const dedans =
             s.type === "textarea" ? (
-              <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label={nom("Message")} />
+              <Input.Textarea placeholder="Votre message…" rows={3} disabled={s.disabled} aria-label={nom(t.nom)} />
             ) : (
               <Input.Wrapper>
                 {icon}
@@ -935,13 +1085,15 @@ export const GROUPS: Group[] = [
               {s.label ? (
                 // Field FOURNIT size et status par contexte ; Root les lit comme défauts —
                 // même contrat que CardGroup → Card, il ne les répète donc pas.
+                // fili-check-allow: statut-sans-verdict — atelier : fixture de présentation, l'état EST le sujet de la démonstration (le formulaire pilote, lui, dérive tout d'un verdict)
                 <Input.Field size={s.size} status={s.status} required={s.required}>
-                  <Input.Label>Adresse e-mail</Input.Label>
+                  <Input.Label>{t.label}</Input.Label>
                   <Input.Root loading={s.skeleton}>{dedans}</Input.Root>
-                  {s.helper ? <Input.Helper>Nous ne la partagerons jamais.</Input.Helper> : null}
-                  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>
+                  {s.helper ? <Input.Helper>{t.helper}</Input.Helper> : null}
+                  <Input.Error>{t.erreur}</Input.Error>
                 </Input.Field>
               ) : (
+                // fili-check-allow: statut-sans-verdict — atelier : fixture de présentation d'un cadre isolé
                 <Input.Root size={s.size} status={s.status} loading={s.skeleton}>
                   {dedans}
                 </Input.Root>
@@ -950,13 +1102,14 @@ export const GROUPS: Group[] = [
           );
         },
         code: (s) => {
+          const t = TEXTES_INPUT[s.type] ?? TEXTES_INPUT.text;
           // Dans un bloc champ, size et status vivent sur Field (contexte) : Root ne les répète pas.
           const champ = (inner: string) =>
             `<Input.Field size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}${s.required ? " required" : ""}>\n` +
-            `  <Input.Label>Adresse e-mail</Input.Label>\n` +
+            `  <Input.Label>${t.label}</Input.Label>\n` +
             `  <Input.Root>${inner}</Input.Root>\n` +
-            (s.helper ? `  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>\n` : "") +
-            `  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>\n` +
+            (s.helper ? `  <Input.Helper>${t.helper}</Input.Helper>\n` : "") +
+            `  <Input.Error>${t.erreur}</Input.Error>\n` +
             `</Input.Field>`;
           const root = (inner: string) =>
             s.label
@@ -964,9 +1117,9 @@ export const GROUPS: Group[] = [
               : `<Input.Root size="${s.size}"${s.status !== "default" ? ` status="${s.status}"` : ""}>${inner}</Input.Root>`;
           if (s.type === "textarea") return root(`<Input.Textarea placeholder="\u2026" rows={3} />`);
           const wrap = (inner: string) => root(`<Input.Wrapper>${inner}</Input.Wrapper>`);
-          if (s.type === "password") return wrap(`<Input.Password aria-label="Mot de passe" />`);
-          if (s.type === "search") return wrap(`<Input.Search placeholder="Rechercher\u2026" aria-label="Rechercher" />`);
-          if (s.type === "number") return wrap(`<Input.Number min={0} max={99} aria-label="Quantité" />`);
+          if (s.type === "password") return wrap(`<Input.Password aria-label="${t.nom}" />`);
+          if (s.type === "search") return wrap(`<Input.Search placeholder="INPUT-R38, focus\u2026" aria-label="${t.nom}" />`);
+          if (s.type === "number") return wrap(`<Input.Number min={0} max={99} aria-label="${t.nom}" />`);
           if (s.type === "url") return wrap(`<Input.InlineAffix>https://</Input.InlineAffix><Input.Input type="url"${s.clearable ? " clearable" : ""} />`);
           return wrap(`${s.icon ? "<Input.Icon>\u2026</Input.Icon>" : ""}<Input.Input type="${s.type}"${s.type === "email" ? ' autoComplete="email"' : s.type === "tel" ? ' autoComplete="tel"' : ""}${s.clearable ? " clearable" : ""}${s.disabled ? " disabled" : ""} />`);
         },

@@ -25,6 +25,13 @@
   <!-- lien vers une page qui n'existe pas : la page est parfaite, sa promesse est fausse -->
   <p><a href="/page-jamais-construite/">renvoi vers le vide</a></p>
 
+  <!-- message ORPHELIN : le champ désigne un identifiant que personne ne porte.
+       À l'écran, rien ne manque ; pour la technologie d'assistance, le message n'existe pas. -->
+  <p><input aria-label="champ au message fantôme" aria-describedby="message-inexistant" value="x"></p>
+
+  <!-- erreur ANNONCÉE sans message : aria-invalid dit « refusé », jamais pourquoi -->
+  <p><input aria-label="champ en erreur muette" aria-invalid="true" value="x"></p>
+
   <!-- cible sous le plancher tactile -->
   <p><button class="minuscule" aria-label="fermer">×</button></p>
 </body></html>

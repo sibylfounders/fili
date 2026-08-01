@@ -38,7 +38,12 @@ export default defineConfig({
   // pour que vitest le transforme comme le reste du kit (le lien workspace de
   // node_modules expose un main .ts que le chargeur node n'inline pas).
   resolve: {
-    alias: { "@fili/react": fileURLToPath(new URL("./src/index.ts", import.meta.url)) },
+    // Le plus SPÉCIFIQUE d'abord : les alias de Vite sont testés dans l'ordre des clés, et
+    // « @fili/react » seul récrirait « @fili/react/validation » en « …/index.ts/validation ».
+    alias: {
+      "@fili/react/validation": fileURLToPath(new URL("./src/validation/index.ts", import.meta.url)),
+      "@fili/react": fileURLToPath(new URL("./src/index.ts", import.meta.url)),
+    },
   },
   test: {
     environment: "jsdom",
@@ -49,5 +54,11 @@ export default defineConfig({
     css: false,
     include: ["src/**/*.test.tsx"],
   },
-  esbuild: { jsx: "automatic" },
+  // UNE seule autorité de transformation. Vitest 4 tourne sur rolldown-vite : il pose
+  // lui-même l'option `oxc`, et Vite avertissait alors que « esbuild et oxc sont déclarées
+  // simultanément — les options oxc seront utilisées, celles d'esbuild ignorées ». Le bloc
+  // `esbuild: { jsx: "automatic" }` qui vivait ici était donc DÉJÀ sans effet : c'est oxc
+  // qui transforme le JSX du kit. Le retirer éteint l'avertissement sans rien changer à la
+  // transformation. Les sources d'apps/site gardent leur transpilation explicite (plugin
+  // ci-dessus), qui ne dépend ni de l'une ni de l'autre.
 });

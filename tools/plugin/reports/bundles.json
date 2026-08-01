@@ -26,6 +26,7 @@
       "switch",
       "touch",
       "typography",
+      "validation",
       "voice"
     ],
     "Collection": [
@@ -79,6 +80,7 @@
       "spacing",
       "touch",
       "typography",
+      "validation",
       "voice"
     ],
     "Consentement": [
@@ -96,6 +98,7 @@
       "spacing",
       "touch",
       "typography",
+      "validation",
       "voice"
     ],
     "Cadre applicatif": [

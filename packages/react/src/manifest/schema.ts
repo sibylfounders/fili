@@ -46,6 +46,55 @@ export interface ExempleCanonique {
   title: string;
   /** JSX complet, compilable tel quel dans le test des exemples (imports depuis @fili/react). */
   code: string;
+  /**
+   * Déclarations d'import EXTÉRIEURES au kit dont l'exemple a besoin, écrites en toutes
+   * lettres — `import NextLink from "next/link";`. Un exemple qui montre une INTÉGRATION
+   * (routeur, i18n, table…) la déclare ici ; `verifie-exemples.mjs` les agrège et les
+   * dédoublonne. Le vérificateur ne reconnaît aucun nom de bibliothèque : le format du
+   * manifeste reste générique, et rien n'y couple Fili à un framework.
+   */
+  imports?: string[];
+}
+
+/**
+ * RÔLE DE VALIDATION — ce que le composant porte dans la chaîne « nature de la donnée →
+ * verdict → statut → message → agrégation → focus → soumission ».
+ *
+ *   field  le contrôle porte SON verdict (un champ, un select, une case isolée) ;
+ *   group  le verdict appartient à l'ENSEMBLE, pas à une option (CHOICE-R17) ;
+ *   none   le composant n'entre pas dans la chaîne — et doit dire POURQUOI.
+ *
+ * La déclaration est EXIGÉE de tout composant qui rend un élément associable à un
+ * formulaire (`input`, `textarea`, `select`, `role="combobox"`, `role="switch"`) : c'est le
+ * contrôle structurel de `tools/verifie-manifeste.mjs`, qui lit l'AST du composant et non
+ * son texte. Un composant futur ne peut donc pas naître sans décision explicite.
+ */
+export type ValidationRole = "field" | "group" | "none";
+
+export interface DeclarationValidation {
+  role: ValidationRole;
+  /** OBLIGATOIRE si `role: "none"` — un contrôle hors chaîne justifie son absence. */
+  justification?: string;
+  /** Contraintes NATIVES réellement prises en charge (attributs HTML lus par la chaîne). */
+  nativeConstraints?: string[];
+  /** Contraintes EXTERNES acceptées (schéma applicatif, règle métier, verdict serveur). */
+  externalConstraints?: string[];
+  /** Où `aria-invalid` atterrit — l'élément exact, pas « le composant ». */
+  ariaInvalidTarget?: string;
+  /** Comment le message est associé au contrôle (aria-describedby, fieldset…). */
+  messageBinding?: string;
+  /** Cible du focus quand le résumé d'erreurs renvoie ici. */
+  focusTarget?: string;
+  /** Ce que le composant apporte au résumé d'erreurs (FORM-R23). */
+  summaryRole?: string;
+  /** Comportement `required`. */
+  requiredBehavior?: string;
+  /** Comportement pendant un verdict asynchrone. */
+  pendingBehavior?: string;
+  /** Ce que devient le verdict à la correction. */
+  correctionBehavior?: string;
+  /** Un exemple VALIDE et un exemple INVALIDE, en une ligne chacun. */
+  examples?: { valid: string; invalid: string };
 }
 
 export interface Entree {
@@ -77,6 +126,8 @@ export interface Entree {
   states?: string[];
   /** Exigences accessibles portées PAR le composant (ce que l'usage n'a pas à refaire). */
   accessibility?: string[];
+  /** Rôle dans la chaîne de validation — exigé de tout contrôle de formulaire. */
+  validation?: DeclarationValidation;
   /** Comportement adaptatif (container queries, débordement annoncé…). */
   adaptiveBehavior?: string;
   /** Avec quoi il se compose (recettes). */

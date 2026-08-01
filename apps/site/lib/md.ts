@@ -40,7 +40,7 @@ const INVENTAIRES: Record<string, string> = {
   interaction: "interaction", link: "link", lois: "laws", motion: "motion",
   navigation: "navigation", overlay: "overlay", performance: "performance", radius: "radius",
   select: "select", switch: "switch", touch: "touch", typographie: "typography",
-  voix: "voice", whitespace: "spacing",
+  voix: "voice", whitespace: "spacing", validation: "validation",
   modal: "modal", tabs: "tabs", consentement: "consentement", surface: "surface",
 };
 

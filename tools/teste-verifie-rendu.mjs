@@ -9,7 +9,11 @@ import { fileURLToPath } from "node:url";
 const ici = dirname(fileURLToPath(import.meta.url));
 // `dur-au-dom` a été retiré le 2026-07-30 : la détection des valeurs source appartient au
 // validateur AST (fili-check / verifie-tokens) — le rendu ne garde que l'observable.
-const attendues = ["titre-saute", "cible-trop-petite", "focus-hors-systeme", "focus-invisible", "lien-mort"];
+// `message-orphelin` et `erreur-sans-message` (2026-07-30, chaîne de validation) : les
+// identifiants sont GÉNÉRÉS (React.useId) — aucune lecture de source ne peut confronter un
+// aria-describedby à sa cible, seul le rendu voit l'identifiant final.
+const attendues = ["titre-saute", "cible-trop-petite", "focus-hors-systeme", "focus-invisible", "lien-mort",
+                   "message-orphelin", "erreur-sans-message"];
 
 let brut;
 try {

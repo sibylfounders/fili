@@ -3,6 +3,8 @@
 import * as React from "react";
 import { cn } from "../../lib/cn";
 import type { ChoiceSize, ChoiceStatus } from "../../lib/choice";
+import { FieldMessage, verdictMessage } from "../../lib/field";
+import { choiceStatusFromVerdict, type ValidationVerdict } from "../../lib/validation";
 import "../../lib/focus.css";
 import "../../lib/choice.css";
 
@@ -100,8 +102,17 @@ export interface RadioGroupProps extends Omit<React.HTMLAttributes<HTMLFieldSetE
   size?: ChoiceSize;
   status?: ChoiceStatus;
   disabled?: boolean;
-  /** Message d'erreur du GROUPE, jamais de la première option (CHOICE-R17). */
+  /**
+   * Message d'erreur du GROUPE, jamais de la première option (CHOICE-R17). Mode de
+   * PRÉSENTATION : dans un formulaire réel, c'est `verdict` qui porte le message.
+   */
   error?: React.ReactNode;
+  /**
+   * Le VERDICT du groupe — « aucune option sélectionnée alors qu'une réponse est
+   * obligatoire », valeur devenue indisponible, verdict métier externe. Il l'emporte sur
+   * `status` et sur `error`.
+   */
+  verdict?: ValidationVerdict;
   helper?: React.ReactNode;
 }
 
@@ -112,12 +123,16 @@ export interface RadioGroupProps extends Omit<React.HTMLAttributes<HTMLFieldSetE
  */
 export const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>(
   (
-    { className, label, value, onValueChange, name, size = "md", status, error, helper, disabled = false, children, ...props },
+    { className, label, value, onValueChange, name, size = "md", status, error, verdict, helper, disabled = false, children, ...props },
     ref,
   ) => {
     const uid = React.useId();
-    const msgId = error || helper ? `${uid}msg` : undefined;
-    const resolvedStatus = status ?? (error ? "error" : "default");
+    const message = verdictMessage(verdict);
+    const affiche: React.ReactNode = message?.texte ?? error;
+    const msgId = affiche || helper ? `${uid}msg` : undefined;
+    const resolvedStatus = verdict
+      ? choiceStatusFromVerdict(verdict)
+      : status ?? (error ? "error" : "default");
     const nomCommun = name ?? `${uid}choix`;
 
     const ctx = React.useMemo<RadioGroupCtx>(
@@ -136,14 +151,8 @@ export const RadioGroup = React.forwardRef<HTMLFieldSetElement, RadioGroupProps>
         >
           <legend className="mb-xs p-0 font-medium text-text-primary">{label}</legend>
           {children}
-          {error ? (
-            <p id={msgId} className="m-0 flex items-start gap-1.5 text-sm text-danger">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mt-0.5 size-4 shrink-0">
-                <circle cx="12" cy="12" r="10" /><path d="M12 8v4" strokeLinecap="round" /><path d="M12 16h.01" strokeLinecap="round" />
-              </svg>
-              <span className="sr-only">Erreur : </span>
-              <span>{error}</span>
-            </p>
+          {affiche ? (
+            <FieldMessage id={msgId} severity={message?.severity ?? "error"}>{affiche}</FieldMessage>
           ) : helper ? (
             <p id={msgId} className="m-0 text-sm text-text-secondary">{helper}</p>
           ) : null}

@@ -6,6 +6,17 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
+import {
+  FieldContext,
+  FieldMessage,
+  resolveStatus,
+  useField,
+  useFieldWiring,
+  useMessageRegistered,
+  verdictMessage,
+  type FieldContextValue,
+} from "../../lib/field";
+import { PRISTINE, type ValidationVerdict } from "../../lib/validation";
 import { CompactButton } from "../compact-button/compact-button";
 import "./input.css";
 
@@ -56,33 +67,10 @@ const InputContext = React.createContext<{ size: InputSize; status: InputStatus 
  * Mécanique : Field FOURNIT, l'enfant SURCLASSE — exactement le contrat `CardGroup` → `Card`
  * (arbitrage 2026-07-30). `Input.Root` employé seul reste donc strictement inchangé : hors
  * d'un Field, ce contexte vaut `null` et rien ne change.
+ *
+ * Depuis le chantier « Validation et récupération », la mécanique vit dans `lib/field` :
+ * `Select` la consomme aussi, sans qu'un second bloc champ ait été inventé pour lui.
  */
-type FieldContextValue = {
-  fieldId: string;
-  messageId: string;
-  /** Un message (helper OU erreur) est monté : sans lui, `aria-describedby` pointerait dans le vide. */
-  hasMessage: boolean;
-  setHasMessage: (present: boolean) => void;
-  size: InputSize;
-  status: InputStatus;
-  required: boolean;
-};
-const FieldContext = React.createContext<FieldContextValue | null>(null);
-
-/**
- * Câblage du champ natif à son bloc : identifiant (cible du `for` du libellé) et lien vers le
- * message (`aria-describedby`). Rendu AVANT `{...props}` : un consommateur garde la main.
- * Hors d'un `Input.Field`, ne pose rien — l'usage autonome reste identique.
- */
-function useChampCable(): Record<string, string | boolean | undefined> {
-  const champ = React.useContext(FieldContext);
-  if (!champ) return {};
-  return {
-    id: champ.fieldId,
-    "aria-describedby": champ.hasMessage ? champ.messageId : undefined,
-    "aria-required": champ.required || undefined,
-  };
-}
 
 const rootVariants = cva(
   [
@@ -145,7 +133,7 @@ const InputRoot = React.forwardRef<HTMLDivElement, InputRootProps>(
     const Comp = asChild ? Slot : "div";
     // Le bloc champ fournit des DÉFAUTS ; une prop explicite les surclasse (contrat
     // Field → Root, miroir de CardGroup → Card). Hors d'un Field : défauts propres.
-    const field = React.useContext(FieldContext);
+    const field = useField();
     const resolvedSize: InputSize = size ?? field?.size ?? "md";
     const resolvedStatus: InputStatus = status ?? field?.status ?? "default";
     return (
@@ -182,7 +170,7 @@ const InputWrapper = React.forwardRef<
   React.LabelHTMLAttributes<HTMLLabelElement>
 >(({ className, ...props }, ref) => {
   const { size } = React.useContext(InputContext);
-  const field = React.useContext(FieldContext);
+  const field = useField();
   const Comp = (field ? "div" : "label") as "label";
   return <Comp ref={ref} className={cn(wrapperVariants({ size }), className)} {...props} />;
 });
@@ -198,7 +186,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
   ({ className, type = "text", asChild = false, clearable = false, onChange, ...props }, forwardedRef) => {
     const Comp = asChild ? Slot : "input";
     const { status } = React.useContext(InputContext);
-    const cable = useChampCable();
+    const cable = useFieldWiring();
     // mécanique clearable — hooks inconditionnels, inactifs si !clearable
     const innerRef = React.useRef<HTMLInputElement | null>(null);
     const [hasValue, setHasValue] = React.useState(!!(props.value ?? props.defaultValue));
@@ -464,8 +452,8 @@ export interface InputTextareaProps extends React.TextareaHTMLAttributes<HTMLTex
 const InputTextarea = React.forwardRef<HTMLTextAreaElement, InputTextareaProps>(
   ({ className, rows = 3, ...props }, ref) => {
     const { size, status } = React.useContext(InputContext);
-    const champ = React.useContext(FieldContext);
-    const cable = useChampCable();
+    const champ = useField();
+    const cable = useFieldWiring();
     // Même règle que le Wrapper : dans un bloc champ, le libellé visible porte déjà
     // l'association explicite — pas de second <label> autour du textarea.
     const Enveloppe = (champ ? "div" : "label") as "label";
@@ -505,7 +493,31 @@ InputTextarea.displayName = "Input.Textarea";
 
 export interface InputFieldBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: InputSize;
+  /**
+   * Statut VISUEL posé à la main. Depuis le chantier « Validation et récupération », c'est un
+   * mode de PRÉSENTATION — il sert à montrer un état isolé (fixture, documentation), jamais à
+   * prouver qu'une valeur est fautive. Dès qu'un `verdict` est fourni, c'est LUI qui décide.
+   */
   status?: InputStatus;
+  /**
+   * Le VERDICT de validation du champ — la source de vérité. Il porte le statut visuel,
+   * `aria-invalid`, `aria-busy` et le texte du message : la même `issue` alimente le message
+   * local et l'entrée du résumé d'erreurs (FORM-R23). Un `pristine` ne dit rien et laisse la
+   * main à `status`.
+   */
+  verdict?: ValidationVerdict;
+  /**
+   * Confirmer visuellement un verdict `valid` (statut `success`). Faux par défaut :
+   * INPUT-R16 range « validé sans besoin de le signaler » dans le statut par défaut et
+   * INPUT-R20 réserve la confirmation aux champs à forte friction perçue.
+   */
+  confirmValid?: boolean;
+  /**
+   * Identifiant STABLE du contrôle. Sans lui, l'`id` est généré et change d'un rendu serveur
+   * à l'autre : un résumé d'erreurs ne peut alors pas l'ancrer (FORM-R23 — le lien du résumé
+   * mène au champ). À poser dès qu'un formulaire agrège ce champ.
+   */
+  controlId?: string;
   /**
    * Le champ est obligatoire : pose l'indicateur visible sur le libellé (INPUT-R30) et
    * `aria-required` sur le champ. La CONVENTION — marquer le requis ou marquer l'optionnel —
@@ -516,20 +528,28 @@ export interface InputFieldBlockProps extends React.HTMLAttributes<HTMLDivElemen
 
 /** Bloc champ : il assemble libellé, cadre et message, et porte leur câblage technique. */
 const InputFieldBlock = React.forwardRef<HTMLDivElement, InputFieldBlockProps>(
-  ({ className, size = "md", status = "default", required = false, children, ...props }, ref) => {
+  (
+    { className, size = "md", status, verdict, confirmValid = false, controlId, required = false, children, ...props },
+    ref,
+  ) => {
     const uid = React.useId();
     const [hasMessage, setHasMessage] = React.useState(false);
+    const resolu = verdict ?? PRISTINE;
+    // Le verdict PRIME sur `status` dès qu'il dit quelque chose : un statut visuel n'est
+    // jamais la source de vérité (invariant du protocole de validation).
+    const statutVisuel = resolveStatus(verdict, status, confirmValid);
     const valeur = React.useMemo<FieldContextValue>(
       () => ({
-        fieldId: `${uid}champ`,
-        messageId: `${uid}message`,
+        fieldId: controlId ?? `${uid}champ`,
+        messageId: `${controlId ?? uid}message`,
         hasMessage,
         setHasMessage,
         size,
-        status,
+        status: statutVisuel,
         required,
+        verdict: resolu,
       }),
-      [uid, hasMessage, size, status, required],
+      [uid, controlId, hasMessage, size, statutVisuel, required, resolu],
     );
     return (
       <FieldContext.Provider value={valeur}>
@@ -551,7 +571,7 @@ InputFieldBlock.displayName = "Input.Field";
  */
 const InputLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<HTMLLabelElement>>(
   ({ className, children, ...props }, ref) => {
-    const champ = React.useContext(FieldContext);
+    const champ = useField();
     return (
       <label
         ref={ref}
@@ -572,28 +592,16 @@ const InputLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<
 );
 InputLabel.displayName = "Input.Label";
 
-/** Enregistre le message auprès du bloc : sans lui, `aria-describedby` pointerait dans le vide. */
-function useMessageEnregistre(actif: boolean) {
-  const champ = React.useContext(FieldContext);
-  const signale = champ?.setHasMessage;
-  React.useEffect(() => {
-    if (!signale || !actif) return;
-    signale(true);
-    return () => signale(false);
-  }, [signale, actif]);
-  return champ;
-}
-
 /**
  * Aide contextuelle PERSISTANTE, indépendante de la validation (INPUT-R25) : elle guide
- * *avant* la saisie. L'erreur la REMPLACE tant qu'elle est active (INPUT-R26) — les deux ne
- * s'empilent jamais, elles partagent le même emplacement sous le champ.
+ * *avant* la saisie. Le message de verdict la REMPLACE tant qu'il est actif (INPUT-R26) —
+ * les deux ne s'empilent jamais, elles partagent le même emplacement sous le champ.
  */
 const InputHelper = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => {
-    const champ = React.useContext(FieldContext);
-    const efface = champ?.status === "error";
-    useMessageEnregistre(!efface);
+    const champ = useField();
+    const efface = !!verdictMessage(champ?.verdict) || champ?.status === "error";
+    useMessageRegistered(!efface);
     if (efface) return null;
     return (
       <p ref={ref} id={champ?.messageId} className={cn("text-sm text-text-secondary", className)} {...props} />
@@ -603,30 +611,38 @@ const InputHelper = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 InputHelper.displayName = "Input.Helper";
 
 /**
- * Message d'erreur — rendu seulement quand le bloc est en `status="error"`, où il remplace le
- * helper (INPUT-R26). Il est précédé d'une icône dédiée et d'un « Erreur » réservé à l'AT :
- * INPUT-R31 interdit de ne le signaler que par la couleur. Le texte, lui, appartient à
- * l'appelant — INPUT-R23 demande qu'il dise *pourquoi* et *comment corriger*.
+ * LE MESSAGE DU VERDICT — l'unique emplacement de message du bloc, où il remplace le helper
+ * (INPUT-R26). Icône + qualification textuelle : INPUT-R31 interdit de ne signaler l'état que
+ * par la couleur, et la qualification suit la GRAVITÉ (« Erreur » / « Avertissement »).
+ *
+ * Deux façons de l'alimenter, une seule vérité :
+ *   - avec un `verdict` sur le bloc, le texte VIENT du verdict — c'est la même `issue` que
+ *     celle du résumé d'erreurs, jamais un second texte (FORM-R23) ;
+ *   - sans verdict, l'appelant fournit le texte (`status="error"`), mode de PRÉSENTATION
+ *     réservé aux fixtures et à la documentation.
+ * Un enfant explicite l'emporte toujours : un produit peut reformuler ce que le contrat a
+ * normalisé, il ne peut pas faire apparaître un message sans verdict ni statut.
+ *
+ * Le nom reste `Input.Error` : c'est l'emplacement de message du bloc, pas une seconde API.
  */
 const InputError = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, children, ...props }, ref) => {
-    const champ = React.useContext(FieldContext);
-    const actif = champ?.status === "error";
-    useMessageEnregistre(!!actif);
+    const champ = useField();
+    const duVerdict = verdictMessage(champ?.verdict);
+    const legacy = !duVerdict && champ?.status === "error";
+    const actif = !!duVerdict || legacy;
+    useMessageRegistered(actif);
     if (!actif) return null;
     return (
-      <p
+      <FieldMessage
         ref={ref}
         id={champ?.messageId}
-        className={cn("flex items-start gap-1.5 text-sm text-danger", className)}
+        severity={duVerdict?.severity ?? "error"}
+        className={className}
         {...props}
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="mt-0.5 size-4 shrink-0">
-          <circle cx="12" cy="12" r="10" /><path d="M12 8v4" strokeLinecap="round" /><path d="M12 16h.01" strokeLinecap="round" />
-        </svg>
-        <span className="sr-only">Erreur : </span>
-        <span>{children}</span>
-      </p>
+        {children ?? duVerdict?.texte}
+      </FieldMessage>
     );
   },
 );

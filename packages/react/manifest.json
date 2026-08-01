@@ -357,6 +357,7 @@
         "pattern": "patterns/COLLECTION"
       },
       "rules": "RULES-card.md",
+      "dette": "Le manifeste décrit les props du ROOT ; celles des sous-composants compound ne sont pas encore dans le schéma. `Card.TitleLink` en est le cas visible : son `asChild` porte le routage sous basePath (2026-07-30) sans apparaître dans `props`. Trou de couverture RELEVÉ, pas comblé, à la Stabilisation 0.2 — en attendant, la capacité est tenue par un exemple canonique compilé et par un test de consommation. Étendre le schéma aux sous-composants est une tranche à part.",
       "anatomy": [
         "Card",
         "Card.Root",
@@ -445,6 +446,13 @@
         "mode sur un contrôle (INTERACTION-R27 : surfaces-conteneurs seulement)"
       ],
       "canonicalExamples": [
+        {
+          "title": "Carte cliquable SOUS ROUTEUR — Card.TitleLink asChild",
+          "imports": [
+            "import NextLink from \"next/link\";"
+          ],
+          "code": "<Card.Root mode=\"clickable\">\n  <Card.Body>\n    <Card.Header>\n      <Card.Title as=\"h3\">\n        <Card.TitleLink asChild>\n          <NextLink href=\"/md/card/\">Card</NextLink>\n        </Card.TitleLink>\n      </Card.Title>\n    </Card.Header>\n    <Card.Description>Le routeur préfixe le basePath du déploiement.</Card.Description>\n  </Card.Body>\n</Card.Root>"
+        },
         {
           "title": "Carte cliquable",
           "code": "<Card.Root mode=\"clickable\">\n  <Card.Body>\n    <Card.Header>\n      <Card.Title><Card.TitleLink href=\"/article\">Titre de l'article</Card.TitleLink></Card.Title>\n    </Card.Header>\n    <Card.Description>Résumé en une ou deux phrases.</Card.Description>\n  </Card.Body>\n</Card.Root>"
@@ -630,7 +638,11 @@
         },
         "error": {
           "type": "ReactNode",
-          "description": "Checkbox.Group : message d'erreur DU GROUPE, jamais de la première case (CHOICE-R17)."
+          "description": "Checkbox.Group : message d'erreur DU GROUPE, jamais de la première case (CHOICE-R17). Mode de PRÉSENTATION — dans un formulaire réel, c'est `verdict` qui porte le message."
+        },
+        "verdict": {
+          "type": "ValidationVerdict",
+          "description": "Le VERDICT — du groupe (requis, cardinalité min/max, combinaison interdite) ou d'une case ISOLÉE (consentement obligatoire). Il l'emporte sur `status` et sur `error`."
         }
       },
       "tokens": [
@@ -652,8 +664,32 @@
         "input[type=checkbox] NATIF conservé et focalisable — rôle, état et clavier non réimplémentés (CHOICE-R15)",
         "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
         "Checkbox.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
-        "état jamais porté par la seule couleur : le glyphe change (CHOICE-R12)"
+        "état jamais porté par la seule couleur : le glyphe change (CHOICE-R12)",
+        "message de verdict associé au fieldset (groupe) ou à la case (aria-describedby), avec sa qualification textuelle"
       ],
+      "validation": {
+        "role": "group",
+        "nativeConstraints": [
+          "aucune — la cardinalité d'un ensemble n'a pas d'équivalent natif"
+        ],
+        "externalConstraints": [
+          "required",
+          "min / max de sélections (Validation.fromSelection)",
+          "combinaison interdite (règle métier)",
+          "verdict serveur"
+        ],
+        "ariaInvalidTarget": "chaque input[type=checkbox] du groupe (le statut descend par contexte) ; le message, lui, appartient au groupe",
+        "messageBinding": "aria-describedby du <fieldset> → le message unique du groupe (CHOICE-R17 : jamais rattaché à la première option)",
+        "focusTarget": "la première option du groupe — un fieldset n'est pas focalisable",
+        "summaryRole": "UNE entrée pour le groupe entier, dont le texte reprend la question",
+        "requiredBehavior": "aucune prop `required` : la contrainte se déclare au contrat (Validation.fromSelection) et revient en verdict",
+        "pendingBehavior": "verdict `validating` — le groupe reste neutre, aucune option n'est marquée",
+        "correctionBehavior": "la signature du verdict est la sélection sérialisée : toute (dé)sélection le périme",
+        "examples": {
+          "valid": "Validation.fromSelection(\"sujets\", [\"design\"], { min: 1 }, MESSAGES) → valid",
+          "invalid": "Validation.fromSelection(\"sujets\", [], { min: 1 }, MESSAGES) → invalid { code: \"valueMissing\" }"
+        }
+      },
       "antiPatterns": [
         "S'en servir pour un réglage à effet immédiat (c'est Switch — CHOICE-R01)",
         "Poser une case unique là où la question n'admet qu'une réponse (ce sont des Radio, même à deux options — CHOICE-R03)",
@@ -664,6 +700,13 @@
         {
           "title": "Consentement explicite",
           "code": "<Checkbox label=\"J'accepte les conditions d'utilisation\" onCheckedChange={() => {}} />"
+        },
+        {
+          "title": "Cardinalité du groupe — le message DESCEND du verdict",
+          "imports": [
+            "import { Validation } from \"@fili/react/validation\";"
+          ],
+          "code": "<Checkbox.Group\n  label=\"Centres d'intérêt\"\n  value={[]}\n  onValueChange={() => {}}\n  verdict={Validation.fromSelection(\"sujets\", [], { min: 1 }, {\n    valueMissing: \"Choisissez au moins un centre d'intérêt.\",\n    fallback: \"Cette sélection ne convient pas.\",\n  })}\n>\n  <Checkbox value=\"design\" label=\"Design\" />\n  <Checkbox value=\"code\" label=\"Développement\" />\n</Checkbox.Group>"
         },
         {
           "title": "Options cumulables sous leur question",
@@ -1169,6 +1212,19 @@
           "default": "false",
           "description": "Input.Field : pose l'indicateur visible sur le libellé (INPUT-R30) + aria-required. La CONVENTION requis/optionnel appartient au formulaire entier (FORM-R10)."
         },
+        "verdict": {
+          "type": "ValidationVerdict",
+          "description": "Input.Field : le VERDICT de validation — statut visuel, aria-invalid, aria-busy et texte du message en descendent. Source de vérité ; `status` devient un mode de présentation."
+        },
+        "confirmValid": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Input.Field : projeter un verdict `valid` en statut success. Faux par défaut — confirmer un succès est un choix de produit (INPUT-R16/R20)."
+        },
+        "controlId": {
+          "type": "string",
+          "description": "Input.Field : identifiant STABLE du contrôle, requis pour qu'un résumé d'erreurs puisse l'ancrer (FORM-R23)."
+        },
         "clearable": {
           "type": "boolean",
           "default": "false",
@@ -1208,6 +1264,35 @@
         "le ring s'ajoute à la bordure d'état (les deux restent lisibles — BORDER-R07)",
         "Password : aria-pressed sur le toggle œil ; Number : réservé aux quantités (OTP/code postal = text + inputmode)"
       ],
+      "validation": {
+        "role": "field",
+        "nativeConstraints": [
+          "required",
+          "type (email/url/number/tel)",
+          "min",
+          "max",
+          "step",
+          "minLength",
+          "maxLength",
+          "pattern"
+        ],
+        "externalConstraints": [
+          "schéma applicatif",
+          "règle métier",
+          "verdict serveur (source: server)"
+        ],
+        "ariaInvalidTarget": "l'élément natif (input/textarea), jamais le cadre — posé quand le statut résolu vaut error",
+        "messageBinding": "aria-describedby → Input.Error / Input.Helper, posé SEULEMENT si un message est monté",
+        "focusTarget": "l'élément natif, par son id (Input.Field controlId)",
+        "summaryRole": "une entrée par champ, message issu de la même ValidationIssue",
+        "requiredBehavior": "Input.Field required = indicateur visible (INPUT-R30) + aria-required ; la contrainte native `required` reste passée au champ par l'appelant",
+        "pendingBehavior": "verdict `validating` → aria-busy sur le champ, statut visuel neutre",
+        "correctionBehavior": "Validation.refresh périme le verdict dès que la valeur change (FORM-R51) — le message disparaît sans intervention",
+        "examples": {
+          "valid": "<Input.Field verdict={Validation.valid(\"nom@domaine.fr\")}>…</Input.Field>",
+          "invalid": "<Input.Field verdict={Validation.fromValidity(\"email\", el.validity, el.value, MESSAGES)}>…</Input.Field>"
+        }
+      },
       "adaptiveBehavior": "Largeur fluide (w-full) — la largeur vient du gabarit de formulaire (container-narrow).",
       "allowedComposition": [
         "FORM : Input + Select + Button + Alert",
@@ -1222,7 +1307,14 @@
       ],
       "canonicalExamples": [
         {
-          "title": "Champ complet — libellé lié, aide, erreur (le bloc champ)",
+          "title": "Champ complet — le message DESCEND du verdict (la chaîne câblée)",
+          "imports": [
+            "import { Validation } from \"@fili/react/validation\";"
+          ],
+          "code": "<Input.Field\n  controlId=\"courriel\"\n  required\n  verdict={Validation.invalid({\n    code: \"typeMismatch\",\n    field: \"courriel\",\n    source: \"native\",\n    severity: \"error\",\n    message: \"Saisissez une adresse au format nom@domaine.fr\",\n  })}\n>\n  <Input.Label>Adresse e-mail</Input.Label>\n  <Input.Root>\n    <Input.Wrapper>\n      <Input.Input type=\"email\" placeholder=\"vous@exemple.fr\" autoComplete=\"email\" required />\n    </Input.Wrapper>\n  </Input.Root>\n  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>\n  <Input.Error />\n</Input.Field>"
+        },
+        {
+          "title": "Fixture de PRÉSENTATION — un état isolé, sans verdict (documentation seulement)",
           "code": "<Input.Field status=\"error\" required>\n  <Input.Label>Adresse e-mail</Input.Label>\n  <Input.Root>\n    <Input.Wrapper>\n      <Input.Input type=\"email\" placeholder=\"vous@exemple.fr\" autoComplete=\"email\" />\n    </Input.Wrapper>\n  </Input.Root>\n  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>\n  <Input.Error>Le format attendu est nom@domaine.fr</Input.Error>\n</Input.Field>"
         },
         {
@@ -1488,7 +1580,11 @@
         },
         "error": {
           "type": "ReactNode",
-          "description": "Radio.Group : message d'erreur DU GROUPE, jamais de la première option (CHOICE-R17)."
+          "description": "Radio.Group : message d'erreur DU GROUPE, jamais de la première option (CHOICE-R17). Mode de PRÉSENTATION — dans un formulaire réel, c'est `verdict` qui porte le message."
+        },
+        "verdict": {
+          "type": "ValidationVerdict",
+          "description": "Radio.Group : le VERDICT du groupe — aucune option choisie alors qu'une réponse est obligatoire, valeur devenue indisponible, verdict métier. Il l'emporte sur `status` et sur `error`."
         }
       },
       "tokens": [
@@ -1509,8 +1605,32 @@
         "input[type=radio] NATIFS partageant un `name` : arrêt de tabulation unique, flèches et sélection qui suit le focus, gratuitement (CHOICE-R14)",
         "Radio.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
         "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
-        "la forme (disque) porte la cardinalité, pas la seule couleur (CHOICE-R12)"
+        "la forme (disque) porte la cardinalité, pas la seule couleur (CHOICE-R12)",
+        "message de verdict associé au fieldset, avec sa qualification textuelle — jamais rattaché à une option"
       ],
+      "validation": {
+        "role": "group",
+        "nativeConstraints": [
+          "required (natif) — non consommé par la chaîne : le verdict d'un groupe se calcule sur la valeur retenue"
+        ],
+        "externalConstraints": [
+          "required (Validation.fromSelection)",
+          "valeur devenue indisponible",
+          "règle métier",
+          "verdict serveur"
+        ],
+        "ariaInvalidTarget": "chaque input[type=radio] du groupe (statut hérité) ; le message appartient au groupe",
+        "messageBinding": "aria-describedby du <fieldset> → le message unique du groupe (CHOICE-R17)",
+        "focusTarget": "l'option cochée si elle existe, sinon la première du groupe",
+        "summaryRole": "UNE entrée pour le groupe, dont le texte reprend la question posée",
+        "requiredBehavior": "aucune prop `required` : la contrainte se déclare au contrat et revient en verdict",
+        "pendingBehavior": "verdict `validating` — le groupe reste neutre",
+        "correctionBehavior": "la signature est la valeur retenue : choisir une option périme le verdict",
+        "examples": {
+          "valid": "Validation.fromSelection(\"formule\", [\"annuel\"], { required: true }, MESSAGES) → valid",
+          "invalid": "Validation.fromSelection(\"formule\", [], { required: true }, MESSAGES) → invalid { code: \"valueMissing\" }"
+        }
+      },
       "antiPatterns": [
         "Poser un radio hors de son groupe (l'exclusivité appartient au groupe — CHOICE-R05)",
         "Réimplémenter le clavier en role=radiogroup + tabindex mobile (plus de code, moins de justesse)",
@@ -1521,6 +1641,13 @@
         {
           "title": "Choix d'une formule",
           "code": "<Radio.Group label=\"Formule\" value=\"annuel\" onValueChange={() => {}}>\n  <Radio value=\"mensuel\" label=\"Mensuel\" />\n  <Radio value=\"annuel\" label=\"Annuel\" helper=\"Deux mois offerts\" />\n</Radio.Group>"
+        },
+        {
+          "title": "Réponse obligatoire — le message DESCEND du verdict",
+          "imports": [
+            "import { Validation } from \"@fili/react/validation\";"
+          ],
+          "code": "<Radio.Group\n  label=\"Formule\"\n  value={undefined}\n  onValueChange={() => {}}\n  verdict={Validation.fromSelection(\"formule\", [], { required: true }, {\n    valueMissing: \"Choisissez une formule pour continuer.\",\n    fallback: \"Cette réponse ne convient pas.\",\n  })}\n>\n  <Radio value=\"mensuel\" label=\"Mensuel\" />\n  <Radio value=\"annuel\" label=\"Annuel\" />\n</Radio.Group>"
         }
       ]
     },
@@ -1587,20 +1714,57 @@
           "type": "boolean",
           "default": "false",
           "description": "Squelette de chargement."
+        },
+        "verdict": {
+          "type": "ValidationVerdict",
+          "description": "Le VERDICT — SEULE voie vers l'état d'erreur (bordure + message, SELECT-R07). Aucun axe `status` décoratif : un select n'est pas « rouge », il est en erreur parce qu'un verdict le dit. Hérité du bloc champ quand il y vit."
         }
       },
       "accessibility": [
         "APG select-only combobox (aria-activedescendant)",
-        "voiles de débordement + barre native masquée dans la listbox"
+        "voiles de débordement + barre native masquée dans la listbox",
+        "dans un Input.Field : id/for du libellé visible (un <button> est étiquetable), aria-describedby vers le message, aria-required — le MÊME bloc champ que l'input, pas un second",
+        "hors bloc champ : le select porte lui-même le message du verdict et son aria-describedby"
       ],
+      "validation": {
+        "role": "field",
+        "nativeConstraints": [
+          "required — posé sur le <select> seulement en mode `native`, où le placeholder porte une valeur vide (SELECT S4)"
+        ],
+        "externalConstraints": [
+          "required",
+          "option devenue indisponible",
+          "règle métier",
+          "verdict serveur"
+        ],
+        "ariaInvalidTarget": "le déclencheur (button[role=combobox]) ou le <select> natif",
+        "messageBinding": "aria-describedby du déclencheur → le message du bloc champ, ou le message autonome rendu par le select",
+        "focusTarget": "le déclencheur, par son id (hérité du bloc champ)",
+        "summaryRole": "une entrée par select, message issu de la même ValidationIssue",
+        "requiredBehavior": "porté par le bloc champ (indicateur + aria-required) ; le placeholder n'est JAMAIS une valeur valide",
+        "pendingBehavior": "verdict `validating` → aria-busy hérité du bloc champ",
+        "correctionBehavior": "signature = la valeur retenue ; choisir une option périme le verdict",
+        "examples": {
+          "valid": "<Select verdict={Validation.valid(\"fr\")} … />",
+          "invalid": "<Select verdict={Validation.invalid({ code: \"valueMissing\", field: \"langue\", source: \"schema\", severity: \"error\", message: \"…\" })} … />"
+        }
+      },
       "antiPatterns": [
         "<select> natif hors prop native",
-        "y mettre des actions (→ Dropdown)"
+        "y mettre des actions (→ Dropdown)",
+        "colorer le déclencheur en rouge sans verdict — l'état d'erreur n'a qu'une entrée, `verdict`"
       ],
       "canonicalExamples": [
         {
           "title": "Choix contrôlé",
           "code": "<Select options={[{ value: \"fr\", label: \"Français\" }, { value: \"en\", label: \"English\" }]} value={null} onValueChange={() => {}} aria-label=\"Langue\" />"
+        },
+        {
+          "title": "Select obligatoire dans le bloc champ — libellé lié, verdict, message",
+          "imports": [
+            "import { Validation } from \"@fili/react/validation\";"
+          ],
+          "code": "<Input.Field\n  controlId=\"langue\"\n  required\n  verdict={Validation.invalid({\n    code: \"valueMissing\",\n    field: \"langue\",\n    source: \"schema\",\n    severity: \"error\",\n    message: \"Choisissez une langue d'interface.\",\n  })}\n>\n  <Input.Label>Langue de l'interface</Input.Label>\n  <Select options={[{ value: \"fr\", label: \"Français\" }, { value: \"en\", label: \"English\" }]} value={null} onValueChange={() => {}} />\n  <Input.Error />\n</Input.Field>"
         }
       ]
     },
@@ -1790,8 +1954,13 @@
         "libellé attaché ou aria-label",
         "état non porté par la seule couleur"
       ],
+      "validation": {
+        "role": "none",
+        "justification": "Le switch est un réglage à EFFET IMMÉDIAT (CHOICE-R01) : il n'y a pas de soumission à bloquer, donc pas de verdict à porter. Lui greffer un « doit être activé » recréerait une case à cocher sous un autre nom — pour un consentement ou une acceptation obligatoire, c'est Checkbox. La question ne se rouvre que si un cas RÉEL et documenté apparaît ; le rouvrir demanderait une paire UX/UI, pas une prop."
+      },
       "antiPatterns": [
-        "S'en servir dans un formulaire soumis plus tard (l'effet doit être immédiat)"
+        "S'en servir dans un formulaire soumis plus tard (l'effet doit être immédiat)",
+        "Lui ajouter un « obligatoire de l'activer » — c'est une Checkbox (validationRole: none, justifié au manifeste)"
       ],
       "canonicalExamples": [
         {
@@ -1958,6 +2127,10 @@
         "checkbox native sous-jacente (clavier gratuit)",
         "icônes ancrées sur la piste, jamais le label"
       ],
+      "validation": {
+        "role": "none",
+        "justification": "Il rend bien une checkbox native, mais ce n'est pas une donnée soumise : c'est une PRÉFÉRENCE d'affichage à effet immédiat, comme un Switch. Aucune soumission ne l'attend, aucune contrainte ne peut le rendre fautif. La déclaration est ici parce que la garde structurelle du manifeste l'exige de tout composant qui rend un élément de formulaire — c'est exactement son rôle : forcer la décision, pas la deviner."
+      },
       "antiPatterns": [
         "Le rendre décoratif (il doit réellement piloter data-theme)"
       ],

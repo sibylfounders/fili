@@ -33,3 +33,28 @@ export * from "./components/submit-button";
 export * from "./components/delete-button";
 export * from "./icons";
 export { cn } from "./lib/cn";
+// VALIDATION ET RÉCUPÉRATION — seuls les TYPES entrent dans le noyau.
+//
+// La chaîne de validation est un GREFFON : `@fili/react/validation`. Le noyau garde la
+// PRISE (la prop `verdict` des contrôles) et les types qui permettent de la déclarer — ils
+// s'effacent à la compilation, donc ils ne coûtent rien à qui ne valide pas. Le contrat
+// exécutable et le jeu de messages, eux, ne sont chargés que par qui les demande.
+//
+//   import { Input } from "@fili/react";                        // la prise
+//   import { Validation, messagesFR } from "@fili/react/validation"; // le greffon
+export type {
+  ValidationSource,
+  ValidationSeverity,
+  ValidationIssue,
+  ValidationVerdict,
+  ValidityFlags,
+  NativeCode,
+  NativeMessages,
+  CardinalityCode,
+  CardinalityMessages,
+  CardinalityConstraints,
+  FieldStatus,
+  SummaryEntry,
+  SubmissionGate,
+  VerdictMap,
+} from "./lib/validation";

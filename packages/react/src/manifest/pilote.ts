@@ -24,7 +24,9 @@ type CardDensity = NonNullable<CardVariants["density"]>;
 
 type ButtonP = import("../components/button/button").ButtonProps;
 type CompactButtonP = import("../components/compact-button/compact-button").CompactButtonProps;
-type InputP = import("../components/input/input").InputRootProps & import("../components/input/input").InputFieldProps;
+type InputP = import("../components/input/input").InputRootProps &
+  import("../components/input/input").InputFieldProps &
+  import("../components/input/input").InputFieldBlockProps;
 type CardP = import("../components/card/card").CardRootProps;
 type ButtonC = typeof import("../components/button/button").Button;
 type CompactButtonC = typeof import("../components/compact-button/compact-button").CompactButton;
@@ -209,6 +211,9 @@ export const input: Entree = {
   },
   props: propsDe<InputP>()({
     required: { type: "boolean", default: "false", description: "Input.Field : pose l'indicateur visible sur le libellé (INPUT-R30) + aria-required. La CONVENTION requis/optionnel appartient au formulaire entier (FORM-R10)." },
+    verdict: { type: "ValidationVerdict", description: "Input.Field : le VERDICT de validation — statut visuel, aria-invalid, aria-busy et texte du message en descendent. Source de vérité ; `status` devient un mode de présentation." },
+    confirmValid: { type: "boolean", default: "false", description: "Input.Field : projeter un verdict `valid` en statut success. Faux par défaut — confirmer un succès est un choix de produit (INPUT-R16/R20)." },
+    controlId: { type: "string", description: "Input.Field : identifiant STABLE du contrôle, requis pour qu'un résumé d'erreurs puisse l'ancrer (FORM-R23)." },
     clearable: { type: "boolean", default: "false", description: "Croix d'effacement standard (Input.Input)." },
     loading: { type: "boolean", default: "false", description: "Squelette de chargement (Root)." },
     asChild: { type: "boolean", default: "false", description: "Slot Radix sur Root." },
@@ -228,6 +233,22 @@ export const input: Entree = {
     "le ring s'ajoute à la bordure d'état (les deux restent lisibles — BORDER-R07)",
     "Password : aria-pressed sur le toggle œil ; Number : réservé aux quantités (OTP/code postal = text + inputmode)",
   ],
+  validation: {
+    role: "field",
+    nativeConstraints: ["required", "type (email/url/number/tel)", "min", "max", "step", "minLength", "maxLength", "pattern"],
+    externalConstraints: ["schéma applicatif", "règle métier", "verdict serveur (source: server)"],
+    ariaInvalidTarget: "l'élément natif (input/textarea), jamais le cadre — posé quand le statut résolu vaut error",
+    messageBinding: "aria-describedby → Input.Error / Input.Helper, posé SEULEMENT si un message est monté",
+    focusTarget: "l'élément natif, par son id (Input.Field controlId)",
+    summaryRole: "une entrée par champ, message issu de la même ValidationIssue",
+    requiredBehavior: "Input.Field required = indicateur visible (INPUT-R30) + aria-required ; la contrainte native `required` reste passée au champ par l'appelant",
+    pendingBehavior: "verdict `validating` → aria-busy sur le champ, statut visuel neutre",
+    correctionBehavior: "Validation.refresh périme le verdict dès que la valeur change (FORM-R51) — le message disparaît sans intervention",
+    examples: {
+      valid: '<Input.Field verdict={Validation.valid("nom@domaine.fr")}>…</Input.Field>',
+      invalid: '<Input.Field verdict={Validation.fromValidity("email", el.validity, el.value, MESSAGES)}>…</Input.Field>',
+    },
+  },
   adaptiveBehavior: "Largeur fluide (w-full) — la largeur vient du gabarit de formulaire (container-narrow).",
   allowedComposition: ["FORM : Input + Select + Button + Alert", "Affix pour unités/domaines ; Icon pour la nature du champ"],
   antiPatterns: [
@@ -239,7 +260,31 @@ export const input: Entree = {
   ],
   canonicalExamples: [
     {
-      title: "Champ complet — libellé lié, aide, erreur (le bloc champ)",
+      title: "Champ complet — le message DESCEND du verdict (la chaîne câblée)",
+      imports: ['import { Validation } from "@fili/react/validation";'],
+      code: `<Input.Field
+  controlId="courriel"
+  required
+  verdict={Validation.invalid({
+    code: "typeMismatch",
+    field: "courriel",
+    source: "native",
+    severity: "error",
+    message: "Saisissez une adresse au format nom@domaine.fr",
+  })}
+>
+  <Input.Label>Adresse e-mail</Input.Label>
+  <Input.Root>
+    <Input.Wrapper>
+      <Input.Input type="email" placeholder="vous@exemple.fr" autoComplete="email" required />
+    </Input.Wrapper>
+  </Input.Root>
+  <Input.Helper>Nous ne la partagerons jamais.</Input.Helper>
+  <Input.Error />
+</Input.Field>`,
+    },
+    {
+      title: "Fixture de PRÉSENTATION — un état isolé, sans verdict (documentation seulement)",
       code: `<Input.Field status="error" required>
   <Input.Label>Adresse e-mail</Input.Label>
   <Input.Root>
@@ -280,6 +325,8 @@ export const card: Entree = {
     "La surface de contenu autonome, adaptée à SON conteneur (container query, jamais le viewport). Identité fixe (outlined, relief au survol si interactive) — pas de tone.",
   doctrine: { ux: "components/CARD-UX.md", ui: "components/CARD-UI.md", pattern: "patterns/COLLECTION" },
   rules: "RULES-card.md",
+  dette:
+    "Le manifeste décrit les props du ROOT ; celles des sous-composants compound ne sont pas encore dans le schéma. `Card.TitleLink` en est le cas visible : son `asChild` porte le routage sous basePath (2026-07-30) sans apparaître dans `props`. Trou de couverture RELEVÉ, pas comblé, à la Stabilisation 0.2 — en attendant, la capacité est tenue par un exemple canonique compilé et par un test de consommation. Étendre le schéma aux sous-composants est une tranche à part.",
   anatomy: anatomie<CardC>("Card", [
     "Root", "Media", "Icon", "Header", "Body", "Title",
     "TitleLink", "TitleCommand", "Description", "Actions", "Check", "Chevron", "Skeleton",
@@ -333,6 +380,24 @@ export const card: Entree = {
     "mode sur un contrôle (INTERACTION-R27 : surfaces-conteneurs seulement)",
   ],
   canonicalExamples: [
+    {
+      // La capacité qui manquait au 2026-07-30 : sous un basePath, seul le routeur écrit
+      // l'adresse finale. Un lien natif écrit à la main pointerait hors du site.
+      title: "Carte cliquable SOUS ROUTEUR — Card.TitleLink asChild",
+      imports: ['import NextLink from "next/link";'],
+      code: `<Card.Root mode="clickable">
+  <Card.Body>
+    <Card.Header>
+      <Card.Title as="h3">
+        <Card.TitleLink asChild>
+          <NextLink href="/md/card/">Card</NextLink>
+        </Card.TitleLink>
+      </Card.Title>
+    </Card.Header>
+    <Card.Description>Le routeur préfixe le basePath du déploiement.</Card.Description>
+  </Card.Body>
+</Card.Root>`,
+    },
     {
       title: "Carte cliquable",
       code: `<Card.Root mode="clickable">

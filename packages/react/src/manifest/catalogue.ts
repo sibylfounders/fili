@@ -378,7 +378,8 @@ export const catalogue: Entree[] = [
       value: { type: "string", description: "Dans un Checkbox.Group : la valeur portée par cette option." },
       exclusive: { type: "boolean", default: "false", description: "« Aucune de ces réponses » : la cocher décoche les autres (CHOICE-R18)." },
       onValueChange: { type: "(valeurs: string[]) => void", description: "Checkbox.Group : l'ensemble des valeurs cochées." },
-      error: { type: "ReactNode", description: "Checkbox.Group : message d'erreur DU GROUPE, jamais de la première case (CHOICE-R17)." },
+      error: { type: "ReactNode", description: "Checkbox.Group : message d'erreur DU GROUPE, jamais de la première case (CHOICE-R17). Mode de PRÉSENTATION — dans un formulaire réel, c'est `verdict` qui porte le message." },
+      verdict: { type: "ValidationVerdict", description: "Le VERDICT — du groupe (requis, cardinalité min/max, combinaison interdite) ou d'une case ISOLÉE (consentement obligatoire). Il l'emporte sur `status` et sur `error`." },
     }),
     tokens: ["icon-sm / icon-md (taille de marque)", "radius-sm (case)", "border-strong au repos (3:1)", "primary / on-primary (coché)", "danger (erreur)", "--control-focus-* (anneau unique)"],
     states: ["checked", "indeterminate (propriété DOM, jamais soumise)", "disabled", "error", "focus-visible"],
@@ -387,7 +388,24 @@ export const catalogue: Entree[] = [
       "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
       "Checkbox.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
       "état jamais porté par la seule couleur : le glyphe change (CHOICE-R12)",
+      "message de verdict associé au fieldset (groupe) ou à la case (aria-describedby), avec sa qualification textuelle",
     ],
+    validation: {
+      role: "group",
+      nativeConstraints: ["aucune — la cardinalité d'un ensemble n'a pas d'équivalent natif"],
+      externalConstraints: ["required", "min / max de sélections (Validation.fromSelection)", "combinaison interdite (règle métier)", "verdict serveur"],
+      ariaInvalidTarget: "chaque input[type=checkbox] du groupe (le statut descend par contexte) ; le message, lui, appartient au groupe",
+      messageBinding: "aria-describedby du <fieldset> → le message unique du groupe (CHOICE-R17 : jamais rattaché à la première option)",
+      focusTarget: "la première option du groupe — un fieldset n'est pas focalisable",
+      summaryRole: "UNE entrée pour le groupe entier, dont le texte reprend la question",
+      requiredBehavior: "aucune prop `required` : la contrainte se déclare au contrat (Validation.fromSelection) et revient en verdict",
+      pendingBehavior: "verdict `validating` — le groupe reste neutre, aucune option n'est marquée",
+      correctionBehavior: "la signature du verdict est la sélection sérialisée : toute (dé)sélection le périme",
+      examples: {
+        valid: 'Validation.fromSelection("sujets", ["design"], { min: 1 }, MESSAGES) → valid',
+        invalid: 'Validation.fromSelection("sujets", [], { min: 1 }, MESSAGES) → invalid { code: "valueMissing" }',
+      },
+    },
     antiPatterns: [
       "S'en servir pour un réglage à effet immédiat (c'est Switch — CHOICE-R01)",
       "Poser une case unique là où la question n'admet qu'une réponse (ce sont des Radio, même à deux options — CHOICE-R03)",
@@ -396,6 +414,22 @@ export const catalogue: Entree[] = [
     ],
     canonicalExamples: [
       { title: "Consentement explicite", code: `<Checkbox label="J'accepte les conditions d'utilisation" onCheckedChange={() => {}} />` },
+      {
+        title: "Cardinalité du groupe — le message DESCEND du verdict",
+        imports: ['import { Validation } from "@fili/react/validation";'],
+        code: `<Checkbox.Group
+  label="Centres d'intérêt"
+  value={[]}
+  onValueChange={() => {}}
+  verdict={Validation.fromSelection("sujets", [], { min: 1 }, {
+    valueMissing: "Choisissez au moins un centre d'intérêt.",
+    fallback: "Cette sélection ne convient pas.",
+  })}
+>
+  <Checkbox value="design" label="Design" />
+  <Checkbox value="code" label="Développement" />
+</Checkbox.Group>`,
+      },
       {
         title: "Options cumulables sous leur question",
         code: `<Checkbox.Group label="Centres d'intérêt" value={["design"]} onValueChange={() => {}}>
@@ -757,7 +791,8 @@ export const catalogue: Entree[] = [
       helper: { type: "ReactNode", description: "Aide de l'option : une phrase courte, sans lien (CHOICE-R10)." },
       onValueChange: { type: "(valeur: string) => void", description: "Radio.Group : la valeur retenue." },
       name: { type: "string", description: "Radio.Group : nom commun des options, généré si absent — c'est lui qui rend le groupe exclusif." },
-      error: { type: "ReactNode", description: "Radio.Group : message d'erreur DU GROUPE, jamais de la première option (CHOICE-R17)." },
+      error: { type: "ReactNode", description: "Radio.Group : message d'erreur DU GROUPE, jamais de la première option (CHOICE-R17). Mode de PRÉSENTATION — dans un formulaire réel, c'est `verdict` qui porte le message." },
+      verdict: { type: "ValidationVerdict", description: "Radio.Group : le VERDICT du groupe — aucune option choisie alors qu'une réponse est obligatoire, valeur devenue indisponible, verdict métier. Il l'emporte sur `status` et sur `error`." },
     }),
     tokens: ["icon-sm / icon-md (taille de marque)", "radius-pill (disque)", "border-strong au repos (3:1)", "primary / on-primary (coché)", "danger (erreur)", "--control-focus-* (anneau unique)"],
     states: ["checked", "disabled", "error", "focus-visible"],
@@ -766,7 +801,24 @@ export const catalogue: Entree[] = [
       "Radio.Group en fieldset/legend — la question est le nom accessible du groupe (CHOICE-R06)",
       "libellé embarqué dans le <label> : la marque ET le texte sont cliquables (CHOICE-R08/R16)",
       "la forme (disque) porte la cardinalité, pas la seule couleur (CHOICE-R12)",
+      "message de verdict associé au fieldset, avec sa qualification textuelle — jamais rattaché à une option",
     ],
+    validation: {
+      role: "group",
+      nativeConstraints: ["required (natif) — non consommé par la chaîne : le verdict d'un groupe se calcule sur la valeur retenue"],
+      externalConstraints: ["required (Validation.fromSelection)", "valeur devenue indisponible", "règle métier", "verdict serveur"],
+      ariaInvalidTarget: "chaque input[type=radio] du groupe (statut hérité) ; le message appartient au groupe",
+      messageBinding: "aria-describedby du <fieldset> → le message unique du groupe (CHOICE-R17)",
+      focusTarget: "l'option cochée si elle existe, sinon la première du groupe",
+      summaryRole: "UNE entrée pour le groupe, dont le texte reprend la question posée",
+      requiredBehavior: "aucune prop `required` : la contrainte se déclare au contrat et revient en verdict",
+      pendingBehavior: "verdict `validating` — le groupe reste neutre",
+      correctionBehavior: "la signature est la valeur retenue : choisir une option périme le verdict",
+      examples: {
+        valid: 'Validation.fromSelection("formule", ["annuel"], { required: true }, MESSAGES) → valid',
+        invalid: 'Validation.fromSelection("formule", [], { required: true }, MESSAGES) → invalid { code: "valueMissing" }',
+      },
+    },
     antiPatterns: [
       "Poser un radio hors de son groupe (l'exclusivité appartient au groupe — CHOICE-R05)",
       "Réimplémenter le clavier en role=radiogroup + tabindex mobile (plus de code, moins de justesse)",
@@ -779,6 +831,22 @@ export const catalogue: Entree[] = [
         code: `<Radio.Group label="Formule" value="annuel" onValueChange={() => {}}>
   <Radio value="mensuel" label="Mensuel" />
   <Radio value="annuel" label="Annuel" helper="Deux mois offerts" />
+</Radio.Group>`,
+      },
+      {
+        title: "Réponse obligatoire — le message DESCEND du verdict",
+        imports: ['import { Validation } from "@fili/react/validation";'],
+        code: `<Radio.Group
+  label="Formule"
+  value={undefined}
+  onValueChange={() => {}}
+  verdict={Validation.fromSelection("formule", [], { required: true }, {
+    valueMissing: "Choisissez une formule pour continuer.",
+    fallback: "Cette réponse ne convient pas.",
+  })}
+>
+  <Radio value="mensuel" label="Mensuel" />
+  <Radio value="annuel" label="Annuel" />
 </Radio.Group>`,
       },
     ],
@@ -813,11 +881,56 @@ export const catalogue: Entree[] = [
       placeholder: { type: "string", default: '"Sélectionner…"', description: "Libellé sans valeur." },
       native: { type: "boolean", default: "false", description: "<select> natif stylé." },
       loading: { type: "boolean", default: "false", description: "Squelette de chargement." },
+      verdict: { type: "ValidationVerdict", description: "Le VERDICT — SEULE voie vers l'état d'erreur (bordure + message, SELECT-R07). Aucun axe `status` décoratif : un select n'est pas « rouge », il est en erreur parce qu'un verdict le dit. Hérité du bloc champ quand il y vit." },
     }),
-    accessibility: ["APG select-only combobox (aria-activedescendant)", "voiles de débordement + barre native masquée dans la listbox"],
-    antiPatterns: ["<select> natif hors prop native", "y mettre des actions (→ Dropdown)"],
+    accessibility: [
+      "APG select-only combobox (aria-activedescendant)",
+      "voiles de débordement + barre native masquée dans la listbox",
+      "dans un Input.Field : id/for du libellé visible (un <button> est étiquetable), aria-describedby vers le message, aria-required — le MÊME bloc champ que l'input, pas un second",
+      "hors bloc champ : le select porte lui-même le message du verdict et son aria-describedby",
+    ],
+    validation: {
+      role: "field",
+      nativeConstraints: ["required — posé sur le <select> seulement en mode `native`, où le placeholder porte une valeur vide (SELECT S4)"],
+      externalConstraints: ["required", "option devenue indisponible", "règle métier", "verdict serveur"],
+      ariaInvalidTarget: "le déclencheur (button[role=combobox]) ou le <select> natif",
+      messageBinding: "aria-describedby du déclencheur → le message du bloc champ, ou le message autonome rendu par le select",
+      focusTarget: "le déclencheur, par son id (hérité du bloc champ)",
+      summaryRole: "une entrée par select, message issu de la même ValidationIssue",
+      requiredBehavior: "porté par le bloc champ (indicateur + aria-required) ; le placeholder n'est JAMAIS une valeur valide",
+      pendingBehavior: "verdict `validating` → aria-busy hérité du bloc champ",
+      correctionBehavior: "signature = la valeur retenue ; choisir une option périme le verdict",
+      examples: {
+        valid: '<Select verdict={Validation.valid("fr")} … />',
+        invalid: '<Select verdict={Validation.invalid({ code: "valueMissing", field: "langue", source: "schema", severity: "error", message: "…" })} … />',
+      },
+    },
+    antiPatterns: [
+      "<select> natif hors prop native",
+      "y mettre des actions (→ Dropdown)",
+      "colorer le déclencheur en rouge sans verdict — l'état d'erreur n'a qu'une entrée, `verdict`",
+    ],
     canonicalExamples: [
       { title: "Choix contrôlé", code: `<Select options={[{ value: "fr", label: "Français" }, { value: "en", label: "English" }]} value={null} onValueChange={() => {}} aria-label="Langue" />` },
+      {
+        title: "Select obligatoire dans le bloc champ — libellé lié, verdict, message",
+        imports: ['import { Validation } from "@fili/react/validation";'],
+        code: `<Input.Field
+  controlId="langue"
+  required
+  verdict={Validation.invalid({
+    code: "valueMissing",
+    field: "langue",
+    source: "schema",
+    severity: "error",
+    message: "Choisissez une langue d'interface.",
+  })}
+>
+  <Input.Label>Langue de l'interface</Input.Label>
+  <Select options={[{ value: "fr", label: "Français" }, { value: "en", label: "English" }]} value={null} onValueChange={() => {}} />
+  <Input.Error />
+</Input.Field>`,
+      },
     ],
   },
   {
@@ -917,7 +1030,15 @@ export const catalogue: Entree[] = [
       loading: { type: "boolean", default: "false", description: "Squelette." },
     }),
     accessibility: ["role=switch + aria-checked", "libellé attaché ou aria-label", "état non porté par la seule couleur"],
-    antiPatterns: ["S'en servir dans un formulaire soumis plus tard (l'effet doit être immédiat)"],
+    validation: {
+      role: "none",
+      justification:
+        "Le switch est un réglage à EFFET IMMÉDIAT (CHOICE-R01) : il n'y a pas de soumission à bloquer, donc pas de verdict à porter. Lui greffer un « doit être activé » recréerait une case à cocher sous un autre nom — pour un consentement ou une acceptation obligatoire, c'est Checkbox. La question ne se rouvre que si un cas RÉEL et documenté apparaît ; le rouvrir demanderait une paire UX/UI, pas une prop.",
+    },
+    antiPatterns: [
+      "S'en servir dans un formulaire soumis plus tard (l'effet doit être immédiat)",
+      "Lui ajouter un « obligatoire de l'activer » — c'est une Checkbox (validationRole: none, justifié au manifeste)",
+    ],
     canonicalExamples: [
       { title: "Réglage immédiat", code: `<Switch checked onCheckedChange={() => {}} label="Notifications" />` },
     ],
@@ -993,6 +1114,11 @@ export const catalogue: Entree[] = [
       label: { type: "ReactNode", description: "Libellé (sinon aria-label requis)." },
     }),
     accessibility: ["checkbox native sous-jacente (clavier gratuit)", "icônes ancrées sur la piste, jamais le label"],
+    validation: {
+      role: "none",
+      justification:
+        "Il rend bien une checkbox native, mais ce n'est pas une donnée soumise : c'est une PRÉFÉRENCE d'affichage à effet immédiat, comme un Switch. Aucune soumission ne l'attend, aucune contrainte ne peut le rendre fautif. La déclaration est ici parce que la garde structurelle du manifeste l'exige de tout composant qui rend un élément de formulaire — c'est exactement son rôle : forcer la décision, pas la deviner.",
+    },
     antiPatterns: ["Le rendre décoratif (il doit réellement piloter data-theme)"],
     canonicalExamples: [
       { title: "Bascule de thème", code: `<ThemeToggle checked={false} onCheckedChange={() => {}} aria-label="Thème sombre" />` },

@@ -29,7 +29,10 @@ const INTENTIONS = [
     sujets: ['form', 'select', 'switch'],
     fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
     langages: ['emotion', 'motion', 'voice'],
-    principes: [],
+    // validation : le protocole de la chaîne verdict → état → message → résumé → soumission.
+    // Il n'est PAS au socle universel (une page de contenu n'a rien à valider) : il est chargé
+    // par les intentions qui portent réellement des contrôles de formulaire (2026-07-30).
+    principes: ['validation'],
     note: '+ extensions form-* si le contexte les exige (étapes, validation async, champs conditionnels, autosave, erreurs serveur détaillées, données sensibles, succès partiel) ; emotion UNIQUEMENT sur le moment de réussite d\'un envoi/soumission (moment mérité, budget de rareté — cf. RULES-emotion)',
   },
   {
@@ -75,7 +78,7 @@ const INTENTIONS = [
     sujets: ['creation-compte'],
     fondations: ['color', 'spacing', 'typography', 'border', 'grid', 'touch'],
     langages: ['motion', 'voice'],
-    principes: [],
+    principes: ['validation'],
     note: '+ extensions creation-compte-* selon le contexte (vérification e-mail, SSO/social, force du mot de passe, e-mail déjà utilisé, consentement) ; form/input/button/alert tirés via requires',
   },
   {
@@ -90,7 +93,7 @@ const INTENTIONS = [
     sujets: ['consentement'],
     fondations: ['color', 'spacing', 'typography', 'border', 'radius', 'grid', 'touch'],
     langages: ['voice', 'motion'],
-    principes: ['accessibility'],
+    principes: ['accessibility', 'validation'],
     note: "alert, button et voice tirés via les requires ; navigation pour le lien permanent en pied de page ; overlay/modal UNIQUEMENT si le bandeau devient modal, ce qui n'est pas le défaut",
   },
   {

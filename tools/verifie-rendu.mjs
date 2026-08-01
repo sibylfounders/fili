@@ -161,6 +161,35 @@ function controlesDansLaPage() {
       dit("cible-trop-petite", Math.round(r.width) + "×" + Math.round(r.height), (el.textContent || el.getAttribute("aria-label") || el.tagName).trim().slice(0, 40));
   }
 
+  // 3bis. MESSAGE ORPHELIN — un contrôle qui DÉSIGNE un message inexistant.
+  // La chaîne de validation repose entièrement sur cette association : un `aria-describedby`
+  // (ou `aria-labelledby`, ou `aria-errormessage`) qui pointe dans le vide fait disparaître
+  // le message pour la technologie d'assistance sans rien changer à l'écran — le défaut le
+  // plus silencieux de la chaîne. Seul le rendu voit l'identifiant FINAL : les identifiants
+  // sont générés (React.useId), aucune lecture de source ne peut les confronter.
+  for (const el of document.querySelectorAll("[aria-describedby],[aria-labelledby],[aria-errormessage]")) {
+    for (const attribut of ["aria-describedby", "aria-labelledby", "aria-errormessage"]) {
+      const brut = el.getAttribute(attribut);
+      if (!brut) continue;
+      for (const id of brut.split(/\s+/).filter(Boolean)) {
+        if (document.getElementById(id)) continue;
+        dit(
+          "message-orphelin",
+          el.tagName.toLowerCase() + " " + attribut + '="' + id + '"',
+          "aucun élément ne porte cet identifiant — le message n'existe que pour l'œil",
+        );
+      }
+    }
+  }
+
+  // 3ter. ARIA-INVALID SANS MESSAGE — une erreur annoncée qu'on ne peut pas lire.
+  // `aria-invalid="true"` dit « cette valeur est refusée » ; sans message associé, il ne dit
+  // pas POURQUOI (WCAG 3.3.1/3.3.3). Un groupe porte le sien sur son fieldset : on remonte.
+  for (const el of document.querySelectorAll('[aria-invalid="true"]')) {
+    const porteur = el.closest("[aria-describedby],[aria-errormessage]");
+    if (!porteur) dit("erreur-sans-message", el.tagName.toLowerCase(), "aria-invalid posé sans message associé (aria-describedby)");
+  }
+
   // 4. LIENS INTERNES — collectés ici, confrontés côté Node à l'inventaire construit.
   const liens = [];
   for (const a of document.querySelectorAll("a[href]")) {

@@ -25,6 +25,11 @@
 //                    classe à lire : c'est l'angle mort par lequel une page entière peut
 //                    passer — constat de l'audit de cohérence du 2026-07-30)
 //   prop-inventee    valeur d'axe hors de l'union du manifeste (ex. tone="magic")
+//   statut-sans-verdict  un contrôle qui PORTE une validation (manifeste : validation.role
+//                    field|group) reçoit un `status` / un `error` sans `verdict` : l'état
+//                    d'erreur serait un style choisi, pas la conséquence d'un verdict
+//   aria-invalid-manuel  `aria-invalid` écrit dans une page — l'attribut est DÉRIVÉ par le
+//                    kit ; l'écrire à la main, c'est le désolidariser de la validation
 //   manque-sans-fiche marqueur FILI-MANQUE sans fiche .fili/manques/<slug>.md
 //   allow-sans-raison exception inline déclarée sans justification
 //
@@ -77,6 +82,11 @@ export function analyser(cible, options = {}) {
   const axesParComposant = new Map();
   for (const e of manifeste?.entries ?? [])
     if (e.axes) axesParComposant.set(e.name, e.axes);
+  // Qui PORTE une validation ? Le manifeste le dit (validation.role), donc aucune liste de
+  // noms n'est écrite ici : un contrôle futur est couvert le jour où il se déclare.
+  const porteursDeVerdict = new Set();
+  for (const e of manifeste?.entries ?? [])
+    if (e.validation?.role === "field" || e.validation?.role === "group") porteursDeVerdict.add(e.name);
 
   const roots = (conf.roots ?? RACINES_DEFAUT).map((r) => join(racine, r)).filter(existsSync);
   const scanRoots = roots.length ? roots : [racine];
@@ -231,6 +241,34 @@ export function analyser(cible, options = {}) {
               pousse("carte-recreee", ligne, `${nom} bordure+rayon+espacement`, "c'est une Card — utiliser Card/CardGroup (@fili/react)");
           }
         }
+
+        // ── L'état d'erreur est-il la CONSÉQUENCE d'un verdict ? ──────────────────────
+        // Un `status` ou un `error` posé sur un porteur de validation SANS `verdict` est un
+        // état choisi à la main : rien ne garantit qu'une donnée le justifie, et rien ne le
+        // fera disparaître à la correction. Légitime dans une fixture qui montre un état
+        // isolé — mais alors elle se déclare (`fili-check-allow: statut-sans-verdict — …`).
+        if (porteursDeVerdict.has(base0) && duKit(base0)) {
+          const aVerdict = attrs.some((a) => ts.isJsxAttribute(a) && a.name.getText() === "verdict");
+          if (!aVerdict)
+            for (const nomAttr of ["status", "error"]) {
+              const a = attr(nomAttr);
+              if (!a) continue;
+              const v = valeurTexte(a);
+              if (nomAttr === "status" && v === "default") continue; // ne prétend à aucune faute
+              pousse(
+                "statut-sans-verdict",
+                ligne,
+                `${nom} ${nomAttr}=${v != null ? `"${v}"` : "…"}`,
+                "un état d'erreur descend d'un verdict (prop `verdict`) — sinon, déclarer la fixture",
+              );
+            }
+        }
+
+        // ── `aria-invalid` écrit à la main ────────────────────────────────────────────
+        // Le kit le DÉRIVE du statut, lui-même dérivé du verdict. L'écrire dans une page,
+        // c'est réintroduire la main humaine au milieu de la chaîne.
+        if (attr("aria-invalid"))
+          pousse("aria-invalid-manuel", ligne, `${nom} aria-invalid=…`, "l'attribut est dérivé du verdict par le kit");
 
         // ── Élément natif rendu PAR un composant du kit via `asChild` (Radix Slot) ─────
         // `<Nav.Link asChild><button …>` ou `<Chip asChild><a …>` : l'élément natif EST le
