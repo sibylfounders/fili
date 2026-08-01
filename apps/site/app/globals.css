@@ -193,3 +193,40 @@ pre:focus-visible {
    non chromatique au sens sémantique — c'est un repère de position, pas un état. */
 .cible-visee { box-shadow: 0 0 0 2px var(--secondary); transition: box-shadow var(--duration-slow) var(--ease-out); }
 @media (prefers-reduced-motion: reduce) { .cible-visee { transition: none; } }
+
+/* ── Le lien d'attribution de React Flow ──────────────────────────────────────
+   Le canevas du diagramme (`/flows/`) est rendu par @xyflow/react, qui pose lui-même un
+   lien « React Flow » en bas du cadre. Sa feuille de style lui donne l'anneau de focus du
+   NAVIGATEUR : au clavier, ce lien ne se donnait pas à voir comme les autres contrôles du
+   site (constat `focus-hors-systeme` de verifie:rendu, 2026-08-01). Les commandes de zoom
+   et de cadrage sont passées aux Button du kit ; ce lien-là, lui, appartient à la
+   bibliothèque et ne peut pas être remplacé — le retirer relèverait de sa licence, pas du
+   style. On lui rend donc la géométrie unique de BORDER, en tokens et sans valeur en dur,
+   exactement celle que `.ds-focus-ring` applique partout ailleurs. */
+.react-flow__attribution a:focus-visible {
+  outline: var(--control-focus-width) solid var(--control-focus-color);
+  outline-offset: var(--control-focus-offset);
+}
+
+/* ── L'anneau de focus des nœuds du diagramme ─────────────────────────────────
+   @xyflow/react ÉTEINT l'anneau du système, et il le fait par la SPÉCIFICITÉ, pas par
+   l'ordre — c'est ce qui rendait la panne difficile à lire :
+
+       .react-flow__node.selectable:focus-visible { outline: none }   (0,3,0)
+       .ds-focus-ring:focus-visible               { outline: … }      (0,2,0)
+
+   La classe du kit posée sur le nœud perdait donc silencieusement, et un `verifie:rendu`
+   annonçait dix contrôles tabulables sans indicateur au clavier (WCAG 2.4.7). Sa feuille
+   est en plus chargée EN DERNIER sur les pages /flows/ : un simple
+   `.react-flow__node.ds-focus-ring:focus-visible` ferait (0,3,0) contre (0,3,0), et
+   l'ordre trancherait encore en sa faveur. Il faut donc un cran de plus.
+
+   Le sélecteur reprend EXACTEMENT la portée de la règle qu'il annule — un nœud
+   sélectionnable qui a demandé l'anneau du kit — plutôt que d'écraser tous les nœuds :
+   si `elementsSelectable` passait à faux, la règle de la bibliothèque disparaîtrait et
+   `.ds-focus-ring` reprendrait la main tout seul. Aucune valeur en dur : la géométrie
+   reste celle de BORDER, en tokens. */
+.react-flow__node.selectable.ds-focus-ring:focus-visible {
+  outline: var(--control-focus-width) solid var(--control-focus-color);
+  outline-offset: var(--control-focus-offset);
+}
