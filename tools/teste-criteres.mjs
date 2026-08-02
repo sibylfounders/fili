@@ -153,13 +153,19 @@ const EPREUVES = [
 ];
 
 // ── Les pages ───────────────────────────────────────────────────────────────
+// HORS DOCTRINE : /docs (prototypes de test servis par le site) n'est pas une page du
+// système — exclu et ANNONCÉ dans le résumé (jamais d'exclusion silencieuse).
+// Même arbitrage que verifie-rendu.mjs (Aurélien, 2026-08-02).
 const pages = [];
+let horsDoctrine = 0;
 (function walk(dir) {
   for (const e of readdirSync(dir)) {
     const p = join(dir, e);
     if (statSync(p).isDirectory()) { if (e !== "_next") walk(p); continue; }
     if (extname(p) !== ".html") continue;
-    const rel = "/" + relative(OUT, p).replace(/\\/g, "/").replace(/index\.html$/, "").replace(/\.html$/, "");
+    const brut = relative(OUT, p).replace(/\\/g, "/");
+    if (brut === "docs" || brut.startsWith("docs/")) { horsDoctrine += 1; continue; }
+    const rel = "/" + brut.replace(/index\.html$/, "").replace(/\.html$/, "");
     if (!/\/404\/?$/.test(rel)) pages.push({ url: rel.replace(/\/$/, "") || "/", fichier: p });
   }
 })(OUT);
@@ -224,6 +230,7 @@ if (horsPortee.length) console.log(`Hors comparaison (aucun contrôle en dur en 
 console.log(`Contrôles du code couverts : ${Object.keys(CORRESPOND).join(", ")}`);
 console.log(`\n  code (verifie-rendu) : ${A.length} occurrence(s)`);
 console.log(`  corpus (CRITERE)     : ${B.length} occurrence(s)`);
+if (horsDoctrine) console.log(`  hors doctrine        : ${horsDoctrine} page(s) sous /docs exclue(s) (prototypes servis, pas des pages du système)`);
 
 const hors = programme.filter((p) => (p.termes || []).some((t) => t.nom === "mesure" || t.nom === "contraste"));
 if (hors.length) console.log(`\n  ⚠ hors portée de ce harnais (géométrie / style calculé) : ${hors.map((p) => p.id).join(", ")}`);

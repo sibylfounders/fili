@@ -54,7 +54,13 @@ if (!existsSync(OUT)) {
 }
 
 // ── Inventaire DÉRIVÉ du dossier construit ───────────────────────────────────
+// HORS DOCTRINE : le sous-arbre /docs (prototypes et archives de test servis par le site)
+// n'est PAS une page du système — il est exclu du balayage, et cette exclusion est
+// ANNONCÉE dans chaque rapport ci-dessous : une exclusion silencieuse ferait lire
+// « tout est couvert » là où une partie ne l'est pas (même principe que le plafond
+// --focus). Arbitrage d'Aurélien, 2026-08-02.
 const pages = [];
+const horsDoctrine = [];
 (function walk(dir) {
   for (const e of readdirSync(dir)) {
     const p = join(dir, e);
@@ -66,11 +72,13 @@ const pages = [];
       // inventaire) sans rien protéger — le comportement d'erreur du framework n'est pas
       // notre autorité.
       if (/^(404|500)(\.html|\/index\.html)$/.test(rel)) continue;
+      if (rel === "docs" || rel.startsWith("docs/")) { horsDoctrine.push("/" + rel); continue; }
       pages.push("/" + rel.replace(/index\.html$/, "").replace(/\.html$/, ""));
     }
   }
 })(OUT);
 pages.sort();
+horsDoctrine.sort();
 
 // Le basePath n'est pas dans le dépôt : la CI l'injecte au build (configure-pages).
 // On le DÉDUIT du HTML construit — sans ça, un balayage en CI servirait des pages
@@ -328,7 +336,7 @@ for (const [k, n] of compte) {
 for (const [k, b] of connues) if (!compte.has(k)) disparus.push({ k, avant: b.occurrences });
 
 if (JSON_OUT) {
-  console.log(JSON.stringify({ pages: pages.length, findings }, null, 2));
+  console.log(JSON.stringify({ pages: pages.length, horsDoctrine, findings }, null, 2));
   process.exit(0);
 }
 
@@ -336,6 +344,8 @@ const parRegle = {};
 for (const f of findings) (parRegle[f.regle] ??= []).push(f);
 
 console.log(`\nVérificateur de rendu — ${pages.length} page(s) construite(s), ${findings.length} constat(s)`);
+if (horsDoctrine.length)
+  console.log(`  hors doctrine : ${horsDoctrine.length} page(s) sous /docs exclue(s) du balayage (prototypes servis, pas des pages du système)`);
 console.log(`  focus éprouvé au clavier sur ${focusablesVus} élément(s)` +
   (focusablesPlafonnes ? ` · ${focusablesPlafonnes} NON éprouvé(s) (plafond --focus ${MAX_FOCUS} par page)` : ""));
 // Une garde inerte doit se DIRE : sans basePath, `lien-hors-basepath` ne peut rien voir, et
