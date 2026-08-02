@@ -12,6 +12,7 @@
  */
 
 import { useMemo, useState } from "react";
+import NextLink from "next/link";
 import { Alert, Card, Link } from "@fili/react";
 import type { Cas, Graphe, Moment } from "@/lib/flows";
 import { Diagramme } from "./diagramme";
@@ -290,7 +291,12 @@ export function ListeFlows({ graphes }: { graphes: Graphe[] }) {
                     collection » — la page ne le lui disait pas. La taille ne bouge pas :
                     niveau ≠ taille (TYPOGRAPHY-UX). */}
                 <Card.Title as="h2" className="text-sm">
-                  <Card.TitleLink href={`/flows/${g.flow}/`}>{g.flow}</Card.TitleLink>
+                  <Card.TitleLink asChild>
+                    {/* next/link via asChild : le basePath (/fili en CI) est résolu par le
+                        routeur — un <a href> nu produisait un lien mort sur Pages (constat
+                        verifie:rendu « lien-hors-basepath », 2026-08-02). */}
+                    <NextLink href={`/flows/${g.flow}/`}>{g.flow}</NextLink>
+                  </Card.TitleLink>
                 </Card.Title>
                 <Card.Description className="font-label text-xs uppercase tracking-wider text-text-muted">
                   v{g.version} · {g.moments.length ? `${g.moments.length} moments` : "pas de squelette"}
