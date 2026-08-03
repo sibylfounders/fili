@@ -1,16 +1,24 @@
 ---
 sujet: fili-audit
 type: cahier-des-charges
-version: 0.9.0 # 0.9.0 : loi 4.20 — l'audit suit le statut de frontière, pas la facilité de mesure ; UX + accessibilité d'abord (2026-07-31). 0.8.0 : A.2 refaite à la machine — lot 1, critère ATTEINT ; tension COLOR-R09/R12 à arbitrer (2026-07-31). 0.7.0 : prédicat contraste() — A.1 close, 9 règles exécutables, quatrième issue « non concluant » (2026-07-31). 0.6.0 : instrument statique (CSSOM) — A.1 réconciliée chiffre par chiffre ; 8 règles exécutables (2026-07-31). 0.5.0 : premier passage machine sur Passion Courtage — annexe A.1 corrigée par la mesure, une erreur franche et trois flous de portée (2026-07-31). 0.4.0 : loi 4.19 (doctrine / hygiène) ; lot 1 exécuté — quatre règles pilotées par le corpus (2026-07-31). 0.3.0 : lot 0 CLOS — 201 lignes arbitrées une à une, au plus 54 mesures sur 835 hors portée machine ; loi 4.18 (deux « à trancher ») ; § 11.3 récrit. 0.2.0 # 0.2.0 : lot 0 exécuté (835 MESURE comptées) ; découpage et MVP (§ 11) ; deux lois ajoutées (4.15, 4.16) ; annexe A.2 corrigée — un seul constat sur six tenait. 0.1.0 : consolidation de la session du 2026-07-31
-date: 2026-07-31
-statut: proposition — aucune décision engagée
+version: 0.11.1 # 0.11.1 : anonymat — le site d'épreuve devient « le site de référence », son nom et son adresse de recette sortent des documents versionnés (le dépôt est public ; arbitrage Aurélien 2026-08-03, cf. CADRAGE § 1). Aucune mesure modifiée. 0.11.0 : jalon J3 — trois arbitrages rendus : § 10 #1, l'exécuteur vit dans le monorepo (§ 6.1) ; le versionnement du corpus entre au § 10 sous le #8 (écart C-14) et réemploie tools/plugin/etat-publication.json, à étendre (§ 11.5) ; CADRAGE 11.1, les cinq nouveaux sujets sont de type `principle`. C-15 reste ouvert (2026-08-03). 0.10.0 : jalon J2 — réconciliation avec CADRAGE-FILI-AUDIT v0.2.0 : statut levé (C-3) ; lots 1–4 « URL → dossier » / lot 5+ « stack → branche », aucune loi abrogée (C-7) ; offre A = lot 1 + passes 1, 4, 5, 7 (C-7) ; deux axes de registres, quatre états de constat (C-5) ; deux épreuves aux rôles nommés, corrigé de référence à repasser à la machine (C-11). C-10 — le décompte des constats du site de référence — reste OUVERT (2026-08-03). 0.9.0 : loi 4.20 — l'audit suit le statut de frontière, pas la facilité de mesure ; UX + accessibilité d'abord (2026-07-31). 0.8.0 : A.2 refaite à la machine — lot 1, critère ATTEINT ; tension COLOR-R09/R12 à arbitrer (2026-07-31). 0.7.0 : prédicat contraste() — A.1 close, 9 règles exécutables, quatrième issue « non concluant » (2026-07-31). 0.6.0 : instrument statique (CSSOM) — A.1 réconciliée chiffre par chiffre ; 8 règles exécutables (2026-07-31). 0.5.0 : premier passage machine sur Passion Courtage — annexe A.1 corrigée par la mesure, une erreur franche et trois flous de portée (2026-07-31). 0.4.0 : loi 4.19 (doctrine / hygiène) ; lot 1 exécuté — quatre règles pilotées par le corpus (2026-07-31). 0.3.0 : lot 0 CLOS — 201 lignes arbitrées une à une, au plus 54 mesures sur 835 hors portée machine ; loi 4.18 (deux « à trancher ») ; § 11.3 récrit. 0.2.0 # 0.2.0 : lot 0 exécuté (835 MESURE comptées) ; découpage et MVP (§ 11) ; deux lois ajoutées (4.15, 4.16) ; annexe A.2 corrigée — un seul constat sur six tenait. 0.1.0 : consolidation de la session du 2026-07-31
+date: 2026-08-03
+statut: partiellement arbitré — le Journal de CADRAGE-FILI-AUDIT.md fait foi pour ce qui est décidé
 ---
 
 # Fili Audit — cahier des charges
 
-> Ce document consolide une session de travail du 31 juillet 2026. **Rien n'y est décidé.**
-> Il rassemble ce qui a été mesuré, arbitré à l'oral, et prototypé, pour que la prochaine
-> session reparte de là au lieu de tout re-dérouler.
+> Ce document consolide une session de travail du 31 juillet 2026, puis la **réconciliation du
+> 3 août 2026** avec `CADRAGE-FILI-AUDIT.md` (v0.2.0).
+>
+> **Ce qui est décidé l'est au Journal de `CADRAGE-FILI-AUDIT.md`** — c'est le seul des deux
+> documents qui tienne un journal daté, et il fait foi pour les arbitrages. **Ce document fait foi
+> pour la doctrine** : les lois, les lots, le MVP. *(Écart C-3, arbitré le 03/08 : ce cahier
+> portait « Rien n'y est décidé » pendant que le cadrage écrivait « Arbitré le 31/07 » quatre
+> fois. Il ne le porte plus.)*
+>
+> Il rassemble aussi ce qui a été mesuré et prototypé, pour que la prochaine session reparte de
+> là au lieu de tout re-dérouler.
 >
 > Trois maquettes exécutables l'accompagnent, dans `_to_delete_rangement/pilote/` :
 > `navigateur-fili.html` (audit d'un site client), `planche-fili-v2.html` (le banc d'essai
@@ -23,6 +31,14 @@ statut: proposition — aucune décision engagée
 Un outil qui **se branche sur la stack d'un client, relève des écarts mesurés, propose les
 gestes légaux pour les résorber, montre le résultat avant tout engagement, et livre une
 branche accompagnée du raisonnement.**
+
+> **Deux états du même produit — arbitré le 03/08 (écart C-7).** La phrase ci-dessus décrit l'état
+> du **lot 5 et au-delà**, et ce document le range déjà là : le § 11.2 place
+> `panier → aperçu → branche` en lot 5, et le § 11.4 exclut nommément « ni panier, ni aperçu, ni
+> branche » du lot 1. **Aux lots 1 à 4, la prestation part d'une URL et rend un dossier
+> transmissible** (`CADRAGE-FILI-AUDIT.md` § 2), et le code source du client est hors périmètre —
+> seul le rendu est observé. Les lois **4.6, 4.7, 4.8 et 4.10 ne sont pas abrogées** : elles
+> n'entrent en vigueur qu'au lot 5.
 
 Fili Audit est déjà nommé dans la Méthode (étape 9, projection « audit » du routeur) et son
 mode audit existe dans le paquet. Ce cahier ne crée pas un produit nouveau : il décrit ce
@@ -51,7 +67,7 @@ Fili et difficile pour un tiers.
 |---|---|
 | Corpus de règles **sourcées**, avec `MESURE` | Chaque constat cite une autorité, pas un goût |
 | **Statut de frontière** (universel / parti pris / implémentation) | Décide mécaniquement du registre du constat |
-| **Trois registres** (à corriger / suggestion / à trancher) | Sépare l'opposable du discutable du non-décidé |
+| **Deux axes de registres** — constat (*avéré · signalé · non couvert · en attente de déclaration*) × solution (*certitude · suggestion · à trancher*) | Sépare l'opposable du discutable du non-décidé, **et le constat de sa solution**. *Écart C-5, arbitré le 03/08 : l'ancien libellé « trois registres » en un seul axe ne tenait pas la loi 4.18. Loi R1 et détail au cadrage § 9.* |
 | **Tensions** `T-xxx` (règle contre règle) | Machinerie de détection des conflits, réutilisable telle quelle |
 | **Manifeste** vérifié par TypeScript contre l'API réelle | Les gestes proposés ne peuvent pas mentir |
 | **Tokens en rôles** (`--control-*`, `--field-*`…), `fili-check` interdit le dur | Un nouveau kit **est** un nouveau `tokens.yaml` |
@@ -118,6 +134,12 @@ Une règle empruntée à un tiers ne peut **structurellement jamais** atteindre 
 ce registre exige une norme opposable et une source primaire. Elle entre en *suggestion* ou
 reste *à trancher*, et elle y reste. C'est ce qui rend l'emprunt sûr — on peut absorber
 soixante règles étrangères sans diluer d'un gramme l'autorité du corpus.
+
+*Vocabulaire, depuis le 03/08 (écart C-5).* Sur l'axe du **constat**, « à corriger » se lit
+désormais **avéré**, et « à trancher » se scinde en **non couvert** et **en attente de
+déclaration** (loi 4.18). *Suggestion* et *à trancher* restent les noms de l'axe de la
+**solution**. Le mécanisme de confinement décrit ici est **inchangé** — seuls les noms le sont.
+`CADRAGE-FILI-AUDIT.md` § 9.1 porte la correspondance dans l'autre sens.
 
 ### 4.4 — Trois choix sortent d'un axe ou d'un token, jamais d'une génération
 
@@ -334,6 +356,15 @@ critères d'un autre.
 Forme : déterministe, sans clé d'API, sur la source **et** sur la page rendue, JSON + code de
 sortie, constats renvoyés à l'agent **avant** qu'il rende la main.
 
+> **Où il vit — arbitré le 03/08 (§ 10 #1) : dans le monorepo, pas dans un dépôt séparé.** C'est
+> l'état de fait, désormais déclaré. `tools/execute-criteres.mjs` (216 l.),
+> `tools/criteres-grammaire.mjs`, `tools/instrument-statique.mjs` (90 l.) et
+> `tools/instrument-interactif.mjs` (62 l.) y sont déjà, et `npm run criteres` les appelle.
+> `execute-criteres.mjs` lit `apps/site/content/doctrine` et sert `apps/site/out` : il est
+> **couplé au monorepo par deux chemins en dur**, et rien ne se déplace avant que le lot 1 ait
+> prouvé que le corpus tourne. **Coût assumé** : si le § 10 #7 tranche pour un détecteur ouvert à
+> corpus fermé, l'extraction reste à faire — mais pas avant le lot 5.
+
 Premier lot : l'exécuteur, plus six ou sept mesures de composition — nombre de valeurs
 d'espacement distinctes entre frères, ratio entre niveaux typographiques consécutifs, nombre
 d'actions `filled` de même rang, nombre d'arêtes d'alignement, teinte du token primaire
@@ -494,13 +525,14 @@ Méthode : ce qui manquait n'a jamais été de la doctrine.
 
 | # | Question | Pourquoi ça bloque |
 |---|---|---|
-| 1 | Ouvre-t-on un dépôt d'audit séparé, ou une app dans le monorepo ? | Détermine où vit l'exécuteur |
+| ~~1~~ | ~~Ouvre-t-on un dépôt d'audit séparé, ou une app dans le monorepo ?~~ — **TRANCHÉ le 03/08 : le monorepo** (§ 6.1) | ~~Détermine où vit l'exécuteur~~ — **débloqué** |
 | 2 | Le cran de confiance `emprunté` entre-t-il dans le format des fiches ? | Conditionne toute reprise d'Impeccable |
 | 3 | « Accessoire » devient-il un troisième statut de contenu ? | Condition de l'échelle responsive (§ 7) |
 | 4 | `--font-label` porte quoi ? | Constat *à trancher* ouvert sur notre propre planche |
 | 5 | Arbitre-t-on enfin les valeurs d'identité ? | Cinq tokens sur cinq sont les défauts Tailwind |
 | 6 | Le mode « sélection » est-il livré, même déclassé ? | Frontière avec les éditeurs visuels (§ 4.11) |
 | 7 | Ouvre-t-on le détecteur et garde-t-on le corpus fermé ? | Modèle économique |
+| ~~**8**~~ | **Le versionnement du corpus** — que porte la « version du corpus » de l'empreinte de passage (§ 11.5) ? — **TRANCHÉ le 03/08 : on réemploie le mécanisme existant, à étendre** (§ 11.5) | **Le seul arbitrage que le MVP exigeait** (§ 11.6). *Ajouté le 03/08 : il ne figurait dans aucune des deux listes — écart C-14.* |
 
 ---
 
@@ -613,7 +645,7 @@ belle interface au-dessus d'un moteur vide est précisément ce qu'on reproche a
 | Lot | Livre | Pourquoi à cette place |
 |---|---|---|
 | **0** ✔ | Le compte des `MESURE` | Décide si le projet existe |
-| **1 — MVP** | Une URL → un rapport en trois registres | Prouve que le corpus tourne |
+| **1 — MVP** | Une URL → un rapport sur les **deux axes de registres** (§ 4.3) | Prouve que le corpus tourne |
 | **2** | Domaines d'emploi lisibles par la machine (§ 6.5) | Sans ça, le lot 1 attribue faux (loi 4.15) |
 | **3** | Mémoire des constats : baseline, récurrence, statuts | Condition du **deuxième** scan, donc du modèle |
 | **4** | Ingestion du référentiel client | Condition de l'écart au **leur** |
@@ -668,7 +700,14 @@ applicable depuis le 28/06/2025, 50 000 € par service non conforme).
 
 ### 11.4 — Le MVP
 
-> **Donner une URL, obtenir un rapport en trois registres, avec les mesures qui les justifient.**
+> **Donner une URL, obtenir un rapport sur les deux axes de registres, avec les mesures qui les justifient.**
+
+> **Ce que le lot 1 n'est pas — arbitré le 03/08 (écart C-7).** Le lot 1 **n'est pas** l'offre A du
+> cadrage. **Offre A = lot 1 + passe 1** (déclaration produit, corpus de concurrents) **+ passe 4**
+> (3 à 5 concurrents mesurés le même jour) **+ passe 5** (les six familles du coût d'expérience)
+> **+ passe 7** (les quatre projections), **et les formats HTML + PDF**. C'est la liste exacte de
+> ce qui manque au MVP pour être **vendable**, pas de ce qu'il doit livrer — et aucune de ces
+> quatre passes ne se rediscute pendant le lot 1.
 
 **Il fait** — charge une page à N largeurs, exécute les `MESURE` (statique + rendu + interactif),
 qualifie chaque écart par son statut de frontière, remonte en *non couvert* ce que le référentiel
@@ -680,6 +719,17 @@ branche, ni rôles, ni interface. **Aucune de ces lignes ne se rediscute pendant
 **Critère de réussite, falsifiable** — exécuté sur les cinq pages de Passion Courtage et sur la
 planche, il doit retrouver ce qui a été mesuré à la main le 31/07 (annexes A.1 et A.2) — et
 **ne rien inventer**. C'est un corrigé, pas une impression.
+
+> **Deux épreuves, deux rôles — arbitré le 03/08 (écart C-11).** Celle-ci est l'**épreuve interne**
+> du lot 1, et c'est **elle** qui décide de sa fermeture : son corrigé est le seul des deux à avoir
+> été repassé à la machine (annexe A.1 bis). L'épreuve le site de référence du cadrage § 12 est
+> l'**épreuve de vente** ; elle se joue **après**, et ne conditionne pas la fermeture du lot 1.
+>
+> **Condition posée par la loi 4.16** — *un corpus de test écrit par l'auditeur mesure l'auditeur.*
+> Le corrigé de référence a été écrit à la main et n'a **jamais** été repassé à la machine : **il passe
+> au traitement de l'annexe A.1 bis avant de servir de barre.** Sur sept lignes, ce même traitement
+> a trouvé ici une erreur franche, une attribution fausse, un sous-comptage et trois flous de
+> portée. Le décompte des constats (cadrage § 14.1, écart C-10) en fait partie, et il est ouvert.
 
 **Il prouve ou réfute** — que le corpus est un moteur exécutable et pas seulement une doctrine.
 **Il ne prouve pas** qu'un client l'achète : c'est le lot 5.
@@ -694,12 +744,40 @@ positif intermittent détruit la confiance en une réunion.
 largeurs balayées. Deux audits ne se comparent que si les empreintes correspondent — sans quoi
 le re-scan qui fonde le modèle d'abonnement ne veut rien dire.
 
+> **Ce que porte la « version du corpus » — arbitré le 03/08 (§ 10 #8).** On **réemploie le
+> mécanisme qui existe déjà** : `tools/plugin/publie.js` produit une version semver globale et une
+> empreinte SHA-256 par fichier dans `tools/plugin/etat-publication.json` — au 03/08, **version
+> 1.7.1, 29/07/2026, 47 fiches, 56 empreintes** — avec une règle de bump déjà écrite : *seul un
+> sujet qui entre ou sort du corpus fait une version mineure*. Rien à inventer, et la provenance
+> est déjà vérifiable.
+>
+> **Le travail réel est l'extension, et il est nommé.** Relevé par appel d'outil le 03/08 : ce
+> mécanisme couvre **47 fiches**, alors que `execute-criteres.mjs` lit `apps/site/content/doctrine`
+> (**38 fichiers**) et que les sources de `apps/site/content/md/` en comptent **74**. *Il ne
+> versionne donc pas ce que l'exécuteur exécute.* Étendre `etat-publication.json` au corpus
+> réellement lu par le moteur est une tâche du **lot 1** — et l'empreinte de passage n'est pas
+> opposable avant.
+
 **Trois colonnes, jamais une.** *Vérifié automatiquement* · *Observé* (interactif, rejoué) ·
 *À vérifier humainement*. Même avec les trois instruments, une part du RGAA reste hors machine.
 L'annoncer est ce qui protège de la déclaration mensongère (25 000 €).
 
 ### 11.6 — Ce qui ne se décide pas maintenant
 
-Sur les sept arbitrages du § 10, le MVP n'en exige qu'**un** : le **versionnement du corpus**,
-parce qu'il figure dans l'empreinte de passage dès le premier rapport. Les six autres — modèle
-économique, multilingue, rôles et droits, ligne du public — se tranchent au lot où ils mordent.
+Sur les **huit** arbitrages du § 10, le MVP n'en exigeait qu'**un** : le **versionnement du
+corpus** (§ 10 #8), parce qu'il figure dans l'empreinte de passage dès le premier rapport.
+**Il est tranché depuis le 03/08** — voir § 11.5 — de même que le § 10 #1 (où vit l'exécuteur).
+Les six autres — modèle économique, multilingue, rôles et droits, ligne du public — se tranchent
+au lot où ils mordent.
+
+> ✔ **C-14 est réglé le 03/08.** Le **versionnement du corpus** ne figurait dans **aucune** des
+> deux listes d'arbitrages — ni au § 10 de ce document, ni au § 11 du cadrage — alors que c'est le
+> seul que le MVP exige. Il entre au § 10 sous le **#8**, et il est tranché (§ 11.5).
+>
+> ⚠ **C-15 reste OUVERT.** Le **compte** tombe juste depuis que #1 et #8 sont tranchés — il reste
+> bien six arbitrages au § 10. Mais le **nommage** ne tombe pas : sur les quatre nommés ci-dessus,
+> **un seul** figure réellement au § 10 (le modèle économique, #7) ; *multilingue*, *rôles et
+> droits* et *ligne du public* n'y sont pas, tandis que #2 (le cran `emprunté`), #3
+> (« accessoire »), #4 (`--font-label`), #5 (les valeurs d'identité) et #6 (le mode « sélection »)
+> n'y sont pas nommés. Réécrire cette phrase demanderait de **choisir** lesquels sont « les six
+> autres » : c'est un arbitrage, pas une correction de rédaction.

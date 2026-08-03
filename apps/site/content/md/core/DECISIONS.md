@@ -8,6 +8,133 @@
 
 ---
 
+## 2026-08-03 — Le dépôt est public : le site qui sert d'épreuve à l'audit cesse d'y être nommé
+
+**Le constat, établi par appel d'outil.** `raw.githubusercontent.com` sert les fichiers de ce dépôt **anonymement** — ce qui est impossible sur un dépôt privé. **Le dépôt est donc public**, historique compris. Or `CADRAGE-FILI-AUDIT.md` nommait le site qui lui sert d'épreuve, donnait l'adresse de son **environnement de recette**, et énumérait ses défauts — dont, précisément, *« site de développement ouvert aux moteurs »*. Trente occurrences réparties sur six fichiers.
+
+**Décision (arbitrage Aurélien).** Le site est désigné par **« le site de référence »** dans tous les documents versionnés ; son nom et son adresse vivent hors dépôt. Trente-deux remplacements dans `CADRAGE-FILI-AUDIT.md`, `CAHIER-FILI-AUDIT.md` et ce fichier. La convention est écrite au § 1 du cadrage.
+
+**Ce que ça ne coûte pas.** Aucune mesure, aucun chiffre, aucune loi ne bouge. Les six familles du coût d'expérience, les lois C2, C3, E1, P1 et l'épreuve de reproductibilité s'appuient sur des **mesures** — le nom du site ne fonde aucune règle. C'est la vérification qui a décidé : si un seul énoncé avait eu besoin du nom, il aurait fallu arbitrer autrement.
+
+**Ce que ça ne règle pas, et qui est nommé plutôt que masqué.** Les commits déjà poussés gardent le nom. Le retirer de l'historique demanderait une réécriture complète (`git filter-repo`, tous les SHA changent) — jugée disproportionnée tant que la question de la visibilité du dépôt elle-même n'est pas tranchée. **La règle vaut donc pour la suite, pas pour le passé.**
+
+**Le précédent, et il vaut au-delà de ce cas.** La **loi R3** du cadrage dit qu'un audit *mesure un site, il ne juge pas un prestataire*. Elle protégeait le contenu du rapport ; elle ne disait rien de sa **diffusion**. Un audit qui ne juge personne mais qui est lisible par tout le monde produit le même dégât par un autre chemin. **Écrire le nom d'un audité dans un document versionné est une décision de publication, jamais une commodité de rédaction.**
+
+---
+
+## 2026-08-03 — Fili Audit : le cadrage et le cahier ne décrivaient pas le même produit — cinq écarts fermés, un laissé ouvert
+
+**Le constat.** `CADRAGE-FILI-AUDIT.md` (v0.1.1) annonçait en bandeau compléter `CAHIER-FILI-AUDIT.md` **v0.3.0** ; le cahier était en **v0.9.0**. Relecture intégrale des deux le 03/08 : quinze écarts, dont cinq structurants et une erreur arithmétique porteuse. Tant qu'ils tenaient, tout arbitrage rendu sur l'un des deux documents était rendu sur un document faux. Jalon J2 de la roadmap de fermeture.
+
+**Ce qui est décidé — arbitrages d'Aurélien, 03/08.**
+
+1. **C-3, le statut.** Le cahier portait `statut: proposition — aucune décision engagée` et « Rien n'y est décidé » pendant que le cadrage écrivait « Arbitré le 31/07 » **quatre fois** en corps de texte, plus un Journal de six entrées datées. **Le cahier lève son statut** ; le **Journal du cadrage fait foi** pour ce qui est arbitré — c'est le seul des deux à tenir un journal daté. Le cahier reste l'autorité sur la **doctrine** : lois, lots, MVP. Sans cette levée, aucun arbitrage rendu ensuite n'avait d'ancrage.
+
+2. **C-7, la nature du produit.** Le cahier § 1 décrivait « se branche sur la stack […] livre une branche » (lois 4.6 / 4.7 / 4.8 / 4.10) ; le cadrage § 2 « part d'une URL et rend un dossier transmissible », code source hors périmètre. **Ce sont deux états du même produit, pas deux produits** : *URL → dossier* aux **lots 1 à 4**, *stack → branche* au **lot 5 et au-delà**. Le cahier le rangeait déjà là sans le dire — son § 11.2 place `panier → aperçu → branche` en lot 5, son § 11.4 les exclut nommément du lot 1. **Les lois 4.6, 4.7, 4.8 et 4.10 ne sont donc pas abrogées** : elles n'entrent en vigueur qu'au lot 5. C'est la seule lecture qui ne retire rien à aucun des deux documents, et elle était déjà écrite dans l'un d'eux.
+
+3. **C-7 (suite), l'offre A n'est pas le MVP.** Aucun des deux documents ne le disait. **Offre A = lot 1 + passe 1** (déclaration produit, corpus de concurrents) **+ passe 4** (3 à 5 concurrents mesurés le même jour) **+ passe 5** (les six familles du coût d'expérience) **+ passe 7** (les quatre projections), **plus les formats HTML et PDF**. C'est la liste exacte de ce qui manque au MVP pour être **vendable** — pas de ce qu'il doit livrer. Aucune de ces quatre passes ne se rediscute pendant le lot 1.
+
+4. **C-5, les registres.** Le cahier annonçait « trois registres » en un seul axe (*à corriger / suggestion / à trancher*), le cadrage deux axes de trois (loi R1). **Les deux axes font foi, et l'axe du constat porte QUATRE états** : *avéré · signalé · non couvert · en attente de déclaration*. « Indécidable » redevient le **nom de la famille**, pas celui d'un état. Motif : la loi 4.18 distingue deux « à trancher » qui ne se traitent pas pareil, et le § 11.3 du cahier écrit que sans *en attente de déclaration*, **54 mesures disparaîtraient silencieusement**. À relever — le cahier se contredisait **tout seul** ici : son § 2 disait trois registres, sa propre loi 4.18 en ajoutait un quatrième. L'écart n'était pas seulement entre les deux documents.
+
+5. **C-11, l'épreuve de reproductibilité.** Deux épreuves coexistaient sans hiérarchie : le cahier § 11.4 sur les cinq pages de Passion Courtage et la planche, le cadrage § 12 sur le site de référence. **Les deux, avec des rôles nommés** : Passion Courtage + la planche = **épreuve interne**, celle qui décide de la fermeture du lot 1 ; le site de référence = **épreuve de vente**, jouée **après**, ne conditionnant aucun lot. Et une condition posée par la **loi 4.16** (*un corpus de test écrit par l'auditeur mesure l'auditeur*) : le corrigé de référence a été écrit à la main et n'a **jamais** été repassé à la machine — **il passe au traitement de l'annexe A.1 bis avant de servir de barre**. Sur Passion Courtage, ce traitement a trouvé, sur **sept lignes**, une erreur franche, une attribution fausse, un sous-comptage et trois flous de portée. Aucune raison de croire un corrigé de 34 lignes plus sûr.
+
+**Ce qui reste ouvert, et pourquoi il ne fallait pas le fermer — C-10, le décompte des constats du site de référence.** Trois comptes coexistent dans le cadrage : **34** (§ 1, § 5, § 12 deux fois, et « les trente-trois autres » en loi R2), **37** (§ 11.6 : N1=3 · N2=12 · N3=15 · N4=7) et **36** (§ 5 : prestataire 20 + marketing 6 + 10). **Arbitrage : recompter sur pièces avant d'écrire un chiffre — et aucun nombre n'a été modifié.** Deux raisons. La **loi P1** (« aucun chiffre sans un appel d'outil qui l'a produit dans ce run ») vaut contre l'auteur du document autant que contre l'audité. Et surtout : baisser une des quatre valeurs du § 11.6 pour faire tomber la somme à 34, **ce serait refermer l'arbitrage 11.6** — rouvert le 31/07 précisément parce que l'agent l'avait fermé seul. Les livrables du site de référence ne sont accessibles depuis aucun dossier connecté au 03/08. *Hypothèse à tester, pas une conclusion : les trois ne comptent peut-être pas la même chose — la loi 4.19 sépare constats de doctrine et contrôles d'hygiène, et trois contrôles d'hygiène expliqueraient exactement l'écart 37 → 34.*
+
+**Deux renvois faux, réparés.** Le cadrage § 13 pointait « cahier § 11.4 » pour le découpage en lots : c'est le **§ 11.2** (les sept lots), le § 11.4 étant le MVP — le renvoi porte désormais les deux. Le cadrage § 9.1 citait « la loi 4.3 du cahier » pour justifier *Signalé* alors qu'il en avait **renommé le vocabulaire sans le dire** : la table du § 9.1 et la loi 4.3 portent maintenant la correspondance dans les deux sens, et disent explicitement que le mécanisme de confinement est inchangé — seuls les noms le sont.
+
+**Deux défauts relevés, laissés ouverts pour J3.** Le **versionnement du corpus** — seul arbitrage que le MVP exige (cahier § 11.6) — ne figure dans **aucune** des deux listes d'arbitrages, ni au § 10 du cahier ni au § 11 du cadrage. Et « les six autres » du § 11.6 n'en nomme que **quatre**, dont **un seul** (le modèle économique) figure réellement au § 10. Les réécrire demanderait de **choisir** quels arbitrages sont « les six autres » : c'est un arbitrage, pas une correction de rédaction.
+
+**Versions après J2.** `CADRAGE-FILI-AUDIT.md` v0.1.1 → **v0.2.0** (nouveau § 14, réconciliation, et § 14.1 pour C-10 resté ouvert). `CAHIER-FILI-AUDIT.md` v0.9.0 → **v0.10.0**.
+
+---
+
+### Jalon J3, même jour — trois arbitrages rendus
+
+**1. `CADRAGE` 11.1 — le `type` des cinq nouveaux sujets : `principle`, le type existant.** Vérifié dans le dépôt avant de poser la question : six types sont en usage — `foundation` (21 fiches), `component` (12), `language` (10), `principle` (7), `pattern` (4), `flow` (2). Motif retenu : le cadrage § 10.1 rangeait **déjà** `indexation`, `donnees-structurees`, `multilingue`, `budget-image` et `fabrication-serveur` sous « Principes » dans l'ordre d'examen, et `principle` est le seul type sans couche visuelle (`companion: none`, comme `ACCESSIBILITY-UX`). Aucun outil à modifier. **Deux conséquences nommées, à traiter à l'écriture et pas avant** : la couche `principles` passe de 7 à 12 fiches, donc sa part de propriétés universelles — 53 % dans la table de la loi 4.20, qui fonde l'ordre d'audit — est à **recalculer après** ; et un principe étant « chargé d'office par le routeur », les cinq fiches de référencement seraient chargées à chaque génération d'UI, y compris pour un bouton. Si c'est indésirable, c'est la règle de chargement du routeur qu'il faut changer, pas le `type` — et c'est un autre arbitrage.
+
+**2. `CAHIER` § 10 #1 — l'exécuteur vit dans le monorepo.** C'est l'état de fait, désormais déclaré : `tools/execute-criteres.mjs` (216 lignes), `criteres-grammaire.mjs`, `instrument-statique.mjs` (90) et `instrument-interactif.mjs` (62) y sont déjà, non commités, et `npm run criteres` les appelle. Le fait décisif : `execute-criteres.mjs` lit `apps/site/content/doctrine` et sert `apps/site/out` — il est **couplé au monorepo par deux chemins en dur**. Rien ne se déplace avant que le lot 1 ait prouvé que le corpus tourne. Coût assumé : si le § 10 #7 (« ouvre-t-on le détecteur en gardant le corpus fermé ? ») tranche pour l'ouverture, l'extraction reste à faire — pas avant le lot 5.
+
+**3. Le versionnement du corpus — on réemploie le mécanisme existant, à étendre.** Cet arbitrage ne figurait dans **aucune** des deux listes (écart C-14) alors qu'il est le seul que le MVP exige (§ 11.6) : il entre au § 10 du cahier sous le **#8**. Et ce n'était pas une page blanche — trouvé dans le dépôt : `tools/plugin/publie.js` produit déjà une version semver globale et une empreinte SHA-256 par fichier dans `tools/plugin/etat-publication.json` (**1.7.1, 29/07/2026, 47 fiches, 56 empreintes**), avec une règle de bump écrite : *seul un sujet qui entre ou sort du corpus fait une version mineure*. **Le travail réel est l'extension, et il est chiffré** : ce mécanisme couvre 47 fiches, quand le moteur lit `apps/site/content/doctrine` (**38 fichiers**) et que les sources de `content/md/` en comptent **74**. *Il ne versionne pas ce que l'exécuteur exécute.* L'empreinte de passage n'est donc pas opposable tant que l'extension n'est pas faite — c'est une tâche du lot 1.
+
+**Ce qui reste ouvert après J3.** **C-10** (le décompte des constats du site de référence — recompter sur pièces, aucun chiffre modifié) et **C-15** : depuis que #1 et #8 sont tranchés, « les six autres » du § 11.6 tombe juste en **compte**, mais pas en **nommage** — sur les quatre cités, un seul (le modèle économique, #7) figure réellement au § 10. Réécrire la phrase demanderait de choisir lesquels sont « les six autres » : c'est un arbitrage, pas une correction de rédaction.
+
+**Versions après J3.** `CADRAGE-FILI-AUDIT.md` → **v0.3.0**. `CAHIER-FILI-AUDIT.md` → **v0.11.0**. Aucune ligne de code touchée, aucun commit.
+
+---
+
+## 2026-08-03 — LA PHRASE CARDINALE QUI N'A PAS SUIVI : quatre corrections d'une même signature
+
+**Le motif.** Une fondation énonce une règle sur un axe. Plus tard on ajoute un cran, une valeur
+ou une implémentation sur **un autre axe**. La phrase cardinale, elle, n'est pas réécrite. Les
+composants écrits avant et après divergent, et **personne ne le voit parce que les deux valeurs
+vivent dans deux fichiers différents**. Ce n'est pas un défaut de rédaction : c'est ce qui arrive
+mécaniquement quand on ajoute par le bas sans relire par le haut.
+
+Quatre occurrences vérifiées le 2026-08-03, arbitrées par Aurélien.
+
+**1. Radius — deux axes, un seul déclaré.** `RADIUS-R12` disait « le rayon suit la taille **et rien
+d'autre** » alors que `R03` posait *taille ET type* depuis la 1.1.0. Un agent devant une modale
+n'avait aucun critère : il a pris `radius.md`, un cran de contrôle sur le plus grand conteneur du
+système. Conséquence non vue : une card `radius.lg` (12 px) dans une modale `radius.md` (8 px) est
+un interne plus rond que l'externe — **l'« oreille » que `R06` interdit noir sur blanc**. Le conflit
+était écrit dans le système depuis MODAL-UI 1.0.0.
+*Décidé* : R12 réécrite en question binaire — **conteneur → `radius.lg` quelle que soit sa taille ;
+contrôle → sa taille décide**. MODAL et la liste de SELECT passent en `lg` (le déclencheur du select
+reste `md` : c'est un contrôle). La question « conteneur ou contrôle ? » est vérifiable par une
+machine ; « quelle taille ça fait ? » demande un jugement, donc diverge dès qu'on parallélise.
+
+**2. Pill — une liste « fermée » que deux composants enfreignaient.** `R08` disait « badge/avatar
+uniquement » pendant que SWITCH-UI et TABS-UI consommaient `radius.pill` depuis leur 1.0.0.
+*Décidé* : la liste devient **fermée et énumérée** — badge/tag, avatar, piste de switch, piste
+tabs-pill. Deux exceptions non déclarées valent une règle fausse : soit on les nomme, soit la règle
+ne veut plus rien dire.
+
+**3. Focus v2 — la prose propagée, le token jamais créé.** Le focus v2 du 2026-07-29 a retiré
+`accent` (DESIGN 1.34.0) et posé `control.focus-*` dans **huit** fiches RULES et dans le CSS
+(`tokens.source.mjs`, en `color-mix`). Mais **le groupe `control` n'a jamais été ajouté à
+DESIGN.md** : `tokens.yaml` — le fichier que chaque fiche désigne en tête comme sa source de
+tokens — ne définissait pas ce que huit fiches référençaient. Et `theme-gate.mjs` testait toujours
+`accent`. Exécuté le 2026-08-03 sur les tokens de Fili : `>>> Theme REFUSE : 0 paire(s) sous le
+seuil, 1 token(s) critique(s) manquant(s)`, **exit 1 — le gate refusait notre propre thème**, et la
+seule paire qui testait l'anneau de focus ne testait plus rien.
+*Décidé* : les six crans sont tokenisés dans DESIGN.md (1.35.0) en hexadécimal — la résolution en
+thème clair du mélange défini dans le CSS, qui garde la formule comme implémentation — et
+`theme-gate` teste **les six** à 3:1. Valeurs vérifiées : 3.51:1 à 4.69:1 en clair, 8.84:1 à 20.13:1
+en sombre. **Cause racine outillée** : `genere-tokens.js` porte deux listes de groupes (`GROUPS`,
+`GROUPES`) ; un groupe absent de ces listes est supprimé de la sortie **sans erreur**. Le silence
+est commenté sur place — c'est lui qui a laissé le trou ouvert cinq jours.
+
+**4. Dark mode — la doctrine était le seul des trois à mentir.** `COLOR-R16` disait « non couvert,
+par décision » ; `ELEVATION-UX` légifère le relief en sombre en détail ; et `tokens.source.mjs`
+**livre un thème sombre complet** (~45 rôles), exposé en `[data-theme="dark"]` et sous
+`@media (prefers-color-scheme: dark)` — il s'active donc tout seul chez un utilisateur en sombre.
+Trois états d'un même sujet : celui qui lisait COLOR s'arrêtait, celui qui lisait ELEVATION
+construisait, le CSS basculait sans demander.
+*Décidé* : R16 réécrite — **le sombre est couvert et livré**. Deux manques nommés à la place : la
+table des paires garanties **en sombre** (COLOR-UI ne la décline pas), et le passage de
+`theme-gate` sur le thème sombre.
+
+**5. E-mail déjà utilisé — la table d'états tranchait un arbitrage produit.** La cellule
+« → e-mail déjà utilisé » de CREATION-COMPTE-UX écrivait « chemin vers la connexion / lien
+connexion » sans conditionnelle : c'est la **posture ouverte**, celle qui confirme à un inconnu
+qu'une adresse est enregistrée. L'extension `creation-compte-email-deja-utilise` impose pourtant le
+défaut **neutre** tant que le produit n'a pas arbitré — règle née du retour de pilote du
+2026-07-16, précisément parce qu'un agent avait choisi la posture ouverte en silence. Et
+l'extension est en `selon-contexte` : **l'agent qui construit le parcours nominal ne la charge
+pas.** La correction de juillet était contournée par la table d'états elle-même.
+*Décidé* : cellule et diagramme d'états conditionnés à la posture, défaut neutre rappelé sur place.
+
+**Ce que ces cinq cas ont en commun, et ce qu'on en tire.** Aucun n'est un désaccord de fond : dans
+les cinq, la bonne décision existait déjà quelque part dans le système. Ce qui manquait, c'est
+qu'une **phrase de haut niveau** soit relue quand une valeur de bas niveau change. Trois familles
+de vérification sont mécanisables et devraient tourner en CI plutôt qu'en audit : (a) chaque cran
+revendiqué par un composant est-il autorisé par sa fondation ; (b) les absolus des fondations
+(« rien d'autre », « uniquement », « jamais ») sont-ils tenus par leurs consommateurs ; (c) tout
+token cité par une fiche existe-t-il dans `tokens.yaml`. La (c) aurait attrapé le focus v2 le jour
+même.
+
+---
+
 ## 2026-08-01 — LA SCÈNE : mesurer dans un état, et non au repos
 
 **Décision.** Nouveau champ de fiche, `SCENE:`, à côté de `CRITERE:`. Il déclare **l'état dans
