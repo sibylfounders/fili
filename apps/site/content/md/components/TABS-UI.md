@@ -2,7 +2,7 @@
 component: tabs
 layer: ui
 type: component
-version: 1.1.0 # 1.1.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — l'anneau passe aux rôles `control.focus-*` ; aucune autre règle modifiée. 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : trait courant `color.primary`, poids `typography.display.fontWeight`, pastille `radius.pill` + `elevation.raised`, transitions `motion.fast`/`motion.ease-out`, anneau de focus = BORDER. Cf. TABS-UX.md et packages/react/src/components/tabs/tabs.tsx.
+version: 1.1.1 # 1.1.1 : la piste de la variante pill est rattachée nommément à la liste fermée de RADIUS-R08 (2026-08-03) — aucune valeur changée. 1.1.0 : focus v2 + retrait du token `color.accent` (DESIGN 1.34.0, arbitrage 2026-07-29) — l'anneau passe aux rôles `control.focus-*` ; aucune autre règle modifiée. 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : trait courant `color.primary`, poids `typography.display.fontWeight`, pastille `radius.pill` + `elevation.raised`, transitions `motion.fast`/`motion.ease-out`, anneau de focus = BORDER. Cf. TABS-UX.md et packages/react/src/components/tabs/tabs.tsx.
 last_updated: 2026-07-29
 companion: TABS-UX.md
 confidence: mixed # le mapping suit les tokens déjà établis par BUTTON/LINK/ACCORDION ; l'état disabled n'a pas de token de couleur dédié (dette assumée, cf. BUTTON-UI.md).
@@ -51,7 +51,9 @@ SOURCE : T5, interne
 (renvoi TABS-UX § Débordement). Variante `line` : séparateur bas en `color.border` (rôle
 délimitante douce, pas de seuil de contraste requis — groupement), espacement entre onglets en
 `spacing.lg`. Variante `pill` : piste en `color.background`, bordure `color.border`, rayon
-`radius.pill`, padding interne `3px`, espacement entre onglets `spacing.xs` (`gap-0.5`).
+`radius.pill` (consommateur nommé dans la liste fermée de RADIUS-R08 depuis le 2026-08-03 — la variante
+est nommée d'après sa forme ; le fond de piste est une gélule, pas un conteneur au sens de RADIUS-R12),
+padding interne `3px`, espacement entre onglets `spacing.xs` (`gap-0.5`).
 
 ## Onglet (`Tabs.Tab`) — états
 

@@ -7,7 +7,7 @@ selon-contexte: ["overlay (la liste est un superposé non-modal : ancrage, light
 ---
 # RULES — Select (compilé, condensé)
 
-> Généré depuis `components/select/SELECT-UX.md` (v1.0.0) et `SELECT-UI.md` (v1.0.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/select/SELECT-UX.md` (v1.0.0) et `SELECT-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Choisir **une** valeur parmi un ensemble **prédéfini et limité**. INPUT y renvoie dès que le choix n'est pas une saisie libre. Déclencheur (montre la valeur courante) + liste dépliable.
@@ -26,7 +26,7 @@ selon-contexte: ["overlay (la liste est un superposé non-modal : ancrage, light
 
 ## UI (tokens)
 - Déclencheur : hauteur `scale.base`, `radius.md`, **bordure `border-strong`** (délimite un contrôle : 3:1), chevron `icon.md`, focus ring `border`.
-- Liste : `z-index.popover`, `elevation.overlay`, `radius.md`, fond `background` ; option active = `surface-hover` ; option sélectionnée = **coche** (icône, jamais la seule couleur). Ouverture en `motion.base`, `prefers-reduced-motion` respecté. Cible tactile 44px.
+- Liste : `z-index.popover`, `elevation.overlay`, **`radius.lg`** (cran CONTENEUR : une surface flottante n'est pas un contrôle — `radius.md` jusqu'au 2026-08-03 ; le déclencheur, lui, reste `radius.md`), fond `background` ; option active = `surface-hover` ; option sélectionnée = **coche** (icône, jamais la seule couleur). Ouverture en `motion.base`, `prefers-reduced-motion` respecté. Cible tactile 44px.
 
 ## Frontières
 - Ancrage/dismiss/z-index → `overlay` ; requis/validation → `form` ; chevron/coche → `iconography` ; saisie libre → `input` ; wording → `voice`.

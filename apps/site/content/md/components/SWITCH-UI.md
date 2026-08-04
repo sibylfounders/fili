@@ -2,7 +2,7 @@
 component: switch
 layer: ui
 type: component
-version: 1.0.0 # 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : piste en `radius.pill`, états en `color`, glissement du pouce en `motion.base`, anneau `border`, cible tactile 44px (ACCESSIBILITY). Cf. SWITCH-UX.md.
+version: 1.0.1 # 1.0.1 : la piste pill est rattachée nommément à la liste fermée de RADIUS-R08 (2026-08-03) — aucune valeur changée. 1.0.0 : première rédaction — mapping tokens. Aucun token neuf : piste en `radius.pill`, états en `color`, glissement du pouce en `motion.base`, anneau `border`, cible tactile 44px (ACCESSIBILITY). Cf. SWITCH-UX.md.
 last_updated: 2026-07-24
 companion: SWITCH-UX.md
 confidence: mixed
@@ -15,7 +15,7 @@ confidence: mixed
 
 ## Piste et pouce
 
-RÈGLE [SWITCH-U01] : la **piste** est une pilule (`radius.pill`) ; le **pouce** est un disque inscrit, séparé des bords
+RÈGLE [SWITCH-U01] : la **piste** est une pilule (`radius.pill` — consommateur nommé dans la liste fermée de RADIUS-R08 depuis le 2026-08-03 ; jusque-là ce fichier enfreignait un « badge/avatar uniquement » que personne n'avait rapproché de lui) ; le **pouce** est un disque inscrit, séparé des bords
 STATUT : parti pris d'identité
 SOURCE : T1, T2, T3
 ÉNONCÉ : La piste d'un switch est une pilule et son pouce un disque inscrit séparé des bords par un retrait constant ; l'état inactif oppose une piste de surface bordée à au moins 3:1 et un pouce de fond, l'état actif une piste primaire et un pouce en couleur sur primaire, la transition empruntant les tokens de mouvement.

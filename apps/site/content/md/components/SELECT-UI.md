@@ -2,7 +2,7 @@
 component: select
 layer: ui
 type: component
-version: 1.0.0 # 1.0.0 : première rédaction — mapping tokens du déclencheur et de la liste. Aucun token neuf : hauteur `scale.base`, `radius.md`, `border-strong` (bordure délimitante), `icon.md` (chevron), liste sur `overlay` (elevation.overlay, z-index.popover). Cf. SELECT-UX.md.
+version: 1.1.0 # 1.1.0 : la LISTE passe de `radius.md` à `radius.lg` (cran conteneur — une surface flottante n'est pas un contrôle) ; le déclencheur reste `radius.md`. Application de l'axe déclaré par RADIUS-R12, arbitrage Aurélien 2026-08-03. 1.0.0 : première rédaction — mapping tokens du déclencheur et de la liste. Aucun token neuf : hauteur `scale.base`, `radius.md`, `border-strong` (bordure délimitante), `icon.md` (chevron), liste sur `overlay` (elevation.overlay, z-index.popover). Cf. SELECT-UX.md.
 last_updated: 2026-07-24
 companion: SELECT-UX.md
 confidence: mixed
@@ -33,7 +33,7 @@ désactivé abaisse l'opacité sans changer le trait ni le rayon.
 
 ## Liste (popover non-modal)
 
-RÈGLE [SELECT-U03] : la liste applique `z-index.popover`, l'ombre `elevation.overlay`, le rayon `radius.md`, le fond
+RÈGLE [SELECT-U03] : la liste applique `z-index.popover`, l'ombre `elevation.overlay`, le rayon **`radius.lg`** (cran CONTENEUR : la liste est une surface flottante, pas un contrôle — `radius.md` jusqu'au 2026-08-03, cf. RADIUS-R12 ; le DÉCLENCHEUR, lui, reste `radius.md` parce qu'il est bien un contrôle), le fond
 STATUT : implémentation de référence
 SOURCE : T1
 ÉNONCÉ : La liste d'un select reprend le niveau d'empilement, l'ombre, le rayon et le fond du superposé non modal, sans voile, et s'aligne en ancrage comme en largeur sur son déclencheur.

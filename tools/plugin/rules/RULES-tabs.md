@@ -3,11 +3,11 @@ sujet: tabs
 type: composant
 resume: "Vues exclusives d'un même objet dans une tablist (ARIA APG tablist/tab/tabpanel), un seul volet monté, jamais deux lignes, activation automatique par défaut sauf coût de montage réel, onglet courant signalé par poids + trait/fond non chromatiques jamais la seule couleur, volet démonté sauf saisie à préserver, frontière stricte avec accordion et avec un changement de destination porteur d'historique"
 requires: []
-selon-contexte: ["voice (libellé nominal, jamais un verbe d'action)", "form (formulaire dans un volet : garder monté pour ne pas perdre la saisie)", "motion (transitions courtes de l'onglet courant ; focus jamais animé)"]
+selon-contexte: ["radius (la piste de la variante pill figure dans la liste fermée du pill)", "voice (libellé nominal, jamais un verbe d'action)", "form (formulaire dans un volet : garder monté pour ne pas perdre la saisie)", "motion (transitions courtes de l'onglet courant ; focus jamais animé)"]
 ---
 # RULES — Tabs (compilé, condensé)
 
-> Généré depuis `components/TABS-UX.md` (v1.0.0) et `TABS-UI.md` (v1.1.0). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `components/TABS-UX.md` (v1.0.0) et `TABS-UI.md` (v1.1.1). Règles condensées pour le build — la source fait autorité. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Découpe un **même objet** en **vues exclusives** (un seul volet visible), jamais des sujets distincts. Test : « le même [X] vu sous l'angle A, B, C » ?
@@ -32,7 +32,7 @@ selon-contexte: ["voice (libellé nominal, jamais un verbe d'action)", "form (fo
 - Sans valeur initiale, le premier onglet monté prend la main — toujours un volet visible (≠ accordion, où tout peut être fermé).
 
 ## UI (tokens)
-- Tablist : `overflow-x-auto` ; `line` : séparateur `color.border`, écart `spacing.lg` ; `pill` : piste `color.background`, bordure `color.border`, `radius.pill`, écart `spacing.xs`.
+- Tablist : `overflow-x-auto` ; `line` : séparateur `color.border`, écart `spacing.lg` ; `pill` : piste `color.background`, bordure `color.border`, `radius.pill` (liste fermée de RULES-radius — la variante est nommée d'après sa forme), écart `spacing.xs`.
 - Onglet : texte `typography.body` ; repos `color.text-secondary` ; survol `color.text-primary` + trait `color.border-strong` ; courant `color.text-primary` + `typography.display.fontWeight` + trait `color.primary` (`line`) ou fond `color.surface` + `elevation.raised` (`pill`). Focus : `border.focus-width`/`border.focus-offset` en `control.focus-color` (focus v2), jamais animé ; transitions `motion.fast`/`motion.ease-out`.
 - `Tabs.Root` : `value`/`onValueChange` ou `defaultValue` (jamais mélangés) ; `variant` `line`/`pill` ; `activation` `auto`/`manual`.
 

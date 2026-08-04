@@ -2,7 +2,7 @@
 component: modal
 layer: ui
 type: component
-version: 1.0.1 # 1.0.1 : le verrou de défilement porte sur la région défilante du shell, pas sur le document, et aucun focus ne fait défiler (preventScroll) — correction d'un saut de page observé le 2026-07-26 à la fermeture par clic sur le voile. 1.0.0 : 1.0.0 : première rédaction — mapping tokens de l'implémentation réelle (packages/react/src/components/modal/modal.tsx), livrée le 2026-07-26 avant sa doctrine. Aucun token neuf hormis grid.overlay (DESIGN.md 1.32.0, déjà introduit pour ce composant). Cf. MODAL-UX.md, DECISIONS.md 2026-07-26.
+version: 1.1.0 # 1.1.0 : la surface passe de `radius.md` à `radius.lg` — application de l'axe conteneur/contrôle déclaré par RADIUS-R12 (arbitrage Aurélien 2026-08-03). La modale portait le rayon d'un contrôle : toute card `radius.lg` posée dedans était plus ronde que son conteneur, l'« oreille » que RADIUS-R06 interdit. Aucun autre changement. 1.0.1 : le verrou de défilement porte sur la région défilante du shell, pas sur le document, et aucun focus ne fait défiler (preventScroll) — correction d'un saut de page observé le 2026-07-26 à la fermeture par clic sur le voile. 1.0.0 : 1.0.0 : première rédaction — mapping tokens de l'implémentation réelle (packages/react/src/components/modal/modal.tsx), livrée le 2026-07-26 avant sa doctrine. Aucun token neuf hormis grid.overlay (DESIGN.md 1.32.0, déjà introduit pour ce composant). Cf. MODAL-UX.md, DECISIONS.md 2026-07-26.
 last_updated: 2026-07-26
 companion: MODAL-UX.md
 confidence: mixed
@@ -66,7 +66,9 @@ SOURCE : T1, T2, T8
 ÉNONCÉ : Le voile est rendu en position fixe sur tout le cadre d'affichage et avant la surface dans l'ordre du document, donc derrière elle, les deux partageant le même cran d'empilement ; la surface porte l'ombre de superposé, un rayon, un fond et une bordure référencés en jetons.
 MESURE : le voile précède la surface dans l'ordre du document ; aucune couleur, ombre, rayon ni valeur d'empilement écrite en dur
 DOM (donc derrière) — les deux partagent `z-index.overlay`, hérité tel quel d'`OVERLAY-UI.md`. La surface
-porte `elevation.overlay` (jamais `elevation.raised`), un rayon `radius.md`, un fond `background`, une
+porte `elevation.overlay` (jamais `elevation.raised`), un rayon **`radius.lg`** (cran CONTENEUR — la modale
+est le plus grand conteneur du système ; `radius.md` jusqu'au 2026-08-03, un cran de contrôle qui rendait
+non concentrique toute card `lg` posée dedans, cf. RADIUS-R06/R12), un fond `background`, une
 bordure `border-border`.
 
 ## Focus, scroll-lock, inertie (état réel de l'implémentation)
@@ -122,7 +124,7 @@ STATUT : note de méthode
 SOURCE : interne
 ÉNONCÉ : Aucune couleur, rayon, ombre, durée, largeur ni espacement n'est écrit en dur dans le composant : toute valeur visuelle référence un jeton du système, et le séparateur du pied n'est posé qu'après avoir épuisé l'espacement.
 MESURE : aucune valeur brute dans le fichier du composant ; toute valeur visuelle résout vers un jeton déclaré
-`overlay.scrim`, `elevation.overlay`, `radius.md`, `border.focus-width`/`border.focus-offset`,
+`overlay.scrim`, `elevation.overlay`, `radius.lg`, `border.focus-width`/`border.focus-offset`,
 `motion.slow`, `grid.container-narrow`, `grid.overlay`, l'espacement `space.*` (padding `lg`/`md`/`sm` du
 `Header`/`Body`/`Footer`). Le `Footer` applique un séparateur `border-border` en trait supérieur — l'espace
 d'abord, le trait en dernier recours (renvoi SPACING/BORDER, même garde-fou qu'Accordion).

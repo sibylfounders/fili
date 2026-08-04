@@ -70,11 +70,12 @@ selon-contexte: ["alert (frontière flux/superposé, tone et rôles hérités)",
 
 ## Règles techniques (UI)
 
-- Rendu identique à alert pour les 4 tones (fond `{tone}-subtle`, bordure `{tone}`, texte et icône `{tone}`), silhouettes d'icône normatives héritées (cercle/cercle-coche/triangle/octogone). Seul écart : `elevation.overlay` (alert n'en porte aucune).
+- Rendu identique à alert pour les 4 tones (fond `{tone}-subtle`, bordure `{tone}`, texte et icône `{tone}`), **rayon `radius.lg`** (cran conteneur, identique à alert — présent dans TOAST-UI depuis la 1.1.0, perdu à la compilation jusqu'au 2026-08-03) et silhouettes d'icône normatives héritées (cercle/cercle-coche/triangle/octogone). Seul écart : `elevation.overlay` (alert n'en porte aucune).
 - Pas de croix de fermeture par défaut (proposition — le pause-au-survol/focus couvre déjà le besoin).
 
 ```yaml
 tone: { info: color.info, success: color.success, warning: color.warning, danger: color.danger } # tokens identiques à alert
+radius: radius.lg # cran conteneur, identique a alert
 elevation: elevation.overlay
 empilement: { max: 3, ordre: fifo, comportement_au_dela: le_plus_ancien_sort }
 duree: { base_ms: 6000, extension_par_mot_ms: 50, bonus_action_ms: 2000, plafond_ms: 10000 } # proposition, non établi
