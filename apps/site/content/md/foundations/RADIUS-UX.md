@@ -2,7 +2,7 @@
 component: radius
 layer: ux
 type: foundation
-version: 1.2.0 # 1.2.0 : `CRITERE` posé sur R03 — l'échelle de rayon devient mesurable sur une feuille de style tierce (2026-07-31). 1.1.0 : cran conteneur radius.lg (12px) — sépare le rayon des conteneurs (card/alert) de celui des contrôles ; contradiction pill tranchée (réservé badge/avatar, jamais un contrôle). Stress-test 2026-07-17. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; la plus petite fondation du système, brièveté confirmée par l'inventaire (17 cas)
+version: 1.3.0 # 1.3.0 : la règle transversale R12 cesse de mentir — elle disait « le rayon suit la taille et rien d'autre » alors que R03 posait DEUX axes depuis la 1.1.0 (taille ET type) ; réécrite en question binaire conteneur/contrôle, donc lintable. R08 : la liste du pill devient FERMÉE et énumérée (badge, avatar, piste de switch, piste tabs-pill) — les deux derniers étaient des consommateurs réels non déclarés. R09 : le pill n'est plus une provision. Conséquences chez les consommateurs : MODAL et la liste de SELECT passent de `radius.md` à `radius.lg`. Arbitrage Aurélien 2026-08-03, cf. DECISIONS.md. 1.2.0 : `CRITERE` posé sur R03 — l'échelle de rayon devient mesurable sur une feuille de style tierce (2026-07-31). 1.1.0 : cran conteneur radius.lg (12px) — sépare le rayon des conteneurs (card/alert) de celui des contrôles ; contradiction pill tranchée (réservé badge/avatar, jamais un contrôle). Stress-test 2026-07-17. 1.0.0 : première rédaction — inventaire et benchmark faits avant livraison ; la plus petite fondation du système, brièveté confirmée par l'inventaire (17 cas)
 last_updated: 2026-07-11
 companion: RADIUS-UI.md
 confidence: mixed # l'échelle croissante avec la taille et l'imbrication concentrique sont convergentes ; l'échelle à 3 crans est un choix interne
@@ -68,16 +68,25 @@ MESURE : rayon de l'anneau de focus = rayon du composant + écart de focus
 
 ## Le pill — provisionné, borné
 
-RÈGLE [RADIUS-R08] : `radius.pill` (valeur géante, convention partagée : 999/9999px) est **réservé aux contenus mono-ligne intrinsèques dont la forme EST la pilule** — pastilles, badges, avatars. **Tranché (1.1.0) : un contrôle mono-ligne (bouton, input) ne prend JAMAIS `pill`** — il est mono-ligne mais pas *intrinsèquement pilule*, et suit sa taille (sm/md). « Intrinsèque » qualifie la forme du contenu, pas le simple fait de tenir sur une ligne. Jamais sur un contenu qui peut passer en multiligne : la pilule devient un stade.
+RÈGLE [RADIUS-R08] : `radius.pill` (valeur géante, convention partagée : 999/9999px) est **réservé à une LISTE FERMÉE de formes intrinsèquement pilule**, énumérée ici et nulle part ailleurs :
+- **badge / tag / pastille** — la forme EST la pilule ;
+- **avatar** — disque ;
+- **piste de switch** (SWITCH-UI) — la pilule est la contrainte physique du composant : un pouce circulaire coulisse dedans, tout autre rayon montre les coins du rail derrière le pouce ;
+- **piste de la variante `pill` des tabs** (TABS-UI) — la variante *est* nommée d'après la forme ; le fond de piste est une gélule, pas un conteneur au sens de R12.
+
+**Tranché (1.1.0) : un contrôle mono-ligne ordinaire (bouton, input) ne prend JAMAIS `pill`** — il est mono-ligne mais pas *intrinsèquement pilule*, et suit sa taille (sm/md). « Intrinsèque » qualifie la forme du contenu, pas le simple fait de tenir sur une ligne. Jamais sur un contenu qui peut passer en multiligne : la pilule devient un stade.
+**Toute entrée nouvelle dans cette liste est un arbitrage, jamais une déduction locale** : si un composant croit être une forme pilule et n'est pas listé ici → STOP, remonter.
 STATUT : parti pris d'identité
 SOURCE : S3, S6, S7, S8, S9
-ÉNONCÉ : Le rayon plein est réservé aux contenus mono-ligne dont la forme est intrinsèquement une pilule ; aucun contrôle ni contenu susceptible de passer en multiligne ne le prend.
-MESURE : aucun composant de type contrôle ni contenu multiligne ne consomme le rayon plein
+ÉNONCÉ : Le rayon plein est réservé à une liste fermée et énumérée de formes intrinsèquement pilule ; aucun autre composant, ni aucun contenu susceptible de passer en multiligne, ne le prend.
+MESURE : tout consommateur du rayon plein figure nommément dans la liste fermée de R08
 
-RÈGLE [RADIUS-R09] : aucun consommateur documenté à ce jour — provision rendue visible (même statut qu'`elevation.overlay`), candidat naturel : badge/tag, dont `typography.label` (Inter, 1.8.0) est l'autre moitié déjà née.
+> **Pourquoi l'élargissement (1.3.0, arbitrage Aurélien 2026-08-03)** : la liste d'origine (« badge/avatar uniquement ») était démentie par deux consommateurs réels — la piste de switch depuis SWITCH-UI 1.0.0 et la piste tabs-pill depuis TABS-UI 1.0.0. Deux exceptions non déclarées valent une règle fausse : soit on les nomme, soit la règle ne veut plus rien dire. Elles sont nommées.
+
+RÈGLE [RADIUS-R09] : le pill **n'est plus une provision** — il a deux consommateurs livrés (piste de switch, piste tabs-pill), désormais nommés dans la liste fermée de R08. Le badge/tag reste le consommateur candidat non encore né, dont `typography.label` (Inter, 1.8.0) est l'autre moitié déjà là.
 STATUT : note de méthode
 SOURCE : interne
-ÉNONCÉ : Un token de rayon provisionné sans consommateur documenté est déclaré comme provision explicite, avec son consommateur candidat nommé.
+ÉNONCÉ : Un token de rayon déclare ses consommateurs réels ; tant qu'il n'en a aucun, il est déclaré comme provision explicite avec son consommateur candidat nommé.
 
 RÈGLE [RADIUS-R10] : l'**angle droit n'a pas de token** — décision, pas oubli : rien dans ce système n'est carré par défaut (Carbon fait le choix inverse — esthétique d'identité, pas une norme). Un besoin réel l'ajouterait en un cran `none`.
 STATUT : parti pris d'identité
@@ -102,10 +111,16 @@ SOURCE : interne
 
 ## Règle transversale
 
-RÈGLE [RADIUS-R12] : **le rayon suit la taille et rien d'autre** — ni l'importance (BUTTON-UX : "large ne veut pas dire important"), ni l'état, ni le goût de l'écran.
+RÈGLE [RADIUS-R12] : **deux axes, et rien d'autre — d'abord le TYPE, ensuite la TAILLE.**
+1. **Le composant est-il un conteneur ou un contrôle ?** Un conteneur (card, alert, modale, liste flottante d'un select, toast) prend `radius.lg`, **quelle que soit sa taille**. Un contrôle (bouton, input, déclencheur de select) suit sa taille : `radius.sm` en `scale.compact`, `radius.md` sinon.
+2. **`radius.pill`** est hors des deux axes : liste fermée de formes intrinsèquement pilule (cf. R08).
+Ni l'importance (BUTTON-UX : « large ne veut pas dire important »), ni l'état, ni le goût de l'écran n'entrent dans le choix.
 STATUT : parti pris d'identité
 SOURCE : interne
-ÉNONCÉ : Le rayon suit la taille du composant et rien d'autre : ni son importance, ni son état, ni une préférence locale d'écran.
+ÉNONCÉ : Le cran de rayon se choisit sur deux axes seulement — le type du composant (conteneur ou contrôle) puis, pour les contrôles uniquement, sa taille — la forme intrinsèquement pilule étant une liste fermée à part.
+MESURE : tout composant se classe conteneur ou contrôle avant de résoudre un cran ; aucun conteneur ne porte un cran de contrôle
+
+> **Pourquoi cette réécriture (1.3.0, arbitrage Aurélien 2026-08-03)** : la formule d'origine, « le rayon suit la taille **et rien d'autre** », a survécu telle quelle à l'arrivée du cran conteneur en 1.1.0 — R03 disait déjà « la taille ET le type », la règle transversale disait encore « la taille seule ». Deux axes, un seul déclaré : un agent devant une modale n'avait aucun critère, et il a tranché — `radius.md`, un cran de contrôle sur le plus grand conteneur du système. Une card en `lg` (12 px) posée dans cette modale en `md` (8 px) donne un interne plus rond que l'externe : **exactement l'« oreille » que R06 interdit**. Le conflit était écrit dans le système depuis MODAL-UI 1.0.0, réparti sur deux fichiers, donc invisible. La question « conteneur ou contrôle ? » est binaire, donc **vérifiable par une machine** ; « quelle taille ça fait ? » demande un jugement, donc diverge dès qu'on parallélise.
 
 ## Sources et niveau de confiance
 
@@ -128,5 +143,5 @@ SOURCE : interne
 
 ## À approfondir
 
-- **Premier consommateur du pill** (badge/tag) : confirmera la borne mono-ligne et rejoindra `typography.label`.
-- **Rayon des futurs superposés** (modale, popover) : `radius.lg` (12px) attendu — le cran conteneur né en 1.1.0 est précisément la « montée d'un cran pour les grandes surfaces » qu'Atlassian tokenise (xlarge 12px pour les modales). Plus besoin d'un cran ad hoc le jour venu.
+- **Badge/tag** : premier consommateur du pill encore à naître, rejoindra `typography.label`.
+- ~~**Rayon des futurs superposés** (modale, popover) : `radius.lg` attendu~~ — **FERMÉ le 2026-08-03**. Les superposés sont nés entre-temps (MODAL 1.0.0, SELECT 1.0.0, TOAST 1.1.0) et deux d'entre eux avaient pris `radius.md` sans voir cette note : c'est R12 qui tranche désormais, mécaniquement (conteneur → `lg`). La prédiction était juste ; ce qui a manqué, c'est qu'une note « à approfondir » ne gouverne rien.
