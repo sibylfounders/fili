@@ -4,8 +4,8 @@ type: "flow"
 resume: "Parcours de création de compte : demander le minimum, choisir et sécuriser la méthode, gérer les états inter-écrans, puis conduire à une première valeur sans inventer de règles de composant."
 requires: ["form", "input", "button", "alert", "voice"]
 selon-contexte: ["creation-compte-verification-email", "creation-compte-sso-social", "creation-compte-force-mot-de-passe", "creation-compte-email-deja-utilise", "creation-compte-consentement"]
-source-version: "1.3.3"
-source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-version: "1.4.0"
+source-sha256: "3b81433c41d652dfb0688dc14cdf23762dbd4dbff6df3a58377af60e10e778d1"
 source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte (flow, compilé)
@@ -119,7 +119,7 @@ RÈGLE : confirmer la création par le canal adapté — un `alert` de succès d
 
 ## Machine à états du parcours
 - Distincte de la machine à états de **soumission** d'un écran (celle-ci appartient à `form`) : ici, la trajectoire **inter-écrans** du compte lui-même.
-- `inexistant → en cours (méthode choisie → minimum saisi) → créé (en attente de vérification) → vérifié → actif`, avec deux bifurcations : `e-mail déjà utilisé → bascule connexion / récupération` et `abandonné → réentrée`. Un produit peut fusionner `vérifié` et `actif`, mais ne doit pas les confondre silencieusement.
+- `inexistant → en cours (méthode choisie → minimum saisi) → créé (en attente de vérification) → vérifié → actif`, avec deux bifurcations : `e-mail déjà utilisé → chemin vers la connexion / récupération` — **dont la FORME dépend de la posture arbitrée (extension `creation-compte-email-deja-utilise`) ; défaut NEUTRE : le chemin part par e-mail, pas par l'interface** — et `abandonné → réentrée`. Un produit peut fusionner `vérifié` et `actif`, mais ne doit pas les confondre silencieusement.
 
 | Transition | Ce qui devient visible | Focus | Sort de la saisie | Condition de sortie |
 |---|---|---|---|---|
@@ -127,7 +127,7 @@ RÈGLE : confirmer la création par le canal adapté — un `alert` de succès d
 | → minimum saisi | soumission (`form`), bouton `loading` | maintenu puis résultat | conservée si erreur | le serveur accepte |
 | → créé (en attente) | écran de vérification ou espace provisoire borné, selon la décision de risque | titre de l'écran atteint | — | compte créé côté serveur |
 | → vérifié / actif | activation, ou levée des restrictions provisoires | selon le changement de contexte | — | possession de l'e-mail confirmée |
-| → e-mail déjà utilisé | chemin vers la connexion, saisie préservée | champ e-mail / lien connexion | conservée | l'utilisateur bascule |
+| → e-mail déjà utilisé | **selon la posture arbitrée — cette cellule ne tranche pas.** Défaut **NEUTRE** tant que le produit n'a pas arbitré : aucune confirmation d'existence dans l'interface, chemin envoyé par e-mail, temps de réponse constants. Posture **OUVERTE** seulement si le produit l'a retenue : « un compte existe déjà » + chemin vers la connexion. Saisie préservée dans les deux cas. | neutre → alert de confirmation d'envoi ; ouverte → champ e-mail / lien connexion | conservée | selon la posture |
 | → abandonné | rien (l'utilisateur part) | — | conservée si reprise possible | reprise ou purge |
 - Le rendu de chaque état est délégué (bouton `loading`, `alert`, champ en erreur) : le flow possède la **séquence**, pas les pixels.
 

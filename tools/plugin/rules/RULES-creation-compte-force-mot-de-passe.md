@@ -5,8 +5,8 @@ extension-de: "creation-compte"
 resume: "Mot de passe selon NIST SP 800-63B-4 : 15 caractères en facteur unique, 8 avec MFA, 64 acceptés, blocklist, pas de composition ni expiration arbitraires."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.3"
-source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-version: "1.4.0"
+source-sha256: "3b81433c41d652dfb0688dc14cdf23762dbd4dbff6df3a58377af60e10e778d1"
 source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / Force et règles du mot de passe (extension compilée)

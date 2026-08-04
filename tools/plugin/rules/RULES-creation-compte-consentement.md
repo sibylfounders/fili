@@ -5,8 +5,8 @@ extension-de: "creation-compte"
 resume: "Inscription : distinguer contrat, information de confidentialité et consentement facultatif ; aucun consentement pré-coché ou groupé, une finalité par choix."
 requires: ["creation-compte"]
 selon-contexte: []
-source-version: "1.3.3"
-source-sha256: "d056b46924bcd6fea2be786c3c03782a689415c58776b4aaf8cc042e53f417d0"
+source-version: "1.4.0"
+source-sha256: "3b81433c41d652dfb0688dc14cdf23762dbd4dbff6df3a58377af60e10e778d1"
 source-file: "content/md/flows/CREATION-COMPTE-UX.md"
 ---
 # RULES — Création de compte / Consentement à l'inscription (extension compilée)

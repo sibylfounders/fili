@@ -1,10 +1,10 @@
 {
   "flow": "creation-compte",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "source": {
     "fiche": "content/md/flows/CREATION-COMPTE-UX.md",
     "inventaire": "content/md/inventaires/inventaire-cas-usage-creation-compte.md",
-    "empreinte": "d056b46924bcd6fe"
+    "empreinte": "3b81433c41d652df"
   },
   "moments": [
     {
@@ -161,10 +161,10 @@
       "de": null,
       "vers": "e-mail-deja-utilise",
       "nature": "bifurcation",
-      "visible": "chemin vers la connexion, saisie préservée",
-      "focus": "champ e-mail / lien connexion",
+      "visible": "selon la posture arbitrée — cette cellule ne tranche pas. Défaut NEUTRE (tant que le produit n'a pas arbitré) : aucune confirmation d'existence dans l'interface, le chemin part par e-mail, temps de réponse constants. Posture OUVERTE, seulement si le produit l'a explicitement retenue : « un compte existe déjà avec cet e-mail » + chemin vers la connexion. La saisie est préservée dans les deux cas.",
+      "focus": "neutre → l'alert de confirmation d'envoi ; ouverte → champ e-mail / lien connexion",
       "saisie": "conservée",
-      "condition": "l'utilisateur bascule",
+      "condition": "selon la posture",
       "libelle": "e-mail déjà utilisé"
     },
     {
@@ -182,7 +182,7 @@
     {
       "id": "e-mail-deja-utilise",
       "depuis": "e-mail déjà utilisé",
-      "vers": "bascule connexion / récupération"
+      "vers": "chemin vers la connexion / récupération"
     },
     {
       "id": "abandonne",
