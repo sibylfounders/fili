@@ -18,3 +18,11 @@ _to_delete*/
 
 # fichier de travail du test des exemples du manifeste
 apps/site/exemples-manifeste.gen.tsx
+
+# Documents de PILOTAGE — jamais dans public/ : Next recopie public/ tel quel dans
+# la sortie et pages.yml la publie. Les prototypes assumés (fili-charte.html,
+# nav-carte-proto.html) restent servis, cf. cd276a5.
+apps/site/public/docs/test/fili-fils.md
+apps/site/public/docs/test/fili-roadmap.html
+apps/site/public/docs/test/fili-modele.html
+apps/site/public/docs/test/*.tar.gz
