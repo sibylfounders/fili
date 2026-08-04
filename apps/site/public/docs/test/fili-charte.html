@@ -1079,7 +1079,11 @@ body.demos-off .is-demo { animation-play-state: paused !important; }
 @media (width >= 720px) { .vp { grid-template-columns: 1fr 1fr; column-gap: var(--v-grid-gutter); } }
 .vp-unit { display: flex; flex-direction: column; gap: 14px; }
 .vp-card {
-  display: flex; min-height: clamp(220px, 26vw, 330px);
+  /* La hauteur minimale aligne les cartes d'une même rangée — sans elle la
+     grille devient dentelée. Mais elle crée du mou, et le mou ne se parque
+     pas en bas : `align-items: center` le partage au-dessus et au-dessous.
+     Mesuré avant : 330 px alloués, 94 px occupés, 236 px de vide en pied. */
+  display: flex; align-items: center; min-height: clamp(220px, 26vw, 330px);
   padding: clamp(1.5rem, 3vw, 2.25rem);
   background: var(--v-surface-2); border-radius: var(--radius-lg);
 }
