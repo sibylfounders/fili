@@ -7,7 +7,7 @@ selon-contexte: []
 ---
 # RULES — Color (compilé, condensé)
 
-> Généré depuis `foundations/COLOR-UX.md` (v1.4.0) et `COLOR-UI.md` (v1.3.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
+> Généré depuis `foundations/COLOR-UX.md` (v1.5.0) et `COLOR-UI.md` (v1.3.0). Règles condensées pour le build — la source fait autorité en cas de doute. Ne pas éditer à la main. Tokens : `dist/tokens.yaml`.
 
 ## Nature
 - Fondation : contrainte transversale, pas d'axes. Les valeurs (hex) vivent dans les tokens — ce fichier régit leur usage.
@@ -43,7 +43,7 @@ selon-contexte: []
 - **Disabled : pas de tokens** — dette assumée documentée (WCAG exempte les composants inactifs). Si un vrai besoin naît : STOP, remonter — le couple complet sera créé d'un coup.
 
 ## Positions explicites (décisions, pas des oublis)
-- **Dark mode : non couvert** (décision produit). L'architecture par rôles est prête, **mais la table des paires porte une hypothèse de thème clair** : `surface-contrast` doit tenir 4.5:1 avec `background` ET `on-primary` à la fois. Règle dérivée (démontrée) : en sombre, `background` devient sombre → `on-primary` aussi → **`primary` doit être clair** ; un primary sombre est insatisfiable (aucun neutre ne tient 4.5:1 à la fois avec un quasi-noir et un blanc). `surface-contrast` n'est PAS un dark mode local — panneau de mise en avant uniquement.
+- **Dark mode : COUVERT et livré** (rectifié le 2026-08-03 — cette ligne disait « non couvert » alors que la distribution livre un thème sombre complet, exposé en `[data-theme="dark"]` ET sous `@media (prefers-color-scheme: dark)` : il s'active donc seul chez un utilisateur en sombre). Les rôles n'ont pas bougé, c'est la table de valeurs qui a doublé. **Restent ouverts** : la table des paires garanties EN SOMBRE, et le passage de `theme-gate` sur le thème sombre. **La table des paires ci-dessous porte encore une hypothèse de thème clair** : `surface-contrast` doit tenir 4.5:1 avec `background` ET `on-primary` à la fois. Règle dérivée (démontrée) : en sombre, `background` devient sombre → `on-primary` aussi → **`primary` doit être clair** ; un primary sombre est insatisfiable (aucun neutre ne tient 4.5:1 à la fois avec un quasi-noir et un blanc). `surface-contrast` n'est PAS un dark mode local — panneau de mise en avant uniquement.
 - **forced-colors (contraste élevé)** : ne jamais neutraliser (`forced-color-adjust: none` interdit) — s'appuyer sur ce qui survit : sémantique HTML, bordures, texte.
 - **Texte sur image : interdit nu.** Voile de contraste ou texte hors du media. Le voile est un **calcul**, pas un réglage à l'œil : échantillonner le pire pixel derrière le texte, calculer l'alpha pour 4.5:1, revérifier à plusieurs formats (le cadrage déplace le pire pixel).
 - **Link** : `color.primary` au repos, `color.primary-hover` au survol ; le soulignement persistant dans le texte courant est le signal non chromatique. Aucun token Link dédié.

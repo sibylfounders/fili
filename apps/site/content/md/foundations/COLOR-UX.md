@@ -2,7 +2,7 @@
 component: color
 layer: ux
 type: foundation
-version: 1.4.0 # 1.4.0 : `CRITERE` posé sur R09 — le contraste texte/fond devient exécutable (2026-07-31). 1.3.0 : 1.3.0 : le registre marque passe à DEUX rôles (primary, secondary) — retrait d'`accent` (focus v2 1.34.0 : l'anneau = cran subtil control.focus-* accordé à la bordure/état ; arbitrage Aurélien 2026-07-29 soir, cf. DECISIONS.md) ; R04/R05/R13 reformulées, R05 gagne le précédent « la règle vaut à la sortie ». 1.2.0 : # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
+version: 1.5.0 # 1.5.0 : R16 cesse de mentir — le mode sombre était déclaré « non couvert » alors que tokens.source.mjs livre un thème sombre complet, activé sur `prefers-color-scheme`, et qu'ELEVATION-UX en légifère déjà le relief. R15 corrigée dans la foulée (« ce système n'a qu'un thème » était faux). Deux manques nommés à la place : la table des paires garanties en sombre, et le passage de theme-gate sur le thème sombre. Arbitrage Aurélien 2026-08-03. 1.4.0 : `CRITERE` posé sur R09 — le contraste texte/fond devient exécutable (2026-07-31). 1.3.0 : 1.3.0 : le registre marque passe à DEUX rôles (primary, secondary) — retrait d'`accent` (focus v2 1.34.0 : l'anneau = cran subtil control.focus-* accordé à la bordure/état ; arbitrage Aurélien 2026-07-29 soir, cf. DECISIONS.md) ; R04/R05/R13 reformulées, R05 gagne le précédent « la règle vaut à la sortie ». 1.2.0 : # 1.2.0 : le composant Link ferme la dette « lien dans le texte » en réutilisant primary/primary-hover et un soulignement ; aucun token ajouté. 1.1.1 : vocabulaire aligné sur le modèle style × tone du bouton (DECISIONS 2026-07-18), aucune règle modifiée. 1.1.0 : passe stress-test 2026-07-17 — quatre règles dérivées ajoutées (contrainte dark mode primary-clair, teinte des neutres à luminance constante, méthode de voile sur image, identités multi-teintes décoratives hors périmètre). Aucun token couleur changé. 1.0.0 : première rédaction — inventaire et benchmark faits AVANT livraison (leçon typographie appliquée) ; audit des tokens existants : aucun manque pour les consommateurs actuels, cf. § Audit
 last_updated: 2026-07-20
 companion: COLOR-UI.md
 confidence: mixed # la structure par rôles, 1.4.1 et les seuils de contraste sont établis ; les positions dark mode / forced-colors sont des décisions internes datées, marquées comme telles
@@ -135,16 +135,19 @@ MESURE : aucun token disabled dans la table de valeurs
 
 ## Theming et rebranding — ce que l'architecture par rôles achète
 
-RÈGLE [COLOR-R15] : un token = potentiellement N valeurs (une par thème) — c'est la mécanique standard des systèmes à thèmes (Atlassian, Carbon : "impossible d'implémenter un dark mode sans tokens partout"). Ce système n'a qu'un thème ; l'architecture est prête, la décision de produit n'est pas prise.
+RÈGLE [COLOR-R15] : un token = potentiellement N valeurs (une par thème) — c'est la mécanique standard des systèmes à thèmes (Atlassian, Carbon : "impossible d'implémenter un dark mode sans tokens partout"). **Ce système a DEUX thèmes** : clair (défaut) et sombre, tous deux résolus dans `packages/tokens/src/tokens.source.mjs`.
 STATUT : propriété universelle
 SOURCE : S6, S11
 ÉNONCÉ : Dans un système à thèmes, un token de couleur résout une valeur par thème : l'architecture par tokens est la condition d'existence d'un second thème.
 MESURE : chaque token couleur résout une valeur pour chaque thème déclaré
 
-RÈGLE [COLOR-R16] : **le mode sombre n'est pas couvert — par décision, pas par oubli.** Le jour venu : les rôles ne bougent pas, DESIGN.md gagne une seconde table de valeurs, et les seuils de contraste se re-vérifient intégralement (les ombres et surfaces se repensent aussi, cf. ELEVATION-UX).
+RÈGLE [COLOR-R16] : **le mode sombre EST couvert — il est livré et il s'active tout seul.** `tokens.source.mjs` résout une valeur sombre pour chaque rôle, exposée en `[data-theme="dark"]` **et** sous `@media (prefers-color-scheme: dark)` : un utilisateur dont le système est en sombre obtient le thème sombre sans que le produit ait rien demandé. Comme prévu, les rôles n'ont pas bougé — c'est la table de valeurs qui a doublé. Ce qui reste vrai de l'ancienne rédaction : les seuils se re-vérifient intégralement par thème (`theme-gate` / `validate-contrast`), et le relief se repense (ELEVATION-UX pose déjà les directions du sombre : l'enfoncé dérive vers le noir, jamais via le token de survol).
 STATUT : parti pris d'identité
 SOURCE : interne
-ÉNONCÉ : Le mode sombre n'est pas couvert par décision explicite ; son adoption ajouterait une table de valeurs sans déplacer les rôles, et imposerait une re-vérification intégrale des seuils de contraste.
+ÉNONCÉ : Le mode sombre est couvert : chaque rôle résout une valeur par thème, le thème sombre s'active sur préférence système, et les seuils de contraste sont vérifiés thème par thème.
+MESURE : chaque rôle couleur résout une valeur en clair et en sombre ; les paires garanties passent leurs seuils dans les deux thèmes
+
+> **Pourquoi cette réécriture (arbitrage Aurélien 2026-08-03)** : jusqu'à cette version, cette règle disait « non couvert — par décision, pas par oubli » pendant que la distribution livrait un thème sombre complet (~45 rôles) et qu'ELEVATION-UX en légiférait le relief en détail. Trois états d'un même sujet dans trois fichiers : un agent qui lisait COLOR s'arrêtait (STOP, remonter), un agent qui lisait ELEVATION construisait, et le CSS basculait de lui-même. La doctrine était le seul des trois à mentir : c'est elle qui a bougé. **Reste à écrire** — la table des paires garanties en sombre, section par section, et le passage de `theme-gate` sur le thème sombre (il ne teste aujourd'hui que le fichier qu'on lui donne).
 
 RÈGLE [COLOR-R17] : `surface-contrast` n'est **pas** un début de dark mode — c'est un panneau de mise en avant sur page claire (cf. DESIGN.md 1.7.0). Ne pas généraliser son usage en "thème sombre local".
 STATUT : parti pris d'identité
@@ -262,6 +265,6 @@ MESURE : aucune valeur hexadécimale hors du fichier de valeurs unique ; un rôl
 - **Lien dans le texte courant — résolu par Link (2026-07-20)** : `color.primary` au repos, `color.primary-hover` au survol et soulignement persistant dans le texte courant. Le composant Link porte désormais l'autorité ; aucun token dédié n'est nécessaire.
 - **Scrim / voile de superposition** : naîtra avec la modale, en même temps que le vrai consommateur d'`elevation.overlay`.
 - **::selection et couleur de surlignage** : aucun consommateur ; défaut navigateur acceptable en attendant.
-- **Dark mode** : décision produit — la mécanique est décrite au § Theming.
+- **Dark mode — couvert et livré (2026-08-03)** ; ce qui reste ouvert : la table des paires garanties **en sombre** (COLOR-UI ne la décline pas encore) et le passage de `theme-gate` sur le thème sombre.
 - **Dataviz** : palette catégorielle, échelles séquentielles — hors périmètre produit à ce jour.
 - **Sémantique multi-produits** : si la charte est adoptée ailleurs, vérifier que les registres tiennent (un rouge "solde négatif" n'est pas un rouge "danger").
