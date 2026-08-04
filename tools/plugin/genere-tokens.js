@@ -81,6 +81,7 @@ const GROUPS = {
   breakpoint: 'breakpoint',
   measure: 'measure',
   border: 'border',
+  control: 'control', // ajouté 2026-08-03 (DESIGN 1.35.0) — crans de couleur de l'anneau de focus : --control-focus-*
   icon: 'icon',
   motion: 'motion',
   grid: 'grid',
@@ -128,7 +129,10 @@ console.log(`  tokens.css (${lines.length - 3} propriétés, DESIGN v${design.ve
   const raw = fs.readFileSync(DESIGN_PATH, 'utf8');
   const m = raw.match(/^---\n([\s\S]*?)\n---/);
   if (!m) throw new Error('Pas de frontmatter dans DESIGN.md');
-  const GROUPES = new Set(['colors', 'typography', 'spacing', 'scale', 'breakpoint', 'measure', 'radius', 'elevation', 'media_ratio', 'border', 'icon', 'motion', 'grid', 'z-index', 'overlay', 'touch']);
+  // ATTENTION : cette liste et la table GROUPS ci-dessus doivent rester d'accord. Un groupe présent
+  // dans DESIGN.md mais absent d'ICI est supprimé de tokens.yaml SANS ERREUR — c'est ce silence qui a
+  // laissé `control.focus-*` hors distribution pendant cinq jours (cf. DESIGN.md 1.35.0, 2026-08-03).
+  const GROUPES = new Set(['colors', 'typography', 'spacing', 'scale', 'breakpoint', 'measure', 'radius', 'elevation', 'media_ratio', 'border', 'control', 'icon', 'motion', 'grid', 'z-index', 'overlay', 'touch']);
   const corps = [];
   let garder = false;
   for (const ligne of m[1].split('\n')) {

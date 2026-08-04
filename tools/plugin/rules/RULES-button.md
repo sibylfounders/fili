@@ -174,7 +174,7 @@ min_touch_target: 44px
 
 ### Accessibilité
 - Contraste ≥ 3:1 sur tous les états visibles.
-- Focus visible obligatoire, jamais supprimé sans équivalent. **Anneau accordé au ton** = le `fg` du ton (couleur de l'objet) ; chacun ≥ 3:1 sur le fond, offset 2px.
+- Focus visible obligatoire, jamais supprimé sans équivalent. **Anneau accordé au ton** = le cran SUBTIL `control.focus-<tone>` (focus v2, 2026-07-29 — **jamais le `fg` du ton**, qui était la règle d'avant et qui a survécu ici jusqu'au 2026-08-03) ; chacun ≥ 3:1 sur le fond, vérifié par `theme-gate`, offset 2px.
 - Zone tactile ≥ 44px même en `sm` — la zone de clic peut dépasser les limites visuelles.
 
 ### Adaptation au conteneur

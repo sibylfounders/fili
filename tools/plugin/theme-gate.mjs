@@ -45,7 +45,15 @@ const CHECKS = [
   ['on-secondary','secondary',4.5,'texte sur secondary'],
   ['border-strong','background',3.0,'bordure delimitante / fond'],
   ['border-strong','surface',3.0,'bordure delimitante / surface'],
-  ['accent','background',3.0,'anneau de focus / fond'],
+  // Anneau de focus (focus v2, 2026-07-29) : SIX crans accordés, plus un seul `accent`.
+  // La ligne ['accent','background',...] testait un rôle retiré en DESIGN 1.34.0 : le gate
+  // comptait un token critique MANQUANT et refusait tout thème — y compris celui de Fili.
+  ['focus-primary','background',3.0,'anneau de focus (defaut) / fond'],
+  ['focus-neutral','background',3.0,'anneau de focus neutral / fond'],
+  ['focus-danger','background',3.0,'anneau de focus danger / fond'],
+  ['focus-success','background',3.0,'anneau de focus success / fond'],
+  ['focus-warning','background',3.0,'anneau de focus warning / fond'],
+  ['focus-info','background',3.0,'anneau de focus info / fond'],
   ['danger','background',4.5,'danger / fond'],
   ['danger','danger-subtle',4.5,'danger / danger-subtle'],
   ['success','background',4.5,'success / fond'],
